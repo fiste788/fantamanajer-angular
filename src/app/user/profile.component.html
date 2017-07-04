@@ -1,0 +1,18 @@
+<form *ngIf="user">
+		<md-input-container>
+			<input mdInput required [(ngModel)]="user.name" name="name" placeholder="Nome">
+		</md-input-container>
+		
+		<md-input-container>
+			<input mdInput required [(ngModel)]="user.surname" name="surname" placeholder="Cognome">
+		</md-input-container>
+		
+		<md-input-container>
+			<input mdInput [(ngModel)]="user.password" name="password" type="password" placeholder="Password">
+		</md-input-container>
+		
+		<md-input-container>
+			<input mdInput [required]="user.password != null && user.password != ''" [(ngModel)]="repeat_password" name="repeat_password" type="password" placeholder="Ripeti password">
+		</md-input-container>
+		<button color="accent" md-raised-button (click)="save()">Salva</button>
+	</form>

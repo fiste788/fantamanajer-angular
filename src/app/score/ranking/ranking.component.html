@@ -1,0 +1,28 @@
+<table>
+	<thead>
+		<tr>
+			<th>Squadra</th>
+			<th>P.ti</th>
+		</tr>
+	</thead>
+	<tbody>
+    <tr *ngFor="let entry of ranking">
+      <td>{{entry.team.name}}</td>
+      <td>{{entry.sum_points}}</td>
+    </tr>
+	</tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let matchday of matchdays">{{matchday.number}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of scores">
+      <td *ngFor="let score of entry">
+        <a [routerLink]="['/scores', score.id]">{{score.points}}</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

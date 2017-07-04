@@ -1,0 +1,24 @@
+import { Component, OnInit } from '@angular/core';
+import { MdSnackBar } from '@angular/material';
+
+import { Club } from '../club';
+import { ClubService } from '../club.service';
+
+@Component({
+  selector: 'fm-club-list',
+  templateUrl: './club-list.component.html',
+  styleUrls: ['./club-list.component.scss']
+})
+export class ClubListComponent implements OnInit {
+
+  clubs: Club[] = [];
+
+  constructor(public snackBar: MdSnackBar,
+    private clubService: ClubService) { }
+
+  ngOnInit(): void {
+    this.clubService.getClubs()
+      .then(clubs => this.clubs = clubs);
+  }
+
+}

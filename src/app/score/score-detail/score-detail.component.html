@@ -1,0 +1,9 @@
+<div *ngIf="score">
+  <p>
+    Punteggio: {{score.points}}
+  </p>
+  <div *ngIf="score.lineup">
+    <fm-disposition-list [dispositions]="regular" caption="Titolari"></fm-disposition-list>
+    <fm-disposition-list [dispositions]="notRegular" caption="Panchinari"></fm-disposition-list>
+  </div>
+</div>

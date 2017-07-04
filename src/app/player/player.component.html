@@ -1,0 +1,35 @@
+<div *ngIf="player">
+	<md-card>
+		<md-card-header>
+			<md-card-title>{{player.name}} {{player.surname}}</md-card-title>
+			<img md-card-avatar src="/assets/images/players/season-{{selectedMember.season_id}}/{{selectedMember.code_gazzetta}}.jpg">
+		</md-card-header>
+		<md-card-content>
+		<button md-icon-button [mdMenuTriggerFor]="menu" class="season-switcher">
+					{{season.name}} <md-icon>arrow_drop_down</md-icon>
+				</button>
+				<md-menu #menu="mdMenu">
+					<button md-menu-item *ngFor="let member of player.members">
+						<span>{{member.season.name}}</span>
+					</button>
+				</md-menu>
+		</md-card-content>
+			
+	</md-card>
+	<table>
+		<thead>
+			<tr>
+				<th>Giornata</th>
+				<th>Voto</th>
+				<th>Punteggio</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let rating of selectedMember.ratings">
+				<td>{{rating.matchday.number}}</td>
+				<td>{{rating.rating}}</td>
+				<td>{{rating.points}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,13 @@
+<h1>Login</h1>
+<div >
+	<form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+		<md-input-container>
+			<input mdInput [(ngModel)]="model.email" name="email" placeholder="Email" #username="ngModel" required>
+		</md-input-container>
+		
+		<md-input-container>
+			<input mdInput [(ngModel)]="model.password" name="password" type="password" placeholder="Password" #password="ngModel" required>
+		</md-input-container>
+		<button color="accent" md-raised-button>Login</button>
+	</form>
+</div>

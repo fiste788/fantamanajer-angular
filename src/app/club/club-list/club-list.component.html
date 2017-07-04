@@ -1,0 +1,22 @@
+<div class="flex-container" 
+     fxLayoutWrap="row" 
+     fxLayout.xs="column"
+	 fxLayoutGap="3em"
+	 fxLayoutGap.xs="1em"
+     fxLayoutAlign="center start"
+     fxLayoutAlign.xs="start">
+	 
+		<md-card class="flex-item" fxFlex.gt-md="28" fxFlex.md="35"  fxFlex.sm="40" fxFlex.xs="100" *ngFor="let club of clubs; let i=index">
+			<md-card-header>
+				<md-card-title>{{club.name}}</md-card-title>
+			</md-card-header>
+			 <img md-card-image src="/assets/images/clubs/bg/{{club.id}}.jpg">
+			<md-card-content>
+				<p></p>
+			</md-card-content>
+			<md-card-actions fxLayoutAlign="end">
+				<a md-button [routerLink]="['/clubs',club.id]">OPEN</a>
+			</md-card-actions>
+		</md-card>
+	
+</div>

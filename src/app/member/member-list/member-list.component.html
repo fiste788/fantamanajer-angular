@@ -1,0 +1,21 @@
+
+	<table *ngIf="members.length">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Cognome</th>
+				<th>Codice</th>
+				<th>Club</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let member of members">
+				<td>{{member.id}}</td>
+				<td><a routerLink="/players/{{member.player.id}}">{{member.player.name}}</a></td>
+				<td>{{member.player.surname}}</td>
+				<td>{{member.code_gazzetta}}</td>
+				<td>{{member.club.name}}</td>
+			</tr>
+		</tbody>
+	</table>

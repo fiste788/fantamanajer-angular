@@ -1,0 +1,13 @@
+<nav md-tab-nav-bar>
+  <a md-tab-link
+     *ngFor="let tab of tabs"
+     [routerLink]="tab.link"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{tab.label}}
+  </a>
+</nav>
+<p *ngIf="team">
+  {{team.name}}
+</p>
+<router-outlet></router-outlet>

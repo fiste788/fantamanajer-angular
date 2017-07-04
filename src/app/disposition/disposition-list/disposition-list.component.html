@@ -1,0 +1,33 @@
+<table *ngIf="dispositions.length">
+  <thead>
+    <caption>{{caption}}</caption>
+    <tr>
+      <th>Giocatore</th>
+      <th>Ruolo</th>
+      <th>Club</th>
+      <th>Tit</th>
+      <th>Amm</th>
+      <th>Esp</th>
+      <th>Assist</th>
+      <th>Gol</th>
+      <th>Punti</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let disposition of dispositions">
+      <td>
+        <a [routerLink]="['/players',disposition.member.player.id]">{{disposition.member.player.name}} {{disposition.member.player.surname}}</a>
+      </td>
+      <td>{{disposition.member.id}}</td>
+      <td>
+        <a [routerLink]="['/clubs',disposition.member.club.id]">{{disposition.member.club.name}}</a>
+      </td>
+      <td><i *ngIf="disposition.member.ratings[0].regular" class="material-icons">done</i></td>
+      <td><i *ngIf="disposition.member.ratings[0].yello_card" class="material-icons">done</i></td>
+      <td><i *ngIf="disposition.member.ratings[0].red_card" class="material-icons">done</i></td>
+      <td>{{disposition.member.ratings[0].assist}}</td>
+      <td>{{disposition.member.ratings[0].goals}}</td>
+      <td>{{disposition.member.ratings[0].points * disposition.consideration}}</td>
+    </tr>
+  </tbody>
+</table>
