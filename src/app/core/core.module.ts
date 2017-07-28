@@ -8,6 +8,9 @@ import { MatchdayModule } from '../matchday/matchday.module';
 import { SharedService } from '../shared/shared.service';
 // import { ArticleDetailComponent } from '../article/article-detail.component';
 import { SharedModule } from '../shared/shared.module';
+import { NotificationModule } from '../notification/notification.module';
+import { MemberModule } from '../member/member.module';
+import { DispositionModule } from '../disposition/disposition.module';
 
 @NgModule({
   imports: [
@@ -16,6 +19,9 @@ import { SharedModule } from '../shared/shared.module';
     UserModule,
     MatchdayModule,
     SharedModule,
+    MemberModule,
+    DispositionModule,
+    NotificationModule
   ],
   declarations: [],
   providers: [SharedService]

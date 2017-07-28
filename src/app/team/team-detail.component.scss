@@ -1,0 +1,23 @@
+nav {
+    position: absolute;
+    bottom: -1px;
+}
+
+.mat-tab-link {
+    color: #fff;
+}
+
+.title {
+    color: #fff;
+    margin: 200px 20px 0;
+    text-shadow: 1px 1px 3px #333
+}
+
+.parallax {
+    height: 300px;
+    overflow: hidden;
+    margin: -15px 0 20px;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+}

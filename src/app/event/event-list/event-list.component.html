@@ -1,0 +1,8 @@
+<md-list>
+    <md-list-item *ngFor="let event of events">
+        <md-icon md-list-icon>{{event.icon}}</md-icon>
+        <h3 md-line> {{event.title}} </h3>
+        <p md-line> {{event.created_at | date:'medium'}} </p>
+        <p md-line class="demo-2"> {{event.body}} </p>
+    </md-list-item>
+</md-list>

@@ -1,7 +1,6 @@
 import { Member } from '../member/member';
 import { User } from '../user/user';
 
-
 export class Team {
   id: number;
   name: string;
@@ -9,4 +8,5 @@ export class Team {
   user: User;
   members: Member[];
   championship_id: number;
+  img: string;
 }

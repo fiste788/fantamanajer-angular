@@ -1,5 +1,4 @@
-<md-card *ngIf="club" class="example-card">
-	{{club.name}}
-
-<fm-member-list [members]="club.members"></fm-member-list>
-</md-card>
+<div *ngIf="club">
+    <fm-parallax-header [backgroundImage]="club.backgroundImg" [image]="club.img" [title]="club.name"></fm-parallax-header>
+    <fm-member-list [members]="club.members" [hideClub]="true"></fm-member-list>
+</div>

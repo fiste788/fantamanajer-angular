@@ -1,33 +1,62 @@
-<table *ngIf="dispositions.length">
-  <thead>
-    <caption>{{caption}}</caption>
-    <tr>
-      <th>Giocatore</th>
-      <th>Ruolo</th>
-      <th>Club</th>
-      <th>Tit</th>
-      <th>Amm</th>
-      <th>Esp</th>
-      <th>Assist</th>
-      <th>Gol</th>
-      <th>Punti</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let disposition of dispositions">
-      <td>
-        <a [routerLink]="['/players',disposition.member.player.id]">{{disposition.member.player.name}} {{disposition.member.player.surname}}</a>
-      </td>
-      <td>{{disposition.member.id}}</td>
-      <td>
-        <a [routerLink]="['/clubs',disposition.member.club.id]">{{disposition.member.club.name}}</a>
-      </td>
-      <td><i *ngIf="disposition.member.ratings[0].regular" class="material-icons">done</i></td>
-      <td><i *ngIf="disposition.member.ratings[0].yello_card" class="material-icons">done</i></td>
-      <td><i *ngIf="disposition.member.ratings[0].red_card" class="material-icons">done</i></td>
-      <td>{{disposition.member.ratings[0].assist}}</td>
-      <td>{{disposition.member.ratings[0].goals}}</td>
-      <td>{{disposition.member.ratings[0].points * disposition.consideration}}</td>
-    </tr>
-  </tbody>
-</table>
+<h4 class="mat-subheading-1">{{caption}}</h4>
+<div class="mat-elevation-z4">
+    <md-table #table [dataSource]="dataSource">
+        <ng-container cdkColumnDef="player">
+            <md-header-cell *cdkHeaderCellDef> Giocatore </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}} {{row.member.player.surname}}</a>
+            </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="role">
+            <md-header-cell *cdkHeaderCellDef> Ruolo </md-header-cell>
+            <md-cell *cdkCellDef="let row">{{row.member.role.abbreviation}}</md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="club">
+            <md-header-cell *cdkHeaderCellDef> Club </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <a [routerLink]="['/clubs',row.member.club.id]">{{row.member.club.name}}</a>
+            </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="regular">
+            <md-header-cell *cdkHeaderCellDef> Tit </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <i *ngIf="row.member.ratings[0].regular" class="material-icons">done</i>
+            </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="yellowCard">
+            <md-header-cell *cdkHeaderCellDef> Amm </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <i *ngIf="row.member.ratings[0].yellow_card" class="material-icons">done</i>
+            </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="redCard">
+            <md-header-cell *cdkHeaderCellDef> Esp </md-header-cell>
+            <md-cell *cdkCellDef="let row">
+                <i *ngIf="row.member.ratings[0].red_card" class="material-icons">done</i>
+            </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="assist">
+            <md-header-cell *cdkHeaderCellDef> Assist </md-header-cell>
+            <md-cell *cdkCellDef="let row">{{row.member.ratings[0].assist}}</md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="goals">
+            <md-header-cell *cdkHeaderCellDef> Gol </md-header-cell>
+            <md-cell *cdkCellDef="let row">{{row.member.ratings[0].goals}}</md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="points">
+            <md-header-cell *cdkHeaderCellDef> Punti </md-header-cell>
+            <md-cell *cdkCellDef="let row">{{row.member.ratings[0].points * row.consideration}}</md-cell>
+        </ng-container>
+
+        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+    </md-table>
+</div>

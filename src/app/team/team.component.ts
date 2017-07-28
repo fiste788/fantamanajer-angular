@@ -13,7 +13,6 @@ export class TeamComponent implements OnInit {
     private route: ActivatedRoute) {
   }
   ngOnInit(): void {
-    return;
   }
 
 

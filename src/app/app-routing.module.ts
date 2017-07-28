@@ -11,6 +11,7 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent},
   { path: 'articles', loadChildren: 'app/article/article.module#ArticleModule', canActivate: [AuthGuard] },
   // { path: 'create_article', component: ArticleDetailComponent, outlet: 'popup'},
+  { path: 'teams', loadChildren: 'app/team/team.module#TeamModule'},
   { path: 'championships', loadChildren: 'app/championship/championship.module#ChampionshipModule', canActivate: [AuthGuard] },
   { path: 'clubs', loadChildren: 'app/club/club.module#ClubModule' },
   { path: 'players', loadChildren: 'app/player/player.module#PlayerModule' },

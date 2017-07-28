@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataSource } from '@angular/cdk';
+import { Observable } from 'rxjs/Observable';
 import { Score } from '../score';
 import { SharedService } from '../../shared/shared.service';
 import { ScoreService } from '../score.service';
@@ -13,12 +15,17 @@ export class RankingComponent implements OnInit {
 
   scores: any[];
   ranking: any[];
+  // rankingDataSource: ExampleDataSource | null;
+  rankingDataSource: RankingDataSource | null;
+  displayedColumns = ['teamName', 'points'];
   matchdays: Matchday[];
 
   constructor(
     private scoreService: ScoreService,
     private shared: SharedService) {
       this.matchdays = [];
+      // this.rankingDataSource = new ExampleDataSource(this.exampleDatabase);
+      this.rankingDataSource = new RankingDataSource(this.scoreService);
   }
 
   ngOnInit(): void {
@@ -38,4 +45,20 @@ export class RankingComponent implements OnInit {
       });
   }
 
+}
+
+export class RankingDataSource extends DataSource<any> {
+  constructor(private scoreService: ScoreService) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any[]> {
+    return Observable.fromPromise(this.scoreService.getRanking())
+          .map(response => response.ranking)
+          .concatMap(arr => Observable.from(arr))
+          .toArray();
+  }
+
+  disconnect() {}
 }

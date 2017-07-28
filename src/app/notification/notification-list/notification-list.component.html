@@ -1,0 +1,10 @@
+<button md-icon-button [mdMenuTriggerFor]="menu">
+  <md-icon>notifications</md-icon>
+  <md-chip color="accent"  *ngIf="notifications.length">{{notifications.length}}</md-chip>
+</button>
+
+<md-menu #menu="mdMenu">
+    <div md-menu-item *ngFor="let notification of notifications">
+        <a [routerLink]="notification.url">{{notification.title}}</a>
+    </div>
+</md-menu>

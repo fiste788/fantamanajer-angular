@@ -4,6 +4,8 @@
 			<i class="material-icons demo-toolbar-icon">menu</i>
 		</button>
 		<span> {{shared.pageTitle}}</span>
+    <span class="spacer"></span>
+    <fm-notification-list></fm-notification-list>
 	</md-toolbar>
 	<md-sidenav #nav [opened]="media.isActive('gt-sm')"
               [mode]="media.isActive('lt-sm') ? 'over' : 'side'" class="mat-elevation-z6">
@@ -32,7 +34,7 @@
 		</md-toolbar>
 		<md-nav-list>
 			<a md-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}" *ngIf="auth.loggedIn()">{{shared.currentChampionship.league.name}}</a>
-			<a md-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
+			<a md-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
 			<a md-list-item routerLinkActive="active" routerLink="clubs">Clubs</a>
 			<a md-list-item routerLinkActive="active" routerLink="articles">Articoli</a>
 			<a md-list-item routerLinkActive="active" [routerLink]="[{ outlets: { popup: ['create_article'] } }]">Nuovo articolo</a>
@@ -41,7 +43,7 @@
 			<a md-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">Log Out</a>
 		</md-nav-list>
 	</md-sidenav>
-	<main>
+	<main class="container">
 		<router-outlet></router-outlet>
 		<router-outlet name="popup"></router-outlet>
 	</main>

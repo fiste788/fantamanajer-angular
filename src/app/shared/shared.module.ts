@@ -1,32 +1,37 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
-import { MaterialModule } from '@angular/material';
-import { MdIconModule } from '@angular/material';
+import { MaterialModule, MdIconModule, MdTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NguiParallaxScrollModule } from '@ngui/parallax-scroll';
 import { SharedService } from './shared.service';
-import { MemberModule } from '../member/member.module';
-import { DispositionModule } from '../disposition/disposition.module';
+import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule,
+    NguiParallaxScrollModule
   ],
   exports: [
     MaterialModule,
+    MdTableModule,
+    CdkTableModule,
     MdIconModule,
     FormsModule,
     HttpModule,
     CommonModule,
     FlexLayoutModule,
-    MemberModule,
-    DispositionModule
+    RouterModule,
+    ParallaxHeaderComponent
   ],
-  declarations: [],
+  declarations: [ParallaxHeaderComponent],
   // providers: [SharedService]
 })
 export class SharedModule { }

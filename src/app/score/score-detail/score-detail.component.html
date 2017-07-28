@@ -1,7 +1,5 @@
 <div *ngIf="score">
-  <p>
-    Punteggio: {{score.points}}
-  </p>
+  <h1 class="mat-headline">Punteggio: {{score.points}}</h1>
   <div *ngIf="score.lineup">
     <fm-disposition-list [dispositions]="regular" caption="Titolari"></fm-disposition-list>
     <fm-disposition-list [dispositions]="notRegular" caption="Panchinari"></fm-disposition-list>

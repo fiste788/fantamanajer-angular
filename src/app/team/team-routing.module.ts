@@ -15,7 +15,8 @@ const routes: Routes = [
         { path: 'articles', loadChildren: 'app/article/article.module#ArticleModule'},
         { path: 'players', component: TeamMembersComponent},
         { path: 'scores', loadChildren: 'app/score/score.module#ScoreModule'},
-        { path: 'lineup', loadChildren: 'app/lineup/lineup.module#LineupModule'}
+        { path: 'lineup', loadChildren: 'app/lineup/lineup.module#LineupModule'},
+        { path: 'transferts', loadChildren: 'app/transfert/transfert.module#TransfertModule'}
         ]}
       ]
     }

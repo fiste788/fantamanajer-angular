@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 // import { MemberRoutingModule } from './member-routing.module';
 import { MemberListComponent } from './member-list/member-list.component';
 
 @NgModule({
-  imports: [RouterModule, CommonModule],
-  exports: [MemberListComponent, RouterModule],
+  imports: [
+    SharedModule
+  ],
+  exports: [MemberListComponent],
   declarations: [MemberListComponent]
 })
 export class MemberModule { }

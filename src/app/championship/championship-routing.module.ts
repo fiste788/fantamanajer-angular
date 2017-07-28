@@ -13,6 +13,7 @@ const routes: Routes = [
     { path: 'articles', loadChildren: 'app/article/article.module#ArticleModule'},
     { path: 'teams', loadChildren: 'app/team/team.module#TeamModule'},
     { path: 'ranking', loadChildren: 'app/score/score.module#ScoreModule'},
+    { path: 'events', loadChildren: 'app/event/event.module#EventModule'}
     ]
   }
 ];

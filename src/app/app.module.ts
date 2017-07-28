@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SpeeddialModule } from './speeddial/speeddial.module';
+import { NotificationModule } from './notification/notification.module';
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
@@ -26,6 +27,7 @@ export function initConfig(config: AppConfig) {
     CoreModule,
     SharedModule,
     AppRoutingModule,
+    NotificationModule,
     SpeeddialModule
   ],
   providers: [

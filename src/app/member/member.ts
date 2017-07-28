@@ -2,6 +2,7 @@ import { Club } from '../club/club';
 import { Rating } from '../rating/rating';
 import { Season } from '../season/season';
 import { Player } from '../player/player';
+import { Role } from '../role/role';
 
 export class Member {
   id: number;
@@ -15,4 +16,7 @@ export class Member {
   season: Season;
   ratings: Rating[];
   player: Player;
+  role: Role;
+  img: string;
+  backgroundImg: string;
 }

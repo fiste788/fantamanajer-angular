@@ -1,0 +1,22 @@
+<div class="parallax-container">
+    <div class="parallax">
+        <div class="parallax-header-img mat-elevation-z2">
+            <img [src]="backgroundImage || 'http://placehold.it/1200x800'">
+        </div>
+        <div class="parallax-header-title-container">
+            <img *ngIf="image" [src]="image">
+            <div class="parallax-header-title">
+                <h1 class="mat-display-1 title">{{title}}</h1>
+                <div class="subtitle">
+                    <p *ngIf="subtitle" class="mat-body-2">{{subtitle}}
+                        <ng-content select="subtitle"></ng-content>
+                    </p>
+                </div>
+            </div>
+            <ng-content class="parallax-header-right" select="[parallax-header-right]"></ng-content>
+        </div>
+    </div>
+    <nav md-tab-nav-bar *ngIf="tabs.length">
+        <a md-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{tab.label}}</a>
+    </nav>
+</div>

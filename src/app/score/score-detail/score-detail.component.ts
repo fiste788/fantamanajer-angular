@@ -24,23 +24,19 @@ export class ScoreDetailComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.url.pop().path === 'last') {
-      console.log(this.route.snapshot);
       const team_id = this.getTeamId();
-      this.scoreService.getLastScore(team_id).then(score => {
-        const dispositions: Disposition[] = score.lineup.dispositions;
-        this.regular = dispositions.splice(0, 11);
-        this.notRegular = dispositions;
-        this.score = score;
-      });
+      this.scoreService.getLastScore(team_id).then(score => this.getData(score));
     } else {
       const id = parseInt(this.route.snapshot.params['id'], 10);
-      this.scoreService.getScore(id).then(score => {
-        const dispositions: Disposition[] = score.lineup.dispositions;
-        this.regular = dispositions.splice(0, 11);
-        this.notRegular = dispositions;
-        this.score = score;
-      });
+      this.scoreService.getScore(id).then(score => this.getData(score));
     }
+  }
+
+  getData(score: Score) {
+    const dispositions: Disposition[] = score.lineup.dispositions;
+    this.regular = dispositions.splice(0, 11);
+    this.notRegular = dispositions;
+    this.score = score;
   }
 
   getTeamId(): number {

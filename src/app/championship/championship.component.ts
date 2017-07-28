@@ -20,6 +20,7 @@ export class ChampionshipComponent implements OnInit {
       {label: 'Squadre', link: 'teams'},
       {label: 'Classifica', link: 'ranking'},
       {label: 'Articoli', link: 'articles'},
+      {label: 'Eventi', link: 'events'}
    ]
   }
 

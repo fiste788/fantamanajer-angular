@@ -1,17 +1,19 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { MdSidenav, MdMenu } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ObservableMedia } from '@angular/flex-layout';
+
 import { AuthService } from './auth/auth.service';
 import { SharedService } from './shared/shared.service';
 import { SmdFabSpeedDialTrigger,
     SmdFabSpeedDialActions,
     SmdFabSpeedDialComponent} from './speeddial/smd-fab-speed-dial';
-import {ObservableMedia} from '@angular/flex-layout';
+import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 
 @Component({
   selector: 'fm-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 

@@ -6,13 +6,19 @@ import { ClubService } from './club.service';
 import { ClubRoutingModule } from './club-routing.module';
 import { ClubListComponent } from './club-list/club-list.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
+import { MemberModule } from '../member/member.module';
 
 @NgModule({
   imports: [
     SharedModule,
-    ClubRoutingModule
+    ClubRoutingModule,
+    MemberModule
   ],
-  declarations: [ClubComponent, ClubListComponent, ClubDetailComponent],
+  declarations: [
+    ClubComponent,
+    ClubListComponent,
+    ClubDetailComponent
+  ],
   providers: [ClubService]
 })
 export class ClubModule { }
