@@ -10,6 +10,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NguiParallaxScrollModule } from '@ngui/parallax-scroll';
 import { SharedService } from './shared.service';
 import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
+import { RellaxModule } from './rellax/rellax.module';
+// import { ng2Parallax } from '../../../node_modules/ang2-parallax/ng2parallax';
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import { ParallaxHeaderComponent } from './parallax-header/parallax-header.compo
     CommonModule,
     MaterialModule,
     RouterModule,
-    NguiParallaxScrollModule
+    NguiParallaxScrollModule,
+    RellaxModule,
   ],
   exports: [
     MaterialModule,
@@ -29,7 +32,8 @@ import { ParallaxHeaderComponent } from './parallax-header/parallax-header.compo
     CommonModule,
     FlexLayoutModule,
     RouterModule,
-    ParallaxHeaderComponent
+    ParallaxHeaderComponent,
+    RellaxModule
   ],
   declarations: [ParallaxHeaderComponent],
   // providers: [SharedService]

@@ -1,0 +1,11 @@
+<form>
+    <md-select (change)="playerChange()" [(ngModel)]="selection.old_member" name="old_member" placeholder="Vecchio giocatore">
+        <md-option *ngFor="let member of members" [value]="member">{{ member.player.name}} {{ member.player.surname }}</md-option>
+    </md-select>
+
+    <md-select #newMember [(ngModel)]="selection.new_member" name="new_member" placeholder="Nuovo giocatore">
+        <md-option *ngFor="let member of newMembers" [value]="member">{{ member.player.name }} {{ member.player.surname }}</md-option>
+    </md-select>
+
+    <button color="accent" md-raised-button (click)="save()">Salva</button>
+</form>

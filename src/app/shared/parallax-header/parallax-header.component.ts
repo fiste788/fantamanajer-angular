@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { RellaxDirective } from '../rellax/rellax.directive';
+// import { ng2Parallax  } from '../../../../node_modules/ang2-parallax/ng2parallax';
 
 @Component({
   selector: 'fm-parallax-header',

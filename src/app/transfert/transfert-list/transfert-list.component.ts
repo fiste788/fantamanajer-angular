@@ -4,6 +4,7 @@ import { DataSource } from '@angular/cdk';
 import { Observable } from 'rxjs/Observable';
 import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
+import { SelectionComponent } from '../../selection/selection.component';
 
 @Component({
   selector: 'fm-transfert-list',

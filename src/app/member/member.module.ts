@@ -3,12 +3,14 @@ import { SharedModule } from '../shared/shared.module';
 
 // import { MemberRoutingModule } from './member-routing.module';
 import { MemberListComponent } from './member-list/member-list.component';
+import { MemberService } from './member.service'
 
 @NgModule({
   imports: [
     SharedModule
   ],
   exports: [MemberListComponent],
-  declarations: [MemberListComponent]
+  declarations: [MemberListComponent],
+  providers: [MemberService]
 })
 export class MemberModule { }

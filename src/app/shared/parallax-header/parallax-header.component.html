@@ -1,7 +1,9 @@
 <div class="parallax-container">
     <div class="parallax">
         <div class="parallax-header-img mat-elevation-z2">
-            <img [src]="backgroundImage || 'http://placehold.it/1200x800'">
+            <div rellax [center]="true">
+                <img [src]="backgroundImage || 'http://placehold.it/1200x800'">
+            </div>
         </div>
         <div class="parallax-header-title-container">
             <img *ngIf="image" [src]="image">

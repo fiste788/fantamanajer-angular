@@ -6,6 +6,9 @@
         display: block;
         width: 100%;
     }
+    div {
+        height: 200px
+    }
 }
 
 .parallax-header-title-container {
@@ -48,6 +51,9 @@
             bottom: 0;
             height: auto;
             margin: auto;
+        }
+        div {
+            height: 300px
         }
     }
     .parallax-header-title {
