@@ -29,7 +29,10 @@ export class PlayerService {
     }
 
     getPlayer(id: number): Promise<Player> {
-        const url = this.config.get('apiEndpoint') + `${this.playersUrl}/${id}`;
+        let url = this.config.get('apiEndpoint') + `${this.playersUrl}/${id}`;
+        if (this.shared.currentChampionship) {
+          url += '?championship_id=' + this.shared.currentChampionship.id;
+        }
         return this.http.get(url)
             .toPromise()
             .then(response => response.json().data as Player)

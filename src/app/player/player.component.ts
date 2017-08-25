@@ -47,7 +47,7 @@ export class PlayerComponent implements OnInit {
     public snackBar: MdSnackBar,
     private route: ActivatedRoute,
     private playerService: PlayerService,
-    private sharedService: SharedService) {
+    public sharedService: SharedService) {
       this.dataSource = new RatingDataSource(this);
     }
 
@@ -63,6 +63,17 @@ export class PlayerComponent implements OnInit {
     });
   }
 
+  seasonChange() {
+    console.log(this.selectedMember);
+    this.dataSource = new RatingDataSource(this);
+    this.changeRef.detectChanges();
+  }
+
+  buy() {
+    localStorage.setItem('buyingMember', JSON.stringify(this.selectedMember));
+    return false;
+  }
+
 }
 export class RatingDataSource extends DataSource<Rating> {
   constructor(private playerComponent: PlayerComponent) {
@@ -72,7 +83,7 @@ export class RatingDataSource extends DataSource<Rating> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Rating[]> {
     const ratings: Rating[] = this.playerComponent.selectedMember.ratings;
-    console.log( ratings);
+    console.log(ratings);
     return Observable.of(ratings);
   }
 

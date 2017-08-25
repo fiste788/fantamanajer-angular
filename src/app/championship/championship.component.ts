@@ -19,6 +19,7 @@ export class ChampionshipComponent implements OnInit {
     this.tabs = [
       {label: 'Squadre', link: 'teams'},
       {label: 'Classifica', link: 'ranking'},
+      {label: 'Giocatori liberi', link: 'members/free'},
       {label: 'Articoli', link: 'articles'},
       {label: 'Eventi', link: 'events'}
    ]

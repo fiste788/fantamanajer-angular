@@ -39,7 +39,24 @@ export class SelectionComponent implements OnInit {
         this.changeRef.detectChanges();
       }
     });
-    this.teamService.getTeam(team_id).then(team => this.members = team.members);
+    this.teamService.getTeam(team_id).then(team => {
+      this.members = team.members;
+      const buyingMember = localStorage.getItem('buyingMember');
+      if (buyingMember) {
+        localStorage.removeItem('buyingMember');
+        const member = JSON.parse(buyingMember);
+        this.memberService.getFree(this.sharedService.currentChampionship.id, member.role_id).then(members => {
+          this.newMembers = members;
+          this.selection.new_member = member;
+          this.selection.new_member_id = member.id;
+          this.newMember.disabled = false;
+          this.members.filter(function(value, index) {
+            return value.role_id === member.role_id;
+          });
+          this.changeRef.detectChanges();
+        });
+      }
+    });
   }
 
   playerChange() {

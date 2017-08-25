@@ -16,7 +16,7 @@ export class MemberService {
       private shared: SharedService) {
     }
 
-    getFree(championship_id: number, role_id?: number): Promise<Member[]> {
+    getFree(championship_id: number, role_id: number = 1): Promise<Member[]> {
       const headers = new Headers({ 'Accept': 'application/json' });
       const options = new RequestOptions({ headers: headers });
       let url = this.config.get('apiEndpoint') + 'championships/' + championship_id + '/' + this.url + '/free';

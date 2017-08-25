@@ -12,6 +12,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'teams', pathMatch: 'full' },
     { path: 'articles', loadChildren: 'app/article/article.module#ArticleModule'},
     { path: 'teams', loadChildren: 'app/team/team.module#TeamModule'},
+    { path: 'members', loadChildren: 'app/member/member.module#MemberModule'},
     { path: 'ranking', loadChildren: 'app/score/score.module#ScoreModule'},
     { path: 'events', loadChildren: 'app/event/event.module#EventModule'}
     ]

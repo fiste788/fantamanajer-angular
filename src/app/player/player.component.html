@@ -1,7 +1,8 @@
 <div *ngIf="player">
     <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundImage]="selectedMember.backgroundImg" [image]="selectedMember.img">
         <div parallax-header-right>
-            <md-select style="width:146px" placeholder="Stagione" [(ngModel)]="selectedMember" [color]="media.isActive('gt-sm') ? 'white' : ''">
+            <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + sharedService.currentTeam.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}" md-button>Acquista</a>
+            <md-select (change)='seasonChange()' style="width:146px" placeholder="Stagione" [(ngModel)]="selectedMember" [color]="media.isActive('gt-sm') ? 'white' : ''">
                 <md-option *ngFor="let member of player.members" [value]="member">{{ member.season.name }}</md-option>
             </md-select>
 

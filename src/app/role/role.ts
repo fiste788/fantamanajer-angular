@@ -4,4 +4,9 @@ export class Role {
   plural: string;
   abbreviation: string;
   determinant: string;
+
+  constructor(id: number, singolar: string) {
+    this.id = id;
+    this.singolar = singolar;
+  }
 }

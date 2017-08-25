@@ -1,0 +1,8 @@
+<div class="example-container mat-elevation-z8">
+    <div class="table-header">
+        <md-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (change)="roleChange()">
+            <md-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</md-option>
+        </md-select>
+    </div>
+    <fm-member-list *ngIf="members.length" [members]="members"></fm-member-list>
+</div>
