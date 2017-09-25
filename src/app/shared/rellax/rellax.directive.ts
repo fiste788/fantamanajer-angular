@@ -10,7 +10,7 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     @Input() speed = -2;
     @Input() center = false;
     @Input() percentage = null;
-    @Input() selector = '.mat-sidenav-content';
+    @Input() selector = '.mat-drawer-content';
 
     private block;
     private posY = 0;

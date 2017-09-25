@@ -2,8 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
-import { MaterialModule, MdIconModule, MdTableModule } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk';
+import {
+  MatTooltipModule,
+  MdInputModule,
+  MatCheckboxModule,
+  MdButtonModule,
+  MdCardModule,
+  MdSnackBarModule,
+  MdMenuModule,
+  MdSelectModule,
+  MdTabsModule,
+  MdIconModule,
+  MdListModule,
+  MdTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -17,15 +29,36 @@ import { RellaxModule } from './rellax/rellax.module';
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule,
     RouterModule,
+    MatTooltipModule,
+    MdListModule,
+    MdButtonModule,
+    MatCheckboxModule,
+    MdCardModule,
+    MdInputModule,
+    MdSnackBarModule,
+    MdMenuModule,
+    MdTabsModule,
+    MdTableModule,
+    CdkTableModule,
+    MdSelectModule,
+    MdIconModule,
     NguiParallaxScrollModule,
     RellaxModule,
   ],
   exports: [
-    MaterialModule,
+    MatTooltipModule,
+    MdListModule,
+    MdButtonModule,
+    MatCheckboxModule,
+    MdCardModule,
+    MdInputModule,
+    MdSnackBarModule,
+    MdMenuModule,
+    MdTabsModule,
     MdTableModule,
     CdkTableModule,
+    MdSelectModule,
     MdIconModule,
     FormsModule,
     HttpModule,

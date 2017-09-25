@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { DataSource } from '@angular/cdk';
-import { Observable } from 'rxjs/Observable';
+import { DataSource } from '@angular/cdk/table';
+import { Observable } from 'rxjs/Rx';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';
 

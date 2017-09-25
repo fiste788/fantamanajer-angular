@@ -1,6 +1,7 @@
 import { Member } from '../member/member';
 import { Matchday } from '../matchday/matchday';
 import { Team } from '../team/team';
+import { Module } from './module';
 import { Disposition } from '../disposition/disposition';
 
 export class Lineup {
@@ -17,5 +18,10 @@ export class Lineup {
   vvcaptain: Member;
   matchday: Matchday;
   team: Team;
-  dispositions: Disposition[];
+  dispositions: Disposition[] = [];
+  module_object: Module;
+
+  constructor() {
+    this.module_object = new Module(this.module);
+  }
 }

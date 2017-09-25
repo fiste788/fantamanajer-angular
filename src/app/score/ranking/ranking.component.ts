@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk';
+import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { Score } from '../score';
 import { SharedService } from '../../shared/shared.service';

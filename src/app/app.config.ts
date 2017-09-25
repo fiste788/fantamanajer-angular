@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class AppConfig {
@@ -16,7 +17,7 @@ export class AppConfig {
      * Use to get the data found in the second file (config file)
      */
     public get(key: any) {
-        return this.config[key];
+        return environment[key];
     }
 
     /**
@@ -32,6 +33,7 @@ export class AppConfig {
      *   b) Loads "config.[env].json" to get all env's variables (e.g.: 'config.development.json')
      */
     public load() {
+      /*
         return new Promise((resolve, reject) => {
             this.http.get('assets/env.json').map( res => res.json() ).catch((error: any): any => {
                 console.log('Configuration file "env.json" could not be read');
@@ -75,5 +77,7 @@ export class AppConfig {
             });
 
         });
+       */
     }
+
 }

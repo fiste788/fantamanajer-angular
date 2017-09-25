@@ -33,10 +33,12 @@ export class ScoreDetailComponent implements OnInit {
   }
 
   getData(score: Score) {
-    const dispositions: Disposition[] = score.lineup.dispositions;
-    this.regular = dispositions.splice(0, 11);
-    this.notRegular = dispositions;
-    this.score = score;
+    if (score != null) {
+      const dispositions: Disposition[] = score.lineup.dispositions;
+      this.regular = dispositions.splice(0, 11);
+      this.notRegular = dispositions;
+      this.score = score;
+    }
   }
 
   getTeamId(): number {

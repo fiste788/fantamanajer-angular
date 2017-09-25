@@ -9,7 +9,7 @@ import { MdSnackBar } from '@angular/material';
 export class SharedService {
 
   private currentSeason: number;
-  private currentMatchday: Matchday;
+  public currentMatchday: Matchday;
   public currentChampionship: Championship;
   public currentTeam: Team;
   public teams: Team[];
@@ -30,7 +30,8 @@ export class SharedService {
 
   handleError(error: any): Promise<any> {
   if (error) {
-      const message = error.json().data.message;
+      // const message = error.json().data.message;
+      const message = error.message;
       console.error('An error occurred', message);
       this.snackbar.open('Internal server error', null, {
         duration: 3000

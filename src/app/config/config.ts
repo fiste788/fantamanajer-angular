@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class Config {
@@ -10,6 +11,8 @@ export class Config {
   constructor(private http: Http) {}
 
   load() {
+
+    /*
     return new Promise((resolve, reject) => {
       this.http.get('src/app/config/env.json')
         .map(res => res.json())
@@ -26,14 +29,15 @@ export class Config {
               resolve(true);
             });
         });
-    });
+    });*/
   }
 
   getEnv(key: any) {
-    return this._env[key];
+    return environment[key];
   }
 
   get(key: any) {
-    return this._config[key];
+    return environment[key];
   }
-}
+}
+
