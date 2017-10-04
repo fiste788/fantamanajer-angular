@@ -1,23 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-body, html, .app-container  {
-	margin:0;
-	height: 100%;
+body,
+html,
+.app-container {
+    margin: 0;
+    height: 100%;
 }
+
 body {
-	font-family: Roboto, sans-serif;
+    font-family: Roboto, sans-serif;
 }
+
 .app-sidenav-content {
-  display: flex;
-  height: 100%;
+    display: flex;
+    height: 100%;
 }
 
 .app-sidenav {
-  padding: 20px;
+    padding: 20px;
 }
+
 .hundred {
     height: 100%;
 }
+
 md-sidenav {
-	width: 240px	
+    width: 240px
+}
+
+.pre-bootstrap {
+    position: absolute;
+    left: calc(50% - 30px);
+    top: calc(50% - 50px);
+}
+
+.pre-bootstrap-text {
+    line-height: 20px;
+    margin-bottom: 20px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.pre-bootstrap-spinner {
+    width: 60px;
+    height: 60px;
+    background-color: #ff4081;
+    /*margin: 0 auto;
+  margin-top: calc(25% - 40px);*/
+    -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+    animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+    0% {
+        -webkit-transform: perspective(120px)
+    }
+    50% {
+        -webkit-transform: perspective(120px) rotateY(180deg)
+    }
+    100% {
+        -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+    }
+}
+
+@keyframes sk-rotateplane {
+    0% {
+        transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+    }
+    50% {
+        transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    }
+    100% {
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    }
 }

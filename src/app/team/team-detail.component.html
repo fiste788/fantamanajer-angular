@@ -1,4 +1,7 @@
 <div *ngIf="team">
-    <fm-parallax-header [backgroundImage]="team.img" [tabs]="tabs" [title]="team.name"></fm-parallax-header>
+    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
+        <fm-parallax-header [backgroundImage]="team.photo_url" [tabs]="tabs" [title]="team.name"></fm-parallax-header>
+    </div>
+    <button (click)="uploader.uploadAll()">Upload</button>
     <router-outlet></router-outlet>
 </div>

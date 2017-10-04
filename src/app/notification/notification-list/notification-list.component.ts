@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'fm-notification-list',
@@ -11,10 +12,16 @@ export class NotificationListComponent implements OnInit {
 
   notifications: Notification[] = [];
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService,
+    private shared: SharedService) { }
 
   ngOnInit() {
-    this.notificationService.getNotifications().then(notifications => this.notifications = notifications);
+    if (this.shared.currentTeam) {
+      this.notificationService.getNotifications(this.shared.currentTeam.id).then(
+        notifications =>
+        this.notifications = notifications
+      );
+    }
   }
 
 }

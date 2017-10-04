@@ -8,12 +8,14 @@ import { TeamDetailComponent } from './team-detail.component';
 import { TeamService } from './team.service';
 import { TeamRoutingModule } from './team-routing.module';
 import { TeamMembersComponent } from './team-members/team-members.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
     SharedModule,
     TeamRoutingModule,
-    MemberModule
+    MemberModule,
+    FileUploadModule
   ],
   declarations: [
     TeamComponent,

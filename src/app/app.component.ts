@@ -49,6 +49,8 @@ export class AppComponent implements OnInit {
       this.router.navigateByUrl('/teams/' + this.shared.currentTeam.id + '/transferts');
     } else if (event === 'lineup') {
       this.router.navigateByUrl('/teams/' + this.shared.currentTeam.id + '/lineup/current');
+    } else if (event === 'article') {
+      this.router.navigateByUrl('/articles/new');
     }
   }
 

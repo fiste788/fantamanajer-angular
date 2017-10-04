@@ -1,42 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { Player } from './player';
-import { AppConfig } from '../app.config';
 import { SharedService } from '../shared/shared.service';
 
 @Injectable()
 export class PlayerService {
-    private playersUrl = 'players';
+    private url = 'players';
 
     constructor(
-      private config: AppConfig,
-      private http: Http,
+      private http: HttpClient,
       private shared: SharedService) {
     }
 
     getPlayers(): Promise<Player[]> {
-      const headers = new Headers({ 'Accept': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.config.get('apiEndpoint') + this.playersUrl, options)
+        return this.http.get<Player[]>(this.url)
             .toPromise()
-            .then(response => response.json().data as Player[])
-            .catch(this.handleError);
-    }
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error.json().data.message); // for demo purposes only
-        return Promise.reject(error.message || error);
     }
 
     getPlayer(id: number): Promise<Player> {
-        let url = this.config.get('apiEndpoint') + `${this.playersUrl}/${id}`;
+        let url = `${this.url}/${id}`;
         if (this.shared.currentChampionship) {
           url += '?championship_id=' + this.shared.currentChampionship.id;
         }
-        return this.http.get(url)
+        return this.http.get<Player>(url)
             .toPromise()
-            .then(response => response.json().data as Player)
-            .catch(this.handleError);
     }
 
 }

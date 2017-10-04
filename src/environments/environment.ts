@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'http://127.0.0.1/fantamanajer-new/api/'
+  apiEndpoint: 'http://127.0.0.1/fantamanajer-new/api/',
+  imagesEndpoint: 'http://127.0.0.1/fantamanajer-new/files/'
 };

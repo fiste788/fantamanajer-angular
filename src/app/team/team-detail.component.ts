@@ -1,11 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { MdSnackBar } from '@angular/material';
-
 import { SharedService } from '../shared/shared.service';
 import { Team } from './team';
 import { TeamService } from './team.service';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload';
 import { ParallaxHeaderComponent } from '../shared/parallax-header/parallax-header.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'fm-team-detail',
@@ -13,9 +15,11 @@ import { ParallaxHeaderComponent } from '../shared/parallax-header/parallax-head
   styleUrls: ['./team-detail.component.scss'],
 })
 export class TeamDetailComponent implements OnInit {
-
-  tabs: { label: string; link: string; }[];
   team: Team;
+  public uploader: FileUploader;
+  public hasBaseDropZoneOver = false;
+  public hasAnotherDropZoneOver = false;
+  tabs: { label: string; link: string; }[];
   @Output() selectedTeam: EventEmitter<Team> = new EventEmitter();
 
   constructor(
@@ -37,6 +41,30 @@ export class TeamDetailComponent implements OnInit {
       this.team = team;
       this.selectedTeam.emit(team);
       this.sharedService.pageTitle = team.name;
+      const h = [];
+      const header = {
+        name: '_method',
+        value: 'PUT'
+    }
+    h.push(header);
+      this.uploader = new FileUploader({
+        url: environment.apiEndpoint + 'teams/' + this.team.id,
+        authToken: 'Bearer ' + localStorage.getItem('token'),
+        headers: h
+      })
+      this.uploader.autoUpload = true;
+      this.uploader.options.itemAlias = 'photo'
+      // this.uploader.options.method = 'PUT';
     });
+  }
+
+
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
   }
 }

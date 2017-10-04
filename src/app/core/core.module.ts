@@ -2,6 +2,7 @@ import {
   ModuleWithProviders, NgModule,
   Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule, MdSnackBar } from '@angular/material';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { MatchdayModule } from '../matchday/matchday.module';

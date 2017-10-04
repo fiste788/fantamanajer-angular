@@ -1,22 +1,19 @@
-import { APP_INITIALIZER } from '@angular/core';
-import { AppConfig } from './app.config';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { MdToolbarModule, MdSidenavModule } from '@angular/material';
 
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { JWTInterceptor } from './auth/jwt-interceptor';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { SharedService } from './shared/shared.service';
 import { AppRoutingModule } from './app-routing.module';
 import { SpeeddialModule } from './speeddial/speeddial.module';
 import { NotificationModule } from './notification/notification.module';
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
-
-export function initConfig(config: AppConfig) {
-  return () => config.load();
-}
 
 @NgModule({
   declarations: [
@@ -25,6 +22,7 @@ export function initConfig(config: AppConfig) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     CoreModule,
     SharedModule,
     AppRoutingModule,
@@ -34,11 +32,9 @@ export function initConfig(config: AppConfig) {
     MdToolbarModule
   ],
   providers: [
-    AppConfig,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initConfig,
-      deps: [AppConfig],
+     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JWTInterceptor,
       multi: true
     }
   ],

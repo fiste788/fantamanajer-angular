@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer } from '@angular/core';
-import * as Rellax from 'rellax';
+// import * as Rellax from 'rellax';
 
 @Directive({
     selector: '[rellax]'
@@ -178,7 +178,6 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     }
 
     animate() {
-        console.log('animating');
 
         const percentage = ((this.posY - this.block.top + this.el.nativeElement.parentElement.offsetHeight) /
          (this.block.height + this.el.nativeElement.parentElement.offsetHeight));

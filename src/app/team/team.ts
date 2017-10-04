@@ -8,5 +8,5 @@ export class Team {
   user: User;
   members: Member[];
   championship_id: number;
-  img: string;
+  photo_url: string;
 }

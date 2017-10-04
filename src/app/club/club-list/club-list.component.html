@@ -2,11 +2,11 @@
 
     <md-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let club of clubs; let i=index">
         <md-card-header>
-            <img md-card-avatar class="club-header-image" [src]="club.img">
+            <img md-card-avatar class="club-header-image" [src]="club.photo_url">
             <md-card-title>{{club.name}}</md-card-title>
             <md-card-subtitle>Club</md-card-subtitle>
         </md-card-header>
-        <img md-card-image [src]="club.backgroundImg || 'http://placehold.it/350x200'">
+        <img md-card-image [src]="club.background_url || 'http://placehold.it/350x200'">
         <md-card-content>
             <p></p>
         </md-card-content>

@@ -8,7 +8,7 @@
         <fm-notification-list></fm-notification-list>
     </md-toolbar>
     <md-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-sm') ? 'over' : 'side'" class="mat-elevation-z6">
-        <md-toolbar color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(/assets/images/upload/' + (shared.currentTeam ? shared.currentTeam.id : '') + '.jpg)'}">
+        <md-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
             <md-toolbar-row>
                 <span></span>
                 <div fxLayout="column" class="md-toolbar-tools-bottom inset">
@@ -36,7 +36,6 @@
             <a md-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
             <a md-list-item routerLinkActive="active" routerLink="clubs">Clubs</a>
             <a md-list-item routerLinkActive="active" routerLink="articles">Articoli</a>
-            <a md-list-item routerLinkActive="active" [routerLink]="[{ outlets: { popup: ['create_article'] } }]">Nuovo articolo</a>
             <a md-list-item routerLinkActive="active" routerLink="profile">Impostazioni</a>
             <a md-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">Log In</a>
             <a md-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">Log Out</a>

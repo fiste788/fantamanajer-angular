@@ -21,6 +21,17 @@ export class SharedService {
     this.tabs = [];
   }
 
+  popError(error) {
+    if (error) {
+      // const message = error.json().data.message;
+      const message = error.message;
+      this.snackbar.open(message || error, null, {
+        duration: 3000
+      });
+      console.error('An error occurred', message);
+  }
+  }
+
   getCurrentMatchday() {
     this.matchdayService.getCurrentMatchday().then(matchday => {
       this.currentMatchday = matchday;
@@ -32,10 +43,10 @@ export class SharedService {
   if (error) {
       // const message = error.json().data.message;
       const message = error.message;
-      console.error('An error occurred', message);
       this.snackbar.open('Internal server error', null, {
         duration: 3000
       });
+      console.error('An error occurred', message);
       return Promise.reject(message);
     }
   }

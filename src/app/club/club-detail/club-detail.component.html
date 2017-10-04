@@ -1,4 +1,4 @@
 <div *ngIf="club">
-    <fm-parallax-header [backgroundImage]="club.backgroundImg" [image]="club.img" [title]="club.name"></fm-parallax-header>
+    <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"></fm-parallax-header>
     <fm-member-list [members]="club.members" [hideClub]="true"></fm-member-list>
 </div>

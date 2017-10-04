@@ -4,7 +4,6 @@ import { MdSnackBar } from '@angular/material';
 
 import { Article } from './article';
 import { ArticleService } from './article.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
   selector: 'fm-article-detail',
@@ -12,9 +11,6 @@ import { MdDialog, MdDialogRef } from '@angular/material';
   styleUrls: ['./article-detail.component.css']
 })
 export class ArticleDetailComponent implements OnInit {
-  @HostBinding('@routeAnimation') routeAnimation = true;
-  @HostBinding('style.display')   display = 'block';
-  @HostBinding('style.position')  position = 'absolute';
 
   article: Article;
 
@@ -22,12 +18,15 @@ export class ArticleDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private articleService: ArticleService,
-    private dialog: MdDialog
   ) { }
 
   ngOnInit() {
     const id = parseInt(this.route.snapshot.params['id'], 10);
     this.articleService.getArticle(id).then(article => this.article = article);
+  }
+
+  cancel() {
+
   }
 
   save() {
@@ -42,15 +41,5 @@ export class ArticleDetailComponent implements OnInit {
       console.log(response.errors);
     })
   }
-  cancel() {
-    this.closePopup();
-  }
-
-  closePopup() {
-    // Providing a `null` value to the named outlet
-    // clears the contents of the named outlet
-    this.router.navigate([{ outlets: { popup: null }}]);
-  }
-
 }
 

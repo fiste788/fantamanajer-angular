@@ -17,7 +17,6 @@ import {
   MdTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NguiParallaxScrollModule } from '@ngui/parallax-scroll';
 import { SharedService } from './shared.service';
@@ -61,7 +60,6 @@ import { RellaxModule } from './rellax/rellax.module';
     MdSelectModule,
     MdIconModule,
     FormsModule,
-    HttpModule,
     CommonModule,
     FlexLayoutModule,
     RouterModule,
@@ -69,6 +67,13 @@ import { RellaxModule } from './rellax/rellax.module';
     RellaxModule
   ],
   declarations: [ParallaxHeaderComponent],
+  /*providers: [
+    {
+     provide: HTTP_INTERCEPTORS,
+     useClass: JWTInterceptor,
+     multi: true
+   }
+ ],*/
   // providers: [SharedService]
 })
 export class SharedModule { }
