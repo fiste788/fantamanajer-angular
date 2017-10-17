@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { Article } from './article';
 import { ArticleService } from './article.service';
@@ -14,7 +14,7 @@ export class ArticleListComponent implements OnInit {
 
   articles: Article[] = [];
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(public snackBar: MatSnackBar,
     private articleService: ArticleService) { }
 
   ngOnInit(): void {

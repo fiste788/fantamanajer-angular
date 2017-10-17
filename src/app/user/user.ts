@@ -6,6 +6,7 @@ export class User {
   surname: string;
   email: string;
   admin: boolean;
+  active_email: boolean;
   password: string;
   teams: Team[];
 }

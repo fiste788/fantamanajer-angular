@@ -1,32 +1,32 @@
 <div class="mat-elevation-z8">
-    <md-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource">
         <ng-container cdkColumnDef="old_member">
-            <md-header-cell *cdkHeaderCellDef> Vecchio giocatore </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+            <mat-header-cell *cdkHeaderCellDef> Vecchio giocatore </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
                 <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.name}} {{row.old_member.player.surname}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="new_member">
-            <md-header-cell *cdkHeaderCellDef> Nuovo giocatore </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+            <mat-header-cell *cdkHeaderCellDef> Nuovo giocatore </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
                 <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.name}} {{row.new_member.player.surname}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="contraint">
-            <md-header-cell *cdkHeaderCellDef> Obbligato </md-header-cell>
-            <md-cell *cdkCellDef="let row"> {{row.constraint}} </md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Obbligato </mat-header-cell>
+            <mat-cell *cdkCellDef="let row"> {{row.constraint}} </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="matchday">
-            <md-header-cell *cdkHeaderCellDef> Giornata </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.matchday.number}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Giornata </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.matchday.number}}</mat-cell>
         </ng-container>
 
-        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 </div>
-
+<h3>Selezione giocatori</h3>
 <fm-selection></fm-selection>

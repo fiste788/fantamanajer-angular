@@ -2,7 +2,21 @@
     width: 100%;
 }
 
-md-select {
-    min-width: 150px;
+mat-select {
+    min-width: 100%;
     display: inline-block !important;
+}
+
+h5 {
+    padding-right: 1em;
+}
+
+.role-container {
+    margin-top: 1em;
+}
+
+@media(min-width: 600px) {
+    mat-select {
+        min-width: 150px;
+    }
 }

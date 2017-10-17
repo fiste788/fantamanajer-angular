@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { AuthService } from '../auth/auth.service';
 import { UserService } from './user.service';
@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
   user: User;
   repeat_password: String;
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(public snackBar: MatSnackBar,
     private authService: AuthService,
     private userService: UserService) { }
 

@@ -1,18 +1,12 @@
-<md-card class="example-card datatable-card">
-	<smd-datatable *ngIf="club"
-			  [models]="club.members"
-			  [paginated]="true"
-			  [paginatorRanges]="[10, 25, 50, 100]"
-			  [responsive]="responsive">
-	<smd-datatable-header
-					[enableFilter]="false"
-					filterLabel="Filter">
-				</smd-datatable-header>
+<mat-card class="example-card datatable-card">
+    <smd-datatable *ngIf="club" [models]="club.members" [paginated]="true" [paginatorRanges]="[10, 25, 50, 100]" [responsive]="responsive">
+        <smd-datatable-header [enableFilter]="false" filterLabel="Filter">
+        </smd-datatable-header>
 
-		<smd-datatable-column title="Id" field="id" sortable="true" numeric="true" titleTooltip="The identifier Tooltip"></smd-datatable-column>
-		<smd-datatable-column title="Name" field="player.name" sortable="true" titleTooltip="User first name"></smd-datatable-column>
-		<smd-datatable-column title="Surname" field="player.surname" sortable="true"></smd-datatable-column>
-		<smd-datatable-column title="Code" field="code_gazzetta" sortable="true"></smd-datatable-column>
-		<smd-datatable-column title="Club" field="club.name" sortable="true"></smd-datatable-column>
-	</smd-datatable>
-</md-card>
+        <smd-datatable-column title="Id" field="id" sortable="true" numeric="true" titleTooltip="The identifier Tooltip"></smd-datatable-column>
+        <smd-datatable-column title="Name" field="player.name" sortable="true" titleTooltip="User first name"></smd-datatable-column>
+        <smd-datatable-column title="Surname" field="player.surname" sortable="true"></smd-datatable-column>
+        <smd-datatable-column title="Code" field="code_gazzetta" sortable="true"></smd-datatable-column>
+        <smd-datatable-column title="Club" field="club.name" sortable="true"></smd-datatable-column>
+    </smd-datatable>
+</mat-card>

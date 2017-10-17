@@ -15,7 +15,7 @@ import {
     HostBinding,
     HostListener
 } from "@angular/core";
-import {MdButton} from "@angular/material";
+import {MatButton} from "@angular/material";
 
 const Z_INDEX_ITEM: number = 23;
 
@@ -54,7 +54,7 @@ export class SmdFabSpeedDialTrigger {
 })
 export class SmdFabSpeedDialActions implements AfterContentInit {
 
-    @ContentChildren(MdButton) _buttons: QueryList<MdButton>;
+    @ContentChildren(MatButton) _buttons: QueryList<MatButton>;
 
     constructor(@Inject(forwardRef(() => SmdFabSpeedDialComponent)) private _parent: SmdFabSpeedDialComponent, private renderer: Renderer) {
     }
@@ -80,7 +80,8 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
             this._buttons.toArray().forEach((button, i) => {
                 let transitionDelay = 0;
                 let transform;
-                if (this._parent.animationMode == 'scale') {
+                this.changeElementStyle(button._getHostElement().parentElement, 'visibility', 'visible');
+                if (this._parent.animationMode === 'scale') {
                     // Incremental transition delay of 65ms for each action button
                     transitionDelay = 3 + (65 * i);
                     transform = 'scale(1)';
@@ -100,7 +101,7 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
                 let opacity = '1';
                 let transitionDelay = 0;
                 let transform;
-                if (this._parent.animationMode == 'scale') {
+                if (this._parent.animationMode === 'scale') {
                     transitionDelay = 3 - (65 * i);
                     transform = 'scale(0)';
                     opacity = '0';
@@ -110,6 +111,7 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
                 this.changeElementStyle(button._getHostElement(), 'transition-delay', transitionDelay + 'ms');
                 this.changeElementStyle(button._getHostElement(), 'opacity', opacity);
                 this.changeElementStyle(button._getHostElement(), 'transform', transform);
+                this.changeElementStyle(button._getHostElement().parentElement, 'visibility', 'hidden');
             })
         }
     }

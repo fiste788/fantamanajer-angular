@@ -1,21 +1,15 @@
-<div class="flex-container"
-     fxLayout="row wrap"
-     fxLayout.xs="column"
-	 fxLayoutGap="3em"
-	 fxLayoutGap.xs="1em"
-     fxLayoutAlign="center center"
-     fxLayoutAlign.xs="start">
-		<md-card fxFlex.gt-sm="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
-			<md-card-header>
-				<md-card-title>{{article.title}}</md-card-title>
-				<md-card-subtitle>{{article.subtitle}}{{article.created_at}}</md-card-subtitle>
-			</md-card-header>
-			<md-card-content>
-				<p>{{article.body}}</p>
-			</md-card-content>
-			<md-card-actions fxLayoutAlign="end">
-				<a md-button [routerLink]="['/articles',article.id]">EDIT</a>
-				<button md-button (click)="delete(i)">DELETE</button>
-			</md-card-actions>
-		</md-card>
+<div class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
+    <mat-card fxFlex.gt-sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
+        <mat-card-header>
+            <mat-card-title>{{article.title}}</mat-card-title>
+            <mat-card-subtitle>{{article.created_at | date: 'dd/MM/y HH:mm'}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{article.body}}</p>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="end">
+            <a mat-button [routerLink]="['/articles',article.id]">EDIT</a>
+            <button mat-button (click)="delete(i)">DELETE</button>
+        </mat-card-actions>
+    </mat-card>
 </div>

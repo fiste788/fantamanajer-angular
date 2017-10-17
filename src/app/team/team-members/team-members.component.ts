@@ -1,7 +1,6 @@
 import { Team } from '../team';
 import { TeamService } from '../team.service';
 import { Component, OnInit, Injector } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
 import { TeamDetailComponent } from '../team-detail.component';
@@ -15,7 +14,7 @@ export class TeamMembersComponent implements OnInit {
 
   team: Team;
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(
     private route: ActivatedRoute,
     private teamService: TeamService,
     private inj: Injector) { }

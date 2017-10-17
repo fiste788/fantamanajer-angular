@@ -6,7 +6,7 @@ import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Role } from '../../role/role';
 import { LineupService } from '../lineup.service';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { SharedService } from '../../shared/shared.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class LineupDetailComponent implements OnInit {
   captainsKeys: string[] = [];
   benchs: number[] = [];
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(public snackBar: MatSnackBar,
     private lineupService: LineupService,
     private route: ActivatedRoute,
     private shared: SharedService) { }

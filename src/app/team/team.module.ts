@@ -9,19 +9,26 @@ import { TeamService } from './team.service';
 import { TeamRoutingModule } from './team-routing.module';
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MatDialogModule } from '@angular/material';
+import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
 
 @NgModule({
   imports: [
     SharedModule,
     TeamRoutingModule,
     MemberModule,
-    FileUploadModule
+    FileUploadModule,
+    MatDialogModule
   ],
   declarations: [
     TeamComponent,
     TeamListComponent,
     TeamDetailComponent,
-    TeamMembersComponent
+    TeamMembersComponent,
+    TeamEditDialogComponent
+  ],
+  entryComponents: [
+    TeamEditDialogComponent
   ],
   providers: [TeamService]
 })

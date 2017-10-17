@@ -5,4 +5,6 @@ export class Player {
   name: string;
   surname: string;
   members: Member[];
+  full_name: string;
+  photo_url: string;
 }

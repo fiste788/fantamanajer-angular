@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {
 
-  constructor(private snackbar: MdSnackBar) {}
+  constructor(private snackbar: MatSnackBar) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
@@ -31,10 +31,13 @@ export class JWTInterceptor implements HttpInterceptor {
       }
     }).catch((err: any, caught) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status === 403) {
-          // console.info('err.error =', err.error, ';');
+        let message = '';
+        try {
+          message = JSON.parse(err.error).data.message
+        } catch (e) {
+          message = err.message
         }
-        this.snackbar.open(err.message, 'CLOSE', {
+        this.snackbar.open(message, 'CLOSE', {
           duration: 5000
         });
         return Observable.throw(err);

@@ -1,71 +1,124 @@
-.team_switcher {
-    font-size: 20px;
-}
-
-.email {
-    font-size: 14px;
-    font-weight: normal;
-}
-
-smd-fab-speed-dial {
-    position: fixed;
-    bottom: 2em;
-    right: 2em;
-}
-
-.spacer {
-    flex: 1 1 auto;
-}
-
-/deep/ {
-    a {
-        text-decoration: none;
+    .team-switcher {
+        font-size: 18px;
     }
-    .mat-card {
-        margin-bottom: 15px;
-    }
-    .container {
-        margin: 15px auto 0;
-    }
-    md-select[ng-reflect-color='white'] {
-        .mat-select-disabled .mat-select-value,
-        .mat-select-arrow,
-        .mat-select-trigger {
-            color: rgba(255, 255, 255, 0.38);
-        }
-        .mat-select-value {
-            color: rgba(255, 255, 255, 0.87);
-        }
-        .mat-select-underline {
-            color: rgba(255, 255, 255, 0.12);
-        }
-    }
-    .yellow_card,
-    .red_card {
-        width: 10px;
-        height: 15px;
+    
+    .team-name {
+        width: 180px;
+        overflow: hidden;
         display: inline-block;
-        //@include box-shadow(1px 1px 2px #AAAAAA);
+        text-overflow: ellipsis;
+        text-align: left;
     }
-    .yellow_card {
-        background-color: yellow;
+    
+    .email {
+        font-size: 14px;
+        font-weight: normal;
     }
-    .red_card {
-        background-color: red;
+    
+    smd-fab-speed-dial {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
     }
-    @media(max-width: 599px) {
+    
+    .spacer {
+        flex: 1 1 auto;
+    }
+    
+    .app-sidenav-content {
+        display: flex;
+        height: 100%;
+    }
+    
+    .app-sidenav {
+        padding: 20px;
+    }
+    
+    .hundred {
+        height: 100%;
+    }
+    
+    mat-sidenav {
+        width: 240px;
+    }
+    
+    /deep/ {
+        a {
+            text-decoration: none;
+        }
+        .mat-card {
+            margin-bottom: 15px;
+        }
         .container {
             max-width: 100%;
+            margin-top: 0;
+        }
+        .flex-container {
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+        .mat-toolbar {
+            z-index: 1;
+            position: relative;
+        }
+        mat-form-field[ng-reflect-color='white'] {
+            .mat-form-field-placeholder {
+                color: rgba(255, 255, 255, 0.87);
+            }
+            .mat-form-field-underline {
+                background-color: rgba(255, 255, 255, 0.12);
+            }
+            mat-select {
+                .mat-select-disabled .mat-select-value,
+                .mat-select-arrow,
+                .mat-select,
+                .mat-select-trigger {
+                    color: rgba(255, 255, 255, 0.38);
+                }
+                .mat-select-value,
+                {
+                    color: rgba(255, 255, 255, 0.87);
+                }
+            }
+        }
+        .yellow_card,
+        .red_card {
+            width: 10px;
+            height: 15px;
+            display: inline-block;
+            //@include box-shadow(1px 1px 2px #AAAAAA);
+        }
+        .yellow_card {
+            background-color: yellow;
+        }
+        .red_card {
+            background-color: red;
+        }
+        // workaround for https://github.com/angular/material2/issues/2177
+        .mat-tab-group .mat-tab-link {
+            width: 100%;
+            height: 100%;
+            line-height: 50px;
+            display: block
+        }
+        .flex-container {
+            padding-top: 10px;
+        }
+        @media(max-width: 599px) {}
+        @media(min-width: 600px) {
+            .container {
+                max-width: 90%;
+                margin: 15px auto 0;
+            }
+        }
+        @media(min-width: 960px) {
+            .container {
+                max-width: 90%;
+            }
+            smd-fab-speed-dial {
+                bottom: 28px;
+                left: 212px;
+                right: unset !important;
+            }
         }
     }
-    @media(min-width: 600px) {
-        .container {
-            max-width: 90%;
-        }
-    }
-    @media(min-width: 992px) {
-        .container {
-            max-width: 90%;
-        }
-    }
-}

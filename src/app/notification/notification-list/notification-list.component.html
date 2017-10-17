@@ -1,10 +1,10 @@
-<button md-icon-button [mdMenuTriggerFor]="menu">
-  <md-icon>notifications</md-icon>
-  <md-chip color="accent"  *ngIf="notifications.length">{{notifications.length}}</md-chip>
+<button aria-label="open" mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>notifications</mat-icon>
+  <mat-chip color="accent"  *ngIf="notifications.length">{{notifications.length}}</mat-chip>
 </button>
 
-<md-menu #menu="mdMenu">
-    <div md-menu-item *ngFor="let notification of notifications">
+<mat-menu #menu="matMenu">
+    <div mat-menu-item *ngFor="let notification of notifications">
         <a [routerLink]="notification.url">{{notification.title}}</a>
     </div>
-</md-menu>
+</mat-menu>

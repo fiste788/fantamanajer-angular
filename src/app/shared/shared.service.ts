@@ -3,7 +3,7 @@ import { MatchdayService } from '../matchday/matchday.service';
 import { Matchday } from '../matchday/matchday';
 import { Team } from '../team/team';
 import { Championship } from '../championship/championship';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class SharedService {
@@ -17,7 +17,7 @@ export class SharedService {
   public pageTitle: String = 'FantaManajer';
 
   constructor(private matchdayService: MatchdayService,
-    private snackbar: MdSnackBar) {
+    private snackbar: MatSnackBar) {
     this.tabs = [];
   }
 

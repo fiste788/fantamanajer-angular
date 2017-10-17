@@ -37,11 +37,12 @@ export class RankingComponent implements OnInit {
         this.scores = Object.keys(data.scores).map(
           key => Object.keys(data.scores[key]).map(
             key2 => data.scores[key][key2] as Score
-          )
+          ).reverse()
         );
         Object.keys(data.scores[firstKey]).forEach(element => {
           this.matchdays.push(data.scores[firstKey][element].matchday);
         });
+        this.matchdays.reverse()
       });
   }
 

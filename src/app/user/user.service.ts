@@ -23,6 +23,7 @@ export class UserService {
   }
 
   update(user: User): Promise<any> {
+    user.teams = undefined;
     const url = `${this.url}/${user.id}`;
     return this.http
       .put(url, JSON.stringify(user))

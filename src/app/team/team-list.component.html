@@ -1,16 +1,16 @@
-<div class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
+<div class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
 
-    <md-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let team of teams; let i=index">
-        <md-card-header>
-            <md-card-title>{{team.name}}</md-card-title>
-        </md-card-header>
-        <img md-card-image [src]="team.photo_url || 'http://placehold.it/350x200'">
-        <md-card-content>
+    <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let team of teams; let i=index">
+        <mat-card-header>
+            <mat-card-title>{{team.name}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="team.photo_url || '//placehold.it/350x200'">
+        <mat-card-content>
             <p></p>
-        </md-card-content>
-        <md-card-actions fxLayoutAlign="end">
-            <a md-button [routerLink]="['/teams/',team.id]">OPEN</a>
-        </md-card-actions>
-    </md-card>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="end">
+            <a mat-button [routerLink]="['/teams/',team.id]">OPEN</a>
+        </mat-card-actions>
+    </mat-card>
 
 </div>

@@ -1,21 +1,21 @@
-<h1 md-dialog-title>
+<h1 mat-dialog-title>
     Articolo</h1>
-<div md-dialog-content>
+<div mat-dialog-content>
     <form *ngIf="article">
-        <md-input-container>
-            <input mdInput [(ngModel)]="article.title" name="title" placeholder="Titolo">
-        </md-input-container>
+        <mat-input-container>
+            <input matInput [(ngModel)]="article.title" name="title" placeholder="Titolo">
+        </mat-input-container>
 
-        <md-input-container>
-            <input mdInput [(ngModel)]="article.subtitle" name="subTitle" placeholder="Sotto titolo">
-        </md-input-container>
+        <mat-input-container>
+            <input matInput [(ngModel)]="article.subtitle" name="subTitle" placeholder="Sotto titolo">
+        </mat-input-container>
 
-        <md-input-container>
-            <textarea mdInput [(ngModel)]="article.body" name="body" placeholder="Testo"></textarea>
-        </md-input-container>
+        <mat-input-container>
+            <textarea matInput [(ngModel)]="article.body" name="body" placeholder="Testo"></textarea>
+        </mat-input-container>
     </form>
 </div>
-<div md-dialog-actions>
-    <button color="accent" md-raised-button (click)="save()">Salva</button>
-    <button md-raised-button (click)="cancel()">annulla</button>
+<div mat-dialog-actions>
+    <button color="accent" mat-raised-button (click)="save()">Salva</button>
+    <button mat-raised-button (click)="cancel()">annulla</button>
 </div>

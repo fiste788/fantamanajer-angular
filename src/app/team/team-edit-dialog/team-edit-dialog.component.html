@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{data.team.name}}</h1>
+<div mat-dialog-content>
+    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOver($event)" [uploader]="uploader" class="well my-drop-zone">Trascina quì il file per caricarlo</div>
+    <p>Oppure seleziona il file</p>
+    <input placeholder="Immagine di sfondo" type="file" ng2FileSelect [uploader]="uploader" />
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="upload()" tabindex="2">UPLOAD</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">CANCEL</button>
+</div>

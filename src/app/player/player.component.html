@@ -1,84 +1,85 @@
 <div *ngIf="player">
-    <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundImage]="selectedMember.backgroundImg" [image]="selectedMember.img">
+    <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundImage]="selectedMember.background_url" [image]="selectedMember.photo_url || player.photo_url">
         <div parallax-header-right>
-            <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + sharedService.currentTeam.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}" md-button>Acquista</a>
-            <md-select (change)='seasonChange()' style="width:146px" placeholder="Stagione" [(ngModel)]="selectedMember" [color]="media.isActive('gt-sm') ? 'white' : ''">
-                <md-option *ngFor="let member of player.members" [value]="member">{{ member.season.name }}</md-option>
-            </md-select>
-
+            <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + sharedService.currentTeam.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
+            <mat-form-field [color]="media.isActive('gt-sm') ? 'white' : ''">
+                <mat-select (change)='seasonChange()' style="width:146px" placeholder="Stagione" [(ngModel)]="selectedMember">
+                    <mat-option *ngFor="let member of player.members" [value]="member">{{ member.season.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </fm-parallax-header>
 
     <div class="mat-elevation-z4">
-        <md-table #table [dataSource]="dataSource">
+        <mat-table #table [dataSource]="dataSource">
             <ng-container cdkColumnDef="matchday">
-                <md-header-cell *cdkHeaderCellDef><span mdTooltip="Giornata">#</span></md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.matchday.number}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef><span mdTooltip="Giornata">#</span></mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.matchday.number}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="rating">
-                <md-header-cell *cdkHeaderCellDef> Voto </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.rating}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Voto </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.rating}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="points">
-                <md-header-cell *cdkHeaderCellDef> Punti </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.points}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Punti </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.points}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="goals">
-                <md-header-cell *cdkHeaderCellDef> Gol </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.goals}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Gol </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.goals}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="goals_against">
-                <md-header-cell *cdkHeaderCellDef> Gol s </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.goals_against}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Gol s </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.goals_against}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="assist">
-                <md-header-cell *cdkHeaderCellDef> Assist </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.assist}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Assist </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.assist}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="penalities_scored">
-                <md-header-cell *cdkHeaderCellDef> Rig </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.penalities_scored}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Rig </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.penalities_scored}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="penalities_taken">
-                <md-header-cell *cdkHeaderCellDef> Rig s </md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.penalities_taken}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef> Rig s </mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.penalities_taken}}</mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="regular">
-                <md-header-cell *cdkHeaderCellDef><span mdTooltip="Titolare">Tit.</span></md-header-cell>
-                <md-cell *cdkCellDef="let row">
+                <mat-header-cell *cdkHeaderCellDef><span mdTooltip="Titolare">Tit.</span></mat-header-cell>
+                <mat-cell *cdkCellDef="let row">
                     <i *ngIf="row.regular" class="material-icons">done</i>
-                </md-cell>
+                </mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="yellow_card">
-                <md-header-cell *cdkHeaderCellDef><span mdTooltip="Ammonizioni" class="yellow_card mat-elevation-z1"></span></md-header-cell>
-                <md-cell *cdkCellDef="let row">
+                <mat-header-cell *cdkHeaderCellDef><span mdTooltip="Ammonizioni" class="yellow_card mat-elevation-z1"></span></mat-header-cell>
+                <mat-cell *cdkCellDef="let row">
                     <i *ngIf="row.yellow_card" class="material-icons">done</i>
-                </md-cell>
+                </mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="red_card">
-                <md-header-cell *cdkHeaderCellDef><span mdTooltip="Espulsioni" class="red_card mat-elevation-z1"></span></md-header-cell>
-                <md-cell *cdkCellDef="let row">
+                <mat-header-cell *cdkHeaderCellDef><span mdTooltip="Espulsioni" class="red_card mat-elevation-z1"></span></mat-header-cell>
+                <mat-cell *cdkCellDef="let row">
                     <i *ngIf="row.red_card" class="material-icons">done</i>
-                </md-cell>
+                </mat-cell>
             </ng-container>
 
             <ng-container cdkColumnDef="quotation">
-                <md-header-cell *cdkHeaderCellDef><span mdTooltip="Quotazione">Q.</span></md-header-cell>
-                <md-cell *cdkCellDef="let row">{{row.quotation}}</md-cell>
+                <mat-header-cell *cdkHeaderCellDef><span mdTooltip="Quotazione">Q.</span></mat-header-cell>
+                <mat-cell *cdkCellDef="let row">{{row.quotation}}</mat-cell>
             </ng-container>
 
-            <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-            <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-        </md-table>
+            <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
@@ -44,7 +44,7 @@ export class PlayerComponent implements OnInit {
   constructor(
     public media: ObservableMedia,
     private changeRef: ChangeDetectorRef,
-    public snackBar: MdSnackBar,
+    public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private playerService: PlayerService,
     public sharedService: SharedService) {

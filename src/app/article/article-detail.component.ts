@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { Article } from './article';
 import { ArticleService } from './article.service';
@@ -14,7 +14,7 @@ export class ArticleDetailComponent implements OnInit {
 
   article: Article;
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
     private articleService: ArticleService,

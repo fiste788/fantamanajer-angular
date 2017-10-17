@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
-import { MdSidenav, MdMenu } from '@angular/material';
+import { MatSidenav, MatMenu } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObservableMedia } from '@angular/flex-layout';
 
@@ -17,7 +17,7 @@ import { NotificationListComponent } from './notification/notification-list/noti
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild(MdSidenav) nav: MdSidenav;
+  @ViewChild(MatSidenav) nav: MatSidenav;
 
   openSpeeddial = false;
   title = 'FantaManajer';
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.media.isActive('lt-sm')) {
+    if (this.media.isActive('lt-sm') && this.nav) {
       this.nav.close();
     }
   }

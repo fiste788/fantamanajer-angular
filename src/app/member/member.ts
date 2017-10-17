@@ -17,6 +17,7 @@ export class Member {
   ratings: Rating[];
   player: Player;
   role: Role;
-  img: string;
-  backgroundImg: string;
+  photo_url: string;
+  background_url: string;
+  free: boolean;
 }

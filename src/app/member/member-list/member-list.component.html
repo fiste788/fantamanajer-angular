@@ -1,65 +1,65 @@
 <div class="mat-elevation-z4">
-    <md-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource">
         <ng-container cdkColumnDef="player">
-            <md-header-cell *cdkHeaderCellDef> Giocatore </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+            <mat-header-cell *cdkHeaderCellDef> Giocatore </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
                 <a [routerLink]="['/players',row.player.id]">{{row.player.name}} {{row.player.surname}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="role">
-            <md-header-cell *cdkHeaderCellDef> Ruolo </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.role.abbreviation}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Ruolo </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.role.abbreviation}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="club">
-            <md-header-cell *cdkHeaderCellDef> Club </md-header-cell>
-            <md-cell *cdkCellDef="let row">
+            <mat-header-cell *cdkHeaderCellDef> Club </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
                 <a [routerLink]="['/clubs',row.club.id]">{{row.club.name}}</a>
-            </md-cell>
+            </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_present">
-            <md-header-cell *cdkHeaderCellDef> Presenze </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Presenze </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="avg_points">
-            <md-header-cell *cdkHeaderCellDef> MP </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.avg_points}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> MP </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.avg_points}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="avg_rating">
-            <md-header-cell *cdkHeaderCellDef> MV </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.avg_rating}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> MV </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.avg_rating}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_goals">
-            <md-header-cell *cdkHeaderCellDef> Gol </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_goals}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Gol </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_goals}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_goals_against">
-            <md-header-cell *cdkHeaderCellDef> Gol subiti </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_goals_against}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Gol subiti </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_goals_against}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_assist">
-            <md-header-cell *cdkHeaderCellDef> Assist </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_assist}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Assist </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_assist}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_yellow_card">
-            <md-header-cell *cdkHeaderCellDef> Amm </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_yellow_card}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Amm </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_yellow_card}}</mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="sum_red_card">
-            <md-header-cell *cdkHeaderCellDef> Esp </md-header-cell>
-            <md-cell *cdkCellDef="let row">{{row.stats.sum_red_card}}</md-cell>
+            <mat-header-cell *cdkHeaderCellDef> Esp </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{row.stats.sum_red_card}}</mat-cell>
         </ng-container>
 
-        <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-        <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 </div>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
 
 import { Club } from '../club';
 import { ClubService } from '../club.service';
@@ -13,7 +12,7 @@ export class ClubListComponent implements OnInit {
 
   clubs: Club[] = [];
 
-  constructor(public snackBar: MdSnackBar,
+  constructor(
     private clubService: ClubService) { }
 
   ngOnInit(): void {

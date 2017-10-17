@@ -1,40 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth.service';
 import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'fm-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
-  model: any = {};
+  loginData: any = {};
   loading = false;
   error = '';
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService) {
+    this.loginData.remember_me = true;
+  }
 
   ngOnInit() {
     // reset login status
-    this.authService.logout();
+    // this.authService.logout();
   }
 
   login() {
     this.loading = true;
-    this.authService.login(this.model.email, this.model.password)
+    this.authService.login(this.loginData.email, this.loginData.password)
       .subscribe(result => {
         if (result === true) {
-          console.log('user logged');
-          this.router.navigate(['/championships/' + this.sharedService.currentChampionship.id]);
+          const url = this.route.snapshot.queryParams['returnUrl'] || '/championships/' + this.sharedService.currentChampionship.id;
+          this.router.navigate([url]);
         } else {
           this.error = 'Username or password is incorrect';
           this.loading = false;
         }
       });
-    }
+  }
 
 }

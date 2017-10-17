@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: 'http://api.fantamanajer.it/api/'
+  apiEndpoint: '//api.fantamanajer.it/api/'
 };

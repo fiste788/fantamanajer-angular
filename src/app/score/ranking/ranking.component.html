@@ -1,46 +1,32 @@
 <div class="mat-elevation-z8">
-  <md-table #table [dataSource]="rankingDataSource">
-    <ng-container cdkColumnDef="teamName">
-      <md-header-cell *cdkHeaderCellDef> Squadra </md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <a [routerLink]="['/teams',row.team.id]">{{row.team.name}}</a>
-      </md-cell>
-    </ng-container>
+    <mat-table #table [dataSource]="rankingDataSource">
+        <ng-container cdkColumnDef="teamName">
+            <mat-header-cell *cdkHeaderCellDef> Squadra </mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
+                <a [routerLink]="['/teams',row.team.id]">{{row.team.name}}</a>
+            </mat-cell>
+        </ng-container>
 
-    <ng-container cdkColumnDef="points">
-      <md-header-cell *cdkHeaderCellDef> P.ti </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.sum_points}} </md-cell>
-    </ng-container>
+        <ng-container cdkColumnDef="points">
+            <mat-header-cell *cdkHeaderCellDef> P.ti </mat-header-cell>
+            <mat-cell *cdkCellDef="let row"> {{row.sum_points}} </mat-cell>
+        </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-  </md-table>
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 </div>
 <table>
-	<thead>
-		<tr>
-			<th>Squadra</th>
-			<th>P.ti</th>
-		</tr>
-	</thead>
-	<tbody>
-    <tr *ngFor="let entry of ranking">
-      <td>{{entry.team.name}}</td>
-      <td>{{entry.sum_points}}</td>
-    </tr>
-	</tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th *ngFor="let matchday of matchdays">{{matchday.number}}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let entry of scores">
-      <td *ngFor="let score of entry">
-        <a [routerLink]="['/scores', score.id]">{{score.points}}</a>
-      </td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+            <th *ngFor="let matchday of matchdays">{{matchday.number}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let entry of scores">
+            <td *ngFor="let score of entry">
+                <a [routerLink]="['/scores', score.id]">{{score.points}}</a>
+            </td>
+        </tr>
+    </tbody>
 </table>

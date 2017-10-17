@@ -1,36 +1,36 @@
-<div *ngIf="lineup">
-    <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
-        <md-select name="module" [(ngModel)]="lineup.module_object" placeholder="Seleziona il modulo" (change)="changeModule()">
-            <md-option *ngFor="let module of modules" [value]="module">{{module.label}}</md-option>
-        </md-select>
-        <md-checkbox [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</md-checkbox>
+<div *ngIf="lineup" class="flex-container">
+    <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
+        <mat-select name="module" [(ngModel)]="lineup.module_object" placeholder="Seleziona il modulo" (change)="changeModule()">
+            <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
+        </mat-select>
+        <mat-checkbox [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
     </div>
     <div id="cloni" *ngIf="lineup.module_object">
-        <div *ngFor="let key of roleKeys" [class]="key" fxLayout="row">
+        <div *ngFor="let key of roleKeys" [class]="key" class="role-container" fxLayout="row">
             <h5>{{key}}</h5>
-            <div class="role" fxLayout="row" fxLayoutAlign="space-around">
+            <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
                 <div class="disposition" *ngFor="let key2 of lineup.module_object.map.get(key)">
-                    <md-select required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id" [name]="key + '-' + key2">
-                        <md-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</md-option>
-                    </md-select>
+                    <mat-select required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id" [name]="key + '-' + key2">
+                        <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                    </mat-select>
                 </div>
             </div>
         </div>
     </div>
     <div>
         <h5>Capitani</h5>
-        <md-select *ngFor="let captain of captainsKeys" [(ngModel)]="lineup[captains.get(captain) + '_id']" [name]="captain">
-            <md-option *ngFor="let member of getCapitanables()" [disabled]="isCaptainAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</md-option>
-        </md-select>
+        <mat-select *ngFor="let captain of captainsKeys" [(ngModel)]="lineup[captains.get(captain) + '_id']" [name]="captain">
+            <mat-option *ngFor="let member of getCapitanables()" [disabled]="isCaptainAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+        </mat-select>
     </div>
     <div>
         <h5>Panchinari</h5>
 
-        <md-select *ngFor="let bench of benchs" [(ngModel)]="lineup.dispositions[bench].member_id" [name]="bench">
-            <md-optgroup [label]="key" *ngFor="let key of roleKeys">
-                <md-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</md-option>
-            </md-optgroup>
-        </md-select>
+        <mat-select *ngFor="let bench of benchs" [(ngModel)]="lineup.dispositions[bench].member_id" [name]="bench">
+            <mat-optgroup [label]="key" *ngFor="let key of roleKeys">
+                <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+            </mat-optgroup>
+        </mat-select>
     </div>
-    <button md-raised-button (click)="save()">Salva</button>
+    <button mat-raised-button (click)="save()">Salva</button>
 </div>

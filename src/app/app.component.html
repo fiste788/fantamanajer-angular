@@ -1,27 +1,28 @@
-<md-sidenav-container class="hundred">
-    <md-toolbar color="primary" class="mat-elevation-z4">
-        <button fxHide.gt-sm md-icon-button (click)="nav.toggle()">
-			<i class="material-icons demo-toolbar-icon">menu</i>
-		</button>
+<mat-sidenav-container class="hundred" *shellNoRender>
+    <mat-toolbar color="primary" class="mat-elevation-z4">
+        <button fxHide.gt-sm mat-icon-button (click)="nav.toggle()">
+			    <i class="material-icons demo-toolbar-icon">menu</i>
+		    </button>
         <span> {{shared.pageTitle}}</span>
         <span class="spacer"></span>
         <fm-notification-list></fm-notification-list>
-    </md-toolbar>
-    <md-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-sm') ? 'over' : 'side'" class="mat-elevation-z6">
-        <md-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
-            <md-toolbar-row>
+    </mat-toolbar>
+    <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('xs') ? 'over' : 'side'" class="mat-elevation-z6">
+        <mat-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
+            <mat-toolbar-row>
                 <span></span>
-                <div fxLayout="column" class="md-toolbar-tools-bottom inset">
+                <div fxLayout="column" class="mat-toolbar-tools-bottom inset">
                     <div *ngIf="auth.user">
                         <div *ngIf="shared.teams.length > 1">
-                            <button md-icon-button [mdMenuTriggerFor]="menu" class="team_switcher">
-							  {{shared.currentTeam.name}} <md-icon>arrow_drop_down</md-icon>
-							</button>
-                            <md-menu #menu="mdMenu">
-                                <button md-menu-item *ngFor="let team of shared.teams">
+                            <button aria-label="switch" mat-icon-button [matMenuTriggerFor]="menu" class="team-switcher">
+                              <span class="team-name">{{shared.currentTeam.name}}</span>
+                              <mat-icon>arrow_drop_down</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item *ngFor="let team of shared.teams">
 								<span>{{team.name}}</span>
 							  </button>
-                            </md-menu>
+                            </mat-menu>
                         </div>
                         <div *ngIf="shared.teams.length == 1">
                             {{shared.currentTeam.name}}
@@ -29,33 +30,31 @@
                         <div class="email">{{auth.user.email}}</div>
                     </div>
                 </div>
-            </md-toolbar-row>
-        </md-toolbar>
-        <md-nav-list>
-            <a md-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}" *ngIf="auth.loggedIn()">{{shared.currentChampionship.league.name}}</a>
-            <a md-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
-            <a md-list-item routerLinkActive="active" routerLink="clubs">Clubs</a>
-            <a md-list-item routerLinkActive="active" routerLink="articles">Articoli</a>
-            <a md-list-item routerLinkActive="active" routerLink="profile">Impostazioni</a>
-            <a md-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">Log In</a>
-            <a md-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">Log Out</a>
-        </md-nav-list>
-    </md-sidenav>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-nav-list>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}" *ngIf="auth.loggedIn()">{{shared.currentChampionship.league.name}}</a>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">Clubs</a>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">Impostazioni</a>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">Log In</a>
+            <a click="closeSidenav()" mat-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">Log Out</a>
+        </mat-nav-list>
+    </mat-sidenav>
     <main class="container">
         <router-outlet></router-outlet>
-        <router-outlet name="popup"></router-outlet>
     </main>
-</md-sidenav-container>
+</mat-sidenav-container>
 <smd-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false">
     <smd-fab-trigger spin="true">
-        <button md-fab (click)="_click('trigger')"><md-icon>add</md-icon></button>
+        <button aria-label="create" mat-fab (click)="_click('trigger')"><mat-icon>add</mat-icon></button>
     </smd-fab-trigger>
 
     <smd-fab-actions>
-        <button md-mini-fab mdTooltip="Inserisci formazione" mdTooltipPosition="left" (click)="_click('lineup')">
-            <md-icon>star_rate</md-icon>
-        </button>
-        <button md-mini-fab mdTooltip="Nuovo articolo" mdTooltipPosition="left" (click)="_click('article')"><md-icon>message</md-icon></button>
-        <button md-mini-fab mdTooltip="Nuovo trasferimento" mdTooltipPosition="left" (click)="_click('transfert')"><md-icon>swap_vert</md-icon></button>
+        <button mat-mini-fab matTooltip="Inserisci formazione" matTooltipPosition="left" (click)="_click('lineup')">
+        <mat-icon>star_rate</mat-icon>
+    </button>
+        <button mat-mini-fab matTooltip="Nuovo articolo" matTooltipPosition="left" (click)="_click('article')"><mat-icon>message</mat-icon></button>
+        <button mat-mini-fab matTooltip="Nuovo trasferimento" matTooltipPosition="left" (click)="_click('transfert')"><mat-icon>swap_vert</mat-icon></button>
     </smd-fab-actions>
 </smd-fab-speed-dial>
