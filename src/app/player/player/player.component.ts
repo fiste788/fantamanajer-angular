@@ -5,13 +5,14 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
 
-import { Member } from '../member/member';
-import { Season } from '../season/season';
-import { SharedService } from '../shared/shared.service';
-import { Player } from './player';
-import { Rating } from '../rating/rating';
-import { PlayerService } from './player.service';
-import { ParallaxHeaderComponent } from '../shared/parallax-header/parallax-header.component';
+import { Member } from '../../member/member';
+import { Season } from '../../season/season';
+import { SharedService } from '../../shared/shared.service';
+import { Player } from '../player';
+import { Rating } from '../../rating/rating';
+import { PlayerService } from '../player.service';
+import { ParallaxHeaderComponent } from '../../shared/parallax-header/parallax-header.component';
+import 'rxjs/add/observable/of'
 
 @Component({
   selector: 'fm-player',

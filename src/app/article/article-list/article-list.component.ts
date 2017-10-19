@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
-import { Article } from './article';
-import { ArticleService } from './article.service';
+import { Article } from '../article';
+import { ArticleService } from '../article.service';
 
 
 @Component({

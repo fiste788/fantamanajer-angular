@@ -3,6 +3,7 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { Disposition } from '../../disposition/disposition';
 import { Router, RouterModule } from '@angular/router';
+import 'rxjs/add/observable/of'
 
 @Component({
   selector: 'fm-disposition-list',

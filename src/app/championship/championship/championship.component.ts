@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'fm-championship',

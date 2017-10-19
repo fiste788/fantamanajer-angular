@@ -3,7 +3,7 @@ import { TeamService } from '../team.service';
 import { Component, OnInit, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
-import { TeamDetailComponent } from '../team-detail.component';
+import { TeamDetailComponent } from '../team-detail/team-detail.component';
 
 @Component({
   selector: 'fm-team-members',

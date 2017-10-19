@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClubComponent } from './club.component';
+import { ClubComponent } from './club/club.component';
 import { ClubListComponent } from './club-list/club-list.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
 

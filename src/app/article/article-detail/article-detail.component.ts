@@ -2,8 +2,8 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { Article } from './article';
-import { ArticleService } from './article.service';
+import { Article } from '../article';
+import { ArticleService } from '../article.service';
 
 @Component({
   selector: 'fm-article-detail',

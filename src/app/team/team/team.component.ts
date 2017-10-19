@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
-import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'fm-team',
@@ -9,8 +8,7 @@ import { SharedService } from '../shared/shared.service';
 })
 export class TeamComponent implements OnInit {
 
-  constructor(private sharedService: SharedService,
-    private route: ActivatedRoute) {
+  constructor() {
   }
   ngOnInit(): void {
   }

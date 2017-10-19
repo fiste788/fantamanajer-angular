@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ScoreComponent } from './score.component';
+import { ScoreComponent } from './score/score.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { ScoreDetailComponent } from './score-detail/score-detail.component';
 

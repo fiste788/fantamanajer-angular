@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
-import { AuthService } from '../auth/auth.service';
-import { UserService } from './user.service';
-import { User } from './user';
+import { AuthService } from '../../auth/auth.service';
+import { UserService } from '../user.service';
+import { User } from '../user';
 
 @Component({
   selector: 'fm-profile',

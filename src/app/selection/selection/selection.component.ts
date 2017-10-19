@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSelect } from '@angular/material';
-import { Selection } from './selection';
-import { Member } from '../member/member';
-import { TeamService } from '../team/team.service';
-import { SelectionService } from './selection.service';
-import { MemberService } from '../member/member.service';
-import { SharedService } from '../shared/shared.service';
+import { Selection } from '../selection';
+import { Member } from '../../member/member';
+import { TeamService } from '../../team/team.service';
+import { SelectionService } from '../selection.service';
+import { MemberService } from '../../member/member.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'fm-selection',

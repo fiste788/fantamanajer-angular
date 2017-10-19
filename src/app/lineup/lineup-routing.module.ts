@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LineupComponent } from './lineup.component';
+import { LineupComponent } from './lineup/lineup.component';
 import { LineupDetailComponent } from './lineup-detail/lineup-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 

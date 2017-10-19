@@ -5,6 +5,8 @@ import { Score } from '../score';
 import { SharedService } from '../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Matchday } from '../../matchday/matchday';
+import 'rxjs/add/observable/from'
+import 'rxjs/add/operator/concatMap'
 
 @Component({
   selector: 'fm-ranking',

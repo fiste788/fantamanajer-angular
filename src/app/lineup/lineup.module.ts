@@ -3,7 +3,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { LineupRoutingModule } from './lineup-routing.module';
 import { LineupService } from './lineup.service';
-import { LineupComponent } from './lineup.component';
+import { LineupComponent } from './lineup/lineup.component';
 import { LineupDetailComponent } from './lineup-detail/lineup-detail.component';
 
 @NgModule({

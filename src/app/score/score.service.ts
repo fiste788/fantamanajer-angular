@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
 import { SharedService } from '../shared/shared.service';
 import { Score } from './score';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/toArray'
 
 @Injectable()
 export class ScoreService {

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
-import { ClubComponent } from './club.component';
+import { ClubComponent } from './club/club.component';
 import { ClubService } from './club.service';
 import { ClubRoutingModule } from './club-routing.module';
 import { ClubListComponent } from './club-list/club-list.component';

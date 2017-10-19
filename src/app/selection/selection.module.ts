@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { SelectionComponent } from './selection.component';
+import { SelectionComponent } from './selection/selection.component';
 import { SelectionService } from './selection.service';
 
 @NgModule({

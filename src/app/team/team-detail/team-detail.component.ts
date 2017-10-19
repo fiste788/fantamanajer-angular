@@ -2,14 +2,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
-import { SharedService } from '../shared/shared.service';
-import { Team } from './team';
-import { TeamService } from './team.service';
+import { SharedService } from '../../shared/shared.service';
+import { Team } from '../team';
+import { TeamService } from '../team.service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload';
-import { ParallaxHeaderComponent } from '../shared/parallax-header/parallax-header.component';
+import { ParallaxHeaderComponent } from '../../shared/parallax-header/parallax-header.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
-import { environment } from '../../environments/environment';
+import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'fm-team-detail',

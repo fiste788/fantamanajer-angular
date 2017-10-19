@@ -3,6 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, Htt
 import { Observable } from 'rxjs/Observable';
 import { MatSnackBar } from '@angular/material';
 import { environment } from '../../environments/environment';
+import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {

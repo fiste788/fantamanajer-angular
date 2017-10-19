@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
-import { MemberComponent } from './member/member.component';
-import { MemberFreeComponent } from './member-free/member-free.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   // { path: 'members/free', component: MemberFreeComponent, canActivate: [AuthGuard] },
   {
     path: '',
-    component: MemberComponent,
+    redirectTo: '',
     children: [
-      { path: 'free', component: MemberFreeComponent, canActivate: [AuthGuard] }
+      { path: '', component: ProfileComponent, canActivate: [AuthGuard] }
     ]
   }
 ];
@@ -19,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MemberRoutingModule { }
+export class UserRoutingModule { }

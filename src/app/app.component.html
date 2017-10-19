@@ -5,7 +5,7 @@
 		    </button>
         <span> {{shared.pageTitle}}</span>
         <span class="spacer"></span>
-        <fm-notification-list></fm-notification-list>
+        <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
     </mat-toolbar>
     <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('xs') ? 'over' : 'side'" class="mat-elevation-z6">
         <mat-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">

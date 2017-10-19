@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';
+import 'rxjs/add/observable/of'
 
 @Component({
   selector: 'fm-member-list',
