@@ -1,0 +1,22 @@
+.ranking-container {
+    display: flex;
+}
+
+.mat-column-teamName {
+    min-width: 180px;
+}
+
+.ranking-container {
+    display: flex;
+}
+
+.scores-container {
+    flex-grow: 1;
+}
+
+.scores {
+    .mat-cell,
+    .mat-header-cell {
+        text-align: right;
+    }
+}

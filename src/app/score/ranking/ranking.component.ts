@@ -5,8 +5,8 @@ import { Score } from '../score';
 import { SharedService } from '../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Matchday } from '../../matchday/matchday';
-import 'rxjs/add/observable/from'
-import 'rxjs/add/operator/concatMap'
+import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/concatMap';
 
 @Component({
   selector: 'fm-ranking',
@@ -14,53 +14,85 @@ import 'rxjs/add/operator/concatMap'
   styleUrls: ['./ranking.component.scss']
 })
 export class RankingComponent implements OnInit {
-
-  scores: any[];
+  scores: Map<string, Score>[];
   ranking: any[];
   // rankingDataSource: ExampleDataSource | null;
   rankingDataSource: RankingDataSource | null;
-  displayedColumns = ['teamName', 'points'];
+  scoresDataSource: ScoresDataSource | null;
+  rankingDisplayedColumns = ['teamName', 'points'];
+  scoresDisplayedColumns = [];
   matchdays: Matchday[];
 
   constructor(
     private scoreService: ScoreService,
-    private shared: SharedService) {
-      this.matchdays = [];
-      // this.rankingDataSource = new ExampleDataSource(this.exampleDatabase);
-      this.rankingDataSource = new RankingDataSource(this.scoreService);
+    private shared: SharedService
+  ) {
+    this.matchdays = [];
+    // this.rankingDataSource = new ExampleDataSource(this.exampleDatabase);
+    // this.rankingDataSource = new RankingDataSource(this.scoreService);
+    // this.scoresDataSource = new ScoresDataSource(this.scoreService);
   }
 
   ngOnInit(): void {
-    this.scoreService.getRanking()
-      .then(data => {
-        this.ranking = data.ranking;
-        // this.scores = data.scores;
-        const firstKey = Object.keys(data.scores).shift();
-        this.scores = Object.keys(data.scores).map(
-          key => Object.keys(data.scores[key]).map(
-            key2 => data.scores[key][key2] as Score
-          ).reverse()
-        );
-        Object.keys(data.scores[firstKey]).forEach(element => {
-          this.matchdays.push(data.scores[firstKey][element].matchday);
+    this.scoreService.getRanking().then(data => {
+      this.ranking = data.ranking;
+      // this.scores = data.scores;
+      const firstKey = Object.keys(data.scores).shift();
+      this.scores = Object.keys(data.scores).map(key => {
+        const map = new Map<string, Score>();
+        Object.keys(data.scores[key]).map(key2 => {
+          const number: string = data.scores[key][key2].matchday.number + '';
+          const value: Score = data.scores[key][key2] as Score;
+          // return data.scores[key]['' + key2] as Score
+          return map.set(number, value);
         });
-        this.matchdays.reverse()
+        // .reverse();
+        return map;
       });
+      console.log(this.scores);
+      Object.keys(data.scores[firstKey]).forEach(element => {
+        const matchday: Matchday = data.scores[firstKey][element].matchday;
+        this.matchdays.push(matchday);
+        this.scoresDisplayedColumns.push('' + matchday.number);
+      });
+      this.matchdays.reverse();
+      this.scoresDisplayedColumns.reverse();
+      this.rankingDataSource = new RankingDataSource(this);
+      this.scoresDataSource = new ScoresDataSource(this);
+    });
   }
-
 }
 
 export class RankingDataSource extends DataSource<any> {
-  constructor(private scoreService: ScoreService) {
+  constructor(private component: RankingComponent) {
     super();
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
-    return Observable.fromPromise(this.scoreService.getRanking())
+    return Observable.of(this.component.ranking);
+    /*return Observable.fromPromise(this.scoreService.getRanking())
           .map(response => response.ranking)
           .concatMap(arr => Observable.from(arr))
-          .toArray();
+          .toArray();*/
+  }
+
+  disconnect() {}
+}
+
+export class ScoresDataSource extends DataSource<any> {
+  constructor(private component: RankingComponent) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any[]> {
+    return Observable.of(this.component.scores);
+    /*
+    return Observable.fromPromise(this.scoreService.getRanking())
+          .map(response => response.scores)
+          .concatMap(arr => Observable.from(arr))
+          .toArray();*/
   }
 
   disconnect() {}

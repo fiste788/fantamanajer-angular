@@ -1,11 +1,13 @@
 <form>
-    <mat-select (change)="playerChange()" [(ngModel)]="selection.old_member" name="old_member" placeholder="Vecchio giocatore">
-        <mat-option *ngFor="let member of members" [value]="member">{{ member.player.name}} {{ member.player.surname }}</mat-option>
-    </mat-select>
-
-    <mat-select #newMember [(ngModel)]="selection.new_member" name="new_member" placeholder="Nuovo giocatore">
-        <mat-option *ngFor="let member of newMembers" [value]="member">{{ member.player.name }} {{ member.player.surname }}</mat-option>
-    </mat-select>
-
+    <mat-form-field>
+        <mat-select (change)="playerChange()" [(ngModel)]="selection.old_member" name="old_member" placeholder="Vecchio giocatore">
+            <mat-option *ngFor="let member of members" [value]="member">{{ member.player.name}} {{ member.player.surname }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select #newMember [(ngModel)]="selection.new_member" name="new_member" placeholder="Nuovo giocatore">
+            <mat-option *ngFor="let member of newMembers" [value]="member">{{ member.player.name }} {{ member.player.surname }}</mat-option>
+        </mat-select>
+    </mat-form-field>
     <button color="accent" mat-raised-button (click)="save()">Salva</button>
 </form>
