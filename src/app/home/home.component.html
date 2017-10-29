@@ -1,3 +1,29 @@
-<p>
-  home works!
-</p>
+<div *ngIf="roles | async; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start">
+
+    <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let role of roles | async">
+
+        <img mat-card-image [src]="role.best_players[0].photo_url || '//placehold.it/320x450'">
+        <mat-card-header>
+            <mat-card-title>{{role.singolar}}</mat-card-title>
+            <mat-card-subtitle>{{role.best_players[0].player.full_name}}: {{role.best_players[0].ratings[0].points}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        MOSTRA DI PIU'
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <mat-list dense>
+                    <mat-list-item *ngFor="let member of role.best_players; let j = index">
+                        <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}: {{member.ratings[0].points}}</a>
+                    </mat-list-item>
+                </mat-list>
+            </mat-expansion-panel>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

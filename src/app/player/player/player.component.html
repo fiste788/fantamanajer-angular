@@ -1,4 +1,4 @@
-<div *ngIf="player">
+<div *ngIf="player | async as player; else loading">
     <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundImage]="selectedMember.background_url" [image]="selectedMember.photo_url || player.photo_url">
         <div parallax-header-right>
             <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + sharedService.currentTeam.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
@@ -83,3 +83,6 @@
         </mat-table>
     </div>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

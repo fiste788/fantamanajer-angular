@@ -1,18 +1,26 @@
-.team-switcher {
-    font-size: 18px;
-}
-
-.team-name {
-    width: 180px;
-    overflow: hidden;
-    display: inline-block;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-
-.email {
-    font-size: 14px;
-    font-weight: normal;
+.mat-toolbar {
+    background-size: cover;
+    background-position: center center;
+    z-index: 1;
+    position: relative;
+    .team-switcher {
+        font-size: 18px;
+        width: 100%;
+    }
+    .mat-toolbar-tools-bottom {
+        width: 100%;
+    }
+    .team-name {
+        width: calc(100% - 24px);
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        text-align: left;
+    }
+    .email {
+        font-size: 14px;
+        font-weight: normal;
+    }
 }
 
 smd-fab-speed-dial {
@@ -38,11 +46,26 @@ smd-fab-speed-dial {
     height: 100%;
 }
 
-mat-sidenav {
-    width: 240px;
+.mat-sidenav {
+    width: 340px;
+    max-width: calc(100% - 54px);
 }
 
-/deep/ {
+.mat-list-item .mat-icon {
+    color: #555;
+    margin-right: 12px;
+}
+
+.mat-list-item.active,
+.mat-list-item.active .mat-icon {
+    color: #00bcd4;
+    background-color: #eee;
+}
+
+::ng-deep {
+    mat-progress-spinner {
+        margin: 50px auto;
+    }
     a {
         text-decoration: none;
         color: #ff4081;
@@ -58,10 +81,6 @@ mat-sidenav {
         padding-left: 1em;
         padding-right: 1em;
     }
-    .mat-toolbar {
-        z-index: 1;
-        position: relative;
-    }
     mat-form-field[ng-reflect-color='white'] {
         .mat-form-field-placeholder {
             color: rgba(255, 255, 255, 0.87);
@@ -76,8 +95,7 @@ mat-sidenav {
             .mat-select-trigger {
                 color: rgba(255, 255, 255, 0.38);
             }
-            .mat-select-value,
-            {
+            .mat-select-value {
                 color: rgba(255, 255, 255, 0.87);
             }
         }
@@ -100,19 +118,21 @@ mat-sidenav {
         width: 100%;
         height: 100%;
         line-height: 50px;
-        display: block
+        display: block;
     }
     .flex-container {
         padding-top: 10px;
     }
-    @media(max-width: 599px) {}
-    @media(min-width: 600px) {
+    @media (min-width: 600px) {
         .container {
             max-width: 90%;
             margin: 15px auto 0;
         }
+        .mat-sidenav {
+            width: 240px !important;
+        }
     }
-    @media(min-width: 960px) {
+    @media (min-width: 960px) {
         .container {
             max-width: 90%;
         }

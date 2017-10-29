@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from './auth.service';
-import { SharedService } from '../shared/shared.service';
+import { AuthService } from '../auth.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'fm-login',
@@ -9,7 +9,6 @@ import { SharedService } from '../shared/shared.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   loginData: any = {};
   loading = false;
   error = '';
@@ -18,7 +17,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private sharedService: SharedService) {
+    private sharedService: SharedService
+  ) {
     this.loginData.remember_me = true;
   }
 
@@ -29,10 +29,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authService.login(this.loginData.email, this.loginData.password)
+    this.authService
+      .login(
+        this.loginData.email,
+        this.loginData.password,
+        this.loginData.remember_me
+      )
       .subscribe(result => {
         if (result === true) {
-          const url = this.route.snapshot.queryParams['returnUrl'] || '/championships/' + this.sharedService.currentChampionship.id;
+          const url =
+            this.route.snapshot.queryParams['returnUrl'] ||
+            '/championships/' + this.sharedService.currentChampionship.id;
           this.router.navigate([url]);
         } else {
           this.error = 'Username or password is incorrect';
@@ -40,5 +47,4 @@ export class LoginComponent implements OnInit {
         }
       });
   }
-
 }

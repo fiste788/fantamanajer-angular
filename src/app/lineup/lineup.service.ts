@@ -1,38 +1,42 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { Lineup } from './lineup';
 import { Member } from '../member/member';
-import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../shared/shared.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class LineupService {
-    private url = 'lineups';
+  private url = 'lineups';
 
-    constructor(private route: ActivatedRoute,
-          private http: HttpClient,
-          private shared: SharedService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private shared: SharedService
+  ) {}
 
-
-    getLineup(team_id): Promise<{members: Member[], lineup: Lineup, modules: string[]}> {
-      const url = `teams/${team_id}/${this.url}/current`;
-      return this.http.get<{members: Member[], lineup: Lineup, modules: string[]}>(url)
-            .toPromise()
-    }
-
-  update(lineup: Lineup): Promise<any> {
-      const url = `teams/${lineup.team_id}/${this.url}/` + lineup.id;
-      return this.http
-          .put(url, JSON.stringify(lineup))
-          .toPromise()
+  getLineup(
+    team_id
+  ): Observable<{ members: Member[]; lineup: Lineup; modules: string[] }> {
+    return this.http.get<{
+      members: Member[];
+      lineup: Lineup;
+      modules: string[];
+    }>(`teams/${team_id}/${this.url}/current`);
   }
 
-  create(lineup: Lineup): Promise<Lineup> {
-      return this.http
-          .post<Lineup>(`teams/${lineup.team_id}/${this.url}`, JSON.stringify(lineup))
-          .toPromise()
-          .catch(this.shared.handleError);
+  update(lineup: Lineup): Observable<any> {
+    return this.http.put(
+      `teams/${lineup.team_id}/${this.url}/` + lineup.id,
+      JSON.stringify(lineup)
+    );
   }
 
+  create(lineup: Lineup): Observable<Lineup> {
+    return this.http.post<Lineup>(
+      `teams/${lineup.team_id}/${this.url}`,
+      JSON.stringify(lineup)
+    );
+  }
 }

@@ -1,4 +1,4 @@
-<div class="mat-elevation-z4">
+<div *ngIf="dataSource">
     <mat-table #table [dataSource]="dataSource">
         <ng-container cdkColumnDef="player">
             <mat-header-cell *cdkHeaderCellDef> Giocatore </mat-header-cell>
@@ -63,3 +63,6 @@
         <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

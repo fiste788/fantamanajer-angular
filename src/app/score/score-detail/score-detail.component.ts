@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { SharedService } from '../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Score } from '../score';
 import { Disposition } from '../../disposition/disposition';
 import { DispositionListComponent } from '../../disposition/disposition-list/disposition-list.component';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'fm-score-detail',
@@ -12,24 +14,24 @@ import { DispositionListComponent } from '../../disposition/disposition-list/dis
   styleUrls: ['./score-detail.component.scss']
 })
 export class ScoreDetailComponent implements OnInit {
-
-  score: Score;
+  score: Observable<Score>;
   regular: Disposition[];
   notRegular: Disposition[];
 
   constructor(
     private route: ActivatedRoute,
-    private scoreService: ScoreService) {
-  }
+    private scoreService: ScoreService
+  ) {}
 
   ngOnInit() {
     if (this.route.snapshot.url.pop().path === 'last') {
       const team_id = this.getTeamId();
-      this.scoreService.getLastScore(team_id).then(score => this.getData(score));
+      this.score = this.scoreService.getLastScore(team_id).share();
     } else {
       const id = parseInt(this.route.snapshot.params['id'], 10);
-      this.scoreService.getScore(id).then(score => this.getData(score));
+      this.score = this.scoreService.getScore(id).share();
     }
+    this.score.subscribe(score => this.getData(score));
   }
 
   getData(score: Score) {
@@ -37,7 +39,7 @@ export class ScoreDetailComponent implements OnInit {
       const dispositions: Disposition[] = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;
-      this.score = score;
+      // this.score = score;
     }
   }
 
@@ -51,5 +53,4 @@ export class ScoreDetailComponent implements OnInit {
       }
     }
   }
-
 }

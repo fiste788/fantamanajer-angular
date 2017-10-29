@@ -1,5 +1,5 @@
-<h4 class="mat-subheading-1">{{caption}}</h4>
-<div class="mat-elevation-z4">
+<h3 class="mat-subheading-1">{{caption}}</h3>
+<div *ngIf="dataSource" class="mat-elevation-z4">
     <mat-table #table [dataSource]="dataSource">
         <ng-container cdkColumnDef="player">
             <mat-header-cell *cdkHeaderCellDef> Giocatore </mat-header-cell>

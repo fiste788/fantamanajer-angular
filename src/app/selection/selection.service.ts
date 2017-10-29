@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
 import { Selection } from './selection';
 
 @Injectable()
@@ -9,21 +9,21 @@ export class SelectionService {
 
   constructor(private http: HttpClient) {}
 
-  getSelection(id: number): Promise<Selection> {
-    return this.http.get<Selection>('teams/' + id + '/' + this.url)
-      .toPromise()
+  getSelection(id: number): Observable<Selection> {
+    return this.http.get<Selection>('teams/' + id + '/' + this.url);
   }
 
-  update(selection: Selection): Promise<any> {
-    const url = 'teams/' + selection.team_id + '/' + this.url + '/' + selection.id;
-    return this.http
-      .put(url, JSON.stringify(selection))
-      .toPromise();
+  update(selection: Selection): Observable<any> {
+    return this.http.put(
+      'teams/' + selection.team_id + '/' + this.url + '/' + selection.id,
+      JSON.stringify(selection)
+    );
   }
 
-  create(selection: Selection): Promise<Selection> {
-    return this.http
-      .post<Selection>('teams/' + selection.team_id + '/' + this.url, JSON.stringify(selection))
-      .toPromise()
+  create(selection: Selection): Observable<Selection> {
+    return this.http.post<Selection>(
+      'teams/' + selection.team_id + '/' + this.url,
+      JSON.stringify(selection)
+    );
   }
 }

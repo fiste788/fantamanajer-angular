@@ -4,21 +4,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from '../shared/shared.module';
 import { JWTInterceptor } from './jwt-interceptor';
-import { LoginComponent } from './login.component';
+import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { NotLoggedGuard } from './not-logged.guard';
 import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
+  declarations: [LoginComponent],
   exports: [LoginComponent],
-  imports: [
-    SharedModule,
-    AuthRoutingModule
-  ],
+  imports: [SharedModule, AuthRoutingModule],
   providers: [
     AuthService,
     AuthGuard,
@@ -30,4 +25,4 @@ import { AuthRoutingModule } from './auth-routing.module';
     }
   ]
 })
-export class AuthModule { }
+export class AuthModule {}

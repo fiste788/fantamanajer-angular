@@ -15,7 +15,9 @@ import {
   MatTabsModule,
   MatIconModule,
   MatListModule,
-  MatTableModule } from '@angular/material';
+  MatTableModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -24,7 +26,6 @@ import { SharedService } from './shared.service';
 import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
 import { RellaxModule } from './rellax/rellax.module';
 // import { ng2Parallax } from '../../../node_modules/ang2-parallax/ng2parallax';
-
 
 @NgModule({
   imports: [
@@ -41,11 +42,12 @@ import { RellaxModule } from './rellax/rellax.module';
     MatMenuModule,
     MatTabsModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     CdkTableModule,
     MatSelectModule,
     MatIconModule,
     NguiParallaxScrollModule,
-    RellaxModule,
+    RellaxModule
   ],
   exports: [
     MatSlideToggleModule,
@@ -59,6 +61,7 @@ import { RellaxModule } from './rellax/rellax.module';
     MatMenuModule,
     MatTabsModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     CdkTableModule,
     MatSelectModule,
     MatIconModule,
@@ -69,7 +72,7 @@ import { RellaxModule } from './rellax/rellax.module';
     ParallaxHeaderComponent,
     RellaxModule
   ],
-  declarations: [ParallaxHeaderComponent],
+  declarations: [ParallaxHeaderComponent]
   /*providers: [
     {
      provide: HTTP_INTERCEPTORS,
@@ -79,4 +82,4 @@ import { RellaxModule } from './rellax/rellax.module';
  ],*/
   // providers: [SharedService]
 })
-export class SharedModule { }
+export class SharedModule {}

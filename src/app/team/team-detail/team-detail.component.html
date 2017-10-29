@@ -1,4 +1,4 @@
-<div *ngIf="team">
+<div *ngIf="team | async as team; else loading">
     <div>
         <fm-parallax-header [backgroundImage]="team.photo_url" [tabs]="tabs" [title]="team.name" [subtitle]="team.user.name + ' ' + team.user.surname + ' - '">
             <div parallax-header-right>
@@ -8,3 +8,6 @@
     </div>
     <router-outlet></router-outlet>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

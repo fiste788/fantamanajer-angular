@@ -34,7 +34,7 @@ export class RankingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.scoreService.getRanking().then(data => {
+    this.scoreService.getRanking().subscribe(data => {
       this.ranking = data.ranking;
       // this.scores = data.scores;
       const firstKey = Object.keys(data.scores).shift();
@@ -71,10 +71,6 @@ export class RankingDataSource extends DataSource<any> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
     return Observable.of(this.component.ranking);
-    /*return Observable.fromPromise(this.scoreService.getRanking())
-          .map(response => response.ranking)
-          .concatMap(arr => Observable.from(arr))
-          .toArray();*/
   }
 
   disconnect() {}
@@ -88,11 +84,6 @@ export class ScoresDataSource extends DataSource<any> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
     return Observable.of(this.component.scores);
-    /*
-    return Observable.fromPromise(this.scoreService.getRanking())
-          .map(response => response.scores)
-          .concatMap(arr => Observable.from(arr))
-          .toArray();*/
   }
 
   disconnect() {}

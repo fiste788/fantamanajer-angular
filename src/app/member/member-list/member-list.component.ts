@@ -3,7 +3,6 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';
-import 'rxjs/add/observable/of'
 
 @Component({
   selector: 'fm-member-list',
@@ -11,8 +10,7 @@ import 'rxjs/add/observable/of'
   styleUrls: ['./member-list.component.scss']
 })
 export class MemberListComponent implements OnInit {
-
-  @Input() members: Member[];
+  @Input() members: Observable<Member[]>;
   @Input() hideClub = false;
   dataSource: MemberDataSource | null;
   displayedColumns = [
@@ -29,17 +27,17 @@ export class MemberListComponent implements OnInit {
     'sum_red_card'
   ];
 
-  constructor(private changeRef: ChangeDetectorRef) {
-    this.dataSource = new MemberDataSource(this);
-  }
+  constructor(private changeRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
+    console.log('passo');
+    this.dataSource = new MemberDataSource(this);
+    this.dataSource.connect();
     this.changeRef.detectChanges();
   }
-
 }
 export class MemberDataSource extends DataSource<Member> {
   constructor(private component: MemberListComponent) {
@@ -48,8 +46,8 @@ export class MemberDataSource extends DataSource<Member> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Member[]> {
-    return Observable.of(this.component.members);
-    // return this.component.members;
+    console.log(this.component.members);
+    return this.component.members;
   }
 
   disconnect() {}

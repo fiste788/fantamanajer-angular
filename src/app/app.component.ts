@@ -5,9 +5,11 @@ import { ObservableMedia } from '@angular/flex-layout';
 
 import { AuthService } from './auth/auth.service';
 import { SharedService } from './shared/shared.service';
-import { SmdFabSpeedDialTrigger,
-    SmdFabSpeedDialActions,
-    SmdFabSpeedDialComponent} from './speeddial/smd-fab-speed-dial';
+import {
+  SmdFabSpeedDialTrigger,
+  SmdFabSpeedDialActions,
+  SmdFabSpeedDialComponent
+} from './speeddial/smd-fab-speed-dial';
 import { NotificationListComponent } from './notification/notification-list/notification-list.component';
 
 @Component({
@@ -16,21 +18,22 @@ import { NotificationListComponent } from './notification/notification-list/noti
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   @ViewChild(MatSidenav) nav: MatSidenav;
 
   openSpeeddial = false;
   title = 'FantaManajer';
   links = [
-    {label: 'Articoli', link: 'articles'},
-    {label: 'Squadre', link: 'teams'},
+    { label: 'Articoli', link: 'articles' },
+    { label: 'Squadre', link: 'teams' }
   ];
 
-  constructor(public media: ObservableMedia,
+  constructor(
+    public media: ObservableMedia,
     public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public shared: SharedService) {
+    public shared: SharedService
+  ) {
     this.shared.initialize();
   }
 
@@ -46,13 +49,21 @@ export class AppComponent implements OnInit {
 
   _click(event: any) {
     if (event === 'transfert') {
-      this.router.navigateByUrl('/teams/' + this.shared.currentTeam.id + '/transferts');
+      this.router.navigateByUrl(
+        '/teams/' + this.shared.currentTeam.id + '/transferts'
+      );
     } else if (event === 'lineup') {
-      this.router.navigateByUrl('/teams/' + this.shared.currentTeam.id + '/lineup/current');
+      this.router.navigateByUrl(
+        '/teams/' + this.shared.currentTeam.id + '/lineup/current'
+      );
     } else if (event === 'article') {
       this.router.navigateByUrl('/articles/new');
     }
   }
 
-
+  closeSidenav() {
+    if (this.media.isActive('xs') && this.nav) {
+      this.nav.close();
+    }
+  }
 }

@@ -11,16 +11,17 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
+  events: Observable<Event[]>;
 
-  events: Event[] = [];
-
-  constructor(private eventService: EventService,
+  constructor(
+    private eventService: EventService,
     private sharedService: SharedService,
-    private route: ActivatedRoute) {
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.eventService.getEvents(this.sharedService.currentChampionship.id).then(events => this.events = events);
+    this.events = this.eventService.getEvents(
+      this.sharedService.currentChampionship.id
+    );
   }
-
 }

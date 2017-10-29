@@ -13,6 +13,7 @@ import { TeamService } from '../../team/team.service';
 import { SelectionService } from '../selection.service';
 import { MemberService } from '../../member/member.service';
 import { SharedService } from '../../shared/shared.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'fm-selection',
@@ -37,14 +38,14 @@ export class SelectionComponent implements OnInit {
 
   ngOnInit() {
     const team_id = this.getTeamId();
-    this.selectionService.getSelection(team_id).then(selection => {
+    this.selectionService.getSelection(team_id).subscribe(selection => {
       console.log(selection);
       if (selection) {
         this.selection = selection;
         this.changeRef.detectChanges();
       }
     });
-    this.teamService.getTeam(team_id).then(team => {
+    this.teamService.getTeam(team_id).subscribe(team => {
       this.members = team.members;
       const buyingMember = localStorage.getItem('buyingMember');
       if (buyingMember) {
@@ -52,7 +53,7 @@ export class SelectionComponent implements OnInit {
         const member = JSON.parse(buyingMember);
         this.memberService
           .getFree(this.sharedService.currentChampionship.id, member.role_id)
-          .then(members => {
+          .subscribe(members => {
             this.newMembers = members;
             this.selection.new_member = member;
             this.selection.new_member_id = member.id;
@@ -73,7 +74,7 @@ export class SelectionComponent implements OnInit {
         this.sharedService.currentChampionship.id,
         this.selection.old_member.role_id
       )
-      .then(members => {
+      .subscribe(members => {
         this.newMembers = members;
         console.log(this.newMembers);
         this.changeRef.detectChanges();

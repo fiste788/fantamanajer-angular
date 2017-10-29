@@ -1,8 +1,11 @@
-<mat-list>
+<mat-list *ngIf="events | async as events; else loading">
     <mat-list-item *ngFor="let event of events">
         <mat-icon mat-list-icon>{{event.icon}}</mat-icon>
         <h3 mat-line> {{event.title}} </h3>
         <p mat-line> {{event.created_at | date:'medium'}} </p>
-        <p mat-line class="demo-2"> {{event.body}} </p>
+        <p mat-line> {{event.body}} </p>
     </mat-list-item>
 </mat-list>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-
+import { Observable } from 'rxjs/Observable';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
-
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'fm-article-list',
@@ -11,27 +11,27 @@ import { ArticleService } from '../article.service';
   styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit {
+  articles: Observable<Article[]>;
 
-  articles: Article[] = [];
-
-  constructor(public snackBar: MatSnackBar,
-    private articleService: ArticleService) { }
+  constructor(
+    public snackBar: MatSnackBar,
+    private articleService: ArticleService
+  ) {}
 
   ngOnInit(): void {
-    this.articleService.getArticles()
-      .then(articles => this.articles = articles.slice(0, 5));
+    this.articles = this.articleService.getArticles().share();
   }
 
   delete(idx) {
-    console.log(idx)
     const article = this.articles[idx];
     const instance = this;
-    this.articleService.delete(article.id).then(function(response) {
+    this.articleService.delete(article.id).subscribe((res: any) => {
       instance.snackBar.open('Article deleted', null, {
         duration: 3000
       });
-      instance.articles.splice(idx, 1)
+      this.articles = this.articles.filter(arr => {
+        return article.filter(art => article.id !== art.id);
+      });
     });
   }
-
 }

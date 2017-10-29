@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
-import { Event } from './event';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Event } from './event';
 
 @Injectable()
 export class EventService {
@@ -9,8 +9,9 @@ export class EventService {
 
   constructor(private http: HttpClient) {}
 
-  getEvents(championships_id: number): Promise<Event[]> {
-    return this.http.get<Event[]>('championships/' + championships_id + '/' +  this.url)
-      .toPromise()
+  getEvents(championships_id: number): Observable<Event[]> {
+    return this.http.get<Event[]>(
+      'championships/' + championships_id + '/' + this.url
+    );
   }
 }

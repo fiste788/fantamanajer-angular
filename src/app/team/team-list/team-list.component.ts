@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../team';
 import { TeamService } from '../team.service';
-
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'fm-team-list',
@@ -9,14 +9,11 @@ import { TeamService } from '../team.service';
   styleUrls: ['./team-list.component.scss']
 })
 export class TeamListComponent implements OnInit {
+  teams: Observable<Team[]>;
 
-  teams: Team[] = [];
-
-  constructor(private teamService: TeamService) { }
+  constructor(private teamService: TeamService) {}
 
   ngOnInit(): void {
-    this.teamService.getTeams()
-      .then(teams => this.teams = teams);
+    this.teams = this.teamService.getTeams();
   }
-
 }

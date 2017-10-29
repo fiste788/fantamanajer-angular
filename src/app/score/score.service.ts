@@ -3,45 +3,37 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SharedService } from '../shared/shared.service';
 import { Score } from './score';
-import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/toArray'
+import 'rxjs/add/operator/toArray';
 
 @Injectable()
 export class ScoreService {
   private url = 'scores';
 
-  constructor(
-    private http: HttpClient,
-    private shared: SharedService) {
+  constructor(private http: HttpClient, private shared: SharedService) {}
 
+  getRanking(): Observable<any> {
+    return this.http.get(
+      `championships/${this.shared.currentChampionship.id}/ranking`
+    );
   }
 
-  getRanking(): Promise<any> {
-      const rankingUrl = `championships/${this.shared.currentChampionship.id}/ranking`;
-        return this.http.get(rankingUrl)
-            .toPromise()
-    }
+  getRanking2(): Observable<any> {
+    const rankingUrl = `championships/${this.shared.currentChampionship
+      .id}/ranking`;
+    return this.http
+      .get(rankingUrl)
+      .map(response => response['ranking'])
+      .concatMap(arr => Observable.from(arr))
+      .toArray();
+    // ._catch(this.handleError);
+  }
 
-    getRanking2(): Observable<any> {
-      const rankingUrl = `championships/${this.shared.currentChampionship.id}/ranking`;
-        return this.http.get(rankingUrl)
-          .map(response => response['ranking'])
-          .concatMap(arr => Observable.from(arr))
-          .toArray();
-            // ._catch(this.handleError);
-    }
+  getScore(id: number): Observable<any> {
+    return this.http.get(`${this.url}/${id}`);
+  }
 
-    getScore(id: number): Promise<any> {
-        const url = `${this.url}/${id}`;
-        return this.http.get(url)
-            .toPromise();
-    }
-
-    getLastScore(team_id: number): Promise<any> {
-        const url = `teams/${team_id}/${this.url}/last`;
-        return this.http.get(url)
-            .toPromise()
-    }
-
+  getLastScore(team_id: number): Observable<any> {
+    return this.http.get(`teams/${team_id}/${this.url}/last`);
+  }
 }

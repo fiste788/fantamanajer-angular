@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Observable } from 'rxjs/Observable';
 import { Club } from '../club';
 import { ClubService } from '../club.service';
 
@@ -9,15 +9,11 @@ import { ClubService } from '../club.service';
   styleUrls: ['./club-list.component.scss']
 })
 export class ClubListComponent implements OnInit {
+  clubs: Observable<Club[]>;
 
-  clubs: Club[] = [];
-
-  constructor(
-    private clubService: ClubService) { }
+  constructor(private clubService: ClubService) {}
 
   ngOnInit(): void {
-    this.clubService.getClubs()
-      .then(clubs => this.clubs = clubs);
+    this.clubs = this.clubService.getClubs();
   }
-
 }

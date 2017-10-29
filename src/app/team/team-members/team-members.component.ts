@@ -1,9 +1,9 @@
 import { Team } from '../team';
-import { TeamService } from '../team.service';
 import { Component, OnInit, Injector } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
 import { TeamDetailComponent } from '../team-detail/team-detail.component';
+import { Observable } from 'rxjs/Observable';
+import { Member } from '../../member/member';
 
 @Component({
   selector: 'fm-team-members',
@@ -11,26 +11,11 @@ import { TeamDetailComponent } from '../team-detail/team-detail.component';
   styleUrls: ['./team-members.component.scss']
 })
 export class TeamMembersComponent implements OnInit {
+  members: Observable<Member[]>;
 
-  team: Team;
-
-  constructor(
-    private route: ActivatedRoute,
-    private teamService: TeamService,
-    private inj: Injector) { }
+  constructor(private inj: Injector) {}
 
   ngOnInit() {
-    const parentComponent = this.inj.get(TeamDetailComponent);
-    console.log(parentComponent);
-    if (parentComponent.team) {
-      this.team = parentComponent.team
-    } else {
-      parentComponent.selectedTeam.subscribe(team => this.team = team)
-    }
-    // this.team = parentComponent.team;
-    /*const id = parseInt(this.route.snapshot.params['id'], 10);
-    console.log(id);
-    this.teamService.getTeam(id).then(team => this.team = team);*/
+    this.members = this.inj.get(TeamDetailComponent).members;
   }
-
 }

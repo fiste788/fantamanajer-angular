@@ -9,7 +9,9 @@ import {
   MatSnackBarModule,
   MatSnackBar,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatExpansionModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from '../auth/auth.module';
@@ -40,24 +42,29 @@ import { DispositionModule } from '../disposition/disposition.module';
     NotificationModule,
     MatSidenavModule,
     MatToolbarModule,
-    SpeeddialModule
+    SpeeddialModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule
   ],
   declarations: [],
   providers: [SharedService]
 })
 export class CoreModule {
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule
     };
   }
 
-  constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule
+  ) {
     if (parentModule) {
       throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only');
+        'CoreModule is already loaded. Import it in the AppModule only'
+      );
     }
   }
-
 }

@@ -6,6 +6,7 @@ import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
 import { SelectionComponent } from '../../selection/selection/selection.component';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'fm-transfert-list',
@@ -13,29 +14,21 @@ import 'rxjs/add/observable/of';
   styleUrls: ['./transfert-list.component.scss']
 })
 export class TransfertListComponent implements OnInit {
-
-  transferts: Transfert[];
+  transferts: Observable<Transfert[]>;
   dataSource: TransfertDataSource | null;
-  displayedColumns = [
-    'old_member',
-    'new_member',
-    'contraint',
-    'matchday'
-  ];
+  displayedColumns = ['old_member', 'new_member', 'contraint', 'matchday'];
 
-  constructor(private transfertService: TransfertService,
+  constructor(
+    private transfertService: TransfertService,
     private changeRef: ChangeDetectorRef,
-    private route: ActivatedRoute) {
-
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    const team_id = this.getTeamId();
-    this.transfertService.getTransfert(team_id).then(transferts => {
-      this.transferts = transferts;
-      this.dataSource = new TransfertDataSource(this);
-    });
-    this.changeRef.detectChanges();
+    this.dataSource = new TransfertDataSource(
+      this.transfertService,
+      this.getTeamId()
+    );
   }
 
   getTeamId(): number {
@@ -50,14 +43,15 @@ export class TransfertListComponent implements OnInit {
   }
 }
 export class TransfertDataSource extends DataSource<Transfert> {
-  constructor(private component: TransfertListComponent) {
+  constructor(
+    private transfertService: TransfertService,
+    private team_id: number
+  ) {
     super();
   }
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Transfert[]> {
-    return Observable.of(this.component.transferts);
-    // return this.component.members;
+    return this.transfertService.getTransfert(this.team_id);
   }
 
   disconnect() {}

@@ -15,7 +15,6 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./lineup-detail.component.scss']
 })
 export class LineupDetailComponent implements OnInit {
-
   modules: Module[] = [];
   // module: Module;
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
@@ -26,18 +25,22 @@ export class LineupDetailComponent implements OnInit {
   captainsKeys: string[] = [];
   benchs: number[] = [];
 
-  constructor(public snackBar: MatSnackBar,
+  constructor(
+    public snackBar: MatSnackBar,
     private lineupService: LineupService,
     private route: ActivatedRoute,
-    private shared: SharedService) { }
+    private shared: SharedService
+  ) {}
 
   ngOnInit() {
-    this.benchs = Array(7).fill(7).map((x, i) => i + 11)
+    this.benchs = Array(7)
+      .fill(7)
+      .map((x, i) => i + 11);
     this.captains.set('C', 'captain');
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
-    this.lineupService.getLineup(this.getTeamId()).then(data => {
+    this.lineupService.getLineup(this.getTeamId()).subscribe(data => {
       data.members.forEach(function(element, index) {
         if (!this.membersByRole.has(element.role.abbreviation)) {
           this.membersByRole.set(element.role.abbreviation, []);
@@ -59,7 +62,10 @@ export class LineupDetailComponent implements OnInit {
       this.lineup.matchday_id = this.shared.currentMatchday.id;
       let i = 0;
       for (i = 0; i < 18; i++) {
-        if (this.lineup.dispositions.length < i || this.lineup.dispositions[i] == null) {
+        if (
+          this.lineup.dispositions.length < i ||
+          this.lineup.dispositions[i] == null
+        ) {
           this.lineup.dispositions[i] = new Disposition();
           this.lineup.dispositions[i].position = i + 1;
         }
@@ -75,7 +81,6 @@ export class LineupDetailComponent implements OnInit {
       } else {
         this.lineup = new Lineup();
       }*/
-
     });
   }
 
@@ -83,8 +88,8 @@ export class LineupDetailComponent implements OnInit {
     let count = 0;
     let i = 0;
     const index = this.roleKeys.indexOf(key);
-    for (i = 0; i < index; i ++) {
-      count += Array.from(this.lineup.module_object.map.values())[i].length
+    for (i = 0; i < index; i++) {
+      count += Array.from(this.lineup.module_object.map.values())[i].length;
     }
     return count + key2;
   }
@@ -96,42 +101,47 @@ export class LineupDetailComponent implements OnInit {
   }
 
   isAlreadySelected(member: Member): boolean {
-    return this.lineup.dispositions.map(element => element.member_id).includes(member.id);
+    return this.lineup.dispositions
+      .map(element => element.member_id)
+      .includes(member.id);
     // return Object.keys(this.regulars).map(key => this.regulars[key]).includes(member)
     // return Object.values(this.regulars).includes(member);
   }
 
   isCaptainAlreadySelected(member: Member): boolean {
-    return this.lineup.captain_id === member.id ||
+    return (
+      this.lineup.captain_id === member.id ||
       this.lineup.vcaptain_id === member.id ||
-      this.lineup.vvcaptain_id === member.id;
+      this.lineup.vvcaptain_id === member.id
+    );
   }
 
   getCapitanables(): Member[] {
     const regulars = this.lineup.dispositions.slice(0, 11);
     const def = regulars.filter(function(element) {
       if (element && element.member_id) {
-        return this.membersById.get(element.member_id).role.abbreviation === 'P' ||
-        this.membersById.get(element.member_id).role.abbreviation === 'D'
+        return (
+          this.membersById.get(element.member_id).role.abbreviation === 'P' ||
+          this.membersById.get(element.member_id).role.abbreviation === 'D'
+        );
       }
-    }, this)
+    }, this);
     return def.map(element => this.membersById.get(element.member_id), this);
   }
 
   save() {
-    // this.regulars.map(this.putInLineup, this);
-    // this.notRegulars.map(this.putInLineup, this);
     this.lineup.module = this.lineup.module_object.key;
-    this.lineup.dispositions = this.lineup.dispositions.filter(value => value.member_id);
-    console.log(this.lineup);
+    this.lineup.dispositions = this.lineup.dispositions.filter(
+      value => value.member_id
+    );
     if (this.lineup.id) {
-      this.lineupService.update(this.lineup).then(response => {
+      this.lineupService.update(this.lineup).subscribe(response => {
         this.snackBar.open('Formazione aggiornata', null, {
           duration: 3000
         });
-      })
+      });
     } else {
-      this.lineupService.create(this.lineup).then(response => {
+      this.lineupService.create(this.lineup).subscribe(response => {
         this.snackBar.open('Formazione caricata', null, {
           duration: 3000
         });
@@ -140,11 +150,14 @@ export class LineupDetailComponent implements OnInit {
   }
 
   putInLineup(element, i) {
-      if (!this.lineup.dispositions.length < i || this.lineup.dispositions[i] == null) {
-        this.lineup.dispositions[i] = new Disposition();
-      }
-      this.lineup.dispositions[i].position = i;
-      this.lineup.dispositions[i].member_id = element.id;
+    if (
+      !this.lineup.dispositions.length < i ||
+      this.lineup.dispositions[i] == null
+    ) {
+      this.lineup.dispositions[i] = new Disposition();
+    }
+    this.lineup.dispositions[i].position = i;
+    this.lineup.dispositions[i].member_id = element.id;
   }
 
   getTeamId(): number {
@@ -157,5 +170,4 @@ export class LineupDetailComponent implements OnInit {
       }
     }
   }
-
 }

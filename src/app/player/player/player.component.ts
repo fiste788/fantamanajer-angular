@@ -12,7 +12,8 @@ import { Player } from '../player';
 import { Rating } from '../../rating/rating';
 import { PlayerService } from '../player.service';
 import { ParallaxHeaderComponent } from '../../shared/parallax-header/parallax-header.component';
-import 'rxjs/add/observable/of'
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'fm-player',
@@ -20,8 +21,7 @@ import 'rxjs/add/observable/of'
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-
-  player: Player;
+  player: Observable<Player>;
   seasons: Season[];
   season: Season;
   selectedMember: Member;
@@ -48,16 +48,16 @@ export class PlayerComponent implements OnInit {
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private playerService: PlayerService,
-    public sharedService: SharedService) {
-      this.dataSource = new RatingDataSource(this);
-    }
+    public sharedService: SharedService
+  ) {
+    this.dataSource = new RatingDataSource(this);
+  }
 
   ngOnInit() {
     this.season = this.sharedService.currentChampionship.season;
     const id = parseInt(this.route.snapshot.params['id'], 10);
-    this.playerService.getPlayer(id).then(player => {
-      this.player = player;
-
+    this.player = this.playerService.getPlayer(id).share();
+    this.player.subscribe(player => {
       this.selectedMember = player.members[0];
       this.sharedService.pageTitle = player.name + ' ' + player.surname;
       this.changeRef.detectChanges();
@@ -74,7 +74,6 @@ export class PlayerComponent implements OnInit {
     localStorage.setItem('buyingMember', JSON.stringify(this.selectedMember));
     return false;
   }
-
 }
 export class RatingDataSource extends DataSource<Rating> {
   constructor(private playerComponent: PlayerComponent) {
@@ -84,7 +83,6 @@ export class RatingDataSource extends DataSource<Rating> {
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Rating[]> {
     const ratings: Rating[] = this.playerComponent.selectedMember.ratings;
-    console.log(ratings);
     return Observable.of(ratings);
   }
 

@@ -7,8 +7,8 @@
         <span class="spacer"></span>
         <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
     </mat-toolbar>
-    <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('xs') ? 'over' : 'side'" class="mat-elevation-z6">
-        <mat-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-size':'cover','background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
+    <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('xs') || media.isActive('sm') ? 'over' : 'side'" class="mat-elevation-z6">
+        <mat-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
             <mat-toolbar-row>
                 <span></span>
                 <div fxLayout="column" class="mat-toolbar-tools-bottom inset">
@@ -20,7 +20,7 @@
                             </button>
                             <mat-menu #menu="matMenu">
                                 <button mat-menu-item *ngFor="let team of shared.teams">
-								<span>{{team.name}}</span>
+								<span>{{team.name}} ({{team.championship.season.name}})</span>
 							  </button>
                             </mat-menu>
                         </div>
@@ -33,12 +33,20 @@
             </mat-toolbar-row>
         </mat-toolbar>
         <mat-nav-list>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}" *ngIf="auth.loggedIn()">{{shared.currentChampionship.league.name}}</a>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">{{shared.currentTeam.name}}</a>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">Clubs</a>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">Impostazioni</a>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">Log In</a>
-            <a click="closeSidenav()" mat-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">Log Out</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/home">
+                <mat-icon matListIcon>home</mat-icon>Homepage</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">
+                <mat-icon matListIcon>account_box</mat-icon>{{shared.currentTeam.name}}</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}" *ngIf="auth.loggedIn()">
+                <mat-icon matListIcon>bubble_chart</mat-icon>{{shared.currentChampionship.league.name}}</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">
+                <mat-icon matListIcon>group_work</mat-icon>Clubs</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">
+                <mat-icon matListIcon>settings</mat-icon>Impostazioni</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">
+                <mat-icon matListIcon>input</mat-icon>Log In</a>
+            <a (click)="closeSidenav()" mat-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">
+                <mat-icon matListIcon>exit_to_app</mat-icon>Log Out</a>
         </mat-nav-list>
     </mat-sidenav>
     <main class="container">

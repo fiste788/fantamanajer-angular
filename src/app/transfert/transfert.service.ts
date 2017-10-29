@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
 import { Transfert } from './transfert';
 
 @Injectable()
@@ -9,8 +9,7 @@ export class TransfertService {
 
   constructor(private http: HttpClient) {}
 
-  getTransfert(id: number): Promise<Transfert[]> {
-    return this.http.get<Transfert[]>('teams/' + id + '/' + this.url)
-      .toPromise()
+  getTransfert(id: number): Observable<Transfert[]> {
+    return this.http.get<Transfert[]>('teams/' + id + '/' + this.url);
   }
 }

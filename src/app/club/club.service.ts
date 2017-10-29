@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 import { Club } from './club';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ClubService {
@@ -9,15 +9,11 @@ export class ClubService {
 
   constructor(private http: HttpClient) {}
 
-
-  getClubs(): Promise<Club[]> {
-    return this.http.get<Club[]>(this.url)
-      .toPromise()
+  getClubs(): Observable<Club[]> {
+    return this.http.get<Club[]>(this.url);
   }
 
-  getClub(id: number): Promise<Club> {
-    const url = `${this.url}/${id}`;
-    return this.http.get<Club>(url)
-      .toPromise()
+  getClub(id: number): Observable<Club> {
+    return this.http.get<Club>(`${this.url}/${id}`);
   }
 }
