@@ -2,7 +2,7 @@
     <div class="parallax">
         <div class="parallax-header-img mat-elevation-z2">
             <div rellax [center]="true">
-                <img [src]="backgroundImage || '//placehold.it/1200x800'">
+                <img sizes="(max-width: {{width}}px) 100vw, {{width}}px" [srcset]="srcset" [src]="backgroundImage || '//placehold.it/1200x800'" [alt]="title">
             </div>
         </div>
         <div class="parallax-header-title-container">

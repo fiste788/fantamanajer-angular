@@ -18,6 +18,5 @@ export class Member {
   player: Player;
   role: Role;
   photo_url: string;
-  background_url: string;
   free: boolean;
 }

@@ -1,6 +1,6 @@
-<div *ngIf="roles | async; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start">
+<div *ngIf="roles | async as roles; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start">
 
-    <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let role of roles | async">
+    <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let role of roles">
 
         <img mat-card-image [src]="role.best_players[0].photo_url || '//placehold.it/320x450'">
         <mat-card-header>

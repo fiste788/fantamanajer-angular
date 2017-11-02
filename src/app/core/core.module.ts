@@ -24,6 +24,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NotificationModule } from '../notification/notification.module';
 import { MemberModule } from '../member/member.module';
 import { DispositionModule } from '../disposition/disposition.module';
+import { SrcsetDirective } from '../shared/srcset.directive';
 
 @NgModule({
   imports: [

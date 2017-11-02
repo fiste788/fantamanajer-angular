@@ -1,6 +1,10 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MemberService } from '../member.service';
 import { Member } from '../member';
+import {
+  MemberListComponent,
+  MemberDataSource
+} from '../member-list/member-list.component';
 import { Role } from '../../role/role';
 import { SharedService } from '../../shared/shared.service';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +15,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./member-free.component.scss']
 })
 export class MemberFreeComponent implements OnInit {
+  @ViewChild(MemberListComponent) memberList: MemberListComponent;
   members: Observable<Member[]>;
   selectedRole: Role;
   roles: Role[] = [];
@@ -33,10 +38,12 @@ export class MemberFreeComponent implements OnInit {
 
   roleChange() {
     console.log('log change');
-    this.members = this.memberService.getFree(
-      this.shared.currentChampionship.id,
-      this.selectedRole.id
-    );
-    this.changeRef.detectChanges();
+    this.members = this.memberService
+      .getFree(this.shared.currentChampionship.id, this.selectedRole.id)
+      .share();
+    this.members.subscribe(members => {
+      this.memberList.members = Observable.of(members);
+      this.memberList.dataSource = new MemberDataSource(this.memberList);
+    });
   }
 }

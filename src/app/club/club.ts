@@ -7,5 +7,5 @@ export class Club {
   determinant: string;
   members: Member[];
   photo_url: string;
-  background_url: string;
+  background_url: {};
 }

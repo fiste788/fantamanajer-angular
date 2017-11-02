@@ -25,6 +25,7 @@ import { NguiParallaxScrollModule } from '@ngui/parallax-scroll';
 import { SharedService } from './shared.service';
 import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
 import { RellaxModule } from './rellax/rellax.module';
+import { SrcsetDirective } from './srcset.directive';
 // import { ng2Parallax } from '../../../node_modules/ang2-parallax/ng2parallax';
 
 @NgModule({
@@ -70,9 +71,10 @@ import { RellaxModule } from './rellax/rellax.module';
     FlexLayoutModule,
     RouterModule,
     ParallaxHeaderComponent,
-    RellaxModule
+    RellaxModule,
+    SrcsetDirective
   ],
-  declarations: [ParallaxHeaderComponent]
+  declarations: [ParallaxHeaderComponent, SrcsetDirective]
   /*providers: [
     {
      provide: HTTP_INTERCEPTORS,

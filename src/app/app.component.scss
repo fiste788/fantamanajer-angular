@@ -56,6 +56,13 @@ smd-fab-speed-dial {
     margin-right: 12px;
 }
 
+mat-list .mat-list-item,
+.mat-nav-list .mat-list-item,
+.mat-selection-list .mat-list-item {
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .mat-list-item.active,
 .mat-list-item.active .mat-icon {
     color: #00bcd4;
