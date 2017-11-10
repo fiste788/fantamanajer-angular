@@ -3,6 +3,7 @@ import { MatSidenav, MatMenu } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObservableMedia } from '@angular/flex-layout';
 
+import { PushService } from './push/push.service';
 import { AuthService } from './auth/auth.service';
 import { SharedService } from './shared/shared.service';
 import {
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public shared: SharedService
+    public shared: SharedService,
+    public pushService: PushService
   ) {
     /*this.links.push(
       { label: 'Homepage', link: '/home', icon: 'home'}):
@@ -73,6 +75,8 @@ export class AppComponent implements OnInit {
       }
     ];*/
     this.shared.initialize();
+    this.pushService.subscribeToPush();
+    this.pushService.showMessages();
   }
 
   getLinks() {

@@ -38,13 +38,8 @@ export class ArticleService {
     return this.http.put(url, JSON.stringify(article));
   }
 
-  create(name: string): Observable<Article> {
-    return this.http.post<Article>(
-      this.url,
-      JSON.stringify({
-        name: name
-      })
-    );
+  create(article: Article): Observable<Article> {
+    return this.http.post<Article>(this.url, JSON.stringify(article));
   }
 
   delete(id: number): Observable<any> {

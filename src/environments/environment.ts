@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   apiEndpoint: 'http://127.0.0.1/fantamanajer-new/api/',
-  imagesEndpoint: 'http://127.0.0.1/fantamanajer-new/files/'
+  vapidPublicKey:
+    'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw'
 };

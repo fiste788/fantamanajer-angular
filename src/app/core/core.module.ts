@@ -24,6 +24,8 @@ import { SharedModule } from '../shared/shared.module';
 import { NotificationModule } from '../notification/notification.module';
 import { MemberModule } from '../member/member.module';
 import { DispositionModule } from '../disposition/disposition.module';
+import { PushModule } from '../push/push.module';
+import { SubscriptionModule } from '../subscription/subscription.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
 
 @NgModule({
@@ -37,7 +39,9 @@ import { SrcsetDirective } from '../shared/srcset.directive';
     MemberModule,
     DispositionModule,
     NotificationModule,
-    SpeeddialModule
+    SpeeddialModule,
+    PushModule,
+    SubscriptionModule
   ],
   exports: [
     NotificationModule,

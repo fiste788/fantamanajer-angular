@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../user.service';
+import { PushService } from '../../push/push.service';
 import { User } from '../user';
 import 'rxjs/add/operator/share';
 
@@ -15,15 +16,21 @@ export class ProfileComponent implements OnInit {
   userObservable: Observable<User>;
   user: User;
   repeat_password: String;
+  push: boolean;
 
   constructor(
     public snackBar: MatSnackBar,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private pushService: PushService
   ) {}
 
   ngOnInit() {
     this.user = Object.assign({}, this.authService.user);
+    this.pushService.swPush.subscription
+      .take(1)
+      .subscribe(subscription => (this.push = true));
+    // this.push = this.pushService.isSubscribed();
   }
 
   save() {
@@ -36,6 +43,14 @@ export class ProfileComponent implements OnInit {
         this.authService.user = this.user;
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       });
+    }
+  }
+
+  togglePush() {
+    if (this.push) {
+      this.pushService.subscribeToPush();
+    } else {
+      this.pushService.unsubscribeFromPush();
     }
   }
 }

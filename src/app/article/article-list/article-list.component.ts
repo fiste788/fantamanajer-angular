@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'fm-article-list',
@@ -22,16 +23,16 @@ export class ArticleListComponent implements OnInit {
     this.articles = this.articleService.getArticles().share();
   }
 
-  delete(idx) {
-    const article = this.articles[idx];
+  delete(id) {
     const instance = this;
-    this.articleService.delete(article.id).subscribe((res: any) => {
+    this.articleService.delete(id).subscribe((res: any) => {
       instance.snackBar.open('Article deleted', null, {
         duration: 3000
       });
-      this.articles = this.articles.filter(arr => {
-        return article.filter(art => article.id !== art.id);
-      });
+      // this.articles.filter((x: Article[], idx) => x[idx] !== id);
+      this.articles.map(articles =>
+        articles.filter(article => article.id !== id)
+      );
     });
   }
 }

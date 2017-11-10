@@ -3,7 +3,7 @@
 <div mat-dialog-content>
     <form *ngIf="article">
         <mat-input-container>
-            <input matInput [(ngModel)]="article.title" name="title" placeholder="Titolo">
+            <input matInput [(ngModel)]="article.title" required name="title" placeholder="Titolo">
         </mat-input-container>
 
         <mat-input-container>
@@ -11,11 +11,10 @@
         </mat-input-container>
 
         <mat-input-container>
-            <textarea matInput [(ngModel)]="article.body" name="body" placeholder="Testo"></textarea>
+            <textarea matInput rows="5" [(ngModel)]="article.body" required name="body" placeholder="Testo"></textarea>
         </mat-input-container>
     </form>
 </div>
 <div mat-dialog-actions>
-    <button color="accent" mat-raised-button (click)="save()">Salva</button>
-    <button mat-raised-button (click)="cancel()">annulla</button>
+    <button color="accent" mat-raised-button (click)="save()">SALVA</button>
 </div>

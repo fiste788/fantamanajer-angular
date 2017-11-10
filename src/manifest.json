@@ -1,7 +1,7 @@
 {
     "name": "FantaManajer",
-    "icons": [
-        {
+    "short_name": "FantaManajer",
+    "icons": [{
             "src": "/assets/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"

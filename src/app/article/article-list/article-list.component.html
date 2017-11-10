@@ -1,5 +1,5 @@
 <div *ngIf="articles | async as articles; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
-    <mat-card fxFlex.gt-sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
+    <mat-card [id]="article.id" fxFlex.gt-sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
         <mat-card-header>
             <mat-card-title>{{article.title}}</mat-card-title>
             <mat-card-subtitle>{{article.created_at | date: 'dd/MM/y HH:mm'}}</mat-card-subtitle>
@@ -9,7 +9,7 @@
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="end">
             <a mat-button [routerLink]="['/articles',article.id]">EDIT</a>
-            <button mat-button (click)="delete(i)">DELETE</button>
+            <button mat-button (click)="delete(article.id)">DELETE</button>
         </mat-card-actions>
     </mat-card>
 </div>

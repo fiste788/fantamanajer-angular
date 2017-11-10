@@ -16,7 +16,8 @@ import {
   MatIconModule,
   MatListModule,
   MatTableModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatChipsModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
@@ -43,6 +44,7 @@ import { SrcsetDirective } from './srcset.directive';
     MatMenuModule,
     MatTabsModule,
     MatTableModule,
+    MatChipsModule,
     MatProgressSpinnerModule,
     CdkTableModule,
     MatSelectModule,
@@ -62,6 +64,7 @@ import { SrcsetDirective } from './srcset.directive';
     MatMenuModule,
     MatTabsModule,
     MatTableModule,
+    MatChipsModule,
     MatProgressSpinnerModule,
     CdkTableModule,
     MatSelectModule,

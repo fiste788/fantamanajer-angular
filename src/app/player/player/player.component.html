@@ -1,6 +1,5 @@
 <div *ngIf="player | async as player; else loading">
-    <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundUrls]="selectedMember.club.background_urls" [backgroundImage]="selectedMember.club.background_url"
-        [image]="selectedMember.photo_url || player.photo_url">
+    <fm-parallax-header [title]="player.name + ' ' + player.surname" [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name" [backgroundImage]="selectedMember.club.background_url" [image]="selectedMember.photo_url || player.photo_url">
         <div parallax-header-right>
             <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + sharedService.currentTeam.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
             <mat-form-field [color]="media.isActive('gt-sm') ? 'white' : ''">
