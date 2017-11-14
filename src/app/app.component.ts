@@ -30,8 +30,7 @@ export class AppComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public shared: SharedService,
-    public pushService: PushService
+    public shared: SharedService
   ) {
     /*this.links.push(
       { label: 'Homepage', link: '/home', icon: 'home'}):
@@ -75,8 +74,6 @@ export class AppComponent implements OnInit {
       }
     ];*/
     this.shared.initialize();
-    this.pushService.subscribeToPush();
-    this.pushService.showMessages();
   }
 
   getLinks() {

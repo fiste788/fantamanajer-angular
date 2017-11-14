@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
 import { SharedService } from '../../shared/shared.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'fm-notification-list',
@@ -10,18 +11,22 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./notification-list.component.scss']
 })
 export class NotificationListComponent implements OnInit {
-  notifications: Observable<Notification[]>;
+  // notifications: Observable<Notification[]>;
+  private subscription: Subscription;
+  public notifications: Notification[] = [];
 
   constructor(
-    private notificationService: NotificationService,
+    public notificationService: NotificationService,
     private shared: SharedService
-  ) {}
+  ) {
+    this.subscription = this.notificationService.subscribe(payload => {
+      this.notifications.push(payload);
+    });
+  }
 
   ngOnInit() {
     if (this.shared.currentTeam) {
-      this.notifications = this.notificationService.getNotifications(
-        this.shared.currentTeam.id
-      );
+      this.notificationService.getNotifications(this.shared.currentTeam.id);
     }
   }
 }

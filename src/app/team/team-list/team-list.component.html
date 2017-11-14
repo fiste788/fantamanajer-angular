@@ -2,6 +2,7 @@
     <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let team of teams; let i=index">
         <mat-card-header>
             <mat-card-title>{{team.name}}</mat-card-title>
+            <mat-card-subtitle>{{team.user.email}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image [src]="team.photo_url || '//placehold.it/350x200'">
         <mat-card-content>

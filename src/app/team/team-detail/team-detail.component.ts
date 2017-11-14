@@ -5,6 +5,7 @@ import { SharedService } from '../../shared/shared.service';
 import { Team } from '../team';
 import { Member } from '../../member/member';
 import { TeamService } from '../team.service';
+import { AuthService } from '../../auth/auth.service';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -28,6 +29,7 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
+    public auth: AuthService,
     public sharedService: SharedService,
     private route: ActivatedRoute,
     private teamService: TeamService,

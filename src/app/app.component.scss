@@ -88,7 +88,7 @@ mat-list .mat-list-item,
         padding-left: 1em;
         padding-right: 1em;
     }
-    mat-form-field[ng-reflect-color='white'] {
+    mat-form-field.white {
         .mat-form-field-placeholder {
             color: rgba(255, 255, 255, 0.87);
         }

@@ -3,8 +3,7 @@ import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/filter';
+import { map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-article-list',
@@ -30,8 +29,8 @@ export class ArticleListComponent implements OnInit {
         duration: 3000
       });
       // this.articles.filter((x: Article[], idx) => x[idx] !== id);
-      this.articles.map(articles =>
-        articles.filter(article => article.id !== id)
+      this.articles.pipe(
+        map(articles => articles.filter(article => article.id !== id))
       );
     });
   }

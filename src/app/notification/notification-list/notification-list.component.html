@@ -1,8 +1,11 @@
-<div *ngIf="notifications | async as notifications">
+<div *ngIf="notifications.length">
+
     <button aria-label="open" mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>notifications</mat-icon>
-      <mat-chip color="accent">{{notifications.length}}</mat-chip>
+
+     <mat-icon>notifications</mat-icon>
+      {{notifications.length}}
     </button>
+
 
     <mat-menu #menu="matMenu">
         <div mat-menu-item *ngFor="let notification of notifications">

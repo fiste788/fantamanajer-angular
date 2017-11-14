@@ -21,8 +21,8 @@ export class SrcsetDirective implements OnInit {
         const src = this.image[lastKey];
         const width = parseInt(lastKey.substring(0, lastKey.indexOf('w')), 10);
         this.el.nativeElement.src = src;
-        this.el.nativeElement.sizes =
-          '(max-width: ' + width + 'px) 100vw, ' + width + 'px';
+        /*this.el.nativeElement.sizes =
+          '(max-width: ' + width + 'px) 100vw, ' + width + 'px';*/
         this.el.nativeElement.srcset = srcset.join(',');
       }
     } else {

@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { SwPush } from '@angular/service-worker';
 import { SubscriptionService } from '../subscription/subscription.service';
-import { NotificationListComponent } from '../notification/notification-list/notification-list.component';
+import { NotificationService } from '../notification/notification.service';
 import { Notification } from '../notification/notification';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/take';
@@ -17,7 +17,7 @@ export class PushService {
     public subscription: SubscriptionService,
     public swPush: SwPush,
     public snackBar: MatSnackBar,
-    private inj: Injector
+    private notificationService: NotificationService
   ) {
     /*const obs = this.swPush.subscription.isEmpty();
     obs.subscribe(
@@ -39,22 +39,15 @@ export class PushService {
       })
       .then(pushSubscription => {
         // Passing subscription object to our backend
-        this.subscription.add(pushSubscription).subscribe(
-          res => {
-            console.log('[App] Add subscriber request answer', res);
-
-            const snackBarRef = this.snackBar.open(
-              'Now you are subscribed',
-              null,
-              {
-                duration: 2000
-              }
-            );
-          },
-          err => {
-            console.log('[App] Add subscriber request failed', err);
-          }
-        );
+        this.subscription.add(pushSubscription).subscribe(res => {
+          const snackBarRef = this.snackBar.open(
+            'Now you are subscribed',
+            null,
+            {
+              duration: 2000
+            }
+          );
+        });
       })
       .catch(err => {
         console.error(err);
@@ -64,46 +57,41 @@ export class PushService {
   unsubscribeFromPush() {
     // Get active subscription
     this.swPush.subscription.take(1).subscribe(pushSubscription => {
-      console.log('[App] pushSubscription', pushSubscription);
-
       // Delete the subscription from the backend
-      this.subscription.delete(pushSubscription.endpoint).subscribe(
-        res => {
-          console.log('[App] Delete subscriber request answer', res);
+      this.subscription.delete(pushSubscription.endpoint).subscribe(res => {
+        const snackBarRef = this.snackBar.open(
+          'Now you are unsubscribed',
+          null,
+          {
+            duration: 2000
+          }
+        );
 
-          const snackBarRef = this.snackBar.open(
-            'Now you are unsubscribed',
-            null,
-            {
-              duration: 2000
-            }
-          );
-
-          // Unsubscribe current client (browser)
-          pushSubscription
-            .unsubscribe()
-            .then(success => {
-              console.log('[App] Unsubscription successful', success);
-            })
-            .catch(err => {
-              console.log('[App] Unsubscription failed', err);
-            });
-        },
-        err => {
-          console.log('[App] Delete subscription request failed', err);
-        }
-      );
+        // Unsubscribe current client (browser)
+        pushSubscription
+          .unsubscribe()
+          .then(success => {
+            console.log('[App] Unsubscription successful', success);
+          })
+          .catch(err => {
+            console.log('[App] Unsubscription failed', err);
+          });
+      });
     });
   }
 
   showMessages() {
-    const notifications = this.swPush.messages.map((message, index) => {
+    /*const notifications = this.swPush.messages.map((message, index) => {
       const not = new Notification();
       not.title = message['notification']['title'];
       return not;
     });
     const notif = this.inj.get(NotificationListComponent).notifications;
-    notif.concatMap(val => notifications);
+    notif.concatMap(val => notifications);*/
+    this.swPush.messages.subscribe(message => {
+      console.log('[App] Push message received', message);
+      this.notificationService.broadcast(message['notification']['title'], '');
+    });
     /* this.swPush.messages.subscribe(message => {
       console.log('[App] Push message received', message);
 

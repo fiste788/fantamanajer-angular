@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/observable';
 import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user/user';
-import { SharedService } from '../shared/shared.service';
+// import { SharedService } from '../shared/shared.service';
 
 import 'rxjs/add/operator/map';
 
@@ -17,8 +17,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private sharedService: SharedService
+    private router: Router // private sharedService: SharedService
   ) {
     if (this.loggedIn()) {
       this.token = localStorage.getItem('token');
@@ -49,7 +48,6 @@ export class AuthService {
           this.user = res['user'];
           localStorage.setItem('token', token);
           localStorage.setItem('currentUser', JSON.stringify(this.user));
-          this.sharedService.loadTeams(this.user.teams);
           this.loggedUser.emit(this.user);
           return true;
         } else {
@@ -61,7 +59,6 @@ export class AuthService {
   logout(): void {
     this.token = null;
     this.loggedUser.emit(null);
-    this.sharedService.currentTeam = null;
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.router.navigate(['/']);

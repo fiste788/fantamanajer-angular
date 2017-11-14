@@ -27,6 +27,7 @@ import { DispositionModule } from '../disposition/disposition.module';
 import { PushModule } from '../push/push.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
+import { WindowRef } from 'app/core/WindowRef';
 
 @NgModule({
   imports: [
@@ -52,7 +53,7 @@ import { SrcsetDirective } from '../shared/srcset.directive';
     MatProgressSpinnerModule
   ],
   declarations: [],
-  providers: [SharedService]
+  providers: [SharedService, WindowRef]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {
