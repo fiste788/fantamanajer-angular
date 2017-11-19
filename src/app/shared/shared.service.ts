@@ -48,7 +48,7 @@ export class SharedService {
         this.currentTeam = null;
       }
     });
-    if (this.auth.loggedIn) {
+    if (this.auth.loggedIn()) {
       this.loadTeams();
       this.pushService.subscribeToPush();
       this.pushService.showMessages();

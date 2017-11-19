@@ -24,11 +24,19 @@
                     "https://fonts.gstatic.com/**"
                 ]
             }
+        },
+        {
+            "name": "clubs",
+            "installMode": "lazy",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": ["*/img/Clubs/**"]
+            }
         }
     ],
     "dataGroups": [{
             "name": "api-freshness",
-            "urls": ["/home"],
+            "urls": ["/api/matchdays/current", "/login"],
             "cacheConfig": {
                 "strategy": "freshness",
                 "maxSize": 100,
@@ -38,7 +46,7 @@
         },
         {
             "name": "api-performance",
-            "urls": ["/login", "/clubs", "/clubs/**"],
+            "urls": ["/api/members/best", "/api/clubs/**", "/api/clubs"],
             "cacheConfig": {
                 "strategy": "performance",
                 "maxSize": 100,

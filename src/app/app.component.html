@@ -55,7 +55,7 @@
         <router-outlet></router-outlet>
     </main>
 </mat-sidenav-container>
-<smd-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn">
+<smd-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn()">
     <smd-fab-trigger spin="true">
         <button aria-label="create" mat-fab (click)="_click('trigger')"><mat-icon>add</mat-icon></button>
     </smd-fab-trigger>
