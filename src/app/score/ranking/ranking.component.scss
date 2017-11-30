@@ -12,11 +12,13 @@
 
 .scores-container {
     flex-grow: 1;
+    overflow: auto;
 }
 
 .scores {
     .mat-cell,
     .mat-header-cell {
         text-align: right;
+        min-width: 3em;
     }
 }

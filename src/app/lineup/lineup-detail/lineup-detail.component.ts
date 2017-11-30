@@ -30,7 +30,7 @@ export class LineupDetailComponent implements OnInit {
     private lineupService: LineupService,
     private route: ActivatedRoute,
     private shared: SharedService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.benchs = Array(7)
@@ -41,19 +41,19 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
     this.lineupService.getLineup(this.getTeamId()).subscribe(data => {
-      data.members.forEach(function(element, index) {
+      data.members.forEach(function (element, index) {
         if (!this.membersByRole.has(element.role.abbreviation)) {
           this.membersByRole.set(element.role.abbreviation, []);
         }
         this.membersByRole.get(element.role.abbreviation).push(element);
         this.membersById.set(element.id, element);
       }, this);
-      data.modules.forEach(function(element, index) {
+      data.modules.forEach(function (element, index) {
         this.modules.push(new Module(element));
       }, this);
       this.lineup = data.lineup || new Lineup();
       if (this.lineup.module) {
-        this.lineup.module_object = this.modules.find(function(element) {
+        this.lineup.module_object = this.modules.find(element => {
           return element.key === this.lineup.module;
         }, this);
         this.changeModule();
@@ -118,7 +118,7 @@ export class LineupDetailComponent implements OnInit {
 
   getCapitanables(): Member[] {
     const regulars = this.lineup.dispositions.slice(0, 11);
-    const def = regulars.filter(function(element) {
+    const def = regulars.filter(function (element) {
       if (element && element.member_id) {
         return (
           this.membersById.get(element.member_id).role.abbreviation === 'P' ||

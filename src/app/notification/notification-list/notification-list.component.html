@@ -2,14 +2,14 @@
 
     <button aria-label="open" mat-icon-button [matMenuTriggerFor]="menu">
 
-     <mat-icon>notifications</mat-icon>
-      {{notifications.length}}
+        <mat-icon>notifications</mat-icon>
+        {{notifications.length}}
     </button>
 
 
     <mat-menu #menu="matMenu">
-        <div mat-menu-item *ngFor="let notification of notifications">
-            <a [routerLink]="notification.url">{{notification.title}}</a>
-        </div>
+        <a mat-menu-item *ngFor="let notification of notifications" [routerLink]="notification.url">
+            {{notification.title}}
+        </a>
     </mat-menu>
 </div>

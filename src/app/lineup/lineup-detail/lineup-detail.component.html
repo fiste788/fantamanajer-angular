@@ -12,8 +12,9 @@
             <h5>{{key}}</h5>
             <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
                 <div class="disposition" *ngFor="let key2 of lineup.module_object.map.get(key)">
-                    <mat-form-field>
-                        <mat-select required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id" [name]="key + '-' + key2">
+                    <mat-form-field hideRequiredMarker="true" floatPlaceholder="never">
+                        <mat-select [placeholder]="key" required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id" [name]="key + '-' + key2">
+                            <mat-option>{{key}}</mat-option>
                             <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
