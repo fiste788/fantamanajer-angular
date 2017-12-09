@@ -8,6 +8,20 @@ import { SelectionComponent } from '../../selection/selection/selection.componen
 import { of } from 'rxjs/observable/of';
 import { share } from 'rxjs/operators';
 
+export class TransfertDataSource extends DataSource<Transfert> {
+  constructor(
+    private transfertService: TransfertService,
+    private team_id: number
+  ) {
+    super();
+  }
+
+  connect(): Observable<Transfert[]> {
+    return this.transfertService.getTransfert(this.team_id);
+  }
+
+  disconnect() { }
+}
 @Component({
   selector: 'fm-transfert-list',
   templateUrl: './transfert-list.component.html',
@@ -41,18 +55,4 @@ export class TransfertListComponent implements OnInit {
       }
     }
   }
-}
-export class TransfertDataSource extends DataSource<Transfert> {
-  constructor(
-    private transfertService: TransfertService,
-    private team_id: number
-  ) {
-    super();
-  }
-
-  connect(): Observable<Transfert[]> {
-    return this.transfertService.getTransfert(this.team_id);
-  }
-
-  disconnect() { }
 }

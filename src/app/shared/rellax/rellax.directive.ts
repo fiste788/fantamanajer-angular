@@ -9,7 +9,7 @@ import {
 // import * as Rellax from 'rellax';
 
 @Directive({
-  selector: '[rellax]'
+  selector: '[fmRellax]'
 })
 export class RellaxDirective implements OnInit, AfterViewInit {
   private options: any;

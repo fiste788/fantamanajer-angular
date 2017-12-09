@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { SmdFabSpeedDialTrigger,
     SmdFabSpeedDialActions,
-    SmdFabSpeedDialComponent} from './smd-fab-speed-dial'
+    SmdFabSpeedDialComponent} from './smd-fab-speed-dial';
 
 const COMPONENTS = [
   SmdFabSpeedDialTrigger,

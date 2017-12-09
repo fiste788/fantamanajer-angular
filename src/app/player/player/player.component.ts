@@ -17,6 +17,24 @@ import { EnterDetailAnimation } from '../../shared/animations/enter-detail.anima
 import { of } from 'rxjs/observable/of';
 import { share } from 'rxjs/operators';
 
+export class RatingDataSource extends DataSource<Rating> {
+  constructor(private playerComponent: PlayerComponent) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<Rating[]> {
+    let ratings: Rating[] = [];
+    if (this.playerComponent != null) {
+      ratings = this.playerComponent.selectedMember.ratings;
+    }
+
+    return of(ratings);
+  }
+
+  disconnect() { }
+}
+
 @Component({
   selector: 'fm-player',
   templateUrl: './player.component.html',
@@ -83,21 +101,4 @@ export class PlayerComponent implements OnInit {
     localStorage.setItem('buyingMember', JSON.stringify(this.selectedMember));
     return false;
   }
-}
-export class RatingDataSource extends DataSource<Rating> {
-  constructor(private playerComponent: PlayerComponent) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Rating[]> {
-    let ratings: Rating[] = [];
-    if (this.playerComponent != null) {
-      ratings = this.playerComponent.selectedMember.ratings;
-    }
-
-    return of(ratings);
-  }
-
-  disconnect() { }
 }

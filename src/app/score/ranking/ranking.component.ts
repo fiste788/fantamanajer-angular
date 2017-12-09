@@ -9,6 +9,33 @@ import { TableRowAnimation } from '../../shared/animations/table-row.animation';
 import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
 
+
+export class RankingDataSource extends DataSource<any> {
+  constructor(private component: RankingComponent) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any[]> {
+    return of(this.component.ranking);
+  }
+
+  disconnect() { }
+}
+
+export class ScoresDataSource extends DataSource<any> {
+  constructor(private component: RankingComponent) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any[]> {
+    return of(this.component.scores);
+  }
+
+  disconnect() { }
+}
+
 @Component({
   selector: 'fm-ranking',
   templateUrl: './ranking.component.html',
@@ -62,30 +89,4 @@ export class RankingComponent implements OnInit {
       this.scoresDataSource = new ScoresDataSource(this);
     });
   }
-}
-
-export class RankingDataSource extends DataSource<any> {
-  constructor(private component: RankingComponent) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<any[]> {
-    return of(this.component.ranking);
-  }
-
-  disconnect() { }
-}
-
-export class ScoresDataSource extends DataSource<any> {
-  constructor(private component: RankingComponent) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<any[]> {
-    return of(this.component.scores);
-  }
-
-  disconnect() { }
 }

@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { MatButton } from '@angular/material';
 
-const Z_INDEX_ITEM: number = 23;
+const Z_INDEX_ITEM = 23;
 
 @Component({
   selector: 'smd-fab-trigger',
@@ -31,12 +31,12 @@ export class SmdFabSpeedDialTrigger {
      */
   @HostBinding('class.smd-spin')
   @Input()
-  spin: boolean = false;
+  spin = false;
 
   constructor(
     @Inject(forwardRef(() => SmdFabSpeedDialComponent))
     private _parent: SmdFabSpeedDialComponent
-  ) {}
+  ) { }
 
   @HostListener('click', ['$event'])
   _onClick(event: any) {
@@ -60,7 +60,7 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
     @Inject(forwardRef(() => SmdFabSpeedDialComponent))
     private _parent: SmdFabSpeedDialComponent,
     private renderer: Renderer
-  ) {}
+  ) { }
 
   ngAfterContentInit(): void {
     this._buttons.changes.subscribe(() => {
@@ -152,10 +152,10 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
   }
 
   private getTranslateFunction(value: string) {
-    let dir = this._parent.direction;
-    let translateFn =
-      dir == 'up' || dir == 'down' ? 'translateY' : 'translateX';
-    let sign = dir == 'down' || dir == 'right' ? '-' : '';
+    const dir = this._parent.direction;
+    const translateFn =
+      dir === 'up' || dir === 'down' ? 'translateY' : 'translateX';
+    const sign = dir === 'down' || dir === 'right' ? '-' : '';
     return translateFn + '(' + sign + value + ')';
   }
 
@@ -177,15 +177,15 @@ export class SmdFabSpeedDialActions implements AfterContentInit {
   encapsulation: ViewEncapsulation.None
 })
 export class SmdFabSpeedDialComponent implements AfterContentInit {
-  private isInitialized: boolean = false;
-  private _direction: string = 'up';
-  private _open: boolean = false;
-  private _animationMode: string = 'fling';
+  private isInitialized = false;
+  private _direction = 'up';
+  private _open = false;
+  private _animationMode = 'fling';
 
   /**
      * Whether this speed dial is fixed on screen (user cannot change it by clicking)
      */
-  @Input() fixed: boolean = false;
+  @Input() fixed = false;
 
   /**
      * Whether this speed dial is opened
@@ -197,9 +197,9 @@ export class SmdFabSpeedDialComponent implements AfterContentInit {
   }
 
   set open(open: boolean) {
-    let previousOpen = this._open;
+    const previousOpen = this._open;
     this._open = open;
-    if (previousOpen != this._open) {
+    if (previousOpen !== this._open) {
       this.openChange.emit(this._open);
       if (this.isInitialized) {
         this.setActionsVisibility();
@@ -216,9 +216,9 @@ export class SmdFabSpeedDialComponent implements AfterContentInit {
   }
 
   set direction(direction: string) {
-    let previousDir = this._direction;
+    const previousDir = this._direction;
     this._direction = direction;
-    if (previousDir != this.direction) {
+    if (previousDir !== this.direction) {
       this._setElementClass(previousDir, false);
       this._setElementClass(this.direction, true);
 
@@ -237,9 +237,9 @@ export class SmdFabSpeedDialComponent implements AfterContentInit {
   }
 
   set animationMode(animationMode: string) {
-    let previousAnimationMode = this._animationMode;
+    const previousAnimationMode = this._animationMode;
     this._animationMode = animationMode;
-    if (previousAnimationMode != this._animationMode) {
+    if (previousAnimationMode !== this._animationMode) {
       this._setElementClass(previousAnimationMode, false);
       this._setElementClass(this.animationMode, true);
 
@@ -254,7 +254,7 @@ export class SmdFabSpeedDialComponent implements AfterContentInit {
 
   @ContentChild(SmdFabSpeedDialActions) _childActions: SmdFabSpeedDialActions;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer) {}
+  constructor(private elementRef: ElementRef, private renderer: Renderer) { }
 
   ngAfterContentInit(): void {
     this.isInitialized = true;

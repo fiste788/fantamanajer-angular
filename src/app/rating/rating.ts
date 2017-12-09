@@ -10,7 +10,7 @@ export class Rating {
   goals_against: number;
   goals_victory: number;
   goals_tie: number;
-  assist: number
+  assist: number;
   yellow_card: boolean;
   red_card: boolean;
   penalities_scored: number;
