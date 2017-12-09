@@ -4,11 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { map, share } from 'rxjs/operators';
+import { CardCreationAnimation } from '../../shared/animations/card-creation.animation';
 
 @Component({
   selector: 'fm-article-list',
   templateUrl: './article-list.component.html',
-  styleUrls: ['./article-list.component.css']
+  styleUrls: ['./article-list.component.css'],
+  animations: [CardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
   articles: Observable<Article[]>;
@@ -16,10 +18,10 @@ export class ArticleListComponent implements OnInit {
   constructor(
     public snackBar: MatSnackBar,
     private articleService: ArticleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.articles = this.articleService.getArticles().share();
+    this.articles = this.articleService.getArticles().pipe(share());
   }
 
   delete(id) {

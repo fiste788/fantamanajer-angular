@@ -5,13 +5,15 @@ import { Score } from '../score';
 import { SharedService } from '../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Matchday } from '../../matchday/matchday';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/concatMap';
+import { TableRowAnimation } from '../../shared/animations/table-row.animation';
+import { from } from 'rxjs/observable/from';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'fm-ranking',
   templateUrl: './ranking.component.html',
-  styleUrls: ['./ranking.component.scss']
+  styleUrls: ['./ranking.component.scss'],
+  animations: [TableRowAnimation]
 })
 export class RankingComponent implements OnInit {
   scores: Map<string, Score>[];
@@ -46,7 +48,6 @@ export class RankingComponent implements OnInit {
           // return data.scores[key]['' + key2] as Score
           return map.set(number, value);
         });
-        // .reverse();
         return map;
       });
       console.log(this.scores);
@@ -70,10 +71,10 @@ export class RankingDataSource extends DataSource<any> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
-    return Observable.of(this.component.ranking);
+    return of(this.component.ranking);
   }
 
-  disconnect() {}
+  disconnect() { }
 }
 
 export class ScoresDataSource extends DataSource<any> {
@@ -83,8 +84,8 @@ export class ScoresDataSource extends DataSource<any> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<any[]> {
-    return Observable.of(this.component.scores);
+    return of(this.component.scores);
   }
 
-  disconnect() {}
+  disconnect() { }
 }

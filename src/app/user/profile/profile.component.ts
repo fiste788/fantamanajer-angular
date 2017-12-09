@@ -5,7 +5,7 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../user.service';
 import { PushService } from '../../push/push.service';
 import { User } from '../user';
-import 'rxjs/add/operator/share';
+import { share, take } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-profile',
@@ -23,19 +23,19 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private pushService: PushService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.user = Object.assign({}, this.authService.user);
     this.pushService.swPush.subscription
-      .take(1)
+      .pipe(take(1))
       .subscribe(subscription => (this.push = true));
     // this.push = this.pushService.isSubscribed();
   }
 
   save() {
     if (this.user.password === this.repeat_password) {
-      this.userObservable = this.userService.update(this.user).share();
+      this.userObservable = this.userService.update(this.user).pipe(share());
       this.userObservable.subscribe(response => {
         this.snackBar.open('Modifiche salvate', null, {
           duration: 3000

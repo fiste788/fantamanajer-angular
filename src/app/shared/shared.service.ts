@@ -10,6 +10,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { PushService } from 'app/push/push.service';
 import { AuthService } from 'app/auth/auth.service';
 import { WindowRef } from 'app/core/WindowRef';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class SharedService {
@@ -28,7 +29,7 @@ export class SharedService {
     private swUpdate: SwUpdate,
     private snackBar: MatSnackBar,
     private winRef: WindowRef
-  ) {}
+  ) { }
 
   getCurrentMatchday() {
     this.matchdayService.getCurrentMatchday().subscribe(matchday => {
@@ -50,8 +51,10 @@ export class SharedService {
     });
     if (this.auth.loggedIn()) {
       this.loadTeams();
-      this.pushService.subscribeToPush();
-      this.pushService.showMessages();
+      if (environment.production) {
+        this.pushService.subscribeToPush();
+        this.pushService.showMessages();
+      }
     }
     this.checkForUpdates();
   }

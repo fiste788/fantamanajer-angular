@@ -145,6 +145,7 @@ export class LineupDetailComponent implements OnInit {
         this.snackBar.open('Formazione caricata', null, {
           duration: 3000
         });
+        this.lineup.id = response.id;
       });
     }
   }

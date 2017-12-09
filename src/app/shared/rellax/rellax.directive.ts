@@ -25,29 +25,29 @@ export class RellaxDirective implements OnInit, AfterViewInit {
   private scrollableElement: Element;
 
   private loop = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    (<any>window).mozRequestAnimationFrame ||
-    (<any>window).msRequestAnimationFrame ||
-    (<any>window).oRequestAnimationFrame ||
-    function(callback) {
-      setTimeout(callback, 1000 / 60);
-    };
+  window.webkitRequestAnimationFrame ||
+  (<any>window).mozRequestAnimationFrame ||
+  (<any>window).msRequestAnimationFrame ||
+  (<any>window).oRequestAnimationFrame ||
+  function (callback) {
+    setTimeout(callback, 1000 / 60);
+  };
 
   private transformProp = (<any>window).transformProp ||
-    (function() {
-      const testEl = document.createElement('div');
-      if (testEl.style.transform == null) {
-        const vendors = ['Webkit', 'Moz', 'ms'];
-        for (const vendor in vendors) {
-          if (testEl.style[vendors[vendor] + 'Transform'] !== undefined) {
-            return vendors[vendor] + 'Transform';
-          }
+  (function () {
+    const testEl = document.createElement('div');
+    if (testEl.style.transform == null) {
+      const vendors = ['Webkit', 'Moz', 'ms'];
+      for (const vendor in vendors) {
+        if (testEl.style[vendors[vendor] + 'Transform'] !== undefined) {
+          return vendors[vendor] + 'Transform';
         }
       }
-      return 'transform';
-    })();
+    }
+    return 'transform';
+  })();
 
-  constructor(private el: ElementRef, private renderer: Renderer) {}
+  constructor(private el: ElementRef, private renderer: Renderer) { }
 
   ngOnInit() {
     // let options = { speed: -2, center: false, round: true };
@@ -56,6 +56,7 @@ export class RellaxDirective implements OnInit, AfterViewInit {
         });*/
     this.scrollableElement = window.document.querySelector(this.selector);
     this.options = {
+      round: true,
       speed: this.speed,
       center: this.center,
       percentage: this.percentage
@@ -101,9 +102,9 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     const posY =
       dataPercentage || this.options.center
         ? this.scrollableElement.scrollTop ||
-          window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
         : 0;
 
     const blockTop = posY + el.getBoundingClientRect().top;
@@ -113,7 +114,7 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     let percentage = dataPercentage
       ? dataPercentage
       : (posY - blockTop + el.parentElement.offsetHeight) /
-        (blockHeight + el.parentElement.offsetHeight);
+      (blockHeight + el.parentElement.offsetHeight);
     if (this.percentage == null && this.options.center) {
       percentage = 0.5;
     }

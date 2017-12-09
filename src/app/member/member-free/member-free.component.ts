@@ -8,6 +8,8 @@ import {
 import { Role } from '../../role/role';
 import { SharedService } from '../../shared/shared.service';
 import { Observable } from 'rxjs/Observable';
+import { share } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'fm-member-free',
@@ -40,9 +42,9 @@ export class MemberFreeComponent implements OnInit {
     console.log('log change');
     this.members = this.memberService
       .getFree(this.shared.currentChampionship.id, this.selectedRole.id)
-      .share();
+      .pipe(share());
     this.members.subscribe(members => {
-      this.memberList.members = Observable.of(members);
+      this.memberList.members = of(members);
       this.memberList.dataSource = new MemberDataSource(this.memberList);
     });
   }

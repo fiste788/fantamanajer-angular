@@ -1,5 +1,5 @@
 <div *ngIf="dataSource">
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource" @tableRowAnimation>
         <ng-container cdkColumnDef="player">
             <mat-header-cell *cdkHeaderCellDef> Giocatore </mat-header-cell>
             <mat-cell *cdkCellDef="let row">

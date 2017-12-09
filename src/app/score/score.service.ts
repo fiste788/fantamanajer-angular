@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SharedService } from '../shared/shared.service';
 import { Score } from './score';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/toArray';
+import { from } from 'rxjs/observable/from';
+import { toArray, concatMap, map } from 'rxjs/operators';
 
 @Injectable()
 export class ScoreService {
   private url = 'scores';
 
-  constructor(private http: HttpClient, private shared: SharedService) {}
+  constructor(private http: HttpClient, private shared: SharedService) { }
 
   getRanking(): Observable<any> {
     return this.http.get(
@@ -23,9 +23,11 @@ export class ScoreService {
       .id}/ranking`;
     return this.http
       .get(rankingUrl)
-      .map(response => response['ranking'])
-      .concatMap(arr => Observable.from(arr))
-      .toArray();
+      .pipe(
+      map(response => response['ranking']),
+      concatMap(arr => from(arr)),
+      toArray()
+      );
     // ._catch(this.handleError);
   }
 

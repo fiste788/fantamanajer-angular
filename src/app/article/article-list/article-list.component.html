@@ -1,4 +1,5 @@
-<div *ngIf="articles | async as articles; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutAlign.xs="start">
+<div *ngIf="articles | async as articles; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center"
+    fxLayoutAlign.xs="start" @cardCreationAnimation>
     <mat-card [id]="article.id" fxFlex.gt-sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
         <mat-card-header>
             <mat-card-title>{{article.title}}</mat-card-title>

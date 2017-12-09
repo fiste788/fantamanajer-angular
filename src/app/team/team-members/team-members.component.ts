@@ -13,7 +13,7 @@ import { Member } from '../../member/member';
 export class TeamMembersComponent implements OnInit {
   members: Observable<Member[]>;
 
-  constructor(private inj: Injector) {}
+  constructor(private inj: Injector) { }
 
   ngOnInit() {
     this.members = this.inj.get(TeamDetailComponent).members;

@@ -1,12 +1,15 @@
-<div *ngIf="team | async as team; else loading">
-    <div>
+<div *ngIf="team | async as team; else loading" @enterDetailAnimation>
+    <div class="animation-container">
         <fm-parallax-header [backgroundImage]="team.photo_url" [tabs]="tabs" [title]="team.name" [subtitle]="team.user.name + ' ' + team.user.surname + ' - '">
             <div parallax-header-right *ngIf="team.user.id == auth.user.id">
-                <button mat-icon-button (click)="openDialog()"><mat-icon>settings</mat-icon></button>
+                <button mat-icon-button (click)="openDialog()">
+                    <mat-icon>settings</mat-icon>
+                </button>
             </div>
         </fm-parallax-header>
+
+        <router-outlet></router-outlet>
     </div>
-    <router-outlet></router-outlet>
 </div>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>

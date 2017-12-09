@@ -14,7 +14,7 @@ export class LineupService {
     private route: ActivatedRoute,
     private http: HttpClient,
     private shared: SharedService
-  ) {}
+  ) { }
 
   getLineup(
     team_id

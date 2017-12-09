@@ -6,13 +6,13 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class NotLoggedGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.auth.loggedIn()) {
-      console.log('not logged')
+      console.log('not logged');
       return true;
     } else {
       this.router.navigate(['/home']);

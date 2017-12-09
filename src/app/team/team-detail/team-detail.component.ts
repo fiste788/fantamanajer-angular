@@ -9,13 +9,15 @@ import { AuthService } from '../../auth/auth.service';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/observable/of';
+import { EnterDetailAnimation } from '../../shared/animations/enter-detail.animation';
+import { share } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'fm-team-detail',
   templateUrl: './team-detail.component.html',
-  styleUrls: ['./team-detail.component.scss']
+  styleUrls: ['./team-detail.component.scss'],
+  animations: [EnterDetailAnimation]
 })
 export class TeamDetailComponent implements OnInit, OnDestroy {
   team: Observable<Team>;
@@ -34,14 +36,14 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private teamService: TeamService,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     const id = parseInt(this.route.snapshot.params['team_id'], 10);
-    this.team = this.teamService.getTeam(id).share();
+    this.team = this.teamService.getTeam(id).pipe(share());
     this.subscription.add(
       this.team.subscribe(team => {
-        this.members = Observable.of(team.members);
+        this.members = of(team.members);
         this.sharedService.pageTitle = team.name;
       })
     );

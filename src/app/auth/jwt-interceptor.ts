@@ -11,11 +11,13 @@ import {
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {
-  constructor(private snackbar: MatSnackBar) {}
+  constructor(private snackbar: MatSnackBar) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -35,14 +37,14 @@ export class JWTInterceptor implements HttpInterceptor {
 
     return next
       .handle(req)
-      .map((event: HttpEvent<any>) => {
+      .pipe(map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
           event = event.clone({
             body: event.body.data
           });
           return event;
         }
-      })
+      }))
       .catch((err: any, caught) => {
         if (err instanceof HttpErrorResponse) {
           let message = '';

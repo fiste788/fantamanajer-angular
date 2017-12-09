@@ -12,18 +12,24 @@ import { Player } from '../player';
 import { Rating } from '../../rating/rating';
 import { PlayerService } from '../player.service';
 import { ParallaxHeaderComponent } from '../../shared/parallax-header/parallax-header.component';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/share';
+import { TableRowAnimation } from '../../shared/animations/table-row.animation';
+import { EnterDetailAnimation } from '../../shared/animations/enter-detail.animation';
+import { of } from 'rxjs/observable/of';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+  styleUrls: ['./player.component.scss'],
+  animations: [
+    TableRowAnimation,
+    EnterDetailAnimation
+  ]
 })
 export class PlayerComponent implements OnInit {
   player: Observable<Player>;
   seasons: Season[];
-  season: Season;
+  // season: Season;
   selectedMember: Member;
 
   dataSource: RatingDataSource | null;
@@ -50,14 +56,15 @@ export class PlayerComponent implements OnInit {
     private playerService: PlayerService,
     public sharedService: SharedService
   ) {
-    this.dataSource = new RatingDataSource(this);
+
   }
 
   ngOnInit() {
-    this.season = this.sharedService.currentChampionship.season;
+    // this.season = this.sharedService.currentChampionship.season;
     const id = parseInt(this.route.snapshot.params['id'], 10);
-    this.player = this.playerService.getPlayer(id).share();
+    this.player = this.playerService.getPlayer(id).pipe(share());
     this.player.subscribe(player => {
+      this.dataSource = new RatingDataSource(this);
       this.selectedMember = player.members[0];
       this.sharedService.pageTitle = player.name + ' ' + player.surname;
       this.changeRef.detectChanges();
@@ -66,7 +73,9 @@ export class PlayerComponent implements OnInit {
 
   seasonChange() {
     console.log(this.selectedMember);
-    this.dataSource = new RatingDataSource(this);
+    this.dataSource = new RatingDataSource(null);
+    this.changeRef.detectChanges();
+    // this.dataSource = new RatingDataSource(this);
     this.changeRef.detectChanges();
   }
 
@@ -82,9 +91,13 @@ export class RatingDataSource extends DataSource<Rating> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Rating[]> {
-    const ratings: Rating[] = this.playerComponent.selectedMember.ratings;
-    return Observable.of(ratings);
+    let ratings: Rating[] = [];
+    if (this.playerComponent != null) {
+      ratings = this.playerComponent.selectedMember.ratings;
+    }
+
+    return of(ratings);
   }
 
-  disconnect() {}
+  disconnect() { }
 }

@@ -6,7 +6,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { User } from '../user/user';
 // import { SharedService } from '../shared/shared.service';
 
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -34,14 +34,14 @@ export class AuthService {
   ): Observable<boolean> {
     return this.http
       .post(
-        this.loginUrl,
-        JSON.stringify({
-          email: email,
-          password: password,
-          remember_me: remember_me
-        })
+      this.loginUrl,
+      JSON.stringify({
+        email: email,
+        password: password,
+        remember_me: remember_me
+      })
       )
-      .map(res => {
+      .pipe(map(res => {
         const token = res['token'];
         if (token) {
           this.token = token;
@@ -53,7 +53,7 @@ export class AuthService {
         } else {
           return false;
         }
-      });
+      }));
   }
 
   logout(): void {

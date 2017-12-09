@@ -6,12 +6,12 @@ import { ScoreService } from '../score.service';
 import { Score } from '../score';
 import { Disposition } from '../../disposition/disposition';
 import { DispositionListComponent } from '../../disposition/disposition-list/disposition-list.component';
-import 'rxjs/add/operator/share';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-score-detail',
   templateUrl: './score-detail.component.html',
-  styleUrls: ['./score-detail.component.scss']
+  styleUrls: ['./score-detail.component.scss'],
 })
 export class ScoreDetailComponent implements OnInit {
   score: Observable<Score>;
@@ -21,15 +21,15 @@ export class ScoreDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private scoreService: ScoreService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.route.snapshot.url.pop().path === 'last') {
       const team_id = this.getTeamId();
-      this.score = this.scoreService.getLastScore(team_id).share();
+      this.score = this.scoreService.getLastScore(team_id).pipe(share());
     } else {
       const id = parseInt(this.route.snapshot.params['id'], 10);
-      this.score = this.scoreService.getScore(id).share();
+      this.score = this.scoreService.getScore(id).pipe(share());
     }
     this.score.subscribe(score => this.getData(score));
   }

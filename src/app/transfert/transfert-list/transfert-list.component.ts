@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
 import { SelectionComponent } from '../../selection/selection/selection.component';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/share';
+import { of } from 'rxjs/observable/of';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-transfert-list',
@@ -22,7 +22,7 @@ export class TransfertListComponent implements OnInit {
     private transfertService: TransfertService,
     private changeRef: ChangeDetectorRef,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.dataSource = new TransfertDataSource(
@@ -54,5 +54,5 @@ export class TransfertDataSource extends DataSource<Transfert> {
     return this.transfertService.getTransfert(this.team_id);
   }
 
-  disconnect() {}
+  disconnect() { }
 }

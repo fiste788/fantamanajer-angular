@@ -5,8 +5,7 @@ import { SubscriptionService } from '../subscription/subscription.service';
 import { NotificationService } from '../notification/notification.service';
 import { Notification } from '../notification/notification';
 import { environment } from '../../environments/environment';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/isEmpty';
+import { take, isEmpty } from 'rxjs/operators';
 
 @Injectable()
 export class PushService {
@@ -56,7 +55,7 @@ export class PushService {
 
   unsubscribeFromPush() {
     // Get active subscription
-    this.swPush.subscription.take(1).subscribe(pushSubscription => {
+    this.swPush.subscription.pipe(take(1)).subscribe(pushSubscription => {
       // Delete the subscription from the backend
       this.subscription.delete(pushSubscription.endpoint).subscribe(res => {
         const snackBarRef = this.snackBar.open(

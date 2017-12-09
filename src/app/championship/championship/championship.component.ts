@@ -17,12 +17,12 @@ export class ChampionshipComponent implements OnInit {
   ngOnInit() {
     this.sharedService.pageTitle = this.sharedService.currentChampionship.league.name;
     this.tabs = [
-      {label: 'Squadre', link: 'teams'},
-      {label: 'Classifica', link: 'ranking'},
-      {label: 'Giocatori liberi', link: 'members/free'},
-      {label: 'Articoli', link: 'articles'},
-      {label: 'Eventi', link: 'events'}
-   ]
+      { label: 'Squadre', link: 'teams' },
+      { label: 'Classifica', link: 'ranking' },
+      { label: 'Giocatori liberi', link: 'members/free' },
+      { label: 'Articoli', link: 'articles' },
+      { label: 'Eventi', link: 'events' }
+    ];
   }
 
 }
