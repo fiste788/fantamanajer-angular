@@ -40,7 +40,7 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
-    this.lineupService.getLineup(this.getTeamId()).subscribe(data => {
+    this.lineupService.getLineup(this.shared.getTeamId(this.route)).subscribe(data => {
       data.members.forEach(function (element, index) {
         if (!this.membersByRole.has(element.role.abbreviation)) {
           this.membersByRole.set(element.role.abbreviation, []);
@@ -159,16 +159,5 @@ export class LineupDetailComponent implements OnInit {
     }
     this.lineup.dispositions[i].position = i;
     this.lineup.dispositions[i].member_id = element.id;
-  }
-
-  getTeamId(): number {
-    for (const x in this.route.snapshot.pathFromRoot) {
-      if (this.route.pathFromRoot.hasOwnProperty(x)) {
-        const current = this.route.snapshot.pathFromRoot[x];
-        if (current.params.hasOwnProperty('team_id')) {
-          return parseInt(current.params['team_id'], 10);
-        }
-      }
-    }
   }
 }

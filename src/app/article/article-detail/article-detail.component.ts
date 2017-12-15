@@ -1,10 +1,11 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { SharedService } from '../../shared/shared.service';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'fm-article-detail',
@@ -13,6 +14,7 @@ import { ArticleService } from '../article.service';
 })
 export class ArticleDetailComponent implements OnInit {
   article: Article;
+  @ViewChild(NgForm) articleForm: NgForm;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -20,7 +22,7 @@ export class ArticleDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private articleService: ArticleService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.route.snapshot.params['id']) {
@@ -34,22 +36,24 @@ export class ArticleDetailComponent implements OnInit {
     }
   }
 
-  cancel() {}
+  cancel() { }
 
   save() {
-    let observable = null;
-    if (this.article.id) {
-      observable = this.articleService.update(this.article);
-    } else {
-      observable = this.articleService.create(this.article);
-    }
-    observable.subscribe(article => {
-      this.snackBar.open('Articolo salvato correttamente', null, {
-        duration: 3000
+    if (this.articleForm.valid) {
+      let observable = null;
+      if (this.article.id) {
+        observable = this.articleService.update(this.article);
+      } else {
+        observable = this.articleService.create(this.article);
+      }
+      observable.subscribe(article => {
+        this.snackBar.open('Articolo salvato correttamente', null, {
+          duration: 3000
+        });
+        this.router.navigateByUrl(
+          '/teams/' + this.article.team_id + '/articles#' + article.id
+        );
       });
-      this.router.navigateByUrl(
-        '/teams/' + this.article.team_id + '/articles#' + article.id
-      );
-    });
+    }
   }
 }

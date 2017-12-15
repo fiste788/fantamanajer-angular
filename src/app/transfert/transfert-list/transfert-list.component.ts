@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
 import { SelectionComponent } from '../../selection/selection/selection.component';
+import { SharedService } from '../../shared/shared.service';
 import { of } from 'rxjs/observable/of';
 import { share } from 'rxjs/operators';
 
@@ -35,24 +36,14 @@ export class TransfertListComponent implements OnInit {
   constructor(
     private transfertService: TransfertService,
     private changeRef: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
     this.dataSource = new TransfertDataSource(
       this.transfertService,
-      this.getTeamId()
+      this.sharedService.getTeamId(this.route)
     );
-  }
-
-  getTeamId(): number {
-    for (const x in this.route.snapshot.pathFromRoot) {
-      if (this.route.pathFromRoot.hasOwnProperty(x)) {
-        const current = this.route.snapshot.pathFromRoot[x];
-        if (current.params.hasOwnProperty('team_id')) {
-          return parseInt(current.params['team_id'], 10);
-        }
-      }
-    }
   }
 }

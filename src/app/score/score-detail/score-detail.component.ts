@@ -20,12 +20,13 @@ export class ScoreDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private scoreService: ScoreService
+    private scoreService: ScoreService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
     if (this.route.snapshot.url.pop().path === 'last') {
-      const team_id = this.getTeamId();
+      const team_id = this.sharedService.getTeamId(this.route);
       this.score = this.scoreService.getLastScore(team_id).pipe(share());
     } else {
       const id = parseInt(this.route.snapshot.params['id'], 10);
@@ -40,17 +41,6 @@ export class ScoreDetailComponent implements OnInit {
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;
       // this.score = score;
-    }
-  }
-
-  getTeamId(): number {
-    for (const x in this.route.snapshot.pathFromRoot) {
-      if (this.route.pathFromRoot.hasOwnProperty(x)) {
-        const current = this.route.snapshot.pathFromRoot[x];
-        if (current.params.hasOwnProperty('team_id')) {
-          return parseInt(current.params['team_id'], 10);
-        }
-      }
     }
   }
 }
