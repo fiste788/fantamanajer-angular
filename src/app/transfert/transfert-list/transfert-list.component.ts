@@ -1,49 +1,39 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataSource } from '@angular/cdk/table';
-import { Observable } from 'rxjs/Observable';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
 import { SelectionComponent } from '../../selection/selection/selection.component';
 import { SharedService } from '../../shared/shared.service';
-import { of } from 'rxjs/observable/of';
-import { share } from 'rxjs/operators';
+import { TableRowAnimation } from '../../shared/animations/table-row.animation';
 
-export class TransfertDataSource extends DataSource<Transfert> {
-  constructor(
-    private transfertService: TransfertService,
-    private team_id: number
-  ) {
-    super();
-  }
-
-  connect(): Observable<Transfert[]> {
-    return this.transfertService.getTransfert(this.team_id);
-  }
-
-  disconnect() { }
-}
 @Component({
   selector: 'fm-transfert-list',
   templateUrl: './transfert-list.component.html',
-  styleUrls: ['./transfert-list.component.scss']
+  styleUrls: ['./transfert-list.component.scss'],
+  animations: [TableRowAnimation]
 })
 export class TransfertListComponent implements OnInit {
-  transferts: Observable<Transfert[]>;
-  dataSource: TransfertDataSource | null;
-  displayedColumns = ['old_member', 'new_member', 'contraint', 'matchday'];
+  dataSource = new MatTableDataSource<Transfert>();
+  displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private transfertService: TransfertService,
-    private changeRef: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.dataSource = new TransfertDataSource(
-      this.transfertService,
-      this.sharedService.getTeamId(this.route)
-    );
+    const teamId = this.sharedService.getTeamId(this.route);
+    // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
+    this.transfertService.getTransfert(teamId).subscribe(data => {
+      this.dataSource.data = data;
+      this.ref.detectChanges();
+      this.dataSource.sort = this.sort;
+    });
+
   }
 }

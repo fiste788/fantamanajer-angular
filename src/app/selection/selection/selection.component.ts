@@ -43,7 +43,6 @@ export class SelectionComponent implements OnInit {
   ngOnInit() {
     const team_id = this.sharedService.getTeamId(this.route);
     this.selectionService.getSelection(team_id).subscribe(selection => {
-      console.log(selection);
       if (selection) {
         this.selection = selection;
         this.playerChange();

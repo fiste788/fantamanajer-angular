@@ -77,7 +77,6 @@ export class RankingComponent implements OnInit {
         });
         return map;
       });
-      console.log(this.scores);
       Object.keys(data.scores[firstKey]).forEach(element => {
         const matchday: Matchday = data.scores[firstKey][element].matchday;
         this.matchdays.push(matchday);

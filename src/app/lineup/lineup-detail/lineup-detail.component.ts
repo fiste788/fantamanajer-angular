@@ -96,8 +96,6 @@ export class LineupDetailComponent implements OnInit {
 
   changeModule() {
     this.roleKeys = Array.from(this.lineup.module_object.map.keys());
-    console.log(this.roleKeys);
-    console.log(this.lineup.module_object.map.get(this.roleKeys[0]));
   }
 
   isAlreadySelected(member: Member): boolean {

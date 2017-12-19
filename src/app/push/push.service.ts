@@ -18,16 +18,7 @@ export class PushService {
     public snackBar: MatSnackBar,
     private notificationService: NotificationService
   ) {
-    /*const obs = this.swPush.subscription.isEmpty();
-    obs.subscribe(
-      sub => {
-        if (sub) {
-          this.subscribeToPush();
-        }
-      },
-      err => console.log(err),
-      () => console.log('completed')
-    );*/
+
   }
 
   subscribeToPush() {
@@ -80,31 +71,9 @@ export class PushService {
   }
 
   showMessages() {
-    /*const notifications = this.swPush.messages.map((message, index) => {
-      const not = new Notification();
-      not.title = message['notification']['title'];
-      return not;
-    });
-    const notif = this.inj.get(NotificationListComponent).notifications;
-    notif.concatMap(val => notifications);*/
     this.swPush.messages.subscribe(message => {
       console.log('[App] Push message received', message);
       this.notificationService.broadcast(message['notification']['title'], '');
     });
-    /* this.swPush.messages.subscribe(message => {
-      console.log('[App] Push message received', message);
-
-      const notification = message['notification'];
-
-      /*this.messages.unshift({
-        text: notification['body'],
-        id_str: notification['tag'],
-        favorite_count: notification['data']['favorite_count'],
-        retweet_count: notification['data']['retweet_count'],
-        user: {
-          name: notification['title']
-        }
-      });
-    });*/
   }
 }

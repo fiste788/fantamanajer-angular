@@ -1,32 +1,35 @@
-<div class="mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
-        <ng-container cdkColumnDef="old_member">
-            <mat-header-cell *cdkHeaderCellDef> Vecchio giocatore </mat-header-cell>
-            <mat-cell *cdkCellDef="let row">
+<div class="mat-elevation-z8" *ngIf="dataSource.data.length; else loading">
+    <mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
+        <ng-container matColumnDef="old_member">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Vecchio giocatore </mat-header-cell>
+            <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.name}} {{row.old_member.player.surname}}</a>
             </mat-cell>
         </ng-container>
 
-        <ng-container cdkColumnDef="new_member">
-            <mat-header-cell *cdkHeaderCellDef> Nuovo giocatore </mat-header-cell>
-            <mat-cell *cdkCellDef="let row">
+        <ng-container matColumnDef="new_member">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nuovo giocatore </mat-header-cell>
+            <mat-cell *matCellDef="let row">
                 <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.name}} {{row.new_member.player.surname}}</a>
             </mat-cell>
         </ng-container>
 
-        <ng-container cdkColumnDef="contraint">
-            <mat-header-cell *cdkHeaderCellDef> Obbligato </mat-header-cell>
-            <mat-cell *cdkCellDef="let row"> {{row.constraint}} </mat-cell>
+        <ng-container matColumnDef="constraint">
+            <mat-header-cell *matHeaderCellDef> Obbligato </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.constraint}} </mat-cell>
         </ng-container>
 
-        <ng-container cdkColumnDef="matchday">
-            <mat-header-cell *cdkHeaderCellDef> Giornata </mat-header-cell>
-            <mat-cell *cdkCellDef="let row">{{row.matchday.number}}</mat-cell>
+        <ng-container matColumnDef="matchday">
+            <mat-header-cell *matHeaderCellDef> Giornata </mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.matchday.number}}</mat-cell>
         </ng-container>
 
-        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>
 <h3>Selezione giocatori</h3>
 <fm-selection></fm-selection>

@@ -57,9 +57,5 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(TeamEditDialogComponent, {
       data: { team: this.team }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 }

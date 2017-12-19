@@ -90,7 +90,6 @@ export class PlayerComponent implements OnInit {
   }
 
   seasonChange() {
-    console.log(this.selectedMember);
     this.dataSource = new RatingDataSource(null);
     this.changeRef.detectChanges();
     // this.dataSource = new RatingDataSource(this);

@@ -12,7 +12,6 @@ export class MemberDataSource extends DataSource<Member> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Member[]> {
-    console.log(this.component.members);
     return this.component.members;
   }
 
@@ -48,7 +47,6 @@ export class MemberListComponent implements OnInit {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
-    console.log('passo');
     this.dataSource = new MemberDataSource(this);
     this.dataSource.connect();
     this.changeRef.detectChanges();

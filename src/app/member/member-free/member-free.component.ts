@@ -39,7 +39,6 @@ export class MemberFreeComponent implements OnInit {
   }
 
   roleChange() {
-    console.log('log change');
     this.members = this.memberService
       .getFree(this.shared.currentChampionship.id, this.selectedRole.id)
       .pipe(share());
