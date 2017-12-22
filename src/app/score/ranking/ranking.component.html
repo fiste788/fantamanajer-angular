@@ -1,33 +1,36 @@
-<div class="mat-elevation-z8 ranking-container">
+<div class="mat-elevation-z8 ranking-container" *ngIf="rankingDataSource && scoresDataSource; else loading">
     <div class="table-container">
-        <mat-table #table [dataSource]="rankingDataSource" class="ranking">
-            <ng-container cdkColumnDef="teamName">
-                <mat-header-cell *cdkHeaderCellDef> Squadra </mat-header-cell>
-                <mat-cell *cdkCellDef="let row">
+        <mat-table #table [dataSource]="rankingDataSource" class="ranking" @tableRowAnimation>
+            <ng-container matColumnDef="teamName">
+                <mat-header-cell *matHeaderCellDef> Squadra </mat-header-cell>
+                <mat-cell *matCellDef="let row">
                     <a [routerLink]="['/teams',row.team.id]">{{row.team.name}}</a>
                 </mat-cell>
             </ng-container>
 
-            <ng-container cdkColumnDef="points">
-                <mat-header-cell *cdkHeaderCellDef> P.ti </mat-header-cell>
-                <mat-cell *cdkCellDef="let row"> {{row.sum_points}} </mat-cell>
+            <ng-container matColumnDef="points">
+                <mat-header-cell *matHeaderCellDef> P.ti </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.sum_points}} </mat-cell>
             </ng-container>
 
-            <mat-header-row *cdkHeaderRowDef="rankingDisplayedColumns"></mat-header-row>
-            <mat-row *cdkRowDef="let row; columns: rankingDisplayedColumns;"></mat-row>
+            <mat-header-row *matHeaderRowDef="rankingDisplayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: rankingDisplayedColumns;"></mat-row>
         </mat-table>
     </div>
     <div class="table-container scores-container">
-        <mat-table #table [dataSource]="scoresDataSource" class="scores">
-            <ng-container *ngFor="let column of scoresDisplayedColumns" [cdkColumnDef]="column">
-                <mat-header-cell *cdkHeaderCellDef> {{column}} </mat-header-cell>
-                <mat-cell *cdkCellDef="let row">
+        <mat-table #table [dataSource]="scoresDataSource" class="scores" @tableRowAnimation>
+            <ng-container *ngFor="let column of scoresDisplayedColumns" [matColumnDef]="column">
+                <mat-header-cell *matHeaderCellDef> {{column}} </mat-header-cell>
+                <mat-cell *matCellDef="let row">
                     <a routerLink="/scores/{{row.get(column).id}}">{{row.get(column).points}}</a>
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *cdkHeaderRowDef="scoresDisplayedColumns"></mat-header-row>
-            <mat-row *cdkRowDef="let row; columns: scoresDisplayedColumns;"></mat-row>
+            <mat-header-row *matHeaderRowDef="scoresDisplayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: scoresDisplayedColumns;"></mat-row>
         </mat-table>
     </div>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

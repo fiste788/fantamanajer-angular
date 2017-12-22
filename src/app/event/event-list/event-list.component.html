@@ -1,4 +1,4 @@
-<mat-list *ngIf="events | async as events; else loading">
+<mat-list *ngIf="events | async as events; else loading" @listItemAnimation>
     <mat-list-item *ngFor="let event of events">
         <mat-icon mat-list-icon>{{event.icon}}</mat-icon>
         <h3 mat-line> {{event.title}} </h3>

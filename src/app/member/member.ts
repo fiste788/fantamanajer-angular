@@ -19,4 +19,5 @@ export class Member {
   role: Role;
   photo_url: string;
   free: boolean;
+  stats: { string, number };
 }

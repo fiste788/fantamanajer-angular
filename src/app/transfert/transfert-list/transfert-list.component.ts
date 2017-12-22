@@ -28,6 +28,7 @@ export class TransfertListComponent implements OnInit {
 
   ngOnInit() {
     const teamId = this.sharedService.getTeamId(this.route);
+    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
     // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
     this.transfertService.getTransfert(teamId).subscribe(data => {
       this.dataSource.data = data;
@@ -35,5 +36,18 @@ export class TransfertListComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
 
+  }
+
+  sortingDataAccessor(data, sortHeaderId) {
+    let value = null;
+    switch (sortHeaderId) {
+      case 'old_member':
+      case 'new_member': value = (data.player.name ? (data.player.name + ' ') : data.player.name) + data.player.surname; break;
+      default: value = data.stats[sortHeaderId]; break;
+    }
+    if (typeof value === 'string' && !value.trim()) {
+      return value;
+    }
+    return isNaN(+value) ? value : +value;
   }
 }

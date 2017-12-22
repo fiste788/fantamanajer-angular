@@ -4,5 +4,5 @@
             <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
         </mat-select>
     </div>
-    <fm-member-list [members]="members"></fm-member-list>
+    <fm-member-list *ngIf="members" [members]="members"></fm-member-list>
 </div>

@@ -15,14 +15,12 @@ import {
     MatSlideToggleModule,
     MatTabsModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
 } from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
     imports: [
-        CdkTableModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
@@ -41,7 +39,6 @@ import { CdkTableModule } from '@angular/cdk/table';
         MatTabsModule,
     ],
     exports: [
-        CdkTableModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,

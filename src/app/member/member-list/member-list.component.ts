@@ -1,22 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { DataSource } from '@angular/cdk/table';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';
 import { TableRowAnimation } from '../../shared/animations/table-row.animation';
 
-export class MemberDataSource extends DataSource<Member> {
-  constructor(private component: MemberListComponent) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Member[]> {
-    return this.component.members;
-  }
-
-  disconnect() { }
-}
 @Component({
   selector: 'fm-member-list',
   templateUrl: './member-list.component.html',
@@ -26,7 +14,9 @@ export class MemberDataSource extends DataSource<Member> {
 export class MemberListComponent implements OnInit {
   @Input() members: Observable<Member[]>;
   @Input() hideClub = false;
-  dataSource: MemberDataSource | null;
+  @ViewChild(MatSort) sort: MatSort;
+
+  dataSource = new MatTableDataSource<Member>();
   displayedColumns = [
     'player',
     'role',
@@ -47,9 +37,24 @@ export class MemberListComponent implements OnInit {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
-    this.dataSource = new MemberDataSource(this);
-    this.dataSource.connect();
-    this.changeRef.detectChanges();
+    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+    this.members.subscribe(data => {
+      this.dataSource.data = data;
+      this.changeRef.detectChanges();
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  sortingDataAccessor(data, sortHeaderId) {
+    let value = null;
+    switch (sortHeaderId) {
+      case 'player': value = (data.player.name ? (data.player.name + ' ') : data.player.name) + data.player.surname; break;
+      default: value = data.stats[sortHeaderId]; break;
+    }
+    if (typeof value === 'string' && !value.trim()) {
+      return value;
+    }
+    return isNaN(+value) ? value : +value;
   }
 }
 

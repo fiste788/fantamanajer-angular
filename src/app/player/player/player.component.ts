@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { DataSource } from '@angular/cdk/table';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
 
@@ -17,24 +17,6 @@ import { EnterDetailAnimation } from '../../shared/animations/enter-detail.anima
 import { of } from 'rxjs/observable/of';
 import { share } from 'rxjs/operators';
 
-export class RatingDataSource extends DataSource<Rating> {
-  constructor(private playerComponent: PlayerComponent) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Rating[]> {
-    let ratings: Rating[] = [];
-    if (this.playerComponent != null) {
-      ratings = this.playerComponent.selectedMember.ratings;
-    }
-
-    return of(ratings);
-  }
-
-  disconnect() { }
-}
-
 @Component({
   selector: 'fm-player',
   templateUrl: './player.component.html',
@@ -49,8 +31,9 @@ export class PlayerComponent implements OnInit {
   seasons: Season[];
   // season: Season;
   selectedMember: Member;
+  @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: RatingDataSource | null;
+  dataSource: MatTableDataSource<Rating>;
   displayedColumns = [
     'matchday',
     'rating',
@@ -82,18 +65,20 @@ export class PlayerComponent implements OnInit {
     const id = parseInt(this.route.snapshot.params['id'], 10);
     this.player = this.playerService.getPlayer(id).pipe(share());
     this.player.subscribe(player => {
-      this.dataSource = new RatingDataSource(this);
-      this.selectedMember = player.members[0];
       this.sharedService.pageTitle = player.name + ' ' + player.surname;
-      this.changeRef.detectChanges();
+      this.selectedMember = player.members[0];
+      this.seasonChange();
     });
   }
 
   seasonChange() {
-    this.dataSource = new RatingDataSource(null);
+    if (this.dataSource != null) {
+      this.dataSource = null;
+      this.changeRef.detectChanges();
+    }
+    this.dataSource = new MatTableDataSource<Rating>(this.selectedMember.ratings);
     this.changeRef.detectChanges();
-    // this.dataSource = new RatingDataSource(this);
-    this.changeRef.detectChanges();
+    this.dataSource.sort = this.sort;
   }
 
   buy() {
