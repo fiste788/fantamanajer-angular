@@ -19,7 +19,7 @@ export class LineupDetailComponent implements OnInit {
   // module: Module;
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
-  lineup: Lineup;
+  public lineup: Lineup;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
@@ -51,7 +51,8 @@ export class LineupDetailComponent implements OnInit {
       data.modules.forEach(function (element, index) {
         this.modules.push(new Module(element));
       }, this);
-      this.lineup = data.lineup || new Lineup();
+      this.lineup = (data.lineup as Lineup) || new Lineup();
+      // this.lineup = new Lineup(data.lineup);
       if (this.lineup.module) {
         this.lineup.module_object = this.modules.find(element => {
           return element.key === this.lineup.module;
@@ -70,17 +71,6 @@ export class LineupDetailComponent implements OnInit {
           this.lineup.dispositions[i].position = i + 1;
         }
       }
-      /*if (this.lineup) {
-        this.lineup.dispositions.forEach(function(element, i) {
-          if (i < 11) {
-            this.regulars.push(element.member);
-          } else {
-            this.notRegulars.push(element.member);
-          }
-        }, this)
-      } else {
-        this.lineup = new Lineup();
-      }*/
     });
   }
 
@@ -96,22 +86,6 @@ export class LineupDetailComponent implements OnInit {
 
   changeModule() {
     this.roleKeys = Array.from(this.lineup.module_object.map.keys());
-  }
-
-  isAlreadySelected(member: Member): boolean {
-    return this.lineup.dispositions
-      .map(element => element.member_id)
-      .includes(member.id);
-    // return Object.keys(this.regulars).map(key => this.regulars[key]).includes(member)
-    // return Object.values(this.regulars).includes(member);
-  }
-
-  isCaptainAlreadySelected(member: Member): boolean {
-    return (
-      this.lineup.captain_id === member.id ||
-      this.lineup.vcaptain_id === member.id ||
-      this.lineup.vvcaptain_id === member.id
-    );
   }
 
   getCapitanables(): Member[] {
@@ -157,5 +131,44 @@ export class LineupDetailComponent implements OnInit {
     }
     this.lineup.dispositions[i].position = i;
     this.lineup.dispositions[i].member_id = element.id;
+  }
+
+  removeBenchwarmer(event: any): void {
+    this.lineup.dispositions
+      .filter(element => element.position > 11)
+      .map(element => {
+        if (element.member_id === event.value) {
+          element.member = null;
+          element.member_id = null;
+        }
+      });
+  }
+
+  isAlreadySelected(member: Member): boolean {
+    return this.lineup.dispositions
+      .map(element => element.member_id)
+      .includes(member.id);
+  }
+
+  isBenchwarmer(member: Member): boolean {
+    return this.lineup.dispositions
+      .filter(element => element.position > 11)
+      .map(element => element.member_id)
+      .includes(member.id);
+  }
+
+  isRegular(member: Member): boolean {
+    return this.lineup.dispositions
+      .filter(element => element.position <= 11)
+      .map(element => element.member_id)
+      .includes(member.id);
+  }
+
+  isCaptainAlreadySelected(member: Member): boolean {
+    return (
+      this.lineup.captain_id === member.id ||
+      this.lineup.vcaptain_id === member.id ||
+      this.lineup.vvcaptain_id === member.id
+    );
   }
 }

@@ -1,24 +1,24 @@
 .ranking-container {
-    display: flex;
+  display: flex;
 }
 
 .mat-column-teamName {
-    min-width: 180px;
+  min-width: 180px;
 }
 
 .ranking-container {
-    display: flex;
+  display: flex;
 }
 
 .scores-container {
-    flex-grow: 1;
-    overflow: auto;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 .scores {
-    .mat-cell,
-    .mat-header-cell {
-        text-align: right;
-        min-width: 3em;
-    }
+  .mat-cell,
+  .mat-header-cell {
+    text-align: right;
+    min-width: 2.75rem;
+  }
 }

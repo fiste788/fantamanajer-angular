@@ -20,8 +20,11 @@ export class Lineup {
   team: Team;
   dispositions: Disposition[] = [];
   module_object: Module;
+  modified_at: Date;
+  created_at: Date;
 
   constructor() {
     this.module_object = new Module(this.module);
   }
+
 }

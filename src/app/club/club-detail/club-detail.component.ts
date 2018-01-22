@@ -43,7 +43,9 @@ export class ClubDetailComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     const id = parseInt(this.route.snapshot.params['id'], 10);
     this.club = this.clubService.getClub(id).pipe(share());
-    this.club.subscribe(club => (this.members = of(club.members)));
+    this.club.subscribe(club => (
+      this.members = of(club.members)
+    ));
   }
 
   ngAfterViewChecked(): void {

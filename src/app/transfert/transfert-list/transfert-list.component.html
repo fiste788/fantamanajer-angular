@@ -31,5 +31,7 @@
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>
-<h3>Selezione giocatori</h3>
-<fm-selection></fm-selection>
+<div *ngIf="sharedService.currentTeam.id == teamId">
+    <h3>Selezione giocatori</h3>
+    <fm-selection></fm-selection>
+</div>

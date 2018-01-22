@@ -8,7 +8,11 @@
         "allowJs": false
     },
     "angularCompilerOptions": {
-        "preserveWhitespaces": false
+        "preserveWhitespaces": false,
+        "fullTemplateTypeCheck": true
     },
-    "exclude": ["test.ts", "**/*.spec.ts"]
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts"
+    ]
 }

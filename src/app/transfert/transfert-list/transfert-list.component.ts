@@ -14,6 +14,7 @@ import { TableRowAnimation } from '../../shared/animations/table-row.animation';
   animations: [TableRowAnimation]
 })
 export class TransfertListComponent implements OnInit {
+  teamId: number;
   dataSource = new MatTableDataSource<Transfert>();
   displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
@@ -22,15 +23,15 @@ export class TransfertListComponent implements OnInit {
   constructor(
     private transfertService: TransfertService,
     private route: ActivatedRoute,
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    const teamId = this.sharedService.getTeamId(this.route);
+    this.teamId = this.sharedService.getTeamId(this.route);
     this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
     // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
-    this.transfertService.getTransfert(teamId).subscribe(data => {
+    this.transfertService.getTransfert(this.teamId).subscribe(data => {
       this.dataSource.data = data;
       this.ref.detectChanges();
       this.dataSource.sort = this.sort;

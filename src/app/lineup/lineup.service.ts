@@ -6,6 +6,11 @@ import { Lineup } from './lineup';
 import { Member } from '../member/member';
 import { SharedService } from '../shared/shared.service';
 
+export interface LineupResponse {
+  members: Member[];
+  lineup: Lineup;
+  modules: string[];
+}
 @Injectable()
 export class LineupService {
   private url = 'lineups';
@@ -18,12 +23,8 @@ export class LineupService {
 
   getLineup(
     team_id
-  ): Observable<{ members: Member[]; lineup: Lineup; modules: string[] }> {
-    return this.http.get<{
-      members: Member[];
-      lineup: Lineup;
-      modules: string[];
-    }>(`teams/${team_id}/${this.url}/current`);
+  ): Observable<LineupResponse> {
+    return this.http.get<LineupResponse>(`teams/${team_id}/${this.url}/current`);
   }
 
   update(lineup: Lineup): Observable<any> {
