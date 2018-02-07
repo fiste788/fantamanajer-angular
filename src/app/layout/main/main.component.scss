@@ -1,0 +1,27 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.hundred {
+  height: 100%;
+}
+
+.mat-sidenav {
+  width: 340px;
+  max-width: calc(100% - 54px);
+}
+@media (min-width: 600px) {
+  .container {
+    max-width: 90%;
+    margin: 15px auto 0;
+  }
+
+  .mat-sidenav {
+    width: 240px !important;
+  }
+}
+@media (min-width: 960px) {
+  .container {
+    max-width: 90%;
+  }
+}

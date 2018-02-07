@@ -1,0 +1,17 @@
+.mat-list-item .mat-icon {
+  color: #555;
+  margin-right: 12px;
+}
+
+.mat-nav-list .mat-list-item,
+.mat-selection-list .mat-list-item,
+mat-list .mat-list-item {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mat-list-item.active,
+.mat-list-item.active .mat-icon {
+  color: #00bcd4;
+  background-color: #eee;
+}

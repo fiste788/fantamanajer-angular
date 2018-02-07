@@ -1,0 +1,18 @@
+<fm-profile></fm-profile>
+<mat-nav-list>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/home">
+    <mat-icon matListIcon>home</mat-icon>Homepage</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/teams/{{shared.currentTeam.id}}" *ngIf="auth.loggedIn()">
+    <mat-icon matListIcon>account_box</mat-icon>{{shared.currentTeam.name}}</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{shared.currentChampionship.id}}"
+    *ngIf="auth.loggedIn()">
+    <mat-icon matListIcon>bubble_chart</mat-icon>{{shared.currentChampionship.league.name}}</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">
+    <mat-icon matListIcon>group_work</mat-icon>Clubs</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">
+    <mat-icon matListIcon>settings</mat-icon>Impostazioni</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">
+    <mat-icon matListIcon>input</mat-icon>Log In</a>
+  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">
+    <mat-icon matListIcon>exit_to_app</mat-icon>Log Out</a>
+</mat-nav-list>

@@ -1,0 +1,12 @@
+smd-fab-speed-dial {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+}
+@media (min-width: 960px) {
+  smd-fab-speed-dial {
+    bottom: 28px;
+    left: 212px;
+    right: unset !important;
+  }
+}

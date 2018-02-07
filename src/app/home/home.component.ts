@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MemberService } from '../member/member.service';
-import { Role } from '../role/role';
+import { MemberService } from '../entities/member/member.service';
+import { Role } from '../entities/role/role';
 import { Observable } from 'rxjs/Observable';
 import { CardCreationAnimation } from '../shared/animations/card-creation.animation';
 

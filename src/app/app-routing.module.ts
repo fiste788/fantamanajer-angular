@@ -1,41 +1,42 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './auth/auth.guard';
-import { NotLoggedGuard } from './auth/not-logged.guard';
+import { AuthGuard } from './shared/auth/auth.guard';
+import { NotLoggedGuard } from './shared/auth/not-logged.guard';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './auth/login/login.component';
+import { LoginComponent } from './shared/auth/login/login.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard] },
-  { path: 'clubs', loadChildren: 'app/club/club.module#ClubModule' },
-  { path: 'players', loadChildren: 'app/player/player.module#PlayerModule' },
+  { path: 'account', loadChildren: 'app/account/account.module#AccountModule' },
+  { path: 'clubs', loadChildren: 'app/entities/club/club.module#ClubModule' },
+  { path: 'players', loadChildren: 'app/entities/player/player.module#PlayerModule' },
   // { path: 'profile', component: ProfileComponent,  canActivate: [AuthGuard]},
   {
     path: 'profile',
-    loadChildren: 'app/user/user-lazy.module#UserLazyModule',
+    loadChildren: 'app/user/user.module#UserModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'articles',
-    loadChildren: 'app/article/article.module#ArticleModule',
+    loadChildren: 'app/entities/article/article.module#ArticleModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'teams',
-    loadChildren: 'app/team/team.module#TeamModule',
+    loadChildren: 'app/entities/team/team.module#TeamModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'championships',
-    loadChildren: 'app/championship/championship.module#ChampionshipModule',
+    loadChildren: 'app/entities/championship/championship.module#ChampionshipModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'scores',
-    loadChildren: 'app/score/score.module#ScoreModule',
+    loadChildren: 'app/entities/score/score.module#ScoreModule',
     canActivate: [AuthGuard]
   }
 ];
@@ -43,4 +44,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

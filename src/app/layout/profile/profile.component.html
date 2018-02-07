@@ -1,0 +1,26 @@
+<mat-toolbar *ngIf="shared.currentTeam" color="primary" [ngStyle]="{'background-image' : 'url(' + shared.currentTeam.photo_url + ')'}">
+  <mat-toolbar-row>
+    <span></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <div fxLayout="column" class="mat-toolbar-tools-bottom inset">
+      <div *ngIf="auth.user">
+        <div *ngIf="shared.teams.length > 1">
+          <button aria-label="switch" mat-icon-button [matMenuTriggerFor]="menu" class="team-switcher">
+            <span class="team-name">{{shared.currentTeam.name}}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let team of shared.teams">
+              <span>{{team.name}} ({{team.championship.season.name}})</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div *ngIf="shared.teams.length == 1">
+          {{shared.currentTeam.name}}
+        </div>
+        <div class="email">{{auth.user.email}}</div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

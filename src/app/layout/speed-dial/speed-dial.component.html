@@ -1,0 +1,19 @@
+<smd-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn()">
+  <smd-fab-trigger spin="true">
+    <button aria-label="create" class="mat-accent" mat-fab (click)="_click('trigger')">
+      <mat-icon>add</mat-icon>
+    </button>
+  </smd-fab-trigger>
+
+  <smd-fab-actions>
+    <button mat-mini-fab class="mat-accent" matTooltip="Inserisci formazione" matTooltipPosition="left" (click)="_click('lineup')">
+      <mat-icon>star_rate</mat-icon>
+    </button>
+    <button mat-mini-fab class="mat-accent" matTooltip="Nuovo articolo" matTooltipPosition="left" (click)="_click('article')">
+      <mat-icon>message</mat-icon>
+    </button>
+    <button mat-mini-fab class="mat-accent" matTooltip="Nuovo trasferimento" matTooltipPosition="left" (click)="_click('transfert')">
+      <mat-icon>swap_vert</mat-icon>
+    </button>
+  </smd-fab-actions>
+</smd-fab-speed-dial>

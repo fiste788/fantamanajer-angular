@@ -1,4 +1,4 @@
-import { Team } from '../team/team';
+import { Team } from '../entities/team/team';
 
 export class User {
   id: number;
@@ -9,4 +9,5 @@ export class User {
   active_email: boolean;
   password: string;
   teams: Team[];
+  roles: string[];
 }

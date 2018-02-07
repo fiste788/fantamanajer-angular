@@ -4,14 +4,16 @@ import {
   ElementRef,
   Input,
   OnInit,
-  Renderer
+  OnDestroy,
+  Renderer,
+  NgZone
 } from '@angular/core';
 // import * as Rellax from 'rellax';
 
 @Directive({
   selector: '[fmRellax]'
 })
-export class RellaxDirective implements OnInit, AfterViewInit {
+export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private options: any;
   @Input() speed = -2;
   @Input() center = false;
@@ -23,31 +25,32 @@ export class RellaxDirective implements OnInit, AfterViewInit {
   private screenY = 0;
   private pause = false;
   private scrollableElement: Element;
+  private frame;
 
   private loop = window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  (<any>window).mozRequestAnimationFrame ||
-  (<any>window).msRequestAnimationFrame ||
-  (<any>window).oRequestAnimationFrame ||
-  function (callback) {
-    setTimeout(callback, 1000 / 60);
-  };
+    window.webkitRequestAnimationFrame ||
+    (<any>window).mozRequestAnimationFrame ||
+    (<any>window).msRequestAnimationFrame ||
+    (<any>window).oRequestAnimationFrame ||
+    function (callback) {
+      setTimeout(callback, 1000 / 60);
+    };
 
   private transformProp = (<any>window).transformProp ||
-  (function () {
-    const testEl = document.createElement('div');
-    if (testEl.style.transform == null) {
-      const vendors = ['Webkit', 'Moz', 'ms'];
-      for (const vendor in vendors) {
-        if (testEl.style[vendors[vendor] + 'Transform'] !== undefined) {
-          return vendors[vendor] + 'Transform';
+    (function () {
+      const testEl = document.createElement('div');
+      if (testEl.style.transform == null) {
+        const vendors = ['Webkit', 'Moz', 'ms'];
+        for (const vendor in vendors) {
+          if (testEl.style[vendors[vendor] + 'Transform'] !== undefined) {
+            return vendors[vendor] + 'Transform';
+          }
         }
       }
-    }
-    return 'transform';
-  })();
+      return 'transform';
+    })();
 
-  constructor(private el: ElementRef, private renderer: Renderer) { }
+  constructor(private el: ElementRef, private renderer: Renderer, public ngZone: NgZone) { }
 
   ngOnInit() {
     // let options = { speed: -2, center: false, round: true };
@@ -83,7 +86,7 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     });
 
     // Start the loop
-    this.update();
+    this.frame = this.update();
 
     // The loop does nothing if the scrollPosition did not change
     // so call animate to make sure every element has their transforms
@@ -183,7 +186,7 @@ export class RellaxDirective implements OnInit, AfterViewInit {
 
   updatePosition(percentage, speed) {
     const value = speed * (100 * (1 - percentage));
-    return this.options.round ? Math.round(value * 10) / 10 : value;
+    return this.options.round ? Math.round(value) : Math.round(value * 100) / 100;
   }
 
   update() {
@@ -192,7 +195,12 @@ export class RellaxDirective implements OnInit, AfterViewInit {
     }
 
     // loop again
-    this.loop(this.update.bind(this));
+    this.ngZone.runOutsideAngular(() => {
+
+      this.frame = this.loop(this.update.bind(this));
+
+    });
+
   }
 
   animate() {
@@ -225,5 +233,10 @@ export class RellaxDirective implements OnInit, AfterViewInit {
       this.el.nativeElement.style.cssText = this.block.style;
       this.pause = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy();
+    window.cancelAnimationFrame(this.frame);
   }
 }

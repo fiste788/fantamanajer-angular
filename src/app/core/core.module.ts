@@ -8,24 +8,22 @@ import {
 import {
   MatSnackBarModule,
   MatSnackBar,
-  MatSidenavModule,
-  MatToolbarModule,
+  MatProgressSpinnerModule,
   MatExpansionModule,
-  MatProgressSpinnerModule
 } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthModule } from '../auth/auth.module';
-import { UserModule } from '../user/user.module';
-import { MatchdayModule } from '../matchday/matchday.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorHandlerInterceptor } from '../shared/interceptor/error-handler.interceptor';
+import { ApiInterceptor } from '../shared/interceptor/api.interceptor';
+
 import { SharedService } from '../shared/shared.service';
-import { SpeeddialModule } from '../speeddial/speeddial.module';
-// import { ArticleDetailComponent } from '../article/article-detail.component';
 import { SharedModule } from '../shared/shared.module';
-import { NotificationModule } from '../notification/notification.module';
-import { MemberModule } from '../member/member.module';
-import { DispositionModule } from '../disposition/disposition.module';
-import { PushModule } from '../push/push.module';
-import { SubscriptionModule } from '../subscription/subscription.module';
+import { AuthModule } from '../shared/auth/auth.module';
+import { MatchdayModule } from '../entities/matchday/matchday.module';
+import { UserCommonModule } from '../user/user-common.module';
+import { MemberCommonModule } from '../entities/member/member-common.module';
+import { NotificationModule } from '../entities/notification/notification.module';
+import { SubscriptionModule } from '../entities/subscription/subscription.module';
+import { PushModule } from '../shared/push/push.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
 import { WindowRef } from 'app/core/WindowRef';
 
@@ -34,26 +32,34 @@ import { WindowRef } from 'app/core/WindowRef';
     CommonModule,
     HttpClientModule,
     AuthModule,
-    UserModule,
-    MatchdayModule,
     SharedModule,
-    MemberModule,
-    DispositionModule,
+    UserCommonModule,
+    MemberCommonModule,
+    MatchdayModule,
     NotificationModule,
-    SpeeddialModule,
-    PushModule,
-    SubscriptionModule
+    SubscriptionModule,
+    PushModule
   ],
   exports: [
     NotificationModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    SpeeddialModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule
   ],
   declarations: [],
-  providers: [SharedService, WindowRef]
+  providers: [
+    SharedService,
+    WindowRef,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
+  ]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {

@@ -16,7 +16,7 @@ export class ParallaxHeaderComponent implements OnInit {
   @Input() public tabs: any[] = [];
   public srcset = '';
   public width = 0;
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     if (this.backgroundImage) {

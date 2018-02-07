@@ -14,58 +14,80 @@ body {
   // background-color: #00bcd4;
 }
 
-.pre-bootstrap {
-  align-items: center;
+.mat-sidenav-content {
   display: flex;
-  flex-direction: column;
-  color: #333;
-  place-content: center;
   height: 100%;
-}
+  padding-top: 4em;
+  height: calc(100% - 4em) !important;
 
-.pre-bootstrap-text {
-  line-height: 20px;
-  margin-top: 20px;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-.pre-bootstrap-spinner {
-  width: 60px;
-  height: 60px;
-  //background-image: url('/assets/apple-touch-icon-60x60.png');
-  background-color: #ff4081;
-  border-radius: 2px;
-  /*margin: 0 auto;
-  margin-top: calc(25% - 40px);*/
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
-}
-@-webkit-keyframes sk-rotateplane {
-  0% {
-    -webkit-transform: perspective(120px);
-  }
-
-  50% {
-    -webkit-transform: perspective(120px) rotateY(180deg);
-  }
-
-  100% {
-    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+  > .mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
   }
 }
-@keyframes sk-rotateplane {
-  0% {
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+
+mat-progress-spinner {
+  margin: 50px auto;
+}
+
+a {
+  text-decoration: none;
+  color: #ff4081;
+}
+
+.mat-card {
+  margin-bottom: 15px;
+}
+
+.flex-container {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 10px;
+}
+
+mat-form-field.white {
+  .mat-form-field-placeholder {
+    color: rgba(255, 255, 255, 0.87);
   }
 
-  50% {
-    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  .mat-form-field-underline {
+    background-color: rgba(255, 255, 255, 0.12);
   }
 
-  100% {
-    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  mat-select {
+    .mat-select,
+    .mat-select-arrow,
+    .mat-select-disabled .mat-select-value,
+    .mat-select-trigger {
+      color: rgba(255, 255, 255, 0.38);
+    }
+
+    .mat-select-value {
+      color: rgba(255, 255, 255, 0.87);
+    }
   }
+}
+
+.red_card,
+.yellow_card {
+  width: 10px;
+  height: 15px;
+  display: inline-block; //@include box-shadow(1px 1px 2px #AAAAAA);
+}
+
+.yellow_card {
+  background-color: yellow;
+}
+
+.red_card {
+  background-color: red;
+}
+// workaround for https://github.com/angular/material2/issues/2177
+
+.mat-tab-group .mat-tab-link {
+  width: 100%;
+  height: 100%;
+  line-height: 50px;
+  display: block;
 }
