@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { SharedService } from 'app/shared/shared.service';
 import { Score } from './score';
 import { from } from 'rxjs/observable/from';
-import { toArray, concatMap, map } from 'rxjs/operators';
+import { toArray } from 'rxjs/operators/toArray';
+import { concatMap } from 'rxjs/operators/concatMap';
+import { map } from 'rxjs/operators/map';
 
 @Injectable()
 export class ScoreService {

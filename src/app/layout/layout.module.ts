@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import {
-  MatSidenavModule,
-  MatToolbarModule,
-} from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { SpeeddialModule } from '../shared/speeddial/speeddial.module';
 import { SharedModule } from '../shared/shared.module';
 import { NotificationModule } from '../entities/notification/notification.module';

@@ -6,7 +6,7 @@ import { ClubService } from '../club.service';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
 import { MemberService } from '../../member/member.service';
 import { Observable } from 'rxjs/Observable';
-import { share, switchMap } from 'rxjs/operators';
+import { share } from 'rxjs/operators/share';
 import { of } from 'rxjs/observable/of';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 

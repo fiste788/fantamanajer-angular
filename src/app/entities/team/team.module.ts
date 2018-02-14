@@ -9,7 +9,7 @@ import { TeamService } from './team.service';
 import { TeamRoutingModule } from './team-routing.module';
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
 import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
 

@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
 
@@ -15,7 +16,7 @@ import { ParallaxHeaderComponent } from 'app/shared/parallax-header/parallax-hea
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 import { EnterDetailAnimation } from 'app/shared/animations/enter-detail.animation';
 import { of } from 'rxjs/observable/of';
-import { share } from 'rxjs/operators';
+import { share } from 'rxjs/operators/share';
 
 @Component({
   selector: 'fm-player',

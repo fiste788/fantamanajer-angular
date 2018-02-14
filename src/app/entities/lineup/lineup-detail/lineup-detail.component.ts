@@ -6,7 +6,7 @@ import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Role } from '../../role/role';
 import { LineupService } from '../lineup.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedService } from 'app/shared/shared.service';
 
 @Component({

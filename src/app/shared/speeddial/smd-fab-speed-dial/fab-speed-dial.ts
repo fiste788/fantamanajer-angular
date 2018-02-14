@@ -15,7 +15,7 @@ import {
   HostBinding,
   HostListener
 } from '@angular/core';
-import { MatButton } from '@angular/material';
+import { MatButton } from '@angular/material/button';
 
 const Z_INDEX_ITEM = 23;
 

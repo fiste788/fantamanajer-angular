@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router, NavigationEnd, ActivatedRoute, Route } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
-import { map, filter, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators/map';
+import { filter } from 'rxjs/operators/filter';
+import { mergeMap } from 'rxjs/operators/mergeMap';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { SharedService } from '../../shared/shared.service';
 import { AuthService } from '../../shared/auth/auth.service';

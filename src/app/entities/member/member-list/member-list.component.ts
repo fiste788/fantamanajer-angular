@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs/Observable';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';

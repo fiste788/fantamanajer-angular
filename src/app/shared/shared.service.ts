@@ -5,7 +5,7 @@ import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
 import { User } from '../user/user';
 import { Championship } from '../entities/championship/championship';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { NgForm } from '@angular/forms';
 import { PushService } from 'app/shared/push/push.service';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { Team } from '../team';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';

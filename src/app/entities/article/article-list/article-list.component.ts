@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/Observable';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
-import { map, share } from 'rxjs/operators';
+import { map } from 'rxjs/operators/map';
+import { share } from 'rxjs/operators/share';
 import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
 
 @Component({

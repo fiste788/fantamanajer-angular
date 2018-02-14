@@ -6,14 +6,14 @@ import {
   ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSelect } from '@angular/material';
+import { MatSelect } from '@angular/material/select';
 import { Selection } from '../selection';
 import { Member } from '../../member/member';
 import { TeamService } from '../../team/team.service';
 import { SelectionService } from '../selection.service';
 import { MemberService } from '../../member/member.service';
 import { SharedService } from 'app/shared/shared.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 

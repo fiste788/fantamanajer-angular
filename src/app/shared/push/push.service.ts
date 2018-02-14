@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
 import { SubscriptionService } from '../../entities/subscription/subscription.service';
 import { NotificationService } from '../../entities/notification/notification.service';
 import { Notification } from '../../entities/notification/notification';
 import { environment } from 'environments/environment';
-import { take, isEmpty } from 'rxjs/operators';
+import { take } from 'rxjs/operators/take';
 
 @Injectable()
 export class PushService {

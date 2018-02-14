@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { RellaxDirective } from '../rellax/rellax.directive';
-import { MatTabGroup } from '@angular/material';
-// import { ng2Parallax  } from '../../../../node_modules/ang2-parallax/ng2parallax';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'fm-parallax-header',
