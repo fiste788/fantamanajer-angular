@@ -3,7 +3,7 @@
     <button fxHide.gt-sm mat-icon-button (click)="nav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <span> {{shared.pageTitle}}</span>
+    <fm-breadcrumb></fm-breadcrumb>
     <span class="spacer"></span>
     <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
   </mat-toolbar>
@@ -12,6 +12,7 @@
     <fm-navbar></fm-navbar>
   </mat-sidenav>
   <main class="container">
+
     <router-outlet></router-outlet>
   </main>
 </mat-sidenav-container>

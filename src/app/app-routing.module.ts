@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { NotLoggedGuard } from './shared/auth/not-logged.guard';
 import { HomeComponent } from './home/home.component';
@@ -41,7 +41,12 @@ export const routes: Routes = [
   }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes),
+    McBreadcrumbsModule.forRoot()
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

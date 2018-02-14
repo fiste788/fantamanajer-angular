@@ -62,11 +62,10 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit() {
     // this.season = this.sharedService.currentChampionship.season;
-    const id = parseInt(this.route.snapshot.params['id'], 10);
-    this.player = this.playerService.getPlayer(id).pipe(share());
-    this.player.subscribe(player => {
-      this.sharedService.pageTitle = player.name + ' ' + player.surname;
-      this.selectedMember = player.members[0];
+    // const id = parseInt(this.route.snapshot.params['id'], 10);
+    this.route.data.subscribe((data: { player: Player }) => {
+      this.player = of(data.player);
+      this.selectedMember = data.player.members[0];
       this.seasonChange();
     });
   }

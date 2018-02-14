@@ -9,12 +9,11 @@ export class TeamService {
   private url = 'teams';
 
   constructor(private http: HttpClient, private shared: SharedService) {
-    this.url =
-      'championships/' + this.shared.currentChampionship.id + '/' + this.url;
+
   }
 
-  getTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(this.url);
+  getTeams(championship_id: number): Observable<Team[]> {
+    return this.http.get<Team[]>('championships/' + championship_id + '/' + this.url);
   }
 
   getTeam(id: number): Observable<Team> {

@@ -1,0 +1,36 @@
+:root {
+  flex: 10 1 auto;
+  overflow: hidden;
+}
+
+.breadcrumb {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+
+  li {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    min-width: 40px;
+  }
+
+  li,
+  mat-icon {
+    display: inline;
+    color: rgba(255,255,255,0.7);
+  }
+
+  mat-icon {
+    vertical-align: text-bottom;
+  }
+
+  li:last-of-type span {
+    color: #fff;
+  }
+
+  a {
+    color: inherit;
+  }
+}

@@ -4,15 +4,27 @@ import { TeamComponent } from './team/team.component';
 import { TeamListComponent } from './team-list/team-list.component';
 import { TeamDetailComponent } from './team-detail/team-detail.component';
 import { TeamMembersComponent } from './team-members/team-members.component';
+import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
 
 const routes: Routes = [
   {
     path: '',
     component: TeamComponent,
     children: [
-      { path: '', component: TeamListComponent },
       {
-        path: ':team_id', component: TeamDetailComponent, children: [
+        path: '',
+        component: TeamListComponent
+      },
+      {
+        path: ':team_id',
+        component: TeamDetailComponent,
+        data: {
+          breadcrumbs: '{{team.name}}'
+        },
+        resolve: {
+          team: TeamDetailResolver
+        },
+        children: [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
           { path: 'articles', loadChildren: 'app/entities/article/article.module#ArticleModule' },
           { path: 'players', component: TeamMembersComponent },

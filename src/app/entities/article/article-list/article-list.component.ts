@@ -9,7 +9,7 @@ import { CardCreationAnimation } from 'app/shared/animations/card-creation.anima
 @Component({
   selector: 'fm-article-list',
   templateUrl: './article-list.component.html',
-  styleUrls: ['./article-list.component.css'],
+  styleUrls: ['./article-list.component.scss'],
   animations: [CardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {

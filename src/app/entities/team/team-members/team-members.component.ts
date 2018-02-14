@@ -1,9 +1,11 @@
 import { Team } from '../team';
 import { Component, OnInit, Injector } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
-import { TeamDetailComponent } from '../team-detail/team-detail.component';
 import { Observable } from 'rxjs/Observable';
 import { Member } from '../../member/member';
+import { MemberService } from '../../member/member.service';
+import { SharedService } from 'app/shared/shared.service';
 
 @Component({
   selector: 'fm-team-members',
@@ -13,9 +15,13 @@ import { Member } from '../../member/member';
 export class TeamMembersComponent implements OnInit {
   members: Observable<Member[]>;
 
-  constructor(private inj: Injector) { }
+  constructor(
+    private memberService: MemberService,
+    private route: ActivatedRoute,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
-    this.members = this.inj.get(TeamDetailComponent).members;
+    this.members = this.memberService.getByTeamId(this.sharedService.getTeamId(this.route));
   }
 }

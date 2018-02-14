@@ -1,4 +1,4 @@
-<div *ngIf="dataSource.data.length; else loading">
+<div class="mat-elevation-z4" *ngIf="dataSource.data.length; else loading">
     <mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
         <ng-container matColumnDef="player">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Giocatore </mat-header-cell>

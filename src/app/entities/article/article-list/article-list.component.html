@@ -13,6 +13,7 @@
             <button mat-button (click)="delete(article.id)">DELETE</button>
         </mat-card-actions>
     </mat-card>
+    <h3 class="subheading-1" *ngIf="articles.length == 0">Nessun articolo presente</h3>
 </div>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>

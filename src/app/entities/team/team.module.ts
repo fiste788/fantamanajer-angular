@@ -11,6 +11,7 @@ import { TeamMembersComponent } from './team-members/team-members.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatDialogModule } from '@angular/material';
 import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
+import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,9 @@ import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.com
   entryComponents: [
     TeamEditDialogComponent
   ],
-  providers: [TeamService]
+  providers: [
+    TeamService,
+    TeamDetailResolver
+  ]
 })
 export class TeamModule { }

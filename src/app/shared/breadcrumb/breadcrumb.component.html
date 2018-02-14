@@ -1,0 +1,12 @@
+<nav *ngIf="crumbs.length">
+  <ul class="breadcrumb">
+    <li *ngFor="let crumb of crumbs; let last = last; let first = first" [ngClass]="{ 'active': last }" class="breadcrumb-item">
+      <span>
+        <mat-icon *ngIf="!first">chevron_right</mat-icon>
+        <a *ngIf="!last" [routerLink]="crumb.path">{{ crumb.text }}</a>
+        <span *ngIf="last">{{ crumb.text }}</span>
+      </span>
+    </li>
+  </ul>
+</nav>
+<span *ngIf="!crumbs.length">FantaManajer</span>

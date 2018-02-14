@@ -2,6 +2,11 @@
   flex: 1 1 auto;
 }
 
+fm-breadcrumb {
+  flex: 10 1 auto;
+  overflow: hidden;
+}
+
 .hundred {
   height: 100%;
 }
@@ -19,9 +24,14 @@
   .mat-sidenav {
     width: 240px !important;
   }
+
 }
 @media (min-width: 960px) {
   .container {
     max-width: 90%;
+  }
+
+  .mat-toolbar {
+    width: calc(100% - 240px);
   }
 }

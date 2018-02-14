@@ -5,10 +5,17 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     children: [
-      { path: '',    component: ArticleListComponent },
-      { path: 'new', component: ArticleDetailComponent},
+      { path: '', component: ArticleListComponent },
+      {
+        path: 'new',
+        component: ArticleDetailComponent,
+        data: {
+          breadcrumbs: 'Nuovo articolo'
+        }
+      },
       { path: ':id', component: ArticleDetailComponent },
     ]
   }
@@ -18,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ArticleRoutingModule {}
+export class ArticleRoutingModule { }

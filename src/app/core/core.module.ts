@@ -5,12 +5,9 @@ import {
   Optional,
   SkipSelf
 } from '@angular/core';
-import {
-  MatSnackBarModule,
-  MatSnackBar,
-  MatProgressSpinnerModule,
-  MatExpansionModule,
-} from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandlerInterceptor } from '../shared/interceptor/error-handler.interceptor';
 import { ApiInterceptor } from '../shared/interceptor/api.interceptor';

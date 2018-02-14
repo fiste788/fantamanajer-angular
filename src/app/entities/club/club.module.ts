@@ -6,6 +6,7 @@ import { ClubService } from './club.service';
 import { ClubRoutingModule } from './club-routing.module';
 import { ClubListComponent } from './club-list/club-list.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
+import { ClubDetailResolver } from './club-detail/club-detail-resolver.service';
 import { MemberCommonModule } from '../member/member-common.module';
 
 @NgModule({
@@ -19,6 +20,9 @@ import { MemberCommonModule } from '../member/member-common.module';
     ClubListComponent,
     ClubDetailComponent
   ],
-  providers: [ClubService]
+  providers: [
+    ClubService,
+    ClubDetailResolver
+  ]
 })
 export class ClubModule { }

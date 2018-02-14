@@ -22,10 +22,14 @@ export class MemberService {
   }
 
   getBest(): Observable<Role[]> {
-    return this.http.get<Role[]>('members/best');
+    return this.http.get<Role[]>(this.url + '/best');
   }
 
   getByTeamId(team_id: number): Observable<Member[]> {
-    return this.http.get<Member[]>('teams/' + team_id + '/members');
+    return this.http.get<Member[]>('teams/' + team_id + '/' + this.url);
+  }
+
+  getByClubId(club_id: number): Observable<Member[]> {
+    return this.http.get<Member[]>('clubs/' + club_id + '/' + this.url);
   }
 }

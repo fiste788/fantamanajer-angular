@@ -1,5 +1,5 @@
 <mat-tab-group *ngIf="tabs.length">
-    <mat-tab *ngFor="let tab of tabs">
+    <mat-tab #tabGroup *ngFor="let tab of tabs">
         <ng-template mat-tab-label>
             <a class="mat-tab-link" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" isActive="rla.isActive" [ngClass]="{'mat-tab-label-active':rla.isActive}">{{tab.label}}</a>
         </ng-template>

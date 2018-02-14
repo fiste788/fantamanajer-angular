@@ -1,28 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { SharedService } from 'app/shared/shared.service';
+import { MatTabGroup } from '@angular/material';
 
 @Component({
   selector: 'fm-championship',
   templateUrl: './championship.component.html',
   styleUrls: ['./championship.component.scss']
 })
-export class ChampionshipComponent implements OnInit {
+export class ChampionshipComponent implements OnInit, AfterViewInit {
 
-  public tabs: any[];
-
-  constructor(private sharedService: SharedService) {
-    this.tabs = [];
-  }
+  public tabs: any = [
+    { label: 'Squadre', link: 'teams' },
+    { label: 'Classifica', link: 'ranking' },
+    { label: 'Giocatori liberi', link: 'members/free' },
+    { label: 'Articoli', link: 'articles' },
+    { label: 'Eventi', link: 'events' }
+  ];
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   ngOnInit() {
-    this.sharedService.pageTitle = this.sharedService.currentChampionship.league.name;
-    this.tabs = [
-      { label: 'Squadre', link: 'teams' },
-      { label: 'Classifica', link: 'ranking' },
-      { label: 'Giocatori liberi', link: 'members/free' },
-      { label: 'Articoli', link: 'articles' },
-      { label: 'Eventi', link: 'events' }
-    ];
+
+  }
+
+  ngAfterViewInit() {
+    this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
   }
 
 }

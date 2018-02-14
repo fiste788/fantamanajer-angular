@@ -4,13 +4,13 @@ import { AuthGuard } from '../shared/auth/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
-  // { path: 'members/free', component: MemberFreeComponent, canActivate: [AuthGuard] },
   {
     path: '',
-    redirectTo: '',
-    children: [
-      { path: '', component: ProfileComponent, canActivate: [AuthGuard] }
-    ]
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumbs: 'Impostazioni'
+    }
   }
 ];
 

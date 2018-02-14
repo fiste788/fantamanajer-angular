@@ -4,10 +4,7 @@
             <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"></fm-parallax-header>
         </div>
     </div>
-    <div class="mat-elevation-z4">
-        <fm-member-list *ngIf="members" [members]="members" [hideClub]="true"></fm-member-list>
-    </div>
-
+    <fm-member-list *ngIf="members" [members]="members" [hideClub]="true"></fm-member-list>
 </div>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
