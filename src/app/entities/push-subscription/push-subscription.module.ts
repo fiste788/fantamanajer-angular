@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SubscriptionService } from './subscription.service';
+import { PushSubscriptionService } from './push-subscription.service';
 
 @NgModule({
   imports: [CommonModule],
   declarations: [],
-  providers: [SubscriptionService]
+  providers: [PushSubscriptionService]
 })
-export class SubscriptionModule {}
+export class PushSubscriptionModule { }

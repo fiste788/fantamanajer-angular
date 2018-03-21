@@ -19,4 +19,9 @@ export class TeamService {
   getTeam(id: number): Observable<Team> {
     return this.http.get<Team>(`${this.url}/${id}`);
   }
+
+  update(team: Team): Observable<any> {
+    const url = `${this.url}/${team.id}`;
+    return this.http.put(url, JSON.stringify(team));
+  }
 }

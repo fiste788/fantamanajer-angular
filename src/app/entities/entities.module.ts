@@ -16,7 +16,7 @@ import { RoleModule } from './role/role.module';
 import { ScoreModule } from './score/score.module';
 import { SeasonModule } from './season/season.module';
 import { SelectionModule } from './selection/selection.module';
-import { SubscriptionModule } from './subscription/subscription.module';
+import { PushSubscriptionModule } from './push-subscription/push-subscription.module';
 import { TeamModule } from './team/team.module';
 import { TransfertModule } from './transfert/transfert.module';
 
@@ -38,7 +38,7 @@ import { TransfertModule } from './transfert/transfert.module';
     ScoreModule,
     SeasonModule,
     SelectionModule,
-    SubscriptionModule,
+    PushSubscriptionModule,
     TeamModule,
     TransfertModule
   ],

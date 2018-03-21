@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { PushSubscription } from './push-subscription';
 
 @Injectable()
-export class SubscriptionService {
-  private url = 'webpush';
+export class PushSubscriptionService {
+  private url = 'push_subscriptions';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -22,7 +23,7 @@ export class SubscriptionService {
     return outputArray;
   }
 
-  add(subscription): Observable<any> {
+  add(subscription: PushSubscription): Observable<any> {
     return this.http.post(this.url, subscription);
   }
 

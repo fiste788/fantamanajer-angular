@@ -19,7 +19,7 @@ import { MatchdayModule } from '../entities/matchday/matchday.module';
 import { UserCommonModule } from '../user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
 import { NotificationModule } from '../entities/notification/notification.module';
-import { SubscriptionModule } from '../entities/subscription/subscription.module';
+import { PushSubscriptionModule } from '../entities/push-subscription/push-subscription.module';
 import { PushModule } from '../shared/push/push.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
 import { WindowRef } from 'app/core/WindowRef';
@@ -34,7 +34,7 @@ import { WindowRef } from 'app/core/WindowRef';
     MemberCommonModule,
     MatchdayModule,
     NotificationModule,
-    SubscriptionModule,
+    PushSubscriptionModule,
     PushModule
   ],
   exports: [

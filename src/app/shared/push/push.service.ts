@@ -1,11 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
-import { SubscriptionService } from '../../entities/subscription/subscription.service';
+import { PushSubscriptionService } from '../../entities/push-subscription/push-subscription.service';
 import { NotificationService } from '../../entities/notification/notification.service';
 import { Notification } from '../../entities/notification/notification';
 import { environment } from 'environments/environment';
+import { PushSubscription } from 'app/entities/push-subscription/push-subscription';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { Observable } from 'rxjs/Observable';
 import { take } from 'rxjs/operators/take';
+import { defaultIfEmpty } from 'rxjs/operators/defaultIfEmpty';
 
 @Injectable()
 export class PushService {
@@ -13,33 +17,43 @@ export class PushService {
   // private notificationComponent: NotificationListComponent = null;
 
   constructor(
-    public subscription: SubscriptionService,
+    public subscription: PushSubscriptionService,
     public swPush: SwPush,
     public snackBar: MatSnackBar,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {
 
   }
 
   subscribeToPush() {
-    // Requesting messaging service to subscribe current client (browser)
+    this.swPush.subscription.pipe(defaultIfEmpty(null)).subscribe(subs => {
+      if (!subs) {
+        this.requestSubscription();
+      }
+    });
+  }
+
+  private requestSubscription() {
     this.swPush
       .requestSubscription({
         serverPublicKey: environment.vapidPublicKey
       })
       .then(pushSubscription => {
-        // Passing subscription object to our backend
-        this.subscription.add(pushSubscription).subscribe(res => {
-          const snackBarRef = this.snackBar.open(
-            'Now you are subscribed',
-            null,
-            {
-              duration: 2000
-            }
-          );
+        const pushSubscriptionModel = new PushSubscription();
+        pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.authService.user.id).then(sub => {
+          // Passing subscription object to our backend
+          this.subscription.add(sub).subscribe(res => {
+            const snackBarRef = this.snackBar.open(
+              'Now you are subscribed',
+              null,
+              {
+                duration: 2000
+              }
+            );
+          }, () => pushSubscription.unsubscribe());
         });
-      })
-      .catch(err => {
+      }).catch(err => {
         console.error(err);
       });
   }
