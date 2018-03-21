@@ -42,33 +42,33 @@ export class SharedService {
 
   initialize() {
     this.getCurrentMatchday();
-    this.auth.loggedUser.subscribe((user: User) => {
-      if (user) {
-        this.loadTeams(user.teams);
-        this.pushService.subscribeToPush();
-        this.pushService.showMessages();
-      } else {
-        this.currentTeam = null;
-      }
-    });
+    this.auth.loggedUser.subscribe(this.initializeUser.bind(this));
     if (this.auth.loggedIn()) {
-      this.loadTeams();
-      if (environment.production) {
-        this.pushService.subscribeToPush();
-        this.pushService.showMessages();
-      }
+      this.initializeUser();
     }
     this.checkForUpdates();
   }
 
-  loadTeams(teams?) {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    teams = teams || (user ? user.teams : []);
+  initializeUser(user?: User) {
+    user = user || this.auth.user;
+    if (user) {
+      this.loadTeams(user.teams);
+      if (environment.production) {
+        this.pushService.subscribeToPush();
+        this.pushService.showMessages();
+      }
+    } else {
+      this.currentTeam = null;
+    }
+  }
+
+  loadTeams(teams?: Team[]) {
+    teams = teams || [];
     this.teams = teams;
     this.setCurrentTeam(this.teams[0]);
   }
 
-  setCurrentTeam(team) {
+  setCurrentTeam(team: Team) {
     if (team) {
       this.currentTeam = team;
       this.currentChampionship = team.championship;

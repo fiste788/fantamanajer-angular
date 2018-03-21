@@ -29,7 +29,7 @@
             "environments": {
                 "dev": "environments/environment.ts",
                 "prod": "environments/environment.prod.ts",
-                "sw": "environments/environment.sw.ts"
+                "testprod": "environments/environment.testprod.ts"
             }
         }
     ],

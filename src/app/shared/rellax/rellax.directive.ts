@@ -68,7 +68,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.init();
+    this.ngZone.runOutsideAngular(this.init.bind(this));
   }
 
   clamp(num, min, max) {
@@ -195,11 +195,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // loop again
-    this.ngZone.runOutsideAngular(() => {
-
-      this.frame = this.loop(this.update.bind(this));
-
-    });
+    this.frame = this.loop(this.update.bind(this));
 
   }
 

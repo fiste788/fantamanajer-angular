@@ -5,9 +5,11 @@ import { Member } from '../../member/member';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Role } from '../../role/role';
-import { LineupService } from '../lineup.service';
+import { LineupService, LineupResponse } from '../lineup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs/Observable';
 import { SharedService } from 'app/shared/shared.service';
+import { share } from 'rxjs/operators/share';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -20,10 +22,13 @@ export class LineupDetailComponent implements OnInit {
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
   public lineup: Lineup;
+  public lineupResponse: Observable<LineupResponse>;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
   benchs: number[] = [];
+  teamId: number;
+  editMode = false;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -33,6 +38,8 @@ export class LineupDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.teamId = this.shared.getTeamId(this.route);
+    this.editMode = this.shared.currentTeam.id === this.teamId;
     this.benchs = Array(7)
       .fill(7)
       .map((x, i) => i + 11);
@@ -40,7 +47,8 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
-    this.lineupService.getLineup(this.shared.getTeamId(this.route)).subscribe(data => {
+    this.lineupResponse = this.lineupService.getLineup(this.teamId).pipe(share());
+    this.lineupResponse.subscribe(data => {
       data.members.forEach(function (element, index) {
         if (!this.membersByRole.has(element.role.abbreviation)) {
           this.membersByRole.set(element.role.abbreviation, []);
@@ -51,24 +59,25 @@ export class LineupDetailComponent implements OnInit {
       data.modules.forEach(function (element, index) {
         this.modules.push(new Module(element));
       }, this);
-      this.lineup = (data.lineup as Lineup) || new Lineup();
-      // this.lineup = new Lineup(data.lineup);
-      if (this.lineup.module) {
-        this.lineup.module_object = this.modules.find(element => {
-          return element.key === this.lineup.module;
-        }, this);
-        this.changeModule();
-      }
-      this.lineup.team_id = this.shared.currentTeam.id;
-      this.lineup.matchday_id = this.shared.currentMatchday.id;
-      let i = 0;
-      for (i = 0; i < 18; i++) {
-        if (
-          this.lineup.dispositions.length < i ||
-          this.lineup.dispositions[i] == null
-        ) {
-          this.lineup.dispositions[i] = new Disposition();
-          this.lineup.dispositions[i].position = i + 1;
+      this.lineup = (data.lineup as Lineup) || ((this.editMode) ? new Lineup() : undefined);
+      if (this.lineup) {
+        if (this.lineup.module) {
+          this.lineup.module_object = this.modules.find(element => {
+            return element.key === this.lineup.module;
+          }, this);
+          this.changeModule();
+        }
+        this.lineup.team_id = this.shared.currentTeam.id;
+        this.lineup.matchday_id = this.shared.currentMatchday.id;
+        let i = 0;
+        for (i = 0; i < 18; i++) {
+          if (
+            this.lineup.dispositions.length < i ||
+            this.lineup.dispositions[i] == null
+          ) {
+            this.lineup.dispositions[i] = new Disposition();
+            this.lineup.dispositions[i].position = i + 1;
+          }
         }
       }
     });

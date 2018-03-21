@@ -4,7 +4,13 @@
         <ng-container matColumnDef="player">
             <mat-header-cell *matHeaderCellDef> Giocatore </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}} {{row.member.player.surname}}</a>
+                <mat-icon *ngIf="regular && row.consideration == 0">arrow_back</mat-icon>
+                <mat-icon *ngIf="!regular && row.consideration == 1">arrow_forward</mat-icon>
+                <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
+                <div>
+                    <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}} {{row.member.player.surname}}</a>
+                    <span *ngIf="captains && captains.has(row.member.id)">{{captains.get(row.member.id)}}</span>
+                </div>
             </mat-cell>
         </ng-container>
 
@@ -53,7 +59,7 @@
 
         <ng-container matColumnDef="points">
             <mat-header-cell *matHeaderCellDef> Punti </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.member.ratings[0].points_no_bonus * row.consideration}}</mat-cell>
+            <mat-cell *matCellDef="let row">{{row.member.ratings[0].points_no_bonus * (regular ? row.consideration : 1)}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

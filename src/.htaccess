@@ -1,0 +1,37 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+	
+	#RewriteCond %{SERVER_PORT} !^443
+    #RewriteRule ^ https://fantamanajer.it%{REQUEST_URI} [R=301,L]
+	RewriteCond %{HTTPS} !=on
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+	
+	
+	# If an existing asset or directory is requested go to it as it is
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+	RewriteRule ^ - [L]
+
+	# If the requested pattern is file and file doesn't exist, send 404
+	RewriteCond %{REQUEST_URI} ^(\/[a-z_\-\s0-9\.]+)+\.[a-zA-Z]{2,4}$
+	RewriteRule ^ - [L,R=404]
+
+	# otherwise use history router
+	RewriteRule ^ /index.html
+
+</IfModule>
+<IfModule mod_expires.c>
+
+ExpiresActive on
+    ExpiresDefault                                      "access plus 1 month"
+
+  # CSS
+
+    ExpiresByType text/css                              "access plus 1 year"
+	
+  # JavaScript
+
+    ExpiresByType application/javascript                "access plus 1 year"
+    ExpiresByType application/x-javascript              "access plus 1 year"
+    ExpiresByType text/javascript                       "access plus 1 year"
+</IfModule>

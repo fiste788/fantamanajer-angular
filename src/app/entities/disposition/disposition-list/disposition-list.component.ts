@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs/Observable';
 import { Disposition } from '../../disposition/disposition';
+import { Lineup } from '../../lineup/lineup';
 import { Router, RouterModule } from '@angular/router';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 import { of } from 'rxjs/observable/of';
@@ -13,8 +14,11 @@ import { of } from 'rxjs/observable/of';
   animations: [TableRowAnimation]
 })
 export class DispositionListComponent implements OnInit {
+  @Input() public lineup?: Lineup;
   @Input() public dispositions: Disposition[];
   @Input() public caption: string;
+  @Input() public regular = false;
+  private captains: Map<number, string>;
 
   dataSource: MatTableDataSource<Disposition>;
   displayedColumns = [
@@ -32,6 +36,12 @@ export class DispositionListComponent implements OnInit {
   constructor(private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
+    if (this.lineup) {
+      this.captains = new Map();
+      this.captains.set(this.lineup.captain_id, 'C');
+      this.captains.set(this.lineup.vcaptain_id, 'VC');
+      this.captains.set(this.lineup.vvcaptain_id, 'VVC');
+    }
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
 }

@@ -1,3 +1,17 @@
 .mat-column-player {
-    min-width: 155px;
+  min-width: 155px;
+  flex: 2 auto;
+}
+
+.mat-column-club {
+  flex: 2;
+}
+@media (max-width: 600px) {
+  .mat-column-club,
+  .mat-column-sum_assist,
+  .mat-column-sum_goals_against,
+  .mat-column-sum_red_card,
+  .mat-column-sum_yellow_card {
+    display: none;
+  }
 }

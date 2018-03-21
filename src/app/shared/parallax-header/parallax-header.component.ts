@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { RellaxDirective } from '../rellax/rellax.directive';
 import { MatTabGroup } from '@angular/material/tabs';
 
@@ -7,7 +7,7 @@ import { MatTabGroup } from '@angular/material/tabs';
   templateUrl: './parallax-header.component.html',
   styleUrls: ['./parallax-header.component.scss']
 })
-export class ParallaxHeaderComponent implements OnInit, AfterViewInit {
+export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
   @Input() public title: string;
   @Input() public subtitle: string;
   @Input() public image: string;
@@ -19,7 +19,7 @@ export class ParallaxHeaderComponent implements OnInit, AfterViewInit {
   public width = 0;
   constructor() { }
 
-  ngOnInit() {
+  ngOnChanges(changes) {
     if (this.backgroundImage) {
       if (typeof this.backgroundImage !== 'string') {
         const srcset = [];
@@ -36,6 +36,8 @@ export class ParallaxHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
+    if (this.tabGroup) {
+      this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
+    }
   }
 }

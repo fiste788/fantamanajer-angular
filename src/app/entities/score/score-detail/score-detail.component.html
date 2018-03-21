@@ -1,7 +1,7 @@
 <div *ngIf="score | async as score; else loading">
     <h1 class="mat-headline">Punteggio: {{score.points}}</h1>
     <div *ngIf="score.lineup">
-        <fm-disposition-list *ngIf="regular.length" [dispositions]="regular" caption="Titolari"></fm-disposition-list>
+        <fm-disposition-list *ngIf="regular.length" [regular]="true" [lineup]="score.lineup" [dispositions]="regular" caption="Titolari"></fm-disposition-list>
         <fm-disposition-list *ngIf="notRegular.length" [dispositions]="notRegular" caption="Panchinari"></fm-disposition-list>
     </div>
 </div>

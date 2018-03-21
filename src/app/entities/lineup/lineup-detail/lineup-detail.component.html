@@ -1,46 +1,53 @@
-<div *ngIf="lineup" class="flex-container">
-    <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
-        <mat-form-field>
-            <mat-select name="module" [(ngModel)]="lineup.module_object" placeholder="Seleziona il modulo" (change)="changeModule()">
-                <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div *ngIf="lineup.modified_at">{{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
-        <mat-checkbox [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
-    </div>
-    <div id="cloni" *ngIf="lineup.module_object">
-        <div *ngFor="let key of roleKeys" [class]="key" class="role-container" fxLayout="row">
-            <h5>{{key}}</h5>
-            <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-                <div class="disposition" *ngFor="let key2 of lineup.module_object.map.get(key)">
-                    <mat-form-field hideRequiredMarker="true" floatPlaceholder="never">
-                        <mat-select [placeholder]="key" required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id" (change)="removeBenchwarmer($event)"
-                            [name]="key + '-' + key2">
-                            <mat-option>{{key}}</mat-option>
-                            <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isRegular(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+<div *ngIf="lineupResponse | async; else loading">
+    <div *ngIf="lineup" class="flex-container">
+        <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
+            <mat-form-field>
+                <mat-select [disabled]="!editMode" name="module" [(ngModel)]="lineup.module_object" placeholder="Modulo" (change)="changeModule()">
+                    <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
+            <mat-checkbox [disabled]="!editMode" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
+        </div>
+        <div id="cloni" *ngIf="lineup.module_object">
+            <div *ngFor="let key of roleKeys" [ngClass]="[key, 'role-container']" fxLayout="row">
+                <h5>{{key}}</h5>
+                <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
+                    <div class="disposition" *ngFor="let key2 of lineup.module_object.map.get(key)">
+                        <mat-form-field hideRequiredMarker="true" floatPlaceholder="never">
+                            <mat-select [disabled]="!editMode" [placeholder]="key" required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id"
+                                (change)="removeBenchwarmer($event)" [name]="key + '-' + key2">
+                                <mat-option>{{key}}</mat-option>
+                                <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isRegular(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
         </div>
+        <div>
+            <h5>Capitani</h5>
+            <mat-form-field *ngFor="let captain of captainsKeys">
+                <mat-select [disabled]="!editMode" [(ngModel)]="lineup[captains.get(captain) + '_id']" [placeholder]="captain" [name]="captain">
+                    <mat-option *ngFor="let member of getCapitanables()" [disabled]="isCaptainAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <h5>Panchinari</h5>
+            <mat-form-field *ngFor="let bench of benchs">
+                <mat-select [disabled]="!editMode" [(ngModel)]="lineup.dispositions[bench].member_id" [placeholder]="'Panchinaro ' + (bench - 10)"
+                    [name]="bench">
+                    <mat-optgroup [label]="key" *ngFor="let key of roleKeys">
+                        <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                    </mat-optgroup>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <button *ngIf="editMode" color="accent" mat-raised-button (click)="save()">Salva</button>
     </div>
-    <div>
-        <h5>Capitani</h5>
-        <mat-form-field *ngFor="let captain of captainsKeys">
-            <mat-select [(ngModel)]="lineup[captains.get(captain) + '_id']" [name]="captain">
-                <mat-option *ngFor="let member of getCapitanables()" [disabled]="isCaptainAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div>
-        <h5>Panchinari</h5>
-        <mat-form-field *ngFor="let bench of benchs">
-            <mat-select [(ngModel)]="lineup.dispositions[bench].member_id" [name]="bench">
-                <mat-optgroup [label]="key" *ngFor="let key of roleKeys">
-                    <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
-                </mat-optgroup>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <button color="accent" mat-raised-button (click)="save()">Salva</button>
+    <h3 class="subheading-1" *ngIf="!lineup">Formazione non settata</h3>
 </div>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

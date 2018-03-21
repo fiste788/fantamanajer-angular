@@ -22,6 +22,7 @@ export class AuthService {
     if (this.loggedIn()) {
       this.token = localStorage.getItem('token');
       this.user = JSON.parse(localStorage.getItem('currentUser'));
+      this.loggedUser.emit(this.user);
     } else {
       this.logout();
     }

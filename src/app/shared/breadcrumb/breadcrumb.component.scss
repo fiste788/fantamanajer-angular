@@ -9,11 +9,10 @@
   display: flex;
 
   li {
-    max-width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
-    min-width: 40px;
+    min-width: 41px;
   }
 
   li,

@@ -1,18 +1,18 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "../out-tsc/app",
-        "module": "es2015",
-        "baseUrl": "./",
-        "types": [],
-        "allowJs": false
-    },
-    "angularCompilerOptions": {
-        "preserveWhitespaces": false,
-        "fullTemplateTypeCheck": true
-    },
-    "exclude": [
-        "test.ts",
-        "**/*.spec.ts"
-    ]
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "baseUrl": "./",
+    "types": [],
+    "allowJs": false
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false,
+    "fullTemplateTypeCheck": true
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
 }

@@ -1,4 +1,4 @@
-<div *ngIf="clubs | async as clubs; else loading" class="flex-container" fxLayoutWrap="row" fxLayout.xs="column" fxLayoutAlign="space-around center"
+<div *ngIf="clubs | async as clubs; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center"
     fxLayoutAlign.xs="start" @cardCreationAnimation>
 
     <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let club of clubs; let i=index">
