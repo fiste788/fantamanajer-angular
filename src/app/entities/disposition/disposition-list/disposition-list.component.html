@@ -9,7 +9,7 @@
                 <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
                 <div>
                     <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}} {{row.member.player.surname}}</a>
-                    <span *ngIf="captains && captains.has(row.member.id)">{{captains.get(row.member.id)}}</span>
+                    <span *ngIf="captains && captains.has(row.member.id)">&nbsp;{{captains.get(row.member.id)}}</span>
                 </div>
             </mat-cell>
         </ng-container>
