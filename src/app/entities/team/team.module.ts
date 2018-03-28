@@ -12,7 +12,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
 import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
-import { EmailSubscriptionModule } from '../email-subscription/email-subscription.module';
+import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { EmailSubscriptionModule } from '../email-subscription/email-subscriptio
     MemberCommonModule,
     FileUploadModule,
     MatDialogModule,
-    EmailSubscriptionModule
+    NotificationSubscriptionModule
   ],
   declarations: [
     TeamComponent,

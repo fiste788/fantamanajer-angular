@@ -1,10 +1,16 @@
 <h1 mat-dialog-title>{{data.team.name}}</h1>
 <div mat-dialog-content>
     <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOver($event)" [uploader]="uploader" class="well my-drop-zone">
-        Trascina quì il file per caricarlo
+        <p>Trascina quì l'immagine del logo per caricarlo</p>
+        <br>
         <input placeholder="Immagine di sfondo" type="file" ng2FileSelect [uploader]="uploader" />
     </div>
-    <fm-email-subscription [(subscription)]="team.email_subscription"></fm-email-subscription>
+    <div>
+        <fm-notification-subscription type="email" label="Notifiche tramite email" [(subscriptions)]="team.email_notification_subscriptions"
+            [team]="team"></fm-notification-subscription>
+        <fm-notification-subscription type="push" label="Notifiche push" [(subscriptions)]="team.push_notification_subscriptions"
+            [team]="team"></fm-notification-subscription>
+    </div>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="save()" tabindex="2">SALVA</button>

@@ -36,9 +36,6 @@ export class TeamDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
-      if (!this.team.email_subscription) {
-        this.team.email_subscription = new EmailSubscription();
-      }
     });
   }
 
