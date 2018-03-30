@@ -12,6 +12,6 @@ export class Team {
   championship_id: number;
   championship: Championship;
   photo_url: string;
-  email_notification_subscription: NotificationSubscription[];
-  push_notification_subscription: NotificationSubscription[];
+  email_notification_subscriptions: NotificationSubscription[];
+  push_notification_subscriptions: NotificationSubscription[];
 }

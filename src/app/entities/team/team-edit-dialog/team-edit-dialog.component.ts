@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
 import { TeamService } from '../team.service';
 import { Team } from '../team';
 import { EmailSubscription } from 'app/entities/email-subscription/email-subscription';
+import { NotificationSubscription } from 'app/entities/notification-subscription/notification-subscription';
 
 @Component({
   selector: 'fm-team-edit-dialog',
@@ -48,22 +49,35 @@ export class TeamEditDialogComponent {
   save(): void {
     if (this.uploader.queue.length) {
       this.uploader.options.additionalParameter = {
-        id: this.team.id,
+        id: this.team.id
         // 'email_subscription[id]': this.team.email_subscription.id,
         // 'email_subscription[lineups]': this.team.email_subscription.lineups ? 1 : 0,
         // 'email_subscription[lost_member]': this.team.email_subscription.lost_member ? 1 : 0,
         // 'email_subscription[score]': this.team.email_subscription.score ? 1 : 0,
       };
-      this.team.email_notification_subscription.forEach(element => {
-        this.uploader.options.additionalParameter['email_notification_subscription[].name'] = element.name;
-        this.uploader.options.additionalParameter['email_notification_subscription[].enabled'] = element.enabled;
-      });
-      this.uploader.options.additionalParameter.
-        this.uploader.uploadAll();
+      Object.assign(this.uploader.options.additionalParameter, this.objectToPostParams(this.team, 'email_notification_subscriptions'));
+      Object.assign(this.uploader.options.additionalParameter, this.objectToPostParams(this.team, 'push_notification_subscriptions'));
+      this.uploader.uploadAll();
       this.uploader.onCompleteAll = () => this.dialogRef.close(this.teamService.getTeam(this.team.id));
     } else {
       this.teamService.update(this.team).subscribe(() => this.dialogRef.close());
     }
+  }
+
+  private objectToPostParams(team: Team, fieldName: string): any {
+    const fields = {};
+    team[fieldName].forEach((element: NotificationSubscription, i) => {
+      if (element.enabled) {
+        Object.keys(element).filter(f => f !== 'id').forEach(field => {
+          let value = element[field];
+          if (field === 'enabled') {
+            value = 1;
+          }
+          fields[fieldName + '[' + i + '][' + field + ']'] = value;
+        });
+      }
+    });
+    return fields;
   }
 
   public fileOver(e: any): void {
