@@ -7,7 +7,7 @@ import { User } from '../../user/user';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AuthService {
+export class SecurityService {
   private loginUrl = 'users/token'; // URL to web api
   @Output() loggedUser: EventEmitter<User> = new EventEmitter();
   public token: string;
@@ -79,5 +79,9 @@ export class AuthService {
       this.user = user;
       this.loggedUser.emit(user);
     });
+  }
+
+  initializeApp() {
+    return this.getUserInfo();
   }
 }

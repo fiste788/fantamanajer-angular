@@ -59,6 +59,7 @@ export class SharedService {
       }
     } else {
       this.currentTeam = null;
+      // this.router.navigate(['/']);
     }
   }
 

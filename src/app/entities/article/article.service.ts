@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Article } from './article';
 import { SharedService } from 'app/shared/shared.service';
+import { PagedResponse } from 'app/shared/pagination/paged-response';
 
 @Injectable()
 export class ArticleService {
@@ -15,18 +16,21 @@ export class ArticleService {
     private shared: SharedService
   ) { }
 
-  getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(location.pathname.substring(1));
+  getArticles(page = 1): Observable<PagedResponse<Article[]>> {
+    const params = new HttpParams().set('page', `${page}`);
+    return this.http.get<PagedResponse<Article[]>>(location.pathname.substring(1), { params: params });
   }
 
-  getArticlesByTeam(team_id: number): Observable<Article[]> {
-    return this.http.get<Article[]>('team/' + team_id + '/' + this.url);
+  getArticlesByTeam(team_id: number, page = 1): Observable<PagedResponse<Article[]>> {
+    const params = new HttpParams().set('page', `${page}`);
+    return this.http.get<PagedResponse<Article[]>>('teams/' + team_id + '/' + this.url, { params: params });
   }
 
-  getArticlesByChampionship(championship_id: number): Observable<Article[]> {
-    return this.http.get<Article[]>(
-      'championship/' + championship_id + '/' + this.url
-    );
+  getArticlesByChampionship(championship_id: number, page = 1): Observable<PagedResponse<Article[]>> {
+    const params = new HttpParams().set('page', `${page}`);
+    return this.http.get<PagedResponse<Article[]>>(
+      'championships/' + championship_id + '/' + this.url
+      , { params: params });
   }
 
   getArticle(id: number): Observable<Article> {

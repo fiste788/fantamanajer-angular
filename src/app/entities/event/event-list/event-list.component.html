@@ -1,4 +1,4 @@
-<mat-list *ngIf="events | async as events; else loading" @listItemAnimation>
+<mat-list *ngIf="events.length" @listItemAnimation (scrolled)="onScrollDown()" infiniteScroll [fromRoot]="true" [infiniteScrollContainer]="'mat-sidenav-content'">
     <mat-list-item *ngFor="let event of events">
         <mat-icon mat-list-icon>{{event.icon}}</mat-icon>
         <h3 mat-line> {{event.title}} </h3>
@@ -6,6 +6,4 @@
         <p mat-line> {{event.body}} </p>
     </mat-list-item>
 </mat-list>
-<ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
-</ng-template>
+<mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>

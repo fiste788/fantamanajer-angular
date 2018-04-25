@@ -1,6 +1,6 @@
-<div class="mat-elevation-z8 ranking-container" *ngIf="rankingDataSource && scoresDataSource; else loading">
+<div class="mat-elevation-z8 ranking-container" *ngIf="dataSource; else loading">
     <div class="table-container">
-        <mat-table #table [dataSource]="rankingDataSource" class="ranking" @tableRowAnimation>
+        <mat-table #table [dataSource]="dataSource" class="ranking" @tableRowAnimation>
             <ng-container matColumnDef="teamName">
                 <mat-header-cell *matHeaderCellDef> Squadra </mat-header-cell>
                 <mat-cell *matCellDef="let row">
@@ -18,16 +18,16 @@
         </mat-table>
     </div>
     <div class="table-container scores-container">
-        <mat-table #table [dataSource]="scoresDataSource" class="scores" @tableRowAnimation>
-            <ng-container *ngFor="let column of scoresDisplayedColumns" [matColumnDef]="column">
-                <mat-header-cell *matHeaderCellDef> {{column}} </mat-header-cell>
+        <mat-table #table [dataSource]="dataSource" class="scores" @tableRowAnimation>
+            <ng-container *ngFor="let matchday of matchdays" [matColumnDef]="matchday">
+                <mat-header-cell *matHeaderCellDef> {{matchday}} </mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <a routerLink="/scores/{{row.get(column).id}}">{{row.get(column).points}}</a>
+                    <a routerLink="/scores/{{row.scores[matchday].id}}">{{row.scores[matchday].points}}</a>
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="scoresDisplayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: scoresDisplayedColumns;"></mat-row>
+            <mat-header-row *matHeaderRowDef="matchdays"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: matchdays;"></mat-row>
         </mat-table>
     </div>
 </div>

@@ -12,7 +12,6 @@ import { MainComponent } from './layout/main/main.component';
 import { HomeComponent } from './home/home.component';
 import 'hammerjs';
 
-
 @NgModule({
   declarations: [HomeComponent],
   imports: [

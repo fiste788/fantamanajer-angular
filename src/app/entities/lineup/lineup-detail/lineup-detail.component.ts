@@ -5,7 +5,7 @@ import { Member } from '../../member/member';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Role } from '../../role/role';
-import { LineupService, LineupResponse } from '../lineup.service';
+import { LineupService } from '../lineup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/Observable';
 import { SharedService } from 'app/shared/shared.service';
@@ -22,7 +22,7 @@ export class LineupDetailComponent implements OnInit {
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
   public lineup: Lineup;
-  public lineupResponse: Observable<LineupResponse>;
+  public lineupResponse: Observable<Lineup>;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
@@ -48,18 +48,18 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
     this.lineupResponse = this.lineupService.getLineup(this.teamId).pipe(share());
-    this.lineupResponse.subscribe(data => {
-      data.members.forEach(function (element, index) {
-        if (!this.membersByRole.has(element.role.abbreviation)) {
-          this.membersByRole.set(element.role.abbreviation, []);
+    this.lineupResponse.subscribe((lineup: Lineup) => {
+      this.lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
+      lineup.team.members.forEach((member, index) => {
+        if (!this.membersByRole.has(member.role.abbreviation)) {
+          this.membersByRole.set(member.role.abbreviation, []);
         }
-        this.membersByRole.get(element.role.abbreviation).push(element);
-        this.membersById.set(element.id, element);
+        this.membersByRole.get(member.role.abbreviation).push(member);
+        this.membersById.set(member.id, member);
       }, this);
-      data.modules.forEach(function (element, index) {
-        this.modules.push(new Module(element));
+      lineup.modules.forEach((module, index) => {
+        this.modules.push(new Module(module));
       }, this);
-      this.lineup = (data.lineup as Lineup) || ((this.editMode) ? new Lineup() : undefined);
       if (this.lineup) {
         if (this.lineup.module) {
           this.lineup.module_object = this.modules.find(element => {

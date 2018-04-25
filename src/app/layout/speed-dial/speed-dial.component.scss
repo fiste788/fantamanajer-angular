@@ -1,11 +1,12 @@
-smd-fab-speed-dial {
+:host {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1;
 }
 @media (min-width: 960px) {
-  smd-fab-speed-dial {
-    bottom: 28px;
+  :host {
+    bottom: 1.5rem;
     left: 212px;
     right: unset !important;
   }

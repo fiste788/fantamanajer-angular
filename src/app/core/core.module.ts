@@ -3,7 +3,8 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
+  APP_INITIALIZER
 } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -15,6 +16,7 @@ import { ApiInterceptor } from '../shared/interceptor/api.interceptor';
 import { SharedService } from '../shared/shared.service';
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../shared/auth/auth.module';
+import { AuthService } from '../shared/auth/auth.service';
 import { MatchdayModule } from '../entities/matchday/matchday.module';
 import { UserCommonModule } from '../user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
@@ -23,6 +25,8 @@ import { PushSubscriptionModule } from '../entities/push-subscription/push-subsc
 import { PushModule } from '../shared/push/push.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
 import { WindowRef } from 'app/core/WindowRef';
+
+export function useFactory(service: AuthService) { return () => service.getUserInfo(); }
 
 @NgModule({
   imports: [
@@ -45,6 +49,7 @@ import { WindowRef } from 'app/core/WindowRef';
   declarations: [],
   providers: [
     SharedService,
+    AuthService,
     WindowRef,
     {
       provide: HTTP_INTERCEPTORS,
@@ -54,6 +59,12 @@ import { WindowRef } from 'app/core/WindowRef';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: useFactory,
+      deps: [AuthService],
       multi: true
     }
   ]
