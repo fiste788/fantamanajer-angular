@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
-import { SharedService } from 'app/shared/shared.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-notification-list',
@@ -17,7 +17,7 @@ export class NotificationListComponent implements OnInit {
 
   constructor(
     public notificationService: NotificationService,
-    private shared: SharedService
+    private app: ApplicationService
   ) {
     this.subscription = this.notificationService.subscribe(payload => {
       this.notifications.push(payload);
@@ -25,8 +25,8 @@ export class NotificationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.shared.currentTeam) {
-      this.notificationService.getNotifications(this.shared.currentTeam.id);
+    if (this.app.team) {
+      this.notificationService.getNotifications(this.app.team.id);
     }
   }
 }

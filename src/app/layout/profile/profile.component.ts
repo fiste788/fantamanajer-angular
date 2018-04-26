@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../shared/shared.service';
 import { AuthService } from '../../shared/auth/auth.service';
+import { ApplicationService } from '../../core/application.service';
 
 @Component({
   selector: 'fm-profile',
@@ -11,7 +11,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
-    public shared: SharedService,
+    public app: ApplicationService
   ) { }
 
   ngOnInit() {

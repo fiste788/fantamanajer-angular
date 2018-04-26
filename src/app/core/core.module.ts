@@ -16,7 +16,7 @@ import { ApiInterceptor } from '../shared/interceptor/api.interceptor';
 import { SharedService } from '../shared/shared.service';
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../shared/auth/auth.module';
-import { AuthService } from '../shared/auth/auth.service';
+import { ApplicationService } from './application.service';
 import { MatchdayModule } from '../entities/matchday/matchday.module';
 import { UserCommonModule } from '../user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
@@ -26,7 +26,7 @@ import { PushModule } from '../shared/push/push.module';
 import { SrcsetDirective } from '../shared/srcset.directive';
 import { WindowRef } from 'app/core/WindowRef';
 
-export function useFactory(service: AuthService) { return () => service.getUserInfo(); }
+export function useFactory(service: ApplicationService) { return () => service.initialize(); }
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ export function useFactory(service: AuthService) { return () => service.getUserI
   declarations: [],
   providers: [
     SharedService,
-    AuthService,
+    ApplicationService,
     WindowRef,
     {
       provide: HTTP_INTERCEPTORS,
@@ -64,7 +64,7 @@ export function useFactory(service: AuthService) { return () => service.getUserI
     {
       provide: APP_INITIALIZER,
       useFactory: useFactory,
-      deps: [AuthService],
+      deps: [ApplicationService],
       multi: true
     }
   ]

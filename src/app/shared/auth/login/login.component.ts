@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { SharedService } from 'app/shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private sharedService: SharedService
+    private app: ApplicationService
   ) {
     this.loginData.remember_me = true;
   }
@@ -39,10 +39,10 @@ export class LoginComponent implements OnInit {
         if (result === true) {
           const url =
             this.route.snapshot.queryParams['returnUrl'] ||
-            '/championships/' + this.sharedService.currentChampionship.id;
+            '/championships/' + this.app.championship.id;
           this.router.navigate([url]);
         } else {
-          this.error = 'Username or password is incorrect';
+          this.error = 'Username or password invalid';
           this.loading = false;
         }
       });

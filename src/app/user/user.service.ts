@@ -8,10 +8,15 @@ import { environment } from '../../environments/environment';
 export class UserService {
   private url = 'users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.apiEndpoint + this.url);
+  token(email, password, remember_me = false): Observable<any> {
+    const body = {
+      email: email,
+      password: password,
+      remember_me: remember_me
+    };
+    return this.http.post(`${this.url}/token`, JSON.stringify(body));
   }
 
   getUser(id: number): Observable<User> {
@@ -21,5 +26,9 @@ export class UserService {
   update(user: User): Observable<any> {
     user.teams = undefined;
     return this.http.put(`${this.url}/${user.id}`, JSON.stringify(user));
+  }
+
+  getCurrent(): Observable<User> {
+    return this.http.get<User>(`${this.url}/current`);
   }
 }

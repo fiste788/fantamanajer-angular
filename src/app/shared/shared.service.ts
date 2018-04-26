@@ -16,63 +16,24 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class SharedService {
-  private currentSeason: number;
-  public currentMatchday: Matchday;
-  public currentChampionship: Championship;
-  public currentTeam: Team;
-  public teams: Team[];
-  public tabs: any[] = [];
-  public pageTitle: String = 'FantaManajer';
 
   constructor(
     private auth: AuthService,
-    private matchdayService: MatchdayService,
     private pushService: PushService,
     private swUpdate: SwUpdate,
     private snackBar: MatSnackBar,
     private winRef: WindowRef
   ) { }
 
-  getCurrentMatchday() {
-    this.matchdayService.getCurrentMatchday().subscribe(matchday => {
-      this.currentMatchday = matchday;
-      this.currentSeason = this.currentMatchday.season_id;
-    });
-  }
-
   initialize() {
-    this.getCurrentMatchday();
     this.auth.loggedUser.subscribe(this.initializeUser.bind(this));
-    if (this.auth.loggedIn()) {
-      this.initializeUser();
-    }
     this.checkForUpdates();
   }
 
   initializeUser(user?: User) {
-    user = user || this.auth.user;
-    if (user) {
-      this.loadTeams(user.teams);
-      if (environment.production) {
-        this.pushService.subscribeToPush();
-        this.pushService.showMessages();
-      }
-    } else {
-      this.currentTeam = null;
-      // this.router.navigate(['/']);
-    }
-  }
-
-  loadTeams(teams?: Team[]) {
-    teams = teams || [];
-    this.teams = teams;
-    this.setCurrentTeam(this.teams[0]);
-  }
-
-  setCurrentTeam(team: Team) {
-    if (team) {
-      this.currentTeam = team;
-      this.currentChampionship = team.championship;
+    if (user && environment.production) {
+      this.pushService.subscribeToPush();
+      this.pushService.showMessages();
     }
   }
 

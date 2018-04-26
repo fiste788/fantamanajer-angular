@@ -4,14 +4,14 @@ import {
     Router, Resolve, RouterStateSnapshot,
     ActivatedRouteSnapshot
 } from '@angular/router';
-import { SharedService } from '../../../shared/shared.service';
 import { Championship } from '../championship';
+import { ApplicationService } from 'app/core/application.service';
 
 @Injectable()
 export class ChampionshipResolver implements Resolve<Championship> {
-    constructor(private ss: SharedService, private router: Router) { }
+    constructor(private app: ApplicationService, private router: Router) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Championship {
-        return this.ss.currentChampionship;
+        return this.app.championship;
     }
 }

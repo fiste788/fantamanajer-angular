@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from 'app/shared/auth/auth.service';
 import { Team } from '../team';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
 import { Observable } from 'rxjs/Observable';
 import { EnterDetailAnimation } from 'app/shared/animations/enter-detail.animation';
 import { EmailSubscription } from '../../email-subscription/email-subscription';
 import { SharedService } from 'app/shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-team-detail',
@@ -26,7 +26,7 @@ export class TeamDetailComponent implements OnInit {
   ];
 
   constructor(
-    public auth: AuthService,
+    public app: ApplicationService,
     private route: ActivatedRoute,
     private shared: SharedService,
     private changeRef: ChangeDetectorRef,
@@ -47,7 +47,7 @@ export class TeamDetailComponent implements OnInit {
         // this.route.data
         team.subscribe((res) => {
           this.team = res;
-          this.shared.currentTeam = this.team;
+          this.app.team = this.team;
           this.changeRef.detectChanges();
         });
       }

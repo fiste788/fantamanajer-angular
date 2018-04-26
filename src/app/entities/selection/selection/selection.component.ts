@@ -16,6 +16,7 @@ import { SharedService } from 'app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-selection',
@@ -35,6 +36,7 @@ export class SelectionComponent implements OnInit {
     private teamService: TeamService,
     private selectionService: SelectionService,
     private sharedService: SharedService,
+    private app: ApplicationService,
     private changeRef: ChangeDetectorRef,
     private memberService: MemberService,
     private route: ActivatedRoute
@@ -55,7 +57,7 @@ export class SelectionComponent implements OnInit {
         localStorage.removeItem('buyingMember');
         const member = JSON.parse(buyingMember);
         this.memberService
-          .getFree(this.sharedService.currentChampionship.id, member.role_id)
+          .getFree(this.app.championship.id, member.role_id)
           .subscribe(members2 => {
             this.newMembers = members2;
             this.selection.new_member = member;
@@ -71,18 +73,15 @@ export class SelectionComponent implements OnInit {
   }
 
   playerChange() {
-    this.newMember.disabled = true;
-    this.memberService
-      .getFree(
-      this.sharedService.currentChampionship.id,
-      this.selection.old_member.role_id,
-      false
-      )
-      .subscribe(members => {
-        this.newMembers = members;
-        this.changeRef.detectChanges();
-        this.newMember.disabled = false;
-      });
+    if (this.selection.old_member) {
+      this.newMember.disabled = true;
+      this.memberService.getFree(this.app.championship.id, this.selection.old_member.role_id, false)
+        .subscribe(members => {
+          this.newMembers = members;
+          this.changeRef.detectChanges();
+          this.newMember.disabled = false;
+        });
+    }
   }
 
   compareFn(c1: Member, c2: Member): boolean {
@@ -97,7 +96,7 @@ export class SelectionComponent implements OnInit {
       }
       selection.new_member_id = this.selection.new_member.id;
       selection.old_member_id = this.selection.old_member.id;
-      selection.team_id = this.sharedService.currentTeam.id;
+      selection.team_id = this.app.team.id;
       let obs = null;
       if (selection.id) {
         obs = this.selectionService.update(selection);

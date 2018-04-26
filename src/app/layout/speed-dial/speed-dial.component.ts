@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth.service';
-import { SharedService } from '../../shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-speed-dial',
@@ -14,7 +14,7 @@ export class SpeedDialComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private router: Router,
-    public shared: SharedService) { }
+    public app: ApplicationService) { }
 
   ngOnInit() {
   }
@@ -22,11 +22,11 @@ export class SpeedDialComponent implements OnInit {
   _click(event: any) {
     if (event === 'transfert') {
       this.router.navigateByUrl(
-        '/teams/' + this.shared.currentTeam.id + '/transferts'
+        '/teams/' + this.app.team.id + '/transferts'
       );
     } else if (event === 'lineup') {
       this.router.navigateByUrl(
-        '/teams/' + this.shared.currentTeam.id + '/lineup/current'
+        '/teams/' + this.app.team.id + '/lineup/current'
       );
     } else if (event === 'article') {
       this.router.navigateByUrl('/articles/new');

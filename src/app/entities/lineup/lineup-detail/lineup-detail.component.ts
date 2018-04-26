@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs/Observable';
 import { SharedService } from 'app/shared/shared.service';
 import { share } from 'rxjs/operators/share';
+import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -34,12 +35,13 @@ export class LineupDetailComponent implements OnInit {
     public snackBar: MatSnackBar,
     private lineupService: LineupService,
     private route: ActivatedRoute,
-    private shared: SharedService
+    private shared: SharedService,
+    private app: ApplicationService
   ) { }
 
   ngOnInit() {
     this.teamId = this.shared.getTeamId(this.route);
-    this.editMode = this.shared.currentTeam.id === this.teamId;
+    this.editMode = this.app.team.id === this.teamId;
     this.benchs = Array(7)
       .fill(7)
       .map((x, i) => i + 11);
@@ -67,8 +69,8 @@ export class LineupDetailComponent implements OnInit {
           }, this);
           this.changeModule();
         }
-        this.lineup.team_id = this.shared.currentTeam.id;
-        this.lineup.matchday_id = this.shared.currentMatchday.id;
+        this.lineup.team_id = this.app.team.id;
+        this.lineup.matchday_id = this.app.matchday.id;
         let i = 0;
         for (i = 0; i < 18; i++) {
           if (

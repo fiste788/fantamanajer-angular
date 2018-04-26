@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedService } from '../../shared/shared.service';
+import { ApplicationService } from '../../core/application.service';
 import { AuthService } from '../../shared/auth/auth.service';
 import { MainComponent } from '../main/main.component';
 
@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(public main: MainComponent,
     public auth: AuthService,
     private router: Router,
-    public shared: SharedService) { }
+    public app: ApplicationService) { }
 
   ngOnInit() {
   }

@@ -55,8 +55,7 @@ export class PlayerComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private playerService: PlayerService,
-    public sharedService: SharedService
+    private playerService: PlayerService
   ) {
 
   }
