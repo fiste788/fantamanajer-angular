@@ -1,5 +1,5 @@
 import { Member } from '../member/member';
-import { User } from '../../user/user';
+import { User } from '../user/user';
 import { Championship } from '../championship/championship';
 import { NotificationSubscription } from '../notification-subscription/notification-subscription';
 

@@ -1,13 +1,12 @@
 import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { ClubService } from '../club.service';
+import { MemberService } from '../../member/member.service';
 import { Club } from '../club';
 import { Member } from '../../member/member';
-import { ClubService } from '../club.service';
 import { MemberListComponent } from '../../member/member-list/member-list.component';
-import { MemberService } from '../../member/member.service';
-import { Observable } from 'rxjs/Observable';
-import { share } from 'rxjs/operators/share';
-import { of } from 'rxjs/observable/of';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 
 @Component({

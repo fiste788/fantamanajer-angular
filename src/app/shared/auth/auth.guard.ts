@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { ApplicationService } from 'app/core/application.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private app: ApplicationService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -25,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
   checkLogin(authorities: string[], url: string): boolean {
     for (let i = 0; i < authorities.length; i++) {
-      if (this.auth.user.roles.includes(authorities[i])) {
+      if (this.app.user.roles.includes(authorities[i])) {
         return true;
       }
     }

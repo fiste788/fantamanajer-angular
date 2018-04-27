@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { NgForm } from '@angular/forms';

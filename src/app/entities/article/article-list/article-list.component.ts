@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
-import { map } from 'rxjs/operators/map';
-import { share } from 'rxjs/operators/share';
+import { map, share } from 'rxjs/operators';
 import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
 import { Pagination } from 'app/shared/pagination/pagination';
 import { PagedResponse } from 'app/shared/pagination/paged-response';

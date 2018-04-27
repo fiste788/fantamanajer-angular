@@ -1,12 +1,11 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
-import { MemberService } from '../member.service';
-import { Member } from '../member';
-import { MemberListComponent } from '../member-list/member-list.component';
-import { Role } from '../../role/role';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import { ApplicationService } from 'app/core/application.service';
+import { MemberService } from '../member.service';
+import { MemberListComponent } from '../member-list/member-list.component';
+import { Member } from '../member';
+import { Role } from '../../role/role';
 
 @Component({
   selector: 'fm-member-free',

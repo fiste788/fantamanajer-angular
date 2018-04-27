@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Team } from '../team';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { EnterDetailAnimation } from 'app/shared/animations/enter-detail.animation';
 import { EmailSubscription } from '../../email-subscription/email-subscription';
 import { SharedService } from 'app/shared/shared.service';

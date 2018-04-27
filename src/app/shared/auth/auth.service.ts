@@ -1,47 +1,36 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 import { tokenNotExpired } from 'angular2-jwt';
-import { User } from '../../user/user';
-// import { SharedService } from '../shared/shared.service';
+import { User } from '../../entities/user/user';
 import { map } from 'rxjs/operators';
-import { UserService } from 'app/user/user.service';
+import { UserService } from '../../entities/user/user.service';
 
 @Injectable()
 export class AuthService {
   @Output() loggedUser: EventEmitter<User> = new EventEmitter();
   public token: string;
-  public user: User;
 
-  constructor(
-    private http: HttpClient,
-    private userService: UserService
-  ) {
+  constructor(private userService: UserService) {
     if (this.loggedIn()) {
       this.token = localStorage.getItem('token');
-      this.loggedUser.emit(this.user);
     } else {
       this.logout();
     }
   }
 
-  login(
-    email: string,
-    password: string,
-    remember_me?: boolean
-  ): Observable<boolean> {
+  login(email: string, password: string, remember_me?: boolean): Observable<boolean> {
     return this.userService.token(email, password, remember_me).pipe(map(res => {
       const token = res['token'];
       if (token) {
         this.token = token;
-        this.user = res['user'];
-        this.user.roles = [];
-        this.user.roles.push('ROLE_USER');
-        if (this.user.admin) {
-          this.user.roles.push('ROLE_ADMIN');
+        const user = res['user'];
+        user.roles = [];
+        user.roles.push('ROLE_USER');
+        if (user.admin) {
+          user.roles.push('ROLE_ADMIN');
         }
         localStorage.setItem('token', token);
-        this.loggedUser.emit(this.user);
+        this.loggedUser.emit(user);
         return true;
       } else {
         return false;
@@ -59,7 +48,9 @@ export class AuthService {
     return tokenNotExpired();
   }
 
-  getLoggedUser() {
-    return this.loggedUser;
+  getCurrentUser(): Observable<void> {
+    return this.userService.getCurrent().pipe(map(user => {
+      this.loggedUser.emit(user);
+    }));
   }
 }

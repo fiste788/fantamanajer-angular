@@ -35,7 +35,8 @@
         "ngx-infinite-scroll": "^0.8.4",
         "node-sass": "^4.9.0",
         "rellax": "^1.6.2",
-        "rxjs": "^5.5.10",
+        "rxjs": "^6.0.0",
+        "rxjs-compat": "^6.0.0",
         "web-animations-js": "^2.3.1",
         "zone.js": "^0.8.26"
     },
@@ -43,7 +44,7 @@
         "@angular/cli": "^1.7.4",
         "@angular/compiler-cli": "^5.2.10",
         "@types/jasmine": "2.8.6",
-        "@types/node": "~9.6.6",
+        "@types/node": "~10.0.0",
         "codelyzer": "^4.3.0",
         "css-loader": "^0.28.11",
         "jasmine-core": "~3.1.0",

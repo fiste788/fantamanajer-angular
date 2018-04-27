@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Event } from './event';
 import { Pagination } from 'app/shared/pagination/pagination';
 import { PagedResponse } from 'app/shared/pagination/paged-response';

@@ -14,7 +14,7 @@ import { SelectionService } from '../selection.service';
 import { MemberService } from '../../member/member.service';
 import { SharedService } from 'app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { ApplicationService } from 'app/core/application.service';
 

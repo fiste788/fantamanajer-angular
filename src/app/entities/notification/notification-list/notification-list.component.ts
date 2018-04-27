@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
-import { Subscription } from 'rxjs/Subscription';
 import { ApplicationService } from 'app/core/application.service';
 
 @Component({

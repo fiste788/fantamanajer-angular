@@ -1,4 +1,4 @@
-<div *ngIf="lineupResponse | async; else loading">
+<div *ngIf="!isLoading">
     <div *ngIf="lineup" class="flex-container">
         <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
             <mat-form-field>
@@ -48,6 +48,4 @@
     </div>
     <h3 class="subheading-1" *ngIf="!lineup">Formazione non settata</h3>
 </div>
-<ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
-</ng-template>
+<mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>

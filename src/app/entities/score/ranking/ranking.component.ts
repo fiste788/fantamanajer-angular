@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Score } from '../score';
 import { ScoreService } from '../score.service';
 import { Matchday } from '../../matchday/matchday';

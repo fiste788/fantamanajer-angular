@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../../shared/auth/auth.service';
+import { Observable } from 'rxjs';
+import { share, take } from 'rxjs/operators';
+import { ApplicationService } from 'app/core/application.service';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { PushService } from 'app/shared/push/push.service';
 import { UserService } from '../user.service';
-import { PushService } from '../../shared/push/push.service';
 import { User } from '../user';
-import { share } from 'rxjs/operators/share';
-import { take } from 'rxjs/operators/take';
 
 @Component({
   selector: 'fm-profile',
@@ -21,13 +21,14 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public snackBar: MatSnackBar,
+    private app: ApplicationService,
     private authService: AuthService,
     private userService: UserService,
     private pushService: PushService
   ) { }
 
   ngOnInit() {
-    this.user = Object.assign({}, this.authService.user);
+    this.user = Object.assign({}, this.app.user);
     this.pushService.swPush.subscription
       .pipe(take(1))
       .subscribe(subscription => (this.push = true));
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit {
         this.snackBar.open('Modifiche salvate', null, {
           duration: 3000
         });
-        this.authService.user = this.user;
+        this.app.user = this.user;
         localStorage.setItem('currentUser', JSON.stringify(this.user));
       });
     }

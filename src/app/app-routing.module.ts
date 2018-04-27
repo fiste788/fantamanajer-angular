@@ -16,7 +16,7 @@ export const routes: Routes = [
   // { path: 'profile', component: ProfileComponent,  canActivate: [AuthGuard]},
   {
     path: 'profile',
-    loadChildren: 'app/user/user.module#UserModule',
+    loadChildren: 'app/entities/user/user.module#UserModule',
     canActivate: [AuthGuard]
   },
   {

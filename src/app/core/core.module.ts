@@ -18,13 +18,10 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../shared/auth/auth.module';
 import { ApplicationService } from './application.service';
 import { MatchdayModule } from '../entities/matchday/matchday.module';
-import { UserCommonModule } from '../user/user-common.module';
+import { UserCommonModule } from '../entities/user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
 import { NotificationModule } from '../entities/notification/notification.module';
-import { PushSubscriptionModule } from '../entities/push-subscription/push-subscription.module';
 import { PushModule } from '../shared/push/push.module';
-import { SrcsetDirective } from '../shared/srcset.directive';
-import { WindowRef } from 'app/core/WindowRef';
 
 export function useFactory(service: ApplicationService) { return () => service.initialize(); }
 
@@ -38,7 +35,6 @@ export function useFactory(service: ApplicationService) { return () => service.i
     MemberCommonModule,
     MatchdayModule,
     NotificationModule,
-    PushSubscriptionModule,
     PushModule
   ],
   exports: [
@@ -50,7 +46,6 @@ export function useFactory(service: ApplicationService) { return () => service.i
   providers: [
     SharedService,
     ApplicationService,
-    WindowRef,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,

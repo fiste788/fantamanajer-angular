@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Event } from '../event';
 import { EventService } from '../event.service';
 import { ListItemAnimation } from 'app/shared/animations/list-item.animation';

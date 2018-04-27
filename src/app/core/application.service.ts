@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MatchdayService } from '../entities/matchday/matchday.service';
 import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
-import { User } from '../user/user';
+import { User } from '../entities/user/user';
 import { Championship } from '../entities/championship/championship';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { environment } from '../../environments/environment';
-import { UserService } from 'app/user/user.service';
-import { map } from 'rxjs/operators';
-import { concat } from 'rxjs/observable/concat';
+import { UserService } from '../entities/user/user.service';
+import { map, concat } from 'rxjs/operators';
 import { Season } from '../entities/season/season';
 
 @Injectable()
@@ -34,26 +33,18 @@ export class ApplicationService {
     }));
   }
 
-  getCurrentUser(): Observable<void> {
-    return this.userService.getCurrent().pipe(map(user => {
-      this.auth.loggedUser.emit(user);
-      this.setUser(user);
-    }));
-  }
-
   initialize(): Promise<any> {
     this.auth.loggedUser.subscribe(this.setUser.bind(this));
+    let observable = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
-      return concat(this.getCurrentMatchday(), this.getCurrentUser()).toPromise();
-    } else {
-      return this.getCurrentMatchday().toPromise();
+      observable = observable.pipe(concat(this.auth.getCurrentUser()));
     }
+    return observable.toPromise();
   }
 
   setUser(user?: User) {
-    this.user = user;
-    user = user || this.auth.user;
     if (user) {
+      this.user = user;
       this.loadTeams(user.teams);
     } else {
       this.team = null;

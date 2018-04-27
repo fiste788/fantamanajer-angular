@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { McBreadcrumbsService } from 'ngx-breadcrumbs';
 import { IBreadcrumb } from 'ngx-breadcrumbs';
 import { Title } from '@angular/platform-browser';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
+import { McBreadcrumbsService } from 'ngx-breadcrumbs';
 
 @Component({
   selector: 'fm-breadcrumb',

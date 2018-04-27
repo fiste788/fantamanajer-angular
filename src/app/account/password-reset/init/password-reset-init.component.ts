@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 
-import { UserService } from '../../../user/user.service';
+import { UserService } from '../../../entities/user/user.service';
 
 @Component({
     selector: 'fm-password-reset-init',

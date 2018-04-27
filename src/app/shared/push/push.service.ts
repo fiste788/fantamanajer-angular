@@ -1,15 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SwPush } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { PushSubscriptionService } from '../../entities/push-subscription/push-subscription.service';
 import { NotificationService } from '../../entities/notification/notification.service';
 import { Notification } from '../../entities/notification/notification';
 import { environment } from 'environments/environment';
 import { PushSubscription } from 'app/entities/push-subscription/push-subscription';
+import { Observable } from 'rxjs';
+import { take, defaultIfEmpty } from 'rxjs/operators';
+import { ApplicationService } from 'app/core/application.service';
 import { AuthService } from 'app/shared/auth/auth.service';
-import { Observable } from 'rxjs/Observable';
-import { take } from 'rxjs/operators/take';
-import { defaultIfEmpty } from 'rxjs/operators/defaultIfEmpty';
+import { WindowRef } from 'app/core/WindowRef';
+import { User } from 'app/entities/user/user';
 
 @Injectable()
 export class PushService {
@@ -21,9 +23,39 @@ export class PushService {
     public swPush: SwPush,
     public snackBar: MatSnackBar,
     private notificationService: NotificationService,
-    private authService: AuthService
+    private app: ApplicationService,
+    private auth: AuthService,
+    private swUpdate: SwUpdate,
+    private winRef: WindowRef
   ) {
+    this.checkForUpdates();
+    this.auth.loggedUser.subscribe(this.initializeUser.bind(this));
+  }
 
+  checkForUpdates() {
+    this.swUpdate.available.subscribe(event => {
+      console.log(
+        '[App] Update available: current version is',
+        event.current,
+        'available version is',
+        event.available
+      );
+      const snackBarRef = this.snackBar.open(
+        'Newer version of the app is available',
+        'Refresh'
+      );
+
+      snackBarRef.onAction().subscribe(() => {
+        this.winRef.nativeWindow.location.reload();
+      });
+    });
+  }
+
+  initializeUser(user?: User) {
+    if (user && environment.production) {
+      this.subscribeToPush();
+      this.showMessages();
+    }
   }
 
   subscribeToPush() {
@@ -41,7 +73,7 @@ export class PushService {
       })
       .then(pushSubscription => {
         const pushSubscriptionModel = new PushSubscription();
-        pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.authService.user.id).then(sub => {
+        pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id).then(sub => {
           // Passing subscription object to our backend
           this.subscription.add(sub).subscribe(res => {
             const snackBarRef = this.snackBar.open(

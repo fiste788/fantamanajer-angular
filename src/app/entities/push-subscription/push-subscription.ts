@@ -1,10 +1,11 @@
-import { User } from 'app/user/user';
+import { User } from '../user/user';
 
 export class PushSubscription {
     id: string;
     endpoint: string;
     public_key: string;
     auth_token: string;
+    content_encoding: string;
     created_at: Date;
     modified_at: Date;
     expires_at: Date;
@@ -18,6 +19,7 @@ export class PushSubscription {
             this.endpoint = pushSubscription.endpoint;
             this.public_key = json.keys.p256dh;
             this.auth_token = json.keys.auth;
+            this.content_encoding = ((<any>PushManager).supportedContentEncodings || ['aesgcm'])[0];
             this.expires_at = pushSubscription.expirationTime ? new Date(pushSubscription.expirationTime) : null;
             this.user_id = user_id;
             return this as PushSubscription;

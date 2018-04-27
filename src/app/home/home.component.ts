@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberService } from '../entities/member/member.service';
 import { Role } from '../entities/role/role';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CardCreationAnimation } from '../shared/animations/card-creation.animation';
 
 import { share } from 'rxjs/operators';

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Notification } from './notification';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject, Subscription } from 'rxjs';
 
 type MessageCallback = (payload: any) => void;
 
@@ -12,7 +11,7 @@ export class NotificationService {
   notifications: Subject<Notification> = new Subject<Notification>();
   private url = 'notifications';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getNotifications(id: number): Observable<Notification[]> {
     const val = this.http.get<Notification[]>('teams/' + id + '/' + this.url);

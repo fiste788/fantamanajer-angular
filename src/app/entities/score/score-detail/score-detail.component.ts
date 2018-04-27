@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SharedService } from 'app/shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Score } from '../score';

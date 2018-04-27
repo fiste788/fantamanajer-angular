@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { SharedService } from '../../shared/shared.service';
 import { AuthService } from '../../shared/auth/auth.service';
 import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animation';
 import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-main',
@@ -30,9 +30,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     public shared: SharedService,
     public auth: AuthService,
     private changeRef: ChangeDetectorRef
-  ) {
-    this.shared.initialize();
-  }
+  ) { }
 
   ngOnInit() {
     if (this.media.isActive('lt-sm') && this.nav) {

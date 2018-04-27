@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedService } from './shared.service';
 import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
 import { RellaxModule } from './rellax/rellax.module';
-import { SrcsetDirective } from './srcset.directive';
+import { SrcsetDirective } from './srcset/srcset.directive';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({

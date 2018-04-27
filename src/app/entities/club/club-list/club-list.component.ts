@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Club } from '../club';
 import { ClubService } from '../club.service';
 import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';

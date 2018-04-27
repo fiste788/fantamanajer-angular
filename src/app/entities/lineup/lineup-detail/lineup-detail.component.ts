@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Module } from '../module';
-import { Member } from '../../member/member';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { LineupService } from '../lineup.service';
+import { SharedService } from 'app/shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
+import { Member } from '../../member/member';
 import { Role } from '../../role/role';
-import { LineupService } from '../lineup.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
-import { SharedService } from 'app/shared/shared.service';
-import { share } from 'rxjs/operators/share';
-import { ApplicationService } from 'app/core/application.service';
+import { Module } from '../module';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -23,7 +22,7 @@ export class LineupDetailComponent implements OnInit {
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
   public lineup: Lineup;
-  public lineupResponse: Observable<Lineup>;
+  public isLoading = false;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
@@ -49,20 +48,21 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
-    this.lineupResponse = this.lineupService.getLineup(this.teamId).pipe(share());
-    this.lineupResponse.subscribe((lineup: Lineup) => {
-      this.lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
-      lineup.team.members.forEach((member, index) => {
-        if (!this.membersByRole.has(member.role.abbreviation)) {
-          this.membersByRole.set(member.role.abbreviation, []);
-        }
-        this.membersByRole.get(member.role.abbreviation).push(member);
-        this.membersById.set(member.id, member);
-      }, this);
-      lineup.modules.forEach((module, index) => {
-        this.modules.push(new Module(module));
-      }, this);
+    this.isLoading = true;
+    this.lineupService.getLineup(this.teamId).subscribe((lineup: Lineup) => {
+      this.isLoading = false;
+      this.lineup = lineup || ((this.editMode) ? new Lineup() : null);
       if (this.lineup) {
+        lineup.team.members.forEach((member, index) => {
+          if (!this.membersByRole.has(member.role.abbreviation)) {
+            this.membersByRole.set(member.role.abbreviation, []);
+          }
+          this.membersByRole.get(member.role.abbreviation).push(member);
+          this.membersById.set(member.id, member);
+        }, this);
+        lineup.modules.forEach((module, index) => {
+          this.modules.push(new Module(module));
+        }, this);
         if (this.lineup.module) {
           this.lineup.module_object = this.modules.find(element => {
             return element.key === this.lineup.module;
@@ -70,7 +70,6 @@ export class LineupDetailComponent implements OnInit {
           this.changeModule();
         }
         this.lineup.team_id = this.app.team.id;
-        this.lineup.matchday_id = this.app.matchday.id;
         let i = 0;
         for (i = 0; i < 18; i++) {
           if (

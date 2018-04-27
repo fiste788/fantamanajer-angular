@@ -17,7 +17,6 @@
                 type="password" placeholder="Ripeti password">
         </mat-input-container>
 
-        <mat-slide-toggle [(ngModel)]="user.active_email" name="active_email">Ricevi email</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push</mat-slide-toggle>
         <button color="accent" mat-raised-button (click)="save()">Salva</button>
     </form>

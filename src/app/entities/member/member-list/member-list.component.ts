@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Member } from '../member';
 import { Router, RouterModule } from '@angular/router';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../team';
 import { TeamService } from '../team.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
 import { ApplicationService } from 'app/core/application.service';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Member } from './member';
 import { Role } from '../role/role';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class MemberService {
