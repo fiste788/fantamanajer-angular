@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatchdayService } from '../entities/matchday/matchday.service';
 import { Matchday } from '../entities/matchday/matchday';
@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 import { UserService } from '../entities/user/user.service';
 import { map, concat } from 'rxjs/operators';
 import { Season } from '../entities/season/season';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ApplicationService {
@@ -23,7 +24,8 @@ export class ApplicationService {
   constructor(
     private auth: AuthService,
     private userService: UserService,
-    private matchdayService: MatchdayService
+    private matchdayService: MatchdayService,
+    private injector: Injector
   ) { }
 
   getCurrentMatchday(): Observable<void> {
@@ -48,6 +50,7 @@ export class ApplicationService {
       this.loadTeams(user.teams);
     } else {
       this.team = null;
+      this.getRouter().navigate(['/']);
     }
   }
 
@@ -62,5 +65,9 @@ export class ApplicationService {
       this.team = team;
       this.championship = team.championship;
     }
+  }
+
+  private getRouter(): Router {
+    return this.injector.get(Router);
   }
 }

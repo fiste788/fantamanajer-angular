@@ -3,14 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from '../../shared/shared.module';
-import { JWTInterceptor } from '../interceptor/jwt.interceptor';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { NotLoggedGuard } from './not-logged.guard';
 import { AuthRoutingModule } from './auth-routing.module';
-import { ApiInterceptor } from '../interceptor/api.interceptor';
-
+import { JWTInterceptor } from './jwt.interceptor';
 
 @NgModule({
   declarations: [

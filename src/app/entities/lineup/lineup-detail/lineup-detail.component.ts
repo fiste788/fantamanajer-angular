@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LineupService } from '../lineup.service';
 import { SharedService } from 'app/shared/shared.service';
 import { ApplicationService } from 'app/core/application.service';
@@ -18,11 +19,9 @@ import { Module } from '../module';
 })
 export class LineupDetailComponent implements OnInit {
   modules: Module[] = [];
-  // module: Module;
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
-  public lineup: Lineup;
-  public isLoading = false;
+  public lineup: Observable<Lineup>;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
@@ -48,11 +47,9 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
     this.captainsKeys = Array.from(this.captains.keys());
-    this.isLoading = true;
-    this.lineupService.getLineup(this.teamId).subscribe((lineup: Lineup) => {
-      this.isLoading = false;
-      this.lineup = lineup || ((this.editMode) ? new Lineup() : null);
-      if (this.lineup) {
+    this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
+      lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
+      if (lineup) {
         lineup.team.members.forEach((member, index) => {
           if (!this.membersByRole.has(member.role.abbreviation)) {
             this.membersByRole.set(member.role.abbreviation, []);
@@ -63,43 +60,44 @@ export class LineupDetailComponent implements OnInit {
         lineup.modules.forEach((module, index) => {
           this.modules.push(new Module(module));
         }, this);
-        if (this.lineup.module) {
-          this.lineup.module_object = this.modules.find(element => {
-            return element.key === this.lineup.module;
+        if (lineup.module) {
+          lineup.module_object = this.modules.find(element => {
+            return element.key === lineup.module;
           }, this);
-          this.changeModule();
+          this.changeModule(lineup);
         }
-        this.lineup.team_id = this.app.team.id;
+        lineup.team_id = this.app.team.id;
         let i = 0;
         for (i = 0; i < 18; i++) {
           if (
-            this.lineup.dispositions.length < i ||
-            this.lineup.dispositions[i] == null
+            lineup.dispositions.length < i ||
+            lineup.dispositions[i] == null
           ) {
-            this.lineup.dispositions[i] = new Disposition();
-            this.lineup.dispositions[i].position = i + 1;
+            lineup.dispositions[i] = new Disposition();
+            lineup.dispositions[i].position = i + 1;
           }
         }
       }
-    });
+      return lineup || new Lineup;
+    }));
   }
 
-  getIndex(key, key2): number {
+  getIndex(lineup: Lineup, key, key2): number {
     let count = 0;
     let i = 0;
     const index = this.roleKeys.indexOf(key);
     for (i = 0; i < index; i++) {
-      count += Array.from(this.lineup.module_object.map.values())[i].length;
+      count += Array.from(lineup.module_object.map.values())[i].length;
     }
     return count + key2;
   }
 
-  changeModule() {
-    this.roleKeys = Array.from(this.lineup.module_object.map.keys());
+  changeModule(lineup: Lineup) {
+    this.roleKeys = Array.from(lineup.module_object.map.keys());
   }
 
-  getCapitanables(): Member[] {
-    const regulars = this.lineup.dispositions.slice(0, 11);
+  getCapitanables(lineup: Lineup): Member[] {
+    const regulars = lineup.dispositions.slice(0, 11);
     const def = regulars.filter(function (element) {
       if (element && element.member_id) {
         return (
@@ -111,40 +109,37 @@ export class LineupDetailComponent implements OnInit {
     return def.map(element => this.membersById.get(element.member_id), this);
   }
 
-  save() {
-    this.lineup.module = this.lineup.module_object.key;
-    this.lineup.dispositions = this.lineup.dispositions.filter(
+  save(lineup: Lineup) {
+    lineup.module = lineup.module_object.key;
+    lineup.dispositions = lineup.dispositions.filter(
       value => value.member_id
     );
-    if (this.lineup.id) {
-      this.lineupService.update(this.lineup).subscribe(response => {
+    if (lineup.id) {
+      this.lineupService.update(lineup).subscribe(response => {
         this.snackBar.open('Formazione aggiornata', null, {
           duration: 3000
         });
       });
     } else {
-      this.lineupService.create(this.lineup).subscribe(response => {
+      this.lineupService.create(lineup).subscribe(response => {
         this.snackBar.open('Formazione caricata', null, {
           duration: 3000
         });
-        this.lineup.id = response.id;
+        lineup.id = response.id;
       });
     }
   }
 
-  putInLineup(element, i) {
-    if (
-      !this.lineup.dispositions.length < i ||
-      this.lineup.dispositions[i] == null
-    ) {
-      this.lineup.dispositions[i] = new Disposition();
+  putInLineup(lineup: Lineup, element, i) {
+    if (!lineup.dispositions.length < i || lineup.dispositions[i] == null) {
+      lineup.dispositions[i] = new Disposition();
     }
-    this.lineup.dispositions[i].position = i;
-    this.lineup.dispositions[i].member_id = element.id;
+    lineup.dispositions[i].position = i;
+    lineup.dispositions[i].member_id = element.id;
   }
 
-  removeBenchwarmer(event: any): void {
-    this.lineup.dispositions
+  removeBenchwarmer(lineup: Lineup, event: any): void {
+    lineup.dispositions
       .filter(element => element.position > 11)
       .map(element => {
         if (element.member_id === event.value) {
@@ -154,31 +149,31 @@ export class LineupDetailComponent implements OnInit {
       });
   }
 
-  isAlreadySelected(member: Member): boolean {
-    return this.lineup.dispositions
+  isAlreadySelected(lineup: Lineup, member: Member): boolean {
+    return lineup.dispositions
       .map(element => element.member_id)
       .includes(member.id);
   }
 
-  isBenchwarmer(member: Member): boolean {
-    return this.lineup.dispositions
+  isBenchwarmer(lineup: Lineup, member: Member): boolean {
+    return lineup.dispositions
       .filter(element => element.position > 11)
       .map(element => element.member_id)
       .includes(member.id);
   }
 
-  isRegular(member: Member): boolean {
-    return this.lineup.dispositions
+  isRegular(lineup: Lineup, member: Member): boolean {
+    return lineup.dispositions
       .filter(element => element.position <= 11)
       .map(element => element.member_id)
       .includes(member.id);
   }
 
-  isCaptainAlreadySelected(member: Member): boolean {
+  isCaptainAlreadySelected(lineup: Lineup, member: Member): boolean {
     return (
-      this.lineup.captain_id === member.id ||
-      this.lineup.vcaptain_id === member.id ||
-      this.lineup.vvcaptain_id === member.id
+      lineup.captain_id === member.id ||
+      lineup.vcaptain_id === member.id ||
+      lineup.vvcaptain_id === member.id
     );
   }
 }

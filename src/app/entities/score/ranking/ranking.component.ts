@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
-import { Score } from '../score';
+import { SharedService } from 'app/shared/shared.service';
 import { ScoreService } from '../score.service';
+import { Score } from '../score';
 import { Matchday } from '../../matchday/matchday';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
-import { ApplicationService } from 'app/core/application.service';
 
 @Component({
   selector: 'fm-ranking',
@@ -21,12 +22,13 @@ export class RankingComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
-    private app: ApplicationService
+    private shared: SharedService,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.scoreService.getRanking(this.app.championship.id).subscribe((ranking: any[]) => {
+    this.scoreService.getRanking(this.shared.getChampionshipId(this.route)).subscribe((ranking: any[]) => {
       this.dataSource = new MatTableDataSource(ranking);
       if (ranking.length) {
         this.matchdays = Object.keys(ranking[0].scores).reverse();

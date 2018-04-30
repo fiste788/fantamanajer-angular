@@ -1,8 +1,8 @@
-<div *ngIf="!isLoading">
-    <div *ngIf="lineup" class="flex-container">
+<div *ngIf="lineup | async as lineup; else loading">
+    <div *ngIf="lineup.module" class="flex-container">
         <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
             <mat-form-field>
-                <mat-select [disabled]="!editMode" name="module" [(ngModel)]="lineup.module_object" placeholder="Modulo" (change)="changeModule()">
+                <mat-select [disabled]="!editMode" name="module" [(ngModel)]="lineup.module_object" placeholder="Modulo" (change)="changeModule(lineup)">
                     <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -15,10 +15,10 @@
                 <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
                     <div class="disposition" *ngFor="let key2 of lineup.module_object.map.get(key)">
                         <mat-form-field hideRequiredMarker="true" floatPlaceholder="never">
-                            <mat-select [disabled]="!editMode" [placeholder]="key" required [(ngModel)]="lineup.dispositions[getIndex(key, key2)].member_id"
-                                (change)="removeBenchwarmer($event)" [name]="key + '-' + key2">
+                            <mat-select [disabled]="!editMode" [placeholder]="key" required [(ngModel)]="lineup.dispositions[getIndex(lineup, key, key2)].member_id"
+                                (change)="removeBenchwarmer(lineup, $event)" [name]="key + '-' + key2">
                                 <mat-option>{{key}}</mat-option>
-                                <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isRegular(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                                <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isRegular(lineup, member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -29,7 +29,7 @@
             <h5>Capitani</h5>
             <mat-form-field *ngFor="let captain of captainsKeys">
                 <mat-select [disabled]="!editMode" [(ngModel)]="lineup[captains.get(captain) + '_id']" [placeholder]="captain" [name]="captain">
-                    <mat-option *ngFor="let member of getCapitanables()" [disabled]="isCaptainAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                    <mat-option *ngFor="let member of getCapitanables(lineup)" [disabled]="isCaptainAlreadySelected(lineup, member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -39,13 +39,15 @@
                 <mat-select [disabled]="!editMode" [(ngModel)]="lineup.dispositions[bench].member_id" [placeholder]="'Panchinaro ' + (bench - 10)"
                     [name]="bench">
                     <mat-optgroup [label]="key" *ngFor="let key of roleKeys">
-                        <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
+                        <mat-option *ngFor="let member of membersByRole.get(key)" [disabled]="isAlreadySelected(lineup, member)" [value]="member.id">{{member.player.surname}} {{member.player.name}}</mat-option>
                     </mat-optgroup>
                 </mat-select>
             </mat-form-field>
         </div>
-        <button *ngIf="editMode" color="accent" mat-raised-button (click)="save()">Salva</button>
+        <button *ngIf="editMode" color="accent" mat-raised-button (click)="save(lineup)">Salva</button>
     </div>
-    <h3 class="subheading-1" *ngIf="!lineup">Formazione non settata</h3>
+    <h3 class="subheading-1" *ngIf="!lineup.module">Formazione non settata</h3>
 </div>
-<mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

@@ -1,7 +1,8 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { ApplicationService } from 'app/core/application.service';
+import { SharedService } from 'app/shared/shared.service';
 import { MemberService } from '../member.service';
 import { MemberListComponent } from '../member-list/member-list.component';
 import { Member } from '../member';
@@ -21,7 +22,8 @@ export class MemberFreeComponent implements OnInit {
   constructor(
     private changeRef: ChangeDetectorRef,
     private memberService: MemberService,
-    private app: ApplicationService
+    private route: ActivatedRoute,
+    private shared: SharedService
   ) {
     this.roles.push(new Role(1, 'Portiere'));
     this.roles.push(new Role(2, 'Difensore'));
@@ -38,7 +40,7 @@ export class MemberFreeComponent implements OnInit {
     this.members = null;
     this.changeRef.detectChanges();
     this.members = this.memberService
-      .getFree(this.app.championship.id, this.selectedRole.id)
+      .getFree(this.shared.getChampionshipId(this.route), this.selectedRole.id)
       .pipe(share());
   }
 }

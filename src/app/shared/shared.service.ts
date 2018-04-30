@@ -21,11 +21,19 @@ export class SharedService {
   }
 
   getTeamId(route: ActivatedRoute): number {
+    return this.getParam(route, 'team_id');
+  }
+
+  getChampionshipId(route: ActivatedRoute): number {
+    return this.getParam(route, 'championship_id');
+  }
+
+  private getParam(route: ActivatedRoute, param: string): number {
     for (const x in route.snapshot.pathFromRoot) {
       if (route.pathFromRoot.hasOwnProperty(x)) {
         const current = route.snapshot.pathFromRoot[x];
-        if (current.params.hasOwnProperty('team_id')) {
-          return parseInt(current.params['team_id'], 10);
+        if (current.params.hasOwnProperty(param)) {
+          return parseInt(current.params[param], 10);
         }
       }
     }

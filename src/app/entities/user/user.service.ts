@@ -10,17 +10,17 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  token(email, password, remember_me = false): Observable<any> {
+  login(email, password, remember_me = false): Observable<{ user: User, token: string }> {
     const body = {
       email: email,
       password: password,
       remember_me: remember_me
     };
-    return this.http.post(`${this.url}/token`, JSON.stringify(body));
+    return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(body));
   }
 
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.url}/${id}`);
+  logout(): Observable<any> {
+    return this.http.get<any>(`${this.url}/logout`);
   }
 
   update(user: User): Observable<any> {
