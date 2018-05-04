@@ -17,7 +17,7 @@ export class DispositionListComponent implements OnInit {
   @Input() public dispositions: Disposition[];
   @Input() public caption: string;
   @Input() public regular = false;
-  private captains: Map<number, string>;
+  public captains: Map<number, string>;
 
   dataSource: MatTableDataSource<Disposition>;
   displayedColumns = [

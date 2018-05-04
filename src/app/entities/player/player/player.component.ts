@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
 
-import { SharedService } from 'app/shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 import { PlayerService } from '../player.service';
 import { ParallaxHeaderComponent } from 'app/shared/parallax-header/parallax-header.component';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
@@ -54,7 +54,8 @@ export class PlayerComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    public app: ApplicationService
   ) {
 
   }

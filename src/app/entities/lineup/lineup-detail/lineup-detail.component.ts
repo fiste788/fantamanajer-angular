@@ -21,7 +21,7 @@ export class LineupDetailComponent implements OnInit {
   modules: Module[] = [];
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
-  public lineup: Observable<Lineup>;
+  lineup: Observable<Lineup>;
   roleKeys: string[] = [];
   captains = new Map<string, string>();
   captainsKeys: string[] = [];
@@ -30,7 +30,7 @@ export class LineupDetailComponent implements OnInit {
   editMode = false;
 
   constructor(
-    public snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private lineupService: LineupService,
     private route: ActivatedRoute,
     private shared: SharedService,
