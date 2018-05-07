@@ -40,6 +40,10 @@ a {
   margin-bottom: 15px;
 }
 
+.mat-table {
+  width: 100%;
+}
+
 .mat-cell,
 .mat-header-cell {
   padding-right: 1rem;
@@ -52,7 +56,7 @@ a {
 }
 
 mat-form-field.white {
-  .mat-form-field-placeholder {
+  .mat-form-field-label {
     color: rgba(255, 255, 255, 0.87);
   }
 

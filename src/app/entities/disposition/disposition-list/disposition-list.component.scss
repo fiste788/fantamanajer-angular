@@ -1,11 +1,11 @@
-.mat-column-player {
+mat-table .mat-column-player {
   min-width: 176px;
   display: flex;
   align-items: center;
   flex: 4 auto;
 }
 
-.mat-column-club {
+mat-table .mat-column-club {
   min-width: 60px;
   flex: 1 auto;
 }

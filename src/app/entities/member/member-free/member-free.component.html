@@ -1,6 +1,6 @@
 <div class=" mat-elevation-z8">
     <div class="table-header">
-        <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (change)="roleChange()">
+        <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
             <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
         </mat-select>
     </div>

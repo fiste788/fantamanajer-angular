@@ -18,16 +18,16 @@ import { Module } from '../module';
   styleUrls: ['./lineup-detail.component.scss']
 })
 export class LineupDetailComponent implements OnInit {
-  modules: Module[] = [];
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
+  captains: Map<string, string> = new Map<string, string>();
   lineup: Observable<Lineup>;
+  editMode = false;
+  teamId: number;
+  modules: Module[] = [];
   roleKeys: string[] = [];
-  captains = new Map<string, string>();
   captainsKeys: string[] = [];
   benchs: number[] = [];
-  teamId: number;
-  editMode = false;
 
   constructor(
     private snackBar: MatSnackBar,

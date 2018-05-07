@@ -1,16 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { concat } from 'rxjs/observable/concat';
+import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { MatchdayService } from '../entities/matchday/matchday.service';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { UserService } from '../entities/user/user.service';
 import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
 import { User } from '../entities/user/user';
 import { Championship } from '../entities/championship/championship';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { environment } from '../../environments/environment';
-import { UserService } from '../entities/user/user.service';
-import { map, concat } from 'rxjs/operators';
 import { Season } from '../entities/season/season';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class ApplicationService {
@@ -39,7 +40,7 @@ export class ApplicationService {
     this.auth.loggedUser.subscribe(this.setUser.bind(this));
     let observable = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
-      observable = observable.pipe(concat(this.auth.getCurrentUser()));
+      observable = concat(observable, this.auth.getCurrentUser());
     }
     return observable.toPromise();
   }

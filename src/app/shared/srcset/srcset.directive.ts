@@ -4,21 +4,21 @@ import { Directive, Input, ElementRef, OnInit } from '@angular/core';
   selector: '[fmSrcset]'
 })
 export class SrcsetDirective implements OnInit {
-  @Input('fmSrcset') public image: any;
+  @Input() public fmSrcset: any;
   @Input() public placeholder: string;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   ngOnInit() {
-    if (this.image) {
-      if (typeof this.image !== 'string') {
+    if (this.fmSrcset) {
+      if (typeof this.fmSrcset !== 'string') {
         const srcset = [];
-        const keys = Object.keys(this.image);
+        const keys = Object.keys(this.fmSrcset);
         keys.forEach(key => {
-          srcset.push(this.image[key] + ' ' + key);
+          srcset.push(this.fmSrcset[key] + ' ' + key);
         });
         const lastKey = keys.pop();
-        const src = this.image[lastKey];
+        const src = this.fmSrcset[lastKey];
         const width = parseInt(lastKey.substring(0, lastKey.indexOf('w')), 10);
         this.el.nativeElement.src = src;
         /*this.el.nativeElement.sizes =
