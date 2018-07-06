@@ -31,7 +31,7 @@
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>
-<div *ngIf="app.team.id == teamId">
+<div *ngIf="app.team.id == teamId && !app.seasonEnded">
     <h3>Selezione giocatori</h3>
     <fm-selection></fm-selection>
 </div>

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '~@angular/material/theming';
 // @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 .app-container,
 body,
@@ -17,8 +17,8 @@ body {
 .mat-sidenav-content {
   display: flex;
   height: 100%;
-  padding-top: 4em;
-  height: calc(100% - 4em) !important;
+  padding-top: 4rem;
+  height: calc(100% - 4rem) !important;
 
   > .mat-toolbar {
     position: fixed;
@@ -26,9 +26,15 @@ body {
     z-index: 3;
   }
 }
+@media (max-width: 600px) {
+  .mat-sidenav-content {
+    padding-top: 3.5rem;
+    height: calc(100% - 3.5rem) !important;
+  }
+}
 
 mat-progress-spinner {
-  margin: 50px auto;
+  margin: 3rem auto;
 }
 
 a {
@@ -37,22 +43,43 @@ a {
 }
 
 .mat-card {
-  margin-bottom: 15px;
+  margin: 1rem;
 }
 
 .mat-table {
   width: 100%;
+
+  .mat-row:hover .mat-cell {
+    background-color: #f1f1f1;
+  }
+}
+
+.mat-table-header {
+  background-color: #fff;
+  padding: 1.25rem 1.5rem;
+  min-height: 4rem;
+  text-align: left;
+  box-sizing: border-box;
+  display: inline-flex;
+  width: calc(100% - 1px);
+  align-items: center;
+}
+
+.mat-table-title {
+  font-size: 18px;
 }
 
 .mat-cell,
 .mat-header-cell {
   padding-right: 1rem;
+
+  .material-icons {
+    line-height: 2rem;
+  }
 }
 
-.flex-container {
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 10px;
+.mat-tab-group {
+  margin-bottom: 1rem;
 }
 
 mat-form-field.white {
@@ -80,8 +107,8 @@ mat-form-field.white {
 
 .red_card,
 .yellow_card {
-  width: 10px;
-  height: 15px;
+  width: .75rem;
+  height: 1rem;
   display: inline-block; //@include box-shadow(1px 1px 2px #AAAAAA);
 }
 
@@ -97,6 +124,6 @@ mat-form-field.white {
 .mat-tab-group .mat-tab-link {
   width: 100%;
   height: 100%;
-  line-height: 50px;
+  line-height: 3rem;
   display: block;
 }

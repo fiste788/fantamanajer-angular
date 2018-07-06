@@ -15,23 +15,23 @@ fm-breadcrumb {
   width: 340px;
   max-width: calc(100% - 54px);
 }
+
+.mat-toolbar {
+  z-index: 200;
+}
 @media (min-width: 600px) {
   .container {
     max-width: 90%;
-    margin: 15px auto 0;
+    margin: 0 auto;
   }
 
   .mat-sidenav {
-    width: 240px !important;
+    width: 15rem !important;
   }
 
 }
 @media (min-width: 960px) {
-  .container {
-    max-width: 90%;
-  }
-
   .mat-toolbar {
-    width: calc(100% - 240px);
+    width: calc(100% - 15rem);
   }
 }

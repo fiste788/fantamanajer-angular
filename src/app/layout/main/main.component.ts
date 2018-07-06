@@ -40,7 +40,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.media.asObservable().subscribe(observer => {
-      if (observer.mqAlias === 'sm' || observer.mqAlias === 'xs') {
+      if ((!this.subscription || this.subscription.closed) && (observer.mqAlias === 'sm' || observer.mqAlias === 'xs')) {
         this.applyScrollAnimation();
       } else if (this.subscription) {
         this.scrollDirection = 'up';
@@ -53,13 +53,15 @@ export class MainComponent implements OnInit, AfterViewInit {
   applyScrollAnimation() {
     this.subscription = this.scrollable.elementScrolled().subscribe((scrolled: Event) => {
       const st = scrolled.srcElement.scrollTop;
-      if (st > this.lastScrollTop) {
-        this.scrollDirection = 'down';
-      } else {
-        this.scrollDirection = 'up';
+      if (st !== this.lastScrollTop) {
+        if (st > this.lastScrollTop) {
+          this.scrollDirection = 'down';
+        } else {
+          this.scrollDirection = 'up';
+        }
+        this.lastScrollTop = st;
+        this.changeRef.detectChanges();
       }
-      this.lastScrollTop = st;
-      this.changeRef.detectChanges();
     });
   }
 

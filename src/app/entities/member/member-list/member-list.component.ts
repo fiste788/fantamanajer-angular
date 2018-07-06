@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { Member } from '../member';
-import { Router, RouterModule } from '@angular/router';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 
 @Component({
@@ -15,6 +16,9 @@ import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 export class MemberListComponent implements OnInit {
   @Input() members: Observable<Member[]>;
   @Input() hideClub = false;
+  @Input() isSelectable = false;
+  @Input() multipleSelection = false;
+  @Input() elevation = 4;
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<Member>();
@@ -31,6 +35,8 @@ export class MemberListComponent implements OnInit {
     'sum_yellow_card',
     'sum_red_card'
   ];
+  footer = {};
+  @Output() selection = new SelectionModel<Member>(false, []);
 
   constructor(private changeRef: ChangeDetectorRef) { }
 
@@ -38,12 +44,36 @@ export class MemberListComponent implements OnInit {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
+    if (this.isSelectable) {
+      this.displayedColumns.unshift('select');
+    }
     this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
     this.members.subscribe(data => {
       this.dataSource.data = data;
+      this.calcSummary(data);
       this.changeRef.detectChanges();
       this.dataSource.sort = this.sort;
     });
+  }
+
+  calcSummary(data) {
+    this.displayedColumns.forEach(column => {
+      if (column.startsWith('sum')) {
+        this.footer[column] = 0;
+        data.forEach(row => {
+          this.footer[column] += row.stats[column];
+        });
+      }
+      if (column.startsWith('avg')) {
+        this.footer[column] = 0;
+        const rows = data.filter(row => row.stats[column] > 0);
+        rows.forEach(row => {
+          this.footer[column] += row.stats[column];
+        });
+        this.footer[column] /= rows.length;
+      }
+    });
+
   }
 
   sortingDataAccessor(data, sortHeaderId) {

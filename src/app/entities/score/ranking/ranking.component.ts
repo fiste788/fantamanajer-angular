@@ -32,6 +32,7 @@ export class RankingComponent implements OnInit {
       this.dataSource = new MatTableDataSource(ranking);
       if (ranking.length) {
         this.matchdays = Object.keys(ranking[0].scores).reverse();
+        this.matchdays.map((matchday: string) => this.rankingDisplayedColumns.push(matchday));
       }
     });
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { SharedService } from 'app/shared/shared.service';
+import { ApplicationService } from 'app/core/application.service';
 import { MemberService } from '../member.service';
 import { MemberListComponent } from '../member-list/member-list.component';
 import { Member } from '../member';
@@ -23,7 +24,8 @@ export class MemberFreeComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     private memberService: MemberService,
     private route: ActivatedRoute,
-    private shared: SharedService
+    private shared: SharedService,
+    public app: ApplicationService
   ) {
     this.roles.push(new Role(1, 'Portiere'));
     this.roles.push(new Role(2, 'Difensore'));

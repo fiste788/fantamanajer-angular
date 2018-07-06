@@ -1,13 +1,3 @@
-mat-table {
-  .mat-column-player {
-    min-width: 155px;
-    flex: 2 auto;
-  }
-
-  .mat-column-club {
-    flex: 2;
-  }
-}
 @media (max-width: 600px) {
   .mat-column-club,
   .mat-column-sum_assist,

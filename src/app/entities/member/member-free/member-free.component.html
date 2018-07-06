@@ -1,8 +1,20 @@
-<div class=" mat-elevation-z8">
-    <div class="table-header">
-        <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
-            <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
-        </mat-select>
+<div class=" mat-elevation-z4">
+    <div class="mat-table-header" fxLayout="row">
+        <div fxFlex="1 1 auto">
+            <span class="mat-table-title">Seleziona per acquistarlo</span>
+        </div>
+
+        <a mat-button [routerLink]="'/teams/' + app.team.id + '/transferts'" [queryParams]="{new_member_id: memberList.selection.selected[0].id}"
+            *ngIf="memberList != null && !memberList.selection.isEmpty()">
+            <mat-icon>add_shopping_cart</mat-icon>
+            <span fxHide.lt-md="true">Acquista {{memberList.selection.selected[0].player.full_name}}</span>
+        </a>
+        <mat-form-field>
+            <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
+                <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
     </div>
-    <fm-member-list *ngIf="members" [members]="members"></fm-member-list>
+    <fm-member-list *ngIf="members" [members]="members" [isSelectable]="true" [elevation]="0"></fm-member-list>
 </div>

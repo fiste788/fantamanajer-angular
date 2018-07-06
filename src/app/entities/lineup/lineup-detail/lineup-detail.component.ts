@@ -34,7 +34,7 @@ export class LineupDetailComponent implements OnInit {
     private lineupService: LineupService,
     private route: ActivatedRoute,
     private shared: SharedService,
-    private app: ApplicationService
+    public app: ApplicationService
   ) { }
 
   ngOnInit() {
