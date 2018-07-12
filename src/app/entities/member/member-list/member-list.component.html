@@ -36,51 +36,51 @@
         </ng-container>
 
         <ng-container matColumnDef="sum_present">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Presenze </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</td>
-            <td mat-footer-cell *matFooterCellDef></td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Presenze </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="avg_points">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> MP </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.avg_points}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['avg_points'] | number:'1.2-2'}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> MP </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.avg_points}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_points'] | number:'1.2-2'}}</td>
         </ng-container>
 
         <ng-container matColumnDef="avg_rating">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> MV </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.avg_rating}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['avg_rating'] | number:'1.2-2'}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> MV </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.avg_rating}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_rating'] | number:'1.2-2'}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sum_goals">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gol </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_goals}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['sum_goals']}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Gol </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_goals}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_goals']}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sum_goals_against">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gol subiti </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_goals_against}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['sum_goals_against']}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Gol subiti </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_goals_against}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_goals_against']}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sum_assist">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Assist </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_assist}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['sum_assist']}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Assist </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_assist}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_assist']}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sum_yellow_card">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amm </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_yellow_card}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['sum_yellow_card']}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Amm </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_yellow_card}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_yellow_card']}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sum_red_card">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Esp </th>
-            <td mat-cell *matCellDef="let row">{{row.stats.sum_red_card}}</td>
-            <td mat-footer-cell *matFooterCellDef>{{footer['sum_red_card']}}</td>
+            <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Esp </th>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.stats.sum_red_card}}</td>
+            <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_red_card']}}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

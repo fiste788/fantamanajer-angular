@@ -54,5 +54,6 @@
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>
 <ng-template #seasonEnded>
-    {{app.matchday.season.name}} conclusa
+    <fm-mat-empty-state [rounded]="true" [label]="app.matchday.season.name + ' conclusa'" description="Goditi le vacanze e tieniti pronto per la prossima stagione"
+        icon="wb_sunny"></fm-mat-empty-state>
 </ng-template>

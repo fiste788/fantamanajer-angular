@@ -39,7 +39,7 @@ export class TeamEditDialogComponent {
       parametersBeforeFiles: true
     });
     this.uploader.autoUpload = true;
-    this.uploader.options.itemAlias = 'photo_data';
+    this.uploader.options.itemAlias = 'photo';
   }
 
   cancel(): void {

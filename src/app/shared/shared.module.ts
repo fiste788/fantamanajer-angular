@@ -10,6 +10,7 @@ import { ParallaxHeaderComponent } from './parallax-header/parallax-header.compo
 import { RellaxModule } from './rellax/rellax.module';
 import { SrcsetDirective } from './srcset/srcset.directive';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { MatEmptyStateComponent } from './mat-empty-state/mat-empty-state.component';
 
 @NgModule({
   imports: [
@@ -29,12 +30,14 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     RellaxModule,
-    SrcsetDirective
+    SrcsetDirective,
+    MatEmptyStateComponent,
   ],
   declarations: [
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     SrcsetDirective,
+    MatEmptyStateComponent,
   ]
 })
 export class SharedModule { }

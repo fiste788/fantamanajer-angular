@@ -9,7 +9,7 @@
             <mat-icon>add_shopping_cart</mat-icon>
             <span fxHide.lt-md="true">Acquista {{memberList.selection.selected[0].player.full_name}}</span>
         </a>
-        <mat-form-field>
+        <mat-form-field floatLabel="never">
             <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
                 <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
             </mat-select>
