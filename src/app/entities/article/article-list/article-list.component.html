@@ -14,5 +14,8 @@
         </mat-card-actions>
     </mat-card>
 </div>
-<h3 class="subheading-1" *ngIf="articles.length == 0 && !isLoading">Nessun articolo presente</h3>
+<fm-mat-empty-state *ngIf="articles.length == 0 && !isLoading" label="Nessuna conferenza stampa ancora rilasciata" description="Sii il primo"
+    icon="message">
+    <a mat-raised-button color="accent" routerLink="/articles/new">Nuova conferenza stampa</a>
+</fm-mat-empty-state>
 <mat-progress-spinner #loading *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>

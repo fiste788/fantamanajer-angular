@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { CdkScrollable } from '@angular/cdk/scrolling';
+import { Subscription } from 'rxjs';
 import { SharedService } from '../../shared/shared.service';
-import { AuthService } from '../../shared/auth/auth.service';
 import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animation';
 import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
-import { Subscription } from 'rxjs';
+import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   selector: 'fm-main',
@@ -21,6 +22,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) nav: MatSidenav;
   @ViewChild(MatSidenavContent) container: MatSidenavContent;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+  @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
+  @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
+  @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
   scrollDirection = 'up';
   private lastScrollTop = 0;
   private subscription: Subscription;
@@ -28,12 +32,11 @@ export class MainComponent implements OnInit, AfterViewInit {
   constructor(
     public media: ObservableMedia,
     public shared: SharedService,
-    public auth: AuthService,
     private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    if (this.media.isActive('lt-sm') && this.nav) {
+    if (this.nav && this.media.isActive('lt-sm')) {
       this.nav.close();
     }
   }
@@ -47,15 +50,17 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.subscription.unsubscribe();
       }
     });
-
+    this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
   }
 
   applyScrollAnimation() {
     this.subscription = this.scrollable.elementScrolled().subscribe((scrolled: Event) => {
       const st = scrolled.srcElement.scrollTop;
-      if (st !== this.lastScrollTop) {
+      const el: HTMLElement = this.toolbarEl.nativeElement;
+      if (st > el.clientHeight && st !== this.lastScrollTop) {
         if (st > this.lastScrollTop) {
           this.scrollDirection = 'down';
+          this.speedDial.openSpeeddial = false;
         } else {
           this.scrollDirection = 'up';
         }
@@ -66,7 +71,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   closeSidenav() {
-    if (this.media.isActive('xs') && this.nav) {
+    if (this.nav && this.media.isActive('xs')) {
       this.nav.close();
     }
   }

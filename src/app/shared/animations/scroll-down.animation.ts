@@ -6,7 +6,7 @@ export const ScrollDownAnimation = trigger('scrollDownAnimation', [
         transform: 'translateY(0)'
     })),
     state('down', style({
-        transform: 'translateY(100%)'
+        transform: 'translateY(calc(100% + 1.5rem))'
     })),
     transition('up => down', animate('250ms ease-out')),
     transition('down => up', animate('250ms ease-in'))

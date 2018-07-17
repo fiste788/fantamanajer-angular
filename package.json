@@ -13,14 +13,14 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.0.9",
-    "@angular/cdk": "6.3.3",
+    "@angular/cdk": "6.4.0",
     "@angular/common": "^6.0.9",
     "@angular/compiler": "^6.0.9",
     "@angular/core": "^6.0.9",
     "@angular/flex-layout": "6.0.0-beta.16",
     "@angular/forms": "^6.0.9",
     "@angular/http": "^6.0.9",
-    "@angular/material": "6.3.3",
+    "@angular/material": "6.4.0",
     "@angular/platform-browser": "^6.0.9",
     "@angular/platform-browser-dynamic": "^6.0.9",
     "@angular/platform-server": "^6.0.9",
@@ -36,7 +36,7 @@
     "ngx-infinite-scroll": "^6.0.1",
     "node-sass": "^4.9.2",
     "rellax": "^1.6.2",
-    "rxjs": "6.2.1",
+    "rxjs": "6.2.2",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.26"
   },
@@ -57,7 +57,7 @@
     "karma-jasmine-html-reporter": "^1.2.0",
     "protractor": "~5.3.2",
     "ts-node": "^7.0.0",
-    "tslint": "~5.10.0",
+    "tslint": "~5.11.0",
     "typescript": "^2.7.2"
   }
 }

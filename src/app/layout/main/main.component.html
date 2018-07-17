@@ -3,17 +3,10 @@
     <fm-navbar></fm-navbar>
   </mat-sidenav>
   <mat-sidenav-content #scrollable cdkScrollable>
-    <mat-toolbar [@scrollUpAnimation]="scrollDirection" color="primary" class="mat-toolbar-primary mat-elevation-z4">
-      <button aria-label="sidenav toggle" fxHide.gt-sm mat-icon-button (click)="nav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <fm-breadcrumb></fm-breadcrumb>
-      <span class="spacer"></span>
-      <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
-    </mat-toolbar>
+    <fm-toolbar #toolbar [@scrollUpAnimation]="scrollDirection"></fm-toolbar>
     <main class="container">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<fm-speed-dial class="speed-dial" [@scrollDownAnimation]="scrollDirection"></fm-speed-dial>
+<fm-speed-dial #speedDial class="speed-dial" [@scrollDownAnimation]="scrollDirection"></fm-speed-dial>
