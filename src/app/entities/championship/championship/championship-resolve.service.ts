@@ -5,7 +5,7 @@ import {
     ActivatedRouteSnapshot
 } from '@angular/router';
 import { Championship } from '../championship';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Injectable()
 export class ChampionshipResolver implements Resolve<Championship> {

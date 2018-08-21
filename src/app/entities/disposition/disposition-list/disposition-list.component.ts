@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, of } from 'rxjs';
-import { Disposition } from '../../disposition/disposition';
+import { Disposition } from '../disposition';
 import { Lineup } from '../../lineup/lineup';
 import { Router, RouterModule } from '@angular/router';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
 
 @Component({
   selector: 'fm-disposition-list',

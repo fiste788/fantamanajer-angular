@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { NgForm } from '@angular/forms';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-article-detail',

@@ -1,10 +1,10 @@
-<div [ngClass]="{'mat-empty-state': true, 'mat-rounded': rounded}" [ngStyle]="{'width': size + 'px', 'height': size + 'px'}">
+<div class="mat-empty-state" [class.mat-rounded]="rounded" [style.width.px]="size" [style.height.px]="size">
   <div class="mat-empty-state-container">
-    <i *ngIf="icon" class="material-icons mat-empty-state-icon">
+    <mat-icon *ngIf="icon" class="mat-empty-state-icon">
       {{icon}}
-    </i>
+    </mat-icon>
     <strong class="mat-empty-state-label">{{label}}</strong>
-    <p class="mat-empty-state-description">{{description}}</p>
+    <p *ngIf="description" class="mat-empty-state-description">{{description}}</p>
     <ng-content></ng-content>
   </div>
 </div>

@@ -5,13 +5,13 @@ import { PushSubscriptionService } from '../../entities/push-subscription/push-s
 import { NotificationService } from '../../entities/notification/notification.service';
 import { Notification } from '../../entities/notification/notification';
 import { environment } from 'environments/environment';
-import { PushSubscription } from 'app/entities/push-subscription/push-subscription';
+import { PushSubscription } from '../../entities/push-subscription/push-subscription';
 import { Observable } from 'rxjs';
 import { take, defaultIfEmpty } from 'rxjs/operators';
-import { ApplicationService } from 'app/core/application.service';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { WindowRef } from 'app/core/WindowRef';
-import { User } from 'app/entities/user/user';
+import { ApplicationService } from '../../core/application.service';
+import { AuthService } from '../auth/auth.service';
+import { WindowRef } from '../../core/WindowRef';
+import { User } from '../../entities/user/user';
 
 @Injectable()
 export class PushService {

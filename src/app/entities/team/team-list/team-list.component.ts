@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../../shared/shared.service';
 import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
 import { Team } from '../team';
-import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
+import { CardCreationAnimation } from '../../../shared/animations/card-creation.animation';
 
 @Component({
   selector: 'fm-team-list',

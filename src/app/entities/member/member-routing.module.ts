@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'app/shared/auth/auth.guard';
+import { AuthGuard } from '../../shared/auth/auth.guard';
 import { MemberComponent } from './member/member.component';
 import { MemberFreeComponent } from './member-free/member-free.component';
 

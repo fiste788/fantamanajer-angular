@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth.service';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../core/application.service';
 
 @Component({
   selector: 'fm-speed-dial',

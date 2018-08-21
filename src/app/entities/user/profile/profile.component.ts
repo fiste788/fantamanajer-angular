@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { share, take } from 'rxjs/operators';
-import { ApplicationService } from 'app/core/application.service';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { PushService } from 'app/shared/push/push.service';
+import { ApplicationService } from '../../../core/application.service';
+import { AuthService } from '../../../shared/auth/auth.service';
+import { PushService } from '../../../shared/push/push.service';
 import { UserService } from '../user.service';
 import { User } from '../user';
 

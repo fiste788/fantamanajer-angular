@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Article } from './article';
-import { SharedService } from 'app/shared/shared.service';
-import { PagedResponse } from 'app/shared/pagination/paged-response';
+import { SharedService } from '../../shared/shared.service';
+import { PagedResponse } from '../../shared/pagination/paged-response';
 
 @Injectable()
 export class ArticleService {

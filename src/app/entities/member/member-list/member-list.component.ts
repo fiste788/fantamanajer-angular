@@ -5,7 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { Member } from '../member';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
+import { share } from '../../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'fm-member-list',
@@ -21,7 +22,7 @@ export class MemberListComponent implements OnInit {
   @Input() elevation = 4;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<Member>();
+  dataSource: MatTableDataSource<Member> = null;
   displayedColumns = [
     'player',
     'role',
@@ -47,12 +48,15 @@ export class MemberListComponent implements OnInit {
     if (this.isSelectable) {
       this.displayedColumns.unshift('select');
     }
-    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+
     this.members.subscribe(data => {
-      this.dataSource.data = data;
-      this.calcSummary(data);
-      this.changeRef.detectChanges();
-      this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource<Member>(data);
+      if (data.length) {
+        this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+        this.calcSummary(data);
+        this.changeRef.detectChanges();
+        this.dataSource.sort = this.sort;
+      }
     });
   }
 
@@ -61,14 +65,18 @@ export class MemberListComponent implements OnInit {
       if (column.startsWith('sum')) {
         this.footer[column] = 0;
         data.forEach(row => {
-          this.footer[column] += row.stats[column];
+          if (row.stats) {
+            this.footer[column] += row.stats[column];
+          }
         });
       }
       if (column.startsWith('avg')) {
         this.footer[column] = 0;
-        const rows = data.filter(row => row.stats[column] > 0);
+        const rows = data.filter(row => row.stats && row.stats[column] > 0);
         rows.forEach(row => {
-          this.footer[column] += row.stats[column];
+          if (row.stats) {
+            this.footer[column] += row.stats[column];
+          }
         });
         this.footer[column] /= rows.length;
       }

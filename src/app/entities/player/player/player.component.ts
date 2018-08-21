@@ -7,11 +7,11 @@ import { MatSort } from '@angular/material/sort';
 import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
 
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 import { PlayerService } from '../player.service';
-import { ParallaxHeaderComponent } from 'app/shared/parallax-header/parallax-header.component';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
-import { EnterDetailAnimation } from 'app/shared/animations/enter-detail.animation';
+import { ParallaxHeaderComponent } from '../../../shared/parallax-header/parallax-header.component';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
+import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 import { Member } from '../../member/member';
 import { Season } from '../../season/season';
 import { Player } from '../player';

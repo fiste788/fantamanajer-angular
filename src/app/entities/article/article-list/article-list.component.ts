@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { map, share } from 'rxjs/operators';
-import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
-import { Pagination } from 'app/shared/pagination/pagination';
-import { PagedResponse } from 'app/shared/pagination/paged-response';
+import { CardCreationAnimation } from '../../../shared/animations/card-creation.animation';
+import { Pagination } from '../../../shared/pagination/pagination';
+import { PagedResponse } from '../../../shared/pagination/paged-response';
 
 @Component({
   selector: 'fm-article-list',

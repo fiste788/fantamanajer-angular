@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../shared.module';
 import {
   SmdFabSpeedDialTriggerComponent,
   SmdFabSpeedDialActionsComponent,

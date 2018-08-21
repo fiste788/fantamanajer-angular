@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { Notification } from '../notification';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-notification-list',

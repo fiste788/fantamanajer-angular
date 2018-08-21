@@ -8,7 +8,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from 'app/shared/auth/auth.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {

@@ -1,6 +1,6 @@
 <nav *ngIf="crumbs.length">
   <ul class="breadcrumb">
-    <li *ngFor="let crumb of crumbs; let last = last; let first = first" [ngClass]="{ 'active': last }" class="breadcrumb-item">
+    <li *ngFor="let crumb of crumbs; let last = last; let first = first" [class.active]="last" class="breadcrumb-item">
       <span>
         <mat-icon *ngIf="!first">chevron_right</mat-icon>
         <a *ngIf="!last" [routerLink]="crumb.path">{{ crumb.text }}</a>

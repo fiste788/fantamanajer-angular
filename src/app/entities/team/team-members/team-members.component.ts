@@ -5,7 +5,7 @@ import { MemberListComponent } from '../../member/member-list/member-list.compon
 import { Observable } from 'rxjs';
 import { Member } from '../../member/member';
 import { MemberService } from '../../member/member.service';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
   selector: 'fm-team-members',

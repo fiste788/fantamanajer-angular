@@ -6,7 +6,7 @@
                 <div parallax-header-right>
                     <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team.id + '/transferts'" [queryParams]="{new_member_id: selectedMember.id}"
                         mat-button>Acquista</a>
-                    <mat-form-field [ngClass]="media.isActive('gt-sm') ? 'white' : ''">
+                    <mat-form-field [class.white]="media.isActive('gt-sm')">
                         <mat-select (selectionChange)='seasonChange()' placeholder="Stagione" [(ngModel)]="selectedMember">
                             <mat-option *ngFor="let member of player.members" [value]="member">{{ member.season.name }}</mat-option>
                         </mat-select>
@@ -19,7 +19,7 @@
         <table mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
             <ng-container matColumnDef="matchday">
                 <th mat-header-cell *matHeaderCellDef>
-                    <span mdTooltip="Giornata">#</span>
+                    <span matTooltipPosition="above" matTooltip="Giornata">#</span>
                 </th>
                 <td mat-cell *matCellDef="let row">{{row.matchday.number}}
                     <td>
@@ -69,34 +69,34 @@
 
             <ng-container matColumnDef="regular">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span mdTooltip="Titolare">Tit.</span>
+                    <span matTooltipPosition="above" matTooltip="Titolare">Tit</span>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    <i *ngIf="row.regular" class="material-icons">done</i>
+                    <mat-icon *ngIf="row.regular">done</mat-icon>
                     <td>
             </ng-container>
 
             <ng-container matColumnDef="yellow_card">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span mdTooltip="Ammonizioni" class="yellow_card mat-elevation-z1"></span>
+                    <span matTooltip="Ammonizioni" matTooltipPosition="above" class="yellow_card"></span>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    <i *ngIf="row.yellow_card" class="material-icons">done</i>
+                    <mat-icon *ngIf="row.yellow_card">done</mat-icon>
                     <td>
             </ng-container>
 
             <ng-container matColumnDef="red_card">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span mdTooltip="Espulsioni" class="red_card mat-elevation-z1"></span>
+                    <span matTooltip="Espulsioni" matTooltipPosition="above" class="red_card"></span>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    <i *ngIf="row.red_card" class="material-icons">done</i>
+                    <mat-icon *ngIf="row.red_card">done</mat-icon>
                     <td>
             </ng-container>
 
             <ng-container matColumnDef="quotation">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span mdTooltip="Quotazione">Q.</span>
+                    <span matTooltip="Quotazione" matTooltipPosition="above">Q.</span>
                 </th>
                 <td mat-cell *matCellDef="let row">{{row.quotation}}
                     <td>

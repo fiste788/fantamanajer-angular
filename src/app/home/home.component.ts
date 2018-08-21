@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CardCreationAnimation } from '../shared/animations/card-creation.animation';
 
 import { share } from 'rxjs/operators';
+import { ApplicationService } from '../core/application.service';
 
 @Component({
   selector: 'fm-home',
@@ -16,7 +17,7 @@ import { share } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
   public roles: Observable<Role[]>;
-  constructor(private memberService: MemberService) { }
+  constructor(private memberService: MemberService, public app: ApplicationService) { }
 
   ngOnInit() {
     this.roles = this.memberService.getBest().pipe(share());

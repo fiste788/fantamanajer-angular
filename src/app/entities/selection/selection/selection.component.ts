@@ -12,11 +12,11 @@ import { Member } from '../../member/member';
 import { TeamService } from '../../team/team.service';
 import { SelectionService } from '../selection.service';
 import { MemberService } from '../../member/member.service';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../../shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-selection',

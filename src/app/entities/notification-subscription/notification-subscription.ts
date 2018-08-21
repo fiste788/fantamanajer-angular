@@ -1,4 +1,4 @@
-import { Team } from '../../entities/team/team';
+import { Team } from '../team/team';
 
 export class NotificationSubscription {
     id: number;

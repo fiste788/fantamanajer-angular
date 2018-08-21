@@ -16,5 +16,5 @@
         </mat-form-field>
 
     </div>
-    <fm-member-list *ngIf="members" [members]="members" [isSelectable]="true" [elevation]="0"></fm-member-list>
+    <fm-member-list *ngIf="members" [members]="members" [isSelectable]="app.championship.started && !app.seasonEnded" [elevation]="0"></fm-member-list>
 </div>

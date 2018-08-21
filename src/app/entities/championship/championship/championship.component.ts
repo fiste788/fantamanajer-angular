@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../../shared/shared.service';
 import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({

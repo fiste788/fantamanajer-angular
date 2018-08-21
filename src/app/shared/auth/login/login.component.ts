@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-login',
@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authService
       .login(
-      this.loginData.email,
-      this.loginData.password,
-      this.loginData.remember_me
+        this.loginData.email,
+        this.loginData.password,
+        this.loginData.remember_me
       )
       .subscribe(result => {
         if (result === true) {

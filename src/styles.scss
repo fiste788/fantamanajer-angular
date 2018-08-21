@@ -48,11 +48,13 @@ a {
 .yellow_card {
   width: .75rem;
   height: 1rem;
-  display: inline-block; //@include box-shadow(1px 1px 2px #AAAAAA);
+  display: inline-block;
+  @include mat-elevation(1);
 }
 
 .yellow_card {
   background-color: yellow;
+
 }
 
 .red_card {

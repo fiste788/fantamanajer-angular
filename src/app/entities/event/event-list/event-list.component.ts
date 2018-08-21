@@ -1,14 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Event } from '../event';
 import { EventService } from '../event.service';
-import { ListItemAnimation } from 'app/shared/animations/list-item.animation';
-import { PagedResponse } from 'app/shared/pagination/paged-response';
-import { Pagination } from 'app/shared/pagination/pagination';
-import { ApplicationService } from 'app/core/application.service';
-import { SharedService } from 'app/shared/shared.service';
+import { ListItemAnimation } from '../../../shared/animations/list-item.animation';
+import { PagedResponse } from '../../../shared/pagination/paged-response';
+import { Pagination } from '../../../shared/pagination/pagination';
+import { ApplicationService } from '../../../core/application.service';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
   selector: 'fm-event-list',
@@ -17,38 +15,14 @@ import { SharedService } from 'app/shared/shared.service';
   animations: [ListItemAnimation]
 })
 export class EventListComponent implements OnInit {
-  events: Event[] = [];
-  pagination: Pagination;
+  @Input() events: Event[] = [];
   public isLoading = false;
-  private page = 1;
 
   constructor(
-    private eventService: EventService,
-    private app: ApplicationService,
-    private route: ActivatedRoute,
-    private detector: ChangeDetectorRef,
-    private shared: SharedService
   ) { }
 
   ngOnInit() {
-    this.loadData();
   }
 
-  loadData(page = 1) {
-    this.page = page;
-    this.isLoading = true;
-    this.eventService.getEvents(this.shared.getChampionshipId(this.route), page).subscribe((data: PagedResponse<Event[]>) => {
-      this.isLoading = false;
-      this.pagination = data.pagination;
-      this.events = this.events.concat(data.data);
-    });
 
-  }
-
-  onScrollDown() {
-    if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
-      this.loadData(this.pagination.current_page + 1);
-    }
-
-  }
 }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Event } from './event';
-import { Pagination } from 'app/shared/pagination/pagination';
-import { PagedResponse } from 'app/shared/pagination/paged-response';
+import { Pagination } from '../../shared/pagination/pagination';
+import { PagedResponse } from '../../shared/pagination/paged-response';
 
 @Injectable()
 export class EventService {
@@ -17,5 +17,9 @@ export class EventService {
     return this.http.get<PagedResponse<Event[]>>(
       `championships/${championships_id}/${this.url}`, { params: params }
     );
+  }
+
+  getStreamByTeam(teamId: number): Observable<Event[]> {
+    return this.http.get<Event[]>(`championships/${teamId}/${this.url}`);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Team } from './team';
 import { HttpClient } from '@angular/common/http';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../shared/shared.service';
 import { Observable } from 'rxjs';
 
 @Injectable()

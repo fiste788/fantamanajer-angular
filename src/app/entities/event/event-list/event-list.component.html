@@ -1,4 +1,4 @@
-<mat-list *ngIf="events.length" @listItemAnimation (scrolled)="onScrollDown()" infiniteScroll [fromRoot]="true" [infiniteScrollContainer]="'mat-sidenav-content'">
+<mat-list *ngIf="events.length" @listItemAnimation>
     <mat-list-item *ngFor="let event of events">
         <mat-icon mat-list-icon>{{event.icon}}</mat-icon>
         <h3 mat-line> {{event.title}} </h3>

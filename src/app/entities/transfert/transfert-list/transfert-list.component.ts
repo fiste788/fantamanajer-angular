@@ -5,9 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { Transfert } from '../transfert';
 import { TransfertService } from '../transfert.service';
 import { SelectionComponent } from '../../selection/selection/selection.component';
-import { SharedService } from 'app/shared/shared.service';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
-import { ApplicationService } from 'app/core/application.service';
+import { SharedService } from '../../../shared/shared.service';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-transfert-list',

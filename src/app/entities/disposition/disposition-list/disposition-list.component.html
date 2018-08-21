@@ -29,23 +29,30 @@
         </ng-container>
 
         <ng-container matColumnDef="regular">
-            <th mat-header-cell *matHeaderCellDef> Tit </th>
+            <th mat-header-cell *matHeaderCellDef>
+                <span matTooltip="Titolare" matTooltipPosition="above">Tit</span>
+            </th>
             <td mat-cell *matCellDef="let row">
-                <i *ngIf="row.member.ratings[0].regular" class="material-icons">done</i>
+                <mat-icon *ngIf="row.member.ratings[0].regular">done</mat-icon>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="yellowCard">
+            <th mat-header-cell *matHeaderCellDef>
+                <span matTooltip="Ammonizioni" matTooltipPosition="above" class="yellow_card"></span>
+            </th>
             <th mat-header-cell *matHeaderCellDef> Amm </th>
             <td mat-cell *matCellDef="let row">
-                <i *ngIf="row.member.ratings[0].yellow_card" class="material-icons">done</i>
+                <mat-icon *ngIf="row.member.ratings[0].yellow_card">done</mat-icon>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="redCard">
-            <th mat-header-cell *matHeaderCellDef> Esp </th>
+            <th mat-header-cell *matHeaderCellDef>
+                <span matTooltip="Espulsioni" matTooltipPosition="above" class="red_card"></span>
+            </th>
             <td mat-cell *matCellDef="let row">
-                <i *ngIf="row.member.ratings[0].red_card" class="material-icons">done</i>
+                <mat-icon *ngIf="row.member.ratings[0].red_card">done</mat-icon>
             </td>
         </ng-container>
 

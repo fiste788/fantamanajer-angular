@@ -2,20 +2,17 @@ import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, concat } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 import { MatchdayService } from '../entities/matchday/matchday.service';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { UserService } from '../entities/user/user.service';
+import { AuthService } from '../shared/auth/auth.service';
 import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
 import { User } from '../entities/user/user';
 import { Championship } from '../entities/championship/championship';
-import { Season } from '../entities/season/season';
 
 @Injectable()
 export class ApplicationService {
-  private season: Season;
   public seasonEnded: boolean;
+  public seasonStarted: boolean;
   public matchday: Matchday;
   public championship: Championship;
   public team: Team;
@@ -24,7 +21,6 @@ export class ApplicationService {
 
   constructor(
     private auth: AuthService,
-    private userService: UserService,
     private matchdayService: MatchdayService,
     private injector: Injector
   ) { }
@@ -33,7 +29,7 @@ export class ApplicationService {
     return this.matchdayService.getCurrentMatchday().pipe(map(matchday => {
       this.matchday = matchday;
       this.seasonEnded = matchday.number > 38;
-      this.season = this.matchday.season;
+      this.seasonStarted = matchday.number > 0;
     }));
   }
 

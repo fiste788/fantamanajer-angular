@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Player } from '../player';
 import { PlayerService } from '../player.service';
-import { ApplicationService } from 'app/core/application.service';
+import { ApplicationService } from '../../../core/application.service';
 
 @Injectable()
 export class PlayerResolver implements Resolve<Player> {
