@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable ,  Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Notification } from './notification';
+import { Stream } from '../../shared/stream/stream';
+import { share } from 'rxjs/operators';
 
 type MessageCallback = (payload: any) => void;
 
@@ -9,13 +11,18 @@ type MessageCallback = (payload: any) => void;
 export class NotificationService {
   notifications: Subject<Notification> = new Subject<Notification>();
   private url = 'notifications';
+  @Output() seen: EventEmitter<Stream> = new EventEmitter<Stream>();
 
   constructor(private http: HttpClient) { }
 
-  getNotifications(id: number): Observable<Notification[]> {
-    const val = this.http.get<Notification[]>('teams/' + id + '/' + this.url);
-    val.subscribe(arr => arr.map(value => this.notifications.next(value)));
-    return val;
+  getNotifications(teamId: number): Observable<Stream> {
+    const seen = this.http.get<Stream>('teams/' + teamId + '/' + this.url).pipe(share());
+    seen.subscribe(res => this.seen.emit(res));
+    return seen;
+  }
+
+  getNotificationCount(teamId: number): Observable<Stream> {
+    return this.http.get<Stream>('teams/' + teamId + '/' + this.url + '/count');
   }
 
   broadcast(title: string, url: string, severity?: number) {
@@ -25,4 +32,6 @@ export class NotificationService {
   subscribe(callback: MessageCallback): Subscription {
     return this.notifications.subscribe(callback);
   }
+
+
 }

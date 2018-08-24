@@ -7,6 +7,7 @@ import { ScoreService } from '../score.service';
 import { Score } from '../score';
 import { Matchday } from '../../matchday/matchday';
 import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
+import { Championship } from '../../championship/championship';
 
 @Component({
   selector: 'fm-ranking',
@@ -28,12 +29,14 @@ export class RankingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.scoreService.getRanking(this.shared.getChampionshipId(this.route)).subscribe((ranking: any[]) => {
-      this.dataSource = new MatTableDataSource(ranking);
-      if (ranking.length && ranking[0].scores) {
-        this.matchdays = Object.keys(ranking[0].scores).reverse();
-        this.matchdays.map((matchday: string) => this.rankingDisplayedColumns.push(matchday));
-      }
+    this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
+      this.scoreService.getRanking(data.championship.id).subscribe((ranking: any[]) => {
+        this.dataSource = new MatTableDataSource(ranking);
+        if (ranking.length && ranking[0].scores) {
+          this.matchdays = Object.keys(ranking[0].scores).reverse();
+          this.matchdays.map((matchday: string) => this.rankingDisplayedColumns.push(matchday));
+        }
+      });
     });
   }
 }

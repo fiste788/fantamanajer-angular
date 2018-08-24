@@ -23,7 +23,7 @@ export class TeamStreamComponent implements OnInit {
   }
 
   loadData(page = 1) {
-    this.streamService.getByTeam(this.shared.getTeamId(this.route)).subscribe(activities => this.activities = activities);
+    this.streamService.getByTeam(this.shared.getTeamId(this.route)).subscribe(activities => this.activities = activities.results);
 
   }
 

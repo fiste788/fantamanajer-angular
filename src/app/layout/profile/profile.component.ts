@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../shared/auth/auth.service';
 import { ApplicationService } from '../../core/application.service';
+import { Team } from '../../entities/team/team';
+import { Router } from '@angular/router';
+import { MainComponent } from '../main/main.component';
 
 @Component({
   selector: 'fm-profile',
@@ -9,12 +12,21 @@ import { ApplicationService } from '../../core/application.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(
+  constructor(public main: MainComponent,
     public auth: AuthService,
-    public app: ApplicationService
+    public app: ApplicationService,
+    private router: Router,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
+  }
+
+  setTeam(team: Team) {
+    this.main.closeSidenav();
+    this.app.setCurrentTeam(team).then(() => this.changeRef.detectChanges());
+    this.router.navigateByUrl('/teams/' + team.id);
+
   }
 
 }

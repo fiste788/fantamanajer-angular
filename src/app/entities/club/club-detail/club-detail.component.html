@@ -1,10 +1,10 @@
 <div *ngIf="club | async as club; else loading">
     <div @enterDetailAnimation>
         <div class="animation-container">
-            <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"></fm-parallax-header>
+            <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name" [tabs]="tabs"></fm-parallax-header>
         </div>
     </div>
-    <fm-member-list *ngIf="members" [members]="members" [hideClub]="true"></fm-member-list>
+    <router-outlet></router-outlet>
 </div>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>

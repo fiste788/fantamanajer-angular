@@ -4,13 +4,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LineupService } from '../lineup.service';
-import { SharedService } from 'app/shared/shared.service';
-import { ApplicationService } from 'app/core/application.service';
+import { SharedService } from '../../../shared/shared.service';
+import { ApplicationService } from '../../../core/application.service';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Member } from '../../member/member';
-import { Role } from '../../role/role';
 import { Module } from '../module';
+import { Team } from '../../team/team';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -38,48 +38,50 @@ export class LineupDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.teamId = this.shared.getTeamId(this.route);
-    this.editMode = this.app.team.id === this.teamId;
-    this.benchs = Array(7)
-      .fill(7)
-      .map((x, i) => i + 11);
-    this.captains.set('C', 'captain');
-    this.captains.set('VC', 'vcaptain');
-    this.captains.set('VVC', 'vvcaptain');
-    this.captainsKeys = Array.from(this.captains.keys());
-    this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
-      lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
-      if (lineup) {
-        lineup.team.members.forEach((member, index) => {
-          if (!this.membersByRole.has(member.role.abbreviation)) {
-            this.membersByRole.set(member.role.abbreviation, []);
-          }
-          this.membersByRole.get(member.role.abbreviation).push(member);
-          this.membersById.set(member.id, member);
-        }, this);
-        lineup.modules.forEach((module, index) => {
-          this.modules.push(new Module(module));
-        }, this);
-        if (lineup.module) {
-          lineup.module_object = this.modules.find(element => {
-            return element.key === lineup.module;
+    this.route.parent.data.subscribe((data: { team: Team }) => {
+      this.teamId = data.team.id;
+      this.editMode = this.app.team.id === this.teamId;
+      this.benchs = Array(7)
+        .fill(7)
+        .map((x, i) => i + 11);
+      this.captains.set('C', 'captain');
+      this.captains.set('VC', 'vcaptain');
+      this.captains.set('VVC', 'vvcaptain');
+      this.captainsKeys = Array.from(this.captains.keys());
+      this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
+        lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
+        if (lineup) {
+          lineup.team.members.forEach((member, index) => {
+            if (!this.membersByRole.has(member.role.abbreviation)) {
+              this.membersByRole.set(member.role.abbreviation, []);
+            }
+            this.membersByRole.get(member.role.abbreviation).push(member);
+            this.membersById.set(member.id, member);
           }, this);
-          this.changeModule(lineup);
-        }
-        lineup.team_id = this.app.team.id;
-        let i = 0;
-        for (i = 0; i < 18; i++) {
-          if (
-            lineup.dispositions.length < i ||
-            lineup.dispositions[i] == null
-          ) {
-            lineup.dispositions[i] = new Disposition();
-            lineup.dispositions[i].position = i + 1;
+          lineup.modules.forEach((module, index) => {
+            this.modules.push(new Module(module));
+          }, this);
+          if (lineup.module) {
+            lineup.module_object = this.modules.find(element => {
+              return element.key === lineup.module;
+            }, this);
+            this.changeModule(lineup);
+          }
+          lineup.team_id = this.app.team.id;
+          let i = 0;
+          for (i = 0; i < 18; i++) {
+            if (
+              lineup.dispositions.length < i ||
+              lineup.dispositions[i] == null
+            ) {
+              lineup.dispositions[i] = new Disposition();
+              lineup.dispositions[i].position = i + 1;
+            }
           }
         }
-      }
-      return lineup || new Lineup;
-    }));
+        return lineup || new Lineup;
+      }));
+    });
   }
 
   getIndex(lineup: Lineup, key, key2): number {

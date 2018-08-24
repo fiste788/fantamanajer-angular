@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query, stagger } from '@angular/animations';
+import { trigger, style, transition, animate, query } from '@angular/animations';
 
 export const EnterDetailAnimation = trigger('enterDetailAnimation', [
     transition('* => *', [

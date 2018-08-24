@@ -1,12 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Team } from '../team';
 import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
 import { Observable } from 'rxjs';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
-import { EmailSubscription } from '../../email-subscription/email-subscription';
-import { SharedService } from '../../../shared/shared.service';
 import { ApplicationService } from '../../../core/application.service';
 
 @Component({
@@ -22,24 +20,30 @@ export class TeamDetailComponent implements OnInit {
   constructor(
     public app: ApplicationService,
     private route: ActivatedRoute,
-    private shared: SharedService,
     private changeRef: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
-    this.tabs.push({ label: 'Giocatori', link: 'players' });
-    if (app.championship.started) {
-      this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
-      this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
-      this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
-    }
-    this.tabs.push({ label: 'Articoli', link: 'articles' });
-    this.tabs.push({ label: 'Attività', link: 'stream' });
+
   }
 
   ngOnInit() {
     this.route.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
+      this.tabs = [];
+      this.tabs.push({ label: 'Giocatori', link: 'players' });
+      if (this.app.championship.started) {
+        if (!this.app.seasonEnded) {
+          this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
+        }
+        this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
+        if (!this.app.seasonEnded) {
+          this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
+        }
+      }
+      this.tabs.push({ label: 'Articoli', link: 'articles' });
+      this.tabs.push({ label: 'Attività', link: 'stream' });
     });
+
   }
 
   openDialog(): void {

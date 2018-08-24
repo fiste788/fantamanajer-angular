@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Lineup } from './lineup';
-import { Member } from '../member/member';
-import { SharedService } from 'app/shared/shared.service';
+import { SharedService } from '../../shared/shared.service';
 
 @Injectable()
 export class LineupService {

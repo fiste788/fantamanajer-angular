@@ -14,7 +14,7 @@ export class ChampionshipComponent implements OnInit, AfterViewInit {
     { label: 'Classifica', link: 'ranking' },
     { label: 'Giocatori liberi', link: 'members/free' },
     { label: 'Articoli', link: 'articles' },
-    { label: 'Eventi', link: 'events' }
+    { label: 'Attività', link: 'stream' }
   ];
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 

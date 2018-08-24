@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { Member } from '../member';
 import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
-import { share } from '../../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'fm-member-list',

@@ -11,8 +11,8 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngFor="let team of app.teams">
-              <span>{{team.name}} ({{team.championship.season.name}})</span>
+            <button mat-menu-item (click)="setTeam(team)" *ngFor="let team of app.teams">
+              <span>{{team.name}}</span><br/><span class="season">{{team.championship.season.name}}</span>
             </button>
           </mat-menu>
         </div>

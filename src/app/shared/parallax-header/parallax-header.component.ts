@@ -20,6 +20,9 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
   constructor() { }
 
   ngOnChanges(changes) {
+    if (this.tabGroup) {
+      this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
+    }
     if (this.backgroundImage) {
       if (typeof this.backgroundImage !== 'string') {
         const srcset = [];
@@ -32,6 +35,9 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
         this.backgroundImage = this.backgroundImage[lastKey];
         this.width = parseInt(lastKey.substring(0, lastKey.indexOf('w')), 10);
       }
+    } else {
+      this.srcset = '';
+      this.width = 0;
     }
   }
 

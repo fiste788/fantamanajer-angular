@@ -19,10 +19,10 @@ export class ClubDetailComponent implements OnInit, AfterViewChecked {
   club: Observable<Club>;
   members: Observable<Member[]>;
   responsive = true;
+  tabs: { label: string; link: string }[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private clubService: ClubService,
     private memberService: MemberService,
     private changeRef: ChangeDetectorRef
   ) { }
@@ -31,7 +31,9 @@ export class ClubDetailComponent implements OnInit, AfterViewChecked {
     this.route.data.subscribe((data: { club: Club }) => {
       this.club = of(data.club);
       this.members = this.memberService.getByClubId(data.club.id).pipe(share());
-      // this.members = of(club.members);
+      this.tabs = [];
+      this.tabs.push({ label: 'Giocatori', link: 'players' });
+      this.tabs.push({ label: 'Attività', link: 'stream' });
     });
   }
 

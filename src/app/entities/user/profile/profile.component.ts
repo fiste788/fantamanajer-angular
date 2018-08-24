@@ -3,7 +3,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { share, take } from 'rxjs/operators';
 import { ApplicationService } from '../../../core/application.service';
-import { AuthService } from '../../../shared/auth/auth.service';
 import { PushService } from '../../../shared/push/push.service';
 import { UserService } from '../user.service';
 import { User } from '../user';
@@ -22,7 +21,6 @@ export class ProfileComponent implements OnInit {
   constructor(
     public snackBar: MatSnackBar,
     private app: ApplicationService,
-    private authService: AuthService,
     private userService: UserService,
     private pushService: PushService
   ) { }
@@ -31,7 +29,7 @@ export class ProfileComponent implements OnInit {
     this.user = Object.assign({}, this.app.user);
     this.pushService.swPush.subscription
       .pipe(take(1))
-      .subscribe(subscription => (this.push = true));
+      .subscribe(() => (this.push = true));
     // this.push = this.pushService.isSubscribed();
   }
 
@@ -43,7 +41,6 @@ export class ProfileComponent implements OnInit {
           duration: 3000
         });
         this.app.user = this.user;
-        localStorage.setItem('currentUser', JSON.stringify(this.user));
       });
     }
   }

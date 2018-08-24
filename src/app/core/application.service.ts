@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, concat } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatchdayService } from '../entities/matchday/matchday.service';
@@ -58,11 +58,17 @@ export class ApplicationService {
     this.setCurrentTeam(this.teams[0]);
   }
 
-  setCurrentTeam(team: Team) {
+  setCurrentTeam(team: Team): Promise<Team> {
     if (team) {
       this.team = team;
       this.championship = team.championship;
+      if (this.championship.season.id !== this.matchday.season_id) {
+        this.seasonStarted = false;
+        this.seasonEnded = true;
+      }
+      return Promise.resolve(team);
     }
+    return null;
   }
 
   private getRouter(): Router {
