@@ -7,7 +7,7 @@ import {
   HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 
@@ -21,9 +21,11 @@ export class ApiInterceptor implements HttpInterceptor {
       .handle(req.clone(data))
       .pipe(map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
-          event = event.clone({
-            body: event.body.data
-          });
+          if (!req.params.has('page')) {
+            event = event.clone({
+              body: event.body.data
+            });
+          }
           return event;
         }
       })

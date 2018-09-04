@@ -5,6 +5,7 @@ import { TeamListComponent } from './team-list/team-list.component';
 import { TeamDetailComponent } from './team-detail/team-detail.component';
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
+import { TeamStreamComponent } from './team-stream/team-stream.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
           { path: 'articles', loadChildren: 'app/entities/article/article.module#ArticleModule' },
           { path: 'players', component: TeamMembersComponent },
+          { path: 'stream', component: TeamStreamComponent },
           { path: 'scores', loadChildren: 'app/entities/score/score.module#ScoreModule' },
           { path: 'lineup', loadChildren: 'app/entities/lineup/lineup.module#LineupModule' },
           { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule' }

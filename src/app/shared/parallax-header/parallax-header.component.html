@@ -2,7 +2,7 @@
     <div class="parallax">
         <div class="parallax-header-img mat-elevation-z2">
             <div fmRellax [center]="true">
-                <img sizes="(max-width: {{width}}px) 100vw, {{width}}px" [srcset]="srcset" [src]="backgroundImage || '//placehold.it/1200x800'"
+                <img (load)="initialScroll($event)" sizes="(max-width: {{width}}px) 100vw, {{width}}px" [srcset]="srcset" [src]="backgroundImage || '//placehold.it/1200x800'"
                     [alt]="title">
             </div>
         </div>
@@ -22,7 +22,7 @@
     <mat-tab-group #tabGroup *ngIf="tabs.length">
         <mat-tab *ngFor="let tab of tabs">
             <ng-template mat-tab-label>
-                <a class="mat-tab-link" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" isActive="rla.isActive" [ngClass]="{'mat-tab-label-active':rla.isActive}">{{tab.label}}</a>
+                <a class="mat-tab-link" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" isActive="rla.isActive" [class.mat-tab-label-active]="rla.isActive">{{tab.label}}</a>
             </ng-template>
         </mat-tab>
     </mat-tab-group>

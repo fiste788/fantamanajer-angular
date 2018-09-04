@@ -3,7 +3,8 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
+  APP_INITIALIZER
 } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -15,14 +16,15 @@ import { ApiInterceptor } from '../shared/interceptor/api.interceptor';
 import { SharedService } from '../shared/shared.service';
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../shared/auth/auth.module';
+import { ApplicationService } from './application.service';
 import { MatchdayModule } from '../entities/matchday/matchday.module';
-import { UserCommonModule } from '../user/user-common.module';
+import { UserCommonModule } from '../entities/user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
 import { NotificationModule } from '../entities/notification/notification.module';
-import { SubscriptionModule } from '../entities/subscription/subscription.module';
 import { PushModule } from '../shared/push/push.module';
-import { SrcsetDirective } from '../shared/srcset.directive';
-import { WindowRef } from 'app/core/WindowRef';
+import { PushService } from '../shared/push/push.service';
+
+export function useFactory(service: ApplicationService) { return () => service.initialize(); }
 
 @NgModule({
   imports: [
@@ -34,7 +36,6 @@ import { WindowRef } from 'app/core/WindowRef';
     MemberCommonModule,
     MatchdayModule,
     NotificationModule,
-    SubscriptionModule,
     PushModule
   ],
   exports: [
@@ -45,7 +46,7 @@ import { WindowRef } from 'app/core/WindowRef';
   declarations: [],
   providers: [
     SharedService,
-    WindowRef,
+    ApplicationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
@@ -54,6 +55,12 @@ import { WindowRef } from 'app/core/WindowRef';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: useFactory,
+      deps: [ApplicationService, PushService],
       multi: true
     }
   ]

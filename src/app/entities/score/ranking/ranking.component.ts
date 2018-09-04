@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs/Observable';
-import { Score } from '../score';
-import { SharedService } from 'app/shared/shared.service';
+import { Observable } from 'rxjs';
+import { SharedService } from '../../../shared/shared.service';
 import { ScoreService } from '../score.service';
+import { Score } from '../score';
 import { Matchday } from '../../matchday/matchday';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
+import { Championship } from '../../championship/championship';
 
 @Component({
   selector: 'fm-ranking',
@@ -15,42 +17,26 @@ import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 })
 export class RankingComponent implements OnInit {
 
-  rankingDataSource: MatTableDataSource<any[]>;
-  scoresDataSource: MatTableDataSource<Map<string, Score>>;
+  dataSource: MatTableDataSource<any[]>;
   rankingDisplayedColumns = ['teamName', 'points'];
-  scoresDisplayedColumns = [];
-  matchdays: Matchday[];
+  matchdays = [];
 
   constructor(
     private scoreService: ScoreService,
-    private shared: SharedService
+    private shared: SharedService,
+    private route: ActivatedRoute
   ) {
-    this.matchdays = [];
   }
 
   ngOnInit(): void {
-    this.scoreService.getRanking().subscribe(data => {
-      this.rankingDataSource = new MatTableDataSource(data.ranking);
-      // this.scores = data.scores;
-      const firstKey = Object.keys(data.scores).shift();
-      const scores: Map<string, Score>[] = Object.keys(data.scores).map(key => {
-        const map = new Map<string, Score>();
-        Object.keys(data.scores[key]).map(key2 => {
-          const number: string = data.scores[key][key2].matchday.number + '';
-          const value: Score = data.scores[key][key2] as Score;
-          // return data.scores[key]['' + key2] as Score
-          return map.set(number, value);
-        });
-        return map;
+    this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
+      this.scoreService.getRanking(data.championship.id).subscribe((ranking: any[]) => {
+        this.dataSource = new MatTableDataSource(ranking);
+        if (ranking.length && ranking[0].scores) {
+          this.matchdays = Object.keys(ranking[0].scores).reverse();
+          this.matchdays.map((matchday: string) => this.rankingDisplayedColumns.push(matchday));
+        }
       });
-      Object.keys(data.scores[firstKey]).forEach(element => {
-        const matchday: Matchday = data.scores[firstKey][element].matchday;
-        this.matchdays.push(matchday);
-        this.scoresDisplayedColumns.push('' + matchday.number);
-      });
-      this.matchdays.reverse();
-      this.scoresDisplayedColumns.reverse();
-      this.scoresDataSource = new MatTableDataSource(scores);
     });
   }
 }

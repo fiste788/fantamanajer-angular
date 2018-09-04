@@ -1,6 +1,7 @@
 import { Member } from '../member/member';
-import { User } from '../../user/user';
+import { User } from '../user/user';
 import { Championship } from '../championship/championship';
+import { NotificationSubscription } from '../notification-subscription/notification-subscription';
 
 export class Team {
   id: number;
@@ -11,4 +12,6 @@ export class Team {
   championship_id: number;
   championship: Championship;
   photo_url: string;
+  email_notification_subscriptions: NotificationSubscription[];
+  push_notification_subscriptions: NotificationSubscription[];
 }

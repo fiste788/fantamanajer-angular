@@ -15,6 +15,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -34,6 +36,8 @@ import { MatSortModule } from '@angular/material/sort';
         MatTooltipModule,
         MatTableModule,
         MatTabsModule,
+        MatRippleModule,
+        ScrollDispatchModule
     ],
     exports: [
         MatButtonModule,
@@ -51,7 +55,9 @@ import { MatSortModule } from '@angular/material/sort';
         MatSortModule,
         MatTableModule,
         MatTabsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatRippleModule,
+        ScrollDispatchModule
     ]
 })
 export class MaterialModule { }

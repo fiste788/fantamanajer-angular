@@ -1,4 +1,4 @@
-<div *ngIf="articles | async as articles; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center"
+<div *ngIf="articles.length" class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start"
     fxLayoutAlign.xs="start" @cardCreationAnimation>
     <mat-card [id]="article.id" fxFlex.gt-sm="45" fxFlex.xs="100" *ngFor="let article of articles; let i=index">
         <mat-card-header>
@@ -13,8 +13,9 @@
             <button mat-button (click)="delete(article.id)">DELETE</button>
         </mat-card-actions>
     </mat-card>
-    <h3 class="subheading-1" *ngIf="articles.length == 0">Nessun articolo presente</h3>
 </div>
-<ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
-</ng-template>
+<fm-mat-empty-state *ngIf="articles.length == 0 && !isLoading" label="Nessuna conferenza stampa ancora rilasciata" description="Sii il primo"
+    icon="message">
+    <a mat-raised-button color="accent" routerLink="/articles/new">Nuova conferenza stampa</a>
+</fm-mat-empty-state>
+<mat-progress-spinner #loading *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>

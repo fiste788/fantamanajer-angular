@@ -6,13 +6,15 @@
   </smd-fab-trigger>
 
   <smd-fab-actions>
-    <button mat-mini-fab class="mat-accent" matTooltip="Inserisci formazione" matTooltipPosition="left" (click)="_click('lineup')">
+    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent" matTooltip="Inserisci formazione"
+      matTooltipPosition="left" (click)="_click('lineup')">
       <mat-icon>star_rate</mat-icon>
     </button>
     <button mat-mini-fab class="mat-accent" matTooltip="Nuovo articolo" matTooltipPosition="left" (click)="_click('article')">
       <mat-icon>message</mat-icon>
     </button>
-    <button mat-mini-fab class="mat-accent" matTooltip="Nuovo trasferimento" matTooltipPosition="left" (click)="_click('transfert')">
+    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent" matTooltip="Nuovo trasferimento"
+      matTooltipPosition="left" (click)="_click('transfert')">
       <mat-icon>swap_vert</mat-icon>
     </button>
   </smd-fab-actions>

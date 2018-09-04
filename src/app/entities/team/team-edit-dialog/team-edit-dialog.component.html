@@ -1,10 +1,24 @@
 <h1 mat-dialog-title>{{data.team.name}}</h1>
 <div mat-dialog-content>
-    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOver($event)" [uploader]="uploader" class="well my-drop-zone">Trascina quì il file per caricarlo</div>
-    <p>Oppure seleziona il file</p>
-    <input placeholder="Immagine di sfondo" type="file" ng2FileSelect [uploader]="uploader" />
+    <div *ngIf="app.matchday.number <= 3">
+        <mat-form-field>
+            <input matInput required [(ngModel)]="team.name" name="name" placeholder="Nome">
+        </mat-form-field>
+    </div>
+    <div ng2FileDrop [class.nv-file-over]="hasBaseDropZoneOver" (fileOver)="fileOver($event)" [uploader]="uploader" class="well my-drop-zone">
+        <label for="upload-img">Clicca o trascina il file quì per caricare l'immagine</label>
+        <span *ngIf="uploader.queue.length">
+            <br>File {{uploader.queue[0].file?.name}} pronto per essere caricato</span>
+        <input id="upload-img" placeholder="Immagine di sfondo" type="file" ng2FileSelect [uploader]="uploader" />
+    </div>
+    <div>
+        <fm-notification-subscription type="email" label="Notifiche tramite email" [(subscriptions)]="team.email_notification_subscriptions"
+            [team]="team"></fm-notification-subscription>
+        <fm-notification-subscription type="push" label="Notifiche push" [(subscriptions)]="team.push_notification_subscriptions"
+            [team]="team"></fm-notification-subscription>
+    </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="upload()" tabindex="2">UPLOAD</button>
-    <button mat-button (click)="onNoClick()" tabindex="-1">CANCEL</button>
+    <button mat-button (click)="save()" tabindex="2">SALVA</button>
+    <button mat-button (click)="cancel()" tabindex="-1">ANNULLA</button>
 </div>

@@ -1,17 +1,12 @@
-<mat-sidenav-container class="hundred a">
-  <mat-toolbar color="primary" class="mat-toolbar-primary mat-elevation-z4">
-    <button aria-label="sidenav toggle" fxHide.gt-sm mat-icon-button (click)="nav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <fm-breadcrumb></fm-breadcrumb>
-    <span class="spacer"></span>
-    <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
-  </mat-toolbar>
-  <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-sm') ? 'over' : 'side'" class="mat-elevation-z6">
+<mat-sidenav-container class="hundred">
+  <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-md') ? 'over' : 'side'" class="mat-elevation-z6">
     <fm-navbar></fm-navbar>
   </mat-sidenav>
-  <main class="container">
-    <router-outlet></router-outlet>
-  </main>
+  <mat-sidenav-content #scrollable cdkScrollable>
+    <fm-toolbar #toolbar [@scrollUpAnimation]="scrollDirection"></fm-toolbar>
+    <main class="container">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-<fm-speed-dial></fm-speed-dial>
+<fm-speed-dial #speedDial class="speed-dial" [@scrollDownAnimation]="scrollDirection"></fm-speed-dial>

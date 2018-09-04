@@ -19,6 +19,7 @@ export class Lineup {
   matchday: Matchday;
   team: Team;
   dispositions: Disposition[] = [];
+  modules: string[];
   module_object: Module;
   modified_at: Date;
   created_at: Date;

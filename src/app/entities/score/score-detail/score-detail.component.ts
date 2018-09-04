@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { SharedService } from 'app/shared/shared.service';
+import { Observable } from 'rxjs';
+import { SharedService } from '../../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Score } from '../score';
 import { Disposition } from '../../disposition/disposition';
@@ -36,7 +36,7 @@ export class ScoreDetailComponent implements OnInit {
   }
 
   getData(score: Score) {
-    if (score != null) {
+    if (score != null && score.lineup) {
       const dispositions: Disposition[] = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;

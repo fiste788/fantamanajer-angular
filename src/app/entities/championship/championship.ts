@@ -4,6 +4,8 @@ import { Team } from '../team/team';
 
 export class Championship {
   id: number;
+  started: boolean;
+  jolly: boolean;
   teams: Team[];
   league: League;
   season: Season;

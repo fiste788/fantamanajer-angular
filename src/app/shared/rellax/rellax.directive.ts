@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
   OnDestroy,
-  Renderer,
+  Renderer2,
   NgZone
 } from '@angular/core';
 // import * as Rellax from 'rellax';
@@ -50,7 +50,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       return 'transform';
     })();
 
-  constructor(private el: ElementRef, private renderer: Renderer, public ngZone: NgZone) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, public ngZone: NgZone) { }
 
   ngOnInit() {
     // let options = { speed: -2, center: false, round: true };
@@ -204,7 +204,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       (this.posY -
         this.block.top +
         this.el.nativeElement.parentElement.offsetHeight) /
-      (this.block.height + this.el.nativeElement.parentElement.offsetHeight);
+      (this.el.nativeElement.clientHeight + this.el.nativeElement.parentElement.offsetHeight);
 
     // Subtracting initialize value, so element stays in same spot as HTML
     const position =
@@ -216,7 +216,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       'translate3d(0,' + position + 'px,0) ' + this.block.transform;
 
     /* TODO CHECK THIS LINE */
-    this.renderer.setElementStyle(
+    this.renderer.setStyle(
       this.el.nativeElement,
       this.transformProp,
       translate

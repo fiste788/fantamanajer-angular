@@ -12,6 +12,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
 import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
+import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
+import { TeamStreamComponent } from './team-stream/team-stream.component';
+import { StreamModule } from '../../shared/stream/stream.module';
 
 @NgModule({
   imports: [
@@ -19,14 +22,17 @@ import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
     TeamRoutingModule,
     MemberCommonModule,
     FileUploadModule,
-    MatDialogModule
+    MatDialogModule,
+    NotificationSubscriptionModule,
+    StreamModule
   ],
   declarations: [
     TeamComponent,
     TeamListComponent,
     TeamDetailComponent,
     TeamMembersComponent,
-    TeamEditDialogComponent
+    TeamEditDialogComponent,
+    TeamStreamComponent
   ],
   entryComponents: [
     TeamEditDialogComponent

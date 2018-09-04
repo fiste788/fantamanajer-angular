@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ElementRef } from '@angular/core';
 
-import { UserService } from '../../../user/user.service';
+import { UserService } from '../../../entities/user/user.service';
 
 @Component({
     selector: 'fm-password-reset-init',
@@ -15,7 +15,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     constructor(
         private passwordResetInitService: UserService,
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer2
     ) {
     }
 
@@ -24,7 +24,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#email'), 'focus', []);
+        // this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#email'), 'focus', []);
     }
 
     requestReset() {

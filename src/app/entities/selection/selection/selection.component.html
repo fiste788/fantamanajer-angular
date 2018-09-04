@@ -1,6 +1,6 @@
 <form #selectionForm="ngForm" (ngSubmit)="save()">
     <mat-form-field>
-        <mat-select [compareWith]="compareFn" required (change)="playerChange()" [(ngModel)]="selection.old_member" name="old_member"
+        <mat-select [compareWith]="compareFn" required (selectionChange)="playerChange()" [(ngModel)]="selection.old_member" name="old_member"
             placeholder="Vecchio giocatore">
             <mat-option *ngFor="let member of members" [value]="member">{{ member.player.name}} {{ member.player.surname }}</mat-option>
         </mat-select>

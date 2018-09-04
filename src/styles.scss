@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import '~app/shared/styles/card-custom';
+@import '~app/shared/styles/table-custom';
 
-// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 .app-container,
 body,
 html {
@@ -14,21 +16,16 @@ body {
   // background-color: #00bcd4;
 }
 
-.mat-sidenav-content {
-  display: flex;
-  height: 100%;
-  padding-top: 4em;
-  height: calc(100% - 4em) !important;
-
-  > .mat-toolbar {
-    position: fixed;
-    top: 0;
-    z-index: 3;
-  }
+.spacer {
+  flex: 1 1 auto;
 }
 
-mat-progress-spinner {
-  margin: 50px auto;
+.hundred {
+  height: 100%;
+}
+
+.mat-progress-spinner {
+  margin: 3rem auto;
 }
 
 a {
@@ -36,23 +33,36 @@ a {
   color: #ff4081;
 }
 
-.mat-card {
-  margin-bottom: 15px;
+.mat-tab-group {
+  margin-bottom: 1rem;
+  // workaround for https://github.com/angular/material2/issues/2177
+  .mat-tab-link {
+    width: 100%;
+    height: 100%;
+    line-height: 3rem;
+    display: block;
+  }
 }
 
-.mat-cell,
-.mat-header-cell {
-  padding-right: 1rem;
+.red_card,
+.yellow_card {
+  width: .75rem;
+  height: 1rem;
+  display: inline-block;
+  @include mat-elevation(1);
 }
 
-.flex-container {
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 10px;
+.yellow_card {
+  background-color: yellow;
+
 }
 
-mat-form-field.white {
-  .mat-form-field-placeholder {
+.red_card {
+  background-color: red;
+}
+
+.mat-form-field.white {
+  .mat-form-field-label {
     color: rgba(255, 255, 255, 0.87);
   }
 
@@ -72,27 +82,4 @@ mat-form-field.white {
       color: rgba(255, 255, 255, 0.87);
     }
   }
-}
-
-.red_card,
-.yellow_card {
-  width: 10px;
-  height: 15px;
-  display: inline-block; //@include box-shadow(1px 1px 2px #AAAAAA);
-}
-
-.yellow_card {
-  background-color: yellow;
-}
-
-.red_card {
-  background-color: red;
-}
-// workaround for https://github.com/angular/material2/issues/2177
-
-.mat-tab-group .mat-tab-link {
-  width: 100%;
-  height: 100%;
-  line-height: 50px;
-  display: block;
 }

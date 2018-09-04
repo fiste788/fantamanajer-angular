@@ -1,60 +1,97 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Router, NavigationEnd, ActivatedRoute, Route } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
-import { map } from 'rxjs/operators/map';
-import { filter } from 'rxjs/operators/filter';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { Subscription } from 'rxjs';
 import { SharedService } from '../../shared/shared.service';
-import { AuthService } from '../../shared/auth/auth.service';
+import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animation';
+import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
+import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   selector: 'fm-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  animations: [
+    ScrollDownAnimation,
+    ScrollUpAnimation
+  ]
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) nav: MatSidenav;
-  title = 'FantaManajer';
+  @ViewChild(MatSidenavContent) container: MatSidenavContent;
+  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+  @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
+  @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
+  @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
+  private disableScrollAnimation = false;
+  scrollDirection = 'up';
+  private lastScrollTop = 0;
+  private subscription: Subscription;
+  private mqAlias: string;
 
   constructor(
     public media: ObservableMedia,
     public shared: SharedService,
-    public auth: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title
-  ) {
-    this.shared.initialize();
-  }
+    private changeRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
-    if (this.media.isActive('lt-sm') && this.nav) {
+    if (this.nav && this.media.isActive('lt-sm')) {
       this.nav.close();
     }
-    /*this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map((route: ActivatedRoute) => {
-        while (route.firstChild) {
-          route = route.firstChild;
+  }
+
+  ngAfterViewInit() {
+    this.media.subscribe((observer: MediaChange) => {
+      if (this.mqAlias !== observer.mqAlias) {
+        this.mqAlias = observer.mqAlias;
+        if ((!this.subscription || this.subscription.closed) && (observer.mqAlias === 'sm' || observer.mqAlias === 'xs')) {
+          this.applyScrollAnimation();
+        } else if (this.subscription) {
+          this.scrollDirection = 'up';
+          this.subscription.unsubscribe();
         }
-        return route;
-      }),
-      // filter((route: ActivatedRoute) => route.outlet === 'primary'),
-      mergeMap((route: ActivatedRoute) => route.data)
-    ).subscribe((event) => {
-      this.titleService.setTitle(event['title'] || 'FantaManajer');
-    });*/
+      }
+    });
+    this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
+  }
+
+  applyScrollAnimation() {
+    this.subscription = this.scrollable.elementScrolled().subscribe((scrolled: Event) => {
+      const st = scrolled.srcElement.scrollTop;
+      if (!this.disableScrollAnimation) {
+        const el: HTMLElement = this.toolbarEl.nativeElement;
+        if (st > el.clientHeight && st !== this.lastScrollTop) {
+          if (st > this.lastScrollTop) {
+            this.scrollDirection = 'down';
+            this.speedDial.openSpeeddial = false;
+          } else {
+            this.scrollDirection = 'up';
+          }
+          this.lastScrollTop = st;
+          this.changeRef.detectChanges();
+        }
+      } else {
+        this.lastScrollTop = st;
+      }
+    });
+  }
+
+  scrollTo(x: number = 0, y: number = 0) {
+
+    if (this.scrollable.getElementRef().nativeElement.scrollTop === 0) {
+      this.disableScrollAnimation = true;
+      this.scrollable.getElementRef().nativeElement.scrollTo(x, y);
+      this.disableScrollAnimation = false;
+    }
+
   }
 
   closeSidenav() {
-    if (this.media.isActive('xs') && this.nav) {
+    if (this.nav && this.media.isActive('xs')) {
       this.nav.close();
     }
   }
-
 }

@@ -1,68 +1,122 @@
-<div class="mat-elevation-z4" *ngIf="dataSource.data.length; else loading">
-    <mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
-        <ng-container matColumnDef="player">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Giocatore </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <a [routerLink]="['/players',row.player.id]">{{row.player.name}} {{row.player.surname}}</a>
-            </mat-cell>
-        </ng-container>
+<div *ngIf="dataSource; else loading">
+    <div class="table-container mat-elevation-z{{elevation}}" *ngIf="dataSource.data.length; else empty">
+        <table mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
 
-        <ng-container matColumnDef="role">
-            <mat-header-cell *matHeaderCellDef> Ruolo </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.role.abbreviation}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="select" sticky>
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox>
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
 
-        <ng-container matColumnDef="club">
-            <mat-header-cell *matHeaderCellDef> Club </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <a [routerLink]="['/clubs',row.club.id]">{{row.club.name}}</a>
-            </mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="player" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Giocatore </th>
+                <td mat-cell *matCellDef="let row">
+                    <a [routerLink]="['/players',row.player.id]">{{row.player.name}} {{row.player.surname}}</a>
+                </td>
+                <td mat-footer-cell *matFooterCellDef>Totale</td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_present">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Presenze </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef> Ruolo </th>
+                <td mat-cell *matCellDef="let row">{{row.role.abbreviation}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
 
-        <ng-container matColumnDef="avg_points">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> MP </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.avg_points}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="club">
+                <th mat-header-cell *matHeaderCellDef> Club </th>
+                <td mat-cell *matCellDef="let row">
+                    <a [routerLink]="['/clubs',row.club.id]">{{row.club.name}}</a>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
 
-        <ng-container matColumnDef="avg_rating">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> MV </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.avg_rating}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="sum_present">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Presenze </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef></td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_goals">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Gol </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_goals}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="avg_points">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Medi punti" matTooltipPosition="above">MP</span>
+                </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.avg_points}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_points'] | number:'1.2-2'}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_goals_against">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Gol subiti </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_goals_against}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="avg_rating">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Medi voti" matTooltipPosition="above">MV</span>
+                </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.avg_rating}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_rating'] | number:'1.2-2'}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_assist">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Assist </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_assist}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="sum_goals">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Gol </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_goals}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_goals']}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_yellow_card">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Amm </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_yellow_card}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="sum_goals_against">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Gol subiti </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_goals_against}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_goals_against']}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="sum_red_card">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Esp </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.stats.sum_red_card}}</mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="sum_assist">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header> Assist </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_assist}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_assist']}}</td>
+            </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+            <ng-container matColumnDef="sum_yellow_card">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Ammonizioni" matTooltipPosition="above" class="yellow_card"></span>
+                </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_yellow_card}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_yellow_card']}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="sum_red_card">
+                <th mat-header-cell class="mat-header-cell-numeric" *matHeaderCellDef mat-sort-header>
+                    <span matTooltip="Espulsioni" matTooltipPosition="above" class="red_card"></span>
+                </th>
+                <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
+                    <span *ngIf="row.stats">{{row.stats.sum_red_card}}</span>
+                </td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['sum_red_card']}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
 </div>
+<ng-template #empty>
+    <fm-mat-empty-state [rounded]="true" label="Nessun giocatore acquistato" description="Buona asta!" icon="gavel"></fm-mat-empty-state>
+</ng-template>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>

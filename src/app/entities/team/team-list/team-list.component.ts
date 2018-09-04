@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Team } from '../team';
+import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../../../shared/shared.service';
+import { Observable } from 'rxjs';
 import { TeamService } from '../team.service';
-import { Observable } from 'rxjs/Observable';
-import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
-import { SharedService } from 'app/shared/shared.service';
+import { Team } from '../team';
+import { CardCreationAnimation } from '../../../shared/animations/card-creation.animation';
 
 @Component({
   selector: 'fm-team-list',
@@ -14,9 +15,12 @@ import { SharedService } from 'app/shared/shared.service';
 export class TeamListComponent implements OnInit {
   teams: Observable<Team[]>;
 
-  constructor(private teamService: TeamService, private sharedService: SharedService) { }
+  constructor(
+    private teamService: TeamService,
+    private shared: SharedService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.teams = this.teamService.getTeams(this.sharedService.currentChampionship.id);
+    this.teams = this.teamService.getTeams(this.shared.getChampionshipId(this.route));
   }
 }

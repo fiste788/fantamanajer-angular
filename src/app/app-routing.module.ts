@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
+import { McBreadcrumbsModule } from 'mc-breadcrumbs';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { NotLoggedGuard } from './shared/auth/not-logged.guard';
 import { HomeComponent } from './home/home.component';
@@ -16,7 +16,7 @@ export const routes: Routes = [
   // { path: 'profile', component: ProfileComponent,  canActivate: [AuthGuard]},
   {
     path: 'profile',
-    loadChildren: 'app/user/user.module#UserModule',
+    loadChildren: 'app/entities/user/user.module#UserModule',
     canActivate: [AuthGuard]
   },
   {

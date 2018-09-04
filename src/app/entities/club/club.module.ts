@@ -8,17 +8,23 @@ import { ClubListComponent } from './club-list/club-list.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
 import { ClubDetailResolver } from './club-detail/club-detail-resolver.service';
 import { MemberCommonModule } from '../member/member-common.module';
+import { ClubMembersComponent } from './club-members/club-members.component';
+import { ClubStreamComponent } from './club-stream/club-stream.component';
+import { StreamModule } from '../../shared/stream/stream.module';
 
 @NgModule({
   imports: [
     SharedModule,
     ClubRoutingModule,
-    MemberCommonModule
+    MemberCommonModule,
+    StreamModule
   ],
   declarations: [
     ClubComponent,
     ClubListComponent,
-    ClubDetailComponent
+    ClubDetailComponent,
+    ClubMembersComponent,
+    ClubStreamComponent
   ],
   providers: [
     ClubService,

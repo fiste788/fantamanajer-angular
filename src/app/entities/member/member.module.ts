@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 import { MemberRoutingModule } from './member-routing.module';
 import { MemberCommonModule } from './member-common.module';

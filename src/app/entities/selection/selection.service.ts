@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Selection } from './selection';
 
 @Injectable()
 export class SelectionService {
   private url = 'selections';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getSelection(id: number): Observable<Selection> {
     return this.http.get<Selection>('teams/' + id + '/' + this.url);

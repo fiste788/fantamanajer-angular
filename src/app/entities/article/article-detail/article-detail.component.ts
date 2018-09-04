@@ -1,11 +1,11 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
-import { SharedService } from 'app/shared/shared.service';
+import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
 import { NgForm } from '@angular/forms';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-article-detail',
@@ -18,7 +18,7 @@ export class ArticleDetailComponent implements OnInit {
 
   constructor(
     public snackBar: MatSnackBar,
-    private shared: SharedService,
+    private app: ApplicationService,
     private route: ActivatedRoute,
     private router: Router,
     private articleService: ArticleService
@@ -32,7 +32,7 @@ export class ArticleDetailComponent implements OnInit {
         .subscribe(article => (this.article = article));
     } else {
       this.article = new Article();
-      this.article.team_id = this.shared.currentTeam.id;
+      this.article.team_id = this.app.team.id;
     }
   }
 

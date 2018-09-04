@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
-import { map } from 'rxjs/operators/map';
-import { share } from 'rxjs/operators/share';
-import { CardCreationAnimation } from 'app/shared/animations/card-creation.animation';
+import { map, share } from 'rxjs/operators';
+import { CardCreationAnimation } from '../../../shared/animations/card-creation.animation';
+import { Pagination } from '../../../shared/pagination/pagination';
+import { PagedResponse } from '../../../shared/pagination/paged-response';
 
 @Component({
   selector: 'fm-article-list',
@@ -14,7 +15,10 @@ import { CardCreationAnimation } from 'app/shared/animations/card-creation.anima
   animations: [CardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
-  articles: Observable<Article[]>;
+  articles: Article[] = [];
+  pagination: Pagination;
+  public isLoading = false;
+  private page = 1;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -22,7 +26,27 @@ export class ArticleListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.articles = this.articleService.getArticles().pipe(share());
+    this.loadData();
+  }
+
+  loadData(page = 1) {
+    this.page = page;
+    this.isLoading = true;
+    this.articleService.getArticles(page).subscribe(
+      (data: PagedResponse<Article[]>) => {
+        this.isLoading = false;
+        this.pagination = data.pagination;
+        this.articles = this.articles.concat(data.data);
+      }
+    );
+
+  }
+
+  onScrollDown() {
+    if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
+      this.loadData(this.pagination.current_page + 1);
+    }
+
   }
 
   delete(id) {
@@ -32,9 +56,7 @@ export class ArticleListComponent implements OnInit {
         duration: 3000
       });
       // this.articles.filter((x: Article[], idx) => x[idx] !== id);
-      this.articles.pipe(
-        map(articles => articles.filter(article => article.id !== id))
-      );
+      this.articles.filter(article => article.id !== id);
     });
   }
 }

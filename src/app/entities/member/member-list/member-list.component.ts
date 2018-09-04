@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs/Observable';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Observable } from 'rxjs';
 import { Member } from '../member';
-import { Router, RouterModule } from '@angular/router';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
+import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
 
 @Component({
   selector: 'fm-member-list',
@@ -15,9 +15,12 @@ import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 export class MemberListComponent implements OnInit {
   @Input() members: Observable<Member[]>;
   @Input() hideClub = false;
+  @Input() isSelectable = false;
+  @Input() multipleSelection = false;
+  @Input() elevation = 4;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<Member>();
+  dataSource: MatTableDataSource<Member> = null;
   displayedColumns = [
     'player',
     'role',
@@ -31,6 +34,8 @@ export class MemberListComponent implements OnInit {
     'sum_yellow_card',
     'sum_red_card'
   ];
+  footer = {};
+  @Output() selection = new SelectionModel<Member>(false, []);
 
   constructor(private changeRef: ChangeDetectorRef) { }
 
@@ -38,12 +43,43 @@ export class MemberListComponent implements OnInit {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
-    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+    if (this.isSelectable) {
+      this.displayedColumns.unshift('select');
+    }
+
     this.members.subscribe(data => {
-      this.dataSource.data = data;
-      this.changeRef.detectChanges();
-      this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource<Member>(data);
+      if (data.length) {
+        this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+        this.calcSummary(data);
+        this.changeRef.detectChanges();
+        this.dataSource.sort = this.sort;
+      }
     });
+  }
+
+  calcSummary(data) {
+    this.displayedColumns.forEach(column => {
+      if (column.startsWith('sum')) {
+        this.footer[column] = 0;
+        data.forEach(row => {
+          if (row.stats) {
+            this.footer[column] += row.stats[column];
+          }
+        });
+      }
+      if (column.startsWith('avg')) {
+        this.footer[column] = 0;
+        const rows = data.filter(row => row.stats && row.stats[column] > 0);
+        rows.forEach(row => {
+          if (row.stats) {
+            this.footer[column] += row.stats[column];
+          }
+        });
+        this.footer[column] /= rows.length;
+      }
+    });
+
   }
 
   sortingDataAccessor(data, sortHeaderId) {

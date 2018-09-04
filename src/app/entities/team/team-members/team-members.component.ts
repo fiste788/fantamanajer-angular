@@ -1,11 +1,9 @@
 import { Team } from '../team';
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MemberListComponent } from '../../member/member-list/member-list.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Member } from '../../member/member';
 import { MemberService } from '../../member/member.service';
-import { SharedService } from 'app/shared/shared.service';
 
 @Component({
   selector: 'fm-team-members',
@@ -18,10 +16,16 @@ export class TeamMembersComponent implements OnInit {
   constructor(
     private memberService: MemberService,
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.members = this.memberService.getByTeamId(this.sharedService.getTeamId(this.route));
+    this.route.parent.data.subscribe((data: { team: Team }) => {
+      this.members = null;
+      try {
+        this.changeRef.detectChanges();
+      } catch (e) { }
+      this.members = this.memberService.getByTeamId(data.team.id);
+    });
   }
 }

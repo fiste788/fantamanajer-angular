@@ -1,0 +1,2 @@
+<h4>{{label}}</h4>
+<mat-slide-toggle (change)="toggle()" *ngFor="let key of getKeys(map)" [(ngModel)]="map.get(key).enabled" [name]="key.name">{{key.label}}</mat-slide-toggle>

@@ -8,6 +8,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SpeedDialComponent } from './speed-dial/speed-dial.component';
 import { MainComponent } from './main/main.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { MainComponent } from './main/main.component';
     ProfileComponent,
     NavbarComponent,
     SpeedDialComponent,
-    MainComponent
+    MainComponent,
+    ToolbarComponent
   ]
 })
 export class LayoutModule { }

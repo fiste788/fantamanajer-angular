@@ -1,80 +1,77 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/observable';
-import { tokenNotExpired } from 'angular2-jwt';
-import { User } from '../../user/user';
-// import { SharedService } from '../shared/shared.service';
-
+import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../../entities/user/user';
 import { map } from 'rxjs/operators';
+import { UserService } from '../../entities/user/user.service';
 
 @Injectable()
 export class AuthService {
-  private loginUrl = 'users/token'; // URL to web api
   @Output() loggedUser: EventEmitter<User> = new EventEmitter();
-  public token: string;
-  public user: User;
+  private token: string;
+  private jwtHelper = new JwtHelperService();
+  private TOKEN_ITEM_NAME = 'token';
+  private ADMIN_ROLE = 'ROLE_ADMIN';
+  private USER_ROLE = 'ROLE_USER';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router // private sharedService: SharedService
-  ) {
-    if (this.loggedIn()) {
-      this.token = localStorage.getItem('token');
-      this.user = JSON.parse(localStorage.getItem('currentUser'));
-      this.loggedUser.emit(this.user);
-    } else {
+  constructor(private userService: UserService) {
+    localStorage.removeItem('currentUser');
+    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME);
+    if (!this.token) {
+      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME);
+    }
+    if (this.token && !this.loggedIn()) {
       this.logout();
     }
   }
 
-  login(
-    email: string,
-    password: string,
-    remember_me?: boolean
-  ): Observable<boolean> {
-    return this.http
-      .post(
-      this.loginUrl,
-      JSON.stringify({
-        email: email,
-        password: password,
-        remember_me: remember_me
-      })
-      )
-      .pipe(map(res => {
-        const token = res['token'];
-        if (token) {
-          this.token = token;
-          this.user = res['user'];
-          this.user.roles = [];
-          this.user.roles.push('ROLE_USER');
-          if (this.user.admin) {
-            this.user.roles.push('ROLE_ADMIN');
-          }
-          localStorage.setItem('token', token);
-          localStorage.setItem('currentUser', JSON.stringify(this.user));
-          this.loggedUser.emit(this.user);
-          return true;
+  login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
+    return this.userService.login(email, password, rememberMe).pipe(map(res => {
+      if (res.token) {
+        this.token = res.token;
+        const user = res.user;
+        user.roles = this.getRoles(user);
+        if (rememberMe) {
+          localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
         } else {
-          return false;
+          sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
         }
-      }));
+        console.log('emit');
+        this.loggedUser.emit(user);
+        return true;
+      } else {
+        return false;
+      }
+    }));
+  }
+
+  getToken(): string {
+    return this.token;
+  }
+
+  private getRoles(user: User): string[] {
+    const roles = [];
+    roles.push(this.USER_ROLE);
+    if (user.admin) {
+      roles.push(this.ADMIN_ROLE);
+    }
+    return roles;
   }
 
   logout(): void {
     this.token = null;
     this.loggedUser.emit(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['/']);
+    localStorage.removeItem(this.TOKEN_ITEM_NAME);
+    this.userService.logout().subscribe();
   }
 
   loggedIn() {
-    return tokenNotExpired();
+    return !this.jwtHelper.isTokenExpired(this.token);
   }
 
-  getLoggedUser() {
-    return this.loggedUser;
+  getCurrentUser(): Observable<void> {
+    return this.userService.getCurrent().pipe(map(user => {
+      this.loggedUser.emit(user);
+    }));
   }
 }

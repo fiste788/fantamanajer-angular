@@ -1,11 +1,7 @@
-.mat-column-player {
-  min-width: 176px;
-  display: flex;
-  align-items: center;
-  flex: 4 auto;
-}
-
-.mat-column-club {
-  min-width: 60px;
-  flex: 1 auto;
+@media (max-width: 600px) {
+  .mat-column-club,
+  .mat-column-redCard,
+  .mat-column-yellowCard {
+    display: none;
+  }
 }

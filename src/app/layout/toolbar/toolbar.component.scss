@@ -1,0 +1,16 @@
+:host {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 200;
+}
+@media (min-width: 960px) {
+  :host {
+    width: calc(100% - 15rem);
+  }
+}
+
+fm-breadcrumb {
+  flex: 10 1 auto;
+  overflow: hidden;
+}
