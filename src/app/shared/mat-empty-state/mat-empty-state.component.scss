@@ -3,14 +3,14 @@
 }
 
 .mat-empty-state.mat-rounded {
-  max-width: calc(100vw - 4rem);
-  max-height: calc(100vw - 4rem);
   min-width: 320px;
   min-height: 320px;
   border-radius: 50%;
 }
 
 .mat-empty-state {
+  max-width: calc(100vw - 4rem);
+  max-height: calc(100vw - 4rem);
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;

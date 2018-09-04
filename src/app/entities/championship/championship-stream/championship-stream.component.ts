@@ -23,7 +23,9 @@ export class ChampionshipStreamComponent implements OnInit {
   }
 
   loadData(page = 1) {
-    this.streamService.getByChampionship(this.shared.getChampionshipId(this.route)).subscribe(activities => this.activities = activities.results);
+    this.streamService.getByChampionship(this.shared.getChampionshipId(this.route)).subscribe(activities =>
+      this.activities = activities.results
+    );
 
   }
 

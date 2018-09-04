@@ -19,6 +19,14 @@ export class MemberService {
       url = url + '?stats=0';
     }
     return this.http.get<Member[]>(url);
+
+  }
+
+  getAllFree(championship_id: number): Observable<any> {
+    const url = 'championships/' + championship_id + '/' + this.url + '/free/?stats=0';
+
+    return this.http.get<any>(url);
+
   }
 
   getBest(): Observable<Role[]> {

@@ -36,7 +36,7 @@ export class ScoreDetailComponent implements OnInit {
   }
 
   getData(score: Score) {
-    if (score != null) {
+    if (score != null && score.lineup) {
       const dispositions: Disposition[] = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;

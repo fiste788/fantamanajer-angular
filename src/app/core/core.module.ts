@@ -22,6 +22,7 @@ import { UserCommonModule } from '../entities/user/user-common.module';
 import { MemberCommonModule } from '../entities/member/member-common.module';
 import { NotificationModule } from '../entities/notification/notification.module';
 import { PushModule } from '../shared/push/push.module';
+import { PushService } from '../shared/push/push.service';
 
 export function useFactory(service: ApplicationService) { return () => service.initialize(); }
 
@@ -59,7 +60,7 @@ export function useFactory(service: ApplicationService) { return () => service.i
     {
       provide: APP_INITIALIZER,
       useFactory: useFactory,
-      deps: [ApplicationService],
+      deps: [ApplicationService, PushService],
       multi: true
     }
   ]

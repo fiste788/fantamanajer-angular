@@ -204,7 +204,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       (this.posY -
         this.block.top +
         this.el.nativeElement.parentElement.offsetHeight) /
-      (this.block.height + this.el.nativeElement.parentElement.offsetHeight);
+      (this.el.nativeElement.clientHeight + this.el.nativeElement.parentElement.offsetHeight);
 
     // Subtracting initialize value, so element stays in same spot as HTML
     const position =

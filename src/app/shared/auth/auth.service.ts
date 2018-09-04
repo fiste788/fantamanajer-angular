@@ -36,6 +36,7 @@ export class AuthService {
         } else {
           sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
         }
+        console.log('emit');
         this.loggedUser.emit(user);
         return true;
       } else {

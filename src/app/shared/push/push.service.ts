@@ -1,12 +1,10 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { PushSubscriptionService } from '../../entities/push-subscription/push-subscription.service';
 import { NotificationService } from '../../entities/notification/notification.service';
-import { Notification } from '../../entities/notification/notification';
 import { environment } from 'environments/environment';
 import { PushSubscription } from '../../entities/push-subscription/push-subscription';
-import { Observable } from 'rxjs';
 import { take, defaultIfEmpty } from 'rxjs/operators';
 import { ApplicationService } from '../../core/application.service';
 import { AuthService } from '../auth/auth.service';
@@ -16,7 +14,7 @@ import { User } from '../../entities/user/user';
 @Injectable()
 export class PushService {
   private subscribed = false;
-  // private notificationComponent: NotificationListComponent = null;
+  @Output() beforeInstall: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     public subscription: PushSubscriptionService,
@@ -28,6 +26,13 @@ export class PushService {
     private swUpdate: SwUpdate,
     private winRef: WindowRef
   ) {
+    winRef.nativeWindow.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      console.log('beforeinstall');
+      this.beforeInstall.emit(e);
+    });
     this.checkForUpdates();
     this.auth.loggedUser.subscribe(this.initializeUser.bind(this));
   }
@@ -52,6 +57,7 @@ export class PushService {
   }
 
   initializeUser(user?: User) {
+    console.log('initialize user');
     if (user && environment.production) {
       this.subscribeToPush();
       this.showMessages();
@@ -59,6 +65,7 @@ export class PushService {
   }
 
   subscribeToPush() {
+    console.log('subscribe to push');
     this.swPush.subscription.pipe(defaultIfEmpty(null)).subscribe(subs => {
       if (!subs) {
         this.requestSubscription();
@@ -67,6 +74,7 @@ export class PushService {
   }
 
   private requestSubscription() {
+    console.log('request sub');
     this.swPush
       .requestSubscription({
         serverPublicKey: environment.vapidPublicKey

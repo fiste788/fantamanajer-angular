@@ -8,6 +8,7 @@ import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
 import { User } from '../entities/user/user';
 import { Championship } from '../entities/championship/championship';
+import { PushService } from '../shared/push/push.service';
 
 @Injectable()
 export class ApplicationService {

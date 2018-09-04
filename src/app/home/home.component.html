@@ -1,32 +1,34 @@
-<ng-template *ngIf="app.seasonStarted; else started">
-    <div *ngIf="roles | async as roles; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around start"
-        fxLayoutAlign.xs="start" @cardCreationAnimation>
+<div *ngIf="app.seasonStarted; else started">
+    <div *ngIf="roles | async as roles2; else loading">
+        <div *ngIf="roles2[0].best_players.length; else started" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
+            fxLayoutAlign="space-around start" fxLayoutAlign.xs="start" @cardCreationAnimation>
+            <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let role of roles2">
 
-        <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let role of roles">
+                <img [alt]="role.best_players[0].surname || 'placeholder'" mat-card-image [src]="role.best_players[0].photo_url || '//via.placeholder.com/320x450'">
+                <mat-card-header>
+                    <mat-card-title>{{role.singolar}}</mat-card-title>
+                    <mat-card-subtitle>{{role.best_players[0].player.full_name}}: {{role.best_players[0].ratings[0].points}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions>
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                MOSTRA DI PIU'
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
-            <img [alt]="role.best_players[0].surname || 'placeholder'" mat-card-image [src]="role.best_players[0].photo_url || '//via.placeholder.com/320x450'">
-            <mat-card-header>
-                <mat-card-title>{{role.singolar}}</mat-card-title>
-                <mat-card-subtitle>{{role.best_players[0].player.full_name}}: {{role.best_players[0].ratings[0].points}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-actions>
-                <mat-expansion-panel class="mat-elevation-z0">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            MOSTRA DI PIU'
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-
-                    <mat-list dense>
-                        <mat-list-item *ngFor="let member of role.best_players; let j = index">
-                            <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}: {{member.ratings[0].points}}</a>
-                        </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-card-actions>
-        </mat-card>
+                        <mat-list dense>
+                            <mat-list-item *ngFor="let member of role.best_players; let j = index">
+                                <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}: {{member.ratings[0].points}}</a>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
-</ng-template>
+
+</div>
 <ng-template #started>
     <fm-mat-empty-state [rounded]="true" label="La stagione non è ancora iniziata" description="Buona asta!" icon="wb_sunny"></fm-mat-empty-state>
 </ng-template>

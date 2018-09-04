@@ -38,7 +38,7 @@ export class LineupDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.parent.data.subscribe((data: { team: Team }) => {
+    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
       this.teamId = data.team.id;
       this.editMode = this.app.team.id === this.teamId;
       this.benchs = Array(7)
@@ -69,6 +69,9 @@ export class LineupDetailComponent implements OnInit {
           }
           lineup.team_id = this.app.team.id;
           let i = 0;
+          if (!lineup.dispositions) {
+            lineup.dispositions = [];
+          }
           for (i = 0; i < 18; i++) {
             if (
               lineup.dispositions.length < i ||

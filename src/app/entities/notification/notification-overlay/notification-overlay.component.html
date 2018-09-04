@@ -2,14 +2,19 @@
   (@openOverlayAnimation.done)="onAnimationDone($event)">
   <div class="content">
     <h3 class="title">Notifiche</h3>
-    <mat-list *ngIf="stream | async as stream; else loading" @listItemAnimation>
-      <mat-list-item *ngFor="let activity of stream.results">
-        <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
-        <h3 mat-line> {{activity.title}} </h3>
-        <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>
-        <p mat-line> {{activity.body}} </p>
-      </mat-list-item>
-    </mat-list>
+    <div *ngIf="stream | async as stream; else loading">
+      <mat-list *ngIf="stream.results.length; else empty" @listItemAnimation>
+        <mat-list-item *ngFor="let activity of stream.results">
+          <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
+          <h3 mat-line> {{activity.title}} </h3>
+          <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>
+          <p mat-line> {{activity.body}} </p>
+        </mat-list-item>
+      </mat-list>
+      <ng-template #empty>
+        <fm-mat-empty-state label="Nessuna notifica presente" icon="mood"></fm-mat-empty-state>
+      </ng-template>
+    </div>
     <ng-template #loading>
       <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
     </ng-template>

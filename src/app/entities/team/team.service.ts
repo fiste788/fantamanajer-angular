@@ -24,4 +24,16 @@ export class TeamService {
     const url = `${this.url}/${team.id}`;
     return this.http.put(url, JSON.stringify(team));
   }
+
+  create(team: Team): Observable<Team> {
+    return this.http.post<Team>(this.url, JSON.stringify(Team));
+  }
+
+  save(team: Team): Observable<any> {
+    if (team.id) {
+      return this.update(team);
+    } else {
+      return this.create(team);
+    }
+  }
 }

@@ -1,5 +1,5 @@
 .parallax-header-img {
-  max-height: 12.5rem;
+  //max-height: 12.5rem;
   overflow: hidden;
   position: relative;
 
@@ -9,7 +9,8 @@
   }
 
   div {
-    height: 12.5rem;
+    //min-height: 665px;
+    //height: 12.5rem;
   }
 }
 
@@ -43,11 +44,11 @@
 }
 @media(min-width: 600px) {
   .parallax-header-img {
-    height: 300px;
+    //height: 300px;
     max-height: unset;
 
     img {
-      position: absolute;
+      //position: absolute;
       left: 0;
       right: 0;
       top: 0;
@@ -57,7 +58,7 @@
     }
 
     div {
-      height: 300px;
+      //height: 300px;
     }
   }
 
