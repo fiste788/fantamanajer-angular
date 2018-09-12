@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TeamEditComponent } from './team-edit/team-edit.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from '../shared/auth/admin.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +10,8 @@ const routes: Routes = [
     component: AdminComponent,
     children: [{
       path: 'teams',
-      component: TeamEditComponent
+      component: TeamEditComponent,
+      canActivate: [AdminGuard]
     }]
   }
 ];

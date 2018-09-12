@@ -22,6 +22,11 @@ noscript h3 {
   height: 100vh;
   width: 100vw;
   text-align: center;
+  background-color: #00bcd4;
+}
+
+.pre-bootstrap img {
+  animation: filter-animation 2s infinite;
 }
 
 .pre-bootstrap-text {
@@ -67,5 +72,18 @@ noscript h3 {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes filter-animation {
+  0% {
+    filter: saturate(100%);
+  }
+
+  50% {
+    filter: saturate(0);
+  }
+
+  100% {
+    filter: saturate(100%);
   }
 }

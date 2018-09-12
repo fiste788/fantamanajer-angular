@@ -8,6 +8,7 @@ import { AuthGuard } from './auth.guard';
 import { NotLoggedGuard } from './not-logged.guard';
 import { AuthRoutingModule } from './auth-routing.module';
 import { JWTInterceptor } from './jwt.interceptor';
+import { AdminGuard } from './admin.guard';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { JWTInterceptor } from './jwt.interceptor';
   ],
   providers: [
     AuthService,
+    AdminGuard,
     AuthGuard,
     NotLoggedGuard,
     {

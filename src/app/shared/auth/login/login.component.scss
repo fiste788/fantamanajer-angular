@@ -1,8 +1,33 @@
 .mat-card {
   max-width: 30rem;
-  margin: 0 auto;
+  margin: 1rem;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
 
   mat-form-field {
     width: 100%;
   }
+}
+
+mat-icon {
+  font-size: 96px;
+  height: 96px;
+  width: 96px;
+  display: block;
+  margin: 0 auto;
+}
+
+.mat-card-title,
+mat-icon {
+  color: #555;
+}
+
+.mat-card-title {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.mat-card-actions {
+  margin: 0 !important;
 }
