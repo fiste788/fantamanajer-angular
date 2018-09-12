@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TeamEditComponent } from './team-edit.component';
+import { TeamEditComponent } from './edit-members.component';
 
 describe('TeamEditComponent', () => {
   let component: TeamEditComponent;
@@ -8,9 +8,9 @@ describe('TeamEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeamEditComponent ]
+      declarations: [TeamEditComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

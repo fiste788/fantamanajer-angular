@@ -23,8 +23,7 @@ const routes: Routes = [
       { path: 'teams', loadChildren: 'app/entities/team/team.module#TeamModule' },
       { path: 'members', loadChildren: 'app/entities/member/member.module#MemberModule' },
       { path: 'ranking', loadChildren: 'app/entities/score/score.module#ScoreModule' },
-      { path: 'stream', component: ChampionshipStreamComponent },
-      { path: 'edit', loadChildren: 'app/admin/admin.module#AdminModule' }
+      { path: 'stream', component: ChampionshipStreamComponent }
     ]
   }
 ];

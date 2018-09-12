@@ -1,23 +1,28 @@
 <fm-profile></fm-profile>
 <mat-nav-list>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" (click)="install()" id="install" *ngIf="deferredPrompt">
-    <mat-icon matListIcon>get_app</mat-icon>Installa l'app</a>
+    <mat-icon matListIcon>get_app</mat-icon>Installa l'app
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/home">
-    <mat-icon matListIcon>home</mat-icon>Homepage</a>
+    <mat-icon matListIcon>home</mat-icon>Homepage
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="/teams/{{app.team.id}}" *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>account_box</mat-icon>{{app.team.name}}</a>
+    <mat-icon matListIcon>account_box</mat-icon>{{app.team.name}}
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{app.championship.id}}"
     *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>bubble_chart</mat-icon>{{app.championship.league.name}}</a>
+    <mat-icon matListIcon>bubble_chart</mat-icon>{{app.championship.league.name}}
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">
-    <mat-icon matListIcon>group_work</mat-icon>Clubs</a>
-  <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="championships/{{app.championship.id}}/edit/teams"
-    *ngIf="auth.loggedIn() && app.user.admin">
-    <mat-icon matListIcon>settings</mat-icon>Amministrazione</a>
+    <mat-icon matListIcon>group_work</mat-icon>Clubs
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>account_circle</mat-icon>Profilo</a>
+    <mat-icon matListIcon>account_circle</mat-icon>Profilo
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="login" id="login" *ngIf="!auth.loggedIn()">
-    <mat-icon matListIcon>input</mat-icon>Log In</a>
+    <mat-icon matListIcon>input</mat-icon>Log In
+  </a>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" (click)="auth.logout()" id="logout" *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>exit_to_app</mat-icon>Log Out</a>
+    <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
+  </a>
 </mat-nav-list>

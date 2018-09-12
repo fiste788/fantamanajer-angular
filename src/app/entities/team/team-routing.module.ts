@@ -6,6 +6,7 @@ import { TeamDetailComponent } from './team-detail/team-detail.component';
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
 import { TeamStreamComponent } from './team-stream/team-stream.component';
+import { AdminGuard } from '../../shared/auth/admin.guard';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
           { path: 'stream', component: TeamStreamComponent },
           { path: 'scores', loadChildren: 'app/entities/score/score.module#ScoreModule' },
           { path: 'lineup', loadChildren: 'app/entities/lineup/lineup.module#LineupModule' },
-          { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule' }
+          { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule' },
+          { path: 'admin', loadChildren: 'app/admin/team-admin/team-admin.module#TeamAdminModule', canActivate: [AdminGuard] }
         ]
       }
     ]

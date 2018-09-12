@@ -42,6 +42,9 @@ export class TeamDetailComponent implements OnInit {
       }
       this.tabs.push({ label: 'Articoli', link: 'articles' });
       this.tabs.push({ label: 'Attività', link: 'stream' });
+      if (this.app.user.admin) {
+        this.tabs.push({ label: 'Admin', link: 'admin' });
+      }
     });
 
   }

@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from '../../entities/role/role';
-import { Member } from '../../entities/member/member';
-import { MemberService } from '../../entities/member/member.service';
-import { ApplicationService } from '../../core/application.service';
+import { Role } from '../../../entities/role/role';
+import { Member } from '../../../entities/member/member';
+import { MemberService } from '../../../entities/member/member.service';
+import { ApplicationService } from '../../../core/application.service';
 import { Observable } from 'rxjs';
-import { TeamService } from '../../entities/team/team.service';
-import { Team } from '../../entities/team/team';
+import { TeamService } from '../../../entities/team/team.service';
+import { Team } from '../../../entities/team/team';
+import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 
 @Component({
-  selector: 'fm-team-edit',
-  templateUrl: './team-edit.component.html',
-  styleUrls: ['./team-edit.component.scss']
+  selector: 'fm-edit-members',
+  templateUrl: './edit-members.component.html',
+  styleUrls: ['./edit-members.component.scss']
 })
-export class TeamEditComponent implements OnInit {
+export class EditMembersComponent implements OnInit {
 
   public roles: Map<Role, {
     count: number,
@@ -25,13 +26,12 @@ export class TeamEditComponent implements OnInit {
     entries: any[],
     members: Member[]
   }>();
-  public teams: Observable<Team[]>;
   public team: Team;
   public keys: Role[];
 
   constructor(private teamService: TeamService,
     private memberService: MemberService,
-    private app: ApplicationService) {
+    private route: ActivatedRoute) {
     this.roles.set(new Role(1, 'P'), { count: 3, label: 'Portiere' });
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
     this.roles.set(new Role(3, 'C'), { count: 8, label: 'Centrocampista' });
@@ -41,13 +41,14 @@ export class TeamEditComponent implements OnInit {
 
 
   ngOnInit() {
-    this.teams = this.teamService.getTeams(this.app.championship.id);
-
+    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
+      this.team = data.team;
+      this.loadMembers(this.team);
+    });
   }
 
-  onChange() {
-    console.log('change');
-    this.memberService.getByTeamId(this.team.id).subscribe(members => {
+  loadMembers(team: Team) {
+    this.memberService.getByTeamId(team.id).subscribe(members => {
       this.team.members = members;
       let i = 0;
       for (i = 0; i < 25; i++) {
@@ -59,7 +60,7 @@ export class TeamEditComponent implements OnInit {
         this.roles.get(key).entries = Array(val.count);
 
       });
-      this.memberService.getAllFree(this.app.championship.id).subscribe(res => {
+      this.memberService.getAllFree(this.team.championship_id).subscribe(res => {
         this.roles.forEach((value, key) => {
           value.members = this.team.members.filter(entry => entry && entry.role_id === key.id);
           value.members = value.members.concat(res[key.id]);
