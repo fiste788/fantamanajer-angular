@@ -1,4 +1,4 @@
-<mat-list *ngIf="activities.length" @listItemAnimation>
+<mat-list *ngIf="activities.length; else loading" @listItemAnimation>
     <mat-list-item *ngFor="let activity of activities">
         <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
         <h3 mat-line> {{activity.title}} </h3>
@@ -6,5 +6,6 @@
         <p mat-line> {{activity.body}} </p>
     </mat-list-item>
 </mat-list>
-<mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate">
-</mat-progress-spinner>
+<ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

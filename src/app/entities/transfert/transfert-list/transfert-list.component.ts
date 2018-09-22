@@ -17,7 +17,7 @@ import { ApplicationService } from '../../../core/application.service';
 })
 export class TransfertListComponent implements OnInit {
   teamId: number;
-  dataSource = new MatTableDataSource<Transfert>();
+  dataSource: MatTableDataSource<Transfert>;
   displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
   @ViewChild(MatSort) sort: MatSort;
@@ -32,12 +32,15 @@ export class TransfertListComponent implements OnInit {
 
   ngOnInit() {
     this.teamId = this.sharedService.getTeamId(this.route);
-    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+
     // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
     this.transfertService.getTransfert(this.teamId).subscribe(data => {
-      this.dataSource.data = data;
-      this.ref.detectChanges();
-      this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource<Transfert>(data);
+      if (data.length) {
+        this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+        this.ref.detectChanges();
+        this.dataSource.sort = this.sort;
+      }
     });
 
   }

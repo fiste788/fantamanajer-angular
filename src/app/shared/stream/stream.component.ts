@@ -9,7 +9,7 @@ import { ListItemAnimation } from '../animations/list-item.animation';
   animations: [ListItemAnimation]
 })
 export class StreamComponent implements OnInit {
-  @Input() activities: StreamActivity[] = [];
+  @Input() activities: StreamActivity[] = null;
   public isLoading = false;
 
   constructor(

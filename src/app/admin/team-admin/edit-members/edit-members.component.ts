@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from '../../../shared/shared.service';
+import { MemberService } from '../../../entities/member/member.service';
+import { TeamService } from '../../../entities/team/team.service';
 import { Role } from '../../../entities/role/role';
 import { Member } from '../../../entities/member/member';
-import { MemberService } from '../../../entities/member/member.service';
-import { ApplicationService } from '../../../core/application.service';
-import { Observable } from 'rxjs';
-import { TeamService } from '../../../entities/team/team.service';
 import { Team } from '../../../entities/team/team';
-import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'fm-edit-members',
@@ -28,10 +29,13 @@ export class EditMembersComponent implements OnInit {
   }>();
   public team: Team;
   public keys: Role[];
+  @ViewChild(NgForm) membersForm: NgForm;
 
   constructor(private teamService: TeamService,
     private memberService: MemberService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private sharedService: SharedService) {
     this.roles.set(new Role(1, 'P'), { count: 3, label: 'Portiere' });
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
     this.roles.set(new Role(3, 'C'), { count: 8, label: 'Centrocampista' });
@@ -93,8 +97,12 @@ export class EditMembersComponent implements OnInit {
   }
 
   save() {
-    this.teamService.update(this.team).subscribe(res => console.log(res));
+    this.teamService.update(this.team).subscribe(response => {
+      this.snackBar.open('Trasferimento effettuato', null, {
+        duration: 3000
+      });
+    },
+      err => this.sharedService.getUnprocessableEntityErrors(this.membersForm, err)
+    );
   }
-
-
 }

@@ -5,17 +5,25 @@ import { TeamModule } from '../../entities/team/team.module';
 import { MemberCommonModule } from '../../entities/member/member-common.module';
 import { TeamAdminRoutingModule } from './team-admin-routing.module';
 import { EditMembersComponent } from './edit-members/edit-members.component';
+import { NewTransfertComponent } from './new-transfert/new-transfert.component';
+import { TransfertModule } from '../../entities/transfert/transfert.module';
+import { HomeComponent } from './home/home.component';
+import { ConfirmationDialogModule } from 'app/shared/confirmation-dialog/confirmation-dialog.module';
 
 @NgModule({
   imports: [
     SharedModule,
     TeamAdminRoutingModule,
     TeamModule,
-    MemberCommonModule
+    MemberCommonModule,
+    TransfertModule,
+    ConfirmationDialogModule
   ],
   declarations: [
     EditMembersComponent,
-    TeamAdminComponent
-  ],
+    TeamAdminComponent,
+    NewTransfertComponent,
+    HomeComponent,
+  ]
 })
 export class TeamAdminModule { }

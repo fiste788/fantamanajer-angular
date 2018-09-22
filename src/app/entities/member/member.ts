@@ -3,6 +3,7 @@ import { Rating } from '../rating/rating';
 import { Season } from '../season/season';
 import { Player } from '../player/player';
 import { Role } from '../role/role';
+import { Team } from '../team/team';
 
 export class Member {
   id: number;
@@ -17,6 +18,7 @@ export class Member {
   ratings: Rating[];
   player: Player;
   role: Role;
+  teams: Team[];
   photo_url: string;
   free: boolean;
   stats: { string, number };

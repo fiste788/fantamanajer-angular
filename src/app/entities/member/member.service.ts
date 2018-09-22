@@ -37,6 +37,10 @@ export class MemberService {
     return this.http.get<Member[]>('teams/' + team_id + '/' + this.url);
   }
 
+  getNotMine(team_id: number, role_id: number): Observable<Member[]> {
+    return this.http.get<Member[]>('teams/' + team_id + '/' + this.url + '/not_mine/' + role_id);
+  }
+
   getByClubId(club_id: number): Observable<Member[]> {
     return this.http.get<Member[]>('clubs/' + club_id + '/' + this.url);
   }

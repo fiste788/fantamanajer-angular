@@ -4,20 +4,24 @@
             <ng-container matColumnDef="old_member">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Vecchio giocatore </th>
                 <td mat-cell *matCellDef="let row">
-                    <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.name}} {{row.old_member.player.surname}}</a>
+                    <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.name}}
+                        {{row.old_member.player.surname}}</a>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="new_member">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Nuovo giocatore </th>
                 <td mat-cell *matCellDef="let row">
-                    <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.name}} {{row.new_member.player.surname}}</a>
+                    <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.name}}
+                        {{row.new_member.player.surname}}</a>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="constraint">
                 <th mat-header-cell *matHeaderCellDef> Obbligato </th>
-                <td mat-cell *matCellDef="let row"> {{row.constraint}} </td>
+                <td mat-cell *matCellDef="let row">
+                    <mat-icon *ngIf="row.constrained">done</mat-icon>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="matchday">
@@ -25,7 +29,7 @@
                 <td mat-cell *matCellDef="let row">{{row.matchday.number}}</td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </div>
