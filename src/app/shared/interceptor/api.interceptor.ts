@@ -14,8 +14,12 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let url = req.url;
+    if (!req.url.startsWith('https://') && !req.url.startsWith('http://')) {
+      url = environment.apiEndpoint + url;
+    }
     const data = {
-      url: environment.apiEndpoint + req.url
+      url: url
     };
     return next
       .handle(req.clone(data))

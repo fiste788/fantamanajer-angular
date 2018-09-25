@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Lineup } from './lineup';
 import { SharedService } from '../../shared/shared.service';
+import { Member } from '../member/member';
 
 @Injectable()
 export class LineupService {
@@ -33,5 +34,9 @@ export class LineupService {
       `teams/${lineup.team_id}/${this.url}`,
       JSON.stringify(lineup)
     );
+  }
+
+  getLikelyLineup(lineup: Lineup): Observable<Member[]> {
+    return this.http.get<Member[]>(`teams/${lineup.team_id}/${this.url}/likely`);
   }
 }

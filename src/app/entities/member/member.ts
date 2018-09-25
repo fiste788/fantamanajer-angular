@@ -22,4 +22,9 @@ export class Member {
   photo_url: string;
   free: boolean;
   stats: { string, number };
+  likely_lineup: {
+    regular: boolean;
+    injured: boolean;
+    second_ballot: number;
+  };
 }

@@ -48,6 +48,7 @@ export class LineupDetailComponent implements OnInit {
       this.captains.set('VC', 'vcaptain');
       this.captains.set('VVC', 'vvcaptain');
       this.captainsKeys = Array.from(this.captains.keys());
+
       this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
         lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
         if (lineup) {
@@ -58,6 +59,11 @@ export class LineupDetailComponent implements OnInit {
             this.membersByRole.get(member.role.abbreviation).push(member);
             this.membersById.set(member.id, member);
           }, this);
+          this.lineupService.getLikelyLineup(lineup).subscribe(members => {
+            members.forEach(member => {
+              this.membersById.get(member.id).likely_lineup = member.likely_lineup;
+            });
+          });
           lineup.modules.forEach((module, index) => {
             this.modules.push(new Module(module));
           }, this);
@@ -152,6 +158,15 @@ export class LineupDetailComponent implements OnInit {
           element.member_id = null;
         }
       });
+  }
+
+  getMemberByKeys(lineup, key, key2) {
+    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, key, key2)].member_id);
+  }
+
+  getMemberLabelByKeys(lineup, key, key2) {
+    const member = this.getMemberByKeys(lineup, key, key2);
+    return member.player.name + ' ' + member.player.surname;
   }
 
   isAlreadySelected(lineup: Lineup, member: Member): boolean {
