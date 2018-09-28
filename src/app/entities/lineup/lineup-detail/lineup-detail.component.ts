@@ -22,12 +22,15 @@ export class LineupDetailComponent implements OnInit {
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();
   lineup: Observable<Lineup>;
+  lineupObj: Lineup;
   editMode = false;
   teamId: number;
   modules: Module[] = [];
   roleKeys: string[] = [];
   captainsKeys: string[] = [];
   benchs: number[] = [];
+  isRegularCallback: Function;
+  isAlreadySelectedCallback: Function;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -38,6 +41,7 @@ export class LineupDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
       this.teamId = data.team.id;
       this.editMode = this.app.team.id === this.teamId;
@@ -51,6 +55,8 @@ export class LineupDetailComponent implements OnInit {
 
       this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
         lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
+        this.isRegularCallback = this.isRegular.bind(this, lineup);
+        this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
         if (lineup) {
           lineup.team.members.forEach((member, index) => {
             if (!this.membersByRole.has(member.role.abbreviation)) {
@@ -85,6 +91,9 @@ export class LineupDetailComponent implements OnInit {
             ) {
               lineup.dispositions[i] = new Disposition();
               lineup.dispositions[i].position = i + 1;
+            }
+            if (lineup.dispositions[i].member_id) {
+              lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id);
             }
           }
         }
@@ -122,6 +131,7 @@ export class LineupDetailComponent implements OnInit {
 
   save(lineup: Lineup) {
     lineup.module = lineup.module_object.key;
+    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     lineup.dispositions = lineup.dispositions.filter(
       value => value.member_id
     );
@@ -150,10 +160,11 @@ export class LineupDetailComponent implements OnInit {
   }
 
   removeBenchwarmer(lineup: Lineup, event: any): void {
+    console.log(event);
     lineup.dispositions
       .filter(element => element.position > 11)
       .map(element => {
-        if (element.member_id === event.value) {
+        if (element.member_id === event.value.id) {
           element.member = null;
           element.member_id = null;
         }

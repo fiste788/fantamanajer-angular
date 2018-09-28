@@ -1,4 +1,4 @@
-import { Component, forwardRef, Output, Input } from '@angular/core';
+import { Component, forwardRef, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 const noop = () => {
@@ -10,7 +10,8 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   multi: true
 };
 import { Member } from '../member';
-import { EventEmitter } from 'events';
+import { MatSelectChange } from '../../../../../node_modules/@angular/material/select';
+import { Role } from '../../role/role';
 
 @Component({
   selector: 'fm-member-selection',
@@ -18,38 +19,56 @@ import { EventEmitter } from 'events';
   styleUrls: ['./member-selection.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 })
-export class MemberSelectionComponent implements ControlValueAccessor {
+export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
 
-  @Input() value: Member;
+  @Input('value') val: Member;
   @Input() name: string;
+  @Input() disabled: boolean;
   @Input() placeholder: string;
-  @Output() selectionChange = new EventEmitter();
+  @Input() memberList: Member[] = [];
+  @Input() memberMap: Map<string, Member[]>;
+  @Input() size = 100;
+  public roles: string[] = [];
+  @Input() public isMemberDisabled: Function;
+  @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
-  // Placeholders for the callbacks which are later providesd
-  // by the Control Value Accessor
-  private onTouchedCallback: () => void = noop;
-  private onChangeCallback: (_: any) => void = noop;
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
-  // Set touched on blur
-  onBlur() {
-    this.onTouchedCallback();
+  ngOnInit() {
+    if (this.memberMap) {
+      this.memberMap.forEach((value, role) => this.roles.push(role));
+    }
   }
 
-  // From ControlValueAccessor interface
-  writeValue(value: any) {
-    if (value !== this.value) {
+  get value() {
+    return this.val;
+  }
+
+  set value(val) {
+    this.val = val;
+    this.onChange(val);
+    this.onTouched();
+  }
+
+  change(event) {
+    this.selectionChange.emit(event);
+  }
+
+  registerOnChange(fn) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn) {
+    this.onTouched = fn;
+  }
+
+  writeValue(value) {
+    if (value) {
       this.value = value;
     }
   }
 
-  // From ControlValueAccessor interface
-  registerOnChange(fn: any) {
-    this.onChangeCallback = fn;
-  }
-
-  // From ControlValueAccessor interface
-  registerOnTouched(fn: any) {
-    this.onTouchedCallback = fn;
-  }
+  setDisabledState?(isDisabled: boolean): void;
 
 }

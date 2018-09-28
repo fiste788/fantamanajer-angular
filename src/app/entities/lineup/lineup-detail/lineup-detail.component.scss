@@ -1,7 +1,6 @@
-@import '~@angular/material/theming';
-
 .role {
   width: 100%;
+  padding-bottom: 1rem;
 }
 
 mat-select {
@@ -10,80 +9,32 @@ mat-select {
 }
 
 h5 {
-  padding-right: 1em;
+  padding-right: 1rem;
+
 }
 
 .role-container {
   margin: .5rem 0;
-}
 
-p {
-  margin-bottom: 0;
-}
-
-.photo-container {
-  position: relative;
-
-  > img {
-    border-radius: 50%;
-    border: 3px solid #fff;
-    animation: createBox .25s;
-  }
-
-  mat-icon {
-    position: absolute;
-    @include mat-elevation(4);
-    background-color: #fff;
-    padding: 2px;
-    animation: createBox .25s;
-    border-radius: 50%;
-
-    &:nth-child(1) {
-      top: 0;
-      left: 0;
-      transform-origin: bottom right;
-    }
-
-    &:nth-child(2) {
-      top: 0;
-      right: 0;
-      transform-origin: bottom left;
-    }
-
-    &:nth-child(3) {
-      bottom: 0;
-      left: 0;
-      transform-origin: top right;
-    }
-
-    &:nth-child(4) {
-      bottom: 0;
-      right: 0;
-      transform-origin: top left;
-    }
+  h5 {
+    top: 1rem;
+    height: min-content;
+    margin: 0;
+    position: sticky;
   }
 }
 @media(max-width: 600px) {
   .mat-form-field {
     width: 100%;
   }
+
+  .flex-container {
+    margin: 0 1rem;
+  }
 }
 @media(min-width: 600px) {
   .mat-form-field {
     min-width: 10rem;
     margin: 0 .5rem;
-  }
-}
-@keyframes createBox {
-  0% {
-    transform: scale(0);
-  }
-
-  80% {
-    transform: scale(1.1);
-  }
-
-  100% {
-    transform: scale(1);
   }
 }

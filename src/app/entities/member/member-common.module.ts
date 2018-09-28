@@ -10,7 +10,7 @@ import { MemberSelectionComponent } from './member-selection/member-selection.co
     SharedModule,
   ],
   exports: [MemberListComponent, MemberSelectionComponent],
-  declarations: [MemberListComponent],
+  declarations: [MemberListComponent, MemberSelectionComponent],
   providers: [MemberService]
 })
 export class MemberCommonModule { }

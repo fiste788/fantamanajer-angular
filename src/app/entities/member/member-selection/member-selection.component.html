@@ -1,29 +1,45 @@
 <div class="photo-container">
-  <img class="mat-elevation-z4" [src]="value.player.photo_url || '//placehold.it/100x100'">
-  <span *ngIf="value && value.likely_lineup">
-    <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
-    <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
-    <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
+  <img class="mat-elevation-z4" [src]="val && val.player.photo_url ? val.player.photo_url : '//placehold.it/' + size + 'x' + size">
+  <span *ngIf="val?.likely_lineup">
+    <mat-icon matTooltip="Titolare" *ngIf="val.likely_lineup.regular">verified_user</mat-icon>
+    <mat-icon matTooltip="Panchina" *ngIf="!val.likely_lineup.regular">event_seat</mat-icon>
+    <mat-icon matTooltip="Infortunato" *ngIf="val.likely_lineup.injured">local_hospital</mat-icon>
   </span>
 </div>
-<p class="mat-caption">
-  <span>Punti: {{value.stats.avg_points}}</span> -
-  <span>Voto: {{value.stats.avg_ratings}}</span> -
-  <span>Gol: {{value.stats.sum_goals}}</span>
-</p>
-<mat-form-field hideRequiredMarker="true" floatLabel="never">
-  <mat-select [placeholder]="placeholder" required [(ngModel)]="value" (selectionChange)="selectionChange()" [name]="name">
-    <mat-select-trigger>
-      {{value.player.full_name}}
-    </mat-select-trigger>
-    <mat-option>{{key}}</mat-option>
-    <mat-option *ngFor="let member of membersByRole.get(key)" [value]="member.id">
-      <span *ngIf="member.likely_lineup">
-        <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
-        <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
-        <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
-      </span>{{member.player.surname}}
-      {{member.player.name}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div fxLayout.xs="column-reverse" fxLayout="column" fxFlex="1 1 auto" class="select-container">
+
+  <mat-form-field hideRequiredMarker="true" floatLabel="never">
+    <mat-select [disabled]="disabled" [placeholder]="placeholder" required [(ngModel)]="value" [name]="name"
+      (selectionChange)="change($event)">
+      <mat-option>{{placeholder}}</mat-option>
+      <mat-select-trigger *ngIf="val">
+        {{val.player.full_name}}
+      </mat-select-trigger>
+      <ng-container *ngIf="memberList.length; else map">
+        <mat-option *ngFor="let member of memberList" [value]="member" [disabled]="isMemberDisabled(member)">
+          <span *ngIf="member.likely_lineup">
+            <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
+            <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
+            <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
+          </span>{{member.player.full_name}}
+        </mat-option>
+      </ng-container>
+      <ng-container #map *ngIf="memberMap">
+        <mat-optgroup [label]="role" *ngFor="let role of roles">
+          <mat-option *ngFor="let member of memberMap.get(role)" [disabled]="isMemberDisabled(member)" [value]="member">
+            <span *ngIf="member.likely_lineup">
+              <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
+              <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
+              <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
+            </span>{{member.player.full_name}}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
+    </mat-select>
+    <mat-hint *ngIf="val">
+      <span>Ø Punti: {{val.stats.avg_points}}</span> -
+      <span>Ø Voti: {{val.stats.avg_ratings}}</span> -
+      <span>Σ Gol: {{val.stats.sum_goals}}</span>
+    </mat-hint>
+  </mat-form-field>
+</div>

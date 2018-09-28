@@ -1,14 +1,29 @@
+@import '~@angular/material/theming';
+
+:host {
+  margin: 0 .5rem;
+}
+
+.mat-form-field {
+  max-width: 100%;
+  margin-top: -8px;
+}
+
 p {
-  margin-bottom: 0;
+  margin-top: -1rem;
 }
 
 .photo-container {
   position: relative;
+  text-align: center;
+  margin: .5rem 1rem 0 0;
 
   > img {
     border-radius: 50%;
     border: 3px solid #fff;
     animation: createBox .25s;
+    box-sizing: border-box;
+    max-width: 64px;
   }
 
   mat-icon {
@@ -20,29 +35,33 @@ p {
     border-radius: 50%;
 
     &:nth-child(1) {
-      top: 0;
-      left: 0;
+      top: -6px;
+      left: -6px;
       transform-origin: bottom right;
     }
 
     &:nth-child(2) {
-      top: 0;
-      right: 0;
+      top: -6px;
+      right: -6px;
       transform-origin: bottom left;
     }
 
     &:nth-child(3) {
-      bottom: 0;
-      left: 0;
+      bottom: -6px;
+      left: -6px;
       transform-origin: top right;
     }
 
     &:nth-child(4) {
-      bottom: 0;
-      right: 0;
+      bottom: -6px;
+      right: -6px;
       transform-origin: top left;
     }
   }
+}
+
+.select-container {
+  max-width: 100%;
 }
 @keyframes createBox {
   0% {
@@ -55,5 +74,51 @@ p {
 
   100% {
     transform: scale(1);
+  }
+}
+@media(min-width:600px) {
+  :host {
+    overflow: hidden;
+  }
+
+  p {
+    margin-bottom: 0;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .photo-container {
+    > img {
+      max-width: calc(100% - .5rem);
+    }
+
+    mat-icon {
+      position: absolute;
+      @include mat-elevation(4);
+      background-color: #fff;
+      padding: 2px;
+      animation: createBox .25s;
+      border-radius: 50%;
+
+      &:nth-child(1) {
+        top: 0;
+        left: 0;
+      }
+
+      &:nth-child(2) {
+        top: 0;
+        right: 0;
+      }
+
+      &:nth-child(3) {
+        bottom: 0;
+        left: 0;
+      }
+
+      &:nth-child(4) {
+        bottom: 0;
+        right: 0;
+      }
+    }
   }
 }
