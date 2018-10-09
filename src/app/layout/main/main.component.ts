@@ -80,10 +80,10 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   scrollTo(x: number = 0, y: number = 0) {
-
-    if (this.scrollable.getElementRef().nativeElement.scrollTop === 0) {
+    const elem = this.scrollable.getElementRef().nativeElement;
+    if (elem.scrollTop === 0) {
       this.disableScrollAnimation = true;
-      this.scrollable.getElementRef().nativeElement.scrollTo(x, y);
+      elem.scrollTo(x, y);
       this.disableScrollAnimation = false;
     }
 

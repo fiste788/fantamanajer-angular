@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
@@ -11,6 +11,8 @@ import { Disposition } from '../../disposition/disposition';
 import { Member } from '../../member/member';
 import { Module } from '../module';
 import { Team } from '../../team/team';
+import { MatSelectChange } from '@angular/material/select';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -18,6 +20,8 @@ import { Team } from '../../team/team';
   styleUrls: ['./lineup-detail.component.scss']
 })
 export class LineupDetailComponent implements OnInit {
+  @ViewChild(NgForm) lineupForm: NgForm;
+
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();
@@ -37,7 +41,8 @@ export class LineupDetailComponent implements OnInit {
     private lineupService: LineupService,
     private route: ActivatedRoute,
     private shared: SharedService,
-    public app: ApplicationService
+    public app: ApplicationService,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -65,11 +70,13 @@ export class LineupDetailComponent implements OnInit {
             this.membersByRole.get(member.role.abbreviation).push(member);
             this.membersById.set(member.id, member);
           }, this);
-          this.lineupService.getLikelyLineup(lineup).subscribe(members => {
-            members.forEach(member => {
-              this.membersById.get(member.id).likely_lineup = member.likely_lineup;
+          if (this.editMode) {
+            this.lineupService.getLikelyLineup(lineup).subscribe(members => {
+              members.forEach(member => {
+                this.membersById.get(member.id).likely_lineup = member.likely_lineup;
+              });
             });
-          });
+          }
           lineup.modules.forEach((module, index) => {
             this.modules.push(new Module(module));
           }, this);
@@ -118,15 +125,15 @@ export class LineupDetailComponent implements OnInit {
 
   getCapitanables(lineup: Lineup): Member[] {
     const regulars = lineup.dispositions.slice(0, 11);
-    const def = regulars.filter(function (element) {
-      if (element && element.member_id) {
+    const def = regulars.filter(element => {
+      if (element && element.member) {
         return (
-          this.membersById.get(element.member_id).role.abbreviation === 'P' ||
-          this.membersById.get(element.member_id).role.abbreviation === 'D'
+          this.membersById.get(element.member.id).role.abbreviation === 'P' ||
+          this.membersById.get(element.member.id).role.abbreviation === 'D'
         );
       }
     }, this);
-    return def.map(element => this.membersById.get(element.member_id), this);
+    return def.map(element => this.membersById.get(element.member.id), this);
   }
 
   save(lineup: Lineup) {
@@ -156,23 +163,24 @@ export class LineupDetailComponent implements OnInit {
       lineup.dispositions[i] = new Disposition();
     }
     lineup.dispositions[i].position = i;
-    lineup.dispositions[i].member_id = element.id;
+    lineup.dispositions[i].member = element;
+    // lineup.dispositions[i].member_id = element.id;
   }
 
-  removeBenchwarmer(lineup: Lineup, event: any): void {
-    console.log(event);
+  removeBenchwarmer(lineup: Lineup, event: MatSelectChange): void {
     lineup.dispositions
       .filter(element => element.position > 11)
+      // .filter(element => event.value && element.member.id === event.value.id);
       .map(element => {
-        if (element.member_id === event.value.id) {
-          element.member = null;
+        if (event.value && element.member.id === event.value.id) {
+          delete element.member;
           element.member_id = null;
         }
       });
   }
 
   getMemberByKeys(lineup, key, key2) {
-    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, key, key2)].member_id);
+    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, key, key2)].member.id);
   }
 
   getMemberLabelByKeys(lineup, key, key2) {
@@ -182,21 +190,22 @@ export class LineupDetailComponent implements OnInit {
 
   isAlreadySelected(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
-      .map(element => element.member_id)
+      .filter(element => element.member != null)
+      .map(element => element.member.id)
       .includes(member.id);
   }
 
   isBenchwarmer(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
-      .filter(element => element.position > 11)
-      .map(element => element.member_id)
+      .filter(element => element.position > 11 && element.member)
+      .map(element => element.member.id)
       .includes(member.id);
   }
 
   isRegular(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
-      .filter(element => element.position <= 11)
-      .map(element => element.member_id)
+      .filter(element => element.position <= 11 && element.member)
+      .map(element => element.member.id)
       .includes(member.id);
   }
 

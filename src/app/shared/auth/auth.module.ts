@@ -9,6 +9,7 @@ import { NotLoggedGuard } from './not-logged.guard';
 import { AuthRoutingModule } from './auth-routing.module';
 import { JWTInterceptor } from './jwt.interceptor';
 import { AdminGuard } from './admin.guard';
+import { ChampionshipAdminGuard } from './championship-admin.guard';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AdminGuard } from './admin.guard';
   providers: [
     AuthService,
     AdminGuard,
+    ChampionshipAdminGuard,
     AuthGuard,
     NotLoggedGuard,
     {

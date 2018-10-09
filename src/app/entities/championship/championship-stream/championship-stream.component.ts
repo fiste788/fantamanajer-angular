@@ -11,22 +11,13 @@ import { StreamService } from '../../../shared/stream/stream.service';
 })
 export class ChampionshipStreamComponent implements OnInit {
 
-  activities: StreamActivity[] = [];
+  id: number;
 
-  constructor(private streamService: StreamService,
-    private shared: SharedService,
+  constructor(private shared: SharedService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.loadData();
+    this.id = this.shared.getChampionshipId(this.route);
   }
-
-  loadData(page = 1) {
-    this.streamService.getByChampionship(this.shared.getChampionshipId(this.route)).subscribe(activities =>
-      this.activities = activities.results
-    );
-
-  }
-
 }

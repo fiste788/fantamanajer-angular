@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StreamActivity } from './stream-activity';
-import { PagedResponse } from '../pagination/paged-response';
 import { Stream } from './stream';
 
 @Injectable()
@@ -15,8 +13,9 @@ export class StreamService {
     return this.http.get<Stream>(`championships/${championships_id}/${this.url}`);
   }
 
-  getByTeam(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(`teams/${teamId}/${this.url}`);
+  getByTeam(teamId: number, page = 1): Observable<Stream> {
+    console.log('getbyt');
+    return this.http.get<Stream>(`teams/${teamId}/${this.url}?page=${page}`);
   }
 
   getByClub(clubId: number): Observable<Stream> {
@@ -25,5 +24,9 @@ export class StreamService {
 
   getByUser(userId: number): Observable<Stream> {
     return this.http.get<Stream>(`users/${userId}/${this.url}`);
+  }
+
+  get(context: 'teams' | 'users' | 'clubs' | 'championships', id: number, page = 1): Observable<Stream> {
+    return this.http.get<Stream>(`${context}/${id}/${this.url}?page=${page}`);
   }
 }

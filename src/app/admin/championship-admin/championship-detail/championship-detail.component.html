@@ -1,0 +1,28 @@
+<form #championshipForm="ngForm" (ngSubmit)="save()" fxLayout="column" fxLayoutAlign="start start">
+  <mat-form-field>
+    <input required matInput placeholder="Nome lega" [(ngModel)]="championship.league.name" name="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="number" required matInput placeholder="Numero max trasferimenti" [(ngModel)]="championship.number_transferts"
+      name="number_transferts">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="number" required matInput placeholder="Numero max cambi selezione" [(ngModel)]="championship.number_selections"
+      name="number_selections">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="number" required matInput placeholder="Minuti anticipo formazione" [(ngModel)]="championship.minute_lineup"
+      name="minute_lineup">
+  </mat-form-field>
+  <mat-form-field>
+    <input min="0" max="100" type="number" required matInput name="points_missed_lineup" placeholder="Percentuale formazione mancante"
+      [(ngModel)]="championship.points_missed_lineup">
+  </mat-form-field>
+  <mat-slider min="0" max="100" step="0.5" [(ngModel)]="championship.points_missed_lineup" name="points_missed_lineup"
+    placeholder="Percentuale formazione mancante" thumbLabel [displayWith]="formatLabel" tickInterval="10"></mat-slider>
+  <mat-slide-toggle [(ngModel)]="championship.captain" name="captain">Capitano</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="championship.captain_missed_lineup" name="captain_missed_lineup">Capitano formazione
+    mancante</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="championship.jolly" name="jolly">Jolly</mat-slide-toggle>
+  <button color="accent" mat-raised-button type="submit" [disabled]="!championshipForm.form.valid">SALVA</button>
+</form>

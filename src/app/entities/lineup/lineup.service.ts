@@ -25,15 +25,24 @@ export class LineupService {
   update(lineup: Lineup): Observable<any> {
     return this.http.put(
       `teams/${lineup.team_id}/${this.url}/` + lineup.id,
-      JSON.stringify(lineup)
+      JSON.stringify(this.cleanLineup(lineup))
     );
   }
 
   create(lineup: Lineup): Observable<Lineup> {
     return this.http.post<Lineup>(
       `teams/${lineup.team_id}/${this.url}`,
-      JSON.stringify(lineup)
+      JSON.stringify(this.cleanLineup(lineup))
     );
+  }
+
+  private cleanLineup(lineup: Lineup): Lineup {
+    const newLineup: Lineup = JSON.parse(JSON.stringify(lineup));
+    newLineup.dispositions.map(disp => delete disp.member);
+    delete newLineup.team;
+    delete newLineup.modules;
+    delete newLineup.module_object;
+    return newLineup;
   }
 
   getLikelyLineup(lineup: Lineup): Observable<Member[]> {

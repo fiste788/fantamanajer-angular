@@ -6,6 +6,7 @@ import { NotificationSubscription } from '../notification-subscription/notificat
 export class Team {
   id: number;
   name: string;
+  admin: boolean;
   user_id: number;
   user: User;
   members: Member[];

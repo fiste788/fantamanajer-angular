@@ -21,10 +21,16 @@ export class Member {
   teams: Team[];
   photo_url: string;
   free: boolean;
-  stats: { string, number };
+  stats: {
+    avg_points: number,
+    avg_rating: number,
+    sum_goals: number,
+    sum_goals_against: number
+  };
   likely_lineup: {
     regular: boolean;
     injured: boolean;
+    disqualified: boolean;
     second_ballot: number;
   };
 }

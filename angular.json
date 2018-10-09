@@ -20,7 +20,7 @@
               "src/.htaccess",
               "src/assets",
               "src/favicon.ico",
-              "src/manifest.json"
+              "src/site.webmanifest"
             ],
             "styles": [
               "src/styles.scss",
@@ -102,7 +102,7 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/manifest.json"
+              "src/site.webmanifest"
             ]
           }
         },

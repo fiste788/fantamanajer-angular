@@ -8,7 +8,7 @@ import { EditMembersComponent } from './edit-members/edit-members.component';
 import { NewTransfertComponent } from './new-transfert/new-transfert.component';
 import { TransfertModule } from '../../entities/transfert/transfert.module';
 import { HomeComponent } from './home/home.component';
-import { ConfirmationDialogModule } from 'app/shared/confirmation-dialog/confirmation-dialog.module';
+import { ConfirmationDialogModule } from '../../shared/confirmation-dialog/confirmation-dialog.module';
 
 @NgModule({
   imports: [

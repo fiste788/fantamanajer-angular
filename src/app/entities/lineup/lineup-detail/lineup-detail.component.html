@@ -1,6 +1,6 @@
 <div *ngIf="!app.seasonEnded; else seasonEnded">
     <div *ngIf="lineup | async as lineup; else loading">
-        <div *ngIf="lineup.module || lineup.team.id == teamId; else notSet" class="flex-container">
+        <form #lineupForm="ngForm" *ngIf="lineup.module || lineup.team.id == teamId; else notSet" class="flex-container">
             <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
                 fxLayoutAlign.xs="left left">
                 <mat-form-field>
@@ -10,7 +10,7 @@
                     </mat-select>
                 </mat-form-field>
                 <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
-                <mat-checkbox [disabled]="!editMode" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
+                <mat-checkbox name="jolly" [disabled]="!editMode" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
             </div>
             <ng-container *ngIf="lineup.module_object">
                 <div *ngFor="let key of roleKeys" [ngClass]="[key, 'role-container']" fxLayout="row">
@@ -31,8 +31,7 @@
                         <mat-select [disabled]="!editMode" [(ngModel)]="lineup[captains.get(captain) + '_id']"
                             [placeholder]="captain" [name]="captain">
                             <mat-option *ngFor="let member of getCapitanables(lineup)" [disabled]="isCaptainAlreadySelected(lineup, member)"
-                                [value]="member.id">{{member.player.surname}}
-                                {{member.player.name}}
+                                [value]="member.id">{{member.player.full_name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -48,7 +47,7 @@
                 </div>
             </div>
             <button *ngIf="editMode" color="accent" mat-raised-button (click)="save(lineup)">Salva</button>
-        </div>
+        </form>
         <ng-template #notSet>
             <h3 class="subheading-1">Formazione non settata</h3>
         </ng-template>

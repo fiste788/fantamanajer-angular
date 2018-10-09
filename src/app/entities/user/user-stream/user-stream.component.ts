@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StreamActivity } from '../../../shared/stream/stream-activity';
-import { StreamService } from '../../../shared/stream/stream.service';
 import { ApplicationService } from '../../../core/application.service';
 
 
@@ -11,17 +9,12 @@ import { ApplicationService } from '../../../core/application.service';
 })
 export class UserStreamComponent implements OnInit {
 
-  activities: StreamActivity[] = [];
+  id: number;
 
-  constructor(private streamService: StreamService,
-    private app: ApplicationService) { }
+  constructor(private app: ApplicationService) { }
 
   ngOnInit() {
-    this.loadData();
-  }
-
-  loadData(page = 1) {
-    this.streamService.getByUser(this.app.user.id).subscribe(activities => this.activities = activities.results);
+    this.id = this.app.user.id;
   }
 }
 

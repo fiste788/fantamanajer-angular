@@ -1,4 +1,4 @@
-import { Component, forwardRef, Output, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 const noop = () => {
@@ -10,7 +10,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   multi: true
 };
 import { Member } from '../member';
-import { MatSelectChange } from '../../../../../node_modules/@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
 import { Role } from '../../role/role';
 
 @Component({
@@ -35,6 +35,10 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   onChange: any = () => { };
   onTouched: any = () => { };
 
+  constructor(
+    private cd: ChangeDetectorRef
+  ) { }
+
   ngOnInit() {
     if (this.memberMap) {
       this.memberMap.forEach((value, role) => this.roles.push(role));
@@ -49,6 +53,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
     this.val = val;
     this.onChange(val);
     this.onTouched();
+    this.cd.detectChanges();
   }
 
   change(event) {
@@ -64,9 +69,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value) {
-    if (value) {
-      this.value = value;
-    }
+    this.value = value;
   }
 
   setDisabledState?(isDisabled: boolean): void;

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { SharedService } from '../../../shared/shared.service';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ApplicationService } from '../../../core/application.service';
 
 @Component({
   selector: 'fm-championship',
@@ -9,14 +10,20 @@ import { MatTabGroup } from '@angular/material/tabs';
 })
 export class ChampionshipComponent implements OnInit, AfterViewInit {
 
-  public tabs: any = [
+  public tabs: { label: string; link: string }[] = [
     { label: 'Squadre', link: 'teams' },
     { label: 'Classifica', link: 'ranking' },
     { label: 'Giocatori liberi', link: 'members/free' },
     { label: 'Articoli', link: 'articles' },
-    { label: 'Attività', link: 'stream' }
+    { label: 'Attività', link: 'stream' },
   ];
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+
+  constructor(app: ApplicationService) {
+    if (app.user.admin || app.team.admin) {
+      this.tabs.push({ label: 'Admin', link: 'admin' });
+    }
+  }
 
   ngOnInit() {
 

@@ -11,20 +11,15 @@ import { StreamService } from '../../../shared/stream/stream.service';
 })
 export class TeamStreamComponent implements OnInit {
 
-  activities: StreamActivity[] = [];
+  public id: number;
 
-  constructor(private streamService: StreamService,
-    private shared: SharedService,
+  constructor(private shared: SharedService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.loadData();
+    this.id = this.shared.getTeamId(this.route);
   }
 
-  loadData(page = 1) {
-    this.streamService.getByTeam(this.shared.getTeamId(this.route)).subscribe(activities => this.activities = activities.results);
-
-  }
 
 }

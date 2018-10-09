@@ -6,12 +6,15 @@
         <ng-container matColumnDef="player" sticky>
             <th mat-header-cell *matHeaderCellDef> Giocatore </th>
             <td mat-cell *matCellDef="let row">
-                <mat-icon *ngIf="regular && row.consideration == 0">arrow_back</mat-icon>
-                <mat-icon *ngIf="!regular && row.consideration == 1">arrow_forward</mat-icon>
-                <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon *ngIf="regular && row.consideration == 0">arrow_back</mat-icon>
+                    <mat-icon *ngIf="!regular && row.consideration == 1">arrow_forward</mat-icon>
+                    <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
 
-                <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}} {{row.member.player.surname}}</a>
-                <span *ngIf="captains && captains.has(row.member.id)">&nbsp;{{captains.get(row.member.id)}}</span>
+                    <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.name}}
+                        {{row.member.player.surname}}</a>
+                    <span *ngIf="captains && captains.has(row.member.id)">&nbsp;{{captains.get(row.member.id)}}</span>
+                </div>
             </td>
         </ng-container>
 
@@ -67,7 +70,8 @@
 
         <ng-container matColumnDef="points" stickyEnd>
             <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Punti </th>
-            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.member.ratings[0].points_no_bonus * (regular ? row.consideration : 1)}}</td>
+            <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.member.ratings[0].points_no_bonus *
+                (regular ? row.consideration : 1)}}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
