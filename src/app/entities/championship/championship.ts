@@ -5,6 +5,12 @@ import { Team } from '../team/team';
 export class Championship {
   id: number;
   started: boolean;
+  captain: boolean;
+  captain_missed_lineup: boolean;
+  points_missed_lineup: number;
+  minute_lineup: number;
+  number_selections: number;
+  number_transferts: number;
   jolly: boolean;
   teams: Team[];
   league: League;

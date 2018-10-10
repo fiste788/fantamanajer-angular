@@ -1,5 +1,5 @@
-<div *ngIf="clubs | async as clubs; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start"
-    fxLayoutAlign.xs="start" @cardCreationAnimation>
+<div *ngIf="clubs | async as clubs; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
+    fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
 
     <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let club of clubs; let i=index">
         <mat-card-header>
@@ -7,8 +7,8 @@
             <mat-card-title>{{club.name}}</mat-card-title>
             <mat-card-subtitle>Club</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)" [fmSrcset]="club.background_url"
-            placeholder="//placehold.it/350x200">
+        <img mat-card-image sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+            [fmSrcset]="club.background_url" placeholder="//via.placeholder.com/350x200">
         <mat-card-actions fxLayoutAlign="end">
             <a mat-button [routerLink]="['/clubs',club.id]">OPEN</a>
         </mat-card-actions>

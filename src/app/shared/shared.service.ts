@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
@@ -18,6 +17,16 @@ export class SharedService {
       });
       console.log(err);
     }
+  }
+
+  getError(field: NgModel) {
+    const errors = [];
+    for (const err in field.errors) {
+      if (field.errors.hasOwnProperty(err)) {
+        errors.push(field.errors[err]);
+      }
+    }
+    return errors.join(' - ');
   }
 
   getTeamId(route: ActivatedRoute): number {

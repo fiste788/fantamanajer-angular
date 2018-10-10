@@ -1,13 +1,15 @@
 <div *ngIf="!app.seasonEnded; else seasonEnded">
     <div *ngIf="lineup | async as lineup; else loading">
-        <form #lineupForm="ngForm" *ngIf="lineup.module || lineup.team.id == teamId; else notSet" class="flex-container">
+        <form #lineupForm="ngForm" *ngIf="lineup.module || lineup.team.id == teamId; else notSet" (ngSubmit)="save(lineup)"
+            class="flex-container">
             <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
                 fxLayoutAlign.xs="left left">
                 <mat-form-field>
-                    <mat-select [disabled]="!editMode" name="module" [(ngModel)]="lineup.module_object" placeholder="Modulo"
-                        (selectionChange)="changeModule(lineup)">
+                    <mat-select #module="ngModel" [disabled]="!editMode" name="module" [(ngModel)]="lineup.module_object"
+                        placeholder="Modulo" (selectionChange)="changeModule(lineup)">
                         <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
                     </mat-select>
+                    <mat-error *ngIf="module.invalid">{{shared.getError(module)}}</mat-error>
                 </mat-form-field>
                 <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
                 <mat-checkbox name="jolly" [disabled]="!editMode" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
@@ -16,8 +18,8 @@
                 <div *ngFor="let key of roleKeys" [ngClass]="[key, 'role-container']" fxLayout="row">
                     <h5>{{key}}</h5>
                     <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-                        <fm-member-selection fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="regular"
-                            *ngFor="let key2 of lineup.module_object.map.get(key)" [disabled]="!editMode"
+                        <fm-member-selection [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center"
+                            class="regular" *ngFor="let key2 of lineup.module_object.map.get(key)" [disabled]="!editMode"
                             [isMemberDisabled]="isRegularCallback" (selectionChange)="removeBenchwarmer(lineup, $event)"
                             [memberList]="membersByRole.get(key)" [placeholder]="key" [name]="key + '-' + key2"
                             [(ngModel)]="lineup.dispositions[getIndex(lineup, key, key2)].member"></fm-member-selection>
@@ -46,7 +48,7 @@
                         [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
                 </div>
             </div>
-            <button *ngIf="editMode" color="accent" mat-raised-button (click)="save(lineup)">Salva</button>
+            <button *ngIf="editMode" color="accent" mat-raised-button type="submit">Salva</button>
         </form>
         <ng-template #notSet>
             <h3 class="subheading-1">Formazione non settata</h3>

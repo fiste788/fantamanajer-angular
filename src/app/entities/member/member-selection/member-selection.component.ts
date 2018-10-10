@@ -24,6 +24,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @Input('value') val: Member;
   @Input() name: string;
   @Input() disabled: boolean;
+  @Input() required: boolean;
   @Input() placeholder: string;
   @Input() memberList: Member[] = [];
   @Input() memberMap: Map<string, Member[]>;

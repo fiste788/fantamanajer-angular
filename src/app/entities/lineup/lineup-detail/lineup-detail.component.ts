@@ -12,7 +12,7 @@ import { Member } from '../../member/member';
 import { Module } from '../module';
 import { Team } from '../../team/team';
 import { MatSelectChange } from '@angular/material/select';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -40,7 +40,7 @@ export class LineupDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private lineupService: LineupService,
     private route: ActivatedRoute,
-    private shared: SharedService,
+    public shared: SharedService,
     public app: ApplicationService,
     private changeRef: ChangeDetectorRef
   ) { }
@@ -137,24 +137,28 @@ export class LineupDetailComponent implements OnInit {
   }
 
   save(lineup: Lineup) {
-    lineup.module = lineup.module_object.key;
-    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-    lineup.dispositions = lineup.dispositions.filter(
-      value => value.member_id
-    );
-    if (lineup.id) {
-      this.lineupService.update(lineup).subscribe(response => {
-        this.snackBar.open('Formazione aggiornata', null, {
-          duration: 3000
-        });
-      });
-    } else {
-      this.lineupService.create(lineup).subscribe(response => {
-        this.snackBar.open('Formazione caricata', null, {
-          duration: 3000
-        });
+    if (this.lineupForm.form.valid) {
+      lineup.module = lineup.module_object.key;
+      lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
+      lineup.dispositions = lineup.dispositions.filter(
+        value => value.member_id
+      );
+      let obs = null;
+      let message = null;
+      if (lineup.id) {
+        message = 'Formazione aggiornata';
+        obs = this.lineupService.update(lineup);
+      } else {
+        message = 'Formazione caricata';
+        obs = this.lineupService.create(lineup);
+      }
+      obs.subscribe(response => {
         lineup.id = response.id;
-      });
+        this.snackBar.open(message, null, {
+          duration: 3000
+        });
+      },
+        err => this.shared.getUnprocessableEntityErrors(this.lineupForm, err));
     }
   }
 

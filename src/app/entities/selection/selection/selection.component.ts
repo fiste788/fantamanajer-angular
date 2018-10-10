@@ -107,6 +107,7 @@ export class SelectionComponent implements OnInit {
         this.snackBar.open('Selezione salvata correttamente', null, {
           duration: 3000
         });
+        this.selection.id = response.id;
       },
         err => this.sharedService.getUnprocessableEntityErrors(this.selectionForm, err)
       );
