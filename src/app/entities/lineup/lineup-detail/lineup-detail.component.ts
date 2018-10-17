@@ -137,29 +137,24 @@ export class LineupDetailComponent implements OnInit {
   }
 
   save(lineup: Lineup) {
-    if (this.lineupForm.form.valid) {
-      lineup.module = lineup.module_object.key;
-      lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-      lineup.dispositions = lineup.dispositions.filter(
-        value => value.member_id
-      );
-      let obs = null;
-      let message = null;
-      if (lineup.id) {
-        message = 'Formazione aggiornata';
-        obs = this.lineupService.update(lineup);
-      } else {
-        message = 'Formazione caricata';
-        obs = this.lineupService.create(lineup);
-      }
-      obs.subscribe(response => {
-        lineup.id = response.id;
-        this.snackBar.open(message, null, {
-          duration: 3000
-        });
-      },
-        err => this.shared.getUnprocessableEntityErrors(this.lineupForm, err));
+    lineup.module = lineup.module_object.key;
+    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
+    let obs = null;
+    let message = null;
+    if (lineup.id) {
+      message = 'Formazione aggiornata';
+      obs = this.lineupService.update(lineup);
+    } else {
+      message = 'Formazione caricata';
+      obs = this.lineupService.create(lineup);
     }
+    obs.subscribe(response => {
+      lineup.id = response.id;
+      this.snackBar.open(message, null, {
+        duration: 3000
+      });
+    },
+      err => this.shared.getUnprocessableEntityErrors(this.lineupForm, err));
   }
 
   putInLineup(lineup: Lineup, element, i) {
@@ -176,7 +171,7 @@ export class LineupDetailComponent implements OnInit {
       .filter(element => element.position > 11)
       // .filter(element => event.value && element.member.id === event.value.id);
       .map(element => {
-        if (event.value && element.member.id === event.value.id) {
+        if (event.value && element.member && element.member.id === event.value.id) {
           delete element.member;
           element.member_id = null;
         }
