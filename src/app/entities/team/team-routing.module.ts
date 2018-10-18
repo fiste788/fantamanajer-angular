@@ -34,7 +34,7 @@ const routes: Routes = [
           { path: 'scores', loadChildren: 'app/entities/score/score.module#ScoreModule' },
           { path: 'lineup', loadChildren: 'app/entities/lineup/lineup.module#LineupModule' },
           { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule' },
-          { path: 'admin', loadChildren: 'app/admin/team-admin/team-admin.module#TeamAdminModule', canActivate: [ChampionshipAdminGuard] }
+          { path: 'admin', loadChildren: 'app/admin/team/team.module#TeamModule', canActivate: [ChampionshipAdminGuard] }
         ]
       }
     ]

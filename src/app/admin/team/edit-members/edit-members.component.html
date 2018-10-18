@@ -3,15 +3,10 @@
         <h5>{{roles.get(key).label}}</h5>
         <div class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start">
             <div class="disposition" *ngFor="let key2 of roles.get(key).entries;let i = index;">
-                <mat-form-field>
-                    <mat-select (selectionChange)="onMemberChange()" [compareWith]="compareMember" [placeholder]="roles.get(key).label + ' ' + (i + 1)"
-                        required [(ngModel)]="team.members[getIndex(key, i)]" [name]="'-' + getIndex(key, i)">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let member of roles.get(key).members" [value]="member">{{member.player.surname}}
-                            {{member.player.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <fm-member-selection 
+                        [isMemberDisabled]="isAlreadySelectedCallback"
+                        [memberList]="roles.get(key).members" [placeholder]="roles.get(key).label + ' ' + (i + 1)" [name]="'-' + getIndex(key, i)" [size]="75"
+                        [(ngModel)]="team.members[getIndex(key, i)]"></fm-member-selection>
             </div>
         </div>
     </div>

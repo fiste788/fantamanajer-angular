@@ -1,18 +1,14 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of } from 'rxjs';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LineupService } from '../lineup.service';
-import { SharedService } from '../../../shared/shared.service';
 import { ApplicationService } from '../../../core/application.service';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Member } from '../../member/member';
 import { Module } from '../module';
-import { Team } from '../../team/team';
 import { MatSelectChange } from '@angular/material/select';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -22,13 +18,11 @@ import { NgForm, NgModel } from '@angular/forms';
 export class LineupDetailComponent implements OnInit {
   @ViewChild(NgForm) lineupForm: NgForm;
 
+  @Input() lineup: Lineup;
+  @Input() disabled = false;
   membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();
-  lineup: Observable<Lineup>;
-  lineupObj: Lineup;
-  editMode = false;
-  teamId: number;
   modules: Module[] = [];
   roleKeys: string[] = [];
   captainsKeys: string[] = [];
@@ -37,76 +31,65 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: Function;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private lineupService: LineupService,
-    private route: ActivatedRoute,
-    public shared: SharedService,
-    public app: ApplicationService,
-    private changeRef: ChangeDetectorRef
+    private lineupService: LineupService
   ) { }
 
   ngOnInit() {
 
-    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
-      this.teamId = data.team.id;
-      this.editMode = this.app.team.id === this.teamId;
-      this.benchs = Array(7)
-        .fill(7)
-        .map((x, i) => i + 11);
-      this.captains.set('C', 'captain');
-      this.captains.set('VC', 'vcaptain');
-      this.captains.set('VVC', 'vvcaptain');
-      this.captainsKeys = Array.from(this.captains.keys());
+    this.benchs = Array(7)
+      .fill(7)
+      .map((x, i) => i + 11);
+    this.captains.set('C', 'captain');
+    this.captains.set('VC', 'vcaptain');
+    this.captains.set('VVC', 'vvcaptain');
+    this.captainsKeys = Array.from(this.captains.keys());
 
-      this.lineup = this.lineupService.getLineup(this.teamId).pipe(map(lineup => {
-        lineup = lineup || ((this.editMode) ? new Lineup() : undefined);
-        this.isRegularCallback = this.isRegular.bind(this, lineup);
-        this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
-        if (lineup) {
-          lineup.team.members.forEach((member, index) => {
-            if (!this.membersByRole.has(member.role.abbreviation)) {
-              this.membersByRole.set(member.role.abbreviation, []);
-            }
-            this.membersByRole.get(member.role.abbreviation).push(member);
-            this.membersById.set(member.id, member);
-          }, this);
-          if (this.editMode) {
-            this.lineupService.getLikelyLineup(lineup).subscribe(members => {
-              members.forEach(member => {
-                this.membersById.get(member.id).likely_lineup = member.likely_lineup;
-              });
-            });
-          }
-          lineup.modules.forEach((module, index) => {
-            this.modules.push(new Module(module));
-          }, this);
-          if (lineup.module) {
-            lineup.module_object = this.modules.find(element => {
-              return element.key === lineup.module;
-            }, this);
-            this.changeModule(lineup);
-          }
-          lineup.team_id = this.app.team.id;
-          let i = 0;
-          if (!lineup.dispositions) {
-            lineup.dispositions = [];
-          }
-          for (i = 0; i < 18; i++) {
-            if (
-              lineup.dispositions.length < i ||
-              lineup.dispositions[i] == null
-            ) {
-              lineup.dispositions[i] = new Disposition();
-              lineup.dispositions[i].position = i + 1;
-            }
-            if (lineup.dispositions[i].member_id) {
-              lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id);
-            }
-          }
+
+    const lineup = this.lineup || ((this.disabled) ? new Lineup() : undefined);
+    this.isRegularCallback = this.isRegular.bind(this, lineup);
+    this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
+    if (lineup) {
+      lineup.team.members.forEach((member, index) => {
+        if (!this.membersByRole.has(member.role.abbreviation)) {
+          this.membersByRole.set(member.role.abbreviation, []);
         }
-        return lineup || new Lineup;
-      }));
-    });
+        this.membersByRole.get(member.role.abbreviation).push(member);
+        this.membersById.set(member.id, member);
+      }, this);
+      if (!this.disabled) {
+        this.lineupService.getLikelyLineup(lineup).subscribe(members => {
+          members.forEach(member => {
+            this.membersById.get(member.id).likely_lineup = member.likely_lineup;
+          });
+        });
+      }
+      lineup.modules.forEach((module, index) => {
+        this.modules.push(new Module(module));
+      }, this);
+      if (lineup.module) {
+        lineup.module_object = this.modules.find(element => {
+          return element.key === lineup.module;
+        }, this);
+        this.changeModule(lineup);
+      }
+      let i = 0;
+      if (!lineup.dispositions) {
+        lineup.dispositions = [];
+      }
+      for (i = 0; i < 18; i++) {
+        if (
+          lineup.dispositions.length < i ||
+          lineup.dispositions[i] == null
+        ) {
+          lineup.dispositions[i] = new Disposition();
+          lineup.dispositions[i].position = i + 1;
+        }
+        if (lineup.dispositions[i].member_id) {
+          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id);
+        }
+      }
+    }
+
   }
 
   getIndex(lineup: Lineup, key, key2): number {
@@ -134,27 +117,6 @@ export class LineupDetailComponent implements OnInit {
       }
     }, this);
     return def.map(element => this.membersById.get(element.member.id), this);
-  }
-
-  save(lineup: Lineup) {
-    lineup.module = lineup.module_object.key;
-    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-    let obs = null;
-    let message = null;
-    if (lineup.id) {
-      message = 'Formazione aggiornata';
-      obs = this.lineupService.update(lineup);
-    } else {
-      message = 'Formazione caricata';
-      obs = this.lineupService.create(lineup);
-    }
-    obs.subscribe(response => {
-      lineup.id = response.id;
-      this.snackBar.open(message, null, {
-        duration: 3000
-      });
-    },
-      err => this.shared.getUnprocessableEntityErrors(this.lineupForm, err));
   }
 
   putInLineup(lineup: Lineup, element, i) {

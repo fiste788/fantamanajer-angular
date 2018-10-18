@@ -1,0 +1,10 @@
+<form #teamForm="ngForm" (ngSubmit)="save()" fxLayout="column" fxLayoutAlign="start start">
+  <mat-form-field>
+    <input required matInput placeholder="Nome squadra" [(ngModel)]="team.name" name="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="email" required matInput placeholder="Utente" [(ngModel)]="team.user.email" name="email">
+  </mat-form-field>
+  <mat-slide-toggle [(ngModel)]="team.admin" name="admin">Amministratore lega</mat-slide-toggle>
+  <button color="accent" mat-raised-button type="submit" [disabled]="!teamForm.form.valid">SALVA</button>
+</form>

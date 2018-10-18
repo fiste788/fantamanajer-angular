@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { LineupComponent } from './lineup/lineup.component';
-import { LineupDetailComponent } from './lineup-detail/lineup-detail.component';
 import { RouterModule, Routes } from '@angular/router';
+import { LineupLastComponent } from './lineup-last/lineup-last.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: LineupComponent,
     children: [
-      { path: 'current', component: LineupDetailComponent}
+      { path: 'current', component: LineupLastComponent }
     ]
   }
 ];
@@ -16,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LineupRoutingModule {}
+export class LineupRoutingModule { }

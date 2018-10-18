@@ -14,7 +14,7 @@
     <mat-select-trigger *ngIf="val">
       {{val.player.full_name}}
     </mat-select-trigger>
-    <ng-container *ngIf="memberList.length">
+    <ng-container *ngIf="memberList?.length">
       <mat-option *ngFor="let member of memberList" [value]="member" [disabled]="isMemberDisabled(member)">
         <span *ngIf="member.likely_lineup">
           <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>

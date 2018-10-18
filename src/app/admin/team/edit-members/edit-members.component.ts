@@ -30,6 +30,7 @@ export class EditMembersComponent implements OnInit {
   public team: Team;
   public keys: Role[];
   @ViewChild(NgForm) membersForm: NgForm;
+  isAlreadySelectedCallback: Function;
 
   constructor(private teamService: TeamService,
     private memberService: MemberService,
@@ -48,6 +49,7 @@ export class EditMembersComponent implements OnInit {
     this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.loadMembers(this.team);
+      this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this);
     });
   }
 
@@ -74,8 +76,11 @@ export class EditMembersComponent implements OnInit {
     });
   }
 
-  onMemberChange() {
-
+  isAlreadySelected(member: Member): boolean {
+    return this.team.members
+      .filter(element => element != null)
+      //.map(element => member.id)
+      .includes(member);
   }
 
   compareTeam(c1: Team, c2: Team): boolean {
@@ -97,8 +102,10 @@ export class EditMembersComponent implements OnInit {
   }
 
   save() {
+    console.log(this.team);
+    
     this.teamService.update(this.team).subscribe(response => {
-      this.snackBar.open('Trasferimento effettuato', null, {
+      this.snackBar.open('Giocatori modificati', null, {
         duration: 3000
       });
     },

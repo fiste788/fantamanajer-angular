@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Championship } from '../../../entities/championship/championship';
 import { ChampionshipService } from '../../../entities/championship/championship.service';
 import { SharedService } from '../../../shared/shared.service';
+import { League } from '../../../entities/league/league';
 
 @Component({
   selector: 'fm-championship-detail',
@@ -22,9 +23,14 @@ export class ChampionshipDetailComponent implements OnInit {
     private championshipService: ChampionshipService) { }
 
   ngOnInit() {
-    this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
-      this.championship = data.championship;
-    });
+    if (this.route.snapshot.parent.parent.parent.params['championship_id']) {
+      this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
+        this.championship = data.championship;
+      });
+    } else {
+      this.championship = new Championship();
+      this.championship.league = new League();
+    }
   }
 
   save() {

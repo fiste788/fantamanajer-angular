@@ -38,6 +38,9 @@ export class LineupService {
 
   private cleanLineup(lineup: Lineup): Lineup {
     const newLineup: Lineup = JSON.parse(JSON.stringify(lineup));
+    newLineup.dispositions = newLineup.dispositions.filter(
+      value => value.member_id
+    );
     newLineup.dispositions.map(disp => delete disp.member);
     delete newLineup.team;
     delete newLineup.modules;

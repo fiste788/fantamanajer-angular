@@ -38,6 +38,11 @@ export const routes: Routes = [
     path: 'scores',
     loadChildren: 'app/entities/score/score.module#ScoreModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/championships',
+    loadChildren: 'app/admin/championship/championship.module#ChampionshipModule',
+    canActivate: [AuthGuard]
   }
 ];
 @NgModule({

@@ -26,7 +26,7 @@ export class TeamService {
   }
 
   create(team: Team): Observable<Team> {
-    return this.http.post<Team>(this.url, JSON.stringify(Team));
+    return this.http.post<Team>(this.url, JSON.stringify(team));
   }
 
   save(team: Team): Observable<any> {

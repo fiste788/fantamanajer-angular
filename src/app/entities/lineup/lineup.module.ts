@@ -6,6 +6,7 @@ import { LineupService } from './lineup.service';
 import { LineupComponent } from './lineup/lineup.component';
 import { LineupDetailComponent } from './lineup-detail/lineup-detail.component';
 import { MemberCommonModule } from '../member/member-common.module';
+import { LineupLastComponent } from './lineup-last/lineup-last.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,10 @@ import { MemberCommonModule } from '../member/member-common.module';
     LineupRoutingModule,
     MemberCommonModule
   ],
-  declarations: [LineupComponent, LineupDetailComponent],
+  exports: [
+    LineupDetailComponent
+  ],
+  declarations: [LineupComponent, LineupDetailComponent, LineupLastComponent],
   providers: [LineupService]
 })
 export class LineupModule { }

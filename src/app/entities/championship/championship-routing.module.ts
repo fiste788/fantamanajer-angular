@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'stream', component: ChampionshipStreamComponent },
       {
         path: 'admin',
-        loadChildren: 'app/admin/championship-admin/championship-admin.module#ChampionshipAdminModule',
+        loadChildren: 'app/admin/championship/championship.module#ChampionshipModule',
         canActivate: [AdminGuard]
       }
     ]
