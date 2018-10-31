@@ -1,16 +1,14 @@
+@import '~@angular/material/theming';
+
 .parallax-header-img {
   //max-height: 12.5rem;
   overflow: hidden;
   position: relative;
+  @include mat-elevation(2);
 
   img {
     display: block;
     width: 100%;
-  }
-
-  div {
-    //min-height: 665px;
-    //height: 12.5rem;
   }
 }
 
@@ -46,6 +44,7 @@
   .parallax-header-img {
     //height: 300px;
     max-height: unset;
+    @include mat-elevation(0);
 
     img {
       //position: absolute;
@@ -55,10 +54,6 @@
       bottom: 0;
       height: auto;
       margin: auto;
-    }
-
-    div {
-      //height: 300px;
     }
   }
 
@@ -71,6 +66,9 @@
     position: relative;
     background-position: center;
     background-size: cover;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+    @include mat-elevation(2);
   }
 
   .parallax-header-title {

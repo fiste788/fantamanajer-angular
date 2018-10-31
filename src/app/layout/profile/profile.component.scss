@@ -10,6 +10,10 @@
     align-items: flex-end;
   }
 
+  .mat-icon-button {
+    line-height: 20px;
+  }
+
   .team-switcher {
     font-size: 18px;
     width: 100%;
@@ -17,6 +21,7 @@
 
   .mat-toolbar-tools-bottom {
     width: 100%;
+    padding-bottom: 1rem;
   }
 
   .team-name {
@@ -25,6 +30,8 @@
     display: inline-block;
     text-overflow: ellipsis;
     text-align: left;
+    font-size: 1.25rem;
+    font-weight: 500;
   }
 
   .email {

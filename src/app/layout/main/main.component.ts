@@ -3,6 +3,7 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Subscription } from 'rxjs';
+import * as Hammer from 'hammerjs';
 import { SharedService } from '../../shared/shared.service';
 import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animation';
 import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
@@ -25,6 +26,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
+  @ViewChild('pan', { read: ElementRef }) panEl: ElementRef;
   private disableScrollAnimation = false;
   scrollDirection = 'up';
   private lastScrollTop = 0;
@@ -35,12 +37,24 @@ export class MainComponent implements OnInit, AfterViewInit {
     public media: ObservableMedia,
     public shared: SharedService,
     private changeRef: ChangeDetectorRef
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     if (this.nav && this.media.isActive('lt-sm')) {
       this.nav.close();
     }
+    const hammertime = new Hammer(this.panEl.nativeElement, {});
+    hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammertime.on('panright', (ev) => {
+      this.nav.open();
+    });
+    hammertime.on('panleft', (ev) => {
+      this.nav.close();
+    });
+    hammertime.on('panup', (ev) => false);
+    hammertime.on('pandown', (ev) => false);
   }
 
   ngAfterViewInit() {

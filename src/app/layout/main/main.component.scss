@@ -16,6 +16,14 @@ main {
   padding-top: 4rem;
   height: calc(100% - 4rem) !important;
 }
+
+.pan {
+  position: absolute;
+  width: .5rem;
+  z-index: 99;
+  top: 0;
+  bottom: 0;
+}
 @media (max-width: 600px) {
   .mat-sidenav-content {
     padding-top: 3.5rem;
@@ -27,6 +35,10 @@ main {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
+  }
+
+  .pan {
+    display: none;
   }
 
   .mat-sidenav {

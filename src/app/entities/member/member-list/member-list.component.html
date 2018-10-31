@@ -8,7 +8,8 @@
                     </mat-checkbox>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
                     </mat-checkbox>
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
@@ -17,7 +18,7 @@
             <ng-container matColumnDef="player" sticky>
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Giocatore </th>
                 <td mat-cell *matCellDef="let row">
-                    <a [routerLink]="['/players',row.player.id]">{{row.player.name}} {{row.player.surname}}</a>
+                    <a [routerLink]="['/players',row.player.id]">{{row.player.full_name}}</a>
                 </td>
                 <td mat-footer-cell *matFooterCellDef>Totale</td>
             </ng-container>
@@ -51,7 +52,8 @@
                 <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
                     <span *ngIf="row.stats">{{row.stats.avg_points}}</span>
                 </td>
-                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_points'] | number:'1.2-2'}}</td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_points'] |
+                    number:'1.2-2'}}</td>
             </ng-container>
 
             <ng-container matColumnDef="avg_rating">
@@ -61,7 +63,8 @@
                 <td mat-cell class="mat-cell-numeric" *matCellDef="let row">
                     <span *ngIf="row.stats">{{row.stats.avg_rating}}</span>
                 </td>
-                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_rating'] | number:'1.2-2'}}</td>
+                <td mat-footer-cell class="mat-footer-cell-numeric" *matFooterCellDef>{{footer['avg_rating'] |
+                    number:'1.2-2'}}</td>
             </ng-container>
 
             <ng-container matColumnDef="sum_goals">

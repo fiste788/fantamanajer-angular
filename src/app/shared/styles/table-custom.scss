@@ -10,6 +10,11 @@
 
 .table-container {
   overflow-x: auto;
+  border-radius: 4px;
+}
+
+.table-container:not([class*='mat-elevation-z']) {
+  @include mat-elevation(1);
 }
 
 .mat-table-header {

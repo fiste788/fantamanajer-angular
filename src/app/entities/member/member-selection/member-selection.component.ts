@@ -1,17 +1,13 @@
 import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-
-const noop = () => {
-};
+import { MatSelectChange } from '@angular/material/select';
+import { Member } from '../member';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MemberSelectionComponent),
   multi: true
 };
-import { Member } from '../member';
-import { MatSelectChange } from '@angular/material/select';
-import { Role } from '../../role/role';
 
 @Component({
   selector: 'fm-member-selection',

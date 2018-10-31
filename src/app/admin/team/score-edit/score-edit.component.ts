@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Team } from '../../../entities/team/team';
 import { ActivatedRoute } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Team } from '../../../entities/team/team';
 import { Score } from '../../../entities/score/score';
 import { ScoreService } from '../../../entities/score/score.service';
-import { Observable, concat } from 'rxjs';
-import { MatSelectChange } from '@angular/material/select';
-import { MemberService } from '../../../entities/member/member.service';
-import { map } from '../../../../../node_modules/rxjs/operators';
-import { MatSnackBar } from '../../../../../node_modules/@angular/material/snack-bar';
 import { SharedService } from '../../../shared/shared.service';
-import { NgForm } from '../../../../../node_modules/@angular/forms';
 
 
 @Component({
@@ -37,10 +35,12 @@ export class ScoreEditComponent implements OnInit {
   }
 
   getScore(event: MatSelectChange) {
-    this.score = this.scoreService.getScore(event.value.id, true);
+    this.score = this.scoreService.getScore(event.value.id, true); // .pipe(map(score => score.lineup = score.lineup || new Lineup()));
   }
 
   save(score) {
+    score.lineup.module = score.lineup.module_object.key;
+    score.lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     this.scoreService.update(score).subscribe(response => {
       this.snackBar.open('Punteggio modificato', null, {
         duration: 3000

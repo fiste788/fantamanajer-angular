@@ -6,13 +6,13 @@
   </mat-form-field>
   <form #scoreForm="ngForm" (ngSubmit)="save(score)" class="flex-container" *ngIf="score | async as score">
     <mat-form-field>
-      <input matInput required [(ngModel)]="score.points" name="points" placeholder="Punteggio">
+      <input matInput type="number" step="0.5" required [(ngModel)]="score.points" name="points" placeholder="Punteggio">
     </mat-form-field>
     <mat-form-field>
       <input matInput [(ngModel)]="score.penality" name="penality" placeholder="Motivazione penalità">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="number" [(ngModel)]="score.penality_points" name="penality_points" placeholder="Penalità">
+      <input matInput type="number" step="0.5" [(ngModel)]="score.penality_points" name="penality_points" placeholder="Penalità">
     </mat-form-field>
     <fm-lineup-detail [lineup]="score.lineup"></fm-lineup-detail>
     <button color="accent" mat-raised-button type="submit">Salva</button>

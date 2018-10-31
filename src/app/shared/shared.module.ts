@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { McBreadcrumbsModule } from 'mc-breadcrumbs';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 import { MaterialModule } from './material.module';
 import { ParallaxHeaderComponent } from './parallax-header/parallax-header.component';
 import { RellaxModule } from './rellax/rellax.module';

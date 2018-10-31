@@ -9,6 +9,7 @@ import { Member } from '../../member/member';
 import { Module } from '../module';
 import { MatSelectChange } from '@angular/material/select';
 import { NgForm } from '@angular/forms';
+import { SharedService } from 'app/shared/shared.service';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -31,6 +32,7 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: Function;
 
   constructor(
+    public shared: SharedService,
     private lineupService: LineupService
   ) { }
 
@@ -45,7 +47,7 @@ export class LineupDetailComponent implements OnInit {
     this.captainsKeys = Array.from(this.captains.keys());
 
 
-    const lineup = this.lineup || ((this.disabled) ? new Lineup() : undefined);
+    const lineup = this.lineup || ((!this.disabled) ? new Lineup() : undefined);
     this.isRegularCallback = this.isRegular.bind(this, lineup);
     this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
     if (lineup) {

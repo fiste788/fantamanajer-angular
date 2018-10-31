@@ -79,7 +79,7 @@ export class EditMembersComponent implements OnInit {
   isAlreadySelected(member: Member): boolean {
     return this.team.members
       .filter(element => element != null)
-      //.map(element => member.id)
+      // .map(element => member.id)
       .includes(member);
   }
 
@@ -103,7 +103,6 @@ export class EditMembersComponent implements OnInit {
 
   save() {
     console.log(this.team);
-    
     this.teamService.update(this.team).subscribe(response => {
       this.snackBar.open('Giocatori modificati', null, {
         duration: 3000

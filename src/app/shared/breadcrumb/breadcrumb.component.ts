@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IBreadcrumb, McBreadcrumbsService } from 'mc-breadcrumbs';
+import { IBreadcrumb, McBreadcrumbsService } from 'ngx-breadcrumbs-ui';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 

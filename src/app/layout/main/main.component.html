@@ -1,5 +1,5 @@
 <mat-sidenav-container class="hundred">
-  <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-md') ? 'over' : 'side'" class="mat-elevation-z6">
+  <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-md') ? 'over' : 'side'">
     <fm-navbar></fm-navbar>
   </mat-sidenav>
   <mat-sidenav-content #scrollable cdkScrollable>
@@ -9,4 +9,5 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<div #pan class="pan"></div>
 <fm-speed-dial #speedDial class="speed-dial" [@scrollDownAnimation]="scrollDirection"></fm-speed-dial>

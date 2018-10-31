@@ -7,19 +7,23 @@
       <div *ngIf="app.user">
         <div *ngIf="app.teams.length > 1">
           <button aria-label="switch" mat-icon-button [matMenuTriggerFor]="menu" class="team-switcher">
-            <span class="team-name">{{app.team.name}}</span>
+
+            <span class="team-name">{{app.team.name}}
+              <br />
+              <span class="email">{{app.user.email}}</span>
+            </span>
+
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="setTeam(team)" *ngFor="let team of app.teams">
-              <span>{{team.name}}</span><br/><span class="season">{{team.championship.season.name}}</span>
+              <span>{{team.name}}</span><br /><span class="season">{{team.championship.season.name}}</span>
             </button>
           </mat-menu>
         </div>
         <div *ngIf="app.teams.length == 1">
           {{app.team.name}}
         </div>
-        <div class="email">{{app.user.email}}</div>
       </div>
     </div>
   </mat-toolbar-row>

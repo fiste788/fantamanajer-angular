@@ -1,11 +1,8 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-import { StreamActivity } from './stream-activity';
 import { ListItemAnimation } from '../animations/list-item.animation';
 import { StreamDataSource } from './stream.datasource';
 import { StreamService } from './stream.service';
-import { Observable } from 'rxjs';
-import { Stream } from 'stream';
-import { CdkVirtualScrollViewport } from '@angular/cdk-experimental/scrolling';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'fm-stream',

@@ -16,6 +16,8 @@
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="clubs">
     <mat-icon matListIcon>group_work</mat-icon>Clubs
   </a>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Account</h3>
   <a (click)="main.closeSidenav()" mat-list-item routerLinkActive="active" routerLink="profile" *ngIf="auth.loggedIn()">
     <mat-icon matListIcon>account_circle</mat-icon>Profilo
   </a>

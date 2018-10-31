@@ -17,7 +17,7 @@ export class MemberListComponent implements OnInit {
   @Input() hideClub = false;
   @Input() isSelectable = false;
   @Input() multipleSelection = false;
-  @Input() elevation = 4;
+  @Input() elevation = 1;
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: MatTableDataSource<Member> = null;
