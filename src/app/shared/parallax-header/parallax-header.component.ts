@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MainComponent } from '../../layout/main/main.component';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'fm-parallax-header',
@@ -17,12 +18,18 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public srcset = '';
   public width = 0;
-  constructor(public main: MainComponent) { }
+
+  constructor(public main: MainComponent, private router: Router) {
+    this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.selectTabFromUrl();
+      }
+    });
+  }
 
   ngOnChanges(changes) {
-    if (this.tabGroup) {
-      this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
-    }
+    this.selectTabFromUrl();
     if (this.backgroundImage) {
       if (typeof this.backgroundImage !== 'string') {
         const srcset = [];
@@ -38,6 +45,12 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
     } else {
       this.srcset = '';
       this.width = 0;
+    }
+  }
+
+  selectTabFromUrl() {
+    if (this.tabGroup) {
+      this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
     }
   }
 

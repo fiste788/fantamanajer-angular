@@ -1,6 +1,6 @@
 <div class="photo-container">
   <img class="mat-elevation-z2" [src]="val && val.player.photo_url ? val.player.photo_url : '//via.placeholder.com/' + size + 'x' + size">
-  <span *ngIf="val?.likely_lineup">
+  <span *ngIf="val?.likely_lineup" @createBox>
     <mat-icon matTooltip="Titolare" *ngIf="val.likely_lineup.regular">verified_user</mat-icon>
     <mat-icon matTooltip="Panchina" *ngIf="!val.likely_lineup.regular">event_seat</mat-icon>
     <mat-icon matTooltip="Infortunato" *ngIf="val.likely_lineup.injured">local_hospital</mat-icon>

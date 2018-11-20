@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, concat } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatchdayService } from '../entities/matchday/matchday.service';
@@ -8,7 +8,6 @@ import { Matchday } from '../entities/matchday/matchday';
 import { Team } from '../entities/team/team';
 import { User } from '../entities/user/user';
 import { Championship } from '../entities/championship/championship';
-import { PushService } from '../shared/push/push.service';
 
 @Injectable()
 export class ApplicationService {
@@ -27,11 +26,13 @@ export class ApplicationService {
   ) { }
 
   getCurrentMatchday(): Observable<void> {
-    return this.matchdayService.getCurrentMatchday().pipe(map(matchday => {
-      this.matchday = matchday;
-      this.seasonEnded = matchday.number > 38;
-      this.seasonStarted = matchday.number > 0;
-    }));
+    return this.matchdayService.getCurrentMatchday().pipe(map(this.setCurrentMatchday.bind(this)));
+  }
+
+  private setCurrentMatchday(matchday: Matchday): void {
+    this.matchday = matchday;
+    this.seasonEnded = matchday.number > 38;
+    this.seasonStarted = matchday.number > 0;
   }
 
   initialize(): Promise<any> {
@@ -63,9 +64,11 @@ export class ApplicationService {
     if (team) {
       this.team = team;
       this.championship = team.championship;
-      if (this.championship.season.id !== this.matchday.season_id) {
+      if (this.championship.season_id !== this.matchday.season_id) {
         this.seasonStarted = false;
         this.seasonEnded = true;
+      } else {
+        this.setCurrentMatchday(this.matchday);
       }
       return Promise.resolve(team);
     }

@@ -1,43 +1,31 @@
-import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { ClubService } from '../club.service';
-import { MemberService } from '../../member/member.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, OutletContext, RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
 import { Club } from '../club';
-import { Member } from '../../member/member';
-import { MemberListComponent } from '../../member/member-list/member-list.component';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
+import { tabTransition } from 'app/shared/animations/tab-transition.animation';
 
 @Component({
   selector: 'fm-club-detail',
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss'],
-  animations: [EnterDetailAnimation]
+  animations: [EnterDetailAnimation, tabTransition]
 })
-export class ClubDetailComponent implements OnInit, AfterViewChecked {
+export class ClubDetailComponent implements OnInit {
   club: Observable<Club>;
-  members: Observable<Member[]>;
-  responsive = true;
-  tabs: { label: string; link: string }[] = [];
+  tabs: { label: string; link: string }[] = [
+    { label: 'Giocatori', link: 'players' },
+    { label: 'Attività', link: 'stream' }
+  ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private memberService: MemberService,
-    private changeRef: ChangeDetectorRef
-  ) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { club: Club }) => {
-      this.club = of(data.club);
-      this.members = this.memberService.getByClubId(data.club.id).pipe(share());
-      this.tabs = [];
-      this.tabs.push({ label: 'Giocatori', link: 'players' });
-      this.tabs.push({ label: 'Attività', link: 'stream' });
-    });
+    this.club = this.route.data.pipe(map((data: { club: Club }) => data.club));
   }
 
-  ngAfterViewChecked(): void {
-    this.changeRef.detectChanges();
+  getState(outlet: RouterOutlet) {
+    return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 }

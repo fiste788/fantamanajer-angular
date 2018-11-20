@@ -1,7 +1,7 @@
 <div *ngIf="clubs | async as clubs; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
     fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
 
-    <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let club of clubs; let i=index">
+    <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100" *ngFor="let club of clubs; let i=index; trackBy: track">
         <mat-card-header>
             <img mat-card-avatar class="club-header-image" [src]="club.photo_url">
             <mat-card-title>{{club.name}}</mat-card-title>
@@ -16,5 +16,5 @@
 
 </div>
 <ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+    <mat-progress-spinner *ngIf="!exit" color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>

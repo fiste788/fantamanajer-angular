@@ -10,6 +10,12 @@ html {
   height: 100%;
 }
 
+router-outlet ~ * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
 body {
   font-family: Roboto, sans-serif;
   background-color: #fafafa;
@@ -25,7 +31,7 @@ body {
 }
 
 .mat-progress-spinner {
-  margin: 3rem auto;
+  margin: 3rem auto 5rem;
 }
 
 a {
@@ -41,6 +47,10 @@ a {
     height: 100%;
     line-height: 3rem;
     display: block;
+  }
+
+  .mat-tab-label-content {
+    width: 100%;
   }
 }
 

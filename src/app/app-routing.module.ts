@@ -8,46 +8,40 @@ import { LoginComponent } from './shared/auth/login/login.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard] },
-  { path: 'account', loadChildren: 'app/account/account.module#AccountModule' },
-  { path: 'clubs', loadChildren: 'app/entities/club/club.module#ClubModule' },
-  { path: 'players', loadChildren: 'app/entities/player/player.module#PlayerModule' },
+  { path: 'home', component: HomeComponent, data: { state: 'home' } },
+  { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], data: { state: 'login' } },
+  { path: 'account', loadChildren: 'app/account/account.module#AccountModule', data: { state: 'account' } },
+  { path: 'clubs', loadChildren: 'app/entities/club/club.module#ClubModule', data: { state: 'club' } },
+  { path: 'players', loadChildren: 'app/entities/player/player.module#PlayerModule', data: { state: 'player' } },
   // { path: 'profile', component: ProfileComponent,  canActivate: [AuthGuard]},
   {
     path: 'profile',
     loadChildren: 'app/entities/user/user.module#UserModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'articles',
-    loadChildren: 'app/entities/article/article.module#ArticleModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'teams',
-    loadChildren: 'app/entities/team/team.module#TeamModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { state: 'profile' }
   },
   {
     path: 'championships',
     loadChildren: 'app/entities/championship/championship.module#ChampionshipModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { state: 'championship' }
+  },
+  {
+    path: 'teams',
+    loadChildren: 'app/entities/team/team.module#TeamModule',
+    canActivate: [AuthGuard],
+    data: { state: 'team' }
   },
   {
     path: 'scores',
     loadChildren: 'app/entities/score/score.module#ScoreModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'admin/championships',
-    loadChildren: 'app/admin/championship/championship.module#ChampionshipModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { state: 'scores' }
   }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' }),
     McBreadcrumbsModule.forRoot()
   ],
   exports: [

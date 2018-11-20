@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../../../shared/shared.service';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { CardCreationAnimation } from '../../../shared/animations/card-creation.
   animations: [CardCreationAnimation]
 })
 export class TeamListComponent implements OnInit {
+  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
   teams: Observable<Team[]>;
 
   constructor(

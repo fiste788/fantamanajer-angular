@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { routerTransition } from 'app/shared/animations/router-transition.animation';
 
 @Component({
   selector: 'fm-team',
   templateUrl: './team.component.html',
-  styleUrls: ['./team.component.scss']
+  styleUrls: ['./team.component.scss'],
+  animations: [routerTransition]
 })
 export class TeamComponent implements OnInit {
 
@@ -13,5 +14,7 @@ export class TeamComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  getState(outlet) {
+    return outlet.activatedRouteData.state;
+  }
 }

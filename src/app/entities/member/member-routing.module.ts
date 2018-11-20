@@ -9,8 +9,9 @@ const routes: Routes = [
   {
     path: '',
     component: MemberComponent,
+    data: { state: 'member' },
     children: [
-      { path: 'free', component: MemberFreeComponent, canActivate: [AuthGuard] }
+      { path: 'free', component: MemberFreeComponent, canActivate: [AuthGuard], data: { state: 'free' } }
     ]
   }
 ];

@@ -6,7 +6,6 @@ import {
   SkipSelf,
   APP_INITIALIZER
 } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';

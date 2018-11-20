@@ -1,7 +1,8 @@
-import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Member } from '../member';
+import { CreateBoxAnimation } from 'app/shared/animations/create-box.animation';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -14,9 +15,10 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+  animations: [CreateBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
-
+  @HostBinding('@createBox') createBox = '';
   @Input('value') val: Member;
   @Input() name: string;
   @Input() disabled: boolean;

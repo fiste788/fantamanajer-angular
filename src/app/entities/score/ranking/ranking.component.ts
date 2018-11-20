@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs';
 import { SharedService } from '../../../shared/shared.service';
 import { ScoreService } from '../score.service';
-import { Score } from '../score';
-import { Matchday } from '../../matchday/matchday';
 import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
 import { Championship } from '../../championship/championship';
 
@@ -13,7 +10,10 @@ import { Championship } from '../../championship/championship';
   selector: 'fm-ranking',
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.scss'],
-  animations: [TableRowAnimation]
+  animations: [TableRowAnimation],
+  host: {
+    '[@tableRowAnimation]': ''
+  }
 })
 export class RankingComponent implements OnInit {
 

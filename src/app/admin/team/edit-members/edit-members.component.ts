@@ -28,7 +28,6 @@ export class EditMembersComponent implements OnInit {
     members: Member[]
   }>();
   public team: Team;
-  public keys: Role[];
   @ViewChild(NgForm) membersForm: NgForm;
   isAlreadySelectedCallback: Function;
 
@@ -41,7 +40,7 @@ export class EditMembersComponent implements OnInit {
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
     this.roles.set(new Role(3, 'C'), { count: 8, label: 'Centrocampista' });
     this.roles.set(new Role(4, 'A'), { count: 6, label: 'Attaccante' });
-    this.keys = Array.from(this.roles.keys());
+
   }
 
 
@@ -94,7 +93,8 @@ export class EditMembersComponent implements OnInit {
   getIndex(key, key2): number {
     let count = 0;
     let i = 0;
-    const index = this.keys.indexOf(key);
+    const keys = Array.from(this.roles.keys());
+    const index = keys.indexOf(key);
     for (i = 0; i < index; i++) {
       count += Array.from(this.roles.values())[i].entries.length;
     }
@@ -102,7 +102,6 @@ export class EditMembersComponent implements OnInit {
   }
 
   save() {
-    console.log(this.team);
     this.teamService.update(this.team).subscribe(response => {
       this.snackBar.open('Giocatori modificati', null, {
         duration: 3000

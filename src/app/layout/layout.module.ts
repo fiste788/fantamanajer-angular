@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SpeeddialModule } from '../shared/speeddial/speeddial.module';
+import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 import { SharedModule } from '../shared/shared.module';
 import { NotificationModule } from '../entities/notification/notification.module';
 import { ProfileComponent } from './profile/profile.component';
@@ -15,7 +15,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     SharedModule,
     MatSidenavModule,
     MatToolbarModule,
-    SpeeddialModule,
+    EcoFabSpeedDialModule,
     NotificationModule
   ],
   declarations: [

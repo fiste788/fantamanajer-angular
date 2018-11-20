@@ -20,14 +20,15 @@ export class JWTInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) {
       const token = this.auth.getToken();
-      const JWT = token ? `Bearer ${token}` : '';
       const data = {
         setHeaders: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: JWT
+          Accept: 'application/json'
         }
       };
+      if (token) {
+        data.setHeaders['Authorization'] = `Bearer ${token}`;
+      }
       return next.handle(req.clone(data));
     } else {
       return next.handle(req);

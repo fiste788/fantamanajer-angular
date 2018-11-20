@@ -1,13 +1,15 @@
 <div *ngIf="team" @enterDetailAnimation>
     <div class="animation-container">
         <fm-parallax-header [backgroundImage]="team.photo_url" [tabs]="tabs" [title]="team.name" [subtitle]="team.user.name + ' ' + team.user.surname + ' - '">
-            <div parallax-header-right *ngIf="team.user.id == app.user.id">
+            <div parallax-header-right *ngIf="team.user.id == app.user.id && !app.seasonEnded">
                 <button mat-icon-button (click)="openDialog()">
                     <mat-icon>settings</mat-icon>
                 </button>
             </div>
         </fm-parallax-header>
 
-        <router-outlet></router-outlet>
+        <div [@tabTransition]="getState(o)" style="min-height: calc(100vh - 400px)">
+            <router-outlet #o="outlet"></router-outlet>
+        </div>
     </div>
 </div>

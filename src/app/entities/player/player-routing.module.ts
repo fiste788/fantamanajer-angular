@@ -4,7 +4,7 @@ import { PlayerComponent } from './player/player.component';
 import { PlayerResolver } from './player/player-resolver.service';
 
 const routes: Routes = [
-  { path: '', component: PlayerComponent },
+  { path: '', component: PlayerComponent, data: { state: 'player' } },
   {
     path: ':id',
     component: PlayerComponent,
@@ -12,6 +12,7 @@ const routes: Routes = [
       player: PlayerResolver,
     },
     data: {
+      state: 'player-detail',
       breadcrumbs: '{{ player.name }} {{player.surname}}'
     }
   }

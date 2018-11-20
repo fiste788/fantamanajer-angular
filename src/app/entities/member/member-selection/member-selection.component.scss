@@ -18,7 +18,8 @@
   > img {
     border-radius: 50%;
     border: 3px solid #fff;
-    animation: createBox .25s;
+
+    //animation: createBox .25s;
     box-sizing: border-box;
     max-width: 64px;
   }
@@ -28,7 +29,6 @@
     @include mat-elevation(4);
     background-color: #fff;
     padding: 2px;
-    animation: createBox .25s;
     border-radius: 50%;
 
     &:nth-child(1) {
@@ -88,13 +88,6 @@
     }
 
     mat-icon {
-      position: absolute;
-      @include mat-elevation(4);
-      background-color: #fff;
-      padding: 2px;
-      animation: createBox .25s;
-      border-radius: 50%;
-
       &:nth-child(1) {
         top: 0;
         left: 0;

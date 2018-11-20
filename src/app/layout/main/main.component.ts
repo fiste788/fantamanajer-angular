@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -9,12 +10,14 @@ import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animati
 import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { routerTransition } from 'app/shared/animations/router-transition.animation';
 
 @Component({
   selector: 'fm-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
   animations: [
+    routerTransition,
     ScrollDownAnimation,
     ScrollUpAnimation
   ]
@@ -107,5 +110,11 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.nav && this.media.isActive('xs')) {
       this.nav.close();
     }
+  }
+
+  getState(outlet: RouterOutlet) {
+    // Changing the activatedRouteData.state triggers the animation
+    return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
+    // return outlet.activatedRouteData.state;
   }
 }

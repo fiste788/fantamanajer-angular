@@ -11,6 +11,8 @@
 .table-container {
   overflow-x: auto;
   border-radius: 4px;
+  background-color: #fff;
+  overflow: hidden;
 }
 
 .table-container:not([class*='mat-elevation-z']) {

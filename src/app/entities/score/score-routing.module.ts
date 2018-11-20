@@ -5,12 +5,14 @@ import { RankingComponent } from './ranking/ranking.component';
 import { ScoreDetailComponent } from './score-detail/score-detail.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: ScoreComponent,
+    data: { state: 'score' },
     children: [
-      { path: '', component: RankingComponent },
-      { path: ':id', component: ScoreDetailComponent },
-      { path: 'last', component: ScoreDetailComponent }
+      { path: '', component: RankingComponent, data: { state: 'ranking' } },
+      { path: ':id', component: ScoreDetailComponent, data: { state: 'details' } },
+      { path: 'last', component: ScoreDetailComponent, data: { state: 'last' } }
     ]
   }
 ];
@@ -19,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ScoreRoutingModule {}
+export class ScoreRoutingModule { }

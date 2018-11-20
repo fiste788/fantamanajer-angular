@@ -27,7 +27,6 @@ export class PushSubscription {
     }
 
     ab2str(buf): string {
-        console.log(buf);
         const decoder = new (<any>window).TextDecoder('ascii');
         return decoder.decode(buf);
         // return String.fromCharCode.apply(null, new Uint16Array(buf));

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { Article } from '../article';
@@ -15,6 +15,7 @@ import { PagedResponse } from '../../../shared/pagination/paged-response';
   animations: [CardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
+  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
   articles: Article[] = [];
   pagination: Pagination;
   public isLoading = false;

@@ -13,7 +13,10 @@ import { ApplicationService } from '../core/application.service';
   styleUrls: ['./home.component.scss'],
   animations: [
     CardCreationAnimation
-  ]
+  ],
+  host: {
+    '[@cardCreationAnimation]': ''
+  }
 })
 export class HomeComponent implements OnInit {
   public roles: Observable<Role[]>;

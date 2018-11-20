@@ -6,12 +6,13 @@ import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.co
 import { Observable } from 'rxjs';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 import { ApplicationService } from '../../../core/application.service';
+import { tabTransition } from 'app/shared/animations/tab-transition.animation';
 
 @Component({
   selector: 'fm-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss'],
-  animations: [EnterDetailAnimation]
+  animations: [EnterDetailAnimation, tabTransition]
 })
 export class TeamDetailComponent implements OnInit {
   team: Team;
@@ -29,24 +30,28 @@ export class TeamDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
-      this.tabs = [];
-      this.tabs.push({ label: 'Giocatori', link: 'players' });
-      if (this.app.championship.started) {
-        if (!this.app.seasonEnded) {
-          this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
-        }
-        this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
-        if (!this.app.seasonEnded) {
-          this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
-        }
-      }
-      this.tabs.push({ label: 'Articoli', link: 'articles' });
-      this.tabs.push({ label: 'Attività', link: 'stream' });
-      if (this.app.user.admin || this.app.team.admin) {
-        this.tabs.push({ label: 'Admin', link: 'admin' });
-      }
+      this.loadTabs();
     });
 
+  }
+
+  loadTabs() {
+    this.tabs = [];
+    this.tabs.push({ label: 'Giocatori', link: 'players' });
+    if (this.app.championship.started) {
+      if (!this.app.seasonEnded) {
+        this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
+      }
+      this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
+      if (!this.app.seasonEnded) {
+        this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
+      }
+    }
+    this.tabs.push({ label: 'Articoli', link: 'articles' });
+    this.tabs.push({ label: 'Attività', link: 'stream' });
+    if (this.app.user.admin || this.app.team.admin) {
+      this.tabs.push({ label: 'Admin', link: 'admin' });
+    }
   }
 
   openDialog(): void {
@@ -62,5 +67,10 @@ export class TeamDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  getState(outlet) {
+    // Changing the activatedRouteData.state triggers the animation
+    return outlet.activatedRouteData.state;
   }
 }

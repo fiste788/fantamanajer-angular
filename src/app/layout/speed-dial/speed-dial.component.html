@@ -1,11 +1,11 @@
-<smd-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn()">
-  <smd-fab-trigger spin="true">
-    <button aria-label="create" class="mat-accent" mat-fab (click)="_click('trigger')">
-      <mat-icon>add</mat-icon>
+<eco-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn()">
+  <eco-fab-speed-dial-trigger [spin]="true">
+    <button mat-fab>
+      <mat-icon class="spin360">add</mat-icon>
     </button>
-  </smd-fab-trigger>
+  </eco-fab-speed-dial-trigger>
 
-  <smd-fab-actions>
+  <eco-fab-speed-dial-actions>
     <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent" matTooltip="Inserisci formazione"
       matTooltipPosition="left" (click)="_click('lineup')">
       <mat-icon>star_rate</mat-icon>
@@ -17,5 +17,5 @@
       matTooltipPosition="left" (click)="_click('transfert')">
       <mat-icon>swap_vert</mat-icon>
     </button>
-  </smd-fab-actions>
-</smd-fab-speed-dial>
+  </eco-fab-speed-dial-actions>
+</eco-fab-speed-dial>

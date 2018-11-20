@@ -12,6 +12,8 @@ export class Championship {
   number_selections: number;
   number_transferts: number;
   jolly: boolean;
+  season_id: number;
+  league_id: number;
   teams: Team[];
   league: League;
   season: Season;

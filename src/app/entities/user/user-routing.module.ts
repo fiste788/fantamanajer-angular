@@ -11,11 +11,13 @@ const routes: Routes = [
     component: UserComponent,
     canActivate: [AuthGuard],
     data: {
+      state: 'user',
       breadcrumbs: 'Impostazioni'
     },
     children: [
-      { path: '', component: ProfileComponent },
-      { path: 'stream', component: UserStreamComponent }
+      { path: '', redirectTo: 'profile' },
+      { path: 'profile', component: ProfileComponent, data: { state: 'profile' } },
+      { path: 'stream', component: UserStreamComponent, data: { state: 'stream' } }
     ]
   }
 ];

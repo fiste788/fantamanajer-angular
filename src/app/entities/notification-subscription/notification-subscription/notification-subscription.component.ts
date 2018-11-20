@@ -36,10 +36,6 @@ export class NotificationSubscriptionComponent implements OnInit {
     });
   }
 
-  getKeys(map) {
-    return Array.from(map.keys());
-  }
-
   toggle() {
     this.subscriptionsChange.emit(this.subscriptions);
   }

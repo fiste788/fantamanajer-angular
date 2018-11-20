@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { LineupService } from '../lineup.service';
-import { ApplicationService } from '../../../core/application.service';
 import { Lineup } from '../lineup';
 import { Disposition } from '../../disposition/disposition';
 import { Member } from '../../member/member';
@@ -10,11 +7,29 @@ import { Module } from '../module';
 import { MatSelectChange } from '@angular/material/select';
 import { NgForm } from '@angular/forms';
 import { SharedService } from 'app/shared/shared.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'fm-lineup-detail',
   templateUrl: './lineup-detail.component.html',
-  styleUrls: ['./lineup-detail.component.scss']
+  styleUrls: ['./lineup-detail.component.scss'],
+  animations: [
+    // transition(':leave', animateChild()),
+    trigger('items', [
+      transition(':enter', [
+        style({ flex: .00001 }),  // initial
+        animate('500ms ease',
+          style({ flex: 1 }))  // final
+      ]),
+      transition(':leave', [
+        style({ flex: 1 }),
+        animate('500ms ease',
+          style({
+            flex: 0.00001
+          }))
+      ])
+    ])
+  ]
 })
 export class LineupDetailComponent implements OnInit {
   @ViewChild(NgForm) lineupForm: NgForm;
@@ -25,8 +40,6 @@ export class LineupDetailComponent implements OnInit {
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();
   modules: Module[] = [];
-  roleKeys: string[] = [];
-  captainsKeys: string[] = [];
   benchs: number[] = [];
   isRegularCallback: Function;
   isAlreadySelectedCallback: Function;
@@ -44,8 +57,6 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('C', 'captain');
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
-    this.captainsKeys = Array.from(this.captains.keys());
-
 
     const lineup = this.lineup || ((!this.disabled) ? new Lineup() : undefined);
     this.isRegularCallback = this.isRegular.bind(this, lineup);
@@ -72,7 +83,6 @@ export class LineupDetailComponent implements OnInit {
         lineup.module_object = this.modules.find(element => {
           return element.key === lineup.module;
         }, this);
-        this.changeModule(lineup);
       }
       let i = 0;
       if (!lineup.dispositions) {
@@ -97,15 +107,12 @@ export class LineupDetailComponent implements OnInit {
   getIndex(lineup: Lineup, key, key2): number {
     let count = 0;
     let i = 0;
-    const index = this.roleKeys.indexOf(key);
+    const roleKeys = Array.from(lineup.module_object.map.keys());
+    const index = roleKeys.indexOf(key);
     for (i = 0; i < index; i++) {
       count += Array.from(lineup.module_object.map.values())[i].length;
     }
     return count + key2;
-  }
-
-  changeModule(lineup: Lineup) {
-    this.roleKeys = Array.from(lineup.module_object.map.keys());
   }
 
   getCapitanables(lineup: Lineup): Member[] {
@@ -178,5 +185,19 @@ export class LineupDetailComponent implements OnInit {
       lineup.vcaptain_id === member.id ||
       lineup.vvcaptain_id === member.id
     );
+  }
+
+  descOrder = (a, b) => {
+    if (a.key < b.key) {
+      return b.key;
+    }
+  }
+
+  trackByRole(index, item) {
+    return item.key; // or item.id
+  }
+
+  trackBySelection(index, item) {
+    return item.key; // or item.id
   }
 }

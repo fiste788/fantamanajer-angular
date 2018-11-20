@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LineupService } from '../lineup.service';
 import { SharedService } from '../../../shared/shared.service';
 import { ApplicationService } from '../../../core/application.service';
@@ -14,12 +14,13 @@ import { Team } from '../../team/team';
   templateUrl: './lineup-last.component.html',
   styleUrls: ['./lineup-last.component.scss']
 })
-export class LineupLastComponent implements OnInit {
+export class LineupLastComponent implements OnInit, OnDestroy {
   @ViewChild(NgForm) lineupForm: NgForm;
 
   lineup: Observable<Lineup>;
   editMode = false;
   teamId: number;
+  private subscription: Subscription;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -37,10 +38,16 @@ export class LineupLastComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   save(lineup: Lineup) {
     lineup.module = lineup.module_object.key;
     lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-    let obs = null;
+    let obs: Observable<Lineup> = null;
     let message = null;
     if (lineup.id) {
       message = 'Formazione aggiornata';
@@ -49,7 +56,7 @@ export class LineupLastComponent implements OnInit {
       message = 'Formazione caricata';
       obs = this.lineupService.create(lineup);
     }
-    obs.subscribe(response => {
+    this.subscription = obs.subscribe(response => {
       lineup.id = response.id;
       this.snackBar.open(message, null, {
         duration: 3000

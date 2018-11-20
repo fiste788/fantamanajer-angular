@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { share } from 'rxjs/operators';
@@ -8,13 +8,16 @@ import { MemberService } from '../member.service';
 import { MemberListComponent } from '../member-list/member-list.component';
 import { Member } from '../member';
 import { Role } from '../../role/role';
+import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 
 @Component({
   selector: 'fm-member-free',
   templateUrl: './member-free.component.html',
-  styleUrls: ['./member-free.component.scss']
+  styleUrls: ['./member-free.component.scss'],
+  animations: [TableRowAnimation]
 })
 export class MemberFreeComponent implements OnInit {
+  @HostBinding('@tableRowAnimation') tableRowAnimation = '';
   @ViewChild(MemberListComponent) memberList: MemberListComponent;
   members: Observable<Member[]>;
   selectedRole: Role;

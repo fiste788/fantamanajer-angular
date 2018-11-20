@@ -12,17 +12,22 @@ const routes: Routes = [
     path: '',
     component: ClubComponent,
     data: {
+      state: 'club-outlet',
       breadcrumbs: 'Club'
     },
     children: [
       {
         path: '',
-        component: ClubListComponent
+        component: ClubListComponent,
+        data: {
+          state: 'club-list'
+        }
       },
       {
         path: ':id',
         component: ClubDetailComponent,
         data: {
+          state: 'club-detail',
           breadcrumbs: '{{club.name}}'
         },
         resolve: {
@@ -30,8 +35,8 @@ const routes: Routes = [
         },
         children: [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
-          { path: 'players', component: ClubMembersComponent },
-          { path: 'stream', component: ClubStreamComponent },
+          { path: 'players', component: ClubMembersComponent, data: { state: 'players' } },
+          { path: 'stream', component: ClubStreamComponent, data: { state: 'stream' } },
         ]
       }
     ]

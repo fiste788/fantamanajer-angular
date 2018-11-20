@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransfertListComponent } from './transfert-list/transfert-list.component';
 
 const routes: Routes = [
-  { path: '',
-    component: TransfertListComponent
+  {
+    path: '',
+    component: TransfertListComponent,
+    data: { state: 'transfert-list' }
   }
 ];
 
@@ -12,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TransfertRoutingModule {}
+export class TransfertRoutingModule { }

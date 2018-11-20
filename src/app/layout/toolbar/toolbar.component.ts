@@ -4,7 +4,8 @@ import { AuthService } from '../../shared/auth/auth.service';
 @Component({
   selector: 'fm-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
+
 })
 export class ToolbarComponent implements OnInit {
 

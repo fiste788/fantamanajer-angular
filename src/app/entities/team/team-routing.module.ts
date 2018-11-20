@@ -12,29 +12,38 @@ const routes: Routes = [
   {
     path: '',
     component: TeamComponent,
+    data: { state: 'team' },
     children: [
       {
         path: '',
-        component: TeamListComponent
+        component: TeamListComponent,
+        data: { state: 'team-list' },
       },
       {
         path: ':team_id',
         component: TeamDetailComponent,
         data: {
-          breadcrumbs: '{{team.name}}'
+          breadcrumbs: '{{team.name}}',
+          state: 'team-detail',
         },
+        runGuardsAndResolvers: 'paramsChange',
         resolve: {
           team: TeamDetailResolver
         },
         children: [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
-          { path: 'articles', loadChildren: 'app/entities/article/article.module#ArticleModule' },
-          { path: 'players', component: TeamMembersComponent },
-          { path: 'stream', component: TeamStreamComponent },
-          { path: 'scores', loadChildren: 'app/entities/score/score.module#ScoreModule' },
-          { path: 'lineup', loadChildren: 'app/entities/lineup/lineup.module#LineupModule' },
-          { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule' },
-          { path: 'admin', loadChildren: 'app/admin/team/team.module#TeamModule', canActivate: [ChampionshipAdminGuard] }
+          { path: 'articles', loadChildren: 'app/entities/article/article.module#ArticleModule', data: { state: 'articles' }, },
+          { path: 'players', component: TeamMembersComponent, data: { state: 'players' }, },
+          { path: 'stream', component: TeamStreamComponent, data: { state: 'stream' }, },
+          { path: 'scores', loadChildren: 'app/entities/score/score.module#ScoreModule', data: { state: 'scores' }, },
+          { path: 'lineup', loadChildren: 'app/entities/lineup/lineup.module#LineupModule', data: { state: 'lineup' }, },
+          { path: 'transferts', loadChildren: 'app/entities/transfert/transfert.module#TransfertModule', data: { state: 'transfert' }, },
+          {
+            path: 'admin',
+            loadChildren: 'app/admin/team/team.module#TeamModule',
+            canActivate: [ChampionshipAdminGuard],
+            data: { state: 'team-admin' }
+          }
         ]
       }
     ]
