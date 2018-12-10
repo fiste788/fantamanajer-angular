@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
@@ -11,6 +11,7 @@ import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { routerTransition } from 'app/shared/animations/router-transition.animation';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-main',
@@ -25,7 +26,7 @@ import { routerTransition } from 'app/shared/animations/router-transition.animat
 export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) nav: MatSidenav;
   @ViewChild(MatSidenavContent) container: MatSidenavContent;
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+  // @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
@@ -39,14 +40,18 @@ export class MainComponent implements OnInit, AfterViewInit {
   constructor(
     public media: ObservableMedia,
     public shared: SharedService,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
 
   }
 
   ngOnInit() {
-    if (this.nav && this.media.isActive('lt-sm')) {
-      this.nav.close();
+    if (this.nav) {
+      this.nav.autoFocus = false;
+      if (this.media.isActive('lt-sm')) {
+        this.nav.close();
+      }
     }
     const hammertime = new Hammer(this.panEl.nativeElement, {});
     hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
@@ -62,33 +67,32 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.media.subscribe((observer: MediaChange) => {
-      if (this.mqAlias !== observer.mqAlias) {
-        this.mqAlias = observer.mqAlias;
-        if ((!this.subscription || this.subscription.closed) && (observer.mqAlias === 'sm' || observer.mqAlias === 'xs')) {
-          this.applyScrollAnimation();
-        } else if (this.subscription) {
-          this.scrollDirection = 'up';
-          this.subscription.unsubscribe();
+      if (observer.mqAlias === 'sm' || observer.mqAlias === 'xs') {
+        if (!this.subscription) {
+          const el: HTMLElement = this.toolbarEl.nativeElement;
+          this.subscription = this.applyScrollAnimation(el.clientHeight);
         }
+      } else {
+        this.scrollDirection = 'up';
+        this.subscription.unsubscribe();
+        this.subscription = undefined;
       }
     });
     this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
   }
 
-  applyScrollAnimation() {
-    this.subscription = this.scrollable.elementScrolled().subscribe((scrolled: Event) => {
+  applyScrollAnimation(height = 0): Subscription {
+    return this.container.elementScrolled().subscribe((scrolled: Event) => {
       const st = scrolled.srcElement.scrollTop;
       if (!this.disableScrollAnimation) {
-        const el: HTMLElement = this.toolbarEl.nativeElement;
-        if (st > el.clientHeight && st !== this.lastScrollTop) {
+        if (st > height && st !== this.lastScrollTop) {
           if (st > this.lastScrollTop) {
-            this.scrollDirection = 'down';
+            this.setScrollDirection('down');
             this.speedDial.openSpeeddial = false;
           } else {
-            this.scrollDirection = 'up';
+            this.setScrollDirection('up');
           }
           this.lastScrollTop = st;
-          this.changeRef.detectChanges();
         }
       } else {
         this.lastScrollTop = st;
@@ -96,11 +100,17 @@ export class MainComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private setScrollDirection(sd) {
+    if (this.scrollDirection !== sd) {
+      this.scrollDirection = sd;
+      this.changeRef.detectChanges();
+    }
+  }
+
   scrollTo(x: number = 0, y: number = 0) {
-    const elem = this.scrollable.getElementRef().nativeElement;
-    if (elem.scrollTop === 0) {
+    if (this.container.getElementRef().nativeElement.scrollTop === 0) {
       this.disableScrollAnimation = true;
-      elem.scrollTo(x, y);
+      this.container.scrollTo({ top: y, left: x });
       this.disableScrollAnimation = false;
     }
 

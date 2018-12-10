@@ -4,13 +4,13 @@ import { ApplicationService } from '../../../core/application.service';
 import { Stream } from '../../../shared/stream/stream';
 import { NotificationOverlayService } from '../notification-overlay.service';
 import { NotificationOverlayComponent } from '../notification-overlay/notification-overlay.component';
-
-
+import { CreateBoxAnimation } from 'app/shared/animations/create-box.animation';
 
 @Component({
   selector: 'fm-notification-list',
   templateUrl: './notification-list.component.html',
   styleUrls: ['./notification-list.component.scss'],
+  animations: [CreateBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
   public stream: Stream = null;

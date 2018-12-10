@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Team } from '../team';
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 import { ApplicationService } from '../../../core/application.service';
 import { tabTransition } from 'app/shared/animations/tab-transition.animation';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-team-detail',
@@ -14,8 +15,9 @@ import { tabTransition } from 'app/shared/animations/tab-transition.animation';
   styleUrls: ['./team-detail.component.scss'],
   animations: [EnterDetailAnimation, tabTransition]
 })
-export class TeamDetailComponent implements OnInit {
-  team: Team;
+export class TeamDetailComponent {
+  private teamStatic: Team = null;
+  team: Observable<Team>;
   tabs: { label: string; link: string }[] = [];
 
   constructor(
@@ -24,16 +26,13 @@ export class TeamDetailComponent implements OnInit {
     private changeRef: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
-
+    this.team = this.route.data.pipe(map((data: { team: Team }) => {
+      this.teamStatic = data.team;
+      return data.team;
+    }));
+    this.loadTabs();
   }
 
-  ngOnInit() {
-    this.route.data.subscribe((data: { team: Team }) => {
-      this.team = data.team;
-      this.loadTabs();
-    });
-
-  }
 
   loadTabs() {
     this.tabs = [];
@@ -56,15 +55,14 @@ export class TeamDetailComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(TeamEditDialogComponent, {
-      data: { team: this.team }
+      data: { team: this.teamStatic }
     }).afterClosed().subscribe((team?: Observable<Team>) => {
       if (team) {
-        // this.route.data
-        team.subscribe((res) => {
-          this.team = res;
-          this.app.team = this.team;
+        this.team = team.pipe(map(res => {
+          this.app.team = res;
           this.changeRef.detectChanges();
-        });
+          return res;
+        }));
       }
     });
   }

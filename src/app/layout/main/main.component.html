@@ -2,7 +2,7 @@
   <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-md') ? 'over' : 'side'">
     <fm-navbar></fm-navbar>
   </mat-sidenav>
-  <mat-sidenav-content #scrollable cdkScrollable>
+  <mat-sidenav-content>
     <fm-toolbar #toolbar [@scrollUpAnimation]="scrollDirection"></fm-toolbar>
     <main class="container" style="position:relative">
       <div [@routerTransition]="getState(o)">

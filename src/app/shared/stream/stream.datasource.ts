@@ -41,7 +41,6 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
             return;
         }
         this.fetchedPages.add(page);
-        console.log('fetching', page);
         if (page === 1) {
             this.addPlaceholder();
         }

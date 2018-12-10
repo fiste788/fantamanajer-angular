@@ -60,7 +60,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
   setTitle(x: IBreadcrumb[]) {
     const title = x.map(value => value.text);
-    if (x.length > 0) {
+    if (x.length > 0 && title[0] !== 'FantaManajer') {
       title.unshift('FantaManajer');
     }
     this.ts.setTitle(title.join(' - '));

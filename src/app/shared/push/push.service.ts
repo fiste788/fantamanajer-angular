@@ -129,5 +129,12 @@ export class PushService {
       console.log('[App] Push message received', message);
       this.notificationService.broadcast(message['notification']['title'], '');
     });
+    this.swPush.notificationClicks.subscribe(click => {
+      console.log('[App] Click notification', click);
+      if (click.notification.data.url) {
+        this.app.getRouter().navigateByUrl(click.notification.data.url);
+        // this.router.navigateByUrl();
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { SharedService } from '../../../shared/shared.service';
@@ -10,12 +10,10 @@ import { Championship } from '../../championship/championship';
   selector: 'fm-ranking',
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.scss'],
-  animations: [TableRowAnimation],
-  host: {
-    '[@tableRowAnimation]': ''
-  }
+  animations: [TableRowAnimation]
 })
 export class RankingComponent implements OnInit {
+  @HostBinding('@tableRowAnimation') tableRowAnimation = '';
 
   dataSource: MatTableDataSource<any[]>;
   rankingDisplayedColumns = ['teamName', 'points'];

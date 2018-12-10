@@ -3,16 +3,10 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "baseUrl": "./",
-    "types": [],
-    "allowJs": false
-  },
-  "angularCompilerOptions": {
-    "preserveWhitespaces": false,
-    "fullTemplateTypeCheck": true
+    "types": []
   },
   "exclude": [
-    "test.ts",
+    "src/test.ts",
     "**/*.spec.ts"
   ]
 }

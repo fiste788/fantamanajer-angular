@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { MemberService } from '../entities/member/member.service';
 import { Role } from '../entities/role/role';
 import { Observable } from 'rxjs';
@@ -11,14 +11,10 @@ import { ApplicationService } from '../core/application.service';
   selector: 'fm-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [
-    CardCreationAnimation
-  ],
-  host: {
-    '[@cardCreationAnimation]': ''
-  }
+  animations: [CardCreationAnimation]
 })
 export class HomeComponent implements OnInit {
+  @HostBinding('@cardCreationAnimation') CardCreationAnimation = '';
   public roles: Observable<Role[]>;
   constructor(private memberService: MemberService, public app: ApplicationService) { }
 

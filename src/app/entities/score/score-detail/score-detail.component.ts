@@ -5,7 +5,7 @@ import { SharedService } from '../../../shared/shared.service';
 import { ScoreService } from '../score.service';
 import { Score } from '../score';
 import { Disposition } from '../../disposition/disposition';
-import { share } from 'rxjs/operators';
+import { share, map } from 'rxjs/operators';
 import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
 
 @Component({
@@ -30,12 +30,11 @@ export class ScoreDetailComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.url.pop().path === 'last') {
       const team_id = this.sharedService.getTeamId(this.route);
-      this.score = this.scoreService.getLastScore(team_id).pipe(share());
+      this.score = this.scoreService.getLastScore(team_id).pipe(map(score => this.getData(score)));
     } else {
       const id = parseInt(this.route.snapshot.params['id'], 10);
-      this.score = this.scoreService.getScore(id).pipe(share());
+      this.score = this.scoreService.getScore(id).pipe(map(score => this.getData(score)));
     }
-    this.score.subscribe(score => this.getData(score));
   }
 
   getData(score: Score) {
@@ -43,7 +42,7 @@ export class ScoreDetailComponent implements OnInit {
       const dispositions: Disposition[] = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;
-      // this.score = score;
     }
+    return score;
   }
 }

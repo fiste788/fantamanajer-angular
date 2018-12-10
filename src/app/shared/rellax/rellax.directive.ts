@@ -6,8 +6,10 @@ import {
   OnInit,
   OnDestroy,
   Renderer2,
-  NgZone
+  NgZone,
+  ViewChild
 } from '@angular/core';
+import { Observable, fromEvent, Subscription } from 'rxjs';
 // import * as Rellax from 'rellax';
 
 @Directive({
@@ -26,6 +28,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private pause = false;
   private scrollableElement: Element;
   private frame;
+  private subscription: Subscription;
 
   private loop = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -68,7 +71,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.ngZone.runOutsideAngular(this.init.bind(this));
+    this.subscription = fromEvent(this.el.nativeElement.querySelector('img'), 'load').subscribe(() =>
+      this.ngZone.runOutsideAngular(this.init.bind(this))
+    );
   }
 
   clamp(num, min, max) {
@@ -234,5 +239,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.destroy();
     window.cancelAnimationFrame(this.frame);
+    this.subscription.unsubscribe();
   }
 }

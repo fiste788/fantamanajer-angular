@@ -14,7 +14,6 @@ export class StreamService {
   }
 
   getByTeam(teamId: number, page = 1): Observable<Stream> {
-    console.log('getbyt');
     return this.http.get<Stream>(`teams/${teamId}/${this.url}?page=${page}`);
   }
 

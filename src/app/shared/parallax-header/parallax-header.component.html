@@ -1,9 +1,9 @@
 <div class="parallax-container">
     <div class="parallax">
         <div class="parallax-header-img">
-            <div fmRellax [center]="true">
-                <img (load)="initialScroll($event)" sizes="(max-width: {{width}}px) 100vw, {{width}}px" [srcset]="srcset"
-                    [src]="backgroundImage || '//placehold.it/1200x800'" [alt]="title">
+            <div fmRellax [center]="false">
+                <img (load)="initialScroll($event)" sizes="(max-width: {{width}}px) 100vw, {{width}}px" [lazyLoad]="backgroundImage | srcset"
+                    [useSrcset]="true" defaultImage="//placehold.it/1200x800" [alt]="title">
             </div>
         </div>
         <div class="parallax-header-title-container">

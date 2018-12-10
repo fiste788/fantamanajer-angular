@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmailNotificationSubscriptionComponent } from './email-notification-subscription.component';
+import { NotificationSubscriptionComponent } from './notification-subscription.component';
 
 describe('EmailNotificationSubscriptionComponent', () => {
-  let component: EmailNotificationSubscriptionComponent;
-  let fixture: ComponentFixture<EmailNotificationSubscriptionComponent>;
+  let component: NotificationSubscriptionComponent;
+  let fixture: ComponentFixture<NotificationSubscriptionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmailNotificationSubscriptionComponent ]
+      declarations: [NotificationSubscriptionComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmailNotificationSubscriptionComponent);
+    fixture = TestBed.createComponent(NotificationSubscriptionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

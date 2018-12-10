@@ -75,7 +75,7 @@ export class ApplicationService {
     return null;
   }
 
-  private getRouter(): Router {
+  public getRouter(): Router {
     return this.injector.get(Router);
   }
 }

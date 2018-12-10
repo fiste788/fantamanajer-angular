@@ -1,19 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ObservableMedia } from '@angular/flex-layout';
 import { MatSort } from '@angular/material/sort';
-import { Observable, of } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ApplicationService } from '../../../core/application.service';
-import { PlayerService } from '../player.service';
-import { ParallaxHeaderComponent } from '../../../shared/parallax-header/parallax-header.component';
 import { TableRowAnimation } from '../../../shared/animations/table-row.animation';
 import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
 import { Member } from '../../member/member';
-import { Season } from '../../season/season';
 import { Player } from '../player';
 import { Rating } from '../../rating/rating';
 
@@ -26,10 +22,8 @@ import { Rating } from '../../rating/rating';
     EnterDetailAnimation
   ]
 })
-export class PlayerComponent implements OnInit {
+export class PlayerComponent {
   player: Observable<Player>;
-  seasons: Season[];
-  // season: Season;
   selectedMember: Member;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -52,22 +46,14 @@ export class PlayerComponent implements OnInit {
   constructor(
     public media: ObservableMedia,
     private changeRef: ChangeDetectorRef,
-    public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private playerService: PlayerService,
     public app: ApplicationService
   ) {
-
-  }
-
-  ngOnInit() {
-    // this.season = this.sharedService.currentChampionship.season;
-    // const id = parseInt(this.route.snapshot.params['id'], 10);
-    this.route.data.subscribe((data: { player: Player }) => {
-      this.player = of(data.player);
-      this.selectedMember = data.player.members[0];
+    this.player = this.route.data.pipe(map(({ player }) => {
+      this.selectedMember = player.members[0];
       this.seasonChange();
-    });
+      return player;
+    }));
   }
 
   seasonChange() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,13 +8,14 @@ import { SharedService } from '../../../shared/shared.service';
 import { ApplicationService } from '../../../core/application.service';
 import { Lineup } from '../lineup';
 import { Team } from '../../team/team';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-lineup-last',
   templateUrl: './lineup-last.component.html',
   styleUrls: ['./lineup-last.component.scss']
 })
-export class LineupLastComponent implements OnInit, OnDestroy {
+export class LineupLastComponent implements OnDestroy {
   @ViewChild(NgForm) lineupForm: NgForm;
 
   lineup: Observable<Lineup>;
@@ -28,14 +29,11 @@ export class LineupLastComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public shared: SharedService,
     public app: ApplicationService
-  ) { }
+  ) {
+    this.teamId = this.route.parent.parent.parent.snapshot.data.team.id;
+    this.editMode = this.app.team.id === this.teamId;
+    this.lineup = this.lineupService.getLineup(this.teamId);
 
-  ngOnInit() {
-    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
-      this.teamId = data.team.id;
-      this.editMode = this.app.team.id === this.teamId;
-      this.lineup = this.lineupService.getLineup(this.teamId);
-    });
   }
 
   ngOnDestroy() {
