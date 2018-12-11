@@ -1,41 +1,26 @@
-import { CommonModule } from '@angular/common';
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-  APP_INITIALIZER
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf, APP_INITIALIZER } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorHandlerInterceptor } from '../shared/interceptor/error-handler.interceptor';
-import { ApiInterceptor } from '../shared/interceptor/api.interceptor';
+import { ErrorHandlerInterceptor, ApiInterceptor } from './interceptors';
+import { AuthGuard, NotLoggedGuard } from './guards';
 
-import { SharedService } from '../shared/shared.service';
-import { SharedModule } from '../shared/shared.module';
-import { AuthModule } from '../shared/auth/auth.module';
-import { ApplicationService } from './application.service';
-import { MatchdayModule } from '../entities/matchday/matchday.module';
-import { UserCommonModule } from '../entities/user/user-common.module';
-import { MemberCommonModule } from '../entities/member/member-common.module';
-import { NotificationModule } from '../entities/notification/notification.module';
-import { PushModule } from '../shared/push/push.module';
-import { PushService } from '../shared/push/push.service';
+import { MatchdayModule } from '../modules/matchday/matchday.module';
+import { UserCommonModule } from '../modules/user/user-common.module';
+import { MemberCommonModule } from '../modules/member/member-common.module';
+import { NotificationModule } from '../modules/notification/notification.module';
+import { throwIfAlreadyLoaded } from './guards/module-import.guard';
+import { ApplicationService, PushService } from './services';
 
 export function useFactory(service: ApplicationService) { return () => service.initialize(); }
 
 @NgModule({
   imports: [
-    CommonModule,
     HttpClientModule,
-    AuthModule,
-    SharedModule,
     UserCommonModule,
     MemberCommonModule,
     MatchdayModule,
-    NotificationModule,
-    PushModule
+    NotificationModule
   ],
   exports: [
     NotificationModule,
@@ -44,8 +29,8 @@ export function useFactory(service: ApplicationService) { return () => service.i
   ],
   declarations: [],
   providers: [
-    SharedService,
-    ApplicationService,
+    AuthGuard,
+    NotLoggedGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
@@ -71,15 +56,7 @@ export class CoreModule {
     };
   }
 
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule: CoreModule
-  ) {
-    if (parentModule) {
-      throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only'
-      );
-    }
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 }
