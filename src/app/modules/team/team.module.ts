@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
-
-import { SharedModule } from '../../shared/shared.module';
-import { MemberCommonModule } from '../member/member-common.module';
-import { TeamComponent } from './team/team.component';
-import { TeamListComponent } from './team-list/team-list.component';
-import { TeamDetailComponent } from './team-detail/team-detail.component';
-import { TeamService } from './team.service';
-import { TeamRoutingModule } from './team-routing.module';
-import { TeamMembersComponent } from './team-members/team-members.component';
-import { FileUploadModule } from 'ng2-file-upload';
+import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TeamEditDialogComponent } from './team-edit-dialog/team-edit-dialog.component';
-import { TeamDetailResolver } from './team-detail/team-detail-resolver.service';
+import { FileUploadModule } from 'ng2-file-upload';
+import { SharedModule } from '@app/shared/shared.module';
+import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
+import { TeamComponent } from './pages/team/team.component';
+import { TeamListComponent } from './pages/team-list/team-list.component';
+import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
+import { TeamMembersComponent } from './components/team-members/team-members.component';
+import { TeamEditDialogComponent } from './modals/team-edit-dialog/team-edit-dialog.component';
+import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
-import { TeamStreamComponent } from './team-stream/team-stream.component';
-import { StreamModule } from '../../shared/stream/stream.module';
+import { TeamStreamComponent } from './components/team-stream/team-stream.component';
+import { StreamModule } from '@app/modules/stream/stream.module';
+import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
   imports: [
+    CommonModule,
     SharedModule,
     TeamRoutingModule,
     MemberCommonModule,
@@ -38,7 +38,6 @@ import { StreamModule } from '../../shared/stream/stream.module';
     TeamEditDialogComponent
   ],
   providers: [
-    TeamService,
     TeamDetailResolver
   ]
 })

@@ -1,11 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FileUploader } from 'ng2-file-upload';
-import { environment } from 'environments/environment';
-import { TeamService } from '../team.service';
-import { Team } from '../team';
-import { NotificationSubscription } from '../../notification-subscription/notification-subscription';
-import { ApplicationService } from '../../../core/application.service';
+import { environment } from '@env/environment';
+import { TeamService, ApplicationService } from '@app/core/services';
+import { Team, NotificationSubscription } from '@app/core/models';
 
 @Component({
   selector: 'fm-team-edit-dialog',

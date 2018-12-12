@@ -1,11 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { AuthService } from '../../shared/auth/auth.service';
-import { ApplicationService } from '../../core/application.service';
-import { Team } from '../../entities/team/team';
+import { AuthService, ApplicationService } from '@app/core/services';
+import { Team } from '@app/core/models';
 import { Router } from '@angular/router';
 import { MainComponent } from '../main/main.component';
-import { Observable, combineLatest, Subject } from 'rxjs';
-import { merge, map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-profile',

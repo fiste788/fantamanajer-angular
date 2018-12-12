@@ -1,14 +1,16 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { MainComponent } from '@app/layouts/main/main.component';
+import { MainComponent } from '@app/shared/layout/main/main.component';
 import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ScrollDispatcher } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'fm-parallax-header',
   templateUrl: './parallax-header.component.html',
   styleUrls: ['./parallax-header.component.scss']
 })
-export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
+export class ParallaxHeaderComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() public title: string;
   @Input() public subtitle: string;
   @Input() public image: string;
@@ -18,14 +20,17 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public srcset = '';
   public width = 0;
+  public scrollTarget: Element;
+  private subscription: Subscription;
 
-  constructor(public main: MainComponent, private router: Router) {
-    this.router.events.subscribe((e: any) => {
+  constructor(public main: MainComponent, private router: Router, private scroller: ScrollDispatcher) {
+    this.subscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.selectTabFromUrl();
       }
     });
+    this.scrollTarget = this.scroller.scrollContainers.keys().next().value.getElementRef().nativeElement;
   }
 
   ngOnChanges(changes) {
@@ -62,5 +67,9 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges {
     if (this.tabGroup) {
       this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from 'app/shared/animations/router-transition.animation';
+import { routerTransition } from '@app/core/animations';
 
 @Component({
   selector: 'fm-team',

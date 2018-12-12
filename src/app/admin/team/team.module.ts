@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '@app/shared/shared.module';
+import { TeamModule as TeamUserModule } from '@app/modules/team/team.module';
+import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
+import { TransfertModule } from '@app/modules/transfert/transfert.module';
+import { ScoreModule } from '@app/modules/score/score.module';
+import { LineupModule } from '@app/modules/lineup/lineup.module';
+import { ConfirmationDialogModule } from '@app/modules/confirmation-dialog/confirmation-dialog.module';
 import { TeamComponent } from './team/team.component';
-import { TeamModule as TeamUserModule } from '../../entities/team/team.module';
-import { MemberCommonModule } from '../../entities/member/member-common.module';
-import { TeamRoutingModule } from './team-routing.module';
 import { EditMembersComponent } from './edit-members/edit-members.component';
 import { NewTransfertComponent } from './new-transfert/new-transfert.component';
-import { TransfertModule } from '../../entities/transfert/transfert.module';
 import { HomeComponent } from './home/home.component';
-import { ConfirmationDialogModule } from '../../shared/confirmation-dialog/confirmation-dialog.module';
 import { ScoreEditComponent } from './score-edit/score-edit.component';
-import { ScoreModule } from '../../entities/score/score.module';
-import { LineupModule } from '../../entities/lineup/lineup.module';
+import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
   imports: [
+    CommonModule,
     SharedModule,
     TeamRoutingModule,
     TeamUserModule,

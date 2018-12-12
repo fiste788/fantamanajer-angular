@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EmailSubscription } from './email-subscription';
+import { EmailSubscription } from '@app/core/models';
 
 @Component({
   selector: 'fm-email-subscription',

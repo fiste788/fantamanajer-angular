@@ -2,12 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SharedService } from '../../../shared/shared.service';
-import { MemberService } from '../../../entities/member/member.service';
-import { TeamService } from '../../../entities/team/team.service';
-import { Role } from '../../../entities/role/role';
-import { Member } from '../../../entities/member/member';
-import { Team } from '../../../entities/team/team';
+import { SharedService } from '@app/shared/services/shared.service';
+import { MemberService, TeamService } from '@app/core/services';
+import { Role, Member, Team } from '@app/core/models';
 
 @Component({
   selector: 'fm-edit-members',
@@ -107,7 +104,7 @@ export class EditMembersComponent implements OnInit {
         duration: 3000
       });
     },
-      err => this.sharedService.getUnprocessableEntityErrors(this.membersForm, err)
+      err => SharedService.getUnprocessableEntityErrors(this.membersForm, err)
     );
   }
 }

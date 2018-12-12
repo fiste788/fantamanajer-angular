@@ -4,10 +4,9 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Team } from '../../../entities/team/team';
-import { Score } from '../../../entities/score/score';
-import { ScoreService } from '../../../entities/score/score.service';
-import { SharedService } from '../../../shared/shared.service';
+import { Team, Score } from '@app/core/models';
+import { ScoreService } from '@app/core/services';
+import { SharedService } from '@app/shared/services/shared.service';
 
 
 @Component({
@@ -46,6 +45,6 @@ export class ScoreEditComponent implements OnInit {
         duration: 3000
       });
     },
-      err => this.shared.getUnprocessableEntityErrors(this.scoreForm, err));
+      err => SharedService.getUnprocessableEntityErrors(this.scoreForm, err));
   }
 }

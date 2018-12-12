@@ -8,9 +8,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SpeedDialComponent } from './speed-dial/speed-dial.component';
 import { MainComponent } from './main/main.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   imports: [
+    SharedModule,
     MatSidenavModule,
     MatToolbarModule,
     EcoFabSpeedDialModule,

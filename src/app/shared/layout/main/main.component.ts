@@ -2,16 +2,12 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, Element
 import { RouterOutlet } from '@angular/router';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Subscription } from 'rxjs';
 import * as Hammer from 'hammerjs';
-import { SharedService } from '../../shared/shared.service';
-import { ScrollDownAnimation } from '../../shared/animations/scroll-down.animation';
-import { ScrollUpAnimation } from '../../shared/animations/scroll-up.animation';
+import { SharedService } from '@app/shared/services/shared.service';
+import { ScrollDownAnimation, ScrollUpAnimation, routerTransition } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { routerTransition } from 'app/shared/animations/router-transition.animation';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-main',

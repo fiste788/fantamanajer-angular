@@ -19,19 +19,8 @@ export class ClubListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   exit: boolean;
   scrollTarget: Element;
-  defaultImage: string;
-  private placeholderService = require('placeholder.js');
 
   constructor(private clubService: ClubService, private router: Router, private scroller: ScrollDispatcher) {
-    this.defaultImage = this.placeholderService.getData({
-      size: '350x200',
-      bgcolor: '#868686',
-      color: '#ddd',
-      fstyle: 'normal',
-      fweight: 'normal',
-      fsize: '24',
-      ffamily: 'arial'
-    });
   }
 
   ngOnInit(): void {
@@ -43,7 +32,6 @@ export class ClubListComponent implements OnInit, OnDestroy {
       }
     });
     this.clubs = this.clubService.getClubs();
-    // this.loadImage = combineLatest(this.scroller.scrolled(), this.clubs.pipe(take(1), startWith('scroll')));
     this.scrollTarget = this.scroller.scrollContainers.keys().next().value.getElementRef().nativeElement;
   }
 

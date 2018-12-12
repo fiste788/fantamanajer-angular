@@ -5,9 +5,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ErrorHandlerInterceptor, ApiInterceptor } from './interceptors';
 import { AuthGuard, NotLoggedGuard } from './guards';
 
-import { MatchdayModule } from '../modules/matchday/matchday.module';
-import { UserCommonModule } from '../modules/user/user-common.module';
-import { MemberCommonModule } from '../modules/member/member-common.module';
+import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
+import { AuthModule } from '@app/modules/auth/auth.module';
 import { NotificationModule } from '../modules/notification/notification.module';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { ApplicationService, PushService } from './services';
@@ -17,9 +16,8 @@ export function useFactory(service: ApplicationService) { return () => service.i
 @NgModule({
   imports: [
     HttpClientModule,
-    UserCommonModule,
     MemberCommonModule,
-    MatchdayModule,
+    AuthModule,
     NotificationModule
   ],
   exports: [
@@ -27,7 +25,8 @@ export function useFactory(service: ApplicationService) { return () => service.i
     MatProgressSpinnerModule,
     MatExpansionModule
   ],
-  declarations: [],
+  declarations: [
+  ],
   providers: [
     AuthGuard,
     NotLoggedGuard,

@@ -17,3 +17,4 @@ export * from './stream.service';
 export * from './team.service';
 export * from './transfert.service';
 export * from './user.service';
+export * from './window-ref.service';

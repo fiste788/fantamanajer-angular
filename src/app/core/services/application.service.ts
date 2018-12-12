@@ -2,7 +2,8 @@ import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, concat } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatchdayService, AuthService } from './';
+import { MatchdayService } from './matchday.service';
+import { AuthService } from './auth.service';
 import { Matchday, Team, User, Championship } from '../models';
 
 @Injectable({

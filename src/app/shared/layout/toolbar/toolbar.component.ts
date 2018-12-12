@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { AuthService } from '../../shared/auth/auth.service';
+import { AuthService } from '@app/core/services';
 
 @Component({
   selector: 'fm-toolbar',

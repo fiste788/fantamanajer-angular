@@ -1,9 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApplicationService } from '../../core/application.service';
-import { AuthService } from '../../shared/auth/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { ApplicationService, AuthService, PushService } from '@app/core/services';
 import { MainComponent } from '../main/main.component';
-import { PushService } from '../../shared/push/push.service';
 
 @Component({
   selector: 'fm-navbar',

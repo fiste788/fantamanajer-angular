@@ -9,6 +9,9 @@ import { MaterialModule } from './material.module';
 import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
+import { SrcsetPipe, PlaceholderPipe } from '@app/core/pipes';
+import { RellaxDirective, SrcsetDirective } from '@app/core/directives';
+import { SharedService } from './services';
 
 @NgModule({
   imports: [
@@ -23,6 +26,10 @@ import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-s
     })
   ],
   declarations: [
+    RellaxDirective,
+    SrcsetDirective,
+    SrcsetPipe,
+    PlaceholderPipe,
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     MatEmptyStateComponent,
@@ -38,7 +45,14 @@ import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-s
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     MatEmptyStateComponent,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    PlaceholderPipe,
+    SrcsetPipe,
+    RellaxDirective,
+    SrcsetDirective
+  ],
+  providers: [
+    SharedService
   ]
 
 })

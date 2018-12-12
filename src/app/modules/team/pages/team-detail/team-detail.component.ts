@@ -1,13 +1,12 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Team } from '../team';
-import { TeamEditDialogComponent } from '../team-edit-dialog/team-edit-dialog.component';
 import { Observable } from 'rxjs';
-import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
-import { ApplicationService } from '../../../core/application.service';
-import { tabTransition } from 'app/shared/animations/tab-transition.animation';
 import { map } from 'rxjs/operators';
+import { Team } from '@app/core/models';
+import { EnterDetailAnimation, tabTransition } from '@app/core/animations';
+import { ApplicationService } from '@app/core/services';
+import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
 
 @Component({
   selector: 'fm-team-detail',

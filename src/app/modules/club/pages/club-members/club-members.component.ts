@@ -1,10 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, HostBinding } from '@angular/core';
-import { MemberService } from '../../member/member.service';
-import { Member } from '../../member/member';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { Club } from '../club';
-import { TableRowAnimation } from 'app/shared/animations/table-row.animation';
+import { Observable } from 'rxjs';
+import { MemberService } from '@app/core/services';
+import { Member, Club } from '@app/core/models';
+import { TableRowAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-club-members',

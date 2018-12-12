@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, OutletContext, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, delay } from 'rxjs/operators';
-import { Club } from '../club';
-import { EnterDetailAnimation } from '../../../shared/animations/enter-detail.animation';
-import { tabTransition } from 'app/shared/animations/tab-transition.animation';
+import { map } from 'rxjs/operators';
+import { Club } from '@app/core/models';
+import { EnterDetailAnimation, tabTransition } from '@app/core/animations';
 
 @Component({
   selector: 'fm-club-detail',

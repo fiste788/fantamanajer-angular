@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Team } from '../../../entities/team/team';
-import { User } from '../../../entities/user/user';
-import { TeamService } from '../../../entities/team/team.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SharedService } from '../../../shared/shared.service';
-import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Championship } from '../../../entities/championship/championship';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Team, User, Championship } from '@app/core/models';
+import { SharedService } from '@app/shared/services/shared.service';
+import { TeamService } from '@app/core/services';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'fm-add-team',
@@ -41,7 +39,7 @@ export class AddTeamComponent implements OnInit {
         '/teams/' + this.team.id + '/admin/members'
       );
     },
-      err => this.sharedService.getUnprocessableEntityErrors(this.teamForm, err)
+      err => SharedService.getUnprocessableEntityErrors(this.teamForm, err)
     );
   }
 

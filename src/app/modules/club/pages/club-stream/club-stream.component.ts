@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Club } from '../club';
+import { Club } from '@app/core/models';
 import { map } from 'rxjs/operators';
 
 

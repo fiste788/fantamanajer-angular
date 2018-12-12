@@ -9,7 +9,7 @@
         </mat-card-header>
 
         <img mat-card-image sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-            [lazyLoad]="club.background_url | srcset" [scrollTarget]="scrollTarget" [useSrcset]="true" [defaultImage]="defaultImage">
+            [lazyLoad]="club.background_url | srcset" [scrollTarget]="scrollTarget" [useSrcset]="true" defaultImage="defaultImage">
         <mat-card-actions fxLayoutAlign="end">
             <a mat-button [routerLink]="['/clubs',club.id]">OPEN</a>
         </mat-card-actions>

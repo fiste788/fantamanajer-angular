@@ -4,8 +4,8 @@ import {
     Router, Resolve, RouterStateSnapshot,
     ActivatedRouteSnapshot
 } from '@angular/router';
-import { Club } from '../club';
-import { ClubService } from '../club.service';
+import { Club } from '@app/core/models';
+import { ClubService } from '@app/core/services';
 
 @Injectable()
 export class ClubDetailResolver implements Resolve<Club> {

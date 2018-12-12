@@ -1,4 +1,8 @@
-import { Member, Matchday, Team, Module, Disposition } from './';
+import { Member } from './member.model';
+import { Matchday } from './matchday.model';
+import { Team } from './team.model';
+import { Module } from './module.model';
+import { Disposition } from './disposition.model';
 
 export class Lineup {
   id: number;

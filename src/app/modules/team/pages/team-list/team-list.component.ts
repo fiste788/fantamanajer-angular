@@ -1,11 +1,11 @@
 import { Component, OnInit, HostBinding, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SharedService } from '../../../shared/shared.service';
-import { Observable } from 'rxjs';
-import { TeamService } from '../team.service';
-import { Team } from '../team';
-import { CardCreationAnimation } from '../../../shared/animations/card-creation.animation';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
+import { Observable } from 'rxjs';
+import { SharedService } from '@app/shared/services/shared.service';
+import { TeamService } from '@app/core/services';
+import { Team } from '@app/core/models';
+import { CardCreationAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-team-list',
@@ -25,6 +25,6 @@ export class TeamListComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollTarget = this.scroller.scrollContainers.keys().next().value.getElementRef().nativeElement;
-    this.teams = this.teamService.getTeams(this.shared.getChampionshipId(this.route));
+    this.teams = this.teamService.getTeams(SharedService.getChampionshipId(this.route));
   }
 }

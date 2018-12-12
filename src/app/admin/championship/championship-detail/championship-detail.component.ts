@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Championship } from '../../../entities/championship/championship';
-import { ChampionshipService } from '../../../entities/championship/championship.service';
-import { SharedService } from '../../../shared/shared.service';
-import { League } from '../../../entities/league/league';
+import { Championship, League } from '@app/core/models';
+import { ChampionshipService } from '@app/core/services';
+import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({
   selector: 'fm-championship-detail',
@@ -39,7 +38,7 @@ export class ChampionshipDetailComponent implements OnInit {
         duration: 3000
       });
     },
-      err => this.sharedService.getUnprocessableEntityErrors(this.championshipForm, err)
+      err => SharedService.getUnprocessableEntityErrors(this.championshipForm, err)
     );
   }
 

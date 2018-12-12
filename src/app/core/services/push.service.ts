@@ -4,8 +4,11 @@ import { SwPush, SwUpdate } from '@angular/service-worker';
 import { take, defaultIfEmpty } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { PushSubscription, User } from '../models';
-import { PushSubscriptionService, NotificationService, ApplicationService, AuthService } from './';
-import { WindowRef } from '../../core/WindowRef';
+import { PushSubscriptionService } from './push-subscription.service';
+import { NotificationService } from './notification.service';
+import { ApplicationService } from './application.service';
+import { AuthService } from './auth.service';
+import { WindowRefService } from './window-ref.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
@@ -20,7 +23,7 @@ export class PushService {
     private app: ApplicationService,
     private auth: AuthService,
     private swUpdate: SwUpdate,
-    private winRef: WindowRef
+    private winRef: WindowRefService
   ) {
     this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt

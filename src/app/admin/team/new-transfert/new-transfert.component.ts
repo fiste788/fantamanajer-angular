@@ -1,22 +1,13 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { NgForm } from '@angular/forms';
-import { SharedService } from '../../../shared/shared.service';
-import { ApplicationService } from '../../../core/application.service';
-import { Member } from '../../../entities/member/member';
-import { TransfertService } from '../../../entities/transfert/transfert.service';
-import { MemberService } from '../../../entities/member/member.service';
-import { Team } from '../../../entities/team/team';
-import { Transfert } from '../../../entities/transfert/transfert';
-import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import { SharedService } from '@app/shared/services/shared.service';
+import { ApplicationService, TransfertService, MemberService } from '@app/core/services';
+import { Member, Team, Transfert } from '@app/core/models';
+import { ConfirmationDialogComponent } from '@app/modules/confirmation-dialog/modals/confirmation-dialog.component';
 
 @Component({
   selector: 'fm-new-transfert',
@@ -101,7 +92,7 @@ export class NewTransfertComponent implements OnInit {
         duration: 3000
       });
     },
-      err => this.sharedService.getUnprocessableEntityErrors(this.transfertForm, err)
+      err => SharedService.getUnprocessableEntityErrors(this.transfertForm, err)
     );
   }
 

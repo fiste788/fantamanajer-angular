@@ -18,10 +18,10 @@ const routes: Routes = [
     },
     children: [
       { path: '', redirectTo: 'teams', pathMatch: 'full' },
-      { path: 'articles', loadChildren: 'app/entities/article/article.module#ArticleModule', data: { state: 'articles' } },
-      { path: 'teams', loadChildren: 'app/entities/team/team.module#TeamModule', data: { state: 'teams' } },
-      { path: 'members', loadChildren: 'app/entities/member/member.module#MemberModule', data: { state: 'members' } },
-      { path: 'ranking', loadChildren: 'app/entities/score/score.module#ScoreModule', data: { state: 'ranking' } },
+      { path: 'articles', loadChildren: 'app/modules/article/article.module#ArticleModule', data: { state: 'articles' } },
+      { path: 'teams', loadChildren: 'app/modules/team/team.module#TeamModule', data: { state: 'teams' } },
+      { path: 'members', loadChildren: 'app/modules/member/member.module#MemberModule', data: { state: 'members' } },
+      { path: 'ranking', loadChildren: 'app/modules/score/score.module#ScoreModule', data: { state: 'ranking' } },
       { path: 'stream', component: ChampionshipStreamComponent, data: { state: 'stream' } },
       {
         path: 'admin',
