@@ -18,7 +18,6 @@ export class ChampionshipDetailComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private sharedService: SharedService,
     private championshipService: ChampionshipService) { }
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class ChampionshipDetailComponent implements OnInit {
     );
   }
 
-  formatLabel(value) {
+  formatLabel(value: number) {
     return value + '%';
   }
 

@@ -10,16 +10,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from '@app/shared/layout/layout.module';
 import { MainComponent } from '@app/shared/layout/main/main.component';
 import { HomeComponent } from './home/home.component';
-import 'hammerjs';
+// import 'hammerjs';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [
+    HomeComponent
+  ],
   imports: [
-    BrowserAnimationsModule,
+    // angular
     BrowserModule,
+    BrowserAnimationsModule,
+
+    // 3rd party
+    LayoutModule,
+
+    // core & shared
     CoreModule,
     SharedModule,
-    LayoutModule,
+
+    // app
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule
   ],

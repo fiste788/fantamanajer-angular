@@ -22,7 +22,6 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
 export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) nav: MatSidenav;
   @ViewChild(MatSidenavContent) container: MatSidenavContent;
-  // @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
@@ -31,7 +30,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   scrollDirection = 'up';
   private lastScrollTop = 0;
   private subscription: Subscription;
-  private mqAlias: string;
 
   constructor(
     public media: ObservableMedia,

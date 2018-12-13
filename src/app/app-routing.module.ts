@@ -30,6 +30,12 @@ export const routes: Routes = [
     data: { state: 'team' }
   },
   {
+    path: 'articles',
+    loadChildren: 'app/modules/article/article.module#ArticleModule',
+    canActivate: [AuthGuard],
+    data: { state: 'article' }
+  },
+  {
     path: 'scores',
     loadChildren: 'app/modules/score/score.module#ScoreModule',
     canActivate: [AuthGuard],

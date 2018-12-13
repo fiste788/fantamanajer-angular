@@ -31,8 +31,7 @@ export class EditMembersComponent implements OnInit {
   constructor(private teamService: TeamService,
     private memberService: MemberService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private sharedService: SharedService) {
+    private snackBar: MatSnackBar) {
     this.roles.set(new Role(1, 'P'), { count: 3, label: 'Portiere' });
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
     this.roles.set(new Role(3, 'C'), { count: 8, label: 'Centrocampista' });

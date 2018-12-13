@@ -40,7 +40,7 @@ const routes: Routes = [
           { path: 'transferts', loadChildren: 'app/modules/transfert/transfert.module#TransfertModule', data: { state: 'transfert' }, },
           {
             path: 'admin',
-            loadChildren: 'app/admin/team/team.module#TeamModule',
+            loadChildren: 'app/modules/admin-team/admin-team.module#AdminTeamModule',
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' }
           }

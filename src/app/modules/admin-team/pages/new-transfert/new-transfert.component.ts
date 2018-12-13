@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { NgForm } from '@angular/forms';
 import { SharedService } from '@app/shared/services/shared.service';
-import { ApplicationService, TransfertService, MemberService } from '@app/core/services';
+import { TransfertService, MemberService } from '@app/core/services';
 import { Member, Team, Transfert } from '@app/core/models';
 import { ConfirmationDialogComponent } from '@app/modules/confirmation-dialog/modals/confirmation-dialog.component';
 
@@ -25,8 +25,6 @@ export class NewTransfertComponent implements OnInit {
   constructor(
     public snackBar: MatSnackBar,
     private transfertService: TransfertService,
-    private sharedService: SharedService,
-    private app: ApplicationService,
     private changeRef: ChangeDetectorRef,
     private memberService: MemberService,
     private route: ActivatedRoute,

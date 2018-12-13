@@ -23,8 +23,7 @@ export class ScoreEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private scoreService: ScoreService,
-    private snackBar: MatSnackBar,
-    private shared: SharedService) { }
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {

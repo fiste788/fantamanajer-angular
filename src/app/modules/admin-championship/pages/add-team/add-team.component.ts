@@ -18,7 +18,6 @@ export class AddTeamComponent implements OnInit {
 
   constructor(private teamService: TeamService,
     private snackBar: MatSnackBar,
-    private sharedService: SharedService,
     private router: Router,
     private route: ActivatedRoute) { }
 
