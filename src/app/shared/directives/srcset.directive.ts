@@ -20,6 +20,9 @@ export class SrcsetDirective implements OnInit {
         const lastKey = keys.pop();
         const src = this.fmSrcset[lastKey];
         const width = parseInt(lastKey.substring(0, lastKey.indexOf('w')), 10);
+        if (this.el.nativeElement.sizes === '') {
+          this.el.nativeElement.sizes = '(max-width: ' + width + 'px) 100vw, ' + width + 'px';
+        }
         this.el.nativeElement.src = src;
         /*this.el.nativeElement.sizes =
           '(max-width: ' + width + 'px) 100vw, ' + width + 'px';*/

@@ -5,6 +5,7 @@
 
 
         <mat-form-field floatLabel="never">
+            <mat-label>Ruolo</mat-label>
             <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
                 <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
             </mat-select>

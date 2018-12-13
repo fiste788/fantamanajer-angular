@@ -1,6 +1,7 @@
 <div *ngIf="lineup">
     <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="left left">
         <mat-form-field>
+            <mat-label>Modulo</mat-label>
             <mat-select #module="ngModel" [disabled]="disabled" name="module" [(ngModel)]="lineup.module_object"
                 placeholder="Modulo">
                 <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
@@ -26,7 +27,8 @@
     <div>
         <h5>Capitani</h5>
         <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly start">
-            <mat-form-field *ngFor="let captain of captains | keyvalue">
+            <mat-form-field *ngFor="let captain of captains | keyvalue" appearance="standard">
+                <mat-label>{{captain.key}}</mat-label>
                 <mat-select [disabled]="disabled" [(ngModel)]="lineup[captain.value + '_id']" [placeholder]="captain.key"
                     [name]="captain.key">
                     <mat-option *ngFor="let member of getCapitanables(lineup)" [disabled]="isCaptainAlreadySelected(lineup, member)"

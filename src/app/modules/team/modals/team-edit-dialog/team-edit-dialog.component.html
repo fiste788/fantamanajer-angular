@@ -2,10 +2,12 @@
 <div mat-dialog-content>
     <div *ngIf="app.matchday.number <= 3">
         <mat-form-field>
+            <mat-label>Nome squadra</mat-label>
             <input matInput required [(ngModel)]="team.name" name="name" placeholder="Nome">
         </mat-form-field>
     </div>
-    <div ng2FileDrop [class.nv-file-over]="hasBaseDropZoneOver" (fileOver)="fileOver($event)" [uploader]="uploader" class="well my-drop-zone">
+    <div ng2FileDrop [class.nv-file-over]="hasBaseDropZoneOver" (fileOver)="fileOver($event)" [uploader]="uploader"
+        class="well my-drop-zone">
         <label for="upload-img">Clicca o trascina il file quì per caricare l'immagine</label>
         <span *ngIf="uploader.queue.length">
             <br>File {{uploader.queue[0].file?.name}} pronto per essere caricato</span>

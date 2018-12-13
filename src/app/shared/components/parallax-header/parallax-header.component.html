@@ -2,8 +2,8 @@
     <div class="parallax">
         <div class="parallax-header-img">
             <div>
-                <img (load)="initialScroll($event)" sizes="(max-width: {{width}}px) 100vw, {{width}}px" [lazyLoad]="backgroundImage | srcset"
-                    [useSrcset]="true" defaultImage="//via.placeholder.com/1200x800" [alt]="title">
+                <img (load)="initialScroll($event)" sizes="" [fmSrcset]="backgroundImage" placeholder="//via.placeholder.com/1200x800"
+                    [alt]="title">
             </div>
         </div>
         <div class="parallax-header-title-container">

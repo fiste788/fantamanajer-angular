@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { SrcsetPipe, PlaceholderPipe } from '@app/shared/pipes';
+import { RellaxDirective, SrcsetDirective } from '@app/shared/directives';
 import { MaterialModule } from './material.module';
 import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
-import { SrcsetPipe, PlaceholderPipe } from '@app/core/pipes';
-import { RellaxDirective, SrcsetDirective } from '@app/core/directives';
 import { SharedService } from './services';
 
 @NgModule({

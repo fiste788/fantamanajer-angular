@@ -17,6 +17,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material';
+
+const formFieldDefaults: MatFormFieldDefaultOptions = {
+    appearance: 'outline'
+};
 
 @NgModule({
     imports: [
@@ -58,6 +63,9 @@ import { MatRippleModule } from '@angular/material/core';
         MatTooltipModule,
         MatRippleModule,
         ScrollingModule
+    ],
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults }
     ]
 })
 export class MaterialModule { }

@@ -7,6 +7,7 @@
                     Login
                 </mat-card-title>
                 <mat-form-field>
+                    <mat-label>Email</mat-label>
                     <input matInput type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email"
                         #username="ngModel" required>
                     <mat-error *ngIf="username.hasError('email')">
@@ -19,6 +20,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
+                    <mat-label>Password</mat-label>
                     <input matInput [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password"
                         #password="ngModel" required>
                 </mat-form-field>

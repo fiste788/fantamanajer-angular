@@ -6,7 +6,8 @@
                 <div parallax-header-right>
                     <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team.id + '/transferts'"
                         [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
-                    <mat-form-field [class.white]="media.isActive('gt-sm')">
+                    <mat-form-field appearance="standard" [class.white]="media.isActive('gt-sm')">
+                        <mat-label>Stagione</mat-label>
                         <mat-select (selectionChange)='seasonChange()' placeholder="Stagione" [(ngModel)]="selectedMember">
                             <mat-option *ngFor="let member of player.members" [value]="member">{{ member.season.name }}</mat-option>
                         </mat-select>
