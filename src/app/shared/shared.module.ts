@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule, DEFAULT_BREAKPOINTS, BREAKPOINTS } from '@angular/flex-layout';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
 import { SrcsetPipe, PlaceholderPipe } from '@app/shared/pipes';
@@ -13,6 +13,12 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
 import { SharedService } from './services';
 
+export const BreakPointsProvider = {
+  provide: BREAKPOINTS,
+  useValue: DEFAULT_BREAKPOINTS,
+  multi: true
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +26,7 @@ import { SharedService } from './services';
     RouterModule,
     MaterialModule,
 
+    FlexLayoutModule,
     McBreadcrumbsModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset

@@ -18,6 +18,8 @@ export class ScoreEditComponent implements OnInit {
 
   @ViewChild(NgForm) scoreForm: NgForm;
   public team: Team;
+  public penality: boolean;
+  public selectedScore: Score;
   public score: Observable<Score>;
   public scores: Observable<Score[]>;
 
@@ -33,10 +35,11 @@ export class ScoreEditComponent implements OnInit {
   }
 
   getScore(event: MatSelectChange) {
-    this.score = this.scoreService.getScore(event.value.id, true); // .pipe(map(score => score.lineup = score.lineup || new Lineup()));
+    this.selectedScore = event.value;
+    this.score = this.scoreService.getScore(this.selectedScore.id, true);
   }
 
-  save(score) {
+  save(score: Score) {
     score.lineup.module = score.lineup.module_object.key;
     score.lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     this.scoreService.update(score).subscribe(response => {

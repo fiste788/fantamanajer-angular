@@ -19,7 +19,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @HostBinding('@createBox') createBox = '';
-  @Input('value') val: Member;
+  @Input() value: Member;
   @Input() name: string;
   @Input() disabled: boolean;
   @Input() required: boolean;
@@ -44,30 +44,30 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  get value() {
-    return this.val;
+  get val() {
+    return this.value;
   }
 
-  set value(val) {
-    this.val = val;
+  set val(val) {
+    this.value = val;
     this.onChange(val);
     this.onTouched();
     this.cd.detectChanges();
   }
 
-  change(event) {
+  change(event: MatSelectChange) {
     this.selectionChange.emit(event);
   }
 
-  registerOnChange(fn) {
+  registerOnChange(fn: (_: any) => void) {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn) {
+  registerOnTouched(fn: (_: any) => void) {
     this.onTouched = fn;
   }
 
-  writeValue(value) {
+  writeValue(value: Member) {
     this.value = value;
   }
 

@@ -51,7 +51,9 @@ export class LineupLastComponent implements OnDestroy {
       obs = this.lineupService.create(lineup);
     }
     this.subscription = obs.subscribe(response => {
-      lineup.id = response.id;
+      if (response.id) {
+        lineup.id = response.id;
+      }
       this.snackBar.open(message, null, {
         duration: 3000
       });

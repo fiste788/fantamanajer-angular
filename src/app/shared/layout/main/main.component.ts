@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import * as Hammer from 'hammerjs';
@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   private subscription: Subscription;
 
   constructor(
-    public media: ObservableMedia,
+    public media: MediaObserver,
     public shared: SharedService,
     private changeRef: ChangeDetectorRef,
     private ngZone: NgZone
@@ -60,7 +60,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.media.subscribe((observer: MediaChange) => {
+    this.media.media$.subscribe((observer: MediaChange) => {
       if (observer.mqAlias === 'sm' || observer.mqAlias === 'xs') {
         if (!this.subscription) {
           const el: HTMLElement = this.toolbarEl.nativeElement;
@@ -68,8 +68,10 @@ export class MainComponent implements OnInit, AfterViewInit {
         }
       } else {
         this.scrollDirection = 'up';
-        this.subscription.unsubscribe();
-        this.subscription = undefined;
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+          this.subscription = undefined;
+        }
       }
     });
     this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
