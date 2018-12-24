@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  handleError(error) {
+  handleError(error: any) {
     if (error && error.message) {
       // const message = error.json().data.message;
       const message = error.message;
