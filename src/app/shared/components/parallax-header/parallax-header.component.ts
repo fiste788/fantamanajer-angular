@@ -3,7 +3,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { MainComponent } from '@app/shared/layout/main/main.component';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'fm-parallax-header',
@@ -22,7 +21,7 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges, OnDest
   public width = 0;
   private subscription: Subscription;
 
-  constructor(public main: MainComponent, private router: Router, private scroller: ScrollDispatcher) {
+  constructor(public main: MainComponent, private router: Router) {
     this.subscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {

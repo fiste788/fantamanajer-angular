@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query, stagger, keyframes } from '@angular/animations';
+import { trigger, style, transition, animate, query, keyframes } from '@angular/animations';
 
 export const CreateBoxAnimation = trigger('createBox', [
     transition(':enter', [

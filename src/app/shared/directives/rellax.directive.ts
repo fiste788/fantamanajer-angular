@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Renderer2,
   NgZone,
+  HostBinding,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 // import * as Rellax from 'rellax';
@@ -15,6 +16,8 @@ import { fromEvent, Subscription } from 'rxjs';
   selector: '[fmRellax]'
 })
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
+  @HostBinding('style.will-change') will = 'transform';
+  @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   private options: any;
   @Input() speed = -2;
   @Input() center = false;
@@ -23,7 +26,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private block;
   private posY = 0;
-  private screenY = 0;
   private pause = false;
   private scrollableElement: Element;
   private frame;
@@ -75,12 +77,11 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  clamp(num, min, max) {
+  clamp(num: number, min: number, max: number) {
     return num <= min ? min : num >= max ? max : num;
   }
 
   init() {
-    this.screenY = window.innerHeight;
     this.setPosition();
     // Get and cache initial position of all elements
     this.block = this.createBlock(this.el.nativeElement);

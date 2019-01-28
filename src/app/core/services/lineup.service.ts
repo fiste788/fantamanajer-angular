@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Lineup, Member } from '../models';
-import { SharedService } from '@app/shared/services';
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
   private url = 'lineups';
 
-  constructor(
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private shared: SharedService
-  ) { }
+  constructor(private http: HttpClient) { }
 
   getLineup(
     team_id

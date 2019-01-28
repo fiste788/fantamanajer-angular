@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
+import { Observable, of } from 'rxjs';
 import { Selection, Member } from '@app/core/models';
 import { SelectionService, MemberService, ApplicationService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-selection',
@@ -13,11 +15,11 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
-  @ViewChild(MatSelect) newMember: MatSelect;
+  @ViewChild('newMember') newMember: MatSelect;
   @ViewChild(NgForm) selectionForm: NgForm;
 
   selection: Selection = new Selection();
-  members: Member[];
+  members: Observable<Member[]>;
   newMembers: Member[];
 
   constructor(
@@ -37,26 +39,27 @@ export class SelectionComponent implements OnInit {
         this.playerChange();
       }
     });
-    this.memberService.getByTeamId(team_id).subscribe(members => {
-      this.members = members;
-      const buyingMember = localStorage.getItem('buyingMember');
-      if (buyingMember) {
-        localStorage.removeItem('buyingMember');
-        const member = JSON.parse(buyingMember);
-        this.memberService
-          .getFree(this.app.championship.id, member.role_id)
-          .subscribe(members2 => {
-            this.newMembers = members2;
-            this.selection.new_member = member;
-            this.selection.new_member_id = member.id;
-            this.newMember.disabled = false;
-            this.members.filter(function (value, index) {
-              return value.role_id === member.role_id;
+    this.members = this.memberService.getByTeamId(team_id).pipe(map(members => {
+      if (this.route.snapshot.queryParamMap.has('new_member_id')) {
+        const player = this.memberService.getById(parseInt(this.route.snapshot.queryParamMap.get('new_member_id'), 10));
+        player.subscribe(member => {
+          return this.memberService
+            .getFree(this.app.championship.id, member.role_id)
+            .subscribe(members2 => {
+              this.newMembers = members2;
+              this.selection.new_member = member;
+              this.selection.new_member_id = member.id;
+              this.newMember.disabled = false;
+              members = members.filter(value => value.role_id === member.role_id);
+              this.changeRef.detectChanges();
+              this.members = of(members);
             });
-            this.changeRef.detectChanges();
-          });
+        });
+
       }
-    });
+      return members;
+    }));
+
   }
 
   playerChange() {
@@ -90,7 +93,7 @@ export class SelectionComponent implements OnInit {
       } else {
         obs = this.selectionService.create(selection);
       }
-      obs.subscribe(response => {
+      obs.subscribe((response: any) => {
         this.snackBar.open('Selezione salvata correttamente', null, {
           duration: 3000
         });

@@ -1,4 +1,4 @@
-<form #selectionForm="ngForm" (ngSubmit)="save()">
+<form #selectionForm="ngForm" (ngSubmit)="save()" *ngIf="members | async as members">
     <mat-form-field>
         <mat-label>Vecchio giocatore</mat-label>
         <mat-select [compareWith]="compareFn" required (selectionChange)="playerChange()" [(ngModel)]="selection.old_member"

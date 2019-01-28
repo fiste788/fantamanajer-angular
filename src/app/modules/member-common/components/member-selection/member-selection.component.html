@@ -9,7 +9,7 @@
 </div>
 <mat-form-field hideRequiredMarker="true" floatLabel="never" appearance="standard">
   <mat-select [disabled]="disabled" [placeholder]="placeholder" [attr.required]="required ? 'required' : null"
-    [(ngModel)]="value" [name]="name" (selectionChange)="change($event)">
+    [(ngModel)]="val" [name]="name" (selectionChange)="change($event)">
     <mat-option>{{placeholder}}</mat-option>
     <mat-select-trigger *ngIf="val">
       {{val.player.full_name}}

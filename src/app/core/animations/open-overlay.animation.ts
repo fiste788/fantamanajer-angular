@@ -1,6 +1,5 @@
 import { trigger, style, transition, animate, state, sequence, query, group } from '@angular/animations';
 
-const ANIMATION_TIMINGS = '250ms 1ms ease-out';
 export const OpenOverlayAnimation = trigger('openOverlayAnimation', [
     state('void', style({
         opacity: 0,

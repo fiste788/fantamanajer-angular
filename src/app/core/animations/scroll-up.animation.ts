@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query, state } from '@angular/animations';
+import { trigger, style, transition, animate, state } from '@angular/animations';
 
 export const ScrollUpAnimation = trigger('scrollUpAnimation', [
 

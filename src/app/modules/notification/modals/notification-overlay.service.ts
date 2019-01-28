@@ -16,9 +16,6 @@ export class NotificationOverlayService {
     // Instantiate remote control
     const dialogRef = new NotificationOverlayRef(overlayRef);
 
-    // Create ComponentPortal that can be attached to a PortalHost
-    const notificationList = new ComponentPortal(NotificationOverlayComponent);
-
     const overlayComponent = this.attachDialogContainer(overlayRef, dialogRef);
 
     dialogRef.componentInstance = overlayComponent;

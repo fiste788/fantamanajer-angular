@@ -12,7 +12,6 @@ import { WindowRefService } from './window-ref.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  private subscribed = false;
   @Output() beforeInstall: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
@@ -83,7 +82,7 @@ export class PushService {
         pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id).then(sub => {
           // Passing subscription object to our backend
           this.subscription.add(sub).subscribe(res => {
-            const snackBarRef = this.snackBar.open(
+            this.snackBar.open(
               'Now you are subscribed',
               null,
               {
@@ -102,7 +101,7 @@ export class PushService {
     this.swPush.subscription.pipe(take(1)).subscribe(pushSubscription => {
       // Delete the subscription from the backend
       this.subscription.delete(pushSubscription.endpoint).subscribe(res => {
-        const snackBarRef = this.snackBar.open(
+        this.snackBar.open(
           'Now you are unsubscribed',
           null,
           {

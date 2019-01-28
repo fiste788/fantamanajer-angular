@@ -27,7 +27,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
   @ViewChild('pan', { read: ElementRef }) panEl: ElementRef;
   private disableScrollAnimation = false;
-  scrollDirection = 'up';
+  public scrollDirection = 'up';
   private lastScrollTop = 0;
   private subscription: Subscription;
 
@@ -48,33 +48,33 @@ export class MainComponent implements OnInit, AfterViewInit {
       }
     }
     const hammertime = new Hammer(this.panEl.nativeElement, {});
-    hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammertime.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
     hammertime.on('panright', (ev) => {
       this.nav.open();
     });
     hammertime.on('panleft', (ev) => {
       this.nav.close();
     });
-    hammertime.on('panup', (ev) => false);
-    hammertime.on('pandown', (ev) => false);
   }
 
   ngAfterViewInit() {
-    this.media.media$.subscribe((observer: MediaChange) => {
-      if (observer.mqAlias === 'sm' || observer.mqAlias === 'xs') {
-        if (!this.subscription) {
-          const el: HTMLElement = this.toolbarEl.nativeElement;
-          this.subscription = this.applyScrollAnimation(el.clientHeight);
+    this.ngZone.runOutsideAngular(() => {
+      this.media.media$.subscribe((observer: MediaChange) => {
+        if (observer.mqAlias === 'xs') {
+          if (!this.subscription) {
+            const el: HTMLElement = this.toolbarEl.nativeElement;
+            this.subscription = this.applyScrollAnimation(el.clientHeight);
+          }
+        } else {
+          this.scrollDirection = 'up';
+          if (this.subscription) {
+            this.subscription.unsubscribe();
+            this.subscription = undefined;
+          }
         }
-      } else {
-        this.scrollDirection = 'up';
-        if (this.subscription) {
-          this.subscription.unsubscribe();
-          this.subscription = undefined;
-        }
-      }
+      });
+      this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
     });
-    this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
   }
 
   applyScrollAnimation(height = 0): Subscription {
@@ -96,7 +96,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private setScrollDirection(sd) {
+  private setScrollDirection(sd: string) {
     if (this.scrollDirection !== sd) {
       this.scrollDirection = sd;
       this.changeRef.detectChanges();
@@ -113,7 +113,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   closeSidenav() {
-    if (this.nav && this.media.isActive('xs')) {
+    if (this.nav && this.nav.mode === 'over') {
       this.nav.close();
     }
   }

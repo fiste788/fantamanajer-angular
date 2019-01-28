@@ -1,21 +1,17 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SharedService } from '@app/shared/services/shared.service';
 import { ScoreService } from '@app/core/services';
 import { Score, Disposition } from '@app/core/models';
-import { TableRowAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-score-detail',
   templateUrl: './score-detail.component.html',
-  styleUrls: ['./score-detail.component.scss'],
-  animations: [TableRowAnimation]
+  styleUrls: ['./score-detail.component.scss']
 })
 export class ScoreDetailComponent implements OnInit {
-  @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-
   score: Observable<Score>;
   regular: Disposition[];
   notRegular: Disposition[];

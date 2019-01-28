@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { SharedService } from '@app/shared/services';
 import { Observable } from 'rxjs';
 import { Article, PagedResponse } from '../models';
 
@@ -9,11 +7,7 @@ import { Article, PagedResponse } from '../models';
 export class ArticleService {
   private url = 'articles';
 
-  constructor(
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private shared: SharedService
-  ) { }
+  constructor(private http: HttpClient) { }
 
   getArticles(page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);

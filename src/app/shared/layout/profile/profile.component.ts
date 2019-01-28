@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Injector } from '@angular/core';
 import { AuthService, ApplicationService } from '@app/core/services';
 import { Team } from '@app/core/models';
 import { Router } from '@angular/router';
@@ -11,9 +11,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  loadImage: Observable<void>;
+  loadImage: Observable<void | Event>;
+  main: MainComponent;
 
-  constructor(public main: MainComponent,
+  constructor(private injector: Injector,
     public auth: AuthService,
     public app: ApplicationService,
     private router: Router,
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.main = this.injector.get(MainComponent);
     this.loadImage = this.main.nav.openedStart;
   }
 
@@ -28,6 +30,10 @@ export class ProfileComponent implements OnInit {
     this.main.closeSidenav();
     this.app.setCurrentTeam(team).then(() => this.changeRef.detectChanges());
     this.router.navigateByUrl('/teams/' + team.id);
+  }
+
+  load(success: boolean) {
+    console.log(success);
   }
 
 }

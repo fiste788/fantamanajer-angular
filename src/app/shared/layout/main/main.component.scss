@@ -8,14 +8,20 @@ main {
   width: 100%;
   height: max-content;
   padding-bottom: 1rem;
+  position: absolute;
+  top: 0;
 }
 
 .mat-sidenav-content {
-  display: flex;
   height: 100%;
   padding-top: 4rem;
   height: calc(100% - 4rem) !important;
   overflow-x: hidden;
+}
+
+.mat-sidenav-content.down {
+  padding-top: 0;
+  height: 100% !important;
 }
 
 .pan {
@@ -30,12 +36,22 @@ main {
     padding-top: 3.5rem;
     height: calc(100% - 3.5rem) !important;
   }
+
+  main {
+    padding-top: 3.5rem;
+  }
+
+  .speed-dial,
+  fm-toolbar {
+    will-change: transform;
+  }
 }
 @media (min-width: 600px) {
   .container {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
+    position: relative;
   }
 
   .pan {

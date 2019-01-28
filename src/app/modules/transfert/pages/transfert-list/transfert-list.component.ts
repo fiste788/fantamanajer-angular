@@ -23,7 +23,6 @@ export class TransfertListComponent implements OnInit {
   constructor(
     private transfertService: TransfertService,
     private route: ActivatedRoute,
-    private sharedService: SharedService,
     private ref: ChangeDetectorRef,
     public app: ApplicationService
   ) { }

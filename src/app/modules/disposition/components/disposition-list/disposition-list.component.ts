@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Disposition, Lineup } from '@app/core/models';
 import { TableRowAnimation } from '@app/core/animations';
@@ -29,7 +29,7 @@ export class DispositionListComponent implements OnInit {
     'points'
   ];
 
-  constructor(private changeRef: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit() {
     if (this.lineup) {

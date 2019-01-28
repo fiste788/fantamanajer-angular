@@ -43,4 +43,8 @@ export class MemberService {
   getByClubId(club_id: number): Observable<Member[]> {
     return this.http.get<Member[]>('clubs/' + club_id + '/' + this.url);
   }
+
+  getById(id: number): Observable<Member> {
+    return this.http.get<Member>(this.url + '/' + id);
+  }
 }
