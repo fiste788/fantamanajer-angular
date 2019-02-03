@@ -3,6 +3,10 @@
   max-width: calc(100% - 54px);
 }
 
+.mat-sidenav-container {
+  z-index: auto;
+}
+
 main {
   max-width: 100%;
   width: 100%;

@@ -1,9 +1,9 @@
+<fm-toolbar #toolbar [@scrollUpAnimation]="scrollDirection"></fm-toolbar>
 <mat-sidenav-container class="hundred">
   <mat-sidenav #nav [opened]="media.isActive('gt-sm')" [mode]="media.isActive('lt-md') ? 'over' : 'side'">
     <fm-navbar></fm-navbar>
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="[scrollDirection]">
-    <fm-toolbar #toolbar [@scrollUpAnimation]="scrollDirection"></fm-toolbar>
     <main class="container">
       <div [@routerTransition]="getState(o)">
         <router-outlet #o="outlet"></router-outlet>
