@@ -1,10 +1,20 @@
-.mat-sidenav {
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
   width: 340px;
   max-width: calc(100% - 54px);
 }
 
-.mat-sidenav-container {
-  z-index: auto;
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 102;
 }
 
 main {
@@ -16,18 +26,6 @@ main {
   top: 0;
 }
 
-.mat-sidenav-content {
-  height: 100%;
-  padding-top: 4rem;
-  height: calc(100% - 4rem) !important;
-  overflow-x: hidden;
-}
-
-.mat-sidenav-content.down {
-  padding-top: 0;
-  height: 100% !important;
-}
-
 .pan {
   position: absolute;
   width: .5rem;
@@ -36,18 +34,13 @@ main {
   bottom: 0;
 }
 @media (max-width: 600px) {
-  .mat-sidenav-content {
-    padding-top: 3.5rem;
-    height: calc(100% - 3.5rem) !important;
-  }
-
-  main {
-    padding-top: 3.5rem;
-  }
-
   .speed-dial,
   fm-toolbar {
     will-change: transform;
+  }
+
+  main {
+    margin-top: 3.5rem;
   }
 }
 @media (min-width: 600px) {

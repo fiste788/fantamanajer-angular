@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.main = this.injector.get(MainComponent);
-    this.loadImage = this.main.nav.openedStart;
+    this.loadImage = this.main.drawer.openedStart;
   }
 
   setTeam(team: Team) {

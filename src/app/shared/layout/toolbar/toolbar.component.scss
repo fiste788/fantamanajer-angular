@@ -1,9 +1,8 @@
 :host {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
-  z-index: 2;
-  right: 0;
+  z-index: 102;
 }
 @media (min-width: 960px) {
   :host {

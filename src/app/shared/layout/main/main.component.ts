@@ -1,126 +1,147 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as Hammer from 'hammerjs';
 import { SharedService } from '@app/shared/services/shared.service';
-import { ScrollDownAnimation, ScrollUpAnimation, routerTransition } from '@app/core/animations';
+import { routerTransition, ScrollUpAnimation, ScrollDownAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, throttleTime, pairwise, distinctUntilChanged, share, filter } from 'rxjs/operators';
+import { VisibilityState } from './visibility-state';
+
+enum Direction {
+  Up = 'Up',
+  Down = 'Down'
+}
 
 @Component({
   selector: 'fm-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     routerTransition,
-    ScrollDownAnimation,
-    ScrollUpAnimation
+    ScrollUpAnimation,
+    ScrollDownAnimation
   ]
 })
 export class MainComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSidenav) nav: MatSidenav;
+  @ViewChild(MatSidenav) drawer: MatSidenav;
   @ViewChild(MatSidenavContent) container: MatSidenavContent;
   @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
   @ViewChild('pan', { read: ElementRef }) panEl: ElementRef;
-  private disableScrollAnimation = false;
-  public scrollDirection = 'up';
-  private lastScrollTop = 0;
-  private subscription: Subscription;
+  public scrollDirection = '';
+  private subscriptions: Subscription[] = [];
+  public isVisible = true;
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches)
+    );
 
-  constructor(
+  constructor(private breakpointObserver: BreakpointObserver,
     public media: MediaObserver,
     public shared: SharedService,
-    private changeRef: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private changeRef: ChangeDetectorRef
   ) {
 
   }
 
   ngOnInit() {
-    if (this.nav) {
-      this.nav.autoFocus = false;
-      if (this.media.isActive('lt-sm')) {
-        this.nav.close();
-      }
-    }
+    this.closeSidenav();
+    this.applySwipeSidenav();
+  }
+
+  applySwipeSidenav() {
     const hammertime = new Hammer(this.panEl.nativeElement, {});
     hammertime.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
     hammertime.on('panright', (ev) => {
-      this.nav.open();
+      this.drawer.open();
     });
     hammertime.on('panleft', (ev) => {
-      this.nav.close();
+      this.drawer.close();
     });
   }
 
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
-      this.media.media$.subscribe((observer: MediaChange) => {
-        if (observer.mqAlias === 'xs') {
-          if (!this.subscription) {
+      this.isHandset$.subscribe((res) => {
+        if (res) {
+          if (!this.subscriptions.length) {
             const el: HTMLElement = this.toolbarEl.nativeElement;
-            this.subscription = this.applyScrollAnimation(el.clientHeight);
+            this.subscriptions = this.applyScrollAnimation(el.clientHeight);
           }
         } else {
           this.scrollDirection = 'up';
-          if (this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = undefined;
+          if (this.subscriptions.length) {
+            this.subscriptions.forEach((sub) => sub.unsubscribe());
+            this.subscriptions = [];
           }
         }
       });
-      this.toolbar.clickToggleNav.subscribe(() => this.nav.toggle());
     });
   }
 
-  applyScrollAnimation(height = 0): Subscription {
-    return this.container.elementScrolled().subscribe((scrolled: Event) => {
-      const st = scrolled.srcElement.scrollTop;
-      if (!this.disableScrollAnimation) {
-        if (st > height && st !== this.lastScrollTop) {
-          if (st > this.lastScrollTop) {
-            this.setScrollDirection('down');
-            this.speedDial.openSpeeddial = false;
-          } else {
-            this.setScrollDirection('up');
-          }
-          this.lastScrollTop = st;
-        }
-      } else {
-        this.lastScrollTop = st;
-      }
-    });
+  get toggle(): VisibilityState {
+    return this.isVisible ? VisibilityState.Visible : VisibilityState.Hidden;
   }
 
-  private setScrollDirection(sd: string) {
-    if (this.scrollDirection !== sd) {
-      this.scrollDirection = sd;
+  applyScrollAnimation(offset = 0): Subscription[] {
+    const subs: Subscription[] = [];
+    const scroll$ = this.container.elementScrolled().pipe(
+      throttleTime(10),
+      map(() => this.container.measureScrollOffset('top')),
+      filter((y) => y >= offset),
+      pairwise(),
+      map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
+      distinctUntilChanged(),
+      share()
+
+    );
+
+    const goingUp$ = scroll$.pipe(
+      filter(direction => direction === Direction.Up)
+    );
+
+    const goingDown$ = scroll$.pipe(
+      filter(direction => direction === Direction.Down)
+    );
+
+    subs.push(goingUp$.subscribe(() => {
+      this.scrollDirection = Direction.Up.toLowerCase();
+      this.isVisible = true;
       this.changeRef.detectChanges();
-    }
+    }));
+
+    subs.push(goingDown$.subscribe(() => {
+      this.scrollDirection = Direction.Down.toLowerCase();
+      this.isVisible = false;
+      this.speedDial.openSpeeddial = false;
+      this.changeRef.detectChanges();
+    }));
+    return subs;
   }
 
   scrollTo(x: number = 0, y: number = 0) {
-    if (this.container.getElementRef().nativeElement.scrollTop === 0) {
-      this.disableScrollAnimation = true;
-      this.container.scrollTo({ top: y, left: x });
-      this.disableScrollAnimation = false;
-    }
+    // if (this.container.measureScrollOffset('top') === 0) {
+    this.container.scrollTo({ top: y, left: x });
+    // }
 
   }
 
   closeSidenav() {
-    if (this.nav && this.nav.mode === 'over') {
-      this.nav.close();
+    if (this.drawer && this.drawer.mode === 'over') {
+      this.drawer.autoFocus = false;
+      this.drawer.close();
     }
   }
 
   getState(outlet: RouterOutlet) {
-    // Changing the activatedRouteData.state triggers the animation
     return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
-    // return outlet.activatedRouteData.state;
   }
 }
