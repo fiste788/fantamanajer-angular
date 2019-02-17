@@ -5,7 +5,7 @@ import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { Subscription, Observable } from 'rxjs';
 import * as Hammer from 'hammerjs';
 import { SharedService } from '@app/shared/services/shared.service';
-import { routerTransition, ScrollUpAnimation, ScrollDownAnimation } from '@app/core/animations';
+import { routerTransition, ScrollUpAnimation, CloseAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -25,7 +25,7 @@ enum Direction {
   animations: [
     routerTransition,
     ScrollUpAnimation,
-    ScrollDownAnimation
+    CloseAnimation
   ]
 })
 export class MainComponent implements OnInit, AfterViewInit {
@@ -49,10 +49,12 @@ export class MainComponent implements OnInit, AfterViewInit {
     private ngZone: NgZone,
     private changeRef: ChangeDetectorRef
   ) {
-
   }
 
   ngOnInit() {
+    if (this.drawer) {
+      this.drawer.openedStart.subscribe(() => this.changeRef.detectChanges());
+    }
     this.closeSidenav();
     this.applySwipeSidenav();
   }
@@ -62,9 +64,11 @@ export class MainComponent implements OnInit, AfterViewInit {
     hammertime.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
     hammertime.on('panright', (ev) => {
       this.drawer.open();
+      this.changeRef.detectChanges();
     });
     hammertime.on('panleft', (ev) => {
       this.drawer.close();
+      this.changeRef.detectChanges();
     });
   }
 
@@ -77,7 +81,8 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.subscriptions = this.applyScrollAnimation(el.clientHeight);
           }
         } else {
-          this.scrollDirection = 'up';
+          this.isVisible = true;
+          this.scrollDirection = Direction.Up.toLowerCase();
           if (this.subscriptions.length) {
             this.subscriptions.forEach((sub) => sub.unsubscribe());
             this.subscriptions = [];

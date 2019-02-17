@@ -28,7 +28,6 @@ export class PushService {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
-      console.log('beforeinstall');
       this.beforeInstall.emit(e);
     });
     this.checkForUpdates();
@@ -44,8 +43,8 @@ export class PushService {
         event.available
       );
       const snackBarRef = this.snackBar.open(
-        'Newer version of the app is available',
-        'Refresh'
+        'Nuova versione dell\'app disponibile',
+        'Aggiorna'
       );
 
       snackBarRef.onAction().subscribe(() => {
@@ -55,7 +54,6 @@ export class PushService {
   }
 
   initializeUser(user?: User) {
-    console.log('initialize user');
     if (user && environment.production) {
       this.subscribeToPush();
       this.showMessages();
@@ -63,7 +61,6 @@ export class PushService {
   }
 
   subscribeToPush() {
-    console.log('subscribe to push');
     this.swPush.subscription.pipe(defaultIfEmpty(null)).subscribe(subs => {
       if (!subs) {
         this.requestSubscription();
@@ -72,7 +69,6 @@ export class PushService {
   }
 
   private requestSubscription() {
-    console.log('request sub');
     this.swPush
       .requestSubscription({
         serverPublicKey: environment.vapidPublicKey
