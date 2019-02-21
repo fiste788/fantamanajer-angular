@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { ApplicationService } from '@app/core/services';
 import { TableRowAnimation, EnterDetailAnimation } from '@app/core/animations';
 import { Member, Player, Rating } from '@app/core/models';
+import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
 @Component({
   selector: 'fm-player',
@@ -40,6 +41,17 @@ export class PlayerComponent {
     'quotation'
   ];
 
+  public chart: GoogleChartInterface = {
+    chartType: 'Line',
+    options: {
+      height: 320,
+      backgroundColor: 'transparent',
+      animation: { startup: true },
+      vAxis: { minValue: 0 },
+      chart: { title: 'Statistiche' }
+    }
+  };
+
   constructor(
     public media: MediaObserver,
     private changeRef: ChangeDetectorRef,
@@ -59,8 +71,23 @@ export class PlayerComponent {
       this.changeRef.detectChanges();
     }
     this.dataSource = new MatTableDataSource<Rating>(this.selectedMember.ratings);
+    this.drawGraph();
     this.changeRef.detectChanges();
     this.dataSource.sort = this.sort;
+  }
+
+  drawGraph() {
+    const dataTable = [];
+    dataTable.push(['Matchdays', 'Rating', 'Points']);
+    this.selectedMember.ratings.filter(rating => rating.valued).forEach(rating => {
+      dataTable.push([rating.matchday.number, rating.rating, rating.points]);
+    });
+    this.chart.dataTable = dataTable;
+    const ccComponent = this.chart.component;
+    // force a redraw
+    if (ccComponent) {
+      ccComponent.draw();
+    }
   }
 
   buy() {

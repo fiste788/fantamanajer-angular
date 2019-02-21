@@ -9,7 +9,7 @@
                     <a *ngIf="selectedMember.free" (click)="buy()"
                         [routerLink]="'/teams/' + app.team.id + '/transferts'"
                         [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
-                    <mat-form-field appearance="standard" [class.white]="media.isActive('xs')">
+                    <mat-form-field appearance="standard" [class.white]="media.isActive('gt-xs')">
                         <mat-label>Stagione</mat-label>
                         <mat-select (selectionChange)='seasonChange()' placeholder="Stagione"
                             [(ngModel)]="selectedMember">
@@ -112,6 +112,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </div>
+    <google-chart [data]="chart" style="padding: 1rem"></google-chart>
 </div>
 <ng-template #loading>
     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>

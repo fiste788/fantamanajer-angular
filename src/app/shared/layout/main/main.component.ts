@@ -53,7 +53,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.drawer) {
-      this.drawer.openedStart.subscribe(() => this.changeRef.detectChanges());
+      this.drawer.openedStart.subscribe(() => { console.log('start'); this.changeRef.detectChanges(); });
     }
     this.closeSidenav();
     this.applySwipeSidenav();
