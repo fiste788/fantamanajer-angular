@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models';
 import { UserService } from './user.service';
+import { CredentialService } from './credential.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,7 +15,7 @@ export class AuthService {
   private ADMIN_ROLE = 'ROLE_ADMIN';
   private USER_ROLE = 'ROLE_USER';
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private credentialService: CredentialService) {
     localStorage.removeItem('currentUser');
     this.token = localStorage.getItem(this.TOKEN_ITEM_NAME);
     if (!this.token) {
@@ -42,6 +43,10 @@ export class AuthService {
         return false;
       }
     }));
+  }
+
+  tokenLogin(email: string) {
+    this.credentialService.credentialRequest(email);
   }
 
   getToken(): string {

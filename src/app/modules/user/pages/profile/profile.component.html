@@ -21,7 +21,10 @@
                 name="repeat_password" type="password" placeholder="Ripeti password">
         </mat-form-field>
 
-        <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push
+        </mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="fingerprint" (change)="toggleFingerprint()" name="active_fingerprint">Accesso
+            tramite impronta</mat-slide-toggle>
         <button color="accent" mat-raised-button (click)="save()">Salva</button>
     </form>
 </div>

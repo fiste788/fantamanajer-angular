@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  login(email, password, remember_me = false): Observable<{ user: User, token: string }> {
+  login(email: string, password: string, remember_me = false): Observable<{ user: User, token: string }> {
     const body = {
       email: email,
       password: password,

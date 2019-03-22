@@ -8,7 +8,11 @@ import { AuthService, ApplicationService } from '@app/core/services';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginData: any = {};
+  loginData: {
+    email: string,
+    password: string,
+    remember_me: boolean
+  } = { email: '', password: '', remember_me: false };
   loading = false;
   error = '';
 
@@ -45,5 +49,10 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  tokenLogin() {
+    this.authService.tokenLogin(this.loginData.email);
+    return false;
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { share, take } from 'rxjs/operators';
 import { ApplicationService, PushService, UserService } from '@app/core/services';
 import { User } from '@app/core/models';
+import { CredentialService } from '@app/core/services/credential.service';
 
 @Component({
   selector: 'fm-profile',
@@ -15,12 +16,14 @@ export class ProfileComponent implements OnInit {
   user: User;
   repeat_password: String;
   push: boolean;
+  fingerprint: boolean;
 
   constructor(
     public snackBar: MatSnackBar,
     private app: ApplicationService,
     private userService: UserService,
-    private pushService: PushService
+    private pushService: PushService,
+    private credentialService: CredentialService
   ) { }
 
   ngOnInit() {
@@ -48,6 +51,12 @@ export class ProfileComponent implements OnInit {
       this.pushService.subscribeToPush();
     } else {
       this.pushService.unsubscribeFromPush();
+    }
+  }
+
+  toggleFingerprint() {
+    if (this.fingerprint) {
+      this.credentialService.credentialCreation();
     }
   }
 }
