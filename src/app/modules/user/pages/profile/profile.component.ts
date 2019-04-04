@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
   user: User;
   repeat_password: String;
   push: boolean;
-  fingerprint: boolean;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -54,9 +53,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  toggleFingerprint() {
-    if (this.fingerprint) {
+  registerDevice() {
       this.credentialService.credentialCreation();
-    }
   }
 }
