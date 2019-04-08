@@ -17,11 +17,11 @@ export class ChampionshipDetailComponent implements OnInit {
   public championship: Championship;
 
   constructor(private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private championshipService: ChampionshipService) { }
+              private route: ActivatedRoute,
+              private championshipService: ChampionshipService) { }
 
   ngOnInit() {
-    if (this.route.snapshot.parent.parent.parent.params['championship_id']) {
+    if (this.route.snapshot.parent.parent.parent.params.championship_id) {
       this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
         this.championship = data.championship;
       });

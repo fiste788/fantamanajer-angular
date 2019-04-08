@@ -9,7 +9,7 @@ export class Module {
       this.label = key.substring(key.indexOf('-') + 1);
       this.map = new Map<string, number[]>();
       const arr = key.split('-');
-      arr.forEach(function (element, index) {
+      arr.forEach(function(element, index) {
         const players = parseInt(element, 10);
         const array = Array(players).fill(players).map((x, i) => i);
         if (index === 0) {

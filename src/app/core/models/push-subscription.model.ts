@@ -19,7 +19,7 @@ export class PushSubscription {
             this.endpoint = pushSubscription.endpoint;
             this.public_key = json.keys.p256dh;
             this.auth_token = json.keys.auth;
-            this.content_encoding = ((<any>PushManager).supportedContentEncodings || ['aesgcm'])[0];
+            this.content_encoding = ((PushManager as any).supportedContentEncodings || ['aesgcm'])[0];
             this.expires_at = pushSubscription.expirationTime ? new Date(pushSubscription.expirationTime) : null;
             this.user_id = user_id;
             return this as PushSubscription;
@@ -27,13 +27,13 @@ export class PushSubscription {
     }
 
     ab2str(buf): string {
-        const decoder = new (<any>window).TextDecoder('ascii');
+        const decoder = new (window as any).TextDecoder('ascii');
         return decoder.decode(buf);
         // return String.fromCharCode.apply(null, new Uint16Array(buf));
     }
 
     str2ab(str) {
-        const encoder = new (<any>window).TextEncoder('ascii');
+        const encoder = new (window as any).TextEncoder('ascii');
         return encoder.encode(str);
 
         /*

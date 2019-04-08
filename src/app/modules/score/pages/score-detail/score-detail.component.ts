@@ -26,7 +26,7 @@ export class ScoreDetailComponent implements OnInit {
       const team_id = SharedService.getTeamId(this.route);
       this.score = this.scoreService.getLastScore(team_id).pipe(map(score => this.getData(score)));
     } else {
-      const id = parseInt(this.route.snapshot.params['id'], 10);
+      const id = parseInt(this.route.snapshot.params.id, 10);
       this.score = this.scoreService.getScore(id).pipe(map(score => this.getData(score)));
     }
   }

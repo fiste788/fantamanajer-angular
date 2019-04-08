@@ -17,9 +17,9 @@ export class AddTeamComponent implements OnInit {
   public team = new Team();
 
   constructor(private teamService: TeamService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute) { }
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {

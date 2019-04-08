@@ -12,7 +12,7 @@ export class ApiInterceptor implements HttpInterceptor {
       url = environment.apiEndpoint + url;
     }
     const data = {
-      url: url,
+      url,
       withCredentials: true
     };
     return next

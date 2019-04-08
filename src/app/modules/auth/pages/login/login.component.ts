@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       .subscribe(result => {
         if (result === true) {
           const url =
-            this.route.snapshot.queryParams['returnUrl'] ||
+            this.route.snapshot.queryParams.returnUrl ||
             '/championships/' + this.app.championship.id;
           this.router.navigate([url]);
         } else {

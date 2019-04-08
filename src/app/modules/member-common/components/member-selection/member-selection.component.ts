@@ -28,7 +28,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @Input() memberMap: Map<string, Member[]>;
   @Input() size = 100;
   public roles: string[] = [];
-  @Input() public isMemberDisabled: Function;
+  @Input() public isMemberDisabled: () => boolean;
   @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
   onChange: any = () => { };

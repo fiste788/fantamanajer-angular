@@ -121,7 +121,7 @@ export class PushService {
   showMessages() {
     this.swPush.messages.subscribe(message => {
       console.log('[App] Push message received', message);
-      this.notificationService.broadcast(message['notification']['title'], '');
+      this.notificationService.broadcast(message['notification'].title, '');
     });
     this.swPush.notificationClicks.subscribe(click => {
       console.log('[App] Click notification', click);

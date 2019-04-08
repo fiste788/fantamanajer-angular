@@ -11,9 +11,9 @@ export class UserService {
 
   login(email: string, password: string, remember_me = false): Observable<{ user: User, token: string }> {
     const body = {
-      email: email,
-      password: password,
-      remember_me: remember_me
+      email,
+      password,
+      remember_me
     };
     return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(body));
   }

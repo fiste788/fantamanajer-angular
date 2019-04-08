@@ -41,7 +41,7 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges, OnDest
   }
 
   initialScroll(event: Event) {
-    this.main.scrollTo(0, event.srcElement.clientHeight - 300);
+    // this.main.scrollTo(0, event.srcElement.clientHeight - 300);
   }
 
   ngAfterViewInit() {

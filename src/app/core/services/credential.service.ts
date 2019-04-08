@@ -7,7 +7,7 @@ export class CredentialService {
   private url = 'webauthn';
 
   public static strToBin(str: string) {
-    return (<any>Uint8Array).from(atob(str), c => c.charCodeAt(0));
+    return (Uint8Array as any).from(atob(str), c => c.charCodeAt(0));
   }
 
   private static binToStr(bin) {
@@ -39,15 +39,15 @@ export class CredentialService {
       publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
       publicKey.user.id = CredentialService.strToBin(publicKey.user.id);
       if (publicKey.excludeCredentials) {
-        publicKey.excludeCredentials = publicKey.excludeCredentials.map(function (data) {
+        publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
           return {
             ...data,
-            'id': CredentialService.strToBin(data.id)
+            id: CredentialService.strToBin(data.id)
           };
         });
       }
 
-      (<any>navigator).credentials.create({ publicKey }).then((data: any) => {
+      (navigator as any).credentials.create({ publicKey }).then((data: any) => {
         const publicKeyCredential = {
 
           id: data.id,
@@ -73,13 +73,13 @@ export class CredentialService {
         publicKey.allowCredentials = publicKey.allowCredentials.map(data => {
           return {
             ...data,
-            'id': CredentialService.strToBin(data.id)
+            id: CredentialService.strToBin(data.id)
           };
         });
       }
 
 
-      (<any>navigator).credentials.get({ publicKey }).then((data: any) => {
+      (navigator as any).credentials.get({ publicKey }).then((data: any) => {
         const publicKeyCredential = {
 
           id: data.id,

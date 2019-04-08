@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
 import { NgModule } from '@angular/core';
@@ -19,7 +19,7 @@ import { HomeComponent } from './home/home.component';
   imports: [
     // angular
     BrowserModule,
-    BrowserAnimationsModule,
+    //BrowserAnimationsModule,
 
     // 3rd party
     LayoutModule,

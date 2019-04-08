@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.loggedIn()) {
-      const authorities = next.data['authorities'];
+      const authorities = next.data.authorities;
       if (!authorities || authorities.length === 0) {
         return true;
       }
@@ -24,8 +24,8 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(authorities: string[], url: string): boolean {
-    for (let i = 0; i < authorities.length; i++) {
-      if (this.app.user.roles.includes(authorities[i])) {
+    for (const a in authorities) {
+      if (this.app.user.roles.includes(authorities[a])) {
         return true;
       }
     }

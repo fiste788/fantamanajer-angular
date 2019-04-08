@@ -13,7 +13,7 @@ export class EventService {
     const params = new HttpParams().set('page', `${page}`);
 
     return this.http.get<PagedResponse<Event[]>>(
-      `championships/${championships_id}/${this.url}`, { params: params }
+      `championships/${championships_id}/${this.url}`, { params }
     );
   }
 

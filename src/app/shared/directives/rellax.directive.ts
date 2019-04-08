@@ -33,15 +33,15 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private loop = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
-    (<any>window).mozRequestAnimationFrame ||
-    (<any>window).msRequestAnimationFrame ||
-    (<any>window).oRequestAnimationFrame ||
-    function (callback) {
+    (window as any).mozRequestAnimationFrame ||
+    (window as any).msRequestAnimationFrame ||
+    (window as any).oRequestAnimationFrame ||
+    ((callback) => {
       setTimeout(callback, 1000 / 60);
-    };
+    });
 
-  private transformProp = (<any>window).transformProp ||
-    (function () {
+  private transformProp = (window as any).transformProp ||
+    (() => {
       const testEl = document.createElement('div');
       if (testEl.style.transform == null) {
         const vendors = ['Webkit', 'Moz', 'ms'];
@@ -159,12 +159,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return {
-      base: base,
+      base,
       top: blockTop,
       height: blockHeight,
-      speed: speed,
-      style: style,
-      transform: transform
+      speed,
+      style,
+      transform
     };
   }
 
@@ -175,7 +175,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       this.posY = this.scrollableElement.scrollTop;
     } else {
       this.posY = (document.documentElement ||
-        <any>document.body.parentNode ||
+        document.body.parentNode as any ||
         document.body
       ).scrollTop;
     }

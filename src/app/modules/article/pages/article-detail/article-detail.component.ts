@@ -23,8 +23,8 @@ export class ArticleDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.route.snapshot.params['id']) {
-      const id = parseInt(this.route.snapshot.params['id'], 10);
+    if (this.route.snapshot.params.id) {
+      const id = parseInt(this.route.snapshot.params.id, 10);
       this.articleService
         .getArticle(id)
         .subscribe(article => (this.article = article));

@@ -44,10 +44,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-    public media: MediaObserver,
-    public shared: SharedService,
-    private ngZone: NgZone,
-    private changeRef: ChangeDetectorRef
+              public media: MediaObserver,
+              public shared: SharedService,
+              private ngZone: NgZone,
+              private changeRef: ChangeDetectorRef
   ) {
   }
 

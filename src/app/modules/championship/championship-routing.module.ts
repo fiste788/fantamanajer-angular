@@ -17,15 +17,39 @@ const routes: Routes = [
       championship: ChampionshipResolver
     },
     children: [
-      { path: '', redirectTo: 'teams', pathMatch: 'full' },
-      { path: 'articles', loadChildren: 'app/modules/article/article.module#ArticleModule', data: { state: 'articles' } },
-      { path: 'teams', loadChildren: 'app/modules/team/team.module#TeamModule', data: { state: 'teams' } },
-      { path: 'members', loadChildren: 'app/modules/member/member.module#MemberModule', data: { state: 'members' } },
-      { path: 'ranking', loadChildren: 'app/modules/score/score.module#ScoreModule', data: { state: 'ranking' } },
-      { path: 'stream', component: ChampionshipStreamComponent, data: { state: 'stream' } },
+      {
+        path: '',
+        redirectTo: 'teams',
+        pathMatch: 'full'
+      },
+      {
+        path: 'articles',
+        loadChildren: () => import('../article/article.module').then(m => m.ArticleModule),
+        data: { state: 'articles' }
+      },
+      {
+        path: 'teams',
+        loadChildren: () => import('app/modules/team/team.module').then(m => m.TeamModule),
+        data: { state: 'teams' }
+      },
+      {
+        path: 'members',
+        loadChildren: () => import('app/modules/member/member.module').then(m => m.MemberModule),
+        data: { state: 'members' }
+      },
+      {
+        path: 'ranking',
+        loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
+        data: { state: 'ranking' }
+      },
+      {
+        path: 'stream',
+        component: ChampionshipStreamComponent,
+        data: { state: 'stream' }
+      },
       {
         path: 'admin',
-        loadChildren: 'app/modules/admin-championship/admin-championship.module#AdminChampionshipModule',
+        loadChildren: () => import('app/modules/admin-championship/admin-championship.module').then(m => m.AdminChampionshipModule),
         canActivate: [AdminGuard],
         data: { state: 'championship-admin' }
       }

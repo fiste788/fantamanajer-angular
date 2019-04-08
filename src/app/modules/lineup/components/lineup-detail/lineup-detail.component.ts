@@ -38,8 +38,8 @@ export class LineupDetailComponent implements OnInit {
   captains: Map<string, string> = new Map<string, string>();
   modules: Module[] = [];
   benchs: number[] = [];
-  isRegularCallback: Function;
-  isAlreadySelectedCallback: Function;
+  isRegularCallback: () => boolean;
+  isAlreadySelectedCallback: () => boolean;
 
   constructor(
     public shared: SharedService,

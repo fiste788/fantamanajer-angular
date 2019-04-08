@@ -18,7 +18,7 @@ export class ScoreService {
     if (members) {
       params = new HttpParams().set('members', '1');
     }
-    return this.http.get(`${this.url}/${id}`, { params: params });
+    return this.http.get(`${this.url}/${id}`, { params });
   }
 
   getLastScore(team_id: number): Observable<any> {

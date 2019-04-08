@@ -14,7 +14,7 @@ import { CredentialService } from '@app/core/services/credential.service';
 export class ProfileComponent implements OnInit {
   userObservable: Observable<User>;
   user: User;
-  repeat_password: String;
+  repeat_password: string;
   push: boolean;
 
   constructor(
@@ -54,6 +54,6 @@ export class ProfileComponent implements OnInit {
   }
 
   registerDevice() {
-      this.credentialService.credentialCreation();
+    this.credentialService.credentialCreation();
   }
 }

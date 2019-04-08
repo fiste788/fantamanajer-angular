@@ -21,7 +21,7 @@ export class NotificationOverlayComponent implements OnInit {
   animationStateChanged = new EventEmitter<AnimationEvent>();
 
   constructor(public notificationService: NotificationService,
-    private app: ApplicationService) { }
+              private app: ApplicationService) { }
 
   ngOnInit() {
     this.stream = this.notificationService.getNotifications(this.app.team.id);

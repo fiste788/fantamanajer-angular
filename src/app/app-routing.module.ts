@@ -9,35 +9,35 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, data: { state: 'home' } },
   { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], data: { state: 'login' } },
-  { path: 'clubs', loadChildren: 'app/modules/club/club.module#ClubModule', data: { state: 'club' } },
-  { path: 'players', loadChildren: 'app/modules/player/player.module#PlayerModule', data: { state: 'player' } },
+  { path: 'clubs', loadChildren: () => import('app/modules/club/club.module').then(m => m.ClubModule), data: { state: 'club' } },
+  { path: 'players', loadChildren: () => import('app/modules/player/player.module').then(m => m.PlayerModule), data: { state: 'player' } },
   {
     path: 'profile',
-    loadChildren: 'app/modules/user/user.module#UserModule',
+    loadChildren: () => import('app/modules/user/user.module').then(m => m.UserModule),
     canActivate: [AuthGuard],
     data: { state: 'profile' }
   },
   {
     path: 'championships',
-    loadChildren: 'app/modules/championship/championship.module#ChampionshipModule',
+    loadChildren: () => import('app/modules/championship/championship.module').then(m => m.ChampionshipModule),
     canActivate: [AuthGuard],
     data: { state: 'championship' }
   },
   {
     path: 'teams',
-    loadChildren: 'app/modules/team/team.module#TeamModule',
+    loadChildren: () => import('app/modules/team/team.module').then(m => m.TeamModule),
     canActivate: [AuthGuard],
     data: { state: 'team' }
   },
   {
     path: 'articles',
-    loadChildren: 'app/modules/article/article.module#ArticleModule',
+    loadChildren: () => import('app/modules/article/article.module').then(m => m.ArticleModule),
     canActivate: [AuthGuard],
     data: { state: 'article' }
   },
   {
     path: 'scores',
-    loadChildren: 'app/modules/score/score.module#ScoreModule',
+    loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
     canActivate: [AuthGuard],
     data: { state: 'scores' }
   }

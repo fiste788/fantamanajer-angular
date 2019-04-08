@@ -11,19 +11,19 @@ export class ArticleService {
 
   getArticles(page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
-    return this.http.get<PagedResponse<Article[]>>(location.pathname.substring(1), { params: params });
+    return this.http.get<PagedResponse<Article[]>>(location.pathname.substring(1), { params });
   }
 
   getArticlesByTeam(team_id: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
-    return this.http.get<PagedResponse<Article[]>>('teams/' + team_id + '/' + this.url, { params: params });
+    return this.http.get<PagedResponse<Article[]>>('teams/' + team_id + '/' + this.url, { params });
   }
 
   getArticlesByChampionship(championship_id: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
     return this.http.get<PagedResponse<Article[]>>(
       'championships/' + championship_id + '/' + this.url
-      , { params: params });
+      , { params });
   }
 
   getArticle(id: number): Observable<Article> {

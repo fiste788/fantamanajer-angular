@@ -15,10 +15,10 @@ export class ProfileComponent implements OnInit {
   main: MainComponent;
 
   constructor(private injector: Injector,
-    public auth: AuthService,
-    public app: ApplicationService,
-    private router: Router,
-    private changeRef: ChangeDetectorRef
+              public auth: AuthService,
+              public app: ApplicationService,
+              private router: Router,
+              private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

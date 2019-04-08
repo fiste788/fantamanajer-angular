@@ -31,16 +31,44 @@ const routes: Routes = [
           team: TeamDetailResolver
         },
         children: [
-          { path: '', redirectTo: 'players', pathMatch: 'full' },
-          { path: 'articles', loadChildren: 'app/modules/article/article.module#ArticleModule', data: { state: 'articles' }, },
-          { path: 'players', component: TeamMembersComponent, data: { state: 'players' }, },
-          { path: 'stream', component: TeamStreamComponent, data: { state: 'stream' }, },
-          { path: 'scores', loadChildren: 'app/modules/score/score.module#ScoreModule', data: { state: 'scores' }, },
-          { path: 'lineup', loadChildren: 'app/modules/lineup/lineup.module#LineupModule', data: { state: 'lineup' }, },
-          { path: 'transferts', loadChildren: 'app/modules/transfert/transfert.module#TransfertModule', data: { state: 'transfert' }, },
+          {
+            path: '',
+            redirectTo: 'players',
+            pathMatch: 'full'
+          },
+          {
+            path: 'articles',
+            loadChildren: () => import('app/modules/article/article.module').then(m => m.ArticleModule),
+            data: { state: 'articles' },
+          },
+          {
+            path: 'players',
+            component: TeamMembersComponent,
+            data: { state: 'players' },
+          },
+          {
+            path: 'stream',
+            component: TeamStreamComponent,
+            data: { state: 'stream' },
+          },
+          {
+            path: 'scores',
+            loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
+            data: { state: 'scores' },
+          },
+          {
+            path: 'lineup',
+            loadChildren: () => import('app/modules/lineup/lineup.module').then(m => m.LineupModule),
+            data: { state: 'lineup' },
+          },
+          {
+            path: 'transferts',
+            loadChildren: () => import('app/modules/transfert/transfert.module').then(m => m.TransfertModule),
+            data: { state: 'transfert' },
+          },
           {
             path: 'admin',
-            loadChildren: 'app/modules/admin-team/admin-team.module#AdminTeamModule',
+            loadChildren: () => import('app/modules/admin-team/admin-team.module').then(m => m.AdminTeamModule),
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' }
           }

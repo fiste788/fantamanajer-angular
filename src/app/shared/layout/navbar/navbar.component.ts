@@ -11,9 +11,9 @@ export class NavbarComponent implements OnInit {
 
   public deferredPrompt;
   constructor(public main: MainComponent,
-    public auth: AuthService,
-    private push: PushService,
-    public app: ApplicationService) { }
+              public auth: AuthService,
+              private push: PushService,
+              public app: ApplicationService) { }
 
   ngOnInit() {
     this.push.beforeInstall.subscribe(e => {
