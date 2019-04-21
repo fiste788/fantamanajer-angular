@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FileUploader } from 'ng2-file-upload';
+//import { FileUploader } from 'ng2-file-upload';
 import { environment } from '@env/environment';
 import { TeamService, ApplicationService } from '@app/core/services';
 import { Team, NotificationSubscription } from '@app/core/models';
@@ -11,7 +11,7 @@ import { Team, NotificationSubscription } from '@app/core/models';
   styleUrls: ['./team-edit-dialog.component.scss']
 })
 export class TeamEditDialogComponent {
-  public uploader: FileUploader;
+  public uploader;
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;
   public team: Team;
@@ -27,12 +27,12 @@ export class TeamEditDialogComponent {
       { name: 'X-Http-Method-Override', value: 'PUT' },
       { name: 'Accept', value: 'application/json' }
     ];
-    this.uploader = new FileUploader({
-      url: environment.apiEndpoint + 'teams/' + this.team.id,
-      authToken: 'Bearer ' + localStorage.getItem('token'),
-      headers: h,
-      parametersBeforeFiles: true
-    });
+    /* this.uploader = new FileUploader({
+       url: environment.apiEndpoint + 'teams/' + this.team.id,
+       authToken: 'Bearer ' + localStorage.getItem('token'),
+       headers: h,
+       parametersBeforeFiles: true
+     });*/
     this.uploader.autoUpload = true;
     this.uploader.options.itemAlias = 'photo';
   }
