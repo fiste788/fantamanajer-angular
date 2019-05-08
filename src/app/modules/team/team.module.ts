@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
-// import { FileUploadModule } from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
 import { SharedModule } from '@app/shared/shared.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
 import { TeamComponent } from './pages/team/team.component';
@@ -21,7 +21,7 @@ import { TeamRoutingModule } from './team-routing.module';
     SharedModule,
     TeamRoutingModule,
     MemberCommonModule,
-    //FileUploadModule,
+    FileUploadModule,
     MatDialogModule,
     NotificationSubscriptionModule,
     StreamModule
