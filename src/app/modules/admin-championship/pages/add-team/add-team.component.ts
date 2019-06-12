@@ -13,7 +13,7 @@ import { NgForm } from '@angular/forms';
 })
 export class AddTeamComponent implements OnInit {
 
-  @ViewChild(NgForm) teamForm: NgForm;
+  @ViewChild(NgForm, { static: false }) teamForm: NgForm;
   public team = new Team();
 
   constructor(private teamService: TeamService,

@@ -16,7 +16,7 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges, OnDest
   @Input() public backgroundImage: any;
   // @Input() public backgroundUrls: any;
   @Input() public tabs: any[] = [];
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild(MatTabGroup, { static: false }) tabGroup: MatTabGroup;
   public srcset = '';
   public width = 0;
   private subscription: Subscription;
@@ -41,7 +41,7 @@ export class ParallaxHeaderComponent implements AfterViewInit, OnChanges, OnDest
   }
 
   initialScroll(event: Event) {
-    // this.main.scrollTo(0, event.srcElement.clientHeight - 300);
+    this.main.scrollTo(0, (event.target as any).clientHeight - 300);
   }
 
   ngAfterViewInit() {

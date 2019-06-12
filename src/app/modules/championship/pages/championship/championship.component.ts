@@ -19,7 +19,7 @@ export class ChampionshipComponent implements AfterViewInit {
     { label: 'Articoli', link: 'articles' },
     { label: 'Attività', link: 'stream' },
   ];
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild(MatTabGroup, { static: false }) tabGroup: MatTabGroup;
 
   constructor(app: ApplicationService, private router: Router) {
     if (app.user.admin || app.team.admin) {

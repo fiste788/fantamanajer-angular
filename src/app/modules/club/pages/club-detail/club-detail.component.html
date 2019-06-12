@@ -1,14 +1,14 @@
-<div *ngIf="club | async as club; else loading">
-    <div @enterDetailAnimation>
-        <div class="animation-container">
-            <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"
-                [tabs]="tabs"></fm-parallax-header>
-        </div>
+<div *ngIf="club | async as club2; else loading">
+  <div @enterDetailAnimation>
+    <div class="animation-container">
+      <fm-parallax-header [backgroundImage]="club2.background_url" [image]="club2.photo_url" [title]="club2.name"
+        [tabs]="tabs"></fm-parallax-header>
     </div>
-    <div [@tabTransition]="getState(o)" class="tabbed-container">
-        <router-outlet #o="outlet"></router-outlet>
-    </div>
+  </div>
+  <div [@tabTransition]="getState(o)" class="tabbed-container">
+    <router-outlet #o="outlet"></router-outlet>
+  </div>
 </div>
 <ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>

@@ -18,7 +18,7 @@ export class TransfertListComponent implements OnInit {
   dataSource: MatTableDataSource<Transfert>;
   displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(
     private transfertService: TransfertService,

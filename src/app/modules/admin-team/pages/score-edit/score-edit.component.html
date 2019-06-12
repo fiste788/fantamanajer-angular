@@ -1,30 +1,33 @@
-<div class="flex-container" *ngIf="scores | async as scores; else loading">
+<div class="flex-container" *ngIf="scores | async as scores2; else loading">
   <mat-form-field>
     <mat-label>Giornata</mat-label>
-    <mat-select #matchday [(ngModel)]="selectedScore" name="score" placeholder="Giornata" (selectionChange)="getScore($event)">
-      <mat-option *ngFor="let score of scores" [value]="score">{{score.matchday.number}}</mat-option>
+    <mat-select #matchday [(ngModel)]="selectedScore" name="score" placeholder="Giornata"
+      (selectionChange)="getScore($event)">
+      <mat-option *ngFor="let score of scores2" [value]="score">{{score.matchday.number}}</mat-option>
     </mat-select>
   </mat-form-field>
   <div *ngIf="selectedScore">
-    <form #scoreForm="ngForm" (ngSubmit)="save(score)" class="flex-container" *ngIf="score | async as score; else loading">
+    <form #scoreForm="ngForm" (ngSubmit)="save(score2)" class="flex-container"
+      *ngIf="score | async as score2; else loading">
       <mat-form-field>
         <mat-label>Punteggio</mat-label>
-        <input matInput type="number" step="0.5" required [(ngModel)]="score.points" name="points" placeholder="Punteggio">
+        <input matInput type="number" step="0.5" required [(ngModel)]="score2.points" name="points"
+          placeholder="Punteggio">
       </mat-form-field>
       <mat-slide-toggle [(ngModel)]="penality" name="penality">Penalità</mat-slide-toggle>
       <div *ngIf="penality">
         <mat-form-field>
           <mat-label>Penalità</mat-label>
-          <input matInput type="number" step="0.5" [(ngModel)]="score.penality_points" name="penality_points"
+          <input matInput type="number" step="0.5" [(ngModel)]="score2.penality_points" name="penality_points"
             placeholder="Penalità">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Motivazione penalità</mat-label>
-          <input matInput [(ngModel)]="score.penality" name="penality" placeholder="Motivazione penalità">
+          <input matInput [(ngModel)]="score2.penality" name="penality" placeholder="Motivazione penalità">
         </mat-form-field>
       </div>
       <h4>Formazione</h4>
-      <fm-lineup-detail [lineup]="score.lineup"></fm-lineup-detail>
+      <fm-lineup-detail [lineup]="score2.lineup"></fm-lineup-detail>
       <button color="accent" mat-raised-button type="submit">Salva</button>
     </form>
   </div>

@@ -15,7 +15,7 @@ export class StreamComponent implements OnInit, OnDestroy {
   public width: number;
   @Input() context: 'teams' | 'users';
   @Input() id: number;
-  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
 
   constructor(private streamService: StreamService) { }
 

@@ -16,16 +16,18 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class ScoreEditComponent implements OnInit {
 
-  @ViewChild(NgForm) scoreForm: NgForm;
+  @ViewChild(NgForm, { static: false }) scoreForm: NgForm;
   public team: Team;
   public penality: boolean;
   public selectedScore: Score;
   public score: Observable<Score>;
   public scores: Observable<Score[]>;
 
-  constructor(private route: ActivatedRoute,
-              private scoreService: ScoreService,
-              private snackBar: MatSnackBar) { }
+  constructor(
+    private route: ActivatedRoute,
+    private scoreService: ScoreService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {

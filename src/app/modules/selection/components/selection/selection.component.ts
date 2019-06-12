@@ -15,8 +15,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
-  @ViewChild('newMember') newMember: MatSelect;
-  @ViewChild(NgForm) selectionForm: NgForm;
+  @ViewChild('newMember', { static: false }) newMember: MatSelect;
+  @ViewChild(NgForm, { static: false }) selectionForm: NgForm;
 
   selection: Selection = new Selection();
   members: Observable<Member[]>;

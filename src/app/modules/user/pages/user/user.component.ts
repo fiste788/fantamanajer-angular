@@ -18,7 +18,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild(MatTabGroup, { static: false }) tabGroup: MatTabGroup;
 
   ngOnInit() {
 

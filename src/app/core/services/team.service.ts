@@ -24,6 +24,13 @@ export class TeamService {
     return this.http.put(url, JSON.stringify(team));
   }
 
+  upload(id: number, formData: FormData): Observable<any> {
+    const url = `${this.url}/${id}`;
+    return this.http.put(url, formData, {
+      headers: { 'Content-type': 'multipart/form-data' }
+    });
+  }
+
   create(team: Team): Observable<Team> {
     return this.http.post<Team>(this.url, JSON.stringify(team));
   }

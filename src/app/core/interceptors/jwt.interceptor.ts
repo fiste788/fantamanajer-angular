@@ -17,7 +17,7 @@ export class JWTInterceptor implements HttpInterceptor {
       const token = this.auth.getToken();
       const data = {
         setHeaders: {
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           Accept: 'application/json'
         }
       };

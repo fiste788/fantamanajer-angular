@@ -13,12 +13,14 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class ChampionshipDetailComponent implements OnInit {
 
-  @ViewChild(NgForm) championshipForm: NgForm;
+  @ViewChild(NgForm, { static: false }) championshipForm: NgForm;
   public championship: Championship;
 
-  constructor(private snackBar: MatSnackBar,
-              private route: ActivatedRoute,
-              private championshipService: ChampionshipService) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private championshipService: ChampionshipService
+  ) { }
 
   ngOnInit() {
     if (this.route.snapshot.parent.parent.parent.params.championship_id) {

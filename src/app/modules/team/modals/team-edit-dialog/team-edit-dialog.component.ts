@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-// import { FileUploader } from 'ng2-file-upload';
+
 import { environment } from '@env/environment';
 import { TeamService, ApplicationService } from '@app/core/services';
 import { Team, NotificationSubscription } from '@app/core/models';
@@ -11,10 +11,11 @@ import { Team, NotificationSubscription } from '@app/core/models';
   styleUrls: ['./team-edit-dialog.component.scss']
 })
 export class TeamEditDialogComponent {
-  public uploader;
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;
   public team: Team;
+  public files: File[] = [];
+
 
   constructor(
     public app: ApplicationService,
@@ -23,18 +24,6 @@ export class TeamEditDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { team: Team }
   ) {
     this.team = data.team;
-    const h = [
-      { name: 'X-Http-Method-Override', value: 'PUT' },
-      { name: 'Accept', value: 'application/json' }
-    ];
-    /* this.uploader = new FileUploader({
-       url: environment.apiEndpoint + 'teams/' + this.team.id,
-       authToken: 'Bearer ' + localStorage.getItem('token'),
-       headers: h,
-       parametersBeforeFiles: true
-     });*/
-    this.uploader.autoUpload = true;
-    this.uploader.options.itemAlias = 'photo';
   }
 
   cancel(): void {
@@ -42,26 +31,18 @@ export class TeamEditDialogComponent {
   }
 
   save(): void {
-    if (this.uploader.queue.length) {
-      this.uploader.options.additionalParameter = {
-        id: this.team.id,
-        name: this.team.name
-        // 'email_subscription[id]': this.team.email_subscription.id,
-        // 'email_subscription[lineups]': this.team.email_subscription.lineups ? 1 : 0,
-        // 'email_subscription[lost_member]': this.team.email_subscription.lost_member ? 1 : 0,
-        // 'email_subscription[score]': this.team.email_subscription.score ? 1 : 0,
-      };
-      Object.assign(this.uploader.options.additionalParameter, this.objectToPostParams(this.team, 'email_notification_subscriptions'));
-      Object.assign(this.uploader.options.additionalParameter, this.objectToPostParams(this.team, 'push_notification_subscriptions'));
-      this.uploader.uploadAll();
-      this.uploader.onCompleteAll = () => this.dialogRef.close(this.teamService.getTeam(this.team.id));
-    } else {
-      this.teamService.update(this.team).subscribe(() => this.dialogRef.close());
+    const myFormData = new FormData();
+    if (this.files.length) {
+      myFormData.append('photo', this.files[0]);
     }
+    myFormData.append('id', this.team.id.toString());
+    myFormData.append('name', this.team.name);
+    this.objectToPostParams(this.team, 'email_notification_subscriptions', myFormData);
+    this.objectToPostParams(this.team, 'push_notification_subscriptions', myFormData);
+    this.teamService.upload(this.team.id, myFormData).subscribe(() => this.dialogRef.close(this.teamService.getTeam(this.team.id)));
   }
 
-  private objectToPostParams(team: Team, fieldName: string): any {
-    const fields = {};
+  private objectToPostParams(team: Team, fieldName: string, formData: FormData) {
     team[fieldName].forEach((element: NotificationSubscription, i) => {
       if (element.enabled) {
         Object.keys(element).filter(f => f !== 'id').forEach(field => {
@@ -69,14 +50,9 @@ export class TeamEditDialogComponent {
           if (field === 'enabled') {
             value = 1;
           }
-          fields[fieldName + '[' + i + '][' + field + ']'] = value;
+          formData.append(fieldName + '[' + i + '][' + field + ']', value);
         });
       }
     });
-    return fields;
-  }
-
-  public fileOver(e: any): void {
-    this.hasBaseDropZoneOver = e;
   }
 }

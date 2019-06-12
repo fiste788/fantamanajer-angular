@@ -29,7 +29,7 @@ import { SharedService } from '@app/shared/services/shared.service';
   ]
 })
 export class LineupDetailComponent implements OnInit {
-  @ViewChild(NgForm) lineupForm: NgForm;
+  @ViewChild(NgForm, { static: false }) lineupForm: NgForm;
 
   @Input() lineup: Lineup;
   @Input() disabled = false;

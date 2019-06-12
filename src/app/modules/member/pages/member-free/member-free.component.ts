@@ -16,7 +16,7 @@ import { TableRowAnimation } from 'app/core/animations';
 })
 export class MemberFreeComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  @ViewChild(MemberListComponent) memberList: MemberListComponent;
+  @ViewChild(MemberListComponent, { static: false }) memberList: MemberListComponent;
   members: Observable<Member[]>;
   selectedRole: Role;
   roles: Role[] = [];

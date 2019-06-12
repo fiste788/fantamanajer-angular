@@ -18,7 +18,7 @@ export class MemberListComponent implements OnInit {
   @Input() isSelectable = false;
   @Input() multipleSelection = false;
   @Input() elevation = 1;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   dataSource: MatTableDataSource<Member> = null;
   displayedColumns = [

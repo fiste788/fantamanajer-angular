@@ -29,12 +29,12 @@ enum Direction {
   ]
 })
 export class MainComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSidenav) drawer: MatSidenav;
-  @ViewChild(MatSidenavContent) container: MatSidenavContent;
-  @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
-  @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
-  @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
-  @ViewChild('pan', { read: ElementRef }) panEl: ElementRef;
+  @ViewChild(MatSidenav, { static: true }) drawer: MatSidenav;
+  @ViewChild(MatSidenavContent, { static: false }) container: MatSidenavContent;
+  @ViewChild(SpeedDialComponent, { static: false }) speedDial: SpeedDialComponent;
+  @ViewChild(ToolbarComponent, { static: false }) toolbar: ToolbarComponent;
+  @ViewChild('toolbar', { static: false, read: ElementRef }) toolbarEl: ElementRef;
+  @ViewChild('pan', { static: true, read: ElementRef }) panEl: ElementRef;
   public scrollDirection = '';
   private subscriptions: Subscription[] = [];
   public isVisible = true;
@@ -43,11 +43,12 @@ export class MainComponent implements OnInit, AfterViewInit {
       map(result => result.matches)
     );
 
-  constructor(private breakpointObserver: BreakpointObserver,
-              public media: MediaObserver,
-              public shared: SharedService,
-              private ngZone: NgZone,
-              private changeRef: ChangeDetectorRef
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public media: MediaObserver,
+    public shared: SharedService,
+    private ngZone: NgZone,
+    private changeRef: ChangeDetectorRef
   ) {
   }
 
