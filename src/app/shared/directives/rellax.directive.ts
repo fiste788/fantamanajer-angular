@@ -10,7 +10,6 @@ import {
   HostBinding,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-// import * as Rellax from 'rellax';
 
 @Directive({
   selector: '[fmRellax]'
@@ -18,18 +17,22 @@ import { fromEvent, Subscription } from 'rxjs';
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('style.will-change') will = 'transform';
   @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
-  private options: any;
   @Input() speed = -2;
   @Input() center = false;
   @Input() percentage = null;
-  @Input() selector = '.mat-drawer-content';
+  @Input() relativeToWrapper = false;
+  @Input() wrapper = '.mat-drawer-content';
 
-  private block;
+  private options: any;
+  private block: any;
   private posY = 0;
-  private pause = false;
-  private scrollableElement: Element;
-  private frame;
+  private posX = 0;
+  private pause = true;
   private subscription: Subscription;
+  private loopId = null;
+  private supportsPassive = false;
+  private screenX = 0;
+  private screenY = 0;
 
   private loop = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -39,6 +42,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     ((callback) => {
       setTimeout(callback, 1000 / 60);
     });
+
+  // check what cancelAnimation method to use
+  private clearLoop = window.cancelAnimationFrame || (window as any).mozCancelAnimationFrame || clearTimeout;
 
   private transformProp = (window as any).transformProp ||
     (() => {
@@ -57,17 +63,27 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   constructor(private el: ElementRef, private renderer: Renderer2, public ngZone: NgZone) { }
 
   ngOnInit() {
-    // let options = { speed: -2, center: false, round: true };
-    /*Object.keys(this.options).forEach((key) => {
-            options[key] = this.options[key];
-        });*/
-    this.scrollableElement = window.document.querySelector(this.selector);
+    try {
+      const opts = Object.defineProperty({}, 'passive', {
+        get() {
+          this.supportsPassive = true;
+        }
+      });
+      //window.addEventListener('testPassive', null, opts);
+      //window.removeEventListener('testPassive', null, opts);
+    } catch (e) { }
+
     this.options = {
-      round: true,
       speed: this.speed,
       center: this.center,
-      percentage: this.percentage
+      wrapper: window.document.querySelector(this.wrapper),
+      relativeToWrapper: this.relativeToWrapper,
+      round: true,
+      vertical: true,
+      horizontal: false,
+      callback() { },
     };
+
     this.clamp(this.options.speed, -10, 10);
   }
 
@@ -82,59 +98,65 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   init() {
+    this.screenY = window.innerHeight;
+    this.screenX = window.innerWidth;
+
     this.setPosition();
     // Get and cache initial position of all elements
     this.block = this.createBlock(this.el.nativeElement);
 
-    window.addEventListener('resize', () => {
-      this.animate();
-    });
 
-    // Start the loop
-    this.frame = this.update();
-
-    // The loop does nothing if the scrollPosition did not change
-    // so call animate to make sure every element has their transforms
     this.animate();
+
+    // If paused, unpause and set listener for window resizing events
+    if (this.pause) {
+      window.addEventListener('resize', this.init.bind(this));
+      this.pause = false;
+      // Start the loop
+      this.update();
+    }
   }
 
   createBlock(el: HTMLElement) {
     const dataPercentage = this.options.percentage;
     const dataSpeed = this.options.speed;
+    const dataZindex = this.options.zindex || 0;
+    const dataMin = this.options.min;
+    const dataMax = this.options.max;
 
-    // initializing at scrollY = 0 (top of browser)
+    // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
     // ensures elements are positioned based on HTML layout.
     //
-    // If the element has the percentage attribute, the posY needs to be
+    // If the element has the percentage attribute, the posY and posX needs to be
     // the current scroll position's value, so that the elements are still positioned based on HTML layout
-    const posY =
-      dataPercentage || this.options.center
-        ? this.scrollableElement.scrollTop ||
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop
-        : 0;
+    let wrapperPosY = this.options.wrapper ? this.options.wrapper.scrollTop : (
+      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    );
+    // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
+    if (this.options.relativeToWrapper) {
+      const scrollPosY = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
+      wrapperPosY = scrollPosY - this.options.wrapper.offsetTop;
+    }
+    const posY = this.options.vertical ? (dataPercentage || this.options.center ? wrapperPosY : 0) : 0;
+    const posX = this.options.horizontal ? (dataPercentage || this.options.center ? this.options.wrapper ?
+      this.options.wrapper.scrollLeft : (
+        window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft) : 0) : 0;
 
     const blockTop = posY + el.getBoundingClientRect().top;
     const blockHeight = el.clientHeight || el.offsetHeight || el.scrollHeight;
 
+    const blockLeft = posX + el.getBoundingClientRect().left;
+    const blockWidth = el.clientWidth || el.offsetWidth || el.scrollWidth;
+
     // apparently parallax equation everyone uses
-    let percentage = dataPercentage
-      ? dataPercentage
-      : (posY - blockTop + el.parentElement.offsetHeight) /
-      (blockHeight + el.parentElement.offsetHeight);
-    if (this.percentage == null && this.options.center) {
-      percentage = 0.5;
-    }
+    let percentageY = dataPercentage ? dataPercentage : (posY - blockTop + this.screenY) / (blockHeight + this.screenY);
+    let percentageX = dataPercentage ? dataPercentage : (posX - blockLeft + this.screenX) / (blockWidth + this.screenX);
+    if (this.options.center) { percentageX = 0.5; percentageY = 0.5; }
 
     // Optional individual block speed as data attr, otherwise global speed
-    // Check if has percentage attr, and limit speed to 5, else limit it to 10
-    let speed = dataSpeed ? this.clamp(dataSpeed, -10, 10) : this.options.speed;
-    if (dataPercentage || this.options.center) {
-      speed = this.clamp(dataSpeed || this.options.speed, -5, 5);
-    }
+    const speed = dataSpeed ? dataSpeed : this.options.speed;
 
-    const base = this.updatePosition(percentage, speed);
+    const bases = this.updatePosition(percentageX, percentageY, speed);
 
     // ~~Store non-translate3d transforms~~
     // Store inline styles and extract transforms
@@ -142,9 +164,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     let transform = '';
 
     // Check if there's an inline styled transform
-    if (style.indexOf('transform') >= 0) {
+    const searchResult = /transform\s*:/i.exec(style);
+    if (searchResult) {
       // Get the index of the transform
-      const index = style.indexOf('transform');
+      const index = searchResult.index;
 
       // Trim the style to the transform point and get the following semi-colon index
       const trimmedStyle = style.slice(index);
@@ -159,28 +182,40 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return {
-      base,
+      baseX: bases.x,
+      baseY: bases.y,
       top: blockTop,
+      left: blockLeft,
       height: blockHeight,
+      width: blockWidth,
       speed,
       style,
-      transform
+      transform,
+      zindex: dataZindex,
+      min: dataMin,
+      max: dataMax
     };
   }
 
   setPosition() {
     const oldY = this.posY;
+    const oldX = this.posX;
 
-    if (this.scrollableElement.scrollTop !== undefined) {
-      this.posY = this.scrollableElement.scrollTop;
-    } else {
-      this.posY = (document.documentElement ||
-        document.body.parentNode as any ||
-        document.body
-      ).scrollTop;
+    this.posY = this.options.wrapper ? this.options.wrapper.scrollTop :
+      (document.documentElement || document.body.parentNode || document.body as any).scrollTop || window.pageYOffset;
+    this.posX = this.options.wrapper ? this.options.wrapper.scrollLeft :
+      (document.documentElement || document.body.parentNode || document.body as any).scrollLeft || window.pageXOffset;
+    // If option relativeToWrapper is true, use relative wrapper value instead.
+    if (this.options.relativeToWrapper) {
+      const scrollPosY = (document.documentElement || document.body.parentNode || document.body as any).scrollTop || window.pageYOffset;
+      this.posY = scrollPosY - this.options.wrapper.offsetTop;
+    }
+    if (oldY !== this.posY && this.options.vertical) {
+      // scroll changed, return true
+      return true;
     }
 
-    if (oldY !== this.posY) {
+    if (oldX !== this.posX && this.options.horizontal) {
       // scroll changed, return true
       return true;
     }
@@ -189,56 +224,116 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  updatePosition(percentage, speed) {
-    const value = speed * (100 * (1 - percentage));
-    return this.options.round ? Math.round(value) : Math.round(value * 100) / 100;
+  updatePosition(percentageX: number, percentageY: number, speed: number) {
+    const valueX = (speed * (100 * (1 - percentageX)));
+    const valueY = (speed * (100 * (1 - percentageY)));
+
+    const result = {
+      x: this.options.round ? Math.round(valueX) : Math.round(valueX * 100) / 100,
+      y: this.options.round ? Math.round(valueY) : Math.round(valueY * 100) / 100
+    };
+
+    return result;
+  }
+
+  // Remove event listeners and loop again
+  deferredUpdate() {
+    window.removeEventListener('resize', this.deferredUpdate.bind(this));
+    window.removeEventListener('orientationchange', this.deferredUpdate.bind(this));
+    (this.options.wrapper ? this.options.wrapper : window).removeEventListener('scroll', this.deferredUpdate.bind(this));
+    (this.options.wrapper ? this.options.wrapper : document).removeEventListener('touchmove', this.deferredUpdate.bind(this));
+
+    // loop again
+    this.loopId = this.loop(this.update.bind(this));
   }
 
   update() {
     if (this.setPosition() && this.pause === false) {
       this.animate();
+
+      // loop again
+
     }
+    this.loopId = this.loop(this.update.bind(this));
+    /*else {
+      this.loopId = null;
 
-    // loop again
-    this.frame = this.loop(this.update.bind(this));
-
+      // Don't animate until we get a position updating event
+      window.addEventListener('resize', this.deferredUpdate.bind(this));
+      window.addEventListener('orientationchange', this.deferredUpdate.bind(this));
+      (this.options.wrapper ? this.options.wrapper : window).addEventListener('scroll',
+        this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
+      (this.options.wrapper ? this.options.wrapper : document).addEventListener('touchmove',
+        this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
+    }*/
   }
 
   animate() {
-    const percentage =
-      (this.posY -
-        this.block.top +
-        this.el.nativeElement.parentElement.offsetHeight) /
-      (this.el.nativeElement.clientHeight + this.el.nativeElement.parentElement.offsetHeight);
+    const percentageY = ((this.posY - this.block.top + this.screenY) / (this.block.height + this.screenY));
+    const percentageX = ((this.posX - this.block.left + this.screenX) / (this.block.width + this.screenX));
 
     // Subtracting initialize value, so element stays in same spot as HTML
-    const position =
-      this.updatePosition(percentage, this.block.speed) - this.block.base;
+    const positions =
+      this.updatePosition(percentageX, percentageY, this.block.speed); // - this.block.base;
+    let positionY = positions.y - this.block.baseY;
+    let positionX = positions.x - this.block.baseX;
+
+    // The next two "if" blocks go like this:
+    // Check if a limit is defined (first "min", then "max");
+    // Check if we need to change the Y or the X
+    // (Currently working only if just one of the axes is enabled)
+    // Then, check if the new position is inside the allowed limit
+    // If so, use new position. If not, set position to limit.
+
+    // Check if a min limit is defined
+    if (this.block.min !== null) {
+      if (this.options.vertical && !this.options.horizontal) {
+        positionY = positionY <= this.block.min ? this.block.min : positionY;
+      }
+      if (this.options.horizontal && !this.options.vertical) {
+        positionX = positionX <= this.block.min ? this.block.min : positionX;
+      }
+    }
+
+    // Check if a max limit is defined
+    if (this.block.max !== null) {
+      if (this.options.vertical && !this.options.horizontal) {
+        positionY = positionY >= this.block.max ? this.block.max : positionY;
+      }
+      if (this.options.horizontal && !this.options.vertical) {
+        positionX = positionX >= this.block.max ? this.block.max : positionX;
+      }
+    }
+
+    const zindex = this.block.zindex;
 
     // Move that element
     // (Set the new translation and append initial inline transforms.)
-    const translate =
-      'translate3d(0,' + position + 'px,0) ' + this.block.transform;
+    const translate = 'translate3d(' +
+      (this.options.horizontal ? positionX : '0') + 'px,' +
+      (this.options.vertical ? positionY : '0') + 'px,' +
+      zindex + 'px) ' +
+      this.block.transform;
+    this.el.nativeElement.style[this.transformProp] = translate;
 
-    /* TODO CHECK THIS LINE */
-    this.renderer.setStyle(
-      this.el.nativeElement,
-      this.transformProp,
-      translate
-    );
-    //  this.el.nativeElement.style[this.transformProp] = translate;
+    this.options.callback(positions);
   }
 
   destroy() {
-    {
-      this.el.nativeElement.style.cssText = this.block.style;
+    this.el.nativeElement.style.cssText = this.block.style;
+
+    if (!this.pause) {
+      window.removeEventListener('resize', this.init);
       this.pause = true;
     }
+
+    // Clear the animation loop to prevent possible memory leak
+    this.clearLoop(this.loopId);
+    this.loopId = null;
   }
 
   ngOnDestroy() {
     this.destroy();
-    window.cancelAnimationFrame(this.frame);
     this.subscription.unsubscribe();
   }
 }
