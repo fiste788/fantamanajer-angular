@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Article, Pagination, PagedResponse } from '@app/core/models';
 import { ArticleService } from '@app/core/services/article.service';
@@ -19,7 +19,8 @@ export class ArticleListComponent implements OnInit {
 
   constructor(
     public snackBar: MatSnackBar,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class ArticleListComponent implements OnInit {
         this.isLoading = false;
         this.pagination = data.pagination;
         this.articles = this.articles.concat(data.data);
+        this.changeRef.detectChanges();
       }
     );
 

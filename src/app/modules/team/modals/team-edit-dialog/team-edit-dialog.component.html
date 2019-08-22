@@ -7,11 +7,11 @@
     </mat-form-field>
   </div>
 
-  <div ngfDrop class="well my-drop-zone" selectable="1" multiple="0" [(files)]="files" accept="image/*"
+  <div ngfDrop class="well my-drop-zone" selectable="1" ngfDrop [(files)]="file" accept="image/*"
     [ngClass]="{'goodDragClass':'hasBaseDropZoneOver', 'badDragClass':'invalidComboDrag'}">
     <label for="upload-img">Clicca o trascina il file quì per caricare l'immagine</label>
-    <span *ngIf="files?.length">
-      <br>File {{files[0].name}} pronto per essere caricato</span>
+    <span *ngIf="file">
+      <br>File {{file.name}} pronto per essere caricato</span>
 
 
   </div>

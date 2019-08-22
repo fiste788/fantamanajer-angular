@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { ngf } from 'angular-file';
 import { environment } from '@env/environment';
 import { TeamService, ApplicationService } from '@app/core/services';
 import { Team, NotificationSubscription } from '@app/core/models';
@@ -14,7 +14,7 @@ export class TeamEditDialogComponent {
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;
   public team: Team;
-  public files: File[] = [];
+  public file: File;
 
 
   constructor(
@@ -32,8 +32,8 @@ export class TeamEditDialogComponent {
 
   save(): void {
     const myFormData = new FormData();
-    if (this.files.length) {
-      myFormData.append('photo', this.files[0]);
+    if (this.file) {
+      myFormData.append('photo', this.file);
     }
     myFormData.append('id', this.team.id.toString());
     myFormData.append('name', this.team.name);

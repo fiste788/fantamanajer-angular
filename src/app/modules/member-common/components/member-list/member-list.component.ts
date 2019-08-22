@@ -54,6 +54,8 @@ export class MemberListComponent implements OnInit {
         this.calcSummary(data);
         this.changeRef.detectChanges();
         this.dataSource.sort = this.sort;
+      } else {
+        this.changeRef.detectChanges();
       }
     });
   }

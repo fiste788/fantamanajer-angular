@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { MatchdayService } from './matchday.service';
 import { AuthService } from './auth.service';
 import { Matchday, Team, User, Championship } from '../models';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class ApplicationService {
 
   private setCurrentMatchday(matchday: Matchday): void {
     this.matchday = matchday;
-    this.seasonEnded = matchday.number > 38;
+    this.seasonEnded = matchday.number > environment.matchdaysCount;
     this.seasonStarted = matchday.number > 0;
   }
 
