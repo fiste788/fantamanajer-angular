@@ -1,0 +1,9 @@
+<nav mat-tab-nav-bar *ngIf="tabs.length">
+  <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    {{tab.label}}
+  </a>
+</nav>
+<div [@tabTransition]="getState(o)">
+  <router-outlet #o="outlet"></router-outlet>
+</div>

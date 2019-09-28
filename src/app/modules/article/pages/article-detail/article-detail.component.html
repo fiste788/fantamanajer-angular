@@ -1,0 +1,20 @@
+<h1>Articolo</h1>
+<div>
+    <form #articleForm="ngForm" *ngIf="article" (ngSubmit)="save()">
+        <mat-form-field>
+            <mat-label>Titolo</mat-label>
+            <input matInput [(ngModel)]="article.title" required name="title" placeholder="Titolo">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Sotto titolo</mat-label>
+            <input matInput [(ngModel)]="article.subtitle" name="subTitle" placeholder="Sotto titolo">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Testo</mat-label>
+            <textarea matInput rows="5" [(ngModel)]="article.body" required name="body" placeholder="Testo"></textarea>
+        </mat-form-field>
+        <button color="accent" mat-raised-button type="submit" [disabled]="!articleForm.form.valid">SALVA</button>
+    </form>
+</div>

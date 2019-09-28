@@ -1,0 +1,52 @@
+<div *ngIf="lineup">
+  <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+    fxLayoutAlign.xs="left left">
+    <mat-form-field>
+      <mat-label>Modulo</mat-label>
+      <mat-select #module="ngModel" [disabled]="disabled" name="module" [(ngModel)]="lineup.module_object"
+        placeholder="Modulo">
+        <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="module.invalid">{{shared.getError(module)}}</mat-error>
+    </mat-form-field>
+    <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
+    <mat-checkbox name="jolly" [disabled]="disabled" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>
+  </div>
+  <ng-container *ngIf="lineup.module_object">
+    <div *ngFor="let role of lineup.module_object.map | keyvalue:descOrder; trackBy: trackByRole"
+      [ngClass]="[role.key.abbreviation, 'role-container']" fxLayout="row">
+      <h5 [title]="role.key.plural">{{role.key.abbreviation}}</h5>
+      <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
+        <fm-member-selection @items [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center"
+          class="regular" *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
+          [isMemberDisabled]="isRegularCallback" (selectionChange)="removeBenchwarmer(lineup, $event)"
+          [memberList]="membersByRole.get(role.key)" [placeholder]="role.key.singolar"
+          [name]="role.key.abbreviation + '-' + memberKey"
+          [(ngModel)]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member"></fm-member-selection>
+      </div>
+    </div>
+  </ng-container>
+  <div>
+    <h5>Capitani</h5>
+    <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-evenly start">
+      <mat-form-field *ngFor="let captain of captains | keyvalue" appearance="standard">
+        <mat-label>{{captain.key}}</mat-label>
+        <mat-select [disabled]="disabled" [(ngModel)]="lineup[captain.value + '_id']" [placeholder]="captain.key"
+          [name]="captain.key">
+          <mat-option *ngFor="let member of getCapitanables(lineup)"
+            [disabled]="isCaptainAlreadySelected(lineup, member)" [value]="member.id">{{member.player.full_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="benchwarmers">
+    <h5>Panchinari</h5>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around">
+      <fm-member-selection fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="benchwarmer"
+        *ngFor="let bench of benchs" [disabled]="disabled" [isMemberDisabled]="isAlreadySelectedCallback"
+        [memberMap]="membersByRole" [placeholder]="'Panchinaro ' + (bench - 10)" [name]="bench" [size]="75"
+        [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
+    </div>
+  </div>
+</div>

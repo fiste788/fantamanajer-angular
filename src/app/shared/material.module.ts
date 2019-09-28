@@ -15,49 +15,54 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
+const formFieldDefaults: MatFormFieldDefaultOptions = {
+  appearance: 'outline'
+};
 
 @NgModule({
-    imports: [
-        MatButtonModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatProgressSpinnerModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatSlideToggleModule,
-        MatSortModule,
-        MatTooltipModule,
-        MatTableModule,
-        MatTabsModule,
-        MatRippleModule,
-        ScrollingModule
-    ],
-    exports: [
-        MatButtonModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatProgressSpinnerModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatTableModule,
-        MatTabsModule,
-        MatTooltipModule,
-        MatRippleModule,
-        ScrollingModule
-    ]
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatTabsModule,
+    MatRippleModule
+  ],
+  exports: [
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatTooltipModule,
+    MatRippleModule
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults }
+  ]
 })
 export class MaterialModule { }

@@ -1,0 +1,28 @@
+<div class="parallax-container">
+  <div class="parallax">
+    <div class="parallax-header-img">
+      <div fmRellax [center]="false">
+        <img (load)="initialScroll($event)" sizes="" [fmSrcset]="backgroundImage"
+          placeholder="//via.placeholder.com/1200x800" [alt]="title">
+      </div>
+    </div>
+    <div class="parallax-header-title-container">
+      <img *ngIf="image" [src]="image">
+      <div class="parallax-header-title">
+        <h1 class="mat-display-1 title">{{title}}</h1>
+        <div class="subtitle">
+          <p *ngIf="subtitle" class="mat-body-2">{{subtitle}}
+            <ng-content select="subtitle"></ng-content>
+          </p>
+        </div>
+      </div>
+      <ng-content class="parallax-header-right" select="[parallax-header-right]"></ng-content>
+    </div>
+  </div>
+  <nav mat-tab-nav-bar *ngIf="tabs.length">
+    <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive">
+      {{tab.label}}
+    </a>
+  </nav>
+</div>

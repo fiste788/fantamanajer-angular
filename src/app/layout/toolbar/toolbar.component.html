@@ -1,8 +1,0 @@
-<mat-toolbar color="primary" class="mat-toolbar-primary mat-elevation-z4">
-  <button aria-label="sidenav toggle" fxHide.gt-sm mat-icon-button (click)="clickNav()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <fm-breadcrumb></fm-breadcrumb>
-  <span class="spacer"></span>
-  <fm-notification-list *ngIf="auth.loggedIn()"></fm-notification-list>
-</mat-toolbar>

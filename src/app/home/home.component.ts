@@ -1,11 +1,10 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { MemberService } from '../entities/member/member.service';
-import { Role } from '../entities/role/role';
 import { Observable } from 'rxjs';
-import { CardCreationAnimation } from '../shared/animations/card-creation.animation';
-
 import { share } from 'rxjs/operators';
-import { ApplicationService } from '../core/application.service';
+import { MemberService, ApplicationService } from '@app/core/services';
+import { Role } from '@app/core/models';
+import { CardCreationAnimation } from '@app/core/animations';
+
 
 @Component({
   selector: 'fm-home',

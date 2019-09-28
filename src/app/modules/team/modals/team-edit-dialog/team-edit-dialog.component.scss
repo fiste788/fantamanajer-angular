@@ -1,0 +1,33 @@
+.my-drop-zone {
+  border: dotted 3px lightgray;
+  text-align: center;
+  padding: 1rem;
+  transition: all 175ms;
+  border-radius: 5px;
+}
+
+.good-file-over {
+  background-color: #d6fbff !important;
+  border-color: #56c3ce !important;
+}
+
+.bad-file-over {
+  background-color: #ffbbbb !important;
+  border-color: #f00 !important;
+  cursor: not-allowed;
+}
+
+input[type=file] {
+  display: none;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+img {
+  max-width: 256px;
+  max-height: 256px;
+  border: 1px solid #333;
+  transform-origin: center;
+}

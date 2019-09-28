@@ -1,0 +1,18 @@
+<form #transfertForm="ngForm" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="start start">
+  <mat-form-field>
+    <mat-select [compareWith]="compareFn" required (selectionChange)="playerChange()" [(ngModel)]="transfert.old_member"
+      name="old_member" placeholder="Vecchio giocatore">
+      <mat-option *ngFor="let member of team.members" [value]="member">
+        {{ member.player.full_name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [compareWith]="compareFn" required #newMember [(ngModel)]="transfert.new_member" name="new_member"
+      placeholder="Nuovo giocatore">
+      <mat-option *ngFor="let member of newMembers" [value]="member">
+        {{ member.player.full_name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-slide-toggle name="constrained" [(ngModel)]="transfert.constrained">Obbligato</mat-slide-toggle>
+  <button color="accent" mat-raised-button type="submit" [disabled]="!transfertForm.form.valid">SALVA</button>
+</form>

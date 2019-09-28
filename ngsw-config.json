@@ -20,21 +20,13 @@
             "updateMode": "prefetch",
             "resources": {
                 "files": [
-                    "/assets/**"
+                    "/assets/**",
+                    "https://api.fantamanajer.it/img/**",
+                    "https://api.fantamanajer.it/file/teams/**"
                 ],
                 "urls": [
                     "https://fonts.googleapis.com/**",
                     "https://fonts.gstatic.com/**"
-                ]
-            }
-        },
-        {
-            "name": "clubs",
-            "installMode": "lazy",
-            "updateMode": "prefetch",
-            "resources": {
-                "files": [
-                    "*/img/Clubs/**"
                 ]
             }
         }

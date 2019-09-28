@@ -1,0 +1,20 @@
+<div *ngIf="teams | async as teams2; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
+  fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
+  <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100"
+    *ngFor="let team of teams2; let i=index">
+    <img [alt]="team.name" mat-card-image [scrollTarget]="scrollTarget"
+      sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+      [lazyLoad]="team.photo_url | srcset" [useSrcset]="true" defaultImage="//placehold.it/350x200">
+    <mat-card-header>
+      <mat-card-title>{{team.name}}</mat-card-title>
+      <mat-card-subtitle>{{team.user.email}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <a mat-button color="primary" [routerLink]="['/teams/',team.id]">DETTAGLI</a>
+      <a mat-button color="primary" [routerLink]="['/teams/',team.id, 'scores','last']">PUNTEGGIO</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<ng-template #loading>
+  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

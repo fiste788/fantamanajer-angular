@@ -16,15 +16,15 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "aot": true,
             "assets": [
               "src/.htaccess",
               "src/assets",
-              "src/favicon.ico",
-              "src/site.webmanifest"
+              "src/assets/site.webmanifest",
+              "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/custom_theme.scss"
+              "src/main.scss"
             ],
             "scripts": []
           },

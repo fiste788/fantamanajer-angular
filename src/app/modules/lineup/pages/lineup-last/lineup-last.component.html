@@ -1,0 +1,19 @@
+<div *ngIf="!app.seasonEnded; else seasonEnded">
+  <div *ngIf="lineup | async as lineup2; else loading">
+    <form #lineupForm="ngForm" *ngIf="lineup2.module || lineup2.team.id == teamId; else notSet"
+      (ngSubmit)="save(lineup2)" class="flex-container">
+      <fm-lineup-detail [lineup]="lineup2" [disabled]="!editMode"></fm-lineup-detail>
+      <button *ngIf="editMode" color="accent" mat-raised-button type="submit">Salva</button>
+    </form>
+    <ng-template #notSet>
+      <h3 class="subheading-1">Formazione non settata</h3>
+    </ng-template>
+  </div>
+</div>
+<ng-template #loading>
+  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>
+<ng-template #seasonEnded>
+  <fm-mat-empty-state [rounded]="true" [label]="app.matchday.season.name + ' conclusa'"
+    description="Goditi le vacanze e tieniti pronto per la prossima stagione" icon="wb_sunny"></fm-mat-empty-state>
+</ng-template>

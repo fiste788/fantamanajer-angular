@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+    "importHelpers": true,
         "outDir": "./dist/out-tsc",
         "sourceMap": true,
         "declaration": false,
@@ -9,7 +10,8 @@
         "experimentalDecorators": true,
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
-        "target": "es5",
+        "module": "esnext",
+        "target": "es2015",
         "types": [
             "hammerjs",
             "jasmine"
@@ -18,7 +20,7 @@
             "node_modules/@types"
         ],
         "lib": [
-            "es2017",
+            "es2018",
             "dom"
         ],
         "baseUrl": "src",
