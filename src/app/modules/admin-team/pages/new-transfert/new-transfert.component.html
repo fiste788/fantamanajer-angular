@@ -3,14 +3,14 @@
     <mat-select [compareWith]="compareFn" required (selectionChange)="playerChange()" [(ngModel)]="transfert.old_member"
       name="old_member" placeholder="Vecchio giocatore">
       <mat-option *ngFor="let member of team.members" [value]="member">
-        {{ member.player.name}} {{ member.player.surname}}</mat-option>
+        {{ member.player.full_name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-select [compareWith]="compareFn" required #newMember [(ngModel)]="transfert.new_member" name="new_member"
       placeholder="Nuovo giocatore">
       <mat-option *ngFor="let member of newMembers" [value]="member">
-        {{ member.player.name }} {{ member.player.surname}}</mat-option>
+        {{ member.player.full_name }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-slide-toggle name="constrained" [(ngModel)]="transfert.constrained">Obbligato</mat-slide-toggle>

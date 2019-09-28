@@ -7,13 +7,13 @@
     </mat-form-field>
   </div>
 
-  <div ngfDrop class="well my-drop-zone" selectable="1" ngfDrop [(files)]="file" accept="image/*"
-    [ngClass]="{'goodDragClass':'hasBaseDropZoneOver', 'badDragClass':'invalidComboDrag'}">
-    <label for="upload-img">Clicca o trascina il file quì per caricare l'immagine</label>
-    <span *ngIf="file">
-      <br>File {{file.name}} pronto per essere caricato</span>
-
-
+  <div ngfDrop class="my-drop-zone" selectable="1" ngfDrop [(file)]="file" accept="image/*"
+    [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
+    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}">
+    <p>Clicca o trascina il file quì per caricare l'immagine</p>
+    <div *ngIf="file" @createBox>
+      <img alt="uploadImage" [ngfSrc]="file" />
+    </div>
   </div>
   <div>
     <fm-notification-subscription type="email" label="Notifiche tramite email"

@@ -12,6 +12,7 @@ export * from './player.service';
 export * from './push-subscription.service';
 export * from './push.service';
 export * from './score.service';
+export * from './role.service';
 export * from './selection.service';
 export * from './stream.service';
 export * from './team.service';

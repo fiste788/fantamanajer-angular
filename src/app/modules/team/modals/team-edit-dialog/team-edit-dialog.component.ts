@@ -1,21 +1,20 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ngf } from 'angular-file';
-import { environment } from '@env/environment';
 import { TeamService, ApplicationService } from '@app/core/services';
 import { Team, NotificationSubscription } from '@app/core/models';
+import { CreateBoxAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-team-edit-dialog',
   templateUrl: './team-edit-dialog.component.html',
-  styleUrls: ['./team-edit-dialog.component.scss']
+  styleUrls: ['./team-edit-dialog.component.scss'],
+  animations: [CreateBoxAnimation]
 })
 export class TeamEditDialogComponent {
-  public hasBaseDropZoneOver = false;
-  public hasAnotherDropZoneOver = false;
+  public validComboDrag = false;
+  public invalidComboDrag = false;
   public team: Team;
   public file: File;
-
 
   constructor(
     public app: ApplicationService,
@@ -33,9 +32,8 @@ export class TeamEditDialogComponent {
   save(): void {
     const myFormData = new FormData();
     if (this.file) {
-      myFormData.append('photo', this.file);
+      myFormData.set('photo', this.file);
     }
-    myFormData.append('id', this.team.id.toString());
     myFormData.append('name', this.team.name);
     this.objectToPostParams(this.team, 'email_notification_subscriptions', myFormData);
     this.objectToPostParams(this.team, 'push_notification_subscriptions', myFormData);
@@ -43,7 +41,7 @@ export class TeamEditDialogComponent {
   }
 
   private objectToPostParams(team: Team, fieldName: string, formData: FormData) {
-    team[fieldName].forEach((element: NotificationSubscription, i) => {
+    team[fieldName].forEach((element: NotificationSubscription, i: number) => {
       if (element.enabled) {
         Object.keys(element).filter(f => f !== 'id').forEach(field => {
           let value = element[field];

@@ -1,7 +1,7 @@
 import { Injectable, ElementRef, Injector, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable()

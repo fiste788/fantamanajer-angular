@@ -1,5 +1,5 @@
 <div *ngIf="score | async as score2; else loading">
-  <div *ngIf="score.lineup; else nolineup">
+  <div *ngIf="score2.lineup; else nolineup">
     <fm-disposition-list *ngIf="regular.length" [regular]="true" [lineup]="score2.lineup" [dispositions]="regular"
       [caption]="'Punteggio: ' + score2.points"></fm-disposition-list>
     <fm-disposition-list *ngIf="notRegular.length" [dispositions]="notRegular" caption="Panchinari">

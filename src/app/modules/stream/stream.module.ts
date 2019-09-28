@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ScrollingModule } from '@angular/cdk-experimental/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { SharedModule } from '@app/shared/shared.module';
 import { StreamComponent } from './components/stream.component';

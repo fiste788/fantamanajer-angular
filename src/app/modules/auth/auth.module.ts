@@ -7,10 +7,12 @@ import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard, NotLoggedGuard, AdminGuard, ChampionshipAdminGuard } from '@app/core/guards';
 import { AuthRoutingModule } from './auth-routing.module';
 import { JWTInterceptor } from '@app/core/interceptors';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     CommonModule,

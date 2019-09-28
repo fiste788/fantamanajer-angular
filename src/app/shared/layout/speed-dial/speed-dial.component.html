@@ -1,20 +1,22 @@
-<eco-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false" *ngIf="auth.loggedIn()">
+<eco-fab-speed-dial [(open)]="openSpeeddial" direction="up" animationMode="scale" [fixed]="false"
+  *ngIf="auth.loggedIn()">
   <eco-fab-speed-dial-trigger [spin]="true">
-    <button mat-fab>
+    <button mat-fab aria-label="Add">
       <mat-icon class="spin360">add</mat-icon>
     </button>
   </eco-fab-speed-dial-trigger>
 
   <eco-fab-speed-dial-actions>
-    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent" matTooltip="Inserisci formazione"
-      matTooltipPosition="left" (click)="_click('lineup')">
+    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent"
+      matTooltip="Inserisci formazione" matTooltipPosition="left" (click)="_click('lineup')">
       <mat-icon>star_rate</mat-icon>
     </button>
-    <button mat-mini-fab class="mat-accent" matTooltip="Nuovo articolo" matTooltipPosition="left" (click)="_click('article')">
+    <button mat-mini-fab class="mat-accent" matTooltip="Nuovo articolo" matTooltipPosition="left"
+      (click)="_click('article')">
       <mat-icon>message</mat-icon>
     </button>
-    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent" matTooltip="Nuovo trasferimento"
-      matTooltipPosition="left" (click)="_click('transfert')">
+    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent"
+      matTooltip="Nuovo trasferimento" matTooltipPosition="left" (click)="_click('transfert')">
       <mat-icon>swap_vert</mat-icon>
     </button>
   </eco-fab-speed-dial-actions>

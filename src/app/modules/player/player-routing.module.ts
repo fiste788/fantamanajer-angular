@@ -13,7 +13,7 @@ const routes: Routes = [
     },
     data: {
       state: 'player-detail',
-      breadcrumbs: '{{ player.name }} {{player.surname}}'
+      breadcrumbs: '{{ player.full_name }}'
     }
   }
 ];

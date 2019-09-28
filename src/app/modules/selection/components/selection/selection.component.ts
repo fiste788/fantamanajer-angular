@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
-import { Observable, of } from 'rxjs';
-import { Selection, Member } from '@app/core/models';
-import { SelectionService, MemberService, ApplicationService } from '@app/core/services';
+import { Observable, Subject } from 'rxjs';
+import { Selection, Member, Role } from '@app/core/models';
+import { SelectionService, MemberService, ApplicationService, RoleService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged, share, reduce, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-selection',
@@ -19,17 +19,21 @@ export class SelectionComponent implements OnInit {
   @ViewChild(NgForm, { static: false }) selectionForm: NgForm;
 
   selection: Selection = new Selection();
-  members: Observable<Member[]>;
-  newMembers: Member[];
+  members: Observable<Map<Role, Member[]>>;
+  newMembers: Observable<Member[]>;
+  role: Subject<Role> = new Subject<Role>();
+  disableOthers: boolean;
 
   constructor(
     public snackBar: MatSnackBar,
     private selectionService: SelectionService,
     private app: ApplicationService,
+    private roleService: RoleService,
     private changeRef: ChangeDetectorRef,
     private memberService: MemberService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     const team_id = SharedService.getTeamId(this.route);
@@ -39,38 +43,48 @@ export class SelectionComponent implements OnInit {
         this.playerChange();
       }
     });
-    this.members = this.memberService.getByTeamId(team_id).pipe(map(members => {
-      if (this.route.snapshot.queryParamMap.has('new_member_id')) {
-        const player = this.memberService.getById(parseInt(this.route.snapshot.queryParamMap.get('new_member_id'), 10));
-        player.subscribe(member => {
-          return this.memberService
-            .getFree(this.app.championship.id, member.role_id)
-            .subscribe(members2 => {
-              this.newMembers = members2;
-              this.selection.new_member = member;
-              this.selection.new_member_id = member.id;
-              this.newMember.disabled = false;
-              members = members.filter(value => value.role_id === member.role_id);
-              this.changeRef.detectChanges();
-              this.members = of(members);
-            });
-        });
 
-      }
-      return members;
-    }));
+    this.role.pipe(
+      distinctUntilChanged((x, y) => !y || x.id === y.id),
+      share()
+    ).subscribe({
+      next: this.loadMembers.bind(this)
+    });
 
+    this.members = this.memberService.getByTeamId(team_id).pipe(
+      map(data => this.roleService.groupMembersByRole(data)),
+      map(members => {
+        if (this.route.snapshot.queryParamMap.has('new_member_id')) {
+          const memberId = parseInt(this.route.snapshot.queryParamMap.get('new_member_id'), 10);
+          this.memberService.getById(memberId).subscribe(member => {
+            this.role.next(this.roleService.getById(member.role_id));
+            this.selection.new_member = member;
+            this.selection.new_member_id = member.id;
+            this.disableOthers = true;
+            this.changeRef.detectChanges();
+          });
+        }
+        return members;
+      }));
+
+  }
+
+  loadMembers(role?: Role) {
+    if (role) {
+      this.disableOthers = false;
+      this.newMember.disabled = true;
+      this.newMembers = this.memberService.getFree(this.app.championship.id, role.id, false).pipe(
+        map(members => {
+          this.changeRef.detectChanges();
+          this.newMember.disabled = false;
+          return members;
+        }));
+    }
   }
 
   playerChange() {
     if (this.selection.old_member) {
-      this.newMember.disabled = true;
-      this.memberService.getFree(this.app.championship.id, this.selection.old_member.role_id, false)
-        .subscribe(members => {
-          this.newMembers = members;
-          this.changeRef.detectChanges();
-          this.newMember.disabled = false;
-        });
+      this.role.next(this.selection.old_member.role);
     }
   }
 
@@ -102,5 +116,26 @@ export class SelectionComponent implements OnInit {
         err => SharedService.getUnprocessableEntityErrors(this.selectionForm, err)
       );
     }
+  }
+
+  descOrder = (a, b) => {
+    if (a.key < b.key) {
+      return b.key;
+    }
+  }
+
+  isDisabled(role: Role) {
+    return this.disableOthers &&
+      this.selection.new_member &&
+      role !== this.roleService.getById(this.selection.new_member.role_id);
+  }
+
+  reset() {
+    this.disableOthers = false;
+    this.selection.new_member = null;
+    this.selection.new_member_id = null;
+    this.newMember.value = null;
+    this.newMembers = null;
+    this.role.next();
   }
 }

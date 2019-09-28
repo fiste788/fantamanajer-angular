@@ -63,10 +63,10 @@ export class AuthService {
   }
 
   logout(): void {
+    this.userService.logout().subscribe();
     this.token = null;
     this.loggedUser.emit(null);
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
-    this.userService.logout().subscribe();
   }
 
   loggedIn() {

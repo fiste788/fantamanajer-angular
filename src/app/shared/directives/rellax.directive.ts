@@ -88,9 +88,11 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.subscription = fromEvent(this.el.nativeElement.querySelector('img'), 'load').subscribe(() =>
-      this.ngZone.runOutsideAngular(this.init.bind(this))
-    );
+    if (this.el && this.el.nativeElement) {
+      this.subscription = fromEvent(this.el.nativeElement.querySelector('img'), 'load').subscribe(() =>
+        this.ngZone.runOutsideAngular(this.init.bind(this))
+      );
+    }
   }
 
   clamp(num: number, min: number, max: number) {
@@ -320,8 +322,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   destroy() {
-    this.el.nativeElement.style.cssText = this.block.style;
-
+    if (this.el && this.el.nativeElement && this.block) {
+      this.el.nativeElement.style.cssText = this.block.style;
+    }
     if (!this.pause) {
       window.removeEventListener('resize', this.init);
       this.pause = true;

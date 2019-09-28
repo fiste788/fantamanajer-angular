@@ -87,7 +87,7 @@ export class MemberListComponent implements OnInit {
   sortingDataAccessor(data, sortHeaderId) {
     let value = null;
     switch (sortHeaderId) {
-      case 'player': value = (data.player.name ? (data.player.name + ' ') : data.player.name) + data.player.surname; break;
+      case 'player': value = data.player.full_name; break;
       default: value = data.stats[sortHeaderId]; break;
     }
     if (typeof value === 'string' && !value.trim()) {

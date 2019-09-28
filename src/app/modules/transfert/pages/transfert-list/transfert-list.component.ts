@@ -46,7 +46,7 @@ export class TransfertListComponent implements OnInit {
     let value = null;
     switch (sortHeaderId) {
       case 'old_member':
-      case 'new_member': value = (data.player.name ? (data.player.name + ' ') : data.player.name) + data.player.surname; break;
+      case 'new_member': value = data.player.full_name; break;
       default: value = data.stats[sortHeaderId]; break;
     }
     if (typeof value === 'string' && !value.trim()) {

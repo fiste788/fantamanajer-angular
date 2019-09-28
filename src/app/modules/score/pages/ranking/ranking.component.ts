@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { ScoreService } from '@app/core/services';
@@ -20,7 +20,8 @@ export class RankingComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
   }
 
@@ -32,6 +33,7 @@ export class RankingComponent implements OnInit {
           this.matchdays = Object.keys(ranking[0].scores).reverse();
           this.matchdays.map((matchday: string) => this.rankingDisplayedColumns.push(matchday));
         }
+        this.cd.detectChanges();
       });
     });
   }

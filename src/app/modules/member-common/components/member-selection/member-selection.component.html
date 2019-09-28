@@ -1,5 +1,6 @@
 <div class="photo-container">
-  <img class="mat-elevation-z2" [src]="val && val.player.photo_url ? val.player.photo_url : '//via.placeholder.com/' + size + 'x' + size">
+  <img class="mat-elevation-z2" [alt]="val?.player?.full_name || placeholder"
+    [src]="val && val.player.photo_url ? val.player.photo_url : '//via.placeholder.com/' + size + 'x' + size">
   <span *ngIf="val?.likely_lineup" @createBox>
     <mat-icon matTooltip="Titolare" *ngIf="val.likely_lineup.regular">verified_user</mat-icon>
     <mat-icon matTooltip="Panchina" *ngIf="!val.likely_lineup.regular">event_seat</mat-icon>
@@ -25,8 +26,8 @@
       </mat-option>
     </ng-container>
     <ng-container *ngIf="memberMap">
-      <mat-optgroup [label]="role" *ngFor="let role of roles">
-        <mat-option *ngFor="let member of memberMap.get(role)" [disabled]="isMemberDisabled(member)" [value]="member">
+      <mat-optgroup [label]="role.key.plural" *ngFor="let role of memberMap | keyvalue">
+        <mat-option *ngFor="let member of role.value" [disabled]="isMemberDisabled(member)" [value]="member">
           <span *ngIf="member.likely_lineup">
             <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
             <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>

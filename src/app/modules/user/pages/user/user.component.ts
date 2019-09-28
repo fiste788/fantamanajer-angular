@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Component } from '@angular/core';
 import { tabTransition, routerTransition } from '@app/core/animations';
 import { RouterOutlet } from '@angular/router';
 
@@ -9,7 +8,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./user.component.scss'],
   animations: [tabTransition, routerTransition]
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent {
 
   public tabs: any = [
     { label: 'Profilo', link: '../profile' },
@@ -17,16 +16,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   ];
 
   constructor() { }
-
-  @ViewChild(MatTabGroup, { static: false }) tabGroup: MatTabGroup;
-
-  ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-    this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
-  }
 
   getState(outlet: RouterOutlet) {
     return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';

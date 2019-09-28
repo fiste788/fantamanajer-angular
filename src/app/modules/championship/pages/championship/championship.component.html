@@ -1,11 +1,9 @@
-<mat-tab-group *ngIf="tabs.length">
-    <mat-tab #tabGroup *ngFor="let tab of tabs">
-        <ng-template mat-tab-label>
-            <a class="mat-tab-link" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive" isActive="rla.isActive"
-                [class.mat-tab-label-active]="rla.isActive">{{tab.label}}</a>
-        </ng-template>
-    </mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar *ngIf="tabs.length">
+  <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    {{tab.label}}
+  </a>
+</nav>
 <div [@tabTransition]="getState(o)" class="tabbed-container">
-    <router-outlet #o="outlet"></router-outlet>
+  <router-outlet #o="outlet"></router-outlet>
 </div>

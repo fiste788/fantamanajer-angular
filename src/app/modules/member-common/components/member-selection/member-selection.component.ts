@@ -27,7 +27,6 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @Input() memberList: Member[] = [];
   @Input() memberMap: Map<string, Member[]>;
   @Input() size = 100;
-  public roles: string[] = [];
   @Input() public isMemberDisabled: () => boolean;
   @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
@@ -39,9 +38,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.memberMap) {
-      this.memberMap.forEach((value, role) => this.roles.push(role));
-    }
+
   }
 
   get val() {

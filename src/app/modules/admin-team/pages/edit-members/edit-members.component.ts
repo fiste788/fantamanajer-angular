@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -32,7 +32,8 @@ export class EditMembersComponent implements OnInit {
     private teamService: TeamService,
     private memberService: MemberService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cd: ChangeDetectorRef
   ) {
     this.roles.set(new Role(1, 'P'), { count: 3, label: 'Portiere' });
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
@@ -46,6 +47,7 @@ export class EditMembersComponent implements OnInit {
     this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.loadMembers(this.team);
+      this.cd.detectChanges();
       this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this);
     });
   }

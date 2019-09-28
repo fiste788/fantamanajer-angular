@@ -7,10 +7,9 @@ import { tabTransition } from '@app/core/animations/tab-transition.animation';
 @Component({
   selector: 'fm-championship',
   templateUrl: './championship.component.html',
-  styleUrls: ['./championship.component.scss'],
   animations: [tabTransition]
 })
-export class ChampionshipComponent implements AfterViewInit {
+export class ChampionshipComponent {
 
   public tabs: { label: string; link: string }[] = [
     { label: 'Squadre', link: 'teams' },
@@ -25,26 +24,9 @@ export class ChampionshipComponent implements AfterViewInit {
     if (app.user.admin || app.team.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
-    this.router.events.subscribe((e: any) => {
-      // If it is a NavigationEnd event re-initalise the component
-      if (e instanceof NavigationEnd) {
-        this.selectTabFromUrl();
-      }
-    });
-  }
-
-  selectTabFromUrl() {
-    if (this.tabGroup) {
-      this.tabGroup.selectedIndex = this.tabs.findIndex((value) => location.href.includes(value.link));
-    }
-  }
-
-  ngAfterViewInit() {
-    this.selectTabFromUrl();
   }
 
   getState(outlet) {
-    // Changing the activatedRouteData.state triggers the animation
     return outlet.activatedRouteData.state;
   }
 

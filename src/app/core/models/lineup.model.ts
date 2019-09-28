@@ -3,6 +3,7 @@ import { Matchday } from './matchday.model';
 import { Team } from './team.model';
 import { Module } from './module.model';
 import { Disposition } from './disposition.model';
+import { Role } from './role.model';
 
 export class Lineup {
   id: number;
@@ -24,8 +25,8 @@ export class Lineup {
   modified_at: Date;
   created_at: Date;
 
-  constructor() {
-    this.module_object = new Module(this.module);
+  constructor(roles: Map<number, Role>) {
+    this.module_object = new Module(this.module, roles);
   }
 
 }

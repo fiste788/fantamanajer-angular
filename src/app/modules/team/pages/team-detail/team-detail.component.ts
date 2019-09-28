@@ -57,17 +57,17 @@ export class TeamDetailComponent {
       data: { team: this.teamStatic }
     }).afterClosed().subscribe((team?: Observable<Team>) => {
       if (team) {
-        this.team = team.pipe(map(res => {
+        this.team = team;
+        this.team.subscribe(res => {
           this.app.team = res;
+          this.teamStatic = res;
           this.changeRef.detectChanges();
-          return res;
-        }));
+        });
       }
     });
   }
 
   getState(outlet) {
-    // Changing the activatedRouteData.state triggers the animation
     return outlet.activatedRouteData.state;
   }
 }

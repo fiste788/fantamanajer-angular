@@ -7,7 +7,23 @@ export class CredentialService {
   private url = 'webauthn';
 
   public static strToBin(str: string) {
-    return (Uint8Array as any).from(atob(str), c => c.charCodeAt(0));
+    return (Uint8Array as any).from(this.base64UrlDecode(str), c => c.charCodeAt(0));
+  }
+
+  private static base64UrlDecode(input: string) {
+    input = input
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+
+    const pad = input.length % 4;
+    if (pad) {
+      if (pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      input += new Array(5 - pad).join('=');
+    }
+
+    return window.atob(input);
   }
 
   private static binToStr(bin) {

@@ -41,22 +41,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #ff4081;
-}
-
-.mat-tab-group {
-  margin-bottom: 1rem;
-  // workaround for https://github.com/angular/material2/issues/2177
-  .mat-tab-link {
-    width: 100%;
-    height: 100%;
-    line-height: 3rem;
-    display: block;
-  }
-
-  .mat-tab-label-content {
-    width: 100%;
-  }
+  color: mat-color(map-get($candy-app-theme, accent));
 }
 
 .red_card,

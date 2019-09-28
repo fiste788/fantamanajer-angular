@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { LineupService } from '@app/core/services';
-import { Lineup, Disposition, Member, Module } from '@app/core/models';
+import { LineupService, RoleService } from '@app/core/services';
+import { Lineup, Disposition, Member, Module, Role } from '@app/core/models';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({
@@ -33,17 +33,19 @@ export class LineupDetailComponent implements OnInit {
 
   @Input() lineup: Lineup;
   @Input() disabled = false;
-  membersByRole: Map<string, Member[]> = new Map<string, Member[]>();
+  membersByRole: Map<Role, Member[]>;
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();
-  modules: Module[] = [];
-  benchs: number[] = [];
+  modules: Module[];
+  benchs: number[];
   isRegularCallback: () => boolean;
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
     public shared: SharedService,
-    private lineupService: LineupService
+    private lineupService: LineupService,
+    private roleService: RoleService,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -55,31 +57,25 @@ export class LineupDetailComponent implements OnInit {
     this.captains.set('VC', 'vcaptain');
     this.captains.set('VVC', 'vvcaptain');
 
-    const lineup = this.lineup || ((!this.disabled) ? new Lineup() : undefined);
+    const lineup = this.lineup || ((!this.disabled) ? new Lineup(this.roleService.list()) : undefined);
+    lineup.team_id = lineup.team_id || lineup.team.id;
     this.isRegularCallback = this.isRegular.bind(this, lineup);
     this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
     if (lineup) {
-      lineup.team.members.forEach((member, index) => {
-        if (!this.membersByRole.has(member.role.abbreviation)) {
-          this.membersByRole.set(member.role.abbreviation, []);
-        }
-        this.membersByRole.get(member.role.abbreviation).push(member);
-        this.membersById.set(member.id, member);
-      }, this);
+      this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
+      lineup.team.members.forEach((member) => this.membersById.set(member.id, member), this);
       if (!this.disabled) {
         this.lineupService.getLikelyLineup(lineup).subscribe(members => {
-          members.forEach(member => {
-            this.membersById.get(member.id).likely_lineup = member.likely_lineup;
-          });
+          members.forEach(member => this.membersById.get(member.id).likely_lineup = member.likely_lineup);
+          this.cd.detectChanges();
         });
       }
-      lineup.modules.forEach((module, index) => {
+      /*lineup.modules.forEach((module, index) => {
         this.modules.push(new Module(module));
-      }, this);
+      }, this);*/
+      this.modules = lineup.modules.map(m => new Module(m, this.roleService.list()));
       if (lineup.module) {
-        lineup.module_object = this.modules.find(element => {
-          return element.key === lineup.module;
-        }, this);
+        lineup.module_object = this.modules.find(e => e.key === lineup.module, this);
       }
       let i = 0;
       if (!lineup.dispositions) {
@@ -101,31 +97,25 @@ export class LineupDetailComponent implements OnInit {
 
   }
 
-  getIndex(lineup: Lineup, key, key2): number {
+  getIndex(lineup: Lineup, role: Role, memberKey: number): number {
     let count = 0;
     let i = 0;
     const roleKeys = Array.from(lineup.module_object.map.keys());
-    const index = roleKeys.indexOf(key);
+    const index = roleKeys.indexOf(role);
     for (i = 0; i < index; i++) {
       count += Array.from(lineup.module_object.map.values())[i].length;
     }
-    return count + key2;
+    return count + memberKey;
   }
 
   getCapitanables(lineup: Lineup): Member[] {
     const regulars = lineup.dispositions.slice(0, 11);
-    const def = regulars.filter(element => {
-      if (element && element.member) {
-        return (
-          this.membersById.get(element.member.id).role.abbreviation === 'P' ||
-          this.membersById.get(element.member.id).role.abbreviation === 'D'
-        );
-      }
-    }, this);
+    const def = regulars.filter(element => element &&
+      element.member && ['P', 'D'].find(a => this.membersById.get(element.member.id).role.abbreviation === a), this);
     return def.map(element => this.membersById.get(element.member.id), this);
   }
 
-  putInLineup(lineup: Lineup, element, i) {
+  putInLineup(lineup: Lineup, element: Member, i) {
     if (!lineup.dispositions.length < i || lineup.dispositions[i] == null) {
       lineup.dispositions[i] = new Disposition();
     }
@@ -146,13 +136,12 @@ export class LineupDetailComponent implements OnInit {
       });
   }
 
-  getMemberByKeys(lineup, key, key2) {
-    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, key, key2)].member.id);
+  getMemberByKeys(lineup: Lineup, role: Role, memberKey: number) {
+    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, role, memberKey)].member.id);
   }
 
-  getMemberLabelByKeys(lineup, key, key2) {
-    const member = this.getMemberByKeys(lineup, key, key2);
-    return member.player.name + ' ' + member.player.surname;
+  getMemberLabelByKeys(lineup: Lineup, role: Role, memberKey: number) {
+    return this.getMemberByKeys(lineup, role, memberKey).player.full_name;
   }
 
   isAlreadySelected(lineup: Lineup, member: Member): boolean {
