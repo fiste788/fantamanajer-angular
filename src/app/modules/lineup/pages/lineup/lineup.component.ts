@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '@app/core/animations/router-transition.animation';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'fm-lineup',
@@ -14,7 +15,7 @@ export class LineupComponent implements OnInit {
   ngOnInit() {
   }
 
-  getState(outlet) {
+  getState(outlet: RouterOutlet) {
     // Changing the activatedRouteData.state triggers the animation
     return outlet.activatedRouteData.state;
   }

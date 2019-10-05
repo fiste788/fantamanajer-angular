@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MemberService } from '@app/core/services';
 import { Member, Club } from '@app/core/models';
-import { TableRowAnimation } from '@app/core/animations';
+import { tableRowAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-club-members',
   templateUrl: './club-members.component.html',
   styleUrls: ['./club-members.component.scss'],
-  animations: [TableRowAnimation]
+  animations: [tableRowAnimation]
 })
 export class ClubMembersComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';

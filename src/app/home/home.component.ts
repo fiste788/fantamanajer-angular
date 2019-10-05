@@ -3,17 +3,17 @@ import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { MemberService, ApplicationService } from '@app/core/services';
 import { Role } from '@app/core/models';
-import { CardCreationAnimation } from '@app/core/animations';
+import { cardCreationAnimation } from '@app/core/animations';
 
 
 @Component({
   selector: 'fm-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [CardCreationAnimation]
+  animations: [cardCreationAnimation]
 })
 export class HomeComponent implements OnInit {
-  @HostBinding('@cardCreationAnimation') CardCreationAnimation = '';
+  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
   public roles: Observable<Role[]>;
   constructor(private memberService: MemberService, public app: ApplicationService) { }
 

@@ -13,7 +13,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
 import { SharedService } from './services';
 
-export const BreakPointsProvider = {
+export const breakPointsProvider = {
   provide: BREAKPOINTS,
   useValue: DEFAULT_BREAKPOINTS,
   multi: true

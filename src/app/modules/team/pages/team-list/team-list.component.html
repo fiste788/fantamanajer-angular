@@ -16,5 +16,5 @@
   </mat-card>
 </div>
 <ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner *ngIf="!exit" color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>

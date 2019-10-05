@@ -19,7 +19,7 @@ export class JWTInterceptor implements HttpInterceptor {
       let headers = req.headers;
       headers = headers.set('Accept', 'application/json');
       if (token) {
-        headers = headers.set('Authorization', `Bearer ${token}`)
+        headers = headers.set('Authorization', `Bearer ${token}`);
       }
       if (!req.headers.has('Content-type')) {
         headers = headers.set('Content-type', 'application/json');

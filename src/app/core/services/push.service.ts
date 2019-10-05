@@ -12,7 +12,7 @@ import { WindowRefService } from './window-ref.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  @Output() beforeInstall: EventEmitter<any> = new EventEmitter<any>();
+  @Output() beforeInstall: EventEmitter<Event> = new EventEmitter<Event>();
 
   constructor(
     public subscription: PushSubscriptionService,
@@ -24,7 +24,7 @@ export class PushService {
     private swUpdate: SwUpdate,
     private winRef: WindowRefService
   ) {
-    this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e) => {
+    this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e: Event) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
@@ -60,7 +60,7 @@ export class PushService {
     }
   }
 
-  subscribeToPush() {
+  subscribeToPush(): void {
     this.swPush.subscription.pipe(defaultIfEmpty(null)).subscribe(subs => {
       if (!subs) {
         this.requestSubscription();
@@ -68,7 +68,7 @@ export class PushService {
     });
   }
 
-  private requestSubscription() {
+  private requestSubscription(): void {
     this.swPush
       .requestSubscription({
         serverPublicKey: environment.vapidPublicKey
@@ -92,7 +92,7 @@ export class PushService {
       });
   }
 
-  unsubscribeFromPush() {
+  unsubscribeFromPush(): void {
     // Get active subscription
     this.swPush.subscription.pipe(take(1)).subscribe(pushSubscription => {
       // Delete the subscription from the backend
@@ -118,7 +118,7 @@ export class PushService {
     });
   }
 
-  showMessages() {
+  showMessages(): void {
     this.swPush.messages.subscribe(message => {
       console.log('[App] Push message received', message);
       this.notificationService.broadcast(message['notification'].title, '');

@@ -2,13 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TeamService, ApplicationService } from '@app/core/services';
 import { Team, NotificationSubscription } from '@app/core/models';
-import { CreateBoxAnimation } from '@app/core/animations';
+import { createBoxAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-team-edit-dialog',
   templateUrl: './team-edit-dialog.component.html',
   styleUrls: ['./team-edit-dialog.component.scss'],
-  animations: [CreateBoxAnimation]
+  animations: [createBoxAnimation]
 })
 export class TeamEditDialogComponent {
   public validComboDrag = false;

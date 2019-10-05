@@ -2,7 +2,7 @@ import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetec
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Member } from '@app/core/models';
-import { CreateBoxAnimation } from '@app/core/animations';
+import { createBoxAnimation } from '@app/core/animations';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -15,7 +15,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
-  animations: [CreateBoxAnimation]
+  animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @HostBinding('@createBox') createBox = '';

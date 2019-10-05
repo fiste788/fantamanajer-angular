@@ -1,27 +1,23 @@
-import { trigger, style, transition, animate, query, keyframes } from '@angular/animations';
+import { trigger, style, transition, animate, query } from '@angular/animations';
 
-export const CreateBoxAnimation = trigger('createBox', [
+export const createBoxAnimation = trigger('createBox', [
   transition(':enter', [
-    query('img, mat-icon', [
-      animate('250ms ease-in',
-        keyframes([
-          style({ transform: 'scale(0)', offset: 0 }),
-          style({ transform: 'scale(1.1)', offset: 0.8 }),
-          style({ transform: 'scale(1)', offset: 1 })
-        ])
-      )],
+    query('img, mat-icon', style({ opacity: 0, transform: 'scale(0.4)' })),
+    query('img, mat-icon',
+      animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        style({ transform: 'scale(1)', opacity: 1 })
+      ),
       { optional: true }
     )]
   ),
   transition(':leave', [
-    query('img, mat-icon', [
-      animate('250ms ease-in',
-        keyframes([
-          style({ transform: 'scale(1)', offset: 0 }),
-          style({ transform: 'scale(1.1)', offset: 0.2 }),
-          style({ transform: 'scale(0)', offset: 1 })
-        ])
-      )],
+    query('img, mat-icon', style({ opacity: 1, transform: 'scale(1)' })),
+    query('img, mat-icon',
+      animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+
+        style({ transform: 'scale(0.4)', opacity: 0 }),
+
+      ),
       { optional: true }
     )]
   )]

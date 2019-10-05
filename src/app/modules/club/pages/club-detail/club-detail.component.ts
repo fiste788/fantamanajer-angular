@@ -3,13 +3,13 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Club } from '@app/core/models';
-import { EnterDetailAnimation, tabTransition } from '@app/core/animations';
+import { enterDetailAnimation, tabTransition } from '@app/core/animations';
 
 @Component({
   selector: 'fm-club-detail',
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss'],
-  animations: [EnterDetailAnimation, tabTransition]
+  animations: [enterDetailAnimation, tabTransition]
 })
 export class ClubDetailComponent implements OnInit {
   club: Observable<Club>;

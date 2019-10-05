@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApplicationService } from '@app/core/services';
-import { TableRowAnimation, EnterDetailAnimation } from '@app/core/animations';
+import { tableRowAnimation, enterDetailAnimation } from '@app/core/animations';
 import { Member, Player, Rating } from '@app/core/models';
 
 @Component({
@@ -15,8 +15,8 @@ import { Member, Player, Rating } from '@app/core/models';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
   animations: [
-    TableRowAnimation,
-    EnterDetailAnimation
+    tableRowAnimation,
+    enterDetailAnimation
   ]
 })
 export class PlayerComponent {

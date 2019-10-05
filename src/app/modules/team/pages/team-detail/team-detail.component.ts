@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Team } from '@app/core/models';
-import { EnterDetailAnimation, tabTransition } from '@app/core/animations';
+import { enterDetailAnimation, tabTransition } from '@app/core/animations';
 import { ApplicationService } from '@app/core/services';
 import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
 
@@ -12,10 +12,9 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
   selector: 'fm-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss'],
-  animations: [EnterDetailAnimation, tabTransition]
+  animations: [enterDetailAnimation, tabTransition]
 })
-export class TeamDetailComponent {
-  private teamStatic: Team = null;
+export class TeamDetailComponent implements OnInit {
   team: Observable<Team>;
   tabs: { label: string; link: string }[] = [];
 
@@ -25,10 +24,11 @@ export class TeamDetailComponent {
     private changeRef: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
-    this.team = this.route.data.pipe(map((data: { team: Team }) => {
-      this.teamStatic = data.team;
-      return data.team;
-    }));
+
+  }
+
+  ngOnInit() {
+    this.team = this.route.data.pipe(map((data: { team: Team }) => data.team));
     this.loadTabs();
   }
 
@@ -52,22 +52,23 @@ export class TeamDetailComponent {
     }
   }
 
-  openDialog(): void {
+  openDialog(team: Team): void {
     this.dialog.open(TeamEditDialogComponent, {
-      data: { team: this.teamStatic }
-    }).afterClosed().subscribe((team?: Observable<Team>) => {
-      if (team) {
-        this.team = team;
+      data: { team }
+    }).afterClosed().subscribe((t?: Observable<Team>) => {
+      if (t) {
+        this.team = t;
         this.team.subscribe(res => {
           this.app.team = res;
-          this.teamStatic = res;
           this.changeRef.detectChanges();
         });
       }
     });
   }
 
-  getState(outlet) {
-    return outlet.activatedRouteData.state;
+  getState(outlet: RouterOutlet) {
+    const state = outlet.isActivated ? outlet.activatedRouteData.state : '';
+    console.log(state);
+    return state;
   }
 }

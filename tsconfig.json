@@ -1,39 +1,39 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
+  "compileOnSave": false,
+  "compilerOptions": {
     "importHelpers": true,
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
-        "module": "esnext",
-        "target": "es2015",
-        "types": [
-            "hammerjs",
-            "jasmine"
-        ],
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2018",
-            "dom"
-        ],
-        "baseUrl": "src",
-        "paths": {
-            "@app/*": [
-                "app/*"
-            ],
-            "@env/*": [
-                "environments/*"
-            ]
-        }
-    },
-    "angularCompilerOptions": {
-        "preserveWhitespaces": false
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "module": "esnext",
+    "target": "es2015",
+    "types": [
+      "hammerjs",
+      "jasmine"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@env/*": [
+        "environments/*"
+      ]
     }
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false
+  }
 }

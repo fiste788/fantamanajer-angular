@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Member, Role } from '../models';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -9,22 +9,24 @@ export class MemberService {
 
   constructor(private http: HttpClient) { }
 
-  getFree(championship_id: number, role_id: number = 1, stats: boolean = true): Observable<Member[]> {
-    let url = 'championships/' + championship_id + '/' + this.url + '/free';
-    if (role_id) {
-      url = url + '/' + role_id;
+  getFree(championshipId: number, roleId: number = 1, stats: boolean = true): Observable<Member[]> {
+    let params = new HttpParams();
+    let url = 'championships/' + championshipId + '/' + this.url + '/free';
+    if (roleId) {
+      url = url + '/' + roleId;
     }
     if (!stats) {
-      url = url + '?stats=0';
+      params = params.set('stats', '0');
     }
-    return this.http.get<Member[]>(url);
+    return this.http.get<Member[]>(url, { params });
 
   }
 
-  getAllFree(championship_id: number): Observable<any> {
-    const url = 'championships/' + championship_id + '/' + this.url + '/free/?stats=0';
+  getAllFree(championshipId: number): Observable<any> {
+    const params = new HttpParams().set('stats', '0');
+    const url = 'championships/' + championshipId + '/' + this.url + '/free';
 
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, { params });
 
   }
 
@@ -32,16 +34,16 @@ export class MemberService {
     return this.http.get<Role[]>(this.url + '/best');
   }
 
-  getByTeamId(team_id: number): Observable<Member[]> {
-    return this.http.get<Member[]>('teams/' + team_id + '/' + this.url);
+  getByTeamId(teamId: number): Observable<Member[]> {
+    return this.http.get<Member[]>('teams/' + teamId + '/' + this.url);
   }
 
-  getNotMine(team_id: number, role_id: number): Observable<Member[]> {
-    return this.http.get<Member[]>('teams/' + team_id + '/' + this.url + '/not_mine/' + role_id);
+  getNotMine(teamId: number, roleId: number): Observable<Member[]> {
+    return this.http.get<Member[]>('teams/' + teamId + '/' + this.url + '/not_mine/' + roleId);
   }
 
-  getByClubId(club_id: number): Observable<Member[]> {
-    return this.http.get<Member[]>('clubs/' + club_id + '/' + this.url);
+  getByClubId(clubId: number): Observable<Member[]> {
+    return this.http.get<Member[]>('clubs/' + clubId + '/' + this.url);
   }
 
   getById(id: number): Observable<Member> {

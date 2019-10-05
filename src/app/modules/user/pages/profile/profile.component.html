@@ -1,29 +1,29 @@
 <div class="flex-container">
-    <form *ngIf="user">
-        <mat-form-field>
-            <mat-label>Nome</mat-label>
-            <input matInput required [(ngModel)]="user.name" name="name" placeholder="Nome">
-        </mat-form-field>
+  <form *ngIf="user">
+    <mat-form-field>
+      <mat-label>Nome</mat-label>
+      <input matInput required [(ngModel)]="user.name" name="name" placeholder="Nome">
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Cognome</mat-label>
-            <input matInput required [(ngModel)]="user.surname" name="surname" placeholder="Cognome">
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Cognome</mat-label>
+      <input matInput required [(ngModel)]="user.surname" name="surname" placeholder="Cognome">
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput [(ngModel)]="user.password" name="password" type="password" placeholder="Password">
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="user.password" name="password" type="password" placeholder="Password">
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Ripeti password</mat-label>
-            <input matInput [required]="user.password != null && user.password != ''" [(ngModel)]="repeat_password"
-                name="repeat_password" type="password" placeholder="Ripeti password">
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ripeti password</mat-label>
+      <input matInput [required]="user.password != null && user.password != ''" [(ngModel)]="repeat_password"
+        name="repeatPassword" type="password" placeholder="Ripeti password">
+    </mat-form-field>
 
-        <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push
-        </mat-slide-toggle>
-        <button color="accent" mat-raised-button (click)="registerDevice()">Registra device</button>
-        <button color="accent" mat-raised-button (click)="save()">Salva</button>
-    </form>
+    <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push
+    </mat-slide-toggle>
+    <button color="accent" mat-raised-button (click)="registerDevice()">Registra device</button>
+    <button color="accent" mat-raised-button (click)="save()">Salva</button>
+  </form>
 </div>

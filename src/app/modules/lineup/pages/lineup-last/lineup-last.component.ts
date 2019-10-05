@@ -41,7 +41,7 @@ export class LineupLastComponent implements OnDestroy {
     lineup.module = lineup.module_object.key;
     lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     let obs: Observable<Lineup> = null;
-    let message = null;
+    let message: string = null;
     if (lineup.id) {
       message = 'Formazione aggiornata';
       obs = this.lineupService.update(lineup);

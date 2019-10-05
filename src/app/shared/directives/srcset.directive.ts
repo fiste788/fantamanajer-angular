@@ -12,7 +12,7 @@ export class SrcsetDirective implements OnInit {
   ngOnInit() {
     if (this.fmSrcset) {
       if (typeof this.fmSrcset !== 'string') {
-        const srcset = [];
+        const srcset: string[] = [];
         const keys = Object.keys(this.fmSrcset);
         keys.forEach(key => {
           srcset.push(this.fmSrcset[key] + ' ' + key);

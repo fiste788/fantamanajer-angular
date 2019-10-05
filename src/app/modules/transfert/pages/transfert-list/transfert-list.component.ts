@@ -2,16 +2,16 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Transfert } from '@app/core/models';
+import { Transfert, Member } from '@app/core/models';
 import { TransfertService, ApplicationService } from '@app/core/services';
-import { TableRowAnimation } from '@app/core/animations';
+import { tableRowAnimation } from '@app/core/animations';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({
   selector: 'fm-transfert-list',
   templateUrl: './transfert-list.component.html',
   styleUrls: ['./transfert-list.component.scss'],
-  animations: [TableRowAnimation]
+  animations: [tableRowAnimation]
 })
 export class TransfertListComponent implements OnInit {
   teamId: number;
@@ -42,12 +42,11 @@ export class TransfertListComponent implements OnInit {
 
   }
 
-  sortingDataAccessor(data, sortHeaderId) {
+  sortingDataAccessor(data: Transfert, sortHeaderId: string) {
     let value = null;
     switch (sortHeaderId) {
-      case 'old_member':
-      case 'new_member': value = data.player.full_name; break;
-      default: value = data.stats[sortHeaderId]; break;
+      case 'old_member': value = data.old_member.player.full_name; break;
+      case 'new_member': value = data.new_member.player.full_name; break;
     }
     if (typeof value === 'string' && !value.trim()) {
       return value;

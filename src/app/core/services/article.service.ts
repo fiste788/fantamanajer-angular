@@ -14,15 +14,15 @@ export class ArticleService {
     return this.http.get<PagedResponse<Article[]>>(location.pathname.substring(1), { params });
   }
 
-  getArticlesByTeam(team_id: number, page = 1): Observable<PagedResponse<Article[]>> {
+  getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
-    return this.http.get<PagedResponse<Article[]>>('teams/' + team_id + '/' + this.url, { params });
+    return this.http.get<PagedResponse<Article[]>>('teams/' + teamId + '/' + this.url, { params });
   }
 
-  getArticlesByChampionship(championship_id: number, page = 1): Observable<PagedResponse<Article[]>> {
+  getArticlesByChampionship(championshipId: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
     return this.http.get<PagedResponse<Article[]>>(
-      'championships/' + championship_id + '/' + this.url
+      'championships/' + championshipId + '/' + this.url
       , { params });
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '@app/core/animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'fm-club',
@@ -14,7 +15,7 @@ export class ClubComponent implements OnInit {
   ngOnInit() {
   }
 
-  getState(outlet) {
+  getState(outlet: RouterOutlet) {
     return outlet.activatedRouteData.state;
   }
 

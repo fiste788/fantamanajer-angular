@@ -36,8 +36,8 @@ export class SelectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    const team_id = SharedService.getTeamId(this.route);
-    this.selectionService.getSelection(team_id).subscribe(selection => {
+    const teamId = SharedService.getTeamId(this.route);
+    this.selectionService.getSelection(teamId).subscribe(selection => {
       if (selection) {
         this.selection = selection;
         this.playerChange();
@@ -51,7 +51,7 @@ export class SelectionComponent implements OnInit {
       next: this.loadMembers.bind(this)
     });
 
-    this.members = this.memberService.getByTeamId(team_id).pipe(
+    this.members = this.memberService.getByTeamId(teamId).pipe(
       map(data => this.roleService.groupMembersByRole(data)),
       map(members => {
         if (this.route.snapshot.queryParamMap.has('new_member_id')) {
@@ -118,7 +118,7 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  descOrder = (a, b) => {
+  descOrder = (a: any, b: any) => {
     if (a.key < b.key) {
       return b.key;
     }

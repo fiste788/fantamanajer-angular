@@ -14,19 +14,19 @@ export class ScoreService {
   }
 
   getScore(id: number, members = false): Observable<any> {
-    let params;
+    let params = new HttpParams();
     if (members) {
-      params = new HttpParams().set('members', '1');
+      params = params.set('members', '1');
     }
     return this.http.get(`${this.url}/${id}`, { params });
   }
 
-  getLastScore(team_id: number): Observable<any> {
-    return this.http.get(`teams/${team_id}/${this.url}/last`);
+  getLastScore(teamId: number): Observable<any> {
+    return this.http.get(`teams/${teamId}/${this.url}/last`);
   }
 
-  getScoresByTeam(team_id: number): Observable<Score[]> {
-    return this.http.get<Score[]>(`teams/${team_id}/${this.url}`);
+  getScoresByTeam(teamId: number): Observable<Score[]> {
+    return this.http.get<Score[]>(`teams/${teamId}/${this.url}`);
   }
 
   update(score: Score): Observable<any> {

@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ApplicationService } from '@app/core/services/application.service';
 import { tabTransition } from '@app/core/animations/tab-transition.animation';
@@ -26,7 +26,7 @@ export class ChampionshipComponent {
     }
   }
 
-  getState(outlet) {
+  getState(outlet: RouterOutlet) {
     return outlet.activatedRouteData.state;
   }
 

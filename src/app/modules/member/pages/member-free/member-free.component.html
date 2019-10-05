@@ -1,24 +1,25 @@
 <div class="table-container">
-    <div class="mat-table-header" fxLayout="row">
+  <div class="mat-table-header" fxLayout="row">
 
-        <span class="mat-table-title">Seleziona per acquistarlo</span>
+    <span class="mat-table-title">Seleziona per acquistarlo</span>
 
 
-        <mat-form-field floatLabel="never">
-            <mat-label>Ruolo</mat-label>
-            <mat-select [(ngModel)]="selectedRole" placeholder="Seleziona il ruolo" (selectionChange)="roleChange()">
-                <mat-option *ngFor="let role of roles" [value]="role">{{role.singolar}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field floatLabel="never">
+      <mat-label>Ruolo</mat-label>
+      <mat-select #roleSelect placeholder="Seleziona il ruolo">
+        <mat-option *ngFor="let role of roles | keyvalue" [value]="role.key">{{role.value.singolar}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <div class="mat-table-header-selected" fxLayout="row" *ngIf="memberList != null && !memberList.selection.isEmpty()">
-            <span class="mat-table-title">Selezionato {{memberList.selection.selected[0].player.full_name}}</span>
-            <a matTooltip="Acquista" mat-button [routerLink]="'/teams/' + app.team.id + '/transferts'" [queryParams]="{new_member_id: memberList.selection.selected[0].id}">
-                <mat-icon>add_shopping_cart</mat-icon>
-            </a>
-        </div>
+    <div class="mat-table-header-selected" fxLayout="row" *ngIf="memberList != null && !memberList.selection.isEmpty()">
+      <span class="mat-table-title">Selezionato {{memberList.selection.selected[0].player.full_name}}</span>
+      <a matTooltip="Acquista" mat-button [routerLink]="'/teams/' + app.team.id + '/transferts'"
+        [queryParams]="{new_member_id: memberList.selection.selected[0].id}">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </a>
     </div>
+  </div>
 
-    <fm-member-list *ngIf="members" [members]="members" [isSelectable]="app.championship.started && !app.seasonEnded"
-        [elevation]="0"></fm-member-list>
+  <fm-member-list *ngIf="members" [members]="members" [isSelectable]="app.championship.started && !app.seasonEnded"
+    [elevation]="0"></fm-member-list>
 </div>

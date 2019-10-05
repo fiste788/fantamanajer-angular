@@ -18,7 +18,7 @@ export class RoleService {
     }, new Map());
   }
 
-  getById(id: number) {
+  getById(id: number): Role {
     return this.roles.get(id);
   }
 

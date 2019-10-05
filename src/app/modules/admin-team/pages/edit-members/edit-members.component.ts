@@ -90,7 +90,7 @@ export class EditMembersComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-  getIndex(key, key2): number {
+  getIndex(key: Role, key2: number): number {
     let count = 0;
     let i = 0;
     const keys = Array.from(this.roles.keys());

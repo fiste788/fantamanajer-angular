@@ -14,7 +14,7 @@ import { CredentialService } from '@app/core/services/credential.service';
 export class ProfileComponent implements OnInit {
   userObservable: Observable<User>;
   user: User;
-  repeat_password: string;
+  repeatPassword: string;
   push: boolean;
 
   constructor(
@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
   }
 
   save() {
-    if (this.user.password === this.repeat_password) {
+    if (this.user.password === this.repeatPassword) {
       this.userObservable = this.userService.update(this.user).pipe(share());
       this.userObservable.subscribe(response => {
         this.snackBar.open('Modifiche salvate', null, {

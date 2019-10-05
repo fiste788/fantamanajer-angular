@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Player } from '../models';
 
@@ -13,11 +13,12 @@ export class PlayerService {
     return this.http.get<Player[]>(this.url);
   }
 
-  getPlayer(id: number, championship_id?: number): Observable<Player> {
-    let url = `${this.url}/${id}`;
-    if (championship_id) {
-      url += '?championship_id=' + championship_id;
+  getPlayer(id: number, championshipId?: number): Observable<Player> {
+    let params = new HttpParams();
+    const url = `${this.url}/${id}`;
+    if (championshipId) {
+      params = params.set('championshipId', `${championshipId}`);
     }
-    return this.http.get<Player>(url);
+    return this.http.get<Player>(url, { params });
   }
 }

@@ -9,11 +9,11 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(championships_id: number, page = 1): Observable<PagedResponse<Event[]>> {
+  getEvents(championshipsId: number, page = 1): Observable<PagedResponse<Event[]>> {
     const params = new HttpParams().set('page', `${page}`);
 
     return this.http.get<PagedResponse<Event[]>>(
-      `championships/${championships_id}/${this.url}`, { params }
+      `championships/${championshipsId}/${this.url}`, { params }
     );
   }
 

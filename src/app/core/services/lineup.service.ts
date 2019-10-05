@@ -9,10 +9,8 @@ export class LineupService {
 
   constructor(private http: HttpClient) { }
 
-  getLineup(
-    team_id
-  ): Observable<Lineup> {
-    return this.http.get<Lineup>(`teams/${team_id}/${this.url}/current`);
+  getLineup(teamId: number): Observable<Lineup> {
+    return this.http.get<Lineup>(`teams/${teamId}/${this.url}/current`);
   }
 
   update(lineup: Lineup): Observable<any> {

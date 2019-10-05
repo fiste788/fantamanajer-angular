@@ -9,14 +9,16 @@ import { MainComponent } from '../main/main.component';
 })
 export class NavbarComponent implements OnInit {
 
-  public deferredPrompt;
-  constructor(public main: MainComponent,
-              public auth: AuthService,
-              private push: PushService,
-              public app: ApplicationService) { }
+  public deferredPrompt: any;
+  constructor(
+    public main: MainComponent,
+    public auth: AuthService,
+    private push: PushService,
+    public app: ApplicationService
+  ) { }
 
   ngOnInit() {
-    this.push.beforeInstall.subscribe(e => {
+    this.push.beforeInstall.subscribe((e: any) => {
       this.deferredPrompt = e;
     });
   }
@@ -26,7 +28,7 @@ export class NavbarComponent implements OnInit {
     this.deferredPrompt.prompt();
     // Wait for the user to respond to the prompt
     this.deferredPrompt.userChoice
-      .then((choiceResult) => {
+      .then((choiceResult: any) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the A2HS prompt');
         } else {

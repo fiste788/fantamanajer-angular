@@ -5,7 +5,7 @@ import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { Subscription, Observable } from 'rxjs';
 import * as Hammer from 'hammerjs';
 import { SharedService } from '@app/shared/services/shared.service';
-import { routerTransition, ScrollUpAnimation, CloseAnimation } from '@app/core/animations';
+import { routerTransition, scrollUpAnimation, closeAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -24,8 +24,8 @@ enum Direction {
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     routerTransition,
-    ScrollUpAnimation,
-    CloseAnimation
+    scrollUpAnimation,
+    closeAnimation
   ]
 })
 export class MainComponent implements OnInit, AfterViewInit {
@@ -54,7 +54,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.drawer) {
-      this.drawer.openedStart.subscribe(() => { console.log('start'); this.changeRef.detectChanges(); });
+      this.drawer.openedStart.subscribe(() => this.changeRef.detectChanges());
     }
     this.closeSidenav();
     this.applySwipeSidenav();

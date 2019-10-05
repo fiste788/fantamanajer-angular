@@ -11,8 +11,8 @@ export class TeamService {
 
   }
 
-  getTeams(championship_id: number): Observable<Team[]> {
-    return this.http.get<Team[]>('championships/' + championship_id + '/' + this.url);
+  getTeams(championshipId: number): Observable<Team[]> {
+    return this.http.get<Team[]>('championships/' + championshipId + '/' + this.url);
   }
 
   getTeam(id: number): Observable<Team> {

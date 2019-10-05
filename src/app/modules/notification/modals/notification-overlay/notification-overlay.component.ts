@@ -3,7 +3,7 @@ import { AnimationEvent } from '@angular/animations';
 import { Observable } from 'rxjs';
 import { NotificationService, ApplicationService } from '@app/core/services';
 import { Stream } from '@app/core/models';
-import { ListItemAnimation, OpenOverlayAnimation } from '@app/core/animations';
+import { listItemAnimation, openOverlayAnimation } from '@app/core/animations';
 
 
 @Component({
@@ -11,8 +11,8 @@ import { ListItemAnimation, OpenOverlayAnimation } from '@app/core/animations';
   templateUrl: './notification-overlay.component.html',
   styleUrls: ['./notification-overlay.component.scss'],
   animations: [
-    OpenOverlayAnimation,
-    ListItemAnimation
+    openOverlayAnimation,
+    listItemAnimation
   ],
 })
 export class NotificationOverlayComponent implements OnInit {
@@ -20,8 +20,9 @@ export class NotificationOverlayComponent implements OnInit {
   animationState: 'void' | 'enter' | 'leave' = 'enter';
   animationStateChanged = new EventEmitter<AnimationEvent>();
 
-  constructor(public notificationService: NotificationService,
-              private app: ApplicationService) { }
+  constructor(
+    public notificationService: NotificationService,
+    private app: ApplicationService) { }
 
   ngOnInit() {
     this.stream = this.notificationService.getNotifications(this.app.team.id);

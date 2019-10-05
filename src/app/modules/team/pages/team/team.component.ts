@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '@app/core/animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'fm-team',
@@ -14,7 +15,7 @@ export class TeamComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getState(outlet) {
+  getState(outlet: RouterOutlet) {
     return outlet.activatedRouteData.state;
   }
 }

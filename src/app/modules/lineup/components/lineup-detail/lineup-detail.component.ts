@@ -115,8 +115,8 @@ export class LineupDetailComponent implements OnInit {
     return def.map(element => this.membersById.get(element.member.id), this);
   }
 
-  putInLineup(lineup: Lineup, element: Member, i) {
-    if (!lineup.dispositions.length < i || lineup.dispositions[i] == null) {
+  putInLineup(lineup: Lineup, element: Member, i: number) {
+    if (!(lineup.dispositions.length < i) || lineup.dispositions[i] == null) {
       lineup.dispositions[i] = new Disposition();
     }
     lineup.dispositions[i].position = i;
@@ -173,17 +173,17 @@ export class LineupDetailComponent implements OnInit {
     );
   }
 
-  descOrder = (a, b) => {
+  descOrder = (a: any, b: any) => {
     if (a.key < b.key) {
       return b.key;
     }
   }
 
-  trackByRole(index, item) {
+  trackByRole(index: number, item: any) {
     return item.key; // or item.id
   }
 
-  trackBySelection(index, item) {
+  trackBySelection(index: number, item: any) {
     return item.key; // or item.id
   }
 }

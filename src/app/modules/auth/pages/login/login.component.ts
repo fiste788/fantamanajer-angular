@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
     email: string,
     password: string,
     remember_me: boolean
-  } = { email: '', password: '', remember_me: false };
+  } = { email: '', password: '', remember_me: true };
   loading = false;
   error = '';
 
@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private app: ApplicationService
   ) {
-    this.loginData.remember_me = true;
   }
 
   ngOnInit() {

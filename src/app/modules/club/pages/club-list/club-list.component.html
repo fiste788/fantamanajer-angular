@@ -1,7 +1,7 @@
 <div *ngIf="clubs | async as clubs2; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
   fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
 
-  <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100"
+  <mat-card [@open]="club.id == id" class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100"
     *ngFor="let club of clubs2; let i=index; trackBy: track">
     <mat-card-header>
       <img mat-card-avatar [alt]="club.name" class="club-header-image" [scrollTarget]="scrollTarget"
@@ -14,8 +14,9 @@
       sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
       [lazyLoad]="club.background_url | srcset" [scrollTarget]="scrollTarget" [useSrcset]="true"
       defaultImage="//placehold.it/350x200">
-    <mat-card-actions fxLayoutAlign="end">
-      <a mat-button [routerLink]="['/clubs',club.id]">OPEN</a>
+    <mat-card-actions>
+      <a mat-button color="primary" [routerLink]="[club.id]">DETTAGLI</a>
+      <a mat-button color="primary" [routerLink]="[club.id, 'stream']">ATTIVITÀ</a>
     </mat-card-actions>
   </mat-card>
 

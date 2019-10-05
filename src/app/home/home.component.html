@@ -12,7 +12,7 @@
           <mat-card-subtitle>{{role.best_players[0].player.full_name}}:
             {{role.best_players[0].ratings[0].points}}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-actions>
+        <mat-card-content>
           <mat-expansion-panel class="mat-elevation-z0">
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -20,14 +20,16 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <mat-list dense>
-              <mat-list-item *ngFor="let member of role.best_players; let j = index">
-                <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}:
-                  {{member.ratings[0].points}}</a>
-              </mat-list-item>
-            </mat-list>
+            <ng-template matExpansionPanelContent>
+              <mat-list dense>
+                <mat-list-item *ngFor="let member of role.best_players; let j = index">
+                  <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}:
+                    {{member.ratings[0].points}}</a>
+                </mat-list-item>
+              </mat-list>
+            </ng-template>
           </mat-expansion-panel>
-        </mat-card-actions>
+        </mat-card-content>
       </mat-card>
     </div>
   </div>

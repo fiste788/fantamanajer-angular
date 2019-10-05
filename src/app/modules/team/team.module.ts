@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
-import { ngfModule } from "angular-file"
+import { ngfModule } from 'angular-file';
 import { TeamComponent } from './pages/team/team.component';
 import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamDetailComponent } from './pages/team-detail/team-detail.component';

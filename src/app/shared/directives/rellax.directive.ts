@@ -19,7 +19,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   @Input() speed = -2;
   @Input() center = false;
-  @Input() percentage = null;
+  @Input() percentage: number = null;
   @Input() relativeToWrapper = false;
   @Input() wrapper = '.mat-drawer-content';
 
@@ -29,7 +29,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private posX = 0;
   private pause = true;
   private subscription: Subscription;
-  private loopId = null;
+  private loopId: number = null;
   private supportsPassive = false;
   private screenX = 0;
   private screenY = 0;
@@ -39,7 +39,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     (window as any).mozRequestAnimationFrame ||
     (window as any).msRequestAnimationFrame ||
     (window as any).oRequestAnimationFrame ||
-    ((callback) => {
+    ((callback: any) => {
       setTimeout(callback, 1000 / 60);
     });
 
@@ -69,8 +69,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
           this.supportsPassive = true;
         }
       });
-      //window.addEventListener('testPassive', null, opts);
-      //window.removeEventListener('testPassive', null, opts);
+      // window.addEventListener('testPassive', null, opts);
+      // window.removeEventListener('testPassive', null, opts);
     } catch (e) { }
 
     this.options = {

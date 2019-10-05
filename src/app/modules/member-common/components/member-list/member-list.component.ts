@@ -1,18 +1,18 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Member } from '@app/core/models';
-import { TableRowAnimation } from '@app/core/animations';
+import { tableRowAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-member-list',
   templateUrl: './member-list.component.html',
   styleUrls: ['./member-list.component.scss'],
-  animations: [TableRowAnimation]
+  animations: [tableRowAnimation]
 })
-export class MemberListComponent implements OnInit {
+export class MemberListComponent implements OnInit, OnDestroy {
   @Input() members: Observable<Member[]>;
   @Input() hideClub = false;
   @Input() isSelectable = false;
@@ -20,6 +20,7 @@ export class MemberListComponent implements OnInit {
   @Input() elevation = 1;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
+  private subscription: Subscription;
   dataSource: MatTableDataSource<Member> = null;
   displayedColumns = [
     'player',
@@ -47,7 +48,7 @@ export class MemberListComponent implements OnInit {
       this.displayedColumns.unshift('select');
     }
 
-    this.members.subscribe(data => {
+    this.subscription = this.members.subscribe(data => {
       this.dataSource = new MatTableDataSource<Member>(data);
       if (data.length) {
         this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
@@ -60,31 +61,25 @@ export class MemberListComponent implements OnInit {
     });
   }
 
-  calcSummary(data) {
+  calcSummary(data: Member[]) {
     this.displayedColumns.forEach(column => {
-      if (column.startsWith('sum')) {
+      if (column.startsWith('sum') || column.startsWith('avg')) {
         this.footer[column] = 0;
+        const rows = data.filter(row => row.stats && row.stats[column] > 0);
         data.forEach(row => {
           if (row.stats) {
             this.footer[column] += row.stats[column];
           }
         });
-      }
-      if (column.startsWith('avg')) {
-        this.footer[column] = 0;
-        const rows = data.filter(row => row.stats && row.stats[column] > 0);
-        rows.forEach(row => {
-          if (row.stats) {
-            this.footer[column] += row.stats[column];
-          }
-        });
-        this.footer[column] /= rows.length;
+        if (column.startsWith('avg')) {
+          this.footer[column] /= rows.length;
+        }
       }
     });
 
   }
 
-  sortingDataAccessor(data, sortHeaderId) {
+  sortingDataAccessor(data: Member, sortHeaderId: string) {
     let value = null;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;
@@ -94,6 +89,13 @@ export class MemberListComponent implements OnInit {
       return value;
     }
     return isNaN(+value) ? value : +value;
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataSource) {
+      this.dataSource.disconnect();
+    }
+    this.subscription.unsubscribe();
   }
 }
 

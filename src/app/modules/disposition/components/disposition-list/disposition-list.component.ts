@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Disposition, Lineup } from '@app/core/models';
-import { TableRowAnimation } from '@app/core/animations';
+import { tableRowAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-disposition-list',
   templateUrl: './disposition-list.component.html',
   styleUrls: ['./disposition-list.component.scss'],
-  animations: [TableRowAnimation]
+  animations: [tableRowAnimation]
 })
 export class DispositionListComponent implements OnInit {
   @Input() public lineup?: Lineup;

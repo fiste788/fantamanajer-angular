@@ -2,13 +2,13 @@ import { Component, OnInit, HostBinding, ChangeDetectorRef } from '@angular/core
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Article, Pagination, PagedResponse } from '@app/core/models';
 import { ArticleService } from '@app/core/services/article.service';
-import { CardCreationAnimation } from 'app/core/animations/card-creation.animation';
+import { cardCreationAnimation } from 'app/core/animations/card-creation.animation';
 
 @Component({
   selector: 'fm-article-list',
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.scss'],
-  animations: [CardCreationAnimation]
+  animations: [cardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
@@ -48,7 +48,7 @@ export class ArticleListComponent implements OnInit {
 
   }
 
-  delete(id) {
+  delete(id: number) {
     const instance = this;
     this.articleService.delete(id).subscribe((res: any) => {
       instance.snackBar.open('Article deleted', null, {

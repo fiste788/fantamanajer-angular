@@ -14,11 +14,12 @@ export class ProfileComponent implements OnInit {
   loadImage: Observable<void | Event>;
   main: MainComponent;
 
-  constructor(private injector: Injector,
-              public auth: AuthService,
-              public app: ApplicationService,
-              private router: Router,
-              private changeRef: ChangeDetectorRef
+  constructor(
+    private injector: Injector,
+    public auth: AuthService,
+    public app: ApplicationService,
+    private router: Router,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -31,9 +32,4 @@ export class ProfileComponent implements OnInit {
     this.app.setCurrentTeam(team).then(() => this.changeRef.detectChanges());
     this.router.navigateByUrl('/teams/' + team.id);
   }
-
-  load(success: boolean) {
-    console.log(success);
-  }
-
 }

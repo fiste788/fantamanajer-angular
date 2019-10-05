@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -7,10 +7,10 @@ export class CredentialService {
   private url = 'webauthn';
 
   public static strToBin(str: string) {
-    return (Uint8Array as any).from(this.base64UrlDecode(str), c => c.charCodeAt(0));
+    return (Uint8Array as any).from(this.base64UrlDecode(str), (c: string) => c.charCodeAt(0));
   }
 
-  private static base64UrlDecode(input: string) {
+  private static base64UrlDecode(input: string): string {
     input = input
       .replace(/-/g, '+')
       .replace(/_/g, '/');
@@ -26,7 +26,7 @@ export class CredentialService {
     return window.atob(input);
   }
 
-  private static binToStr(bin) {
+  private static binToStr(bin: Iterable<number>) {
     return btoa(new Uint8Array(bin).reduce(
       (s, byte) => s + String.fromCharCode(byte), ''
     ));
@@ -43,7 +43,8 @@ export class CredentialService {
   }
 
   request(email: string): Observable<any> {
-    return this.http.get<any>(`${this.url}/login?email=${email}`);
+    const params = new HttpParams().set('email', `${email}`);
+    return this.http.get<any>(`${this.url}/login`, { params });
   }
 
   create(): Observable<any> {
@@ -55,7 +56,7 @@ export class CredentialService {
       publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
       publicKey.user.id = CredentialService.strToBin(publicKey.user.id);
       if (publicKey.excludeCredentials) {
-        publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
+        publicKey.excludeCredentials = publicKey.excludeCredentials.map((data: any) => {
           return {
             ...data,
             id: CredentialService.strToBin(data.id)
@@ -86,7 +87,7 @@ export class CredentialService {
     this.request(email).subscribe(publicKey => {
       publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
       if (publicKey.allowCredentials.length) {
-        publicKey.allowCredentials = publicKey.allowCredentials.map(data => {
+        publicKey.allowCredentials = publicKey.allowCredentials.map((data: any) => {
           return {
             ...data,
             id: CredentialService.strToBin(data.id)

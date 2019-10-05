@@ -70,7 +70,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((x) => x.unsubscribe());
   }
 
-  track(index, crumb) {
+  track(index: number, crumb: IBreadcrumb) {
     return crumb ? crumb.text : index;
   }
 

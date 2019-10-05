@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Stream } from '../models';
 
@@ -9,12 +9,13 @@ export class StreamService {
 
   constructor(private http: HttpClient) { }
 
-  getByChampionship(championships_id: number): Observable<Stream> {
-    return this.http.get<Stream>(`championships/${championships_id}/${this.url}`);
+  getByChampionship(championshipsId: number): Observable<Stream> {
+    return this.http.get<Stream>(`championships/${championshipsId}/${this.url}`);
   }
 
   getByTeam(teamId: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(`teams/${teamId}/${this.url}?page=${page}`);
+    const params = new HttpParams().set('page', `${page}`);
+    return this.http.get<Stream>(`teams/${teamId}/${this.url}`, { params });
   }
 
   getByClub(clubId: number): Observable<Stream> {
@@ -26,6 +27,7 @@ export class StreamService {
   }
 
   get(context: 'teams' | 'users' | 'clubs' | 'championships', id: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(`${context}/${id}/${this.url}?page=${page}`);
+    const params = new HttpParams().set('page', `${page}`);
+    return this.http.get<Stream>(`${context}/${id}/${this.url}`, { params });
   }
 }

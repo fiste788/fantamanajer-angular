@@ -9,11 +9,11 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string, remember_me = false): Observable<{ user: User, token: string }> {
+  login(email: string, password: string, rememberMe = false): Observable<{ user: User, token: string }> {
     const body = {
       email,
       password,
-      remember_me
+      rememberMe
     };
     return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(body));
   }

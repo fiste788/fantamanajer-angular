@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '@app/core/animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'fm-member',
@@ -14,7 +15,7 @@ export class MemberComponent implements OnInit {
   ngOnInit() {
   }
 
-  getState(outlet) {
+  getState(outlet: RouterOutlet) {
     // Changing the activatedRouteData.state triggers the animation
     return outlet.activatedRouteData.state;
   }

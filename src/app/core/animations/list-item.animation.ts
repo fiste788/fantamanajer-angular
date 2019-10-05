@@ -1,6 +1,6 @@
 import { trigger, style, transition, animate, query, stagger } from '@angular/animations';
 
-export const ListItemAnimation = trigger('listItemAnimation', [
+export const listItemAnimation = trigger('listItemAnimation', [
   transition(':leave', [
     query('mat-list-item', style({ opacity: 1, transform: 'translateX(0)' }), { optional: true }),
 
