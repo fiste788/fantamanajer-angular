@@ -12,13 +12,13 @@ import { trigger, transition, query, animate, style } from '@angular/animations'
   templateUrl: './club-list.component.html',
   styleUrls: ['./club-list.component.scss'],
   animations: [cardCreationAnimation,
-    trigger('open', [
+    /*trigger('open', [
       transition('* <=> *', [
         query('img',
           animate('3500ms cubic-bezier(.8, -0.6, 0.2, 1.5)', style({ position: 'absolute', top: 0, width: '100%' })),
         )
       ])
-    ])
+    ])*/
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,9 +37,8 @@ export class ClubListComponent implements OnInit, OnDestroy {
 
     this.subscription = this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
-        this.id = parseInt(evt.url.split('/').pop(), 10);
+        //this.id = parseInt(evt.url.split('/').pop(), 10);
         this.exit = true;
-        this.cd.detectChanges();
         this.clubs = null;
       }
     });

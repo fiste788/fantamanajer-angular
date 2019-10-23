@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TeamComponent } from './pages/team/team.component';
 import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
 import { TeamMembersComponent } from './components/team-members/team-members.component';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { TeamStreamComponent } from './components/team-stream/team-stream.component';
 import { ChampionshipAdminGuard } from '@app/core/guards';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: TeamComponent,
-    data: { state: 'team' },
+    component: RouterOutletComponent,
+    data: { state: 'team-outlet' },
     children: [
       {
         path: '',
@@ -39,32 +39,32 @@ const routes: Routes = [
           {
             path: 'articles',
             loadChildren: () => import('app/modules/article/article.module').then(m => m.ArticleModule),
-            data: { state: 'articles' },
+            data: { state: 'team-articles' },
           },
           {
             path: 'players',
             component: TeamMembersComponent,
-            data: { state: 'players' },
+            data: { state: 'team-players' },
           },
           {
             path: 'stream',
             component: TeamStreamComponent,
-            data: { state: 'stream' },
+            data: { state: 'team-stream' },
           },
           {
             path: 'scores',
             loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
-            data: { state: 'scores' },
+            data: { state: 'team-scores' },
           },
           {
             path: 'lineup',
             loadChildren: () => import('app/modules/lineup/lineup.module').then(m => m.LineupModule),
-            data: { state: 'lineup' },
+            data: { state: 'team-lineup' },
           },
           {
             path: 'transferts',
             loadChildren: () => import('app/modules/transfert/transfert.module').then(m => m.TransfertModule),
-            data: { state: 'transfert' },
+            data: { state: 'team-transfert' },
           },
           {
             path: 'admin',

@@ -1,3 +1,5 @@
+@import '~@angular/flex-layout/mq';
+
 .role {
   width: 100%;
   padding-bottom: 1rem;
@@ -23,16 +25,15 @@ h5 {
     position: sticky;
   }
 }
-@media(max-width: 600px) {
-  .mat-form-field {
-    width: 100%;
-  }
 
-  .flex-container {
-    margin: 0 1rem;
-  }
+.mat-form-field {
+  width: 100%;
 }
-@media(min-width: 600px) {
+
+.flex-container {
+  margin: 0 1rem;
+}
+@include layout-bp(gt-xs) {
   .mat-form-field {
     min-width: 10rem;
     margin: 0 .5rem;

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/core/guards';
-import { MemberComponent } from './pages/member/member.component';
 import { MemberFreeComponent } from './pages/member-free/member-free.component';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MemberComponent,
-    data: { state: 'member' },
+    component: RouterOutletComponent,
+    data: { state: 'member-outlet' },
     children: [
       { path: 'free', component: MemberFreeComponent, canActivate: [AuthGuard], data: { state: 'free' } }
     ]

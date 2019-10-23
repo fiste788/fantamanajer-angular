@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChampionshipComponent } from './championship.component';
+import { MemberIconsComponent } from './member-icons.component';
 
-describe('ChampionshipAdminComponent', () => {
-  let component: ChampionshipComponent;
-  let fixture: ComponentFixture<ChampionshipComponent>;
+describe('MemberOptionComponent', () => {
+  let component: MemberIconsComponent;
+  let fixture: ComponentFixture<MemberIconsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ChampionshipComponent]
+      declarations: [MemberIconsComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChampionshipComponent);
+    fixture = TestBed.createComponent(MemberIconsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

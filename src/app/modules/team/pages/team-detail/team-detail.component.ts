@@ -67,8 +67,6 @@ export class TeamDetailComponent implements OnInit {
   }
 
   getState(outlet: RouterOutlet) {
-    const state = outlet.isActivated ? outlet.activatedRouteData.state : '';
-    console.log(state);
-    return state;
+    return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 }

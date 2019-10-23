@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule, DEFAULT_BREAKPOINTS, BREAKPOINTS } from '@angular/flex-layout';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
-import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { LazyLoadImageModule, intersectionObserverPreset, LoadImageProps } from 'ng-lazyload-image';
 import { SrcsetPipe, PlaceholderPipe } from '@app/shared/pipes';
 import { RellaxDirective, SrcsetDirective } from '@app/shared/directives';
 import { MaterialModule } from './material.module';
@@ -12,12 +12,19 @@ import { ParallaxHeaderComponent } from './components/parallax-header/parallax-h
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
 import { SharedService } from './services';
+import { RouterOutletComponent } from './components/router-outlet/router-outlet.component';
 
 export const breakPointsProvider = {
   provide: BREAKPOINTS,
   useValue: DEFAULT_BREAKPOINTS,
   multi: true
 };
+
+export async function loadImage({ imagePath }: LoadImageProps): Promise<string> {
+  return await fetch(imagePath, {
+    // mode: 'no-cors',
+  }).then(res => res.blob()).then(blob => URL.createObjectURL(blob));
+}
 
 @NgModule({
   imports: [
@@ -29,6 +36,7 @@ export const breakPointsProvider = {
     FlexLayoutModule,
     McBreadcrumbsModule,
     LazyLoadImageModule.forRoot({
+      // loadImage,
       preset: intersectionObserverPreset
     })
   ],
@@ -40,6 +48,7 @@ export const breakPointsProvider = {
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     MatEmptyStateComponent,
+    RouterOutletComponent
   ],
   exports: [
     CommonModule,

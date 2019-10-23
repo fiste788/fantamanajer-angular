@@ -2,27 +2,31 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ArticleListComponent } from './pages/article-list/article-list.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
-import { ArticleComponent } from './pages/article/article.component';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ArticleComponent,
+    component: RouterOutletComponent,
+    data: { state: 'article-outlet' },
     children: [
       {
         path: '',
-        component: ArticleListComponent
+        component: ArticleListComponent,
+        data: { state: 'article-list' }
       },
       {
         path: 'new',
         component: ArticleDetailComponent,
         data: {
+          state: 'article-new',
           breadcrumbs: 'Nuovo articolo'
         }
       },
       {
         path: ':id',
-        component: ArticleDetailComponent
+        component: ArticleDetailComponent,
+        data: { state: 'article-detail' }
       },
     ]
   }

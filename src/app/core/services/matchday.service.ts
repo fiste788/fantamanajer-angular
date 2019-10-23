@@ -14,6 +14,8 @@ export class MatchdayService {
   }
 
   getCurrentMatchday(): Observable<Matchday> {
-    return this.http.get<Matchday>(`${this.url}/current`);
+    return this.http.get<Matchday>(`${this.url}/current`, {
+      withCredentials: false
+    });
   }
 }

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LineupComponent } from './pages/lineup/lineup.component';
 import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
     path: '',
-    data: { state: 'lineup' },
-    component: LineupComponent,
+    data: { state: 'lineup-outlet' },
+    component: RouterOutletComponent,
     children: [
       { path: 'current', component: LineupLastComponent, data: { state: 'lineup-detail' } }
     ]

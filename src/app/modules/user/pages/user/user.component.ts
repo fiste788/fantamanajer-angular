@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
 export class UserComponent {
 
   public tabs: any = [
-    { label: 'Profilo', link: '../profile' },
+    { label: 'Profilo', link: 'profile' },
     { label: 'Attività', link: 'stream' }
   ];
 

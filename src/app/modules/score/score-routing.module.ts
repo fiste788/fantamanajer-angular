@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ScoreComponent } from './pages/score/score.component';
 import { RankingComponent } from './pages/ranking/ranking.component';
 import { ScoreDetailComponent } from './pages/score-detail/score-detail.component';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ScoreComponent,
-    data: { state: 'score' },
+    component: RouterOutletComponent,
+    data: { state: 'score-outlet' },
     children: [
       { path: '', component: RankingComponent, data: { state: 'ranking' } },
       { path: ':id', component: ScoreDetailComponent, data: { state: 'details' } },

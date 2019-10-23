@@ -1,62 +1,63 @@
 {
-    "index": "/index.html",
-    "assetGroups": [
-        {
-            "name": "app",
-            "installMode": "prefetch",
-            "resources": {
-                "files": [
-                    "/favicon.ico",
-                    "/index.html",
-                    "/*.bundle.css",
-                    "/*.bundle.js",
-                    "/*.chunk.js"
-                ]
-            }
-        },
-        {
-            "name": "assets",
-            "installMode": "lazy",
-            "updateMode": "prefetch",
-            "resources": {
-                "files": [
-                    "/assets/**",
-                    "https://api.fantamanajer.it/img/**",
-                    "https://api.fantamanajer.it/file/teams/**"
-                ],
-                "urls": [
-                    "https://fonts.googleapis.com/**",
-                    "https://fonts.gstatic.com/**"
-                ]
-            }
-        }
-    ],
-    "dataGroups": [
-        {
-            "name": "api-freshness",
-            "urls": [
-                "/api/matchdays/current",
-                "/login"
-            ],
-            "cacheConfig": {
-                "strategy": "freshness",
-                "maxSize": 100,
-                "maxAge": "3d",
-                "timeout": "10s"
-            }
-        },
-        {
-            "name": "api-performance",
-            "urls": [
-                "/api/members/best",
-                "/api/clubs/**",
-                "/api/clubs"
-            ],
-            "cacheConfig": {
-                "strategy": "performance",
-                "maxSize": 100,
-                "maxAge": "3d"
-            }
-        }
-    ]
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.bundle.css",
+          "/*.bundle.js",
+          "/*.chunk.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/**",
+          "https://fonts.gstatic.com/**",
+          "https://api.fantamanajer.it/img/**",
+          "https://via.placeholder.com/**",
+          "https://api.fantamanajer.it/files/teams/**"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-freshness",
+      "urls": [
+        "/api/matchdays/current",
+        "/login"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "3d",
+        "timeout": "10s"
+      }
+    },
+    {
+      "name": "api-performance",
+      "urls": [
+        "/api/members/best",
+        "/api/clubs/**",
+        "/api/clubs"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "3d"
+      }
+    }
+  ]
 }

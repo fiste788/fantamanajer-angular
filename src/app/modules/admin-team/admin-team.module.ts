@@ -7,7 +7,6 @@ import { TransfertModule } from '@app/modules/transfert/transfert.module';
 import { ScoreModule } from '@app/modules/score/score.module';
 import { LineupModule } from '@app/modules/lineup/lineup.module';
 import { ConfirmationDialogModule } from '@app/modules/confirmation-dialog/confirmation-dialog.module';
-import { TeamComponent } from './pages/team/team.component';
 import { EditMembersComponent } from './pages/edit-members/edit-members.component';
 import { NewTransfertComponent } from './pages/new-transfert/new-transfert.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -28,7 +27,6 @@ import { AdminTeamRoutingModule } from './admin-team-routing.module';
   ],
   declarations: [
     EditMembersComponent,
-    TeamComponent,
     NewTransfertComponent,
     HomeComponent,
     ScoreEditComponent,

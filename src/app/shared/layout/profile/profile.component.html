@@ -1,4 +1,5 @@
-<mat-toolbar *ngIf="app.team" color="primary" [scrollObservable]="loadImage" [errorImage]="app.team.photo_url ? app.team.photo_url['240w'] : ''"
+<mat-toolbar *ngIf="app.team" color="primary" [customObservable]="loadImage"
+  [errorImage]="app.team.photo_url ? app.team.photo_url['240w'] : ''"
   [lazyLoad]="app.team.photo_url ? app.team.photo_url['240w'] : ''">
   <mat-toolbar-row>
     <span></span>

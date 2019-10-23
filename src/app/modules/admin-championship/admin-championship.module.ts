@@ -4,7 +4,6 @@ import { SharedModule } from '@app/shared/shared.module';
 import { TeamModule } from '@app/modules/team/team.module';
 import { ChampionshipModule } from '@app/modules/championship/championship.module';
 import { AdminChampionshipRoutingModule } from './admin-championship-routing.module';
-import { ChampionshipComponent } from './pages/championship/championship.component';
 import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AddTeamComponent } from './pages/add-team/add-team.component';
@@ -18,7 +17,6 @@ import { AddTeamComponent } from './pages/add-team/add-team.component';
     TeamModule
   ],
   declarations: [
-    ChampionshipComponent,
     ChampionshipDetailComponent,
     HomeComponent,
     AddTeamComponent
