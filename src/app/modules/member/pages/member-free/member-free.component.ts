@@ -37,6 +37,7 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.roleSelect.selectionChange.subscribe((change: MatSelectChange) => this.roleChange(change.value));
+    this.roleSelect.value = this.roles.get(1);
     this.roleChange(this.roles.get(1));
   }
 

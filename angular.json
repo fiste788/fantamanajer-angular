@@ -17,6 +17,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "aot": true,
+            "extractCss": true,
             "assets": [
               "src/.htaccess",
               "src/assets",
@@ -24,7 +25,22 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/main.scss"
+              {
+                "input": "src/app/shared/styles/pre-bootstrap.scss",
+                "bundleName": "pre-bootstrap"
+              },
+              {
+                "input": "src/app/shared/styles/theme.scss",
+                "bundleName": "light-theme",
+                "lazy": true,
+                "inject": false
+              },
+              {
+                "input": "src/app/shared/styles/dark-theme.scss",
+                "bundleName": "dark-theme",
+                "lazy": true,
+                "inject": false
+              }
             ],
             "scripts": []
           },

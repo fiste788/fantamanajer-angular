@@ -1,7 +1,4 @@
-@import '~assets/scss/_theme';
-
 .mat-list-item .mat-icon {
-  color: #757575;
   margin-right: 1rem;
 }
 
@@ -14,16 +11,6 @@ mat-list .mat-list-item {
   width: calc(100% - 1rem);
   border-radius: 4px;
   height: 40px;
-}
-
-.mat-list-item.active,
-.mat-list-item.active .mat-icon,
-.mat-list-item.active:active,
-.mat-list-item.active:active .mat-icon,
-.mat-list-item.active:hover,
-.mat-list-item.active:hover .mat-icon {
-  color: mat-color(map-get($candy-app-theme, primary)) !important;
-  background-color: mat-color(map-get($candy-app-theme, primary), 50) !important;
 }
 
 .mat-nav-list .mat-list-item .mat-list-item-content {

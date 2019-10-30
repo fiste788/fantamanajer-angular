@@ -1,0 +1,12 @@
+@mixin mat-empty-state-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .mat-empty-state.mat-rounded {
+    background-color: mat-color($background, 'app-bar');
+  }
+
+  .mat-empty-state-icon {
+    color: mat-color($foreground, 'icon');
+  }
+}

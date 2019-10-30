@@ -1,22 +1,20 @@
-<div class="animation-container mat-elevation-z4" [@openOverlayAnimation]="animationState"
+<div class="overlay-animation-container mat-dialog-container" [@openOverlayAnimation]="animationState"
   (@openOverlayAnimation.start)="onAnimationStart($event)" (@openOverlayAnimation.done)="onAnimationDone($event)">
-  <div class="content">
-    <h3 class="title">Notifiche</h3>
-    <div *ngIf="stream | async as stream2; else loading">
-      <mat-list *ngIf="stream2.results.length; else empty" @listItemAnimation>
-        <mat-list-item *ngFor="let activity of stream2.results">
-          <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
-          <h3 mat-line> {{activity.title}} </h3>
-          <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>
-          <p mat-line> {{activity.body}} </p>
-        </mat-list-item>
-      </mat-list>
-      <ng-template #empty>
-        <fm-mat-empty-state label="Nessuna notifica presente" icon="mood"></fm-mat-empty-state>
-      </ng-template>
-    </div>
-    <ng-template #loading>
-      <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <h3 class="mat-dialog-title title">Notifiche</h3>
+  <div *ngIf="stream | async as stream2; else loading">
+    <mat-list *ngIf="stream2.results.length; else empty" @listItemAnimation>
+      <mat-list-item *ngFor="let activity of stream2.results">
+        <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
+        <h3 mat-line> {{activity.title}} </h3>
+        <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>
+        <p mat-line> {{activity.body}} </p>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #empty>
+      <fm-mat-empty-state label="Nessuna notifica presente" icon="mood"></fm-mat-empty-state>
     </ng-template>
   </div>
+  <ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  </ng-template>
 </div>

@@ -1,0 +1,14 @@
+@mixin member-selection-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .photo-container {
+    > img {
+      border: 3px solid mat-color($background,'card');
+    }
+  }
+
+  .circle mat-icon {
+    background-color: mat-color($background, 'card');
+  }
+}

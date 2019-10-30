@@ -1,18 +1,12 @@
+@import '~@angular/material/theming';
+
 :host {
   width: 100%;
 }
 
-.animation-container {
-  display: block;
-  background: white;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 2px;
+.overlay-animation-container {
   transform-origin: 100% 0 0;
-}
 
-h3.title {
-  text-align: center;
 }
 
 .mat-empty-state {

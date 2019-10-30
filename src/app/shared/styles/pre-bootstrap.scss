@@ -1,0 +1,74 @@
+@import '~@angular/material/theming';
+
+body,
+html {
+  margin: 0;
+  height: 100vh;
+  background-color: map-get($mat-light-theme-background, 'card');
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+noscript h3 {
+  color: #d50000;
+  margin: 2rem 1rem;
+}
+
+.pre-bootstrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  color: map-get($mat-light-theme-foreground, 'text');
+  place-content: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+
+  img {
+    animation: filter-animation 2s infinite, in-animation .4s;
+  }
+
+  > div {
+    position: absolute;
+    bottom: 10%;
+  }
+
+  .pre-bootstrap-text {
+    line-height: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+@keyframes filter-animation {
+  0% {
+    filter: saturate(100%);
+  }
+
+  50% {
+    filter: saturate(0);
+  }
+
+  100% {
+    filter: saturate(100%);
+  }
+}
+@keyframes in-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media(prefers-color-scheme: dark) {
+  .pre-bootstrap {
+    background-color: map-get($mat-dark-theme-background, 'background');
+    color: map-get($mat-dark-theme-foreground, 'text');
+  }
+
+  noscript h3 {
+    color: #cf6679;
+  }
+}

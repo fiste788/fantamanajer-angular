@@ -10,7 +10,7 @@
       <mat-card-subtitle>Club</mat-card-subtitle>
     </mat-card-header>
 
-    <img [alt]="club.name" mat-card-image crossorigin="anonymous"
+    <img [alt]="club.name" mat-card-image
       sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
       [lazyLoad]="club.background_url | srcset" [scrollTarget]="scrollTarget" [useSrcset]="true"
       defaultImage="//via.placeholder.com/350x200">

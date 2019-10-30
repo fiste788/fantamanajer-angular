@@ -24,18 +24,8 @@ nav {
     min-width: 41px;
   }
 
-  li,
-  mat-icon {
-    display: inline;
-    color: rgba(255,255,255,0.7);
-  }
-
   mat-icon {
     vertical-align: text-bottom;
-  }
-
-  li:last-of-type span {
-    color: #fff;
   }
 
   a {

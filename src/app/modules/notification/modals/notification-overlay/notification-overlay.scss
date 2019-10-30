@@ -1,0 +1,7 @@
+@mixin notification-overlay-theme($theme) {
+  $background: map-get($theme, background);
+
+  .overlay-animation-container {
+    background: mat-color($background, 'dialog');
+  }
+}

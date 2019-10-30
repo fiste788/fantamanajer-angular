@@ -1,0 +1,27 @@
+@import '~@angular/material/theming';
+@import './components/core';
+@import './components/card';
+@import './components/table';
+@import '~app/shared/layout/navbar/navbar';
+@import '~app/shared/components/mat-empty-state/mat-empty-state';
+@import '~app/modules/member-common/components/member-selection/member-selection';
+@import '~app/modules/notification/modals/notification-overlay/notification-overlay';
+
+//@import '../node_modules/@alfresco/adf-content-services/theming';
+//@import '../node_modules/@alfresco/adf-core/theming';
+//@import '../../app/shared/layout/navbar/navbar-theme';
+@mixin fantamanajer-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  @include angular-material-theme($theme);
+  @include fantamanajer-core($theme);
+  @include fantamanajer-card-theme($theme);
+  @include table-extended-theme($theme);
+  @include navbar-theme($theme);
+  @include mat-empty-state-theme($theme);
+  @include member-selection-theme($theme);
+  @include notification-overlay-theme($theme);
+}

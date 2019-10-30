@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
@@ -8,9 +8,10 @@ import { SharedService } from '@app/shared/services/shared.service';
 import { routerTransition, scrollUpAnimation, closeAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
 import { map, throttleTime, pairwise, distinctUntilChanged, share, filter } from 'rxjs/operators';
 import { VisibilityState } from './visibility-state';
+import { DOCUMENT } from '@angular/common';
 
 enum Direction {
   Up = 'Up',
@@ -36,6 +37,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('toolbar', { static: false, read: ElementRef }) toolbarEl: ElementRef;
   @ViewChild('pan', { static: true, read: ElementRef }) panEl: ElementRef;
   public scrollDirection = '';
+  private mediaQueryList: MediaQueryList;
   private subscriptions: Subscription[] = [];
   public isVisible = true;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -44,20 +46,45 @@ export class MainComponent implements OnInit, AfterViewInit {
     );
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private breakpointObserver: BreakpointObserver,
     public media: MediaObserver,
     public shared: SharedService,
     private ngZone: NgZone,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private mediaMatcher: MediaMatcher
   ) {
+    this.mediaQueryList = this.mediaMatcher.matchMedia('(prefers-color-scheme: dark)');
+    this.mediaQueryList.addEventListener('change', (e) => this.setTheme(e.matches));
   }
 
   ngOnInit() {
+    this.setTheme(this.mediaQueryList.matches);
     if (this.drawer) {
       this.drawer.openedStart.subscribe(() => this.changeRef.detectChanges());
     }
     this.closeSidenav();
     this.applySwipeSidenav();
+  }
+
+  setTheme(isDark: boolean) {
+    this.loadStyle((isDark ? 'dark' : 'light') + '-theme.css');
+  }
+
+  loadStyle(styleName?: string) {
+    const head = this.document.getElementsByTagName('head')[0];
+
+    const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
+    if (themeLink) {
+      themeLink.href = styleName;
+    } else {
+      const style = this.document.createElement('link');
+      style.id = 'client-theme';
+      style.rel = 'stylesheet';
+      style.href = `${styleName}`;
+
+      head.appendChild(style);
+    }
   }
 
   applySwipeSidenav() {
