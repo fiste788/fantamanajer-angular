@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,9 +9,12 @@
         "files": [
           "/favicon.ico",
           "/index.html",
-          "/*.bundle.css",
-          "/*.bundle.js",
-          "/*.chunk.js"
+          "/assets/site.webmanifest",
+          "/*.css",
+          "/common-*.js",
+          "/main-*.js",
+          "/polyfills-*.js",
+          "/runtime-*.js"
         ]
       }
     },
@@ -20,7 +24,8 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/assets/**"
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ],
         "urls": [
           "https://fonts.googleapis.com/**",

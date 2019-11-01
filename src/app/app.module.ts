@@ -29,7 +29,7 @@ import { HomeComponent } from './home/home.component';
     SharedModule,
 
     // app
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule
   ],
   bootstrap: [MainComponent]
