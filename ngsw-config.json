@@ -14,7 +14,8 @@
           "/common-*.js",
           "/main-*.js",
           "/polyfills-*.js",
-          "/runtime-*.js"
+          "/runtime-*.js",
+          "/manifest.webmanifest"
         ]
       }
     },

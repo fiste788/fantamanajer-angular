@@ -29,16 +29,14 @@
                 "input": "src/app/shared/styles/pre-bootstrap.scss",
                 "bundleName": "pre-bootstrap"
               },
-              {
+              {"inject":false,
                 "input": "src/app/shared/styles/theme.scss",
                 "bundleName": "light-theme",
-                "lazy": true,
                 "inject": false
               },
-              {
+              {"inject":false,
                 "input": "src/app/shared/styles/dark-theme.scss",
                 "bundleName": "dark-theme",
-                "lazy": true,
                 "inject": false
               }
             ],
@@ -46,12 +44,17 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -65,12 +68,17 @@
               ]
             },
             "testprod": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
