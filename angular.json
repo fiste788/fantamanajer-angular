@@ -168,5 +168,8 @@
     "@schematics/angular:directive": {
       "prefix": "fm"
     }
+  },
+  "cli": {
+    "analytics": "2c669fec-8a87-4f51-b703-4509caf7aa22"
   }
 }

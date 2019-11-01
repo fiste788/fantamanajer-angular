@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -15,14 +16,14 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^9.0.0-rc.0",
-    "@angular/cdk": "^8.2.3",
+    "@angular/cdk": "^9.0.0-rc.0",
     "@angular/cdk-experimental": "^8.2.3",
     "@angular/common": "^9.0.0-rc.0",
     "@angular/compiler": "^9.0.0-rc.0",
     "@angular/core": "^9.0.0-rc.0",
     "@angular/flex-layout": "8.0.0-beta.26",
     "@angular/forms": "^9.0.0-rc.0",
-    "@angular/material": "^8.2.3",
+    "@angular/material": "^9.0.0-rc.0",
     "@angular/platform-browser": "^9.0.0-rc.0",
     "@angular/platform-browser-dynamic": "^9.0.0-rc.0",
     "@angular/platform-server": "^9.0.0-rc.0",
@@ -49,9 +50,9 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.17",
+    "@angular-devkit/build-angular": "~0.900.0-rc.0",
     "@angular-devkit/schematics": "~8.3.17",
-    "@angular/cli": "^8.3.17",
+    "@angular/cli": "^9.0.0-rc.0",
     "@angular/compiler-cli": "^9.0.0-rc.0",
     "@phenomnomnominal/angular-lazy-routes-fix": "^0.1.5",
     "@types/jasmine": "3.4.5",
