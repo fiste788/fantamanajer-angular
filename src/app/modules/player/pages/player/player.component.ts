@@ -22,7 +22,7 @@ import { Member, Player, Rating } from '@app/core/models';
 export class PlayerComponent {
   player: Observable<Player>;
   selectedMember: Member;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   dataSource: MatTableDataSource<Rating>;
   displayedColumns = [

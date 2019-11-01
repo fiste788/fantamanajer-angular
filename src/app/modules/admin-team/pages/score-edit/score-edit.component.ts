@@ -16,7 +16,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class ScoreEditComponent implements OnInit {
 
-  @ViewChild(NgForm, { static: false }) scoreForm: NgForm;
+  @ViewChild(NgForm) scoreForm: NgForm;
   public team: Team;
   public penality: boolean;
   public selectedScore: Score;

@@ -25,7 +25,7 @@ export class EditMembersComponent implements OnInit {
     members: Member[]
   }>();
   public team: Team;
-  @ViewChild(NgForm, { static: false }) membersForm: NgForm;
+  @ViewChild(NgForm) membersForm: NgForm;
   isAlreadySelectedCallback: () => boolean;
 
   constructor(

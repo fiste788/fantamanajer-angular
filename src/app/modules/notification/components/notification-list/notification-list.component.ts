@@ -13,7 +13,7 @@ import { createBoxAnimation } from '@app/core/animations/create-box.animation';
 })
 export class NotificationListComponent implements OnInit {
   public stream: Stream = null;
-  @ViewChild(NotificationOverlayComponent, { static: false }) overlay: NotificationOverlayComponent;
+  @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
 
   constructor(
     public notificationService: NotificationService,

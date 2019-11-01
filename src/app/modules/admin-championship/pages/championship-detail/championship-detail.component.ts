@@ -13,7 +13,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class ChampionshipDetailComponent implements OnInit {
 
-  @ViewChild(NgForm, { static: false }) championshipForm: NgForm;
+  @ViewChild(NgForm) championshipForm: NgForm;
   public championship: Championship;
 
   constructor(

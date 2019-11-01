@@ -12,7 +12,7 @@ import { ApplicationService, ArticleService } from '@app/core/services';
 })
 export class ArticleDetailComponent implements OnInit {
   article: Article;
-  @ViewChild(NgForm, { static: false }) articleForm: NgForm;
+  @ViewChild(NgForm) articleForm: NgForm;
 
   constructor(
     public snackBar: MatSnackBar,

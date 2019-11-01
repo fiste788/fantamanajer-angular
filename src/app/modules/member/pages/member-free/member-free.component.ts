@@ -17,8 +17,8 @@ import { MatSelectChange, MatSelect } from '@angular/material/select';
 })
 export class MemberFreeComponent implements OnInit, AfterViewInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  @ViewChild(MemberListComponent, { static: false }) memberList: MemberListComponent;
-  @ViewChild(MatSelect, { static: false }) roleSelect: MatSelect;
+  @ViewChild(MemberListComponent) memberList: MemberListComponent;
+  @ViewChild(MatSelect) roleSelect: MatSelect;
   members: Observable<Member[]>;
   roles: Map<number, Role>;
 

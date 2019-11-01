@@ -13,7 +13,7 @@ import { Lineup } from '@app/core/models';
   styleUrls: ['./lineup-last.component.scss']
 })
 export class LineupLastComponent implements OnDestroy {
-  @ViewChild(NgForm, { static: false }) lineupForm: NgForm;
+  @ViewChild(NgForm) lineupForm: NgForm;
 
   lineup: Observable<Lineup>;
   editMode = false;

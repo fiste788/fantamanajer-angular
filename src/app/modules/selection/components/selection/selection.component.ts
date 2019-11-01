@@ -15,8 +15,8 @@ import { map, distinctUntilChanged, share, reduce, mergeMap, toArray } from 'rxj
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
-  @ViewChild('newMember', { static: false }) newMember: MatSelect;
-  @ViewChild(NgForm, { static: false }) selectionForm: NgForm;
+  @ViewChild('newMember') newMember: MatSelect;
+  @ViewChild(NgForm) selectionForm: NgForm;
 
   selection: Selection = new Selection();
   members: Observable<Map<Role, Member[]>>;

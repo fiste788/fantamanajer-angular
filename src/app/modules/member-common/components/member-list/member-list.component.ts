@@ -18,7 +18,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   @Input() isSelectable = false;
   @Input() multipleSelection = false;
   @Input() elevation = 1;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   private subscription: Subscription;
   dataSource: MatTableDataSource<Member> = null;

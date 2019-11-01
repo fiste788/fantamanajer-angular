@@ -15,8 +15,8 @@ import { ConfirmationDialogComponent } from '@app/modules/confirmation-dialog/mo
   styleUrls: ['./new-transfert.component.scss']
 })
 export class NewTransfertComponent implements OnInit {
-  @ViewChild(MatSelect, {static: false}) newMember: MatSelect;
-  @ViewChild(NgForm, { static: false }) transfertForm: NgForm;
+  @ViewChild(MatSelect) newMember: MatSelect;
+  @ViewChild(NgForm) transfertForm: NgForm;
 
   transfert: Transfert = new Transfert();
   team: Team;
