@@ -49,7 +49,7 @@ export function useFactory(service: ApplicationService) { return () => service.i
   ]
 })
 export class CoreModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule
     };
