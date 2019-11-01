@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { createBoxAnimation } from '@app/core';
+import { createBoxAnimation } from '@app/core/animations';
 import { trigger, transition, query, style, animate } from '@angular/animations';
 
 @Component({

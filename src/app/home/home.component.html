@@ -1,7 +1,6 @@
-<div *ngIf="app.seasonStarted; else started">
-  <div *ngIf="roles | async as roles2; else loading">
-    <div *ngIf="roles2[0].best_players?.length; else started" class="flex-container" fxLayout="row wrap"
-      fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start" @cardCreationAnimation>
+<ng-container *ngIf="app.seasonStarted; else started">
+  <ng-container *ngIf="roles | async as roles2; else loading">
+    <div *ngIf="roles2[0].best_players?.length; else started" class="flex-container" @cardCreationAnimation>
       <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100"
         *ngFor="let role of roles2">
 
@@ -32,9 +31,9 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
+  </ng-container>
 
-</div>
+</ng-container>
 <ng-template #started>
   <fm-mat-empty-state [rounded]="true" label="La stagione non è ancora iniziata" description="Buona asta!"
     icon="wb_sunny"></fm-mat-empty-state>
