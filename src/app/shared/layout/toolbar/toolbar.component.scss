@@ -1,10 +1,12 @@
+@import '~@angular/flex-layout/mq';
+
 :host {
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 102;
 }
-@media (min-width: 960px) {
+@include layout-bp(gt-md) {
   :host {
     width: calc(100% - 15rem);
   }

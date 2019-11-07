@@ -3,12 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { Subscription, Observable } from 'rxjs';
-import * as Hammer from 'hammerjs';
 import { SharedService } from '@app/shared/services/shared.service';
 import { routerTransition, scrollUpAnimation, closeAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, throttleTime, pairwise, distinctUntilChanged, share, filter } from 'rxjs/operators';
 import { VisibilityState } from './visibility-state';
 import { DOCUMENT } from '@angular/common';
@@ -37,13 +36,11 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
   @ViewChild('pan', { static: true, read: ElementRef }) panEl: ElementRef;
   public scrollDirection = '';
-  private mediaQueryList: MediaQueryList;
   private subscriptions: Subscription[] = [];
-  public isVisible = true;
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
+  public isVisible = false;
+  public isVisibleToolbar = true;
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
+  isDark$: Observable<boolean> = this.breakpointObserver.observe('(prefers-color-scheme: dark)').pipe(map(result => result.matches));
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -52,19 +49,21 @@ export class MainComponent implements OnInit, AfterViewInit {
     public shared: SharedService,
     private ngZone: NgZone,
     private changeRef: ChangeDetectorRef,
-    private mediaMatcher: MediaMatcher
   ) {
-    this.mediaQueryList = this.mediaMatcher.matchMedia('(prefers-color-scheme: dark)');
-    this.mediaQueryList.addEventListener('change', (e) => this.setTheme(e.matches));
   }
 
   ngOnInit() {
-    this.setTheme(this.mediaQueryList.matches);
+    this.isDark$.subscribe(dark => this.setTheme(dark));
     if (this.drawer) {
-      this.drawer.openedStart.subscribe(() => this.changeRef.detectChanges());
+      this.drawer.openedStart.subscribe(() => {
+        this.changeRef.detectChanges();
+        this.drawer._animationEnd.subscribe(() => {
+          this.isVisible = true;
+        });
+      });
+
     }
     this.closeSidenav();
-    this.applySwipeSidenav();
   }
 
   setTheme(isDark: boolean) {
@@ -87,20 +86,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
   }
 
-  applySwipeSidenav() {
-    const hammertime = new Hammer(this.panEl.nativeElement, {});
-    hammertime.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
-    hammertime.on('panright', (ev) => {
-      this.drawer.open();
-      this.changeRef.detectChanges();
-    });
-    hammertime.on('panleft', (ev) => {
-      this.drawer.close();
-      this.changeRef.detectChanges();
-    });
-  }
-
   ngAfterViewInit() {
+    this.isVisible = this.drawer.mode === 'over';
     this.ngZone.runOutsideAngular(() => {
       this.isHandset$.subscribe((res) => {
         if (res) {
@@ -109,7 +96,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.subscriptions = this.applyScrollAnimation(el.clientHeight);
           }
         } else {
-          this.isVisible = true;
+          // this.isVisible = true;
           this.scrollDirection = Direction.Up.toLowerCase();
           if (this.subscriptions.length) {
             this.subscriptions.forEach((sub) => sub.unsubscribe());
@@ -122,6 +109,10 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   get toggle(): VisibilityState {
     return this.isVisible ? VisibilityState.Visible : VisibilityState.Hidden;
+  }
+
+  get toggleToolbar(): VisibilityState {
+    return this.isVisibleToolbar ? VisibilityState.Visible : VisibilityState.Hidden;
   }
 
   applyScrollAnimation(offset = 0): Subscription[] {
@@ -148,12 +139,14 @@ export class MainComponent implements OnInit, AfterViewInit {
     subs.push(goingUp$.subscribe(() => {
       this.scrollDirection = Direction.Up.toLowerCase();
       this.isVisible = true;
+      this.isVisibleToolbar = true;
       this.changeRef.detectChanges();
     }));
 
     subs.push(goingDown$.subscribe(() => {
       this.scrollDirection = Direction.Down.toLowerCase();
       this.isVisible = false;
+      this.isVisibleToolbar = false;
       this.speedDial.openSpeeddial = false;
       this.changeRef.detectChanges();
     }));

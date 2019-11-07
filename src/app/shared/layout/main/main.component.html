@@ -6,7 +6,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <mat-toolbar #toolbar [@scrollUpAnimation]="toggle" color="primary" class="mat-elevation-z4">
+    <mat-toolbar #toolbar [@scrollUpAnimation]="toggleToolbar" color="primary" class="mat-elevation-z4">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
@@ -22,5 +22,4 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<div #pan class="pan"></div>
 <fm-speed-dial #speedDial [@closeAnimation]="toggle" class="speed-dial"></fm-speed-dial>

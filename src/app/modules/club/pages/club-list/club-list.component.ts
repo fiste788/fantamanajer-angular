@@ -37,7 +37,6 @@ export class ClubListComponent implements OnInit, OnDestroy {
 
     this.subscription = this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
-        //this.id = parseInt(evt.url.split('/').pop(), 10);
         this.exit = true;
         this.clubs = null;
       }

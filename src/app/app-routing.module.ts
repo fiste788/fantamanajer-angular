@@ -11,35 +11,35 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, data: { state: 'home' } },
   { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], data: { state: 'login' } },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { state: 'logout' } },
-  { path: 'clubs', loadChildren: () => import('app/modules/club/club.module').then(m => m.ClubModule), data: { state: 'club' } },
-  { path: 'players', loadChildren: () => import('app/modules/player/player.module').then(m => m.PlayerModule), data: { state: 'player' } },
+  { path: 'clubs', loadChildren: () => import('./modules/club/club.module').then(m => m.ClubModule), data: { state: 'club' } },
+  { path: 'players', loadChildren: () => import('./modules/player/player.module').then(m => m.PlayerModule), data: { state: 'player' } },
   {
     path: 'user',
-    loadChildren: () => import('app/modules/user/user.module').then(m => m.UserModule),
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
     canActivate: [AuthGuard],
     data: { state: 'user' }
   },
   {
     path: 'championships',
-    loadChildren: () => import('app/modules/championship/championship.module').then(m => m.ChampionshipModule),
+    loadChildren: () => import('./modules/championship/championship.module').then(m => m.ChampionshipModule),
     canActivate: [AuthGuard],
     data: { state: 'championship' }
   },
   {
     path: 'teams',
-    loadChildren: () => import('app/modules/team/team.module').then(m => m.TeamModule),
+    loadChildren: () => import('./modules/team/team.module').then(m => m.TeamModule),
     canActivate: [AuthGuard],
     data: { state: 'team' }
   },
   {
     path: 'articles',
-    loadChildren: () => import('app/modules/article/article.module').then(m => m.ArticleModule),
+    loadChildren: () => import('./modules/article/article.module').then(m => m.ArticleModule),
     canActivate: [AuthGuard],
     data: { state: 'article' }
   },
   {
     path: 'scores',
-    loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
+    loadChildren: () => import('./modules/score/score.module').then(m => m.ScoreModule),
     canActivate: [AuthGuard],
     data: { state: 'scores' }
   }

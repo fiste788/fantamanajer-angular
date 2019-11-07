@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
 @mixin fantamanajer-core($theme) {
+  $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $foreground: map-get($theme, foreground);
 
@@ -8,6 +9,14 @@
   html {
     margin: 0;
     height: 100%;
+  }
+
+  .mat-text-accent {
+    color: mat-color($accent);
+  }
+
+  .mat-text-primary {
+    color: mat-color($primary);
   }
 
   ::selection {
@@ -63,41 +72,5 @@
 
   .red_card {
     background-color: red;
-  }
-
-  .ng-lazyloaded {
-    animation: fadein .5s;
-  }
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
-  .mat-form-field.white {
-    .mat-form-field-label {
-      color: rgba(255, 255, 255, 0.87);
-    }
-
-    .mat-form-field-underline {
-      background-color: rgba(255, 255, 255, 0.12);
-    }
-
-    mat-select {
-      .mat-select,
-      .mat-select-arrow,
-      .mat-select-disabled .mat-select-value,
-      .mat-select-trigger {
-        color: rgba(255, 255, 255, 0.38);
-      }
-
-      .mat-select-value {
-        color: rgba(255, 255, 255, 0.87);
-      }
-    }
   }
 }

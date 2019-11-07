@@ -24,22 +24,22 @@ const routes: Routes = [
       },
       {
         path: 'articles',
-        loadChildren: () => import('../article/article.module').then(m => m.ArticleModule),
+        loadChildren: () => import('@app/modules/article/article.module').then(m => m.ArticleModule),
         data: { state: 'articles' }
       },
       {
         path: 'teams',
-        loadChildren: () => import('app/modules/team/team.module').then(m => m.TeamModule),
+        loadChildren: () => import('@app/modules/team/team.module').then(m => m.TeamModule),
         data: { state: 'teams' }
       },
       {
         path: 'members',
-        loadChildren: () => import('app/modules/member/member.module').then(m => m.MemberModule),
+        loadChildren: () => import('@app/modules/member/member.module').then(m => m.MemberModule),
         data: { state: 'members' }
       },
       {
         path: 'ranking',
-        loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
+        loadChildren: () => import('@app/modules/score/score.module').then(m => m.ScoreModule),
         data: { state: 'ranking' }
       },
       {
@@ -49,7 +49,7 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: () => import('app/modules/admin-championship/admin-championship.module').then(m => m.AdminChampionshipModule),
+        loadChildren: () => import('@app/modules/admin-championship/admin-championship.module').then(m => m.AdminChampionshipModule),
         canActivate: [AdminGuard],
         data: { state: 'championship-admin' }
       }

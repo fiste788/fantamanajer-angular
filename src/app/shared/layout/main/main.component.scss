@@ -1,3 +1,5 @@
+@import '~@angular/flex-layout/mq';
+
 .sidenav-container {
   height: 100%;
 }
@@ -5,10 +7,10 @@
 .sidenav {
   width: 340px;
   max-width: calc(100% - 54px);
-}
 
-.sidenav .mat-toolbar {
-  background: inherit;
+  .mat-toolbar {
+    background: inherit;
+  }
 }
 
 .mat-toolbar.mat-primary {
@@ -24,6 +26,7 @@ main {
   padding-bottom: 1rem;
   position: absolute;
   top: 0;
+  margin-top: 3.5rem;
 }
 
 .pan {
@@ -33,22 +36,25 @@ main {
   top: 0;
   bottom: 0;
 }
-@media (max-width: 600px) {
-  .speed-dial,
-  fm-toolbar {
-    will-change: transform;
-  }
 
-  main {
-    margin-top: 3.5rem;
-  }
+.speed-dial {
+  transform: scale(0);
 }
-@media (min-width: 600px) {
+
+.speed-dial,
+fm-toolbar {
+  will-change: transform;
+}
+@include layout-bp(gt-sm) {
   .container {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
     position: relative;
+  }
+
+  main {
+    margin-top: 0;
   }
 
   .pan {

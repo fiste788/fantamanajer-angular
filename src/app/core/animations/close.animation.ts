@@ -10,5 +10,5 @@ export const closeAnimation = trigger('closeAnimation', [
     VisibilityState.Visible,
     style({ opacity: 1, transform: 'scale(1)' })
   ),
-  transition('* => *', animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)')),
+  transition('* <=> *', animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)')),
 ]);

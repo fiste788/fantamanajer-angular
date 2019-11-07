@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
-// import { ngfModule } from 'angular-file';
+import { ngfModule } from 'angular-file';
 import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
 import { TeamMembersComponent } from './components/team-members/team-members.component';
@@ -23,7 +23,7 @@ import { TeamRoutingModule } from './team-routing.module';
     MatDialogModule,
     NotificationSubscriptionModule,
     StreamModule,
-    // ngfModule
+    ngfModule
   ],
   declarations: [
     TeamListComponent,

@@ -2,7 +2,7 @@ import { Component, OnInit, HostBinding, ChangeDetectorRef } from '@angular/core
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Article, Pagination, PagedResponse } from '@app/core/models';
 import { ArticleService } from '@app/core/services/article.service';
-import { cardCreationAnimation } from 'app/core/animations/card-creation.animation';
+import { cardCreationAnimation } from '@app/core/animations/card-creation.animation';
 
 @Component({
   selector: 'fm-article-list',

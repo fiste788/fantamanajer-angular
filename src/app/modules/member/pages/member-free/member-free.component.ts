@@ -6,7 +6,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 import { ApplicationService, MemberService, RoleService } from '@app/core/services';
 import { MemberListComponent } from '@app/modules/member-common/components/member-list/member-list.component';
 import { Member, Role } from '@app/core/models';
-import { tableRowAnimation } from 'app/core/animations';
+import { tableRowAnimation } from '@app/core/animations';
 import { MatSelectChange, MatSelect } from '@angular/material/select';
 
 @Component({

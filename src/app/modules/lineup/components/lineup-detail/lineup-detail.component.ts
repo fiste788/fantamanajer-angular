@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgControl, NgModel } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { LineupService, RoleService } from '@app/core/services';
 import { Lineup, Disposition, Member, Module, Role } from '@app/core/models';
@@ -95,6 +95,10 @@ export class LineupDetailComponent implements OnInit {
       }
     }
 
+  }
+
+  getErrors(module: NgModel): string {
+    return SharedService.getError(module);
   }
 
   getIndex(lineup: Lineup, role: Role, memberKey: number): number {

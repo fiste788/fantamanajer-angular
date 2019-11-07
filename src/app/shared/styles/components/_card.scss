@@ -1,8 +1,13 @@
+@import '~@angular/flex-layout/mq';
 @mixin fantamanajer-card-theme($theme) {
   .mat-card {
     margin: 1rem;
   }
-  @media (min-width: 600px) {
+
+  .mat-card-header-text {
+    overflow: hidden;
+  }
+  @include layout-bp(gt-md) {
     .mat-card {
       margin-left: 0;
       margin-right: 0;

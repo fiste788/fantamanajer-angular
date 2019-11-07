@@ -38,7 +38,7 @@ const routes: Routes = [
           },
           {
             path: 'articles',
-            loadChildren: () => import('app/modules/article/article.module').then(m => m.ArticleModule),
+            loadChildren: () => import('@app/modules/article/article.module').then(m => m.ArticleModule),
             data: { state: 'team-articles' },
           },
           {
@@ -53,22 +53,22 @@ const routes: Routes = [
           },
           {
             path: 'scores',
-            loadChildren: () => import('app/modules/score/score.module').then(m => m.ScoreModule),
+            loadChildren: () => import('@app/modules/score/score.module').then(m => m.ScoreModule),
             data: { state: 'team-scores' },
           },
           {
             path: 'lineup',
-            loadChildren: () => import('app/modules/lineup/lineup.module').then(m => m.LineupModule),
+            loadChildren: () => import('@app/modules/lineup/lineup.module').then(m => m.LineupModule),
             data: { state: 'team-lineup' },
           },
           {
             path: 'transferts',
-            loadChildren: () => import('app/modules/transfert/transfert.module').then(m => m.TransfertModule),
+            loadChildren: () => import('@app/modules/transfert/transfert.module').then(m => m.TransfertModule),
             data: { state: 'team-transfert' },
           },
           {
             path: 'admin',
-            loadChildren: () => import('app/modules/admin-team/admin-team.module').then(m => m.AdminTeamModule),
+            loadChildren: () => import('@app/modules/admin-team/admin-team.module').then(m => m.AdminTeamModule),
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' }
           }

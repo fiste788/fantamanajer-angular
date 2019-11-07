@@ -7,7 +7,7 @@
         placeholder="Modulo">
         <mat-option *ngFor="let module of modules" [value]="module">{{module.label}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="module.invalid">{{shared.getError(module)}}</mat-error>
+      <mat-error *ngIf="module.invalid">{{getErrors(module)}}</mat-error>
     </mat-form-field>
     <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
     <mat-checkbox name="jolly" [disabled]="disabled" [(ngModel)]="lineup.jolly" [attr.value]="true">Jolly</mat-checkbox>

@@ -2,7 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { take, defaultIfEmpty } from 'rxjs/operators';
-import { environment } from 'environments/environment';
+import { environment } from '@env/environment';
 import { PushSubscription, User } from '../models';
 import { PushSubscriptionService } from './push-subscription.service';
 import { NotificationService } from './notification.service';
@@ -119,9 +119,9 @@ export class PushService {
   }
 
   showMessages(): void {
-    this.swPush.messages.subscribe(message => {
+    this.swPush.messages.subscribe((message: any) => {
       console.log('[App] Push message received', message);
-      this.notificationService.broadcast(message['notification'].title, '');
+      this.notificationService.broadcast(message.notification.title, '');
     });
     this.swPush.notificationClicks.subscribe(click => {
       console.log('[App] Click notification', click);

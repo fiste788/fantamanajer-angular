@@ -1,7 +1,7 @@
 import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Member } from '@app/core/models';
+import { Member, Role } from '@app/core/models';
 import { createBoxAnimation } from '@app/core/animations';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -25,7 +25,7 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @Input() required: boolean;
   @Input() placeholder: string;
   @Input() memberList: Member[] = [];
-  @Input() memberMap: Map<string, Member[]>;
+  @Input() memberMap: Map<Role, Member[]>;
   @Input() size = 100;
   @Input() isMemberDisabled: (m: Member) => boolean;
   @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
