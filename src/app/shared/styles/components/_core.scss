@@ -4,7 +4,6 @@
   $accent: map-get($theme, accent);
   $foreground: map-get($theme, foreground);
 
-  .app-container,
   body,
   html {
     margin: 0;
@@ -32,8 +31,6 @@
 
   body {
     font-family: Roboto, sans-serif;
-    //background-color: #fafafa;
-    // background-color: #00bcd4;
   }
 
   .tabbed-container {
@@ -72,5 +69,20 @@
 
   .red_card {
     background-color: red;
+  }
+
+  fm-main:not(:empty) + .pre-bootstrap {
+    animation: leave-animation .5s forwards;
+  }
+  @keyframes leave-animation {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      z-index: -1;
+      display: none !important;
+    }
   }
 }

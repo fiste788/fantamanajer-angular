@@ -4,16 +4,16 @@ body,
 html {
   margin: 0;
   height: 100vh;
-  background-color: map-get($mat-light-theme-background, 'card');
+
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-noscript h3 {
-  color: #d50000;
-  margin: 2rem 1rem;
-}
-
 .pre-bootstrap {
+  background-color: map-get($mat-light-theme-background, 'card');
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  bottom: 0;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -23,6 +23,11 @@ noscript h3 {
   height: 100vh;
   width: 100vw;
   text-align: center;
+
+  noscript h3 {
+    color: #d50000;
+    margin: 2rem 1rem;
+  }
 
   img {
     animation: filter-animation 2s infinite, in-animation .4s;
