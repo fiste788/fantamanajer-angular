@@ -1,15 +1,14 @@
 @import '~@angular/flex-layout/mq';
-
-:host {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 102;
-}
 @include layout-bp(gt-md) {
   :host {
     width: calc(100% - 15rem);
   }
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 102;
 }
 
 fm-breadcrumb {

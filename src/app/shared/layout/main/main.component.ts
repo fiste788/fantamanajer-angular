@@ -87,12 +87,13 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.toolbar.clickToggleNav.subscribe(() => this.drawer.toggle());
     this.isVisible = this.drawer.mode === 'over';
     this.ngZone.runOutsideAngular(() => {
       this.isHandset$.subscribe((res) => {
         if (res) {
           if (!this.subscriptions.length) {
-            const el: HTMLElement = this.toolbarEl.nativeElement;
+            const el: HTMLElement = this.toolbarEl.nativeElement.firstChild;
             this.subscriptions = this.applyScrollAnimation(el.clientHeight);
           }
         } else {
@@ -120,7 +121,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     const scroll$ = this.container.elementScrolled().pipe(
       throttleTime(10),
       map(() => this.container.measureScrollOffset('top')),
-      filter((y) => y >= offset),
+      filter((y) => y > offset),
       pairwise(),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
       distinctUntilChanged(),

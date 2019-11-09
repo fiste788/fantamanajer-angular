@@ -1,23 +1,21 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { AuthService } from '@app/core/services';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { scrollUpAnimation } from '@app/core/animations';
 
 @Component({
   selector: 'fm-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
-
+  animations: [scrollUpAnimation]
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
+  @Input() state: VisibilityState;
+  @Input() showDrawerButton: boolean;
+  @Output() clickToggleNav = new EventEmitter<void>();
 
-  @Output() clickToggleNav = new EventEmitter<any>();
-
-  constructor(public auth: AuthService) { }
-
-  ngOnInit() {
-  }
+  constructor() { }
 
   clickNav() {
-    this.clickToggleNav.emit();
+    this.clickToggleNav.emit(null);
   }
 
 }

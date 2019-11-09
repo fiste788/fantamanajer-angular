@@ -1,10 +1,10 @@
 @import '~@angular/flex-layout/mq';
 
-.sidenav-container {
+.mat-sidenav-container {
   height: 100%;
 }
 
-.sidenav {
+.mat-sidenav {
   width: 340px;
   max-width: calc(100% - 54px);
 
@@ -13,20 +13,9 @@
   }
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 102;
-}
-
 main {
-  max-width: 100%;
-  width: 100%;
-  height: max-content;
   padding-bottom: 1rem;
-  position: absolute;
-  top: 0;
-  margin-top: 3.5rem;
+  position: relative;
 }
 
 .pan {
@@ -46,15 +35,10 @@ fm-toolbar {
   will-change: transform;
 }
 @include layout-bp(gt-sm) {
-  .container {
+  main {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
-    position: relative;
-  }
-
-  main {
-    margin-top: 0;
   }
 
   .pan {

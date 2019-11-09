@@ -1,5 +1,5 @@
-<mat-toolbar #toolbar color="primary" class="mat-elevation-z4">
-  <button type="button" aria-label="Toggle sidenav" mat-icon-button>
+<mat-toolbar [@scrollUpAnimation]="state" color="primary" class="mat-elevation-z4">
+  <button *ngIf="showDrawerButton" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="clickNav()">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
   <fm-breadcrumb></fm-breadcrumb>

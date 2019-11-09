@@ -26,7 +26,7 @@
   }
 
   .table-container {
-    overflow-x: auto;
+    overflow-x: hidden;
     border-radius: 4px;
     background-color: mat-color($background, 'card');
   }

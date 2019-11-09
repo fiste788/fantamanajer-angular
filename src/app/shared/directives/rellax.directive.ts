@@ -69,8 +69,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
           this.supportsPassive = true;
         }
       });
-      // window.addEventListener('testPassive', null, opts);
-      // window.removeEventListener('testPassive', null, opts);
+      window.addEventListener('testPassive', null, opts);
+      window.removeEventListener('testPassive', null, opts);
     } catch (e) { }
 
     this.options = {
@@ -100,6 +100,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   init() {
+    if (this.block) {
+      this.el.nativeElement.style.cssText = this.block.style;
+    }
     this.screenY = window.innerHeight;
     this.screenX = window.innerWidth;
 
@@ -322,9 +325,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   destroy() {
-    if (this.el && this.el.nativeElement && this.block) {
+    /*if (this.el && this.el.nativeElement && this.block) {
       this.el.nativeElement.style.cssText = this.block.style;
-    }
+    }*/
     if (!this.pause) {
       window.removeEventListener('resize', this.init);
       this.pause = true;
