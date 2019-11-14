@@ -15,10 +15,12 @@
   <ng-container *ngIf="lineup.module_object">
     <div *ngFor="let role of lineup.module_object.map | keyvalue:descOrder; trackBy: trackByRole"
       [ngClass]="[role.key.abbreviation, 'role-container']" fxLayout="row">
-      <h5 [title]="role.key.plural">{{role.key.abbreviation}}</h5>
+      <h5 [title]="role.key.plural" fmSticky>{{role.key.plural | uppercase}}</h5>
       <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-        <fm-member-selection @items [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center"
-          class="regular" *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
+        <fm-member-selection
+          [captain]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member.id == lineup.captain_id" @items
+          [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="regular"
+          *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
           [isMemberDisabled]="isRegularCallback" (selectionChange)="removeBenchwarmer(lineup, $event)"
           [memberList]="membersByRole.get(role.key)" [placeholder]="role.key.singolar"
           [name]="role.key.abbreviation + '-' + memberKey"

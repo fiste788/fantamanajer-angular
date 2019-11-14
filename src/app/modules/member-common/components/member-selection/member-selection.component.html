@@ -1,7 +1,10 @@
-<div class="photo-container">
-  <img class="mat-elevation-z2" [alt]="val?.player?.full_name || placeholder"
-    [src]="val && val.player.photo_url ? val.player.photo_url : '//via.placeholder.com/' + size + 'x' + size">
-  <fm-member-icons *ngIf="val?.likely_lineup" @createBox [member]="val" [circle]="true">
+<div class="photo-container" @createBox>
+  <div class="img-container mat-elevation-z2">
+    <img [alt]="val?.player?.full_name || placeholder"
+      [defaultImage]="val ? (val.club_id | cdi) : '//via.placeholder.com/' + size + 'x' + size"
+      [lazyLoad]="val?.player?.photo_url">
+  </div>
+  <fm-member-icons *ngIf="val?.likely_lineup" @createBox [captain]="captain" [member]="val" [circle]="true">
   </fm-member-icons>
 </div>
 <mat-form-field hideRequiredMarker="true" floatLabel="never" appearance="standard">

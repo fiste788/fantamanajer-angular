@@ -5,6 +5,7 @@
 @import './components/table';
 @import '../layout/navbar/navbar';
 @import '../components/mat-empty-state/mat-empty-state';
+@import '../../modules/lineup/components/lineup-detail/lineup-detail';
 @import '../../modules/member-common/components/member-selection/member-selection';
 @import '../../modules/notification/modals/notification-overlay/notification-overlay';
 @mixin fantamanajer-theme($theme) {
@@ -21,5 +22,6 @@
   @include navbar-theme($theme);
   @include mat-empty-state-theme($theme);
   @include member-selection-theme($theme);
+  @include lineup-detail-theme($theme);
   @include notification-overlay-theme($theme);
 }

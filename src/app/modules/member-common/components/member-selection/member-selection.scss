@@ -3,8 +3,8 @@
   $background: map-get($theme, background);
 
   .photo-container {
-    > img {
-      border: 3px solid mat-color($background,'card');
+    > .img-container {
+      border-color: mat-color($background,'card');
     }
   }
 

@@ -1,16 +1,17 @@
-<div *ngIf="player | async as player2; else loading">
+<div *ngIf="player | async as _player; else loading">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header [title]="player2.name + ' ' + player2.surname"
+      <fm-parallax-header [title]="_player.full_name"
         [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
-        [backgroundImage]="selectedMember.club.background_url" [image]="selectedMember.photo_url || player2.photo_url">
+        [backgroundImage]="selectedMember.club.background_url"
+        [image]="selectedMember.photo_url || _player.photo_url || (selectedMember.club_id | cdi)">
         <div parallax-header-right>
           <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
           <mat-form-field appearance="standard" [class.white]="media.isActive('gt-xs')">
             <mat-label>Stagione</mat-label>
             <mat-select (selectionChange)='seasonChange()' placeholder="Stagione" [(ngModel)]="selectedMember">
-              <mat-option *ngFor="let member of player2.members" [value]="member">{{ member.season.name }}
+              <mat-option *ngFor="let member of _player.members" [value]="member">{{ member.season.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>

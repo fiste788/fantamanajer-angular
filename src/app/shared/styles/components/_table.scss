@@ -7,6 +7,11 @@
 
   .mat-table {
     width: 100%;
+    border-radius: 4px;
+
+    thead > .mat-header-row {
+      border-radius: 4px;
+    }
 
     .mat-row:hover .mat-cell {
       background-color: mat-color($background, 'hover');
@@ -26,7 +31,7 @@
   }
 
   .table-container {
-    overflow-x: hidden;
+    overflow-x: visible;
     border-radius: 4px;
     background-color: mat-color($background, 'card');
   }

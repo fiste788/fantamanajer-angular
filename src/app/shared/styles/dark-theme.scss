@@ -9,7 +9,7 @@ $warn: mat-palette($mat-red);
 $theme: mat-dark-theme($primary, $accent, $warn);
 @include fantamanajer-theme($theme);
 
-img:not([src*=".svg"]) {
+img {
   filter: grayscale(60%);
 }
 

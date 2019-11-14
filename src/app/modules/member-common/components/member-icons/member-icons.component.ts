@@ -10,5 +10,6 @@ import { Member } from '@app/core/models';
 export class MemberIconsComponent {
   @Input() member: Member;
   @Input() circle = false;
+  @Input() captain = false;
 
 }

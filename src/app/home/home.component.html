@@ -1,12 +1,13 @@
 <ng-container *ngIf="app.seasonStarted; else started">
-  <ng-container *ngIf="roles | async as roles2; else loading">
-    <div *ngIf="roles2[0].best_players?.length; else started" class="flex-container" fxLayout="row wrap"
+  <ng-container *ngIf="roles | async as _roles; else loading">
+    <div *ngIf="_roles[0].best_players?.length; else started" class="flex-container" fxLayout="row wrap"
       fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start" @cardCreationAnimation>
       <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100"
-        *ngFor="let role of roles2">
+        *ngFor="let role of _roles">
 
-        <img [alt]="role.best_players[0].surname || 'placeholder'" mat-card-image
-          [src]="role.best_players[0].photo_url || '//via.placeholder.com/320x450'">
+        <img [alt]="role.best_players[0].full_name" mat-card-image [lazyLoad]="role.best_players[0].photo_url"
+          [defaultImage]="role.best_players[0].club_id | cdi">
+
         <mat-card-header>
           <mat-card-title>
             <span class="mat-text-primary">{{role.best_players[0].ratings[0].points}}

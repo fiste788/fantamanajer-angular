@@ -4,8 +4,9 @@
 .circle mat-icon {
   position: absolute;
   @include mat-elevation(4);
-  padding: 2px;
+  padding: 4px;
   border-radius: 50%;
+  cursor: help;
 
   &:nth-child(1) {
     top: -6px;
@@ -33,24 +34,28 @@
 }
 @include layout-bp(gt-xs) {
   .circle mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+
     &:nth-child(1) {
-      top: 0;
-      left: 0;
+      top: .33rem;
+      left: 1rem;
     }
 
     &:nth-child(2) {
-      top: 0;
-      right: 0;
+      top: .33rem;
+      right: 1rem;
     }
 
     &:nth-child(3) {
-      bottom: 0;
-      left: 0;
+      bottom: .33rem;
+      left: 1rem;
     }
 
     &:nth-child(4) {
-      bottom: 0;
-      right: 0;
+      bottom: .33rem;
+      right: 1rem;
     }
   }
 }

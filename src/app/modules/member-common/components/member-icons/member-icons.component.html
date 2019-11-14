@@ -3,6 +3,7 @@
   <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
   <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
   <mat-icon matTooltip="Squalificato" *ngIf="member.likely_lineup.disqualified">highlight_off</mat-icon>
+  <mat-icon matTooltip="Capitano" *ngIf="captain">copyright</mat-icon>
 </span>
 <ng-container *ngIf="!circle">
   {{member.player.full_name}}

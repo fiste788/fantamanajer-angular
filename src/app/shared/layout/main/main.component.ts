@@ -141,6 +141,8 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.scrollDirection = Direction.Up.toLowerCase();
       this.isVisible = true;
       this.isVisibleToolbar = true;
+      const height = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary').clientHeight;
+      this.document.querySelectorAll('.sticky, .mat-table-sticky').forEach((e: HTMLElement) => e.style.top = height + 'px');
       this.changeRef.detectChanges();
     }));
 
@@ -149,6 +151,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.isVisible = false;
       this.isVisibleToolbar = false;
       this.speedDial.openSpeeddial = false;
+      this.document.querySelectorAll('.sticky, .mat-table-sticky').forEach((e: HTMLElement) => e.style.top = '0');
       this.changeRef.detectChanges();
     }));
     return subs;

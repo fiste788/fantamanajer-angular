@@ -23,6 +23,11 @@
     color: #fff;
   }
 
+  .mat-table-sticky,
+  .sticky {
+    transition: top .2s ease-in;
+  }
+
   router-outlet ~ * {
     position: absolute;
     height: 100%;
