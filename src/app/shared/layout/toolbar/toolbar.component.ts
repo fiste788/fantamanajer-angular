@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { scrollUpAnimation } from '@app/core/animations';
+import { LayoutService } from '@app/core/services/layout.service';
 
 @Component({
   selector: 'fm-toolbar',
@@ -10,12 +11,13 @@ import { scrollUpAnimation } from '@app/core/animations';
 export class ToolbarComponent {
   @Input() state: VisibilityState;
   @Input() showDrawerButton: boolean;
-  @Output() clickToggleNav = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(
+    private layoutService: LayoutService
+  ) { }
 
   clickNav() {
-    this.clickToggleNav.emit(null);
+    this.layoutService.toggleSidebar();
   }
 
 }
