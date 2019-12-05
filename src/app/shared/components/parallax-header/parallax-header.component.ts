@@ -1,8 +1,5 @@
-import { Component, Input, ViewChild, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
-import { MainComponent } from '@app/shared/layout/main/main.component';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { ScrollService } from '@app/core/services/scroll.service';
 
 @Component({
   selector: 'fm-parallax-header',
@@ -18,11 +15,11 @@ export class ParallaxHeaderComponent {
   public srcset = '';
   public width = 0;
 
-  constructor(public main: MainComponent, private router: Router) {
+  constructor(public scrollService: ScrollService) {
   }
 
 
   initialScroll(event: Event) {
-    this.main.scrollTo(0, (event.target as any).clientHeight - 300);
+    this.scrollService.scrollTo(0, (event.target as any).clientHeight - 300);
   }
 }

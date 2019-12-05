@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { ApplicationService, AuthService, PushService } from '@app/core/services';
-import { MainComponent } from '../main/main.component';
+import { LayoutService } from '@app/core/services/layout.service';
+import { MatListItem } from '@angular/material/list';
 
 @Component({
   selector: 'fm-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
+  @ViewChildren(MatListItem, { read: ElementRef }) viewChildren !: QueryList<ElementRef>;
 
   public deferredPrompt: any;
   constructor(
-    public main: MainComponent,
+    public layoutService: LayoutService,
     public auth: AuthService,
     private push: PushService,
     public app: ApplicationService
@@ -21,6 +23,10 @@ export class NavbarComponent implements OnInit {
     this.push.beforeInstall.subscribe((e: any) => {
       this.deferredPrompt = e;
     });
+  }
+
+  ngAfterViewInit() {
+    this.viewChildren.map(i => (i.nativeElement as HTMLElement).onclick = () => this.closeSidenav());
   }
 
   install() {
@@ -36,6 +42,10 @@ export class NavbarComponent implements OnInit {
         }
         this.deferredPrompt = null;
       });
+  }
+
+  closeSidenav() {
+    this.layoutService.closeSidebar();
   }
 
 }

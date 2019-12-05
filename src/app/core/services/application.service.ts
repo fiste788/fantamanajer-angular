@@ -4,7 +4,7 @@ import { Observable, concat } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatchdayService } from './matchday.service';
 import { AuthService } from './auth.service';
-import { Matchday, Team, User, Championship, Role } from '../models';
+import { Matchday, Team, User, Championship } from '../models';
 import { environment } from '@env/environment';
 
 @Injectable({

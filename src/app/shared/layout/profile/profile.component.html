@@ -1,6 +1,4 @@
-<mat-toolbar *ngIf="app.team" color="primary" [customObservable]="loadImage"
-  [errorImage]="app.team.photo_url ? app.team.photo_url['240w'] : ''"
-  [lazyLoad]="app.team.photo_url ? app.team.photo_url['240w'] : ''">
+<mat-toolbar *ngIf="app.team" color="primary" [lazyLoad]="getPhoto()">
   <mat-toolbar-row>
     <span></span>
   </mat-toolbar-row>
@@ -19,7 +17,8 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="setTeam(team)" *ngFor="let team of app.teams">
-              <span>{{team.name}}</span><br /><span class="season">{{team.championship.season.name}}</span>
+              <div>{{team.name}}</div>
+              <small>{{team.championship.season.name}}</small>
             </button>
           </mat-menu>
         </div>

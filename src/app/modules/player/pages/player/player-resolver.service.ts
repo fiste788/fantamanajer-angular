@@ -6,11 +6,11 @@ import { ApplicationService, PlayerService } from '@app/core/services';
 
 @Injectable()
 export class PlayerResolver implements Resolve<Player> {
-    constructor(private cs: PlayerService, private app: ApplicationService) { }
+  constructor(private cs: PlayerService, private app: ApplicationService) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Player> {
-        const id = parseInt(route.paramMap.get('id'), 10);
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Player> {
+    const id = parseInt(route.paramMap.get('id'), 10);
 
-        return this.cs.getPlayer(id, this.app.championship.id);
-    }
+    return this.cs.getPlayer(id, this.app.championship ? this.app.championship.id : null);
+  }
 }

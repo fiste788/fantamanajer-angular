@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 export class ClubDefaultImagePipe implements PipeTransform {
   transform(id: number): string {
     if (id) {
-      return environment.apiEndpoint + 'img/Clubs/' + id + '/primitive/' + id + '.svg';
+      return environment.apiEndpoint + 'img/clubs/' + id + '/primitive/' + id + '.svg';
     } else {
       return '';
     }

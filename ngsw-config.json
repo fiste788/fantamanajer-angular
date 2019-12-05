@@ -13,9 +13,8 @@
           "/*.css",
           "/common-*.js",
           "/main-*.js",
-          "/polyfills-*.js",
           "/runtime-*.js",
-          "/manifest.webmanifest"
+          "/polyfills-*.js"
         ]
       }
     },
@@ -30,38 +29,41 @@
         ],
         "urls": [
           "https://fonts.googleapis.com/**",
-          "https://fonts.gstatic.com/**",
-          "https://api.fantamanajer.it/img/**",
-          "https://api.fantamanajer.it/files/teams/**"
+          "https://fonts.gstatic.com/**"
+        ]
+      }
+    },
+    {
+      "name": "clubs",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "urls": [
+          "/api/img/clubs/**"
+        ]
+      }
+    },
+    {
+      "name": "teams",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "urls": [
+          "/api/img/teams/**"
         ]
       }
     }
   ],
   "dataGroups": [
     {
-      "name": "api-freshness",
+      "name": "api",
       "urls": [
-        "/api/matchdays/current",
-        "/login"
+        "/api"
       ],
       "cacheConfig": {
-        "strategy": "freshness",
-        "maxSize": 100,
-        "maxAge": "3d",
-        "timeout": "10s"
-      }
-    },
-    {
-      "name": "api-performance",
-      "urls": [
-        "/api/members/best",
-        "/api/clubs/**",
-        "/api/clubs"
-      ],
-      "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 100,
-        "maxAge": "3d"
+        "maxSize": 0,
+        "maxAge": "0u",
+        "strategy": "freshness"
       }
     }
   ]

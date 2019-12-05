@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, Injector } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthService, ApplicationService } from '@app/core/services';
 import { Team } from '@app/core/models';
 import { Router } from '@angular/router';
-import { MainComponent } from '../main/main.component';
-import { Observable } from 'rxjs';
+import { Observable, Subject, fromEvent, merge } from 'rxjs';
+import { LayoutService } from '@app/core/services/layout.service';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-profile',
@@ -11,11 +12,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  loadImage: Observable<void | Event>;
-  main: MainComponent;
+  loadImage: Observable<boolean | Event>;
 
   constructor(
-    private injector: Injector,
+    private layoutService: LayoutService,
     public auth: AuthService,
     public app: ApplicationService,
     private router: Router,
@@ -23,12 +23,22 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.main = this.injector.get(MainComponent);
-    this.loadImage = this.main.drawer.openedStart;
+    this.loadImage = merge(
+      this.layoutService.openedSidebar,
+      fromEvent(window, 'scroll')
+    );
+  }
+
+  getPhoto(): string {
+    if (this.app.team.photo_url) {
+      return this.app.team.photo_url['240w'];
+    } else {
+      return '';
+    }
   }
 
   setTeam(team: Team) {
-    this.main.closeSidenav();
+    this.layoutService.closeSidebar();
     this.app.setCurrentTeam(team).then(() => this.changeRef.detectChanges());
     this.router.navigateByUrl('/teams/' + team.id);
   }

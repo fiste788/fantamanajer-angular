@@ -23,7 +23,7 @@
     height: 100%;
 
     > img {
-      transform: scale(1.4);
+      transform: scale(1.45);
       transform-origin: top;
       max-width: 100%;
     }
@@ -49,6 +49,7 @@
       max-width: calc(100% - 1rem);
       padding: 0 1rem;
       margin: 0 .25rem;
+      display: inline-flex;
     }
   }
 }

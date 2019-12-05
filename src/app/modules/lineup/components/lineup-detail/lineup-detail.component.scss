@@ -10,11 +10,6 @@ mat-select {
   display: inline-block !important;
 }
 
-h5 {
-  padding-right: 1rem;
-
-}
-
 .role fm-member-selection {
   flex: 1;
 }
@@ -29,7 +24,7 @@ h5 {
     position: sticky;
     text-orientation: upright;
     writing-mode: vertical-lr;
-    padding: .5rem .5rem 1rem 0;
+    padding: .5rem 1rem 1rem 0;
     text-overflow: ellipsis;
   }
 }

@@ -5,7 +5,7 @@
       <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100"
         *ngFor="let role of _roles">
 
-        <img [alt]="role.best_players[0].full_name" mat-card-image [lazyLoad]="role.best_players[0].photo_url"
+        <img [alt]="role.best_players[0].full_name" mat-card-image [lazyLoad]="role.best_players[0].photo_url || ''"
           [defaultImage]="role.best_players[0].club_id | cdi">
 
         <mat-card-header>

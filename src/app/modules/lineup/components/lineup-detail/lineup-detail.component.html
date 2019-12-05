@@ -23,7 +23,7 @@
           *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
           [isMemberDisabled]="isRegularCallback" (selectionChange)="removeBenchwarmer(lineup, $event)"
           [memberList]="membersByRole.get(role.key)" [placeholder]="role.key.singolar"
-          [name]="role.key.abbreviation + '-' + memberKey"
+          [name]="role.key.abbreviation + '-' + memberKey" [width]="320" [height]="450"
           [(ngModel)]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member"></fm-member-selection>
       </div>
     </div>
@@ -47,8 +47,8 @@
     <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around">
       <fm-member-selection fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="benchwarmer"
         *ngFor="let bench of benchs" [disabled]="disabled" [isMemberDisabled]="isAlreadySelectedCallback"
-        [memberMap]="membersByRole" [placeholder]="'Panchinaro ' + (bench - 10)" [name]="bench" [size]="75"
-        [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
+        [memberMap]="membersByRole" [placeholder]="'Panchinaro ' + (bench - 10)" [name]="bench" [width]="320"
+        [height]="450" [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
     </div>
   </div>
 </div>

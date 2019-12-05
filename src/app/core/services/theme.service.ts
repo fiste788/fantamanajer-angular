@@ -14,6 +14,9 @@ export class ThemeService {
     @Inject(DOCUMENT) private document: Document,
     private breakpointObserver: BreakpointObserver,
   ) {
+  }
+
+  connect() {
     this.isDark$.subscribe(dark => this.setTheme(dark));
   }
 

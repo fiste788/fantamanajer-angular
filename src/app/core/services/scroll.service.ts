@@ -1,7 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map, throttleTime, filter, pairwise, distinctUntilChanged, share, tap } from 'rxjs/operators';
 import { MatSidenavContent } from '@angular/material/sidenav';
 
@@ -16,11 +14,16 @@ export enum Direction {
 export class ScrollService {
   public scrollDirection = '';
   private scrollObservable: Observable<Direction>;
+  private container: MatSidenavContent;
 
-  initScrollAnimation(container: MatSidenavContent, offset = 0) {
-    this.scrollObservable = container.elementScrolled().pipe(
-      throttleTime(10),
-      map(() => container.measureScrollOffset('top')),
+  connect(container: MatSidenavContent) {
+    this.container = container;
+  }
+
+  connectScrollAnimation(offset = 0) {
+    this.scrollObservable = this.container.elementScrolled().pipe(
+      throttleTime(15),
+      map(() => this.container.measureScrollOffset('top')),
       filter((y) => y > offset),
       pairwise(),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
@@ -40,5 +43,9 @@ export class ScrollService {
     return this.scrollObservable.pipe(
       filter(direction => direction === Direction.Down)
     );
+  }
+
+  scrollTo(x: number = 0, y: number = 0) {
+    this.container.scrollTo({ top: y, left: x });
   }
 }

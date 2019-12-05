@@ -41,6 +41,10 @@
 .parallax-container {
   margin: 0 0 2rem;
 }
+
+.parallax {
+  min-height: 300px;
+}
 @include layout-bp(gt-xs) {
   .parallax-header-img {
     //height: 300px;
