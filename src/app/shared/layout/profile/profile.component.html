@@ -1,31 +1,21 @@
-<mat-toolbar *ngIf="app.team" color="primary" [lazyLoad]="getPhoto()">
+<mat-toolbar *ngIf="app.user" color="primary"
+  [style.background-image]="app.team?.photo_url ? 'url(' + app.team?.photo_url['240w'] + ')' : ''"
+  [class.has-image]="app.team?.photo_url != null">
   <mat-toolbar-row>
     <span></span>
   </mat-toolbar-row>
-  <mat-toolbar-row>
-    <div fxLayout="column" class="mat-toolbar-tools-bottom inset">
-      <div *ngIf="app.user">
-        <div *ngIf="app.teams.length > 1">
-          <button aria-label="switch" mat-icon-button [matMenuTriggerFor]="menu" class="team-switcher">
-
-            <span class="team-name">{{app.team.name}}
-              <br />
-              <span class="email">{{app.user.email}}</span>
-            </span>
-
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="setTeam(team)" *ngFor="let team of app.teams">
-              <div>{{team.name}}</div>
-              <small>{{team.championship.season.name}}</small>
-            </button>
-          </mat-menu>
-        </div>
-        <div *ngIf="app.teams.length == 1">
-          {{app.team.name}}
-        </div>
-      </div>
-    </div>
+  <mat-toolbar-row class="mat-body" fxLayout="column" fxLayoutAlign="end none">
+    <mat-form-field appearance="standard" *ngIf="app.teams.length">
+      <mat-select [(ngModel)]="app.team" panelClass="teams-panel" role="listbox" aria-label="Squadra selezionata">
+        <mat-select-trigger *ngIf="app.team">
+          <h3>{{app.team.name}}</h3>
+        </mat-select-trigger>
+        <mat-option *ngFor="let team of app.teams" [value]="team">
+          {{team.name}}<br />
+          <small>{{team.championship.season.name}}</small>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span>{{app.user.email}}</span>
   </mat-toolbar-row>
 </mat-toolbar>

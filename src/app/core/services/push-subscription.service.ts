@@ -6,7 +6,7 @@ import { PushSubscription } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class PushSubscriptionService {
-  private url = 'push_subscriptions';
+  private url = 'push-subscriptions';
 
   constructor(private http: HttpClient) { }
 

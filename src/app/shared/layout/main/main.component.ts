@@ -71,10 +71,9 @@ export class MainComponent implements OnInit, AfterViewInit {
           this.document.querySelectorAll('.sticky').forEach((e: HTMLElement) => e.style.top = '0');
           this.changeRef.detectChanges();
         },
-        this.toolbarEl.nativeElement.firstChild.innerHeight);
+        this.toolbarEl.nativeElement.firstChild.clientHeight);
     });
     this.initDrawer();
-    setTimeout(() => this.test(), 3000);
     this.changeRef.detectChanges();
   }
 
@@ -96,29 +95,5 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   getState(outlet: RouterOutlet) {
     return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
-  }
-
-  test() {
-    /*
- * Scrollbar Width Test
- * Adds `layout-scrollbar-obtrusive` class to body if scrollbars use up screen real estate
- */
-    const parent = this.document.createElement("div");
-    parent.setAttribute("style", "width:30px;height:30px;visibility:hidden; position: absolute; top:0");
-    parent.classList.add('scrollbar-test');
-
-    const child = this.document.createElement("div");
-    child.setAttribute("style", "width:100%;height:40px");
-    parent.appendChild(child);
-    this.document.body.appendChild(parent);
-
-    // Measure the child element, if it is not
-    // 30px wide the scrollbars are obtrusive.
-    const scrollbarWidth = 30 - (parent.firstChild as any).clientWidth;
-    if (scrollbarWidth) {
-      this.document.body.classList.add("layout-scrollbar-obtrusive");
-    }
-
-    this.document.body.removeChild(parent);
   }
 }

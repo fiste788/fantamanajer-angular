@@ -51,7 +51,17 @@ export class LoginComponent implements OnInit {
   }
 
   tokenLogin() {
-    this.authService.tokenLogin(this.loginData.email);
+    this.authService.tokenLogin(this.loginData.email).subscribe(result => {
+      if (result === true) {
+        const url =
+          this.route.snapshot.queryParams.returnUrl ||
+          '/championships/' + this.app.championship.id;
+        this.router.navigate([url]);
+      } else {
+        this.error = 'Username or password invalid';
+        this.loading = false;
+      }
+    });
     return false;
   }
 }

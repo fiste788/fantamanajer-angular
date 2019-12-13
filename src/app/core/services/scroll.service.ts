@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, throttleTime, filter, pairwise, distinctUntilChanged, share, tap } from 'rxjs/operators';
+import { map, throttleTime, filter, pairwise, distinctUntilChanged, share, auditTime } from 'rxjs/operators';
 import { MatSidenavContent } from '@angular/material/sidenav';
 
 export enum Direction {
@@ -12,7 +12,6 @@ export enum Direction {
   providedIn: 'root'
 })
 export class ScrollService {
-  public scrollDirection = '';
   private scrollObservable: Observable<Direction>;
   private container: MatSidenavContent;
 
@@ -26,10 +25,11 @@ export class ScrollService {
       map(() => this.container.measureScrollOffset('top')),
       filter((y) => y > offset),
       pairwise(),
+      filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
       distinctUntilChanged(),
-      share(),
-      tap(dir => this.scrollDirection = dir.toLowerCase())
+      auditTime(300),
+      share()
     );
   }
 

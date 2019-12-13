@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { map, flatMap, switchMap } from 'rxjs/operators';
+import { User } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class CredentialService {
@@ -34,8 +36,8 @@ export class CredentialService {
 
   constructor(private http: HttpClient) { }
 
-  login(credential: any): Observable<any> {
-    return this.http.post<any>(`${this.url}/login`, JSON.stringify(credential));
+  login(credential: any): Observable<{ user: User, token: string }> {
+    return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(credential));
   }
 
   register(credential: any): Observable<any> {
@@ -51,20 +53,23 @@ export class CredentialService {
     return this.http.get<any>(`${this.url}/register`);
   }
 
-  credentialCreation() {
-    this.create().subscribe(publicKey => {
-      publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
-      publicKey.user.id = CredentialService.strToBin(publicKey.user.id);
-      if (publicKey.excludeCredentials) {
-        publicKey.excludeCredentials = publicKey.excludeCredentials.map((data: any) => {
-          return {
-            ...data,
-            id: CredentialService.strToBin(data.id)
-          };
-        });
-      }
-
-      (navigator as any).credentials.create({ publicKey }).then((data: any) => {
+  credentialCreation(): Observable<any> {
+    return this.create().pipe(
+      map(publicKey => {
+        publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
+        publicKey.user.id = CredentialService.strToBin(publicKey.user.id);
+        if (publicKey.excludeCredentials) {
+          publicKey.excludeCredentials = publicKey.excludeCredentials.map((data: any) => {
+            return {
+              ...data,
+              id: CredentialService.strToBin(data.id)
+            };
+          });
+        }
+        return publicKey;
+      }),
+      flatMap(publicKey => from((navigator as any).credentials.create({ publicKey }))),
+      flatMap((data: any) => {
         const publicKeyCredential = {
 
           id: data.id,
@@ -75,28 +80,30 @@ export class CredentialService {
             attestationObject: CredentialService.binToStr(data.response.attestationObject)
           }
         };
-        console.log(publicKeyCredential);
-        this.register(publicKeyCredential).subscribe(data2 => {
-          console.log('ok');
-        });
-      });
-    });
+        return this.register(publicKeyCredential);
+      })
+    );
   }
 
-  credentialRequest(email: string) {
-    this.request(email).subscribe(publicKey => {
-      publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
-      if (publicKey.allowCredentials.length) {
-        publicKey.allowCredentials = publicKey.allowCredentials.map((data: any) => {
-          return {
-            ...data,
-            id: CredentialService.strToBin(data.id)
-          };
-        });
-      }
-
-
-      (navigator as any).credentials.get({ publicKey }).then((data: any) => {
+  credentialRequest(email: string): Observable<{ user: User, token: string }> {
+    return this.request(email).pipe(
+      map(publicKey => {
+        publicKey.challenge = CredentialService.strToBin(publicKey.challenge);
+        if (publicKey.allowCredentials) {
+          publicKey.allowCredentials = publicKey.allowCredentials.map((data: any) => {
+            return {
+              ...data,
+              id: CredentialService.strToBin(data.id)
+            };
+          });
+        }
+        return publicKey;
+      }),
+      flatMap(publicKey => {
+        const promise: Promise<any> = (navigator as any).credentials.get({ publicKey });
+        return from(promise);
+      }),
+      flatMap(data => {
         const publicKeyCredential = {
 
           id: data.id,
@@ -109,10 +116,8 @@ export class CredentialService {
             userHandle: data.response.userHandle ? CredentialService.binToStr(data.response.userHandle) : null
           }
         };
-        this.login(publicKeyCredential).subscribe(data2 => {
-          console.log(data2);
-        });
-      });
-    });
+        return this.login(publicKeyCredential);
+      })
+    );
   }
 }

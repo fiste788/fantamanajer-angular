@@ -1,0 +1,24 @@
+@mixin profile-theme($theme) {
+  fm-profile {
+    .mat-form-field-wrapper {
+      padding-bottom: 0 !important;
+    }
+
+    .mat-form-field-appearance-standard .mat-form-field-underline {
+      display: none;
+    }
+
+    .mat-form-field-infix {
+      padding: 0;
+      border: 0;
+    }
+  }
+
+  .teams-panel {
+    margin-left: .5rem;
+
+    .mat-option {
+      line-height: 1 !important;
+    }
+  }
+}

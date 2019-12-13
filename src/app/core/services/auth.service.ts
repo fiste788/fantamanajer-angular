@@ -27,26 +27,29 @@ export class AuthService {
   }
 
   login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
-    return this.userService.login(email, password, rememberMe).pipe(map(res => {
-      if (res.token) {
-        this.token = res.token;
-        const user = res.user;
-        user.roles = this.getRoles(user);
-        if (rememberMe) {
-          localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
-        } else {
-          sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
-        }
-        this.loggedUser.emit(user);
-        return true;
-      } else {
-        return false;
-      }
-    }));
+    return this.userService.login(email, password, rememberMe).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  tokenLogin(email: string) {
-    this.credentialService.credentialRequest(email);
+  tokenLogin(email: string, rememberMe?: boolean) {
+    return this.credentialService.credentialRequest(email).pipe(map(res => this.postLogin(res, rememberMe)));
+  }
+
+  postLogin(res: any, rememberMe?: boolean) {
+
+    if (res.token) {
+      this.token = res.token;
+      const user = res.user;
+      user.roles = this.getRoles(user);
+      if (rememberMe) {
+        localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+      } else {
+        sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+      }
+      this.loggedUser.emit(user);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getToken(): string {

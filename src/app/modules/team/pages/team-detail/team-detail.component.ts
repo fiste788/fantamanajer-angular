@@ -59,7 +59,10 @@ export class TeamDetailComponent implements OnInit {
       if (t) {
         this.team = t;
         this.team.subscribe(res => {
-          this.app.team = res;
+          this.app.team.photo_url = res.photo_url;
+          this.app.team.name = res.name;
+          this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
+          this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
           this.changeRef.detectChanges();
         });
       }

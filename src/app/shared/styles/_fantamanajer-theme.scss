@@ -1,9 +1,8 @@
 @import '~@angular/material/theming';
 @import './components/core';
 @import './components/card';
-@import './components/form';
 @import './components/table';
-@import '../layout/navbar/navbar';
+@import '../layout/layout';
 @import '../components/mat-empty-state/mat-empty-state';
 @import '../../modules/lineup/components/lineup-detail/lineup-detail';
 @import '../../modules/member-common/components/member-selection/member-selection';
@@ -17,9 +16,8 @@
   @include angular-material-theme($theme);
   @include fantamanajer-core($theme);
   @include fantamanajer-card-theme($theme);
-  @include fantamanajer-form-theme($theme);
   @include table-extended-theme($theme);
-  @include navbar-theme($theme);
+  @include layout-theme($theme);
   @include mat-empty-state-theme($theme);
   @include member-selection-theme($theme);
   @include lineup-detail-theme($theme);

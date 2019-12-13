@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/core/guards';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { UserStreamComponent } from './components/user-stream/user-stream.component';
 import { UserComponent } from './pages/user/user.component';
 
@@ -16,7 +16,7 @@ const routes: Routes = [
     },
     children: [
       { path: '', redirectTo: 'profile' },
-      { path: 'profile', component: ProfileComponent, data: { state: 'profile' } },
+      { path: 'profile', component: SettingsComponent, data: { state: 'settings' } },
       { path: 'stream', component: UserStreamComponent, data: { state: 'stream' } }
     ]
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewChecked } from '@angular/core';
 import { ApplicationService, AuthService, PushService } from '@app/core/services';
 import { LayoutService } from '@app/core/services/layout.service';
 import { MatListItem } from '@angular/material/list';
@@ -8,10 +8,10 @@ import { MatListItem } from '@angular/material/list';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
-  @ViewChildren(MatListItem, { read: ElementRef }) viewChildren !: QueryList<ElementRef>;
+export class NavbarComponent implements OnInit {
 
   public deferredPrompt: any;
+
   constructor(
     public layoutService: LayoutService,
     public auth: AuthService,
@@ -23,10 +23,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.push.beforeInstall.subscribe((e: any) => {
       this.deferredPrompt = e;
     });
-  }
-
-  ngAfterViewInit() {
-    this.viewChildren.map(i => (i.nativeElement as HTMLElement).onclick = () => this.closeSidenav());
   }
 
   install() {

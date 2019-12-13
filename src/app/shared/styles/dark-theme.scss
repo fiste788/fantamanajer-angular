@@ -7,19 +7,37 @@ $accent: mat-palette($mat-pink, A200);
 $warn: mat-palette($mat-red);
 
 $theme: mat-dark-theme($primary, $accent, $warn);
+$foreground: map-get($theme, foreground);
+$background: map-get($theme, background);
 @include fantamanajer-theme($theme);
 
+fm-profile .mat-toolbar.has-image,
 img {
   filter: grayscale(60%);
+}
+
+img[src$='.svg'] {
+  $app-background: mat-color($background, 'background');
+  $badge-color: mat-color($foreground, 'disabled-text');
+
+  // The disabled color usually has some kind of opacity, but because the badge is overlayed
+  // on top of something else, it won't look good if it's opaque. If it is a color *type*,
+  // we convert it into a solid color by taking the opacity from the rgba value and using
+  // the value to determine the percentage of the background to put into foreground when
+  // mixing the colors together.
+  @if (type-of($badge-color) == color and type-of($app-background) == color) {
+    $badge-opacity: opacity($badge-color);
+    background-color: mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
+  }
+  @else {
+    background-color: $badge-color;
+  }
+
 }
 
 img[src^='//via.placeholder.com'],
 img[srcset^='//via.placeholder.com'] {
   filter: invert(0.85);
-}
-
-fm-profile .mat-toolbar {
-  filter: grayscale(60%)
 }
 
 a {

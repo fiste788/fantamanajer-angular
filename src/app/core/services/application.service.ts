@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, concat } from 'rxjs';
+import { Observable, concat, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatchdayService } from './matchday.service';
 import { AuthService } from './auth.service';
@@ -15,7 +15,8 @@ export class ApplicationService {
   public seasonStarted: boolean;
   public matchday: Matchday;
   public championship: Championship;
-  public team: Team;
+  private currentTeam: Team;
+  public teamChange = new BehaviorSubject<Team>(null);
   public user: User;
   public teams: Team[];
 
@@ -45,11 +46,12 @@ export class ApplicationService {
   }
 
   setUser(user?: User) {
+    this.user = user;
     if (user) {
-      this.user = user;
       this.loadTeams(user.teams);
     } else {
-      this.team = null;
+      this.teams = null;
+      this.currentTeam = null;
       this.getRouter().navigate(['/']);
     }
   }
@@ -57,12 +59,19 @@ export class ApplicationService {
   loadTeams(teams?: Team[]) {
     teams = teams || [];
     this.teams = teams;
-    this.setCurrentTeam(this.teams[0]);
+    if (this.teams.length) {
+      this.team = this.teams[0];
+    }
   }
 
-  setCurrentTeam(team: Team): Promise<Team> {
-    if (team) {
-      this.team = team;
+  get team(): Team {
+    return this.currentTeam;
+  }
+
+  set team(team: Team) {
+    const isNull = !this.currentTeam;
+    if (team && this.team !== team) {
+      this.currentTeam = team;
       this.championship = team.championship;
       if (this.championship.season_id !== this.matchday.season_id) {
         this.seasonStarted = false;
@@ -70,9 +79,10 @@ export class ApplicationService {
       } else {
         this.setCurrentMatchday(this.matchday);
       }
-      return Promise.resolve(team);
     }
-    return null;
+    if (!isNull) {
+      this.teamChange.next(team);
+    }
   }
 
   public getRouter(): Router {

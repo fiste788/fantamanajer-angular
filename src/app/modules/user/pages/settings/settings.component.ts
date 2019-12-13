@@ -7,11 +7,11 @@ import { User } from '@app/core/models';
 import { CredentialService } from '@app/core/services/credential.service';
 
 @Component({
-  selector: 'fm-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'fm-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   userObservable: Observable<User>;
   user: User;
   repeatPassword: string;
@@ -54,6 +54,6 @@ export class ProfileComponent implements OnInit {
   }
 
   registerDevice() {
-    this.credentialService.credentialCreation();
+    this.credentialService.credentialCreation().subscribe(console.log);
   }
 }
