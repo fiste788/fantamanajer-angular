@@ -9,7 +9,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class TeamStreamComponent implements OnInit {
 
-  public id: number;
+  public id?: number;
 
   constructor(private route: ActivatedRoute) { }
 

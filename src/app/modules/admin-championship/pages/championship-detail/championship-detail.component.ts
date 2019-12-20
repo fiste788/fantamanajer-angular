@@ -23,8 +23,8 @@ export class ChampionshipDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.route.snapshot.parent.parent.parent.params.championship_id) {
-      this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
+    if (this.route.snapshot.parent?.parent?.parent?.params.championship_id) {
+      this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
         this.championship = data.championship;
       });
     } else {
@@ -35,7 +35,7 @@ export class ChampionshipDetailComponent implements OnInit {
 
   save() {
     this.championshipService.save(this.championship).subscribe(response => {
-      this.snackBar.open('Modifiche salvate', null, {
+      this.snackBar.open('Modifiche salvate', undefined, {
         duration: 3000
       });
     },

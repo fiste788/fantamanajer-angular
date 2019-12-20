@@ -7,7 +7,7 @@
   </eco-fab-speed-dial-trigger>
 
   <eco-fab-speed-dial-actions>
-    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent"
+    <button *ngIf="!app.seasonEnded && app.championship?.started" mat-mini-fab class="mat-accent"
       matTooltip="Inserisci formazione" matTooltipPosition="left" (click)="_click('lineup')">
       <mat-icon>star_rate</mat-icon>
     </button>
@@ -15,7 +15,7 @@
       (click)="_click('article')">
       <mat-icon>message</mat-icon>
     </button>
-    <button *ngIf="!app.seasonEnded && app.championship.started" mat-mini-fab class="mat-accent"
+    <button *ngIf="!app.seasonEnded && app.championship?.started" mat-mini-fab class="mat-accent"
       matTooltip="Nuovo trasferimento" matTooltipPosition="left" (click)="_click('transfert')">
       <mat-icon>swap_vert</mat-icon>
     </button>

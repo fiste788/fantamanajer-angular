@@ -31,37 +31,24 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authService
-      .login(
-        this.loginData.email,
-        this.loginData.password,
-        this.loginData.remember_me
-      )
-      .subscribe(result => {
-        if (result === true) {
-          const url =
-            this.route.snapshot.queryParams.returnUrl ||
-            '/championships/' + this.app.championship.id;
-          this.router.navigate([url]);
-        } else {
-          this.error = 'Username or password invalid';
-          this.loading = false;
-        }
-      });
+    this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me).
+      subscribe(result => this.postLogin(result));
   }
 
   tokenLogin() {
-    this.authService.tokenLogin(this.loginData.email).subscribe(result => {
-      if (result === true) {
-        const url =
-          this.route.snapshot.queryParams.returnUrl ||
-          '/championships/' + this.app.championship.id;
-        this.router.navigate([url]);
-      } else {
-        this.error = 'Username or password invalid';
-        this.loading = false;
-      }
-    });
-    return false;
+    this.loading = true;
+    this.authService.webauthnLogin(this.loginData.email).subscribe((result: any) => this.postLogin(result));
+  }
+
+  postLogin(result: boolean): void {
+    if (result === true) {
+      const url =
+        this.route.snapshot.queryParams.returnUrl ||
+        '/championships/' + this.app.championship?.id;
+      this.router.navigate([url]);
+    } else {
+      this.error = 'Username or password invalid';
+      this.loading = false;
+    }
   }
 }

@@ -24,7 +24,7 @@ export class ThemeService {
     this.loadStyle((isDark ? 'dark' : 'light') + '-theme.css');
   }
 
-  loadStyle(styleName?: string) {
+  loadStyle(styleName: string) {
     const head = this.document.getElementsByTagName('head')[0];
 
     const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;

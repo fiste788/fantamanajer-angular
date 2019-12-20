@@ -32,7 +32,7 @@ export class NewTransfertComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
+    this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.transfert.team_id = data.team.id;
       this.loadMembers(this.team);
@@ -86,7 +86,7 @@ export class NewTransfertComponent implements OnInit {
     this.transfert.old_member_id = this.transfert.old_member.id;
     // this.transfert.old_member = undefined;
     this.transfertService.create(this.transfert).subscribe(response => {
-      this.snackBar.open('Trasferimento effettuato', null, {
+      this.snackBar.open('Trasferimento effettuato', undefined, {
         duration: 3000
       });
     },

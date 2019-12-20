@@ -3,7 +3,7 @@ import { Role } from './role.model';
 export class Module {
   key: string;
   label: string;
-  map: Map<Role, number[]>;
+  map?: Map<Role, number[]>;
 
   constructor(key: string, roles: Map<number, Role>) {
     if (key) {
@@ -11,8 +11,13 @@ export class Module {
       this.label = key.substring(key.indexOf('-') + 1);
       this.map = key.split('-').reduce((map: Map<Role, number[]>, num, index) => {
         const players = parseInt(num, 10);
-        return map.set(roles.get(index + 1), Array(players).fill(players).map((_, i) => i));
-      }, new Map());
+        const role = roles.get(index + 1);
+        if (role) {
+          return map.set(role, Array(players).fill(players).map((_, i) => i));
+        } else {
+          return undefined;
+        }
+      }, new Map<Role, number[]>());
     }
   }
 }

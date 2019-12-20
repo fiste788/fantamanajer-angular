@@ -26,8 +26,8 @@ export class LineupLastComponent implements OnDestroy {
     private route: ActivatedRoute,
     public app: ApplicationService
   ) {
-    this.teamId = this.route.parent.parent.parent.snapshot.data.team.id;
-    this.editMode = this.app.team.id === this.teamId;
+    this.teamId = this.route.parent?.parent?.parent?.snapshot.data.team.id;
+    this.editMode = this.app.team?.id === this.teamId;
     this.lineup = this.lineupService.getLineup(this.teamId);
   }
 
@@ -38,10 +38,10 @@ export class LineupLastComponent implements OnDestroy {
   }
 
   save(lineup: Lineup) {
-    lineup.module = lineup.module_object.key;
-    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-    let obs: Observable<Lineup> = null;
-    let message: string = null;
+    lineup.module = lineup.module_object?.key || '';
+    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : undefined);
+    let obs: Observable<Lineup>;
+    let message: string;
     if (lineup.id) {
       message = 'Formazione aggiornata';
       obs = this.lineupService.update(lineup);
@@ -53,7 +53,7 @@ export class LineupLastComponent implements OnDestroy {
       if (response.id) {
         lineup.id = response.id;
       }
-      this.snackBar.open(message, null, {
+      this.snackBar.open(message, undefined, {
         duration: 3000
       });
     },

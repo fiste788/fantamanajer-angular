@@ -9,7 +9,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class ChampionshipStreamComponent implements OnInit {
 
-  id: number;
+  id?: number;
 
   constructor(private route: ActivatedRoute) { }
 

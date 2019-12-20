@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { take, defaultIfEmpty } from 'rxjs/operators';
+import { take, defaultIfEmpty, filter } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { PushSubscription, User } from '../models';
 import { PushSubscriptionService } from './push-subscription.service';
@@ -74,19 +74,21 @@ export class PushService {
         serverPublicKey: environment.vapidPublicKey
       })
       .then(pushSubscription => {
-        const pushSubscriptionModel = new PushSubscription();
-        pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id).then(sub => {
-          // Passing subscription object to our backend
-          this.subscription.add(sub).subscribe(res => {
-            this.snackBar.open(
-              'Now you are subscribed',
-              null,
-              {
-                duration: 2000
-              }
-            );
-          }, () => pushSubscription.unsubscribe());
-        });
+        if (this.app.user) {
+          const pushSubscriptionModel = new PushSubscription();
+          pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id).then(sub => {
+            // Passing subscription object to our backend
+            this.subscription.add(sub).subscribe(res => {
+              this.snackBar.open(
+                'Now you are subscribed',
+                undefined,
+                {
+                  duration: 2000
+                }
+              );
+            }, () => pushSubscription.unsubscribe());
+          });
+        }
       }).catch(err => {
         console.error(err);
       });
@@ -95,27 +97,30 @@ export class PushService {
   unsubscribeFromPush(): void {
     // Get active subscription
     this.swPush.subscription.pipe(take(1)).subscribe(pushSubscription => {
-      // Delete the subscription from the backend
-      this.subscription.delete(pushSubscription.endpoint).subscribe(res => {
-        this.snackBar.open(
-          'Now you are unsubscribed',
-          null,
-          {
-            duration: 2000
-          }
-        );
+      if (pushSubscription) {
+        // Delete the subscription from the backend
+        this.subscription.delete(pushSubscription.endpoint).subscribe(res => {
+          this.snackBar.open(
+            'Now you are unsubscribed',
+            undefined,
+            {
+              duration: 2000
+            }
+          );
 
-        // Unsubscribe current client (browser)
-        pushSubscription
-          .unsubscribe()
-          .then(success => {
-            console.log('[App] Unsubscription successful', success);
-          })
-          .catch(err => {
-            console.log('[App] Unsubscription failed', err);
-          });
-      });
+          // Unsubscribe current client (browser)
+          pushSubscription
+            .unsubscribe()
+            .then(success => {
+              console.log('[App] Unsubscription successful', success);
+            })
+            .catch(err => {
+              console.log('[App] Unsubscription failed', err);
+            });
+        });
+      }
     });
+
   }
 
   showMessages(): void {

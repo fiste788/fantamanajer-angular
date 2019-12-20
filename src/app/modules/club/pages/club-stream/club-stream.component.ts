@@ -14,7 +14,7 @@ export class ClubStreamComponent {
   id: number;
 
   constructor(private route: ActivatedRoute) {
-    this.route.parent.data.pipe(map((data: { club: Club }) => {
+    this.route.parent?.data.pipe(map((data: { club: Club }) => {
       this.id = data.club.id;
     }));
   }

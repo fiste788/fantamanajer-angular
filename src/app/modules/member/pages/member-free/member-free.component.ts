@@ -19,7 +19,7 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
   @ViewChild(MemberListComponent) memberList: MemberListComponent;
   @ViewChild(MatSelect) roleSelect: MatSelect;
-  members: Observable<Member[]>;
+  members?: Observable<Member[]>;
   roles: Map<number, Role>;
 
   constructor(
@@ -41,9 +41,12 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
     this.roleChange(this.roles.get(1));
   }
 
-  roleChange(role: Role) {
-    this.members = null;
+  roleChange(role?: Role) {
+    const championshipId = SharedService.getChampionshipId(this.route);
+    this.members = undefined;
     this.changeRef.detectChanges();
-    this.members = this.memberService.getFree(SharedService.getChampionshipId(this.route), role.id);
+    if (championshipId) {
+      this.members = this.memberService.getFree(championshipId, role?.id);
+    }
   }
 }

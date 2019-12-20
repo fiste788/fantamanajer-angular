@@ -14,11 +14,11 @@ export class ApplicationService {
   public seasonEnded: boolean;
   public seasonStarted: boolean;
   public matchday: Matchday;
-  public championship: Championship;
-  private currentTeam: Team;
-  public teamChange = new BehaviorSubject<Team>(null);
-  public user: User;
-  public teams: Team[];
+  public championship?: Championship;
+  private currentTeam?: Team;
+  public teamChange = new BehaviorSubject<Team | undefined>(undefined);
+  public user?: User;
+  public teams?: Team[];
 
   constructor(
     private auth: AuthService,
@@ -50,8 +50,8 @@ export class ApplicationService {
     if (user) {
       this.loadTeams(user.teams);
     } else {
-      this.teams = null;
-      this.currentTeam = null;
+      this.teams = undefined;
+      this.currentTeam = undefined;
       this.getRouter().navigate(['/']);
     }
   }
@@ -64,11 +64,11 @@ export class ApplicationService {
     }
   }
 
-  get team(): Team {
+  get team(): Team | undefined {
     return this.currentTeam;
   }
 
-  set team(team: Team) {
+  set team(team: Team | undefined) {
     const isNull = !this.currentTeam;
     if (team && this.team !== team) {
       this.currentTeam = team;

@@ -13,6 +13,6 @@ export class ChampionshipAdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.app.user.admin || this.app.team.admin;
+    return this.app.user?.admin || this.app.team?.admin || false;
   }
 }

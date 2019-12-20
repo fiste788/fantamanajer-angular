@@ -10,7 +10,7 @@ import { MemberService } from '@app/core/services';
   styleUrls: ['./team-members.component.scss'],
 })
 export class TeamMembersComponent implements OnInit {
-  members: Observable<Member[]>;
+  members?: Observable<Member[]>;
 
   constructor(
     private memberService: MemberService,
@@ -19,8 +19,8 @@ export class TeamMembersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.parent.data.subscribe((data: { team: Team }) => {
-      this.members = null;
+    this.route.parent?.data.subscribe((data: { team: Team }) => {
+      this.members = undefined;
       try {
         this.changeRef.detectChanges();
       } catch (e) { }

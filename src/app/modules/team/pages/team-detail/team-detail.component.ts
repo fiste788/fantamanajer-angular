@@ -36,7 +36,7 @@ export class TeamDetailComponent implements OnInit {
   loadTabs() {
     this.tabs = [];
     this.tabs.push({ label: 'Giocatori', link: 'players' });
-    if (this.app.championship.started) {
+    if (this.app.championship?.started) {
       if (!this.app.seasonEnded) {
         this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
       }
@@ -47,7 +47,7 @@ export class TeamDetailComponent implements OnInit {
     }
     this.tabs.push({ label: 'Articoli', link: 'articles' });
     this.tabs.push({ label: 'Attività', link: 'stream' });
-    if (this.app.user.admin || this.app.team.admin) {
+    if (this.app.user?.admin || this.app.team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }
@@ -59,10 +59,12 @@ export class TeamDetailComponent implements OnInit {
       if (t) {
         this.team = t;
         this.team.subscribe(res => {
-          this.app.team.photo_url = res.photo_url;
-          this.app.team.name = res.name;
-          this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
-          this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
+          if (this.app.team) {
+            this.app.team.photo_url = res.photo_url;
+            this.app.team.name = res.name;
+            this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
+            this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
+          }
           this.changeRef.detectChanges();
         });
       }

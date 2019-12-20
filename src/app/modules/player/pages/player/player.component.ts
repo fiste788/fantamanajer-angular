@@ -24,7 +24,7 @@ export class PlayerComponent {
   selectedMember: Member;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource: MatTableDataSource<Rating>;
+  dataSource?: MatTableDataSource<Rating>;
   displayedColumns = [
     'matchday',
     'rating',
@@ -54,8 +54,8 @@ export class PlayerComponent {
   }
 
   seasonChange() {
-    if (this.dataSource != null) {
-      this.dataSource = null;
+    if (this.dataSource !== undefined) {
+      this.dataSource = undefined;
       this.changeRef.detectChanges();
     }
     this.dataSource = new MatTableDataSource<Rating>(this.selectedMember.ratings);

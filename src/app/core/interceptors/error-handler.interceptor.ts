@@ -15,7 +15,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next
       .handle(req).pipe(
-        catchError((err: any, caught) => {
+        catchError((err: any, _) => {
           if (err instanceof HttpErrorResponse) {
             let message = '';
             try {
@@ -27,8 +27,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             this.snackbar.open(message, 'CLOSE', {
               duration: 5000
             });
-            return observableThrowError(err);
           }
+          return observableThrowError(err);
         }));
     // return next.handle(req);
   }

@@ -8,12 +8,12 @@ import { ApplicationService } from '@app/core/services';
 })
 export class UserStreamComponent implements OnInit {
 
-  id: number;
+  id?: number;
 
   constructor(private app: ApplicationService) { }
 
   ngOnInit() {
-    this.id = this.app.user.id;
+    this.id = this.app.user?.id;
   }
 }
 

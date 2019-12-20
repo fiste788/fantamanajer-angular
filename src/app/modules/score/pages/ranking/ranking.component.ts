@@ -26,7 +26,7 @@ export class RankingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.parent.parent.parent.data.subscribe((data: { championship: Championship }) => {
+    this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
       this.scoreService.getRanking(data.championship.id).subscribe((ranking: any[]) => {
         this.dataSource = new MatTableDataSource(ranking);
         if (ranking.length && ranking[0].scores) {

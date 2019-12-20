@@ -29,15 +29,15 @@ export class SharedService {
     return errors.join(' - ');
   }
 
-  public static getTeamId(route: ActivatedRoute): number {
+  public static getTeamId(route: ActivatedRoute): number | undefined {
     return SharedService.getParam(route, 'team_id');
   }
 
-  public static getChampionshipId(route: ActivatedRoute): number {
+  public static getChampionshipId(route: ActivatedRoute): number | undefined {
     return SharedService.getParam(route, 'championship_id');
   }
 
-  private static getParam(route: ActivatedRoute, param: string): number {
+  private static getParam(route: ActivatedRoute, param: string): number | undefined {
     for (const x in route.snapshot.pathFromRoot) {
       if (route.pathFromRoot.hasOwnProperty(x)) {
         const current = route.snapshot.pathFromRoot[x];
@@ -46,5 +46,7 @@ export class SharedService {
         }
       }
     }
+
+    return undefined;
   }
 }

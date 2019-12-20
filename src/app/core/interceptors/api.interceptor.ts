@@ -39,8 +39,8 @@ export class ApiInterceptor implements HttpInterceptor {
               body: event.body.data
             });
           }
-          return event;
         }
+        return event;
       })
       );
   }

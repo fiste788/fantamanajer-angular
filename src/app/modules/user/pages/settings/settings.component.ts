@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
     if (this.user.password === this.repeatPassword) {
       this.userObservable = this.userService.update(this.user).pipe(share());
       this.userObservable.subscribe(response => {
-        this.snackBar.open('Modifiche salvate', null, {
+        this.snackBar.open('Modifiche salvate', undefined, {
           duration: 3000
         });
         this.app.user = this.user;
@@ -54,6 +54,6 @@ export class SettingsComponent implements OnInit {
   }
 
   registerDevice() {
-    this.credentialService.credentialCreation().subscribe(console.log);
+    this.credentialService.createPublicKey().subscribe(console.log);
   }
 }

@@ -8,7 +8,7 @@ export class PushSubscription {
   content_encoding: string;
   created_at: Date;
   modified_at: Date;
-  expires_at: Date;
+  expires_at: Date | null;
   user_id: number;
   user: User;
 

@@ -21,7 +21,7 @@ export class ChampionshipComponent {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   constructor(app: ApplicationService, private router: Router) {
-    if (app.user.admin || app.team.admin) {
+    if (app.user?.admin || app.team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }

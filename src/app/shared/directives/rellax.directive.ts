@@ -19,7 +19,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   @Input() speed = -2;
   @Input() center = false;
-  @Input() percentage: number = null;
+  @Input() percentage = 0;
   @Input() relativeToWrapper = false;
   @Input() wrapper = '.mat-drawer-content';
 
@@ -29,7 +29,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private posX = 0;
   private pause = true;
   private subscription: Subscription;
-  private loopId: number = null;
+  private loopId = 0;
   private supportsPassive = false;
   private screenX = 0;
   private screenY = 0;
@@ -69,8 +69,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
           this.supportsPassive = true;
         }
       });
-      window.addEventListener('testPassive', null, opts);
-      window.removeEventListener('testPassive', null, opts);
+      (window as any).addEventListener('testPassive', null, opts);
+      (window as any).removeEventListener('testPassive', null, opts);
     } catch (e) { }
 
     this.options = {
@@ -335,7 +335,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
     // Clear the animation loop to prevent possible memory leak
     this.clearLoop(this.loopId);
-    this.loopId = null;
+    this.loopId = 0;
   }
 
   ngOnDestroy() {

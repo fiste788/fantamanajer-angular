@@ -44,7 +44,7 @@ export class EditMembersComponent implements OnInit {
 
 
   ngOnInit() {
-    this.route.parent.parent.parent.data.subscribe((data: { team: Team }) => {
+    this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.loadMembers(this.team);
       this.cd.detectChanges();
@@ -58,12 +58,14 @@ export class EditMembersComponent implements OnInit {
       let i = 0;
       for (i = 0; i < 25; i++) {
         if (this.team.members.length < i) {
-          this.team.members[i] = null;
+          delete this.team.members[i];
         }
       }
       this.roles.forEach((val, key) => {
-        this.roles.get(key).entries = Array(val.count);
-
+        const role = this.roles.get(key);
+        if (role) {
+          role.entries = Array(val.count);
+        }
       });
       this.memberService.getAllFree(this.team.championship_id).subscribe(res => {
         this.roles.forEach((value, key) => {
@@ -76,8 +78,7 @@ export class EditMembersComponent implements OnInit {
   }
 
   isAlreadySelected(member: Member): boolean {
-    return this.team.members
-      .filter(element => element != null)
+    return this.team.members.filter(element => element != null)
       // .map(element => member.id)
       .includes(member);
   }
@@ -96,14 +97,17 @@ export class EditMembersComponent implements OnInit {
     const keys = Array.from(this.roles.keys());
     const index = keys.indexOf(key);
     for (i = 0; i < index; i++) {
-      count += Array.from(this.roles.values())[i].entries.length;
+      const l = Array.from(this.roles.values());
+      if (l) {
+        count += l[i]?.entries?.length || 0;
+      }
     }
     return count + key2;
   }
 
   save() {
     this.teamService.update(this.team).subscribe(response => {
-      this.snackBar.open('Giocatori modificati', null, {
+      this.snackBar.open('Giocatori modificati', undefined, {
         duration: 3000
       });
     },

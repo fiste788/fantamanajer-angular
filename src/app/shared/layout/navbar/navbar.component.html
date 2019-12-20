@@ -7,12 +7,12 @@
   <a mat-list-item routerLinkActive="active" routerLink="/home">
     <mat-icon matListIcon>home</mat-icon>Homepage
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['teams', app.team.id]" *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>account_box</mat-icon>{{app.team.name}}
+  <a mat-list-item routerLinkActive="active" [routerLink]="['teams', app.team?.id]" *ngIf="auth.loggedIn()">
+    <mat-icon matListIcon>account_box</mat-icon>{{app.team?.name}}
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['championships', app.championship.id]"
+  <a mat-list-item routerLinkActive="active" [routerLink]="['championships', app.championship?.id]"
     *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>bubble_chart</mat-icon>{{app.championship.league.name}}
+    <mat-icon matListIcon>bubble_chart</mat-icon>{{app.championship?.league.name}}
   </a>
   <a mat-list-item routerLinkActive="active" routerLink="/clubs">
     <mat-icon matListIcon>group_work</mat-icon>Clubs

@@ -20,7 +20,7 @@ export class SelectionComponent implements OnInit {
 
   selection: Selection = new Selection();
   members: Observable<Map<Role, Member[]>>;
-  newMembers: Observable<Member[]>;
+  newMembers?: Observable<Member[]>;
   role: Subject<Role> = new Subject<Role>();
   disableOthers: boolean;
 
@@ -37,48 +37,52 @@ export class SelectionComponent implements OnInit {
 
   ngOnInit() {
     const teamId = SharedService.getTeamId(this.route);
-    this.selectionService.getSelection(teamId).subscribe(selection => {
-      if (selection) {
-        this.selection = selection;
-        this.playerChange();
-      }
-    });
-
-    this.role.pipe(
-      distinctUntilChanged((x, y) => !y || x.id === y.id),
-      share()
-    ).subscribe({
-      next: this.loadMembers.bind(this)
-    });
-
-    this.members = this.memberService.getByTeamId(teamId).pipe(
-      map(data => this.roleService.groupMembersByRole(data)),
-      map(members => {
-        if (this.route.snapshot.queryParamMap.has('new_member_id')) {
-          const memberId = parseInt(this.route.snapshot.queryParamMap.get('new_member_id'), 10);
-          this.memberService.getById(memberId).subscribe(member => {
-            this.role.next(this.roleService.getById(member.role_id));
-            this.selection.new_member = member;
-            this.selection.new_member_id = member.id;
-            this.disableOthers = true;
-            this.changeRef.detectChanges();
-          });
+    if (teamId) {
+      this.selectionService.getSelection(teamId).subscribe(selection => {
+        if (selection) {
+          this.selection = selection;
+          this.playerChange();
         }
-        return members;
-      }));
+      });
 
+      this.role.pipe(
+        distinctUntilChanged((x, y) => !y || x.id === y.id),
+        share()
+      ).subscribe({
+        next: this.loadMembers.bind(this)
+      });
+
+      this.members = this.memberService.getByTeamId(teamId).pipe(
+        map(data => this.roleService.groupMembersByRole(data)),
+        map(members => {
+          const id = this.route.snapshot.queryParamMap.get('new_member_id');
+          if (id) {
+            const memberId = parseInt(id, 10);
+            this.memberService.getById(memberId).subscribe(member => {
+              this.role.next(this.roleService.getById(member.role_id));
+              this.selection.new_member = member;
+              this.selection.new_member_id = member.id;
+              this.disableOthers = true;
+              this.changeRef.detectChanges();
+            });
+          }
+          return members;
+        }));
+    }
   }
 
   loadMembers(role?: Role) {
     if (role) {
       this.disableOthers = false;
       this.newMember.disabled = true;
-      this.newMembers = this.memberService.getFree(this.app.championship.id, role.id, false).pipe(
-        map(members => {
-          this.changeRef.detectChanges();
-          this.newMember.disabled = false;
-          return members;
-        }));
+      if (this.app.championship) {
+        this.newMembers = this.memberService.getFree(this.app.championship.id, role.id, false).pipe(
+          map(members => {
+            this.changeRef.detectChanges();
+            this.newMember.disabled = false;
+            return members;
+          }));
+      }
     }
   }
 
@@ -100,7 +104,7 @@ export class SelectionComponent implements OnInit {
       }
       selection.new_member_id = this.selection.new_member.id;
       selection.old_member_id = this.selection.old_member.id;
-      selection.team_id = this.app.team.id;
+      selection.team_id = this.app.team?.id || 0;
       let obs = null;
       if (selection.id) {
         obs = this.selectionService.update(selection);
@@ -108,7 +112,7 @@ export class SelectionComponent implements OnInit {
         obs = this.selectionService.create(selection);
       }
       obs.subscribe((response: any) => {
-        this.snackBar.open('Selezione salvata correttamente', null, {
+        this.snackBar.open('Selezione salvata correttamente', undefined, {
           duration: 3000
         });
         this.selection.id = response.id;
@@ -132,10 +136,10 @@ export class SelectionComponent implements OnInit {
 
   reset() {
     this.disableOthers = false;
-    this.selection.new_member = null;
-    this.selection.new_member_id = null;
-    this.newMember.value = null;
-    this.newMembers = null;
+    delete this.selection.new_member;
+    delete this.selection.new_member_id;
+    this.newMember.value = undefined;
+    this.newMembers = undefined;
     this.role.next();
   }
 }

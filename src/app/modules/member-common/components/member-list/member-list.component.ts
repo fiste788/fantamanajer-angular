@@ -21,7 +21,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   private subscription: Subscription;
-  dataSource: MatTableDataSource<Member> = null;
+  dataSource: MatTableDataSource<Member>;
   displayedColumns = [
     'player',
     'role',

@@ -61,12 +61,17 @@ export class LineupDetailComponent implements OnInit {
     lineup.team_id = lineup.team_id || lineup.team.id;
     this.isRegularCallback = this.isRegular.bind(this, lineup);
     this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
-    if (lineup) {
+    if (lineup && lineup.team.members) {
       this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
       lineup.team.members.forEach((member) => this.membersById.set(member.id, member), this);
       if (!this.disabled) {
         this.lineupService.getLikelyLineup(lineup).subscribe(members => {
-          members.forEach(member => this.membersById.get(member.id).likely_lineup = member.likely_lineup);
+          members.forEach(member => {
+            const m = this.membersById.get(member.id);
+            if (m) {
+              m.likely_lineup = member.likely_lineup;
+            }
+          });
           this.cd.detectChanges();
         });
       }
@@ -90,7 +95,7 @@ export class LineupDetailComponent implements OnInit {
           lineup.dispositions[i].position = i + 1;
         }
         if (lineup.dispositions[i].member_id) {
-          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id);
+          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id || 0);
         }
       }
     }
@@ -104,19 +109,24 @@ export class LineupDetailComponent implements OnInit {
   getIndex(lineup: Lineup, role: Role, memberKey: number): number {
     let count = 0;
     let i = 0;
-    const roleKeys = Array.from(lineup.module_object.map.keys());
-    const index = roleKeys.indexOf(role);
-    for (i = 0; i < index; i++) {
-      count += Array.from(lineup.module_object.map.values())[i].length;
+    if (lineup.module_object?.map) {
+      const roleKeys = Array.from(lineup.module_object.map.keys());
+
+      const index = roleKeys.indexOf(role);
+      for (i = 0; i < index; i++) {
+        count += Array.from(lineup.module_object.map.values())[i].length;
+
+        return count + memberKey;
+      }
     }
-    return count + memberKey;
+    return 0;
   }
 
   getCapitanables(lineup: Lineup): Member[] {
     const regulars = lineup.dispositions.slice(0, 11);
-    const def = regulars.filter(element => element &&
-      element.member && ['P', 'D'].find(a => this.membersById.get(element.member.id).role.abbreviation === a), this);
-    return def.map(element => this.membersById.get(element.member.id), this);
+    const def = regulars.filter(element => element.member
+      && ['P', 'D'].find(a => this.membersById.get(element.member?.id || 0)?.role.abbreviation === a), this);
+    return def.map(element => this.membersById.get(element.member?.id || 0)).filter((x): x is Member => x !== null);
   }
 
   putInLineup(lineup: Lineup, element: Member, i: number) {
@@ -135,37 +145,37 @@ export class LineupDetailComponent implements OnInit {
       .map(element => {
         if (event.value && element.member && element.member.id === event.value.id) {
           delete element.member;
-          element.member_id = null;
+          element.member_id = undefined;
         }
       });
   }
 
   getMemberByKeys(lineup: Lineup, role: Role, memberKey: number) {
-    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, role, memberKey)].member.id);
+    return this.membersById.get(lineup.dispositions[this.getIndex(lineup, role, memberKey)].member?.id || 0);
   }
 
-  getMemberLabelByKeys(lineup: Lineup, role: Role, memberKey: number) {
-    return this.getMemberByKeys(lineup, role, memberKey).player.full_name;
+  getMemberLabelByKeys(lineup: Lineup, role: Role, memberKey: number): string {
+    return this.getMemberByKeys(lineup, role, memberKey)?.player.full_name || '';
   }
 
   isAlreadySelected(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
       .filter(element => element.member != null)
-      .map(element => element.member.id)
+      .map(element => element.member?.id)
       .includes(member.id);
   }
 
   isBenchwarmer(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
       .filter(element => element.position > 11 && element.member)
-      .map(element => element.member.id)
+      .map(element => element.member?.id)
       .includes(member.id);
   }
 
   isRegular(lineup: Lineup, member: Member): boolean {
     return lineup.dispositions
       .filter(element => element.position <= 11 && element.member)
-      .map(element => element.member.id)
+      .map(element => element.member?.id)
       .includes(member.id);
   }
 

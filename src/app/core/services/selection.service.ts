@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Selection } from '../models';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
@@ -11,7 +11,10 @@ export class SelectionService {
   constructor(private http: HttpClient) { }
 
   getSelection(id: number): Observable<Selection> {
-    return this.http.get<Selection[]>('teams/' + id + '/' + this.url).pipe(map(a => a.length ? a[0] : null));
+    return this.http.get<Selection[]>('teams/' + id + '/' + this.url).pipe(
+      filter(a => a.length > 0),
+      map(a => a[0])
+    );
   }
 
   update(selection: Selection): Observable<any> {

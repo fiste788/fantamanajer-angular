@@ -21,8 +21,8 @@ export class SpeedDialComponent implements OnInit {
   _click(event: any) {
     let url = null;
     switch (event) {
-      case 'transfert': url = '/teams/' + this.app.team.id + '/transferts'; break;
-      case 'lineup': url = '/teams/' + this.app.team.id + '/lineup/current'; break;
+      case 'transfert': url = '/teams/' + (this.app.team?.id || '') + '/transferts'; break;
+      case 'lineup': url = '/teams/' + (this.app.team?.id || '') + '/lineup/current'; break;
       case 'article': url = '/articles/new'; break;
     }
     if (url) {

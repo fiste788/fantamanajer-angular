@@ -6,7 +6,7 @@
         [backgroundImage]="selectedMember.club.background_url"
         [image]="selectedMember.photo_url || _player.photo_url || (selectedMember.club_id | cdi)">
         <div parallax-header-right class="inherit-color">
-          <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team.id + '/transferts'"
+          <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
           <mat-form-field appearance="standard">
             <mat-label>Stagione</mat-label>

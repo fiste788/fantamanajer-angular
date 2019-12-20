@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
 
   checkLogin(authorities: string[], url: string): boolean {
     for (const a in authorities) {
-      if (this.app.user.roles.includes(authorities[a])) {
+      if (this.app.user?.roles.includes(authorities[a])) {
         return true;
       }
     }

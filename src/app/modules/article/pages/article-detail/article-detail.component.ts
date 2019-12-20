@@ -30,7 +30,7 @@ export class ArticleDetailComponent implements OnInit {
         .subscribe(article => (this.article = article));
     } else {
       this.article = new Article();
-      this.article.team_id = this.app.team.id;
+      this.article.team_id = this.app.team?.id;
     }
   }
 
@@ -45,7 +45,7 @@ export class ArticleDetailComponent implements OnInit {
         observable = this.articleService.create(this.article);
       }
       observable.subscribe(article => {
-        this.snackBar.open('Articolo salvato correttamente', null, {
+        this.snackBar.open('Articolo salvato correttamente', undefined, {
           duration: 3000
         });
         this.router.navigateByUrl(

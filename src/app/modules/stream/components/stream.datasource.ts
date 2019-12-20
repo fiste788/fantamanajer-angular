@@ -6,7 +6,7 @@ import { Stream, StreamActivity } from '@app/core/models';
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   private length = 0;
   private pageSize = 10;
-  private cachedData = Array.from<StreamActivity>({ length: this.length });
+  private cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
   private fetchedPages = new Set<number>();
   private dataStream = new BehaviorSubject<(StreamActivity | undefined)[]>(this.cachedData);
   private subscription = new Subscription();
@@ -54,7 +54,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   }
 
   private addPlaceholder() {
-    this.cachedData.fill(null, this.cachedData.length, this.pageSize);
+    this.cachedData.fill(undefined, this.cachedData.length, this.pageSize);
     /*for (let i = 0; i < this.pageSize; i++) {
       this.cachedData.push(null);
     }*/

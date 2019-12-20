@@ -39,4 +39,4 @@
 <ng-template #loading>
   <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>
-<fm-selection *ngIf="app.team.id == teamId && !app.seasonEnded"></fm-selection>
+<fm-selection *ngIf="app.team?.id == teamId && !app.seasonEnded"></fm-selection>

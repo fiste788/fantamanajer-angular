@@ -6,7 +6,7 @@ export class Team {
   admin: boolean;
   user_id: number;
   user: User;
-  members: Member[];
+  members: Member[] = [];
   championship_id: number;
   championship: Championship;
   photo_url: string;

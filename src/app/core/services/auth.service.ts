@@ -9,7 +9,7 @@ import { CredentialService } from './credential.service';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   @Output() loggedUser: EventEmitter<User> = new EventEmitter();
-  private token: string;
+  private token?: string;
   private jwtHelper = new JwtHelperService();
   private TOKEN_ITEM_NAME = 'token';
   private ADMIN_ROLE = 'ROLE_ADMIN';
@@ -17,9 +17,9 @@ export class AuthService {
 
   constructor(private userService: UserService, private credentialService: CredentialService) {
     localStorage.removeItem('currentUser');
-    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME);
+    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     if (!this.token) {
-      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME);
+      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME) || undefined;
     }
     if (this.token && !this.loggedIn()) {
       this.logout();
@@ -30,20 +30,21 @@ export class AuthService {
     return this.userService.login(email, password, rememberMe).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  tokenLogin(email: string, rememberMe?: boolean) {
-    return this.credentialService.credentialRequest(email).pipe(map(res => this.postLogin(res, rememberMe)));
+  webauthnLogin(email: string, rememberMe?: boolean) {
+    return this.credentialService.getPublicKey(email).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  postLogin(res: any, rememberMe?: boolean) {
-
+  postLogin(res: any, rememberMe?: boolean): boolean {
     if (res.token) {
       this.token = res.token;
       const user = res.user;
       user.roles = this.getRoles(user);
-      if (rememberMe) {
-        localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
-      } else {
-        sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+      if (this.token) {
+        if (rememberMe) {
+          localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+        } else {
+          sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+        }
       }
       this.loggedUser.emit(user);
       return true;
@@ -52,7 +53,7 @@ export class AuthService {
     }
   }
 
-  getToken(): string {
+  getToken(): string | undefined {
     return this.token;
   }
 
@@ -67,8 +68,8 @@ export class AuthService {
 
   logout(): void {
     this.userService.logout().subscribe();
-    this.token = null;
-    this.loggedUser.emit(null);
+    this.token = undefined;
+    this.loggedUser.emit(undefined);
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 

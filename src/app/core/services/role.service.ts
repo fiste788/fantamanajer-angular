@@ -13,12 +13,14 @@ export class RoleService {
   groupMembersByRole(data: Member[]): Map<Role, Member[]> {
     return data.reduce((map: Map<Role, Member[]>, item) => {
       const role = this.roles.get(item.role_id);
-      map.set(role, ([...map.get(role) || [], item]));
+      if (role) {
+        map.set(role, ([...map.get(role) || [], item]));
+      }
       return map;
     }, new Map());
   }
 
-  getById(id: number): Role {
+  getById(id: number): Role | undefined {
     return this.roles.get(id);
   }
 

@@ -24,7 +24,7 @@ import { trigger, transition, query, animate, style } from '@angular/animations'
 })
 export class ClubListComponent implements OnInit, OnDestroy {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  clubs: Observable<Club[]>;
+  clubs?: Observable<Club[]>;
   subscription: Subscription;
   exit = false;
   id: number;
@@ -38,7 +38,7 @@ export class ClubListComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
-        this.clubs = null;
+        this.clubs = undefined;
       }
     });
     this.clubs = this.clubService.getClubs();

@@ -8,6 +8,6 @@ export class User {
   admin: boolean;
   active_email: boolean;
   password: string;
-  teams: Team[];
+  teams?: Team[];
   roles: string[];
 }

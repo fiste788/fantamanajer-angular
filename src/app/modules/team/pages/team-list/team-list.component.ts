@@ -15,7 +15,7 @@ import { cardCreationAnimation } from '@app/core/animations';
 })
 export class TeamListComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  teams: Observable<Team[]>;
+  teams?: Observable<Team[]>;
   exit = false;
   scrollTarget: Element;
 
@@ -29,10 +29,13 @@ export class TeamListComponent implements OnInit {
     this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
-        this.teams = null;
+        this.teams = undefined;
       }
     });
     this.scrollTarget = this.scroller.scrollContainers.keys().next().value.getElementRef().nativeElement;
-    this.teams = this.teamService.getTeams(SharedService.getChampionshipId(this.route));
+    const id = SharedService.getChampionshipId(this.route);
+    if (id) {
+      this.teams = this.teamService.getTeams(id);
+    }
   }
 }

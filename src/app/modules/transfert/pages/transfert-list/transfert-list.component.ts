@@ -14,7 +14,7 @@ import { SharedService } from '@app/shared/services/shared.service';
   animations: [tableRowAnimation]
 })
 export class TransfertListComponent implements OnInit {
-  teamId: number;
+  teamId?: number;
   dataSource: MatTableDataSource<Transfert>;
   displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
@@ -29,21 +29,21 @@ export class TransfertListComponent implements OnInit {
 
   ngOnInit() {
     this.teamId = SharedService.getTeamId(this.route);
-
-    // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
-    this.transfertService.getTransfert(this.teamId).subscribe(data => {
-      this.dataSource = new MatTableDataSource<Transfert>(data);
-      if (data.length) {
-        this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
-        this.ref.detectChanges();
-        this.dataSource.sort = this.sort;
-      }
-    });
-
+    if (this.teamId) {
+      // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
+      this.transfertService.getTransfert(this.teamId).subscribe(data => {
+        this.dataSource = new MatTableDataSource<Transfert>(data);
+        if (data.length) {
+          this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+          this.ref.detectChanges();
+          this.dataSource.sort = this.sort;
+        }
+      });
+    }
   }
 
   sortingDataAccessor(data: Transfert, sortHeaderId: string) {
-    let value = null;
+    let value;
     switch (sortHeaderId) {
       case 'old_member': value = data.old_member.player.full_name; break;
       case 'new_member': value = data.new_member.player.full_name; break;
@@ -51,6 +51,7 @@ export class TransfertListComponent implements OnInit {
     if (typeof value === 'string' && !value.trim()) {
       return value;
     }
+    value = value || '';
     return isNaN(+value) ? value : +value;
   }
 }

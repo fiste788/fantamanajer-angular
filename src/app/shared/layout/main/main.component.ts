@@ -62,7 +62,8 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       this.layoutService.connectScrollAnimation(
         () => {
-          const height = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary').clientHeight;
+          const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
+          const height = toolbar ? toolbar.clientHeight : 0;
           this.document.querySelectorAll('.sticky').forEach((e: HTMLElement) => e.style.top = height + 'px');
           this.changeRef.detectChanges();
         },

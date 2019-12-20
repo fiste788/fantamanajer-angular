@@ -13,7 +13,7 @@ import { tableRowAnimation } from '@app/core/animations';
 })
 export class ClubMembersComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  members: Observable<Member[]>;
+  members?: Observable<Member[]>;
 
   constructor(
     private memberService: MemberService,
@@ -22,8 +22,8 @@ export class ClubMembersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.parent.data.subscribe((data: { club: Club }) => {
-      this.members = null;
+    this.route.parent?.data.subscribe((data: { club: Club }) => {
+      this.members = undefined;
       try {
         this.changeRef.detectChanges();
       } catch (e) { }
