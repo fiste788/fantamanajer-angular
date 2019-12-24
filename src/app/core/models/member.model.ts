@@ -14,15 +14,15 @@ export class Member {
   player: Player;
   role: Role;
   teams: Team[];
-  photo_url: string;
-  free: boolean;
-  stats: {
+  photo_url: string | null;
+  free?: boolean;
+  stats?: {
     avg_points: number,
     avg_rating: number,
     sum_goals: number,
     sum_goals_against: number
   };
-  likely_lineup: {
+  likely_lineup?: {
     regular: boolean;
     injured: boolean;
     disqualified: boolean;

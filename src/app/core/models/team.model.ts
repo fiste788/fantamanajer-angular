@@ -9,7 +9,7 @@ export class Team {
   members: Member[] = [];
   championship_id: number;
   championship: Championship;
-  photo_url: string;
+  photo_url: string | null;
   email_notification_subscriptions: NotificationSubscription[];
   push_notification_subscriptions: NotificationSubscription[];
 }

@@ -6,6 +6,6 @@ export class Club {
   partitive: string;
   determinant: string;
   members: Member[];
-  photo_url: string;
-  background_url: {};
+  photo_url: string | null;
+  background_url: {} | null;
 }

@@ -83,7 +83,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     let value = null;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;
-      default: value = data.stats[sortHeaderId]; break;
+      default: value = data.stats ? data.stats[sortHeaderId] : undefined; break;
     }
     if (typeof value === 'string' && !value.trim()) {
       return value;

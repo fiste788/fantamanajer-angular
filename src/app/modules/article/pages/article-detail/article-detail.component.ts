@@ -30,7 +30,9 @@ export class ArticleDetailComponent implements OnInit {
         .subscribe(article => (this.article = article));
     } else {
       this.article = new Article();
-      this.article.team_id = this.app.team?.id;
+      if (this.app.team) {
+        this.article.team_id = this.app.team.id;
+      }
     }
   }
 

@@ -7,7 +7,7 @@ export class User {
   email: string;
   admin: boolean;
   active_email: boolean;
-  password: string;
+  password?: string;
   teams?: Team[];
   roles: string[];
 }

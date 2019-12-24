@@ -34,9 +34,9 @@ export class DispositionListComponent implements OnInit {
   ngOnInit() {
     if (this.lineup) {
       this.captains = new Map();
-      this.captains.set(this.lineup.captain_id, 'C');
-      this.captains.set(this.lineup.vcaptain_id, 'VC');
-      this.captains.set(this.lineup.vvcaptain_id, 'VVC');
+      this.captains.set(this.lineup.captain_id || 0, 'C');
+      this.captains.set(this.lineup.vcaptain_id || 0, 'VC');
+      this.captains.set(this.lineup.vvcaptain_id || 0, 'VVC');
     }
     this.dataSource = new MatTableDataSource(this.dispositions);
   }

@@ -6,7 +6,8 @@ export class Article {
   subtitle: string;
   body: string;
   created_at: Date;
-  team_id?: number;
+  modified_at: Date | null;
+  team_id: number;
   matchday_id: number;
   team: Team;
   matchday: Matchday;

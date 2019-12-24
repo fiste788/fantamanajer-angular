@@ -6,7 +6,7 @@ export class Role {
   plural: string;
   abbreviation: string;
   determinant: string;
-  best_players: Member[];
+  best_players?: Member[];
 
   constructor(id: number, singolar: string, abbreviation?: string, plural?: string) {
     this.id = id;

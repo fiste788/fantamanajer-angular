@@ -5,7 +5,7 @@ export class Disposition {
   position: number;
   consideration: number;
   lineup_id: number;
-  member_id?: number;
+  member_id: number | null;
   lineup: Lineup;
-  member?: Member;
+  member: Member | null;
 }

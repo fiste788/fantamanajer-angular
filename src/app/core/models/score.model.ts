@@ -5,7 +5,7 @@ export class Score {
   points: number;
   real_points: number;
   penaliy_points: number;
-  penality: string;
+  penality: string | null;
   matchday_id: number;
   team_id: number;
   lineup_id: number;

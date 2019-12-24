@@ -95,7 +95,7 @@ export class LineupDetailComponent implements OnInit {
           lineup.dispositions[i].position = i + 1;
         }
         if (lineup.dispositions[i].member_id) {
-          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id || 0);
+          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id || 0) || null;
         }
       }
     }
@@ -145,7 +145,7 @@ export class LineupDetailComponent implements OnInit {
       .map(element => {
         if (event.value && element.member && element.member.id === event.value.id) {
           delete element.member;
-          element.member_id = undefined;
+          element.member_id = null;
         }
       });
   }

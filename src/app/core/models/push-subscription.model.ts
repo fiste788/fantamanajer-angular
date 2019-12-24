@@ -5,9 +5,9 @@ export class PushSubscription {
   endpoint: string;
   public_key: string;
   auth_token: string;
-  content_encoding: string;
+  content_encoding: string | null;
   created_at: Date;
-  modified_at: Date;
+  modified_at: Date | null;
   expires_at: Date | null;
   user_id: number;
   user: User;

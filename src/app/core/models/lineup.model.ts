@@ -9,20 +9,20 @@ export class Lineup {
   id: number;
   module: string;
   jolly: boolean;
-  captain_id: number;
-  vcaptain_id: number;
-  vvcaptain_id: number;
+  captain_id: number | null;
+  vcaptain_id: number | null;
+  vvcaptain_id: number | null;
   matchday_id: number;
   team_id: number;
-  captain: Member;
-  vcaptain: Member;
-  vvcaptain: Member;
+  captain: Member | null;
+  vcaptain: Member | null;
+  vvcaptain: Member | null;
   matchday: Matchday;
   team: Team;
   dispositions: Disposition[] = [];
   modules: string[];
   module_object?: Module;
-  modified_at: Date;
+  modified_at: Date | null;
   created_at: Date;
 
   constructor(roles: Map<number, Role>) {

@@ -6,7 +6,7 @@
   "categories": "sports",
   "icons": [
     {
-      "src": "/assets/icons/web_hi_res_512.png",
+      "src": "/assets/icons/maskable-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

@@ -3,7 +3,6 @@ export * from './article.service';
 export * from './auth.service';
 export * from './championship.service';
 export * from './club.service';
-export * from './event.service';
 export * from './lineup.service';
 export * from './matchday.service';
 export * from './member.service';

@@ -39,7 +39,7 @@ export class LineupLastComponent implements OnDestroy {
 
   save(lineup: Lineup) {
     lineup.module = lineup.module_object?.key || '';
-    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : undefined);
+    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     let obs: Observable<Lineup>;
     let message: string;
     if (lineup.id) {

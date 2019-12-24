@@ -8,8 +8,8 @@
   </fm-member-icons>
 </div>
 <mat-form-field hideRequiredMarker="true" floatLabel="never" appearance="standard">
-  <mat-select [disabled]="disabled" [placeholder]="placeholder" [attr.required]="required ? 'required' : null"
-    [(ngModel)]="val" [name]="name" (selectionChange)="change($event)">
+  <mat-select [disabled]="disabled" [placeholder]="placeholder" [attr.required]="required" [(ngModel)]="val"
+    [name]="name" (selectionChange)="change($event)">
     <mat-option>{{placeholder}}</mat-option>
     <mat-select-trigger *ngIf="val">
       {{val.player.full_name}}
@@ -28,8 +28,8 @@
     </ng-container>
   </mat-select>
   <mat-hint *ngIf="val?.stats">
-    <span>Ø P.ti: {{val.stats.avg_points | number: '1.1-1'}}</span> -
-    <span>Ø Voti: {{val.stats.avg_rating | number: '1.1-1'}}</span> -
-    <span>Σ Gol: {{val.role_id != 1 ? val.stats.sum_goals : val.stats.sum_goals_against}}</span>
+    <span>Ø P.ti: {{val.stats?.avg_points | number: '1.1-1'}}</span> -
+    <span>Ø Voti: {{val.stats?.avg_rating | number: '1.1-1'}}</span> -
+    <span>Σ Gol: {{val.role_id != 1 ? val.stats?.sum_goals : val.stats?.sum_goals_against}}</span>
   </mat-hint>
 </mat-form-field>

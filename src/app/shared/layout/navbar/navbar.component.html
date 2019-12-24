@@ -1,6 +1,6 @@
 <fm-profile></fm-profile>
 <mat-nav-list (click)="closeSidenav()">
-  <a href="#" (keydown)="install()" mat-list-item routerLinkActive="active" (click)="install()" id="install"
+  <a mat-list-item routerLinkActive="active" routerLink="/home" (keydown)="install()" (click)="install()" id="install"
     *ngIf="deferredPrompt">
     <mat-icon matListIcon>get_app</mat-icon>Installa l'app
   </a>

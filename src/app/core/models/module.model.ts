@@ -12,11 +12,7 @@ export class Module {
       this.map = key.split('-').reduce((map: Map<Role, number[]>, num, index) => {
         const players = parseInt(num, 10);
         const role = roles.get(index + 1);
-        if (role) {
-          return map.set(role, Array(players).fill(players).map((_, i) => i));
-        } else {
-          return undefined;
-        }
+        return role ? map.set(role, Array(players).fill(players).map((_, i) => i)) : undefined;
       }, new Map<Role, number[]>());
     }
   }

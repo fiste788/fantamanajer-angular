@@ -43,7 +43,7 @@ export class ScoreEditComponent implements OnInit {
 
   save(score: Score) {
     score.lineup.module = score.lineup.module_object?.key || '';
-    score.lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : undefined);
+    score.lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
     this.scoreService.update(score).subscribe(response => {
       this.snackBar.open('Punteggio modificato', undefined, {
         duration: 3000

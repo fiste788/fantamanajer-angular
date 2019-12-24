@@ -3,7 +3,6 @@ export * from './championship.model';
 export * from './club.model';
 export * from './disposition.model';
 export * from './email-subscription.model';
-export * from './event.model';
 export * from './league.model';
 export * from './lineup.model';
 export * from './matchday.model';
