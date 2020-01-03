@@ -1,0 +1,19 @@
+@mixin login-theme($theme) {
+  $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+
+  fm-login {
+    .mat-card-title,
+    mat-icon {
+      color: mat-color($foreground, 'icon');
+    }
+
+    .mat-horizontal-stepper-header-container {
+      display: none !important;
+    }
+
+    .mat-horizontal-content-container {
+      padding-bottom: 0 !important;
+    }
+  }
+}

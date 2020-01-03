@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { User } from '../models';
 import { UserService } from './user.service';
 import { CredentialService } from './credential.service';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -30,8 +31,8 @@ export class AuthService {
     return this.userService.login(email, password, rememberMe).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  webauthnLogin(email: string, rememberMe?: boolean) {
-    return this.credentialService.getPublicKey(email).pipe(map(res => this.postLogin(res, rememberMe)));
+  webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON) {
+    return this.credentialService.getPublicKey(email, token).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
   postLogin(res: any, rememberMe?: boolean): boolean {

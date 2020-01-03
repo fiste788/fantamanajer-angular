@@ -1,35 +1,49 @@
 <div class="flex-container" fxLayout="column wrap" fxLayoutAlign="space-around center">
-    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
-        <mat-card>
-            <mat-card-content>
-                <mat-icon>account_circle</mat-icon>
-                <mat-card-title>
-                    Login
-                </mat-card-title>
-                <mat-form-field>
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email"
-                        #username="ngModel" required>
-                    <mat-error *ngIf="username.hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
-                    <mat-error *ngIf="username.hasError('required')">
-                        Email is
-                        <strong>required</strong>
-                    </mat-error>
-                </mat-form-field>
+  <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
+    <mat-card>
+      <mat-card-header>
+        <mat-icon>account_circle</mat-icon>
+        <mat-card-title>Login</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-horizontal-stepper [linear]="true" #stepper>
+          <mat-step>
 
-                <mat-form-field>
-                    <mat-label>Password</mat-label>
-                    <input matInput [(ngModel)]="loginData.password" name="password" type="password"
-                        placeholder="Password" #password="ngModel" required>
-                </mat-form-field>
-            </mat-card-content>
-            <mat-card-actions fxLayoutAlign="space-between center">
-                <mat-slide-toggle [(ngModel)]="loginData.remember_me" name="remember_me">Ricordami</mat-slide-toggle>
-                <button color="accent" mat-raised-button>Login</button>
-                <button color="accent" mat-raised-button type="button" (click)="tokenLogin()">Login impronta</button>
-            </mat-card-actions>
-        </mat-card>
-    </form>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email"
+                #username="ngModel" required>
+              <mat-error *ngIf="username.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="username.hasError('required')">
+                Email is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <div fxLayoutAlign="end end">
+              <button type="button" color="accent" mat-raised-button (click)="checkToken()"
+                matStepperNext>Avanti</button>
+            </div>
+
+          </mat-step>
+          <mat-step>
+            <h3>{{loginData.email}}</h3>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password"
+                #password="ngModel" required>
+            </mat-form-field>
+
+            <mat-checkbox [(ngModel)]="loginData.remember_me" name="remember_me">Ricordami</mat-checkbox>
+            <div class="actions" fxLayout="row" fxLayoutAlign="end">
+              <button color="accent" mat-raised-button type="button" (click)="tokenLogin(t)"
+                *ngIf="token | async as t">Accedi tramite token</button>
+              <button color="accent" mat-raised-button>Accedi</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </mat-card-content>
+    </mat-card>
+  </form>
 </div>

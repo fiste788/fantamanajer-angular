@@ -8,6 +8,7 @@ import { AuthGuard, NotLoggedGuard, AdminGuard, ChampionshipAdminGuard } from '@
 import { AuthRoutingModule } from './auth-routing.module';
 import { JWTInterceptor } from '@app/core/interceptors';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -17,18 +18,11 @@ import { LogoutComponent } from './pages/logout/logout.component';
   imports: [
     CommonModule,
     SharedModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    MatStepperModule
   ],
   providers: [
-    AdminGuard,
-    ChampionshipAdminGuard,
-    AuthGuard,
-    NotLoggedGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JWTInterceptor,
-      multi: true
-    }
+
   ]
 })
 export class AuthModule { }

@@ -20,7 +20,7 @@ export class ApiInterceptor implements HttpInterceptor {
       }
       credential = true;
     } else {
-      headers = headers.delete('Accept');
+      headers = headers.set('Accept', '*/*');
     }
 
     if (!req.url.startsWith('https://') && !req.url.startsWith('http://')) {

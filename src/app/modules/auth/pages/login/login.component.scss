@@ -3,10 +3,16 @@
   margin: 1rem;
   padding-top: 3rem;
   padding-bottom: 2rem;
+  min-width: 24rem;
+  font-size: 16px;
 
   mat-form-field {
     width: 100%;
   }
+}
+
+.mat-card-header {
+  flex-direction: column-reverse;
 }
 
 mat-icon {
@@ -17,17 +23,12 @@ mat-icon {
   margin: 0 auto;
 }
 
-.mat-card-title,
-mat-icon {
-  color: #555;
-}
-
 .mat-card-title {
   width: 100%;
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.mat-card-actions {
-  margin: 0 !important;
+.actions {
+  margin-top: 1rem;
 }

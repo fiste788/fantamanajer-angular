@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, ApplicationService } from '@app/core/services';
+import { CredentialService } from '@app/core/services/credential.service';
+import { Observable } from 'rxjs';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 
 @Component({
   selector: 'fm-login',
@@ -15,18 +18,19 @@ export class LoginComponent implements OnInit {
   } = { email: '', password: '', remember_me: true };
   loading = false;
   error = '';
+  token: Observable<CredentialRequestOptionsJSON>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private credentialService: CredentialService,
     private app: ApplicationService
   ) {
   }
 
   ngOnInit() {
-    // reset login status
-    // this.authService.logout();
+
   }
 
   login() {
@@ -35,9 +39,13 @@ export class LoginComponent implements OnInit {
       subscribe(result => this.postLogin(result));
   }
 
-  tokenLogin() {
+  tokenLogin(t: CredentialRequestOptionsJSON) {
     this.loading = true;
-    this.authService.webauthnLogin(this.loginData.email).subscribe((result: any) => this.postLogin(result));
+    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t).subscribe((result: any) => this.postLogin(result));
+  }
+
+  checkToken() {
+    this.token = this.credentialService.get(this.loginData.email);
   }
 
   postLogin(result: boolean): void {

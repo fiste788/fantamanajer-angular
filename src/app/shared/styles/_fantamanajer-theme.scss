@@ -4,6 +4,7 @@
 @import './components/table';
 @import '../layout/layout';
 @import '../components/mat-empty-state/mat-empty-state';
+@import '../../modules/auth/pages/login/login';
 @import '../../modules/lineup/components/lineup-detail/lineup-detail';
 @import '../../modules/member-common/components/member-selection/member-selection';
 @import '../../modules/notification/modals/notification-overlay/notification-overlay';
@@ -18,6 +19,7 @@
   @include fantamanajer-card-theme($theme);
   @include table-extended-theme($theme);
   @include layout-theme($theme);
+  @include login-theme($theme);
   @include mat-empty-state-theme($theme);
   @include member-selection-theme($theme);
   @include lineup-detail-theme($theme);

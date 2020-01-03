@@ -42,8 +42,4 @@ mat-select {
     min-width: 10rem;
     margin: 0 .5rem;
   }
-
-  ::ng-deep .benchwarmers .img-container {
-    max-width: calc(100% - 4rem) !important;
-  }
 }

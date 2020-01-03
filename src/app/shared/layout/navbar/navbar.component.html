@@ -1,7 +1,6 @@
 <fm-profile></fm-profile>
 <mat-nav-list (click)="closeSidenav()">
-  <a mat-list-item routerLinkActive="active" routerLink="/home" (keydown)="install()" (click)="install()" id="install"
-    *ngIf="deferredPrompt">
+  <a mat-list-item routerLink="/home" (keydown)="install()" (click)="install()" id="install" *ngIf="deferredPrompt">
     <mat-icon matListIcon>get_app</mat-icon>Installa l'app
   </a>
   <a mat-list-item routerLinkActive="active" routerLink="/home">
@@ -22,10 +21,10 @@
   <a mat-list-item routerLinkActive="active" routerLink="/user" *ngIf="auth.loggedIn()">
     <mat-icon matListIcon>account_circle</mat-icon>Profilo
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/login" *ngIf="!auth.loggedIn()">
+  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!auth.loggedIn()">
     <mat-icon matListIcon>input</mat-icon>Log In
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/logout" *ngIf="auth.loggedIn()">
+  <a mat-list-item routerLinkActive="active" routerLink="/auth/logout" *ngIf="auth.loggedIn()">
     <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
   </a>
 </mat-nav-list>

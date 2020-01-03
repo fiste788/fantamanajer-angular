@@ -8,3 +8,7 @@ $warn: mat-palette($mat-red);
 
 $theme: mat-light-theme($primary, $accent, $warn);
 @include fantamanajer-theme($theme);
+
+:root {
+  color-scheme: light;
+}

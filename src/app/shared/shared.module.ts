@@ -20,12 +20,6 @@ export const breakPointsProvider = {
   multi: true
 };
 
-export async function loadImage({ imagePath }: LoadImageProps): Promise<string> {
-  return await fetch(imagePath, {
-    // mode: 'no-cors',
-  }).then(res => res.blob()).then(blob => URL.createObjectURL(blob));
-}
-
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +30,6 @@ export async function loadImage({ imagePath }: LoadImageProps): Promise<string> 
     FlexLayoutModule,
     McBreadcrumbsModule,
     LazyLoadImageModule.forRoot({
-      // loadImage,
       preset: intersectionObserverPreset
     })
   ],
