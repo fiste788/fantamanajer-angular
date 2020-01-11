@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef, AfterViewChecked } from '@angular/core';
-import { ApplicationService, AuthService, PushService } from '@app/core/services';
-import { LayoutService } from '@app/core/services/layout.service';
-import { MatListItem } from '@angular/material/list';
+import { Component, OnInit } from '@angular/core';
+import { ApplicationService, AuthService, PushService, LayoutService } from '@app/core/services';
 
 @Component({
   selector: 'fm-navbar',

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { scrollUpAnimation } from '@app/core/animations';
-import { LayoutService } from '@app/core/services/layout.service';
+import { LayoutService } from '@app/core/services';
 
 @Component({
   selector: 'fm-toolbar',

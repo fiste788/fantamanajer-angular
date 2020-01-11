@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService, LayoutService } from '@app/core/services';
 import { Router } from '@angular/router';
-import { LayoutService } from '@app/core/services/layout.service';
 
 @Component({
   selector: 'fm-profile',

@@ -4,9 +4,9 @@
       fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start" @cardCreationAnimation>
       <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100"
         *ngFor="let role of _roles">
-
-        <img [alt]="role.best_players[0].player.full_name" mat-card-image
-          [lazyLoad]="role.best_players[0].photo_url || ''" [defaultImage]="role.best_players[0].club_id | cdi">
+        <img [alt]=" role.best_players[0].player.full_name" mat-card-image
+          [lazyLoad]="role.best_players[0].photo_url || ''"
+          [defaultImage]="'/assets/clubs.svg#club-' + role.best_players[0].club_id">
 
         <mat-card-header>
           <mat-card-title>

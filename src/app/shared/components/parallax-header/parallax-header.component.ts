@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ScrollService } from '@app/core/services/scroll.service';
+import { ScrollService } from '@app/core/services';
 
 @Component({
   selector: 'fm-parallax-header',

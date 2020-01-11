@@ -2,14 +2,12 @@ import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, NgZone, Change
 import { DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { ScrollService } from '@app/core/services/scroll.service';
+import { Observable, combineLatest } from 'rxjs';
 import { routerTransition, scrollUpAnimation, closeAnimation } from '@app/core/animations';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { VisibilityState } from './visibility-state';
-import { ThemeService } from '@app/core/services/theme.service';
-import { LayoutService } from '@app/core/services/layout.service';
+import { ThemeService, ScrollService, LayoutService } from '@app/core/services';
 import { mergeMap, map } from 'rxjs/operators';
 
 @Component({
