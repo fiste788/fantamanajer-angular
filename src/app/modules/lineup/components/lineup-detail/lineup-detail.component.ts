@@ -115,11 +115,9 @@ export class LineupDetailComponent implements OnInit {
       const index = roleKeys.indexOf(role);
       for (i = 0; i < index; i++) {
         count += Array.from(lineup.module_object.map.values())[i].length;
-
-        return count + memberKey;
       }
     }
-    return 0;
+    return count + memberKey;
   }
 
   getCapitanables(lineup: Lineup): Member[] {

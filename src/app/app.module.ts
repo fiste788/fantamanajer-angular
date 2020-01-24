@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from '@app/shared/layout/layout.module';
 import { MainComponent } from '@app/shared/layout/main/main.component';
 import { HomeComponent } from './home/home.component';
-// import 'hammerjs';
 
 @NgModule({
   declarations: [

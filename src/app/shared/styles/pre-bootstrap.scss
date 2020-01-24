@@ -25,13 +25,15 @@ html {
   max-width: 100%;
   text-align: center;
 
+  .error,
   noscript h3 {
     color: #d50000;
     margin: 2rem 1rem;
   }
 
   img {
-    animation: filter-animation 2s infinite, in-animation .4s;
+    will-change: transform, opacity, filter;
+    animation: in-animation .4s ease-in-out, pulse-animation 1.8s ease-in-out .4s infinite;
   }
 
   > div {
@@ -42,19 +44,6 @@ html {
   .pre-bootstrap-text {
     line-height: 1.5rem;
     margin-top: 1.5rem;
-  }
-}
-@keyframes filter-animation {
-  0% {
-    filter: saturate(100%);
-  }
-
-  50% {
-    filter: saturate(0);
-  }
-
-  100% {
-    filter: saturate(100%);
   }
 }
 @keyframes in-animation {
@@ -68,12 +57,29 @@ html {
     transform: scale(1);
   }
 }
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    filter: saturate(100%);
+  }
+
+  67% {
+    transform: scale(0.82);
+    filter: saturate(33%);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: saturate(100%);
+  }
+}
 @media(prefers-color-scheme: dark) {
   .pre-bootstrap {
     background-color: map-get($mat-dark-theme-background, 'background');
     color: map-get($mat-dark-theme-foreground, 'text');
   }
 
+  .error,
   noscript h3 {
     color: #cf6679;
   }

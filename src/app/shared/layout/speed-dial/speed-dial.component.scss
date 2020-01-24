@@ -15,9 +15,8 @@
 .mat-fab {
   box-shadow: 0 0 0 !important;
 }
-@include layout-bp(gt-md) {
+@include layout-bp(gt-sm) {
   :host {
-    bottom: 1.5rem;
     left: 212px;
     right: unset !important;
     @include mat-elevation(2);

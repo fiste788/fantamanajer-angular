@@ -27,7 +27,7 @@ export class ApplicationService {
   ) { }
 
   getCurrentMatchday(): Observable<void> {
-    return this.matchdayService.getCurrentMatchday().pipe(map(this.setCurrentMatchday.bind(this)));
+    return this.matchdayService.getCurrentMatchday().pipe(map(m => this.setCurrentMatchday(m)));
   }
 
   private setCurrentMatchday(matchday: Matchday): void {
@@ -36,13 +36,17 @@ export class ApplicationService {
     this.seasonStarted = matchday.number > 0;
   }
 
-  initialize(): Promise<any> {
-    this.auth.loggedUser.subscribe(this.setUser.bind(this));
+  async initialize(): Promise<void> {
+    this.auth.loggedUser.subscribe((u: User) => this.setUser(u));
     let observable = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
       observable = concat(observable, this.auth.getCurrentUser());
     }
-    return observable.toPromise();
+    return observable.toPromise().catch(e => {
+      const el = document.querySelectorAll('.error')[0];
+      el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
+      throw e;
+    });
   }
 
   setUser(user?: User) {
@@ -79,6 +83,7 @@ export class ApplicationService {
       } else {
         this.setCurrentMatchday(this.matchday);
       }
+      this.getRouter().navigateByUrl('/teams/' + team.id);
     }
     if (!isNull) {
       this.teamChange.next(team);

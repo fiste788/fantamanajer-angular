@@ -48,7 +48,7 @@ export function useFactory(service: ApplicationService) { return () => service.i
     {
       provide: APP_INITIALIZER,
       useFactory,
-      deps: [ApplicationService, PushService],
+      deps: [ApplicationService],
       multi: true
     }
   ]

@@ -82,6 +82,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
         this.layoutService.showSpeedDial();
         this.layoutService.setReady();
+        setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
       });
     }
   }

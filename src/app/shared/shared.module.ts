@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule, DEFAULT_BREAKPOINTS, BREAKPOINTS } from '@angular/flex-layout';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
-import { LazyLoadImageModule, intersectionObserverPreset, LoadImageProps } from 'ng-lazyload-image';
-import { SrcsetPipe, PlaceholderPipe, ClubDefaultImagePipe } from '@app/shared/pipes';
+import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { SrcsetPipe, PlaceholderPipe } from '@app/shared/pipes';
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@app/shared/directives';
 import { MaterialModule } from './material.module';
 import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
@@ -39,7 +39,6 @@ export const breakPointsProvider = {
     StickyDirective,
     SrcsetPipe,
     PlaceholderPipe,
-    ClubDefaultImagePipe,
     ParallaxHeaderComponent,
     BreadcrumbComponent,
     MatEmptyStateComponent,
@@ -59,7 +58,6 @@ export const breakPointsProvider = {
     LazyLoadImageModule,
     PlaceholderPipe,
     SrcsetPipe,
-    ClubDefaultImagePipe,
     RellaxDirective,
     StickyDirective,
     SrcsetDirective

@@ -1,24 +1,17 @@
 @mixin fantamanajer-form-theme($theme) {
-  .mat-form-field.white {
-    .mat-form-field-label {
-      color: rgba(255, 255, 255, 0.87);
+  .inherit-color {
+    .mat-focused .mat-form-field-label,
+    .mat-form-field-label,
+    .mat-form-field.mat-focused .mat-select-arrow,
+    .mat-select-arrow,
+    .mat-select-value {
+      color: inherit;
     }
 
+    .mat-focused .mat-form-field-ripple,
+    .mat-form-field-ripple,
     .mat-form-field-underline {
-      background-color: rgba(255, 255, 255, 0.12);
-    }
-
-    mat-select {
-      .mat-select,
-      .mat-select-arrow,
-      .mat-select-disabled .mat-select-value,
-      .mat-select-trigger {
-        color: rgba(255, 255, 255, 0.38);
-      }
-
-      .mat-select-value {
-        color: rgba(255, 255, 255, 0.87);
-      }
+      background-color: currentColor;
     }
   }
 }

@@ -4,7 +4,7 @@
       <fm-parallax-header [title]="_player.full_name"
         [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
         [backgroundImage]="selectedMember.club.background_url"
-        [image]="selectedMember.photo_url || _player.photo_url || (selectedMember.club_id | cdi)">
+        [image]="selectedMember.photo_url || _player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id">
         <div parallax-header-right class="inherit-color">
           <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>

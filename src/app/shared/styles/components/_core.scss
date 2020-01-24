@@ -9,6 +9,7 @@
   html {
     margin: 0;
     height: 100%;
+    font-family: Roboto, sans-serif;
   }
 
   .mat-text-accent {
@@ -21,11 +22,7 @@
 
   ::selection {
     background: mat-color($accent);
-    color: #fff;
-  }
-
-  img[src$='.svg'] {
-    background-color: #fff;
+    color: mat-color($accent, default-contrast);
   }
 
   .sticky {
@@ -38,10 +35,6 @@
     width: 100%;
   }
 
-  body {
-    font-family: Roboto, sans-serif;
-  }
-
   .tabbed-container {
     min-height: calc(100vh - 400px);
   }
@@ -50,17 +43,12 @@
     flex: 1 1 auto;
   }
 
-  .hundred {
-    height: 100%;
-  }
-
   .mat-progress-spinner {
     margin: 3rem auto 5rem;
   }
 
   a {
     text-decoration: none;
-    color: mat-color(map-get($theme, accent));
   }
 
   .red_card,
@@ -78,22 +66,6 @@
 
   .red_card {
     background-color: red;
-  }
-
-  .inherit-color {
-    .mat-focused .mat-form-field-label,
-    .mat-form-field-label,
-    .mat-form-field.mat-focused .mat-select-arrow,
-    .mat-select-arrow,
-    .mat-select-value {
-      color: inherit;
-    }
-
-    .mat-focused .mat-form-field-ripple,
-    .mat-form-field-ripple,
-    .mat-form-field-underline {
-      background-color: currentColor;
-    }
   }
 
   fm-main:not(:empty) + .pre-bootstrap {

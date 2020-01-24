@@ -26,7 +26,7 @@ const routes: Routes = [
           breadcrumbs: '{{team.name}}',
           state: 'team-detail',
         },
-        runGuardsAndResolvers: 'paramsChange',
+        runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
         resolve: {
           team: TeamDetailResolver
         },
@@ -44,6 +44,7 @@ const routes: Routes = [
           {
             path: 'players',
             component: TeamMembersComponent,
+            runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
             data: { state: 'team-players' },
           },
           {

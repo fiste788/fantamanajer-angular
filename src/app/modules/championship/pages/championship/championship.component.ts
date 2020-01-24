@@ -1,6 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ApplicationService } from '@app/core/services/application.service';
 import { tabTransition } from '@app/core/animations/tab-transition.animation';
 
@@ -18,9 +17,8 @@ export class ChampionshipComponent {
     { label: 'Articoli', link: 'articles' },
     { label: 'Attività', link: 'stream' },
   ];
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-  constructor(app: ApplicationService, private router: Router) {
+  constructor(app: ApplicationService) {
     if (app.user?.admin || app.team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }

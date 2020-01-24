@@ -13,7 +13,7 @@
     color: mat-color($primary) !important;
 
     .mat-icon {
-      color: mat-color($primary) !important;
+      color: mat-color($primary, 'darker') !important;
     }
   }
 }

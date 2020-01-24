@@ -28,12 +28,14 @@ export class TeamDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.team = this.route.data.pipe(map((data: { team: Team }) => data.team));
-    this.loadTabs();
+    this.team = this.route.data.pipe(map((data: { team: Team }) => {
+      this.loadTabs(data.team);
+      return data.team;
+    }));
   }
 
 
-  loadTabs() {
+  loadTabs(team: Team) {
     this.tabs = [];
     this.tabs.push({ label: 'Giocatori', link: 'players' });
     if (this.app.championship?.started) {
@@ -47,7 +49,7 @@ export class TeamDetailComponent implements OnInit {
     }
     this.tabs.push({ label: 'Articoli', link: 'articles' });
     this.tabs.push({ label: 'Attività', link: 'stream' });
-    if (this.app.user?.admin || this.app.team?.admin) {
+    if (this.app.user?.admin || team.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }
