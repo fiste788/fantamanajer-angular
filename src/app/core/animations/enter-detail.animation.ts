@@ -14,7 +14,7 @@ export const enterDetailAnimation = trigger('enterDetailAnimation', [
   ]),
   transition(':leave', [
     query('.animation-container',
-      animate('.2s cubic-bezier(.8, -0.6, 0.2, 1.5)',
+      animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
         style({ opacity: 0, transform: 'translateY(7%)' })
       ),
     )

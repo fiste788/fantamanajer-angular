@@ -2,6 +2,7 @@
 @import './components/core';
 @import './components/card';
 @import './components/table';
+@import './components/form';
 @import '../layout/layout';
 @import '../components/mat-empty-state/mat-empty-state';
 @import '../../modules/auth/pages/login/login';
@@ -16,6 +17,7 @@
   $foreground: map-get($theme, foreground);
   @include angular-material-theme($theme);
   @include fantamanajer-core($theme);
+  @include fantamanajer-form-theme($theme);
   @include fantamanajer-card-theme($theme);
   @include table-extended-theme($theme);
   @include layout-theme($theme);

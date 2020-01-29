@@ -34,7 +34,7 @@ export class ThemeService {
       const style = this.document.createElement('link');
       style.id = 'client-theme';
       style.rel = 'stylesheet';
-      style.href = `${styleName}`;
+      style.href = styleName;
 
       head.appendChild(style);
     }
