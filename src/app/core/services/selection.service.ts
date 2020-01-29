@@ -11,7 +11,7 @@ export class SelectionService {
   constructor(private http: HttpClient) { }
 
   getSelection(id: number): Observable<Selection> {
-    return this.http.get<Selection[]>('teams/' + id + '/' + this.url).pipe(
+    return this.http.get<Selection[]>(`teams/${id}/${this.url}`).pipe(
       filter(a => a.length > 0),
       map(a => a[0])
     );
@@ -19,14 +19,14 @@ export class SelectionService {
 
   update(selection: Selection): Observable<any> {
     return this.http.put(
-      'teams/' + selection.team_id + '/' + this.url + '/' + selection.id,
+      `teams/${selection.team_id}/${this.url}/${selection.id}`,
       JSON.stringify(selection)
     );
   }
 
   create(selection: Selection): Observable<Selection> {
     return this.http.post<Selection>(
-      'teams/' + selection.team_id + '/' + this.url,
+      `teams/${selection.team_id}/${this.url}`,
       JSON.stringify(selection)
     );
   }

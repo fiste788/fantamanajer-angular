@@ -16,13 +16,13 @@ export class NotificationService {
   constructor(private http: HttpClient) { }
 
   getNotifications(teamId: number): Observable<Stream> {
-    const seen = this.http.get<Stream>('teams/' + teamId + '/' + this.url).pipe(share());
+    const seen = this.http.get<Stream>(`teams/${teamId}/${this.url}`).pipe(share());
     seen.subscribe(res => this.seen.emit(res));
     return seen;
   }
 
   getNotificationCount(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>('teams/' + teamId + '/' + this.url + '/count');
+    return this.http.get<Stream>(`teams/${teamId}/${this.url}/count`);
   }
 
   broadcast(title: string, url: string, severity?: number) {

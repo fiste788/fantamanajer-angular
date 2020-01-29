@@ -83,9 +83,9 @@ export class ApplicationService {
       } else {
         this.setCurrentMatchday(this.matchday);
       }
-      this.getRouter().navigateByUrl('/teams/' + team.id);
     }
-    if (!isNull) {
+    if (!isNull && team) {
+      this.getRouter().navigateByUrl('/teams/' + team.id);
       this.teamChange.next(team);
     }
   }

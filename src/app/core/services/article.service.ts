@@ -16,18 +16,18 @@ export class ArticleService {
 
   getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
-    return this.http.get<PagedResponse<Article[]>>('teams/' + teamId + '/' + this.url, { params });
+    return this.http.get<PagedResponse<Article[]>>(`teams/${teamId}/${this.url}`, { params });
   }
 
   getArticlesByChampionship(championshipId: number, page = 1): Observable<PagedResponse<Article[]>> {
     const params = new HttpParams().set('page', `${page}`);
     return this.http.get<PagedResponse<Article[]>>(
-      'championships/' + championshipId + '/' + this.url
+      `championships/${championshipId}/${this.url}`
       , { params });
   }
 
   getArticle(id: number): Observable<Article> {
-    return this.http.get<Article>(this.url + '/' + id);
+    return this.http.get<Article>(`${this.url}/${id}`);
   }
 
   update(article: Article): Observable<any> {

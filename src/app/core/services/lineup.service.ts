@@ -15,7 +15,7 @@ export class LineupService {
 
   update(lineup: Lineup): Observable<any> {
     return this.http.put(
-      `teams/${lineup.team_id}/${this.url}/` + lineup.id,
+      `teams/${lineup.team_id}/${this.url}/${lineup.id}`,
       JSON.stringify(this.cleanLineup(lineup))
     );
   }

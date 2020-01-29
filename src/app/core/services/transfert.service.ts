@@ -10,11 +10,11 @@ export class TransfertService {
   constructor(private http: HttpClient) { }
 
   getTransfert(id: number): Observable<Transfert[]> {
-    return this.http.get<Transfert[]>('teams/' + id + '/' + this.url);
+    return this.http.get<Transfert[]>(`teams/${id}/${this.url}`);
   }
 
   create(transfert: Transfert): Observable<Transfert> {
-    return this.http.post<Transfert>('admin/' + this.url, JSON.stringify(transfert));
+    return this.http.post<Transfert>(`admin/${this.url}`, JSON.stringify(transfert));
   }
 
 }

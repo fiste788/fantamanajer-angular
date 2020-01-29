@@ -1,4 +1,4 @@
-<cdk-virtual-scroll-viewport itemSize="88" class="example-viewport">
+<cdk-virtual-scroll-viewport itemSize="88" class="example-viewport" *ngIf="!ds.isEmpty; else empty">
   <mat-list @listItemAnimation>
     <ng-container *cdkVirtualFor="let activity of ds">
       <mat-list-item class="example-item" *ngIf="activity; else placeholder">
@@ -19,9 +19,8 @@
         </content-loader>
       </ng-template>
     </ng-container>
-
   </mat-list>
 </cdk-virtual-scroll-viewport>
-<ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+<ng-template #empty>
+  <fm-mat-empty-state label="Ancora nessuna attività" icon="message"></fm-mat-empty-state>
 </ng-template>

@@ -12,7 +12,7 @@ export class TeamService {
   }
 
   getTeams(championshipId: number): Observable<Team[]> {
-    return this.http.get<Team[]>('championships/' + championshipId + '/' + this.url);
+    return this.http.get<Team[]>(`championships/${championshipId}/${this.url}`);
   }
 
   getTeam(id: number): Observable<Team> {

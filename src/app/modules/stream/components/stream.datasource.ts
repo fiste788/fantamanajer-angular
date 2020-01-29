@@ -10,8 +10,13 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   private fetchedPages = new Set<number>();
   private dataStream = new BehaviorSubject<(StreamActivity | undefined)[]>(this.cachedData);
   private subscription = new Subscription();
+  public isEmpty = false;
 
-  constructor(private streamService: StreamService, private name: 'teams' | 'users' | 'clubs' | 'championships', private id: number) {
+  constructor(
+    private streamService: StreamService,
+    private name: 'teams' | 'users' | 'clubs' | 'championships',
+    private id: number
+  ) {
     super();
     this.fetchPage(1);
   }
@@ -42,19 +47,20 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.fetchedPages.add(page);
     if (page === 1) {
       this.addPlaceholder();
+      this.dataStream.next(this.cachedData);
     }
 
     this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
-      this.cachedData = this.cachedData.filter(it => it != null).concat(data.results);
-      if (data.results && data.results.length) {
-        this.addPlaceholder();
+      this.cachedData = this.cachedData.filter(it => it !== undefined).concat(data.results);
+      if (this.cachedData.length === 0) {
+        this.isEmpty = true;
       }
       this.dataStream.next(this.cachedData);
     });
   }
 
   private addPlaceholder() {
-    this.cachedData.fill(undefined, this.cachedData.length, this.pageSize);
+    this.cachedData = [...this.cachedData, ...Array(this.pageSize).fill(undefined)];
     /*for (let i = 0; i < this.pageSize; i++) {
       this.cachedData.push(null);
     }*/
