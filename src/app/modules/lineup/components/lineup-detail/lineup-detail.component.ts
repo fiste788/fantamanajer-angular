@@ -5,6 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { LineupService, RoleService } from '@app/core/services';
 import { Lineup, Disposition, Member, Module, Role } from '@app/core/models';
 import { SharedService } from '@app/shared/services/shared.service';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -185,17 +186,15 @@ export class LineupDetailComponent implements OnInit {
     );
   }
 
-  descOrder = (a: any, b: any) => {
-    if (a.key < b.key) {
-      return b.key;
-    }
+  descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) => {
+    return (a.key < b.key) ? b.key : a.key;
   }
 
-  trackByRole(index: number, item: any) {
+  trackByRole(_: number, item: KeyValue<number, Role>) {
     return item.key; // or item.id
   }
 
-  trackBySelection(index: number, item: any) {
+  trackBySelection(_: number, item: KeyValue<number, Role>) {
     return item.key; // or item.id
   }
 }

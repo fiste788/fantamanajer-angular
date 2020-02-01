@@ -35,7 +35,7 @@ export class AuthService {
     return this.credentialService.getPublicKey(email, token).pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  postLogin(res: any, rememberMe?: boolean): boolean {
+  postLogin(res: { user: User, token: string }, rememberMe?: boolean): boolean {
     if (res.token) {
       this.token = res.token;
       const user = res.user;

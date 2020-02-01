@@ -73,6 +73,7 @@
     background-size: cover;
     border-radius: 0 0 4px 4px;
     overflow: hidden;
+    max-height: 85vh;
     @include mat-elevation(2);
   }
 

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Team } from '@app/core/models';
-import { enterDetailAnimation, tabTransition } from '@app/core/animations';
+import { enterDetailAnimation } from '@app/core/animations';
 import { ApplicationService } from '@app/core/services';
 import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
 
@@ -12,7 +12,7 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
   selector: 'fm-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss'],
-  animations: [enterDetailAnimation, tabTransition]
+  animations: [enterDetailAnimation]
 })
 export class TeamDetailComponent implements OnInit {
   team: Observable<Team>;
@@ -33,7 +33,6 @@ export class TeamDetailComponent implements OnInit {
       return data.team;
     }));
   }
-
 
   loadTabs(team: Team) {
     this.tabs = [];

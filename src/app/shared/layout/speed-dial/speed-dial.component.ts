@@ -18,9 +18,9 @@ export class SpeedDialComponent implements OnInit {
   ngOnInit() {
   }
 
-  _click(event: any) {
+  _click(action: string) {
     let url = null;
-    switch (event) {
+    switch (action) {
       case 'transfert': url = '/teams/' + (this.app.team?.id || '') + '/transferts'; break;
       case 'lineup': url = '/teams/' + (this.app.team?.id || '') + '/lineup/current'; break;
       case 'article': url = '/articles/new'; break;

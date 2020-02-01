@@ -50,11 +50,10 @@ export class ArticleListComponent implements OnInit {
 
   delete(id: number) {
     const instance = this;
-    this.articleService.delete(id).subscribe((res: any) => {
+    this.articleService.delete(id).subscribe(() => {
       instance.snackBar.open('Article deleted', undefined, {
         duration: 3000
       });
-      // this.articles.filter((x: Article[], idx) => x[idx] !== id);
       this.articles.filter(article => article.id !== id);
     });
   }

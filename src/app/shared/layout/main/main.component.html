@@ -6,7 +6,7 @@
   <mat-sidenav-content>
     <fm-toolbar #toolbar [showDrawerButton]="isHandset$ | async" [state]="showedToolbar$ | async"></fm-toolbar>
     <main>
-      <div [@routerTransition]="getState(o)">
+      <div>
         <router-outlet #o="outlet"></router-outlet>
       </div>
     </main>

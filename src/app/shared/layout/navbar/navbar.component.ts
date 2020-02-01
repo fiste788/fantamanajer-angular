@@ -8,7 +8,7 @@ import { ApplicationService, AuthService, PushService, LayoutService } from '@ap
 })
 export class NavbarComponent implements OnInit {
 
-  public deferredPrompt: any;
+  public deferredPrompt?: BeforeInstallPromptEvent;
 
   constructor(
     public layoutService: LayoutService,
@@ -18,24 +18,26 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.push.beforeInstall.subscribe((e: any) => {
+    this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
   }
 
   install() {
-    // Show the prompt
-    this.deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    this.deferredPrompt.userChoice
-      .then((choiceResult: any) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        this.deferredPrompt = null;
-      });
+    if (this.deferredPrompt) {
+      // Show the prompt
+      this.deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      this.deferredPrompt.userChoice
+        .then(choiceResult => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the A2HS prompt');
+          } else {
+            console.log('User dismissed the A2HS prompt');
+          }
+          this.deferredPrompt = undefined;
+        });
+    }
   }
 
   closeSidenav() {

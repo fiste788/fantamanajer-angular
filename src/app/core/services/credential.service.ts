@@ -36,7 +36,7 @@ export class CredentialService {
     return this.http.get<any>(`${this.url}/register`).pipe(map(e => ({ publicKey: e })));
   }
 
-  createPublicKey(): Observable<any> {
+  createPublicKey(): Observable<PublicKeyCredentialSource> {
     return this.create().pipe(
       flatMap(publicKey => create(publicKey)),
       flatMap(data => this.register(data))

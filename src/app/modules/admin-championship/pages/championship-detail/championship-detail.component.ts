@@ -34,7 +34,7 @@ export class ChampionshipDetailComponent implements OnInit {
   }
 
   save() {
-    this.championshipService.save(this.championship).subscribe(response => {
+    this.championshipService.save(this.championship).subscribe(() => {
       this.snackBar.open('Modifiche salvate', undefined, {
         duration: 3000
       });

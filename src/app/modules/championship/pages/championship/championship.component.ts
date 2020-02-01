@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApplicationService } from '@app/core/services/application.service';
-import { tabTransition } from '@app/core/animations/tab-transition.animation';
 
 @Component({
   selector: 'fm-championship',
-  templateUrl: './championship.component.html',
-  animations: [tabTransition]
+  templateUrl: './championship.component.html'
 })
-export class ChampionshipComponent {
+export class ChampionshipComponent implements OnInit {
 
-  public tabs: { label: string; link: string }[] = [
-    { label: 'Squadre', link: 'teams' },
-    { label: 'Classifica', link: 'ranking' },
-    { label: 'Giocatori liberi', link: 'members/free' },
-    { label: 'Articoli', link: 'articles' },
-    { label: 'Attività', link: 'stream' },
-  ];
+  public tabs: { label: string; link: string }[];
 
-  constructor(app: ApplicationService) {
-    if (app.user?.admin || app.team?.admin) {
+  constructor(private app: ApplicationService) {
+  }
+
+  ngOnInit() {
+    this.tabs = [
+      { label: 'Squadre', link: 'teams' },
+      { label: 'Classifica', link: 'ranking' },
+      { label: 'Giocatori liberi', link: 'members/free' },
+      { label: 'Articoli', link: 'articles' },
+      { label: 'Attività', link: 'stream' },
+    ];
+    if (this.app.user?.admin || this.app.team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }

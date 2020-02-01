@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   tokenLogin(t: CredentialRequestOptionsJSON) {
     this.loading = true;
-    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t).subscribe((result: any) => this.postLogin(result));
+    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t).subscribe(result => this.postLogin(result));
   }
 
   checkToken() {

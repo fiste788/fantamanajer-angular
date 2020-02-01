@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Article } from '@app/core/models';
 import { ApplicationService, ArticleService } from '@app/core/services';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'fm-article-detail',
@@ -11,7 +12,7 @@ import { ApplicationService, ArticleService } from '@app/core/services';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
-  article: Article;
+  article: Observable<Article>;
   @ViewChild(NgForm) articleForm: NgForm;
 
   constructor(
@@ -25,33 +26,32 @@ export class ArticleDetailComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.params.id) {
       const id = parseInt(this.route.snapshot.params.id, 10);
-      this.articleService
-        .getArticle(id)
-        .subscribe(article => (this.article = article));
+      this.article = this.articleService.getArticle(id);
     } else {
-      this.article = new Article();
+      const article = new Article();
       if (this.app.team) {
-        this.article.team_id = this.app.team.id;
+        article.team_id = this.app.team.id;
       }
+      this.article = of(article);
     }
   }
 
   cancel() { }
 
-  save() {
+  save(article: Article) {
     if (this.articleForm.valid) {
       let observable = null;
-      if (this.article.id) {
-        observable = this.articleService.update(this.article);
+      if (article.id) {
+        observable = this.articleService.update(article);
       } else {
-        observable = this.articleService.create(this.article);
+        observable = this.articleService.create(article);
       }
-      observable.subscribe(article => {
+      observable.subscribe(() => {
         this.snackBar.open('Articolo salvato correttamente', undefined, {
           duration: 3000
         });
         this.router.navigateByUrl(
-          '/teams/' + this.article.team_id + '/articles#' + article.id
+          '/teams/' + article.team_id + '/articles#' + article.id
         );
       });
     }

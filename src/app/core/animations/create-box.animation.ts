@@ -7,7 +7,7 @@ export const createBoxAnimation = trigger('createBox', [
       { optional: true }
     ),
     query(':scope>img, mat-icon, .img-container',
-      animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+      animate('450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
         style({ transform: 'scale(1)', opacity: 1 })
       ),
       { optional: true }
@@ -15,7 +15,7 @@ export const createBoxAnimation = trigger('createBox', [
   ),
   transition(':leave', [
     query(':scope>img, mat-icon, .img-container',
-      animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+      animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
         style({ transform: 'scale(0.4)', opacity: 0 }),
       ),
       { optional: true }

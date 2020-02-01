@@ -11,12 +11,13 @@ export class ApiInterceptor implements HttpInterceptor {
 
     let headers = req.headers;
     let credential = false;
+    const ct = 'Content-type';
     if (!req.url.endsWith('matchdays/current')) {
       headers = headers.set('Accept', 'application/json');
-      if (!req.headers.has('Content-type')) {
-        headers = headers.set('Content-type', 'application/json');
-      } else if (headers.get('Content-Type') === 'multipart/form-data') {
-        headers = headers.delete('Content-type');
+      if (!req.headers.has(ct)) {
+        headers = headers.set(ct, 'application/json');
+      } else if (headers.get(ct) === 'multipart/form-data') {
+        headers = headers.delete(ct);
       }
       credential = true;
     } else {

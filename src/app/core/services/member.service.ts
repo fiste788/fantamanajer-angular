@@ -22,11 +22,11 @@ export class MemberService {
 
   }
 
-  getAllFree(championshipId: number): Observable<any> {
+  getAllFree(championshipId: number): Observable<Member[]> {
     const params = new HttpParams().set('stats', '0');
     const url = `championships/${championshipId}/${this.url}/free`;
 
-    return this.http.get<any>(url, { params });
+    return this.http.get<Member[]>(url, { params });
 
   }
 

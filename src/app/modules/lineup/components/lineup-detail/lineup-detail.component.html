@@ -17,10 +17,9 @@
       [ngClass]="[role.key.abbreviation, 'role-container']" fxLayout="row">
       <h5 [title]="role.key.plural" fmSticky>{{role.key.plural | uppercase}}</h5>
       <div class="role" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around">
-        <fm-member-selection
+        <fm-member-selection [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center"
+          class="regular" *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
           [captain]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member?.id == lineup.captain_id" @items
-          [required]="true" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="regular"
-          *ngFor="let memberKey of role.value; trackBy: trackBySelection" [disabled]="disabled"
           [isMemberDisabled]="isRegularCallback" (selectionChange)="removeBenchwarmer(lineup, $event)"
           [memberList]="membersByRole.get(role.key)" [placeholder]="role.key.singolar"
           [name]="role.key.abbreviation + '-' + memberKey" [width]="320" [height]="450"

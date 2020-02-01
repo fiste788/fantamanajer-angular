@@ -1,4 +1,4 @@
-import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Member, Role } from '@app/core/models';
@@ -33,8 +33,8 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
   @Input() isMemberDisabled: (m: Member) => boolean;
   @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: Function = () => { };
+  onTouched: Function = () => { };
 
   constructor(
     private cd: ChangeDetectorRef
@@ -59,11 +59,11 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
     this.selectionChange.emit(event);
   }
 
-  registerOnChange(fn: (_: any) => void) {
+  registerOnChange(fn: (_: Function) => void) {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: (_: any) => void) {
+  registerOnTouched(fn: (_: Function) => void) {
     this.onTouched = fn;
   }
 

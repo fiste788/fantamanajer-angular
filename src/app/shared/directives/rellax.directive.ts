@@ -38,8 +38,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     window.webkitRequestAnimationFrame ||
     (window as any).mozRequestAnimationFrame ||
     (window as any).msRequestAnimationFrame ||
-    (window as any).oRequestAnimationFrame ||
-    ((callback: any) => {
+    ((callback: Function) => {
       setTimeout(callback, 1000 / 60);
     });
 

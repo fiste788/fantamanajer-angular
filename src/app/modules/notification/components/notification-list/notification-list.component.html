@@ -1,5 +1,5 @@
 <div *ngIf="stream" @createBox>
-  <button aria-label="open" mat-icon-button (click)="open($event)">
+  <button aria-label="open" mat-icon-button (click)="open($event.target)">
     <mat-icon [matBadgeHidden]="stream.unseen == 0" [matBadge]="stream.unseen | number" matBadgeSize="small"
       matBadgeOverlap="true" matBadgeColor="accent" matBadgePosition="above after">notifications</mat-icon>
   </button>

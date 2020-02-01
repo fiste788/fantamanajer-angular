@@ -11,7 +11,7 @@ export class ParallaxHeaderComponent {
   @Input() public subtitle: string;
   @Input() public image: string;
   @Input() public backgroundImage: any;
-  @Input() public tabs: any[] = [];
+  @Input() public tabs: { link: string, label: string }[] = [];
   public srcset = '';
   public width = 0;
 
@@ -20,6 +20,6 @@ export class ParallaxHeaderComponent {
 
 
   initialScroll(event: Event) {
-    this.scrollService.scrollTo(0, (event.target as any).clientHeight - 300);
+    this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);
   }
 }

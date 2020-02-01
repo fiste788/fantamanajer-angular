@@ -2,7 +2,7 @@
   <div @enterDetailAnimation>
     <div class="animation-container">
       <fm-parallax-header [backgroundImage]="_team.photo_url ? _team.photo_url : null" [tabs]="tabs"
-        [title]="_team.name" [subtitle]="_team.user.name + ' ' + _team.user.surname + ' - '">
+        [title]="_team.name" [subtitle]="_team.user.name + ' ' + _team.user.surname">
         <div parallax-header-right *ngIf="_team.user.id == app.user?.id && !app.seasonEnded">
           <button mat-icon-button (click)="openDialog(_team)" aria-label="Settings">
             <mat-icon>settings</mat-icon>

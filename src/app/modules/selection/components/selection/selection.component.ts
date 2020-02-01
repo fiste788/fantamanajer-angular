@@ -8,6 +8,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
 import { map, distinctUntilChanged, share, reduce, mergeMap, toArray } from 'rxjs/operators';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'fm-selection',
@@ -111,7 +112,7 @@ export class SelectionComponent implements OnInit {
       } else {
         obs = this.selectionService.create(selection);
       }
-      obs.subscribe((response: any) => {
+      obs.subscribe((response: Selection) => {
         this.snackBar.open('Selezione salvata correttamente', undefined, {
           duration: 3000
         });
@@ -122,10 +123,8 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  descOrder = (a: any, b: any) => {
-    if (a.key < b.key) {
-      return b.key;
-    }
+  descOrder = (a: KeyValue<Role, Member[]>, b: KeyValue<Role, Member[]>) => {
+    return a.key < b.key ? b.key.id : a.key.id;
   }
 
   isDisabled(role: Role) {

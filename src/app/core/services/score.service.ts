@@ -13,16 +13,16 @@ export class ScoreService {
     return this.http.get(`championships/${championshipId}/ranking`);
   }
 
-  getScore(id: number, members = false): Observable<any> {
+  getScore(id: number, members = false): Observable<Score> {
     let params = new HttpParams();
     if (members) {
       params = params.set('members', '1');
     }
-    return this.http.get(`${this.url}/${id}`, { params });
+    return this.http.get<Score>(`${this.url}/${id}`, { params });
   }
 
-  getLastScore(teamId: number): Observable<any> {
-    return this.http.get(`teams/${teamId}/${this.url}/last`);
+  getLastScore(teamId: number): Observable<Score> {
+    return this.http.get<Score>(`teams/${teamId}/${this.url}/last`);
   }
 
   getScoresByTeam(teamId: number): Observable<Score[]> {

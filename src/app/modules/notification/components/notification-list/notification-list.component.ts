@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NotificationService, ApplicationService } from '@app/core/services';
 import { Stream } from '@app/core/models';
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
@@ -32,7 +32,7 @@ export class NotificationListComponent implements OnInit {
     }
   }
 
-  open(event: any) {
-    this.overlayService.open(event.currentTarget);
+  open(el: ElementRef<HTMLButtonElement>) {
+    this.overlayService.open(el);
   }
 }

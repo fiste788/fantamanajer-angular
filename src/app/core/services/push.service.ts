@@ -12,7 +12,7 @@ import { WindowRefService } from './window-ref.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  @Output() beforeInstall: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output() beforeInstall: EventEmitter<BeforeInstallPromptEvent> = new EventEmitter<BeforeInstallPromptEvent>();
 
   constructor(
     public subscription: PushSubscriptionService,
@@ -24,7 +24,7 @@ export class PushService {
     private swUpdate: SwUpdate,
     private winRef: WindowRefService
   ) {
-    this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e: Event) => {
+    this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e: BeforeInstallPromptEvent) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
@@ -69,24 +69,24 @@ export class PushService {
   }
 
   private requestSubscription(): void {
-    this.swPush
-      .requestSubscription({
-        serverPublicKey: environment.vapidPublicKey
-      })
+    this.swPush.requestSubscription({
+      serverPublicKey: environment.vapidPublicKey
+    })
       .then(pushSubscription => {
         if (this.app.user) {
           const pushSubscriptionModel = new PushSubscription();
           pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id).then(sub => {
-            // Passing subscription object to our backend
-            this.subscription.add(sub).subscribe(res => {
-              this.snackBar.open(
-                'Now you are subscribed',
-                undefined,
-                {
-                  duration: 2000
-                }
-              );
-            }, () => pushSubscription.unsubscribe());
+            if (sub) {
+              this.subscription.add(sub).subscribe(() => {
+                this.snackBar.open(
+                  'Now you are subscribed',
+                  undefined,
+                  {
+                    duration: 2000
+                  }
+                );
+              }, () => pushSubscription.unsubscribe());
+            }
           });
         }
       }).catch(err => {
