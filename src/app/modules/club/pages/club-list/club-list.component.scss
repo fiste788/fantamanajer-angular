@@ -2,3 +2,12 @@
   width: auto;
   border-radius: 0;
 }
+
+.has-image {
+  transition: opacity 1s;
+  opacity: 0;
+}
+
+img.ng-lazyloaded {
+  opacity: 1;
+}

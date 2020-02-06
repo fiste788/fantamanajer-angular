@@ -24,8 +24,5 @@ import { MatDialogModule } from '@angular/material/dialog';
     NotificationOverlayComponent
   ],
   providers: [NotificationOverlayService],
-  entryComponents: [
-    NotificationOverlayComponent
-  ]
 })
 export class NotificationModule { }

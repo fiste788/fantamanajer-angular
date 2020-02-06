@@ -32,9 +32,6 @@ import { TeamRoutingModule } from './team-routing.module';
     TeamEditDialogComponent,
     TeamStreamComponent
   ],
-  entryComponents: [
-    TeamEditDialogComponent
-  ],
   providers: [
     TeamDetailResolver
   ]

@@ -13,8 +13,5 @@ import { ConfirmationDialogComponent } from './modals/confirmation-dialog.compon
   declarations: [
     ConfirmationDialogComponent
   ],
-  entryComponents: [
-    ConfirmationDialogComponent
-  ]
 })
 export class ConfirmationDialogModule { }
