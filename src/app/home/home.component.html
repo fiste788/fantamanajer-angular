@@ -3,7 +3,7 @@
     <div *ngIf="_roles[0].best_players?.length; else started" class="flex-container" fxLayout="row wrap"
       fxLayout.xs="column" fxLayoutAlign="space-around start" fxLayoutAlign.xs="start" @cardCreationAnimation>
       <mat-card class="flex-item" fxFlex.gt-md="22" fxFlex.md="22" fxFlex.sm="45" fxFlex.xs="100"
-        *ngFor="let role of _roles">
+        *ngFor="let role of _roles; trackBy: track">
         <img [alt]=" role.best_players[0].player.full_name" mat-card-image
           [lazyLoad]="role.best_players[0].photo_url || ''"
           [defaultImage]="'/assets/clubs.svg#club-' + role.best_players[0].club_id">
@@ -25,7 +25,7 @@
 
             <ng-template matExpansionPanelContent>
               <mat-list dense>
-                <mat-list-item *ngFor="let member of role.best_players; let j = index">
+                <mat-list-item *ngFor="let member of role.best_players; trackBy: track">
                   <a matLine routerLink="/players/{{member.player.id}}">{{member.player.full_name}}:
                     {{member.ratings[0].points}}</a>
                 </mat-list-item>

@@ -7,7 +7,7 @@ describe('EmailNotificationSubscriptionComponent', () => {
   let fixture: ComponentFixture<NotificationSubscriptionComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [NotificationSubscriptionComponent]
     })
       .compileComponents();
@@ -20,6 +20,7 @@ describe('EmailNotificationSubscriptionComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void void expect(component)
+      .toBeTruthy();
   });
 });

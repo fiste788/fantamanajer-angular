@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Member } from '@app/core/models';
 
-
 @Component({
   selector: 'fm-member-icons',
   templateUrl: './member-icons.component.html',

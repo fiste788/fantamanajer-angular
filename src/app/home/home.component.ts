@@ -1,10 +1,9 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { cardCreationAnimation } from '@app/core/animations';
+import { Member, Role } from '@app/core/models';
+import { ApplicationService, MemberService } from '@app/core/services';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { MemberService, ApplicationService } from '@app/core/services';
-import { Role } from '@app/core/models';
-import { cardCreationAnimation } from '@app/core/animations';
-
 
 @Component({
   selector: 'fm-home',
@@ -14,10 +13,15 @@ import { cardCreationAnimation } from '@app/core/animations';
 })
 export class HomeComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  public roles: Observable<Role[]>;
-  constructor(private memberService: MemberService, public app: ApplicationService) { }
+  roles: Observable<Array<Role>>;
+  constructor(private readonly memberService: MemberService, public app: ApplicationService) { }
 
-  ngOnInit() {
-    this.roles = this.memberService.getBest().pipe(share());
+  ngOnInit(): void {
+    this.roles = this.memberService.getBest()
+      .pipe(share());
+  }
+
+  track(_: number, item: Member): number {
+    return item.id; // or item.id
   }
 }

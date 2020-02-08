@@ -11,9 +11,9 @@ export class ChampionshipStreamComponent implements OnInit {
 
   id?: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = SharedService.getChampionshipId(this.route);
   }
 }

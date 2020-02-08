@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/core/guards';
-import { SettingsComponent } from './pages/settings/settings.component';
 import { UserStreamComponent } from './components/user-stream/user-stream.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [

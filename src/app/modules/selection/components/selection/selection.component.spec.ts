@@ -7,10 +7,10 @@ describe('SelectionComponent', () => {
   let fixture: ComponentFixture<SelectionComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SelectionComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [SelectionComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('SelectionComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

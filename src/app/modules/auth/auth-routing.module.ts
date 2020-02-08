@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotLoggedGuard, AuthGuard } from '@app/core/guards';
-import { LogoutComponent } from './pages/logout/logout.component';
-import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard, NotLoggedGuard } from '@app/core/guards';
 import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { LoginComponent } from './pages/login/login.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     data: { state: 'article-outlet' },
     children: [
       { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], data: { state: 'login' } },
-      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { state: 'logout' } },
+      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { state: 'logout' } }
     ]
   }
 ];

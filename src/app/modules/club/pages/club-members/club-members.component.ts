@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, HostBinding } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { MemberService } from '@app/core/services';
-import { Member, Club } from '@app/core/models';
 import { tableRowAnimation } from '@app/core/animations';
+import { Club, Member } from '@app/core/models';
+import { MemberService } from '@app/core/services';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-club-members',
@@ -13,19 +13,20 @@ import { tableRowAnimation } from '@app/core/animations';
 })
 export class ClubMembersComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  members?: Observable<Member[]>;
+  members?: Observable<Array<Member>>;
 
   constructor(
-    private memberService: MemberService,
-    private route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef
+    private readonly memberService: MemberService,
+    private readonly route: ActivatedRoute,
+    private readonly changeRef: ChangeDetectorRef
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.parent?.data.subscribe((data: { club: Club }) => {
       this.members = undefined;
       try {
         this.changeRef.detectChanges();
+        // tslint:disable-next-line: no-empty
       } catch (e) { }
       this.members = this.memberService.getByClubId(data.club.id);
     });

@@ -1,13 +1,12 @@
-import { Component, ViewChild, ChangeDetectorRef, OnInit, HostBinding, AfterViewInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { SharedService } from '@app/shared/services/shared.service';
+import { tableRowAnimation } from '@app/core/animations';
+import { Member, Role } from '@app/core/models';
 import { ApplicationService, MemberService, RoleService } from '@app/core/services';
 import { MemberListComponent } from '@app/modules/member-common/components/member-list/member-list.component';
-import { Member, Role } from '@app/core/models';
-import { tableRowAnimation } from '@app/core/animations';
-import { MatSelectChange, MatSelect } from '@angular/material/select';
+import { SharedService } from '@app/shared/services/shared.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-member-free',
@@ -19,29 +18,31 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
   @ViewChild(MemberListComponent) memberList: MemberListComponent;
   @ViewChild(MatSelect) roleSelect: MatSelect;
-  members?: Observable<Member[]>;
+  members?: Observable<Array<Member>>;
   roles: Map<number, Role>;
 
   constructor(
-    private changeRef: ChangeDetectorRef,
-    private memberService: MemberService,
-    private route: ActivatedRoute,
-    private roleService: RoleService,
+    private readonly changeRef: ChangeDetectorRef,
+    private readonly memberService: MemberService,
+    private readonly route: ActivatedRoute,
+    private readonly roleService: RoleService,
     public app: ApplicationService
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.roles = this.roleService.list();
   }
 
-  ngAfterViewInit() {
-    this.roleSelect.selectionChange.subscribe((change: MatSelectChange) => this.roleChange(change.value));
+  ngAfterViewInit(): void {
+    this.roleSelect.selectionChange.subscribe((change: MatSelectChange) => {
+      this.roleChange(change.value);
+    });
     this.roleSelect.value = this.roles.get(1);
     this.roleChange(this.roles.get(1));
   }
 
-  roleChange(role?: Role) {
+  roleChange(role?: Role): void {
     const championshipId = SharedService.getChampionshipId(this.route);
     this.members = undefined;
     this.changeRef.detectChanges();

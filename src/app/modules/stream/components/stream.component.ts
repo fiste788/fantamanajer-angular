@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { listItemAnimation } from '@app/core/animations/list-item.animation';
 import { StreamService } from '@app/core/services/stream.service';
 import { StreamDataSource } from './stream.datasource';
@@ -11,23 +11,23 @@ import { StreamDataSource } from './stream.datasource';
   animations: [listItemAnimation]
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  public ds: StreamDataSource;
-  public width: number;
+  ds: StreamDataSource;
+  width: number;
   @Input() context: 'teams' | 'users' | 'clubs' | 'championships';
   @Input() id: number;
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
 
-  constructor(private streamService: StreamService) { }
+  constructor(private readonly streamService: StreamService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.ds = new StreamDataSource(this.streamService, this.context, this.id);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.width = this.viewport.elementRef.nativeElement.clientWidth;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ds.disconnect();
   }
 }

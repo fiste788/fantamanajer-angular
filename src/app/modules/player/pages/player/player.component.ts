@@ -1,14 +1,14 @@
-import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ApplicationService } from '@app/core/services';
-import { tableRowAnimation, enterDetailAnimation } from '@app/core/animations';
+import { enterDetailAnimation, tableRowAnimation } from '@app/core/animations';
 import { Member, Player, Rating } from '@app/core/models';
+import { ApplicationService } from '@app/core/services';
 
 @Component({
   selector: 'fm-player',
@@ -42,18 +42,19 @@ export class PlayerComponent {
 
   constructor(
     public media: MediaObserver,
-    private changeRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
+    private readonly changeRef: ChangeDetectorRef,
+    private readonly route: ActivatedRoute,
     public app: ApplicationService
   ) {
     this.player = this.route.data.pipe(map(({ player }) => {
       this.selectedMember = player.members[0];
       this.seasonChange();
+
       return player;
     }));
   }
 
-  seasonChange() {
+  seasonChange(): void {
     if (this.dataSource !== undefined) {
       this.dataSource = undefined;
       this.changeRef.detectChanges();
@@ -63,8 +64,13 @@ export class PlayerComponent {
     this.dataSource.sort = this.sort;
   }
 
-  buy() {
+  buy(): boolean {
     localStorage.setItem('buyingMember', JSON.stringify(this.selectedMember));
+
     return false;
+  }
+
+  track(_: number, item: Member): number {
+    return item.id;
   }
 }

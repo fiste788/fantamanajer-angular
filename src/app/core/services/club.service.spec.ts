@@ -1,15 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { ClubService } from './club.service';
 
 describe('ClubService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       providers: [ClubService]
     });
   });
 
   it('should be created', inject([ClubService], (service: ClubService) => {
-    expect(service).toBeTruthy();
+    expect(service)
+      .toBeTruthy();
   }));
 });

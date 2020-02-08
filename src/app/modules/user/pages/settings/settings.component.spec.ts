@@ -7,7 +7,7 @@ describe('SettingsComponent', () => {
   let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [SettingsComponent]
     })
       .compileComponents();
@@ -20,6 +20,7 @@ describe('SettingsComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { DispositionListComponent } from './components/disposition-list/disposition-list.component';
@@ -7,7 +7,7 @@ import { DispositionListComponent } from './components/disposition-list/disposit
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
+    SharedModule
   ],
   exports: [
     DispositionListComponent

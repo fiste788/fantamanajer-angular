@@ -1,4 +1,4 @@
-import { Member, User, Championship, NotificationSubscription } from './';
+import { Championship, Member, NotificationSubscription, User } from './';
 
 export class Team {
   id: number;
@@ -6,10 +6,10 @@ export class Team {
   admin: boolean;
   user_id: number;
   user: User;
-  members: Member[] = [];
+  members: Array<Member> = [];
   championship_id: number;
   championship: Championship;
   photo_url: string | null;
-  email_notification_subscriptions: NotificationSubscription[];
-  push_notification_subscriptions: NotificationSubscription[];
+  email_notification_subscriptions: Array<NotificationSubscription>;
+  push_notification_subscriptions: Array<NotificationSubscription>;
 }

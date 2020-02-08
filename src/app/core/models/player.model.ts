@@ -4,7 +4,7 @@ export class Player {
   id: number;
   name: string | null;
   surname: string;
-  members: Member[];
+  members: Array<Member>;
   full_name: string;
   photo_url: string | null;
 }

@@ -20,8 +20,8 @@
     </div>
   </div>
   <nav mat-tab-nav-bar *ngIf="tabs.length">
-    <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.link" routerLinkActive #rla="routerLinkActive"
-      [active]="rla.isActive">
+    <a mat-tab-link *ngFor="let tab of tabs; trackBy: track" [routerLink]="tab.link" routerLinkActive
+      #rla="routerLinkActive" [active]="rla.isActive">
       {{tab.label}}
     </a>
   </nav>

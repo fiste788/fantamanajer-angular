@@ -1,20 +1,21 @@
 
-import { throwError as observableThrowError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
-  constructor(private snackbar: MatSnackBar) { }
+  constructor(private readonly snackbar: MatSnackBar) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next
-      .handle(req).pipe(
+      .handle(req)
+      .pipe(
         catchError((err: any, _) => {
           if (err instanceof HttpErrorResponse) {
             let message = '';
@@ -28,8 +29,10 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
               duration: 5000
             });
           }
+
           return observableThrowError(err);
-        }));
+        })
+      );
     // return next.handle(req);
   }
 }

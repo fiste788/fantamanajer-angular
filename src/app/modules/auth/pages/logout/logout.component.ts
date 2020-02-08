@@ -6,7 +6,7 @@ import { AuthService } from '@app/core/services';
   template: ''
 })
 export class LogoutComponent {
-  constructor(private authService: AuthService) {
+  constructor(private readonly authService: AuthService) {
     this.authService.logout();
   }
 }

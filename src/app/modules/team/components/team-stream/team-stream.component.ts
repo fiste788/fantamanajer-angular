@@ -9,13 +9,12 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class TeamStreamComponent implements OnInit {
 
-  public id?: number;
+  id?: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = SharedService.getTeamId(this.route);
   }
-
 
 }

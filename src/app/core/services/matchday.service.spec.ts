@@ -1,15 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { MatchdayService } from './matchday.service';
 
 describe('MatchdayService', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       providers: [MatchdayService]
     });
   });
 
   it('should be created', inject([MatchdayService], (service: MatchdayService) => {
-    expect(service).toBeTruthy();
+    expect(service)
+      .toBeTruthy();
   }));
 });

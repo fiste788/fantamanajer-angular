@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/core/guards';
-import { MemberFreeComponent } from './pages/member-free/member-free.component';
 import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { MemberFreeComponent } from './pages/member-free/member-free.component';
 
 const routes: Routes = [
   {

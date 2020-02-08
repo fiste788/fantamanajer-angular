@@ -1,32 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, ApplicationService } from '@app/core/services';
+import { ApplicationService, AuthService } from '@app/core/services';
 
 @Component({
   selector: 'fm-speed-dial',
   templateUrl: './speed-dial.component.html',
   styleUrls: ['./speed-dial.component.scss']
 })
-export class SpeedDialComponent implements OnInit {
+export class SpeedDialComponent implements OnChanges {
   openSpeeddial = false;
+  loggedIn = false;
 
   constructor(
     public auth: AuthService,
-    private router: Router,
+    private readonly router: Router,
     public app: ApplicationService) { }
 
-  ngOnInit() {
+  ngOnChanges(): void {
+    this.loggedIn = this.auth.loggedIn();
   }
 
-  _click(action: string) {
-    let url = null;
+  _click(action: string): void {
+    let url;
     switch (action) {
-      case 'transfert': url = '/teams/' + (this.app.team?.id || '') + '/transferts'; break;
-      case 'lineup': url = '/teams/' + (this.app.team?.id || '') + '/lineup/current'; break;
+      case 'transfert': url = `/teams/${this.app.team?.id}/transferts`; break;
+      case 'lineup': url = `/teams/${this.app.team?.id}/lineup/current`; break;
       case 'article': url = '/articles/new'; break;
+      default:
     }
     if (url) {
-      this.router.navigateByUrl(url);
+      void this.router.navigateByUrl(url);
     }
   }
 

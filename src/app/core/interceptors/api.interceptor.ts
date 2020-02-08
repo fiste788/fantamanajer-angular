@@ -1,14 +1,13 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '@env/environment';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let url = req.url;
-
     let headers = req.headers;
     let credential = false;
     const ct = 'Content-type';
@@ -27,22 +26,27 @@ export class ApiInterceptor implements HttpInterceptor {
     if (!req.url.startsWith('https://') && !req.url.startsWith('http://')) {
       url = environment.apiEndpoint + url;
     }
+
     return next
-      .handle(req.clone({
-        url,
-        withCredentials: credential,
-        headers
-      }))
-      .pipe(map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          if (!req.params.has('page') || !event.body.hasOwnProperty('pagination')) {
-            event = event.clone({
-              body: event.body.data
-            });
+      .handle(
+        req.clone({
+          url,
+          withCredentials: credential,
+          headers
+        })
+      )
+      .pipe(
+        map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            if (!req.params.has('page') || !event.body.hasOwnProperty('pagination')) {
+              return event.clone({
+                body: event.body.data
+              });
+            }
           }
-        }
-        return event;
-      })
+
+          return event;
+        })
       );
   }
 }

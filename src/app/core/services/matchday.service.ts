@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Matchday } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class MatchdayService {
-  private url = 'matchdays'; // URL to web api
+  private readonly url = 'matchdays'; // URL to web api
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getMatchday(id: number): Observable<Matchday> {
     return this.http.get<Matchday>(`${this.url}/${id}`);

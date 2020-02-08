@@ -12,10 +12,7 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ],
-  "angularCompilerOptions": {
-    "enableIvy": true
-  }
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }

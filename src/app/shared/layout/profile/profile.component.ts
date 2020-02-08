@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Team } from '@app/core/models';
 import { ApplicationService, LayoutService } from '@app/core/services';
 
 @Component({
@@ -10,10 +11,14 @@ export class ProfileComponent {
 
   constructor(
     public app: ApplicationService,
-    private layoutService: LayoutService,
+    private readonly layoutService: LayoutService
   ) { }
 
-  change() {
+  change(): void {
     this.layoutService.closeSidebar();
+  }
+
+  track(_: number, team: Team): number {
+    return team.id;
   }
 }

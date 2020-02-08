@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Tab } from '@app/core/models';
 import { ScrollService } from '@app/core/services';
 
 @Component({
@@ -7,19 +8,22 @@ import { ScrollService } from '@app/core/services';
   styleUrls: ['./parallax-header.component.scss']
 })
 export class ParallaxHeaderComponent {
-  @Input() public title: string;
-  @Input() public subtitle: string;
-  @Input() public image: string;
-  @Input() public backgroundImage: any;
-  @Input() public tabs: { link: string, label: string }[] = [];
-  public srcset = '';
-  public width = 0;
+  @Input() title: string;
+  @Input() subtitle: string;
+  @Input() image: string;
+  @Input() backgroundImage: any;
+  @Input() tabs: Array<Tab> = [];
+  srcset = '';
+  width = 0;
 
-  constructor(public scrollService: ScrollService) {
+  constructor(private readonly scrollService: ScrollService) {
   }
 
-
-  initialScroll(event: Event) {
+  initialScroll(event: Event): void {
     this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);
+  }
+
+  track(_: number, item: Tab): string {
+    return item.link;
   }
 }

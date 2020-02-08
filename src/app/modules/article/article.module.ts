@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
-import { ArticleListComponent } from './pages/article-list/article-list.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
+import { ArticleListComponent } from './pages/article-list/article-list.component';
 
 import { ArticleRoutingModule } from './article-routing.module';
 

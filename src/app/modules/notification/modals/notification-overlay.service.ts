@@ -1,15 +1,15 @@
-import { Injectable, ElementRef, Injector, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
+import { ComponentRef, ElementRef, Injectable, Injector } from '@angular/core';
 import { NotificationOverlayRef } from './notification-overlay-ref';
+import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 
 @Injectable()
 export class NotificationOverlayService {
 
-  constructor(private overlay: Overlay, private injector: Injector) { }
+  constructor(private readonly overlay: Overlay, private readonly injector: Injector) { }
 
-  open(origin: ElementRef) {
+  open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)
     const overlayRef = this.createOverlay(origin);
 
@@ -20,16 +20,18 @@ export class NotificationOverlayService {
 
     dialogRef.componentInstance = overlayComponent;
 
-    overlayRef.backdropClick().subscribe(_ => dialogRef.close());
+    overlayRef.backdropClick()
+      .subscribe(() => {
+        dialogRef.close();
+      });
 
     return dialogRef;
   }
 
   private getOverlayConfig(origin: ElementRef): OverlayConfig {
-    /*const positionStrategy = this.overlay.position().connectedTo(origin, { originX: 'end', originY: 'bottom' },
-      { overlayX: 'end', overlayY: 'top' });*/
 
-    const positionStrategy = this.overlay.position().flexibleConnectedTo(origin)
+    const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo(origin)
       .withFlexibleDimensions(true)
       .withPush(true)
       .withViewportMargin(16)
@@ -52,7 +54,7 @@ export class NotificationOverlayService {
     return overlayConfig;
   }
 
-  private createOverlay(origin: ElementRef) {
+  private createOverlay(origin: ElementRef): OverlayRef {
     // Returns an OverlayConfig
     const overlayConfig = this.getOverlayConfig(origin);
 
@@ -60,10 +62,10 @@ export class NotificationOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(overlayRef: OverlayRef, dialogRef: NotificationOverlayRef) {
+  private attachDialogContainer(overlayRef: OverlayRef, dialogRef: NotificationOverlayRef): NotificationOverlayComponent {
     const injector = this.createInjector(dialogRef);
 
-    const containerPortal = new ComponentPortal(NotificationOverlayComponent, null, injector);
+    const containerPortal = new ComponentPortal(NotificationOverlayComponent, undefined, injector);
     const containerRef: ComponentRef<NotificationOverlayComponent> = overlayRef.attach(containerPortal);
 
     return containerRef.instance;

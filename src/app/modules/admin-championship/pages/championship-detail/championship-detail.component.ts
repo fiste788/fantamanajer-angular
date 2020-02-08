@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { Championship, League } from '@app/core/models';
 import { ChampionshipService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
@@ -14,15 +14,15 @@ import { SharedService } from '@app/shared/services/shared.service';
 export class ChampionshipDetailComponent implements OnInit {
 
   @ViewChild(NgForm) championshipForm: NgForm;
-  public championship: Championship;
+  championship: Championship;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private championshipService: ChampionshipService
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
+    private readonly championshipService: ChampionshipService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.route.snapshot.parent?.parent?.parent?.params.championship_id) {
       this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
         this.championship = data.championship;
@@ -33,18 +33,21 @@ export class ChampionshipDetailComponent implements OnInit {
     }
   }
 
-  save() {
-    this.championshipService.save(this.championship).subscribe(() => {
-      this.snackBar.open('Modifiche salvate', undefined, {
-        duration: 3000
-      });
-    },
-      err => SharedService.getUnprocessableEntityErrors(this.championshipForm, err)
-    );
+  save(): void {
+    this.championshipService.save(this.championship)
+      .subscribe(() => {
+        this.snackBar.open('Modifiche salvate', undefined, {
+          duration: 3000
+        });
+      },
+        err => {
+          SharedService.getUnprocessableEntityErrors(this.championshipForm, err);
+        }
+      );
   }
 
-  formatLabel(value: number) {
-    return value + '%';
+  formatLabel(value: number): string {
+    return `${value}%`;
   }
 
 }

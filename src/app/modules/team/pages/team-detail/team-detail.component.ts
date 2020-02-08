@@ -1,11 +1,11 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { enterDetailAnimation } from '@app/core/animations';
+import { Team } from '@app/core/models';
+import { ApplicationService } from '@app/core/services';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Team } from '@app/core/models';
-import { enterDetailAnimation } from '@app/core/animations';
-import { ApplicationService } from '@app/core/services';
 import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
 
 @Component({
@@ -16,25 +16,26 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
 })
 export class TeamDetailComponent implements OnInit {
   team: Observable<Team>;
-  tabs: { label: string; link: string }[] = [];
+  tabs: Array<{ label: string; link: string }> = [];
 
   constructor(
     public app: ApplicationService,
-    private route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef,
+    private readonly route: ActivatedRoute,
+    private readonly changeRef: ChangeDetectorRef,
     public dialog: MatDialog
   ) {
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.team = this.route.data.pipe(map((data: { team: Team }) => {
       this.loadTabs(data.team);
+
       return data.team;
     }));
   }
 
-  loadTabs(team: Team) {
+  loadTabs(team: Team): void {
     this.tabs = [];
     this.tabs.push({ label: 'Giocatori', link: 'players' });
     if (this.app.championship?.started) {
@@ -56,23 +57,25 @@ export class TeamDetailComponent implements OnInit {
   openDialog(team: Team): void {
     this.dialog.open(TeamEditDialogComponent, {
       data: { team }
-    }).afterClosed().subscribe((t?: Observable<Team>) => {
-      if (t) {
-        this.team = t;
-        this.team.subscribe(res => {
-          if (this.app.team) {
-            this.app.team.photo_url = res.photo_url;
-            this.app.team.name = res.name;
-            this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
-            this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
-          }
-          this.changeRef.detectChanges();
-        });
-      }
-    });
+    })
+      .afterClosed()
+      .subscribe((t?: Observable<Team>) => {
+        if (t) {
+          this.team = t;
+          this.team.subscribe(res => {
+            if (this.app.team) {
+              this.app.team.photo_url = res.photo_url;
+              this.app.team.name = res.name;
+              this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
+              this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
+            }
+            this.changeRef.detectChanges();
+          });
+        }
+      });
   }
 
-  getState(outlet: RouterOutlet) {
+  getState(outlet: RouterOutlet): string {
     return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 }

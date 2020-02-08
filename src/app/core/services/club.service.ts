@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Club } from '../models';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Club } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ClubService {
-  private url = 'clubs';
+  private readonly url = 'clubs';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getClubs(): Observable<Club[]> {
-    return this.http.get<Club[]>(this.url);
+  getClubs(): Observable<Array<Club>> {
+    return this.http.get<Array<Club>>(this.url);
   }
 
   getClub(id: number): Observable<Club> {

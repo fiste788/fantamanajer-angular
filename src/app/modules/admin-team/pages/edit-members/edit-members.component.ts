@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SharedService } from '@app/shared/services/shared.service';
+import { ActivatedRoute } from '@angular/router';
+import { Member, Role, Team } from '@app/core/models';
 import { MemberService, TeamService } from '@app/core/services';
-import { Role, Member, Team } from '@app/core/models';
+import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({
   selector: 'fm-edit-members',
@@ -13,27 +13,27 @@ import { Role, Member, Team } from '@app/core/models';
 })
 export class EditMembersComponent implements OnInit {
 
-  public roles: Map<Role, {
+  roles: Map<Role, {
     count: number,
     label: string,
-    entries?: any[],
-    members?: Member[]
+    entries?: Array<any>,
+    members?: Array<Member>
   }> = new Map<Role, {
     count: number,
     label: string,
-    entries: any[],
-    members: Member[]
+    entries: Array<any>,
+    members: Array<Member>
   }>();
-  public team: Team;
+  team: Team;
   @ViewChild(NgForm) membersForm: NgForm;
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
-    private teamService: TeamService,
-    private memberService: MemberService,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private cd: ChangeDetectorRef
+    private readonly teamService: TeamService,
+    private readonly memberService: MemberService,
+    private readonly route: ActivatedRoute,
+    private readonly snackBar: MatSnackBar,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.roles.set(new Role(1, 'P'), { count: 3, label: 'Portiere' });
     this.roles.set(new Role(2, 'D'), { count: 8, label: 'Difensore' });
@@ -42,8 +42,7 @@ export class EditMembersComponent implements OnInit {
 
   }
 
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.loadMembers(this.team);
@@ -52,43 +51,45 @@ export class EditMembersComponent implements OnInit {
     });
   }
 
-  loadMembers(team: Team) {
-    this.memberService.getByTeamId(team.id).subscribe(members => {
-      this.team.members = members;
-      let i = 0;
-      for (i = 0; i < 25; i++) {
-        if (this.team.members.length < i) {
-          delete this.team.members[i];
+  loadMembers(team: Team): void {
+    this.memberService.getByTeamId(team.id)
+      .subscribe(members => {
+        this.team.members = members;
+        let i = 0;
+        for (i = 0; i < 25; i++) {
+          if (this.team.members.length < i) {
+            delete this.team.members[i];
+          }
         }
-      }
-      this.roles.forEach((val, key) => {
-        const role = this.roles.get(key);
-        if (role) {
-          role.entries = Array(val.count);
-        }
-      });
-      this.memberService.getAllFree(this.team.championship_id).subscribe(res => {
-        this.roles.forEach((value, key) => {
-          value.members = this.team.members.filter(entry => entry && entry.role_id === key.id);
-          value.members = value.members.concat(res[key.id]);
+        this.roles.forEach((val, key) => {
+          const role = this.roles.get(key);
+          if (role) {
+            role.entries = Array(val.count);
+          }
         });
-      });
+        this.memberService.getAllFree(this.team.championship_id)
+          .subscribe(res => {
+            this.roles.forEach((value, key) => {
+              value.members = this.team.members.filter(entry => entry !== undefined && entry.role_id === key.id);
+              value.members = value.members.concat(res[key.id]);
+            });
+          });
 
-    });
+      });
   }
 
   isAlreadySelected(member: Member): boolean {
-    return this.team.members.filter(element => element != null)
+    return this.team.members.filter(element => element !== undefined)
       // .map(element => member.id)
       .includes(member);
   }
 
   compareTeam(c1: Team, c2: Team): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+    return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
   compareMember(c1: Member, c2: Member): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+    return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
   getIndex(key: Role, key2: number): number {
@@ -98,20 +99,24 @@ export class EditMembersComponent implements OnInit {
     const index = keys.indexOf(key);
     for (i = 0; i < index; i++) {
       const l = Array.from(this.roles.values());
-      if (l) {
-        count += l[i]?.entries?.length || 0;
+      if (l !== undefined) {
+        count += l[i]?.entries?.length ?? 0;
       }
     }
+
     return count + key2;
   }
 
-  save() {
-    this.teamService.update(this.team).subscribe(response => {
-      this.snackBar.open('Giocatori modificati', undefined, {
-        duration: 3000
-      });
-    },
-      err => SharedService.getUnprocessableEntityErrors(this.membersForm, err)
-    );
+  save(): void {
+    this.teamService.update(this.team)
+      .subscribe(response => {
+        this.snackBar.open('Giocatori modificati', undefined, {
+          duration: 3000
+        });
+      },
+        err => {
+          SharedService.getUnprocessableEntityErrors(this.membersForm, err);
+        }
+      );
   }
 }

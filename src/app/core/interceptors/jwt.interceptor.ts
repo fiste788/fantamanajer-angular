@@ -1,13 +1,13 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from '@app/core/services';
 import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService) { }
+  constructor(private readonly auth: AuthService) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -20,11 +20,13 @@ export class JWTInterceptor implements HttpInterceptor {
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
+
       return next.handle(req.clone({
         headers
       }));
-    } else {
-      return next.handle(req);
     }
+
+    return next.handle(req);
+
   }
 }

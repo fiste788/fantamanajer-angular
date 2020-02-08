@@ -7,10 +7,10 @@ describe('NotificationOverlayComponent', () => {
   let fixture: ComponentFixture<NotificationOverlayComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NotificationOverlayComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [NotificationOverlayComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('NotificationOverlayComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

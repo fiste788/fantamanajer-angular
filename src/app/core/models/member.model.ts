@@ -1,4 +1,4 @@
-import { Club, Rating, Season, Player, Role, Team } from './';
+import { Club, Player, Rating, Role, Season, Team } from './';
 
 export class Member {
   id: number;
@@ -10,10 +10,10 @@ export class Member {
   season_id: number;
   club: Club;
   season: Season;
-  ratings: Rating[];
+  ratings: Array<Rating>;
   player: Player;
   role: Role;
-  teams: Team[];
+  teams: Array<Team>;
   photo_url: string | null;
   free?: boolean;
   stats?: {

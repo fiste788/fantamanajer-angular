@@ -7,10 +7,10 @@ describe('MemberFreeComponent', () => {
   let fixture: ComponentFixture<MemberFreeComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MemberFreeComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [MemberFreeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('MemberFreeComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
-import { CommonModule } from '@angular/common';
 
-import { MemberRoutingModule } from './member-routing.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
+import { MemberRoutingModule } from './member-routing.module';
 import { MemberFreeComponent } from './pages/member-free/member-free.component';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { MemberFreeComponent } from './pages/member-free/member-free.component';
   ],
   exports: [],
   declarations: [
-    MemberFreeComponent,
-  ],
+    MemberFreeComponent
+  ]
 })
 export class MemberModule { }

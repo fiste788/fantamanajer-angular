@@ -7,10 +7,10 @@ describe('DispositionListComponent', () => {
   let fixture: ComponentFixture<DispositionListComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DispositionListComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [DispositionListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('DispositionListComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

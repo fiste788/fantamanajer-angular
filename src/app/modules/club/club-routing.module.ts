@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClubListComponent } from './pages/club-list/club-list.component';
-import { ClubDetailComponent } from './pages/club-detail/club-detail.component';
+import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
+import { ClubDetailComponent } from './pages/club-detail/club-detail.component';
+import { ClubListComponent } from './pages/club-list/club-list.component';
 import { ClubMembersComponent } from './pages/club-members/club-members.component';
 import { ClubStreamComponent } from './pages/club-stream/club-stream.component';
-import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
 
 const routes: Routes = [
   {
@@ -36,7 +36,7 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
           { path: 'players', component: ClubMembersComponent, data: { state: 'players' } },
-          { path: 'stream', component: ClubStreamComponent, data: { state: 'stream' } },
+          { path: 'stream', component: ClubStreamComponent, data: { state: 'stream' } }
         ]
       }
     ]

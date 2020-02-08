@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -7,11 +7,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
+  text = 'Sei sicuro?';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
-  public text = 'Sei sicuro?';
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.data.text) {
       this.text = this.data.text;
     }

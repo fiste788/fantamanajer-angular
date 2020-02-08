@@ -7,7 +7,7 @@ describe('MemberOptionComponent', () => {
   let fixture: ComponentFixture<MemberIconsComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [MemberIconsComponent]
     })
       .compileComponents();
@@ -20,6 +20,7 @@ describe('MemberOptionComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

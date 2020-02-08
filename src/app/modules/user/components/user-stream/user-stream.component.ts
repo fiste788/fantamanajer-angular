@@ -10,10 +10,9 @@ export class UserStreamComponent implements OnInit {
 
   id?: number;
 
-  constructor(private app: ApplicationService) { }
+  constructor(private readonly app: ApplicationService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = this.app.user?.id;
   }
 }
-

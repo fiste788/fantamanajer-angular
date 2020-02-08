@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, state } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { VisibilityState } from '@app/shared/layout/main/visibility-state';
 
 export const scrollUpAnimation = trigger('scrollUpAnimation', [
@@ -12,5 +12,5 @@ export const scrollUpAnimation = trigger('scrollUpAnimation', [
   ),
   transition('* => *',
     animate('200ms ease-in')
-  ),
+  )
 ]);

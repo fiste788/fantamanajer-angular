@@ -11,7 +11,7 @@
         <mat-select-trigger *ngIf="app.team">
           <h3>{{app.team.name}}</h3>
         </mat-select-trigger>
-        <mat-option *ngFor="let team of app.teams" [value]="team">
+        <mat-option *ngFor="let team of app.teams; trackBy: track" [value]="team">
           {{team.name}}<br />
           <small>{{team.championship.season.name}}</small>
         </mat-option>

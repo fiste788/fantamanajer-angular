@@ -1,29 +1,30 @@
-import { Injectable } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { VisibilityState } from '@app/shared/layout/main/visibility-state';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ScrollService } from './scroll.service';
-import { VisibilityState } from '@app/shared/layout/main/visibility-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutService {
-  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
-  public openSidebar$ = new BehaviorSubject<boolean>(false);
-  public openedSidebar = this.openSidebar$.asObservable();
-  private showSpeedDial$ = new BehaviorSubject<boolean>(false);
-  private showToolbar$ = new BehaviorSubject<boolean>(true);
-  public isReady$ = new BehaviorSubject<boolean>(false);
-  private subscriptions: Subscription[] = [];
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(map(result => result.matches));
+  openSidebar$ = new BehaviorSubject<boolean>(false);
+  openedSidebar = this.openSidebar$.asObservable();
+  isReady$ = new BehaviorSubject<boolean>(false);
+  private readonly showSpeedDial$ = new BehaviorSubject<boolean>(false);
+  private readonly showToolbar$ = new BehaviorSubject<boolean>(true);
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private scrollService: ScrollService
+    private readonly breakpointObserver: BreakpointObserver,
+    private readonly scrollService: ScrollService
   ) {
   }
 
-  connect() {
+  connect(): void {
     this.isHandset$.subscribe(e => {
       this.openSidebar$.next(!e);
       this.showSpeedDial$.next(this.showSpeedDial$.value || e);
@@ -32,22 +33,24 @@ export class LayoutService {
     });
   }
 
-  connectScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0) {
-    this.isHandset$.subscribe((isHandset) => {
+  connectScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0): void {
+    this.isHandset$.subscribe(isHandset => {
       if (isHandset) {
         if (!this.subscriptions.length) {
           this.subscriptions = this.applyScrollAnimation(upCallback, downCallback, offset);
         }
       } else if (this.subscriptions.length) {
-        this.subscriptions.forEach((sub) => sub.unsubscribe());
+        this.subscriptions.forEach(sub => {
+          sub.unsubscribe();
+        });
         this.subscriptions = [];
       }
     });
   }
 
-  applyScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0): Subscription[] {
+  applyScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0): Array<Subscription> {
     this.scrollService.connectScrollAnimation(offset);
-    const subs: Subscription[] = [];
+    const subs: Array<Subscription> = [];
 
     subs.push(this.scrollService.goingUp$.subscribe(() => {
       this.showSpeedDial();
@@ -60,38 +63,39 @@ export class LayoutService {
       this.hideToolbar();
       downCallback();
     }));
+
     return subs;
   }
 
-  openSidebar() {
+  openSidebar(): void {
     this.openSidebar$.next(true);
   }
 
-  closeSidebar() {
+  closeSidebar(): void {
     this.openSidebar$.next(false);
   }
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.openSidebar$.next(!this.openSidebar$.value);
   }
 
-  showSpeedDial() {
+  showSpeedDial(): void {
     this.showSpeedDial$.next(true);
   }
 
-  hideSpeedDial() {
+  hideSpeedDial(): void {
     this.showSpeedDial$.next(false);
   }
 
-  showToolbar() {
+  showToolbar(): void {
     this.showToolbar$.next(true);
   }
 
-  hideToolbar() {
+  hideToolbar(): void {
     this.showToolbar$.next(false);
   }
 
-  setReady() {
+  setReady(): void {
     this.isReady$.next(true);
   }
 

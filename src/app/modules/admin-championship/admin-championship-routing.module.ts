@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
-import { AddTeamComponent } from './pages/add-team/add-team.component';
 import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { AddTeamComponent } from './pages/add-team/add-team.component';
+import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
           breadcrumbs: 'Nuovo lega',
           data: { state: 'admin-championship-detail' }
         }
-      },
+      }
     ]
   }
 ];

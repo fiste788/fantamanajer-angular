@@ -1,33 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Lineup, Member } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
-  private url = 'lineups';
+  private readonly url = 'lineups';
 
-  constructor(private http: HttpClient) { }
-
-  getLineup(teamId: number): Observable<Lineup> {
-    return this.http.get<Lineup>(`teams/${teamId}/${this.url}/current`);
-  }
-
-  update(lineup: Lineup): Observable<any> {
-    return this.http.put(
-      `teams/${lineup.team_id}/${this.url}/${lineup.id}`,
-      JSON.stringify(this.cleanLineup(lineup))
-    );
-  }
-
-  create(lineup: Lineup): Observable<Lineup> {
-    return this.http.post<Lineup>(
-      `teams/${lineup.team_id}/${this.url}`,
-      JSON.stringify(this.cleanLineup(lineup))
-    );
-  }
-
-  private cleanLineup(lineup: Lineup): Lineup {
+  private static cleanLineup(lineup: Lineup): Lineup {
     const newLineup: Lineup = JSON.parse(JSON.stringify(lineup));
     newLineup.dispositions = newLineup.dispositions.filter(
       value => value.member_id
@@ -36,10 +16,31 @@ export class LineupService {
     delete newLineup.team;
     delete newLineup.modules;
     delete newLineup.module_object;
+
     return newLineup;
   }
 
-  getLikelyLineup(lineup: Lineup): Observable<Member[]> {
-    return this.http.get<Member[]>(`teams/${lineup.team_id}/${this.url}/likely`);
+  constructor(private readonly http: HttpClient) { }
+
+  getLineup(teamId: number): Observable<Lineup> {
+    return this.http.get<Lineup>(`teams/${teamId}/${this.url}/current`);
+  }
+
+  update(lineup: Lineup): Observable<any> {
+    return this.http.put(
+      `teams/${lineup.team_id}/${this.url}/${lineup.id}`,
+      JSON.stringify(LineupService.cleanLineup(lineup))
+    );
+  }
+
+  create(lineup: Lineup): Observable<Lineup> {
+    return this.http.post<Lineup>(
+      `teams/${lineup.team_id}/${this.url}`,
+      JSON.stringify(LineupService.cleanLineup(lineup))
+    );
+  }
+
+  getLikelyLineup(lineup: Lineup): Observable<Array<Member>> {
+    return this.http.get<Array<Member>>(`teams/${lineup.team_id}/${this.url}/likely`);
   }
 }

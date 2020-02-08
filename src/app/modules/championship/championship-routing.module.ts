@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from '@app/core/guards';
-import { ChampionshipComponent } from './pages/championship/championship.component';
-import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
 import { ChampionshipStreamComponent } from './pages/championship-stream/championship-stream.component';
+import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
+import { ChampionshipComponent } from './pages/championship/championship.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ChampionshipComponent,
     data: {
       state: 'championship',
-      breadcrumbs: '{{ championship.league.name }}',
+      breadcrumbs: '{{ championship.league.name }}'
     },
     resolve: {
       championship: ChampionshipResolver
@@ -24,22 +24,26 @@ const routes: Routes = [
       },
       {
         path: 'articles',
-        loadChildren: () => import('@app/modules/article/article.module').then(m => m.ArticleModule),
+        loadChildren: () => import('@app/modules/article/article.module')
+          .then(m => m.ArticleModule),
         data: { state: 'articles' }
       },
       {
         path: 'teams',
-        loadChildren: () => import('@app/modules/team/team.module').then(m => m.TeamModule),
+        loadChildren: () => import('@app/modules/team/team.module')
+          .then(m => m.TeamModule),
         data: { state: 'teams' }
       },
       {
         path: 'members',
-        loadChildren: () => import('@app/modules/member/member.module').then(m => m.MemberModule),
+        loadChildren: () => import('@app/modules/member/member.module')
+          .then(m => m.MemberModule),
         data: { state: 'members' }
       },
       {
         path: 'ranking',
-        loadChildren: () => import('@app/modules/score/score.module').then(m => m.ScoreModule),
+        loadChildren: () => import('@app/modules/score/score.module')
+          .then(m => m.ScoreModule),
         data: { state: 'ranking' }
       },
       {
@@ -49,7 +53,8 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: () => import('@app/modules/admin-championship/admin-championship.module').then(m => m.AdminChampionshipModule),
+        loadChildren: () => import('@app/modules/admin-championship/admin-championship.module')
+          .then(m => m.AdminChampionshipModule),
         canActivate: [AdminGuard],
         data: { state: 'championship-admin' }
       }

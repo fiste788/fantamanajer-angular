@@ -1,23 +1,26 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { Notification } from '../models';
-import { Stream } from '../models';
 import { share } from 'rxjs/operators';
+import { Notification, Stream } from '../models';
 
 type MessageCallback = (payload: any) => void;
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   notifications: Subject<Notification> = new Subject<Notification>();
-  private url = 'notifications';
-  @Output() seen: EventEmitter<Stream> = new EventEmitter<Stream>();
+  seen: EventEmitter<Stream> = new EventEmitter<Stream>();
+  private readonly url = 'notifications';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getNotifications(teamId: number): Observable<Stream> {
-    const seen = this.http.get<Stream>(`teams/${teamId}/${this.url}`).pipe(share());
-    seen.subscribe(res => this.seen.emit(res));
+    const seen = this.http.get<Stream>(`teams/${teamId}/${this.url}`)
+      .pipe(share());
+    seen.subscribe(res => {
+      this.seen.emit(res);
+    });
+
     return seen;
   }
 
@@ -25,13 +28,12 @@ export class NotificationService {
     return this.http.get<Stream>(`teams/${teamId}/${this.url}/count`);
   }
 
-  broadcast(title: string, url: string, severity?: number) {
+  broadcast(title: string, url: string, severity?: number): void {
     this.notifications.next(new Notification(title, url, severity));
   }
 
   subscribe(callback: MessageCallback): Subscription {
     return this.notifications.subscribe(callback);
   }
-
 
 }

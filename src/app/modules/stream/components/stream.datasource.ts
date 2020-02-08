@@ -1,27 +1,27 @@
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { StreamService } from '@app/core/services';
 import { Stream, StreamActivity } from '@app/core/models';
+import { StreamService } from '@app/core/services';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
-  private length = 0;
-  private pageSize = 10;
+  isEmpty = false;
+  private readonly length = 0;
+  private readonly pageSize = 10;
   private cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
-  private fetchedPages = new Set<number>();
-  private dataStream = new BehaviorSubject<(StreamActivity | undefined)[]>(this.cachedData);
-  private subscription = new Subscription();
-  public isEmpty = false;
+  private readonly fetchedPages = new Set<number>();
+  private readonly dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
+  private readonly subscription = new Subscription();
 
   constructor(
-    private streamService: StreamService,
-    private name: 'teams' | 'users' | 'clubs' | 'championships',
-    private id: number
+    private readonly streamService: StreamService,
+    private readonly name: 'teams' | 'users' | 'clubs' | 'championships',
+    private readonly id: number
   ) {
     super();
     this.fetchPage(1);
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<(StreamActivity | undefined)[]> {
+  connect(collectionViewer: CollectionViewer): Observable<Array<StreamActivity | undefined>> {
     this.subscription.add(collectionViewer.viewChange.subscribe(range => {
       const startPage = this.getPageForIndex(range.start);
       const endPage = this.getPageForIndex(range.end);
@@ -29,6 +29,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
         this.fetchPage(i + 1);
       }
     }));
+
     return this.dataStream;
   }
 
@@ -40,7 +41,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     return Math.floor(index / this.pageSize);
   }
 
-  private fetchPage(page: number) {
+  private fetchPage(page: number): void {
     if (this.fetchedPages.has(page) || page === 0) {
       return;
     }
@@ -50,19 +51,22 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
       this.dataStream.next(this.cachedData);
     }
 
-    this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
-      this.cachedData = this.cachedData.filter(it => it !== undefined).concat(data.results);
-      if (this.cachedData.length === 0) {
-        this.isEmpty = true;
-      }
-      this.dataStream.next(this.cachedData);
-    });
+    this.streamService.get(this.name, this.id, page)
+      .subscribe((data: Stream) => {
+        this.cachedData = this.cachedData.filter(it => it !== undefined)
+          .concat(data.results);
+        if (this.cachedData.length === 0) {
+          this.isEmpty = true;
+        }
+        this.dataStream.next(this.cachedData);
+      });
   }
 
-  private addPlaceholder() {
-    this.cachedData = [...this.cachedData, ...Array(this.pageSize).fill(undefined)];
-    /*for (let i = 0; i < this.pageSize; i++) {
-      this.cachedData.push(null);
-    }*/
+  private addPlaceholder(): void {
+    this.cachedData = [
+      ...this.cachedData,
+      ...Array(this.pageSize)
+        .fill(undefined)
+    ];
   }
 }

@@ -1,4 +1,4 @@
-import { sequence, trigger, animate, style, group, query, transition, animateChild } from '@angular/animations';
+import { animate, animateChild, group, query, sequence, style, transition, trigger } from '@angular/animations';
 
 export const routerTransition = trigger('routerTransition', [
   transition('* <=> *', [
@@ -21,10 +21,10 @@ export const routerTransition = trigger('routerTransition', [
           ':enter',
           [style({ opacity: 0 }), animate('0.3s', style({ opacity: 1 }))],
           { optional: true }
-        ),
+        )
         // query(':enter', animateChild(), { optional: true })
       ]),
-      query(':enter', animateChild(), { optional: true }),
+      query(':enter', animateChild(), { optional: true })
     ])
   ])
 ]);

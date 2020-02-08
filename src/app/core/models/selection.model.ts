@@ -1,4 +1,4 @@
-import { Member, Team, Matchday } from './';
+import { Matchday, Member, Team } from './';
 
 export class Selection {
   id: number;

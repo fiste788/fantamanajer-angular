@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, state } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { VisibilityState } from '@app/shared/layout/main/visibility-state';
 
 export const scrollDownAnimation = trigger('scrollDownAnimation', [
@@ -12,5 +12,5 @@ export const scrollDownAnimation = trigger('scrollDownAnimation', [
   ),
   transition('* => *',
     animate('200ms ease-in')
-  ),
+  )
 ]);

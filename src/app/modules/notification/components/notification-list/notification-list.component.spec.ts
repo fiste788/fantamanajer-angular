@@ -7,10 +7,10 @@ describe('NotificationListComponent', () => {
   let fixture: ComponentFixture<NotificationListComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NotificationListComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [NotificationListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('NotificationListComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

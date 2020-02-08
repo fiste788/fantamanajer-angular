@@ -1,9 +1,9 @@
-import { Member } from './member.model';
-import { Matchday } from './matchday.model';
-import { Team } from './team.model';
-import { Module } from './module.model';
 import { Disposition } from './disposition.model';
+import { Matchday } from './matchday.model';
+import { Member } from './member.model';
+import { Module } from './module.model';
 import { Role } from './role.model';
+import { Team } from './team.model';
 
 export class Lineup {
   id: number;
@@ -19,8 +19,8 @@ export class Lineup {
   vvcaptain: Member | null;
   matchday: Matchday;
   team: Team;
-  dispositions: Disposition[] = [];
-  modules: string[];
+  dispositions: Array<Disposition> = [];
+  modules: Array<string>;
   module_object?: Module;
   modified_at: Date | null;
   created_at: Date;

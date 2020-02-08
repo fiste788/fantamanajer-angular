@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { SelectionComponent } from './components/selection/selection.component';
 
@@ -9,6 +9,6 @@ import { SelectionComponent } from './components/selection/selection.component';
     SharedModule
   ],
   exports: [SelectionComponent],
-  declarations: [SelectionComponent],
+  declarations: [SelectionComponent]
 })
 export class SelectionModule { }

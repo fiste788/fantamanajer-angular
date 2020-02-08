@@ -7,10 +7,10 @@ describe('NewTransfertComponent', () => {
   let fixture: ComponentFixture<NewTransfertComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NewTransfertComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [NewTransfertComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('NewTransfertComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

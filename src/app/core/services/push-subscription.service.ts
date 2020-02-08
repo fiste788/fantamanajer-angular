@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { PushSubscription } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class PushSubscriptionService {
-  private url = 'push-subscriptions';
+  private readonly url = 'push-subscriptions';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   add(subscription: PushSubscription): Observable<any> {
     return this.http.post(this.url, subscription);

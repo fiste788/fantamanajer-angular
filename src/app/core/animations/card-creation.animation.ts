@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query, stagger } from '@angular/animations';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 
 export const cardCreationAnimation = trigger('cardCreationAnimation', [
   transition(':enter', [
@@ -10,7 +10,7 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
       stagger(75, [
         animate('450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ opacity: 1, transform: 'translateY(0)' })
-        ),
+        )
       ]), { optional: true }
     )
   ]),
@@ -19,7 +19,7 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
       stagger(-40, [
         animate('.4s cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ opacity: 0, transform: 'translateY(10%)' })
-        ),
+        )
       ]), { optional: true }
     )
   ])

@@ -1,26 +1,26 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models';
-import { UserService } from './user.service';
 import { CredentialService } from './credential.service';
-import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
+import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  @Output() loggedUser: EventEmitter<User> = new EventEmitter();
+  loggedUser: EventEmitter<User> = new EventEmitter();
   private token?: string;
-  private jwtHelper = new JwtHelperService();
-  private TOKEN_ITEM_NAME = 'token';
-  private ADMIN_ROLE = 'ROLE_ADMIN';
-  private USER_ROLE = 'ROLE_USER';
+  private readonly jwtHelper = new JwtHelperService();
+  private readonly TOKEN_ITEM_NAME = 'token';
+  private readonly ADMIN_ROLE = 'ROLE_ADMIN';
+  private readonly USER_ROLE = 'ROLE_USER';
 
-  constructor(private userService: UserService, private credentialService: CredentialService) {
+  constructor(private readonly userService: UserService, private readonly credentialService: CredentialService) {
     localStorage.removeItem('currentUser');
     this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     if (!this.token) {
-      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME) || undefined;
+      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     }
     if (this.token && !this.loggedIn()) {
       this.logout();
@@ -28,11 +28,13 @@ export class AuthService {
   }
 
   login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
-    return this.userService.login(email, password, rememberMe).pipe(map(res => this.postLogin(res, rememberMe)));
+    return this.userService.login(email, password, rememberMe)
+      .pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
-  webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON) {
-    return this.credentialService.getPublicKey(email, token).pipe(map(res => this.postLogin(res, rememberMe)));
+  webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
+    return this.credentialService.getPublicKey(email, token)
+      .pipe(map(res => this.postLogin(res, rememberMe)));
   }
 
   postLogin(res: { user: User, token: string }, rememberMe?: boolean): boolean {
@@ -48,39 +50,46 @@ export class AuthService {
         }
       }
       this.loggedUser.emit(user);
+
       return true;
-    } else {
-      return false;
     }
+
+    return false;
+
   }
 
   getToken(): string | undefined {
     return this.token;
   }
 
-  private getRoles(user: User): string[] {
-    const roles = [];
-    roles.push(this.USER_ROLE);
-    if (user.admin) {
-      roles.push(this.ADMIN_ROLE);
-    }
-    return roles;
-  }
-
   logout(): void {
-    this.userService.logout().subscribe();
+    this.userService.logout()
+      .subscribe();
     this.token = undefined;
     this.loggedUser.emit(undefined);
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 
-  loggedIn() {
+  loggedIn(): boolean {
     return !this.jwtHelper.isTokenExpired(this.token);
   }
 
   getCurrentUser(): Observable<void> {
-    return this.userService.getCurrent().pipe(map(user => {
-      this.loggedUser.emit(user);
-    }));
+    return this.userService.getCurrent()
+      .pipe(
+        map(user => {
+          this.loggedUser.emit(user);
+        })
+      );
+  }
+
+  private getRoles(user: User): Array<string> {
+    const roles = [];
+    roles.push(this.USER_ROLE);
+    if (user.admin) {
+      roles.push(this.ADMIN_ROLE);
+    }
+
+    return roles;
   }
 }

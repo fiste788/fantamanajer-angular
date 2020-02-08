@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
+import { StreamModule } from '@app/modules/stream/stream.module';
+import { SharedModule } from '@app/shared/shared.module';
 import { ngfModule } from 'angular-file';
-import { TeamListComponent } from './pages/team-list/team-list.component';
-import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
+import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
 import { TeamMembersComponent } from './components/team-members/team-members.component';
+import { TeamStreamComponent } from './components/team-stream/team-stream.component';
 import { TeamEditDialogComponent } from './modals/team-edit-dialog/team-edit-dialog.component';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
-import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
-import { TeamStreamComponent } from './components/team-stream/team-stream.component';
-import { StreamModule } from '@app/modules/stream/stream.module';
+import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
+import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({

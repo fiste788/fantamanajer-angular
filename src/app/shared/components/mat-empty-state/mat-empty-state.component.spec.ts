@@ -7,10 +7,10 @@ describe('MatEmptyStateComponent', () => {
   let fixture: ComponentFixture<MatEmptyStateComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MatEmptyStateComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [MatEmptyStateComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('MatEmptyStateComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

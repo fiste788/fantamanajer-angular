@@ -7,10 +7,10 @@ describe('RouterOutletComponent', () => {
   let fixture: ComponentFixture<RouterOutletComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RouterOutletComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [RouterOutletComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('RouterOutletComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

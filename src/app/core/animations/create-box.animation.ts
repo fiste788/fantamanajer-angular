@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query } from '@angular/animations';
+import { animate, query, style, transition, trigger } from '@angular/animations';
 
 export const createBoxAnimation = trigger('createBox', [
   transition(':enter', [
@@ -16,7 +16,7 @@ export const createBoxAnimation = trigger('createBox', [
   transition(':leave', [
     query(':scope>img, mat-icon, .img-container',
       animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
-        style({ transform: 'scale(0.4)', opacity: 0 }),
+        style({ transform: 'scale(0.4)', opacity: 0 })
       ),
       { optional: true }
     )]

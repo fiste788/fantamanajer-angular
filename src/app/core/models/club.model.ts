@@ -5,7 +5,7 @@ export class Club {
   name: string;
   partitive: string;
   determinant: string;
-  members: Member[];
+  members: Array<Member>;
   photo_url: string | null;
   background_url: {} | null;
 }

@@ -21,8 +21,7 @@ export * from './season.model';
 export * from './selection.model';
 export * from './stream.model';
 export * from './stream-activity.model';
+export * from './tab.model';
 export * from './team.model';
 export * from './transfert.model';
 export * from './user.model';
-
-

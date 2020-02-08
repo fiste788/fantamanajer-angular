@@ -1,46 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import { ApplicationService, AuthService, PushService, LayoutService } from '@app/core/services';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { Championship, Team } from '@app/core/models';
+import { ApplicationService, AuthService, LayoutService, PushService } from '@app/core/services';
 
 @Component({
   selector: 'fm-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnChanges {
 
-  public deferredPrompt?: BeforeInstallPromptEvent;
+  deferredPrompt?: BeforeInstallPromptEvent;
+  loggedIn: boolean;
+  team?: Team;
+  championship?: Championship;
 
   constructor(
-    public layoutService: LayoutService,
-    public auth: AuthService,
-    private push: PushService,
-    public app: ApplicationService
+    private readonly layoutService: LayoutService,
+    private readonly auth: AuthService,
+    private readonly push: PushService,
+    private readonly app: ApplicationService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.init();
     this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
   }
 
-  install() {
+  ngOnChanges(): void {
+    this.init();
+  }
+
+  init(): void {
+    this.loggedIn = this.auth.loggedIn();
+    this.team = this.app.team;
+    this.championship = this.app.championship;
+  }
+
+  install(): void {
     if (this.deferredPrompt) {
       // Show the prompt
-      this.deferredPrompt.prompt();
+      void this.deferredPrompt.prompt();
       // Wait for the user to respond to the prompt
-      this.deferredPrompt.userChoice
-        .then(choiceResult => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
-          } else {
-            console.log('User dismissed the A2HS prompt');
-          }
+      void this.deferredPrompt.userChoice
+        .then(() => {
           this.deferredPrompt = undefined;
         });
     }
   }
 
-  closeSidenav() {
+  closeSidenav(): void {
     this.layoutService.closeSidebar();
   }
 

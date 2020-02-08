@@ -6,25 +6,24 @@
   <a mat-list-item routerLinkActive="active" routerLink="/home">
     <mat-icon matListIcon>home</mat-icon>Homepage
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['teams', app.team?.id]" *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>account_box</mat-icon>{{app.team?.name}}
+  <a mat-list-item routerLinkActive="active" [routerLink]="['teams', team?.id]" *ngIf="loggedIn">
+    <mat-icon matListIcon>account_box</mat-icon>{{team?.name}}
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['championships', app.championship?.id]"
-    *ngIf="auth.loggedIn()">
-    <mat-icon matListIcon>bubble_chart</mat-icon>{{app.championship?.league.name}}
+  <a mat-list-item routerLinkActive="active" [routerLink]="['championships', championship?.id]" *ngIf="loggedIn">
+    <mat-icon matListIcon>bubble_chart</mat-icon>{{championship?.league.name}}
   </a>
   <a mat-list-item routerLinkActive="active" routerLink="/clubs">
     <mat-icon matListIcon>group_work</mat-icon>Clubs
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>
-  <a mat-list-item routerLinkActive="active" routerLink="/user" *ngIf="auth.loggedIn()">
+  <a mat-list-item routerLinkActive="active" routerLink="/user" *ngIf="loggedIn">
     <mat-icon matListIcon>account_circle</mat-icon>Profilo
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!auth.loggedIn()">
+  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!loggedIn">
     <mat-icon matListIcon>input</mat-icon>Log In
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/auth/logout" *ngIf="auth.loggedIn()">
+  <a mat-list-item routerLinkActive="active" routerLink="/auth/logout" *ngIf="loggedIn">
     <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
   </a>
 </mat-nav-list>

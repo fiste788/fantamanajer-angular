@@ -5,5 +5,5 @@ export class Stream {
   next: string;
   unread: number;
   unseen: number;
-  results: StreamActivity[];
+  results: Array<StreamActivity>;
 }

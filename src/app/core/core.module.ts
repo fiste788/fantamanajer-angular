@@ -1,16 +1,16 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ErrorHandlerInterceptor, ApiInterceptor, JWTInterceptor } from './interceptors';
-import { AuthGuard, NotLoggedGuard, AdminGuard, ChampionshipAdminGuard } from './guards';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from './guards';
+import { ApiInterceptor, ErrorHandlerInterceptor, JWTInterceptor } from './interceptors';
 
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
 import { NotificationModule } from '../modules/notification/notification.module';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
-import { ApplicationService, PushService } from './services';
+import { ApplicationService } from './services';
 
-export function useFactory(service: ApplicationService) { return () => service.initialize(); }
+export const useFactory = (service: ApplicationService) => () => service.initialize();
 
 @NgModule({
   imports: [

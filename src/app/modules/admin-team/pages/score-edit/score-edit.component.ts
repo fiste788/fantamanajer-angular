@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Team, Score } from '@app/core/models';
+import { ActivatedRoute } from '@angular/router';
+import { Score, Team } from '@app/core/models';
 import { ScoreService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
-
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-score-edit',
@@ -17,38 +16,41 @@ import { SharedService } from '@app/shared/services/shared.service';
 export class ScoreEditComponent implements OnInit {
 
   @ViewChild(NgForm) scoreForm: NgForm;
-  public team: Team;
-  public penality: boolean;
-  public selectedScore: Score;
-  public score: Observable<Score>;
-  public scores: Observable<Score[]>;
+  team: Team;
+  penality: boolean;
+  selectedScore: Score;
+  score: Observable<Score>;
+  scores: Observable<Array<Score>>;
 
   constructor(
-    private route: ActivatedRoute,
-    private scoreService: ScoreService,
-    private snackBar: MatSnackBar
+    private readonly route: ActivatedRoute,
+    private readonly scoreService: ScoreService,
+    private readonly snackBar: MatSnackBar
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
       this.scores = this.scoreService.getScoresByTeam(this.team.id);
     });
   }
 
-  getScore(event: MatSelectChange) {
+  getScore(event: MatSelectChange): void {
     this.selectedScore = event.value;
     this.score = this.scoreService.getScore(this.selectedScore.id, true);
   }
 
-  save(score: Score) {
-    score.lineup.module = score.lineup.module_object?.key || '';
-    score.lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
-    this.scoreService.update(score).subscribe(response => {
-      this.snackBar.open('Punteggio modificato', undefined, {
-        duration: 3000
-      });
-    },
-      err => SharedService.getUnprocessableEntityErrors(this.scoreForm, err));
+  save(score: Score): void {
+    score.lineup.module = score.lineup.module_object?.key ?? '';
+    score.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
+    this.scoreService.update(score)
+      .subscribe(() => {
+        this.snackBar.open('Punteggio modificato', undefined, {
+          duration: 3000
+        });
+      },
+        err => {
+          SharedService.getUnprocessableEntityErrors(this.scoreForm, err);
+        });
   }
 }

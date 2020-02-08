@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '@app/shared/shared.module';
+import { NgModule } from '@angular/core';
 import { SelectionModule } from '@app/modules/selection/selection.module';
-import { TransfertRoutingModule } from './transfert-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
 import { TransfertListComponent } from './pages/transfert-list/transfert-list.component';
+import { TransfertRoutingModule } from './transfert-routing.module';
 
 @NgModule({
   imports: [

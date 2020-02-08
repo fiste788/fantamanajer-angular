@@ -7,10 +7,10 @@ describe('ArticleDetailComponent', () => {
   let fixture: ComponentFixture<ArticleDetailComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ArticleDetailComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [ArticleDetailComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('ArticleDetailComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

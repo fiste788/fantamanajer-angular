@@ -7,10 +7,10 @@ describe('UserStreamComponent', () => {
   let fixture: ComponentFixture<UserStreamComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserStreamComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [UserStreamComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('UserStreamComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

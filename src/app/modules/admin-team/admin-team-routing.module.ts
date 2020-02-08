@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EditMembersComponent } from './pages/edit-members/edit-members.component';
-import { NewTransfertComponent } from './pages/new-transfert/new-transfert.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
 import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { EditMembersComponent } from './pages/edit-members/edit-members.component';
+import { HomeComponent } from './pages/home/home.component';
+import { NewTransfertComponent } from './pages/new-transfert/new-transfert.component';
+import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
 
 const routes: Routes = [
   {

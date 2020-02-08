@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Disposition, Lineup } from '@app/core/models';
 import { tableRowAnimation } from '@app/core/animations';
+import { Disposition, Lineup } from '@app/core/models';
 
 @Component({
   selector: 'fm-disposition-list',
@@ -10,11 +10,11 @@ import { tableRowAnimation } from '@app/core/animations';
   animations: [tableRowAnimation]
 })
 export class DispositionListComponent implements OnInit {
-  @Input() public lineup?: Lineup;
-  @Input() public dispositions: Disposition[];
-  @Input() public caption: string;
-  @Input() public regular = false;
-  public captains: Map<number, string>;
+  @Input() lineup?: Lineup;
+  @Input() dispositions: Array<Disposition>;
+  @Input() caption: string;
+  @Input() regular = false;
+  captains: Map<number, string>;
 
   dataSource: MatTableDataSource<Disposition>;
   displayedColumns = [
@@ -29,16 +29,13 @@ export class DispositionListComponent implements OnInit {
     'points'
   ];
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.lineup) {
       this.captains = new Map();
-      this.captains.set(this.lineup.captain_id || 0, 'C');
-      this.captains.set(this.lineup.vcaptain_id || 0, 'VC');
-      this.captains.set(this.lineup.vvcaptain_id || 0, 'VVC');
+      this.captains.set(this.lineup.captain_id ?? 0, 'C');
+      this.captains.set(this.lineup.vcaptain_id ?? 0, 'VC');
+      this.captains.set(this.lineup.vvcaptain_id ?? 0, 'VVC');
     }
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
 }
-

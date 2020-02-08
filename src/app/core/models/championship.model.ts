@@ -12,7 +12,7 @@ export class Championship {
   jolly: boolean;
   season_id: number;
   league_id: number;
-  teams: Team[];
+  teams: Array<Team>;
   league: League;
   season: Season;
 }

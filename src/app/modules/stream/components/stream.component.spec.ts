@@ -7,7 +7,7 @@ describe('EventListComponent', () => {
   let fixture: ComponentFixture<StreamComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [StreamComponent]
     })
       .compileComponents();
@@ -20,6 +20,7 @@ describe('EventListComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

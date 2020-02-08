@@ -13,10 +13,10 @@ export class ToolbarComponent {
   @Input() showDrawerButton: boolean;
 
   constructor(
-    private layoutService: LayoutService
+    private readonly layoutService: LayoutService
   ) { }
 
-  clickNav() {
+  clickNav(): void {
     this.layoutService.toggleSidebar();
   }
 

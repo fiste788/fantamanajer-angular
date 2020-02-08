@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, state } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { VisibilityState } from '@app/shared/layout/main/visibility-state';
 
 export const closeAnimation = trigger('closeAnimation', [
@@ -12,5 +12,5 @@ export const closeAnimation = trigger('closeAnimation', [
   ),
   transition('* <=> *',
     animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)')
-  ),
+  )
 ]);

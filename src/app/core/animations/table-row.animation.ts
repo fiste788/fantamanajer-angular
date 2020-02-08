@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, query, stagger, sequence } from '@angular/animations';
+import { animate, query, sequence, stagger, style, transition, trigger } from '@angular/animations';
 
 export const tableRowAnimation = trigger('tableRowAnimation', [
   transition(':enter', [
@@ -12,14 +12,14 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
         stagger(20, [
           animate('250ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
             style({ opacity: 1, transform: 'translateX(0)' })
-          ),
+          )
         ]),
         { optional: true }
       ),
 
       query('.mat-row, .mat-header-row, .mat-footer-row', [
         style({ opacity: 1, 'background-clip': 'padding-box' })
-      ], { optional: true }),
+      ], { optional: true })
     ])
   ]),
   transition(':leave', [
@@ -27,8 +27,8 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
       stagger(-10, [
         animate('120ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ opacity: 0, transform: 'translateY(1.5rem)' })
-        ),
+        )
       ]), { optional: true }
     )
-  ]),
+  ])
 ]);

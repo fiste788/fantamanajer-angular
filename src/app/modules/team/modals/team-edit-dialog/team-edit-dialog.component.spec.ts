@@ -7,10 +7,10 @@ describe('TeamEditDialogComponent', () => {
   let fixture: ComponentFixture<TeamEditDialogComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TeamEditDialogComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [TeamEditDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('TeamEditDialogComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

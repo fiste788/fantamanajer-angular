@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, from } from 'rxjs';
-import { share, take } from 'rxjs/operators';
-import { ApplicationService, PushService, UserService, CredentialService } from '@app/core/services';
 import { User } from '@app/core/models';
+import { ApplicationService, CredentialService, PushService, UserService } from '@app/core/services';
+import { from, Observable } from 'rxjs';
+import { share, take } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-settings',
@@ -17,24 +17,27 @@ export class SettingsComponent implements OnInit {
   push: boolean;
 
   constructor(
-    public snackBar: MatSnackBar,
-    private app: ApplicationService,
-    private userService: UserService,
-    private pushService: PushService,
-    private credentialService: CredentialService
+    private readonly snackBar: MatSnackBar,
+    private readonly app: ApplicationService,
+    private readonly userService: UserService,
+    private readonly pushService: PushService,
+    private readonly credentialService: CredentialService
   ) { }
 
-  ngOnInit() {
-    this.user = Object.assign({}, this.app.user);
+  ngOnInit(): void {
+    if (this.app.user) {
+      this.user = this.app.user;
+    }
     this.pushService.swPush.subscription
       .pipe(take(1))
       .subscribe(() => (this.push = true));
     // this.push = this.pushService.isSubscribed();
   }
 
-  save() {
-    if (this.user.password === this.repeatPassword) {
-      this.userObservable = this.userService.update(this.user).pipe(share());
+  save(): void {
+    if (this.user?.password === this.repeatPassword) {
+      this.userObservable = this.userService.update(this.user)
+        .pipe(share());
       this.userObservable.subscribe(response => {
         this.snackBar.open('Modifiche salvate', undefined, {
           duration: 3000
@@ -44,7 +47,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  togglePush() {
+  togglePush(): void {
     if (this.push) {
       this.pushService.subscribeToPush();
     } else {
@@ -52,7 +55,8 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  registerDevice() {
-    this.credentialService.createPublicKey().subscribe(console.log);
+  registerDevice(): void {
+    this.credentialService.createPublicKey()
+      .subscribe();
   }
 }

@@ -1,4 +1,4 @@
-import { Matchday, Team, Lineup } from './';
+import { Lineup, Matchday, Team } from './';
 
 export class Score {
   id: number;

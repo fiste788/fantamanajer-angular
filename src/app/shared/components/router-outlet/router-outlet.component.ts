@@ -9,11 +9,8 @@ import { routerTransition } from '@app/core/animations';
 })
 export class RouterOutletComponent {
 
-  constructor() {
-  }
-
-  getState(outlet: RouterOutlet) {
-    return outlet.activatedRouteData.state;
+  getState(outlet: RouterOutlet): string {
+    return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 
 }

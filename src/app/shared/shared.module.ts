@@ -1,18 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { BREAKPOINTS, DEFAULT_BREAKPOINTS, FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule, DEFAULT_BREAKPOINTS, BREAKPOINTS } from '@angular/flex-layout';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
-import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
-import { SrcsetPipe, PlaceholderPipe } from '@app/shared/pipes';
+import { RouterModule } from '@angular/router';
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@app/shared/directives';
-import { MaterialModule } from './material.module';
-import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
+import { PlaceholderPipe, SrcsetPipe } from '@app/shared/pipes';
+import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
-import { SharedService } from './services';
+import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
 import { RouterOutletComponent } from './components/router-outlet/router-outlet.component';
+import { MaterialModule } from './material.module';
+import { SharedService } from './services';
 
 export const breakPointsProvider = {
   provide: BREAKPOINTS,

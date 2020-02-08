@@ -1,8 +1,8 @@
-import { Component, forwardRef, Output, Input, EventEmitter, OnInit, ChangeDetectorRef, HostBinding } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Member, Role } from '@app/core/models';
 import { createBoxAnimation } from '@app/core/animations';
+import { Member, Role } from '@app/core/models';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -15,36 +15,34 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
-  animations: [createBoxAnimation],
+  animations: [createBoxAnimation]
 })
-export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
+export class MemberSelectionComponent implements ControlValueAccessor {
   @HostBinding('@createBox') createBox = '';
   @Input() value: Member;
   @Input() name: string;
   @Input() disabled: boolean;
   @Input() required: boolean;
   @Input() placeholder: string;
-  @Input() memberList: Member[] = [];
-  @Input() memberMap: Map<Role, Member[]>;
+  @Input() memberList: Array<Member> = [];
+  @Input() memberMap: Map<Role, Array<Member>>;
   @Input() size = 100;
   @Input() width = 100;
   @Input() height = 100;
   @Input() captain = false;
   @Input() isMemberDisabled: (m: Member) => boolean;
-  @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
+  @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
+  // tslint:disable-next-line: no-empty
   onChange: Function = () => { };
+  // tslint:disable-next-line: no-empty
   onTouched: Function = () => { };
 
   constructor(
-    private cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef
   ) { }
 
-  ngOnInit() {
-
-  }
-
-  get val() {
+  get val(): Member {
     return this.value;
   }
 
@@ -55,22 +53,26 @@ export class MemberSelectionComponent implements ControlValueAccessor, OnInit {
     this.cd.detectChanges();
   }
 
-  change(event: MatSelectChange) {
+  change(event: MatSelectChange): void {
     this.selectionChange.emit(event);
   }
 
-  registerOnChange(fn: (_: Function) => void) {
+  registerOnChange(fn: (_: Function) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: (_: Function) => void) {
+  registerOnTouched(fn: (_: Function) => void): void {
     this.onTouched = fn;
   }
 
-  writeValue(value: Member) {
+  writeValue(value: Member): void {
     this.value = value;
   }
 
   setDisabledState?(isDisabled: boolean): void;
+
+  track(_: number, member: Member): number {
+    return member.id;
+  }
 
 }

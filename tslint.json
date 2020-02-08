@@ -1,6 +1,9 @@
 {
+  "rulesDirectory": [
+    "node_modules/codelyzer"
+  ],
   "extends": [
-    "tslint-angular"
+    "angular-tslint-rules"
   ],
   "rules": {
     "directive-selector": [
@@ -14,6 +17,21 @@
       "element",
       "fm",
       "kebab-case"
+    ],
+    "i18n": [
+      false
+    ],
+    "template-i18n": [
+      false,
+      "check-id",
+      "check-text"
+    ],
+    "no-implicit-dependencies": [
+      true,
+      [
+        "@app",
+        "@env"
+      ]
     ]
   }
 }

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@app/shared/shared.module';
 import { ConfirmationDialogComponent } from './modals/confirmation-dialog.component';
@@ -12,6 +12,6 @@ import { ConfirmationDialogComponent } from './modals/confirmation-dialog.compon
   ],
   declarations: [
     ConfirmationDialogComponent
-  ],
+  ]
 })
 export class ConfirmationDialogModule { }

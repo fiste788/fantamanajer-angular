@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Transfert } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class TransfertService {
-  private url = 'transferts';
+  private readonly url = 'transferts';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getTransfert(id: number): Observable<Transfert[]> {
-    return this.http.get<Transfert[]>(`teams/${id}/${this.url}`);
+  getTransfert(id: number): Observable<Array<Transfert>> {
+    return this.http.get<Array<Transfert>>(`teams/${id}/${this.url}`);
   }
 
   create(transfert: Transfert): Observable<Transfert> {

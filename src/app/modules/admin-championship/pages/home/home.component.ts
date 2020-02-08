@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { cardCreationAnimation } from '@app/core/animations';
 
 @Component({
@@ -7,11 +7,6 @@ import { cardCreationAnimation } from '@app/core/animations';
   styleUrls: ['./home.component.scss'],
   animations: [cardCreationAnimation]
 })
-export class HomeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class HomeComponent {
 
 }

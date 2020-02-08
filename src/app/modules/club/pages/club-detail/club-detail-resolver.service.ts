@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Club } from '@app/core/models';
 import { ClubService } from '@app/core/services';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ClubDetailResolver implements Resolve<Club | undefined> {
-  constructor(private cs: ClubService) { }
+  constructor(private readonly cs: ClubService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club> | undefined {
     const clubId = route.paramMap.get('id');
-    if (clubId) {
+    if (clubId !== null) {
       const id = parseInt(clubId, 10);
 
       return this.cs.getClub(id);
     }
+
     return undefined;
   }
 }

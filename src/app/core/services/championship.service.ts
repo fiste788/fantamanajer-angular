@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Championship } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ChampionshipService {
-  private url = 'championships';
+  private readonly url = 'championships';
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
 
   }
 
   update(championship: Championship): Observable<any> {
     const url = `${this.url}/${championship.id}`;
+
     return this.http.put(url, JSON.stringify(championship));
   }
 
@@ -23,8 +24,8 @@ export class ChampionshipService {
   save(championship: Championship): Observable<any> {
     if (championship.id) {
       return this.update(championship);
-    } else {
-      return this.create(championship);
     }
+
+    return this.create(championship);
   }
 }

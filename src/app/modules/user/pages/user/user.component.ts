@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { tabTransition, routerTransition } from '@app/core/animations';
 import { RouterOutlet } from '@angular/router';
+import { routerTransition, tabTransition } from '@app/core/animations';
+import { Tab } from '@app/core/models';
 
 @Component({
   selector: 'fm-user',
@@ -10,16 +11,17 @@ import { RouterOutlet } from '@angular/router';
 })
 export class UserComponent {
 
-  public tabs: { label: string, link: string }[] = [
+  tabs: Array<{ label: string, link: string }> = [
     { label: 'Profilo', link: 'profile' },
     { label: 'Attività', link: 'stream' }
   ];
 
-  constructor() { }
-
-  getState(outlet: RouterOutlet) {
+  getState(outlet: RouterOutlet): string {
     return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
   }
 
+  track(_: number, item: Tab): string {
+    return item.link;
+  }
 
 }

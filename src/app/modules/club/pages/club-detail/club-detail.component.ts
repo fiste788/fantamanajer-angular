@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { enterDetailAnimation, tabTransition } from '@app/core/animations';
+import { Club } from '@app/core/models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Club } from '@app/core/models';
-import { enterDetailAnimation, tabTransition } from '@app/core/animations';
 
 @Component({
   selector: 'fm-club-detail',
@@ -13,18 +13,18 @@ import { enterDetailAnimation, tabTransition } from '@app/core/animations';
 })
 export class ClubDetailComponent implements OnInit {
   club: Observable<Club>;
-  tabs: { label: string; link: string }[] = [
+  tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' }
   ];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.club = this.route.data.pipe(map((data: { club: Club }) => data.club));
   }
 
-  getState(outlet: RouterOutlet) {
+  getState(outlet: RouterOutlet): string {
     return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 }

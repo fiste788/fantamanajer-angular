@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
 import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
 
 const routes: Routes = [
   {

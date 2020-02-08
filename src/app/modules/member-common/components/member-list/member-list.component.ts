@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, Output, OnDestroy } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Observable, Subscription } from 'rxjs';
-import { Member } from '@app/core/models';
 import { tableRowAnimation } from '@app/core/animations';
+import { Member } from '@app/core/models';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-member-list',
@@ -13,14 +13,12 @@ import { tableRowAnimation } from '@app/core/animations';
   animations: [tableRowAnimation]
 })
 export class MemberListComponent implements OnInit, OnDestroy {
-  @Input() members: Observable<Member[]>;
+  @Input() members: Observable<Array<Member>>;
   @Input() hideClub = false;
   @Input() isSelectable = false;
   @Input() multipleSelection = false;
   @Input() elevation = 1;
   @ViewChild(MatSort) sort: MatSort;
-
-  private subscription: Subscription;
   dataSource: MatTableDataSource<Member>;
   displayedColumns = [
     'player',
@@ -36,11 +34,13 @@ export class MemberListComponent implements OnInit, OnDestroy {
     'sum_red_card'
   ];
   footer = {};
-  @Output() selection = new SelectionModel<Member>(false, []);
+  @Output() readonly selection = new SelectionModel<Member>(false, []);
 
-  constructor(private changeRef: ChangeDetectorRef) { }
+  private subscription: Subscription;
 
-  ngOnInit() {
+  constructor(private readonly changeRef: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
@@ -61,7 +61,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
-  calcSummary(data: Member[]) {
+  calcSummary(data: Array<Member>): void {
     this.displayedColumns.forEach(column => {
       if (column.startsWith('sum') || column.startsWith('avg')) {
         this.footer[column] = 0;
@@ -79,8 +79,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   }
 
-  sortingDataAccessor(data: Member, sortHeaderId: string) {
-    let value = null;
+  sortingDataAccessor(data: Member, sortHeaderId: string): any {
+    let value;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;
       default: value = data.stats ? data.stats[sortHeaderId] : undefined; break;
@@ -88,14 +88,14 @@ export class MemberListComponent implements OnInit, OnDestroy {
     if (typeof value === 'string' && !value.trim()) {
       return value;
     }
+
     return isNaN(+value) ? value : +value;
   }
 
   ngOnDestroy(): void {
-    if (this.dataSource) {
+    if (this.dataSource !== undefined) {
       this.dataSource.disconnect();
     }
     this.subscription.unsubscribe();
   }
 }
-

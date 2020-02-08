@@ -1,4 +1,4 @@
-import { trigger, style, transition, animate, state, sequence, query, group } from '@angular/animations';
+import { animate, group, query, sequence, state, style, transition, trigger } from '@angular/animations';
 
 export const openOverlayAnimation = trigger('openOverlayAnimation', [
   state('void',
@@ -25,7 +25,7 @@ export const openOverlayAnimation = trigger('openOverlayAnimation', [
         ),
         animate('300ms cubic-bezier(0.25, 0.8, 0.25, 1)',
           style({ transform: 'scale(1, 1)' })
-        ),
+        )
       ])
     ])),
   transition('* => leave',

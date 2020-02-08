@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService, ApplicationService } from '../services';
+import { ApplicationService, AuthService } from '../services';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private router: Router, private app: ApplicationService) { }
+  constructor(private readonly auth: AuthService, private readonly router: Router, private readonly app: ApplicationService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -16,19 +16,22 @@ export class AuthGuard implements CanActivate {
       if (!authorities || authorities.length === 0) {
         return true;
       }
+
       return this.checkLogin(authorities, state.url);
-    } else {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-      return false;
     }
+    void this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+
+    return false;
+
   }
 
-  checkLogin(authorities: string[], url: string): boolean {
-    for (const a in authorities) {
-      if (this.app.user?.roles.includes(authorities[a])) {
+  checkLogin(authorities: Array<string>, url: string): boolean {
+    for (const a of authorities) {
+      if (this.app.user?.roles.includes(a)) {
         return true;
       }
     }
+
     return false;
   }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="lineup">
+<ng-container *ngIf="lineup">
   <div class="header" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
     fxLayoutAlign.xs="left left">
     <mat-form-field>
@@ -34,7 +34,7 @@
         <mat-label>{{captain.key}}</mat-label>
         <mat-select [disabled]="disabled" [(ngModel)]="lineup[captain.value + '_id']" [placeholder]="captain.key"
           [name]="captain.key">
-          <mat-option *ngFor="let member of getCapitanables(lineup)"
+          <mat-option *ngFor="let member of getCapitanables(lineup); trackBy: trackByMember"
             [disabled]="isCaptainAlreadySelected(lineup, member)" [value]="member.id">{{member.player.full_name}}
           </mat-option>
         </mat-select>
@@ -45,9 +45,10 @@
     <h5>Panchinari</h5>
     <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around">
       <fm-member-selection fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center" class="benchwarmer"
-        *ngFor="let bench of benchs" [disabled]="disabled" [isMemberDisabled]="isAlreadySelectedCallback"
-        [memberMap]="membersByRole" [placeholder]="'Panchinaro ' + (bench - 10)" [name]="bench" [width]="320"
-        [height]="450" [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
+        *ngFor="let bench of benchs; trackBy: trackByBench" [disabled]="disabled"
+        [isMemberDisabled]="isAlreadySelectedCallback" [memberMap]="membersByRole"
+        [placeholder]="'Panchinaro ' + (bench - 10)" [name]="bench" [width]="320" [height]="450"
+        [(ngModel)]="lineup.dispositions[bench].member"></fm-member-selection>
     </div>
   </div>
-</div>
+</ng-container>

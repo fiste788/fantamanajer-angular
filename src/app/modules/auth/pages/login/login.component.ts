@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService, ApplicationService, CredentialService } from '@app/core/services';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationService, AuthService, CredentialService } from '@app/core/services';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginData: {
     email: string,
     password: string,
@@ -20,39 +20,40 @@ export class LoginComponent implements OnInit {
   token: Observable<CredentialRequestOptionsJSON>;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService,
-    private credentialService: CredentialService,
-    private app: ApplicationService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly credentialService: CredentialService,
+    private readonly app: ApplicationService
   ) {
   }
 
-  ngOnInit() {
-
-  }
-
-  login() {
+  login(): void {
     this.loading = true;
-    this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me).
-      subscribe(result => this.postLogin(result));
+    this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
+      .subscribe(result => {
+        this.postLogin(result);
+      });
   }
 
-  tokenLogin(t: CredentialRequestOptionsJSON) {
+  tokenLogin(t: CredentialRequestOptionsJSON): void {
     this.loading = true;
-    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t).subscribe(result => this.postLogin(result));
+    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
+      .subscribe(result => {
+        this.postLogin(result);
+      });
   }
 
-  checkToken() {
+  checkToken(): void {
     this.token = this.credentialService.get(this.loginData.email);
   }
 
   postLogin(result: boolean): void {
-    if (result === true) {
+    if (result) {
       const url =
         this.route.snapshot.queryParams.returnUrl ||
-        '/championships/' + this.app.championship?.id;
-      this.router.navigate([url]);
+        `/championships/${this.app.championship?.id}`;
+      void this.router.navigate([url]);
     } else {
       this.error = 'Username or password invalid';
       this.loading = false;

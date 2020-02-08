@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -8,28 +8,31 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ThemeService {
-  isDark$: Observable<boolean> = this.breakpointObserver.observe('(prefers-color-scheme: dark)').pipe(map(result => result.matches));
+  isDark$: Observable<boolean> = this.breakpointObserver.observe('(prefers-color-scheme: dark)')
+    .pipe(map(result => result.matches));
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private breakpointObserver: BreakpointObserver,
+    @Inject(DOCUMENT) private readonly document: Document,
+    private readonly breakpointObserver: BreakpointObserver
   ) {
   }
 
-  connect() {
-    this.isDark$.subscribe(dark => this.setTheme(dark));
+  connect(): void {
+    this.isDark$.subscribe(dark => {
+      this.setTheme(dark);
+    });
   }
 
-  setTheme(isDark: boolean) {
-    this.loadStyle((isDark ? 'dark' : 'light') + '-theme.css');
+  setTheme(isDark: boolean): void {
+    this.loadStyle(`${isDark ? 'dark' : 'light'}-theme.css`);
   }
 
-  loadStyle(styleName: string) {
+  loadStyle(styleName: string): void {
     const head = this.document.getElementsByTagName('head')[0];
 
-    const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
-    if (themeLink) {
-      themeLink.href = styleName;
+    const themeLink = this.document.getElementById('client-theme');
+    if (themeLink !== null) {
+      (themeLink as HTMLLinkElement).href = styleName;
     } else {
       const style = this.document.createElement('link');
       style.id = 'client-theme';

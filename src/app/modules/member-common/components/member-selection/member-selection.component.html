@@ -14,13 +14,15 @@
       {{val.player.full_name}}
     </mat-select-trigger>
     <ng-container *ngIf="memberList?.length">
-      <mat-option *ngFor="let member of memberList" [value]="member" [disabled]="isMemberDisabled(member)">
+      <mat-option *ngFor="let member of memberList; trackBy: track" [value]="member"
+        [disabled]="isMemberDisabled(member)">
         <fm-member-icons [member]="member"></fm-member-icons>
       </mat-option>
     </ng-container>
     <ng-container *ngIf="memberMap">
       <mat-optgroup [label]="role.key.plural" *ngFor="let role of memberMap | keyvalue">
-        <mat-option *ngFor="let member of role.value" [value]="member" [disabled]="isMemberDisabled(member)">
+        <mat-option *ngFor="let member of role.value; trackBy: track" [value]="member"
+          [disabled]="isMemberDisabled(member)">
           <fm-member-icons [member]="member"></fm-member-icons>
         </mat-option>
       </mat-optgroup>

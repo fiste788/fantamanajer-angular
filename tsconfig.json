@@ -5,22 +5,19 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "importHelpers": true,
     "suppressImplicitAnyIndexErrors": true,
-    "module": "esnext",
     "target": "es2015",
-    "types": [
-      "hammerjs",
-      "jasmine"
-    ],
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -40,6 +37,7 @@
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
     "strictTemplates": false,
     "disableTypeScriptVersionCheck": true
   }

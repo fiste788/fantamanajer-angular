@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NotificationService, ApplicationService } from '@app/core/services';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { createBoxAnimation } from '@app/core/animations/create-box.animation';
 import { Stream } from '@app/core/models';
+import { ApplicationService, NotificationService } from '@app/core/services';
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
 import { NotificationOverlayComponent } from '../../modals/notification-overlay/notification-overlay.component';
-import { createBoxAnimation } from '@app/core/animations/create-box.animation';
 
 @Component({
   selector: 'fm-notification-list',
@@ -12,27 +12,28 @@ import { createBoxAnimation } from '@app/core/animations/create-box.animation';
   animations: [createBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
-  public stream: Stream;
+  stream: Stream;
   @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
 
   constructor(
     public notificationService: NotificationService,
-    private app: ApplicationService,
-    private overlayService: NotificationOverlayService,
+    private readonly app: ApplicationService,
+    private readonly overlayService: NotificationOverlayService
   ) {
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.app.team) {
-      this.notificationService.getNotificationCount(this.app.team.id).subscribe(res => {
-        this.stream = res;
-        this.notificationService.seen.subscribe((s: Stream) => this.stream = s);
-      });
+      this.notificationService.getNotificationCount(this.app.team.id)
+        .subscribe(res => {
+          this.stream = res;
+          this.notificationService.seen.subscribe((s: Stream) => this.stream = s);
+        });
     }
   }
 
-  open(el: ElementRef<HTMLButtonElement>) {
+  open(el: ElementRef<HTMLButtonElement>): void {
     this.overlayService.open(el);
   }
 }

@@ -9,7 +9,7 @@ const routes: Routes = [
     path: ':id',
     component: PlayerComponent,
     resolve: {
-      player: PlayerResolver,
+      player: PlayerResolver
     },
     data: {
       state: 'player-detail',

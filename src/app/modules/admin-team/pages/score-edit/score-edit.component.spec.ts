@@ -7,10 +7,10 @@ describe('ScoreEditComponent', () => {
   let fixture: ComponentFixture<ScoreEditComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ScoreEditComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [ScoreEditComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('ScoreEditComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

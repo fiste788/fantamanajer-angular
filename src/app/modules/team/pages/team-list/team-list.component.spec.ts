@@ -7,10 +7,10 @@ describe('TeamListComponent', () => {
   let fixture: ComponentFixture<TeamListComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TeamListComponent ]
+    void TestBed.configureTestingModule({
+      declarations: [TeamListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe('TeamListComponent', () => {
   });
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
+    void expect(component)
+      .toBeTruthy();
   });
 });

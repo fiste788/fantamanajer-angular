@@ -1,11 +1,11 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
-import { Observable } from 'rxjs';
-import { SharedService } from '@app/shared/services/shared.service';
-import { TeamService } from '@app/core/services';
-import { Team } from '@app/core/models';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { cardCreationAnimation } from '@app/core/animations';
+import { Team } from '@app/core/models';
+import { TeamService } from '@app/core/services';
+import { SharedService } from '@app/shared/services/shared.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-team-list',
@@ -15,15 +15,15 @@ import { cardCreationAnimation } from '@app/core/animations';
 })
 export class TeamListComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  teams?: Observable<Team[]>;
+  teams?: Observable<Array<Team>>;
   exit = false;
   scrollTarget: Element;
 
   constructor(
-    private router: Router,
-    private teamService: TeamService,
-    private route: ActivatedRoute,
-    private scroller: ScrollDispatcher) { }
+    private readonly router: Router,
+    private readonly teamService: TeamService,
+    private readonly route: ActivatedRoute,
+    private readonly scroller: ScrollDispatcher) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(evt => {
@@ -32,10 +32,16 @@ export class TeamListComponent implements OnInit {
         this.teams = undefined;
       }
     });
-    this.scrollTarget = this.scroller.scrollContainers.keys().next().value.getElementRef().nativeElement;
+    this.scrollTarget = this.scroller.scrollContainers.keys()
+      .next().value
+      .getElementRef().nativeElement;
     const id = SharedService.getChampionshipId(this.route);
     if (id) {
       this.teams = this.teamService.getTeams(id);
     }
+  }
+
+  track(_: number, item: Team): number {
+    return item.id;
   }
 }

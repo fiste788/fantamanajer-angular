@@ -1,10 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
 import { ScrollDispatcher } from '@angular/cdk/overlay';
-import { Observable, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { cardCreationAnimation } from '@app/core/animations/card-creation.animation';
 import { Club } from '@app/core/models';
 import { ClubService } from '@app/core/services';
-import { cardCreationAnimation } from '@app/core/animations/card-creation.animation';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-club-list',
@@ -15,16 +15,15 @@ import { cardCreationAnimation } from '@app/core/animations/card-creation.animat
 })
 export class ClubListComponent implements OnInit, OnDestroy {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  clubs?: Observable<Club[]>;
+  clubs?: Observable<Array<Club>>;
   subscription: Subscription;
   exit = false;
   id: number;
 
-  constructor(private clubService: ClubService, private router: Router, private scroller: ScrollDispatcher) {
+  constructor(private readonly clubService: ClubService, private readonly router: Router, private readonly scroller: ScrollDispatcher) {
   }
 
   ngOnInit(): void {
-
     this.subscription = this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
@@ -34,11 +33,11 @@ export class ClubListComponent implements OnInit, OnDestroy {
     this.clubs = this.clubService.getClubs();
   }
 
-  track(_: number, club: Club) {
+  track(_: number, club: Club): number {
     return club.id;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

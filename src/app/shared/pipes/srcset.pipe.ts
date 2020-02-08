@@ -8,14 +8,15 @@ export class SrcsetPipe implements PipeTransform {
       if (typeof sizes !== 'string') {
         const keys = Object.keys(sizes);
         keys.forEach(key => {
-          srcset.push(sizes[key] + ' ' + key);
+          srcset.push(`${sizes[key]} ${key}`);
         });
       } else {
         srcset.push(sizes);
       }
+
       return srcset.join(',');
-    } else {
-      return '';
     }
+
+    return '';
   }
 }

@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
-import { CommonModule } from '@angular/common';
 
-import { MemberSelectionComponent } from './components/member-selection/member-selection.component';
-import { MemberListComponent } from './components/member-list/member-list.component';
 import { MemberIconsComponent } from './components/member-icons/member-icons.component';
+import { MemberListComponent } from './components/member-list/member-list.component';
+import { MemberSelectionComponent } from './components/member-selection/member-selection.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
+    SharedModule
   ],
   exports: [
     MemberSelectionComponent,
@@ -20,6 +20,6 @@ import { MemberIconsComponent } from './components/member-icons/member-icons.com
     MemberSelectionComponent,
     MemberListComponent,
     MemberIconsComponent
-  ],
+  ]
 })
 export class MemberCommonModule { }

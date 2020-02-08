@@ -1,4 +1,4 @@
-import { Team, Matchday } from './';
+import { Matchday, Team } from './';
 
 export class Article {
   id: number;

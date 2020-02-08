@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Team, User, Championship } from '@app/core/models';
-import { SharedService } from '@app/shared/services/shared.service';
-import { TeamService } from '@app/core/services';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Championship, Team, User } from '@app/core/models';
+import { TeamService } from '@app/core/services';
+import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({
   selector: 'fm-add-team',
@@ -14,33 +14,34 @@ import { NgForm } from '@angular/forms';
 export class AddTeamComponent implements OnInit {
 
   @ViewChild(NgForm) teamForm: NgForm;
-  public team = new Team();
+  team = new Team();
 
   constructor(
-    private teamService: TeamService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute) { }
+    private readonly teamService: TeamService,
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
       this.team.championship_id = data.championship.id;
       this.team.user = new User();
     });
   }
 
-  save() {
-    this.teamService.save(this.team).subscribe(response => {
-      this.team.id = response.id;
-      this.snackBar.open('Modifiche salvate', undefined, {
-        duration: 3000
-      });
-      this.router.navigateByUrl(
-        '/teams/' + this.team.id + '/admin/members'
+  save(): void {
+    this.teamService.save(this.team)
+      .subscribe(response => {
+        this.team.id = response.id;
+        this.snackBar.open('Modifiche salvate', undefined, {
+          duration: 3000
+        });
+        void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
+      },
+        err => {
+          SharedService.getUnprocessableEntityErrors(this.teamForm, err);
+        }
       );
-    },
-      err => SharedService.getUnprocessableEntityErrors(this.teamForm, err)
-    );
   }
 
 }

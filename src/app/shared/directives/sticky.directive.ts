@@ -1,5 +1,5 @@
-import { Directive, Input, ElementRef, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Directive, ElementRef, Inject, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[fmSticky]'
@@ -7,14 +7,14 @@ import { DOCUMENT } from '@angular/common';
 export class StickyDirective implements OnInit {
 
   constructor(
-    private el: ElementRef,
-    @Inject(DOCUMENT) private document: Document) { }
+    private readonly el: ElementRef,
+    @Inject(DOCUMENT) private readonly document: Document) { }
 
-  ngOnInit() {
-    if (this.el) {
+  ngOnInit(): void {
+    if (this.el !== undefined) {
       const height = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary')?.clientHeight;
       this.el.nativeElement.classList.add('sticky');
-      this.el.nativeElement.style.top = height + 'px';
+      this.el.nativeElement.style.top = `${height}px`;
     }
   }
 }

@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, NgZone, ChangeDetectorRef, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { Observable, combineLatest } from 'rxjs';
-import { routerTransition, scrollUpAnimation, closeAnimation } from '@app/core/animations';
+import { RouterOutlet } from '@angular/router';
+import { closeAnimation, routerTransition, scrollUpAnimation } from '@app/core/animations';
+import { LayoutService, ScrollService, ThemeService } from '@app/core/services';
+import { combineLatest, Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { VisibilityState } from './visibility-state';
-import { ThemeService, ScrollService, LayoutService } from '@app/core/services';
-import { mergeMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-main',
@@ -28,46 +28,51 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
 
-  public isReady: Observable<boolean>;
-  public isHandset$: Observable<boolean>;
-  public openedSidebar$: Observable<boolean>;
-  public showedSpeedDial$: Observable<VisibilityState>;
-  public showedToolbar$: Observable<VisibilityState>;
+  isReady: Observable<boolean>;
+  isHandset$: Observable<boolean>;
+  openedSidebar$: Observable<boolean>;
+  showedSpeedDial$: Observable<VisibilityState>;
+  showedToolbar$: Observable<VisibilityState>;
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private scrollService: ScrollService,
-    private themeService: ThemeService,
-    private layoutService: LayoutService,
-    private ngZone: NgZone,
-    private changeRef: ChangeDetectorRef,
+    @Inject(DOCUMENT) private readonly document: Document,
+    private readonly scrollService: ScrollService,
+    private readonly themeService: ThemeService,
+    private readonly layoutService: LayoutService,
+    private readonly ngZone: NgZone,
+    private readonly changeRef: ChangeDetectorRef
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.themeService.connect();
     this.isReady = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar;
     this.showedSpeedDial$ = this.layoutService.isShowSpeedDial;
     this.showedToolbar$ = this.layoutService.isShowToolbar;
-    this.drawer.openedChange.asObservable().subscribe(a => this.layoutService.openSidebar$.next(a));
+    this.drawer.openedChange.asObservable()
+      .subscribe(a => {
+        this.layoutService.openSidebar$.next(a);
+      });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.layoutService.connect();
     this.scrollService.connect(this.container);
     this.ngZone.runOutsideAngular(() => {
       this.layoutService.connectScrollAnimation(
         () => {
           const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
-          const height = toolbar ? toolbar.clientHeight : 0;
-          this.document.querySelectorAll('.sticky').forEach((e: HTMLElement) => e.style.top = height + 'px');
+          const height = toolbar !== null ? toolbar.clientHeight : 0;
+          this.document.querySelectorAll('.sticky')
+            .forEach((e: HTMLElement) => e.style.top = `${height}px`);
           this.changeRef.detectChanges();
         },
         () => {
           this.speedDial.openSpeeddial = false;
-          this.document.querySelectorAll('.sticky').forEach((e: HTMLElement) => e.style.top = '0');
+          this.document.querySelectorAll('.sticky')
+            .forEach((e: HTMLElement) => e.style.top = '0');
           this.changeRef.detectChanges();
         },
         this.toolbarEl.nativeElement.firstChild.clientHeight);
@@ -76,24 +81,27 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  initDrawer() {
-    if (this.drawer) {
+  initDrawer(): void {
+    if (this.drawer !== undefined) {
       this.drawer.autoFocus = false;
-      this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
-        this.layoutService.showSpeedDial();
-        this.layoutService.setReady();
-        setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
-      });
+      this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
+        .subscribe(() => {
+          this.layoutService.showSpeedDial();
+          this.layoutService.setReady();
+          setTimeout(() => this.document.querySelector('.pre-bootstrap')
+            ?.remove(), 500);
+        });
     }
   }
 
   get isOpen(): Observable<boolean> {
-    return combineLatest([this.isReady, this.isHandset$, this.openedSidebar$]).pipe(
-      map(([r, h, o]) => (!h && r) || o)
-    );
+    return combineLatest([this.isReady, this.isHandset$, this.openedSidebar$])
+      .pipe(
+        map(([r, h, o]) => (!h && r) || o)
+      );
   }
 
-  getState(outlet: RouterOutlet) {
+  getState(outlet: RouterOutlet): string {
     return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
   }
 }

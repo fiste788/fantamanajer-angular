@@ -1,11 +1,11 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subscription } from 'rxjs';
-import { LineupService, ApplicationService } from '@app/core/services';
-import { SharedService } from '@app/shared/services/shared.service';
+import { ActivatedRoute } from '@angular/router';
 import { Lineup } from '@app/core/models';
+import { ApplicationService, LineupService } from '@app/core/services';
+import { SharedService } from '@app/shared/services/shared.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-lineup-last',
@@ -21,9 +21,9 @@ export class LineupLastComponent implements OnDestroy {
   private subscription: Subscription;
 
   constructor(
-    private snackBar: MatSnackBar,
-    private lineupService: LineupService,
-    private route: ActivatedRoute,
+    private readonly snackBar: MatSnackBar,
+    private readonly lineupService: LineupService,
+    private readonly route: ActivatedRoute,
     public app: ApplicationService
   ) {
     this.teamId = this.route.parent?.parent?.parent?.snapshot.data.team.id;
@@ -31,15 +31,15 @@ export class LineupLastComponent implements OnDestroy {
     this.lineup = this.lineupService.getLineup(this.teamId);
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
   }
 
-  save(lineup: Lineup) {
-    lineup.module = lineup.module_object?.key || '';
-    lineup.dispositions.forEach(value => value.member_id = value.member ? value.member.id : null);
+  save(lineup: Lineup): void {
+    lineup.module = lineup.module_object?.key ?? '';
+    lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
     let obs: Observable<Lineup>;
     let message: string;
     if (lineup.id) {
@@ -57,6 +57,8 @@ export class LineupLastComponent implements OnDestroy {
         duration: 3000
       });
     },
-      err => SharedService.getUnprocessableEntityErrors(this.lineupForm, err));
+      err => {
+        SharedService.getUnprocessableEntityErrors(this.lineupForm, err);
+      });
   }
 }

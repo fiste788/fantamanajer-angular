@@ -9,4 +9,3 @@ export * from './scroll-up.animation';
 export * from './tab-transition.animation';
 export * from './table-row.animation';
 export * from './close.animation';
-

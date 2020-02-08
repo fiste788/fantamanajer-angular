@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private url = 'users';
+  private readonly url = 'users';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   login(email: string, password: string, rememberMe = false): Observable<{ user: User, token: string }> {
     const body = {
@@ -15,6 +15,7 @@ export class UserService {
       password,
       rememberMe
     };
+
     return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(body));
   }
 
@@ -24,6 +25,7 @@ export class UserService {
 
   update(user: User): Observable<any> {
     user.teams = undefined;
+
     return this.http.put(`${this.url}/${user.id}`, JSON.stringify(user));
   }
 

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Team, NotificationSubscription } from '@app/core/models';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NotificationSubscription, Team } from '@app/core/models';
 import { notificationSubscriptions } from '../../notification-subscription.definition';
 
 @Component({
@@ -10,19 +10,19 @@ import { notificationSubscriptions } from '../../notification-subscription.defin
 export class NotificationSubscriptionComponent implements OnInit {
   @Input() type: string;
   @Input() label: string;
-  @Input() subscriptions: NotificationSubscription[];
-  @Output() subscriptionsChange: EventEmitter<NotificationSubscription[]>;
+  @Input() subscriptions: Array<NotificationSubscription>;
+  @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>>;
   @Input() team: Team;
+  map = new Map<{ name: string, label: string }, NotificationSubscription>();
   private keys: [{ name: string, label: string }];
-  public map = new Map<{ name: string, label: string }, NotificationSubscription>();
 
   constructor() {
-    this.subscriptionsChange = new EventEmitter<NotificationSubscription[]>();
+    this.subscriptionsChange = new EventEmitter<Array<NotificationSubscription>>();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.keys = notificationSubscriptions[this.type];
-    this.keys.forEach((element) => {
+    this.keys.forEach(element => {
       let sub = this.subscriptions.find(subscription => subscription.name === element.name);
       if (!sub) {
         sub = new NotificationSubscription();
@@ -35,7 +35,7 @@ export class NotificationSubscriptionComponent implements OnInit {
     });
   }
 
-  toggle() {
+  toggle(): void {
     this.subscriptionsChange.emit(this.subscriptions);
   }
 }
