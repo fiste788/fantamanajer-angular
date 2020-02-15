@@ -7,7 +7,7 @@
   giornata (ad esempio se la giornata è il 25/12 saranno attivi dalle ore 02:00 del 25/12).<br />Se il giocatore
   svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
   possibile cambiare il giocatore selezionato 2 volte.</p>
-<form #selectionForm="ngForm" (ngSubmit)="save()" *ngIf="members | async as _members ">
+<form #selectionForm="ngForm" (ngSubmit)="save()" *ngIf="members | async as _members">
   <div class="row">
     <mat-form-field>
       <mat-label>Vecchio giocatore</mat-label>

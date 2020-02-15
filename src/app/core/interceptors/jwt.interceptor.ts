@@ -10,9 +10,9 @@ export class JWTInterceptor implements HttpInterceptor {
   constructor(private readonly auth: AuthService) { }
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if ((req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) && !req.url.endsWith('matchdays/current')) {
       const token = this.auth.getToken();
 

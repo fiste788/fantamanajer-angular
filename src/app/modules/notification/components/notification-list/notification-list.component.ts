@@ -16,7 +16,7 @@ export class NotificationListComponent implements OnInit {
   @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
 
   constructor(
-    public notificationService: NotificationService,
+    private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
     private readonly overlayService: NotificationOverlayService
   ) {

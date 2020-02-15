@@ -14,7 +14,7 @@ export class SettingsComponent implements OnInit {
   userObservable: Observable<User>;
   user: User;
   repeatPassword: string;
-  push: boolean;
+  push: Observable<boolean>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -28,10 +28,7 @@ export class SettingsComponent implements OnInit {
     if (this.app.user) {
       this.user = this.app.user;
     }
-    this.pushService.swPush.subscription
-      .pipe(take(1))
-      .subscribe(() => (this.push = true));
-    // this.push = this.pushService.isSubscribed();
+    this.push = this.pushService.isSubscribed();
   }
 
   save(): void {
@@ -47,8 +44,8 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  togglePush(): void {
-    if (this.push) {
+  togglePush(checked: boolean): void {
+    if (checked) {
       this.pushService.subscribeToPush();
     } else {
       this.pushService.unsubscribeFromPush();

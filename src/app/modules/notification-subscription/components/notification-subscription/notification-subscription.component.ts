@@ -1,6 +1,12 @@
+import { KeyValue } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotificationSubscription, Team } from '@app/core/models';
 import { notificationSubscriptions } from '../../notification-subscription.definition';
+
+interface Notification {
+  name: string;
+  label: string;
+}
 
 @Component({
   selector: 'fm-notification-subscription',
@@ -13,8 +19,8 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Input() subscriptions: Array<NotificationSubscription>;
   @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>>;
   @Input() team: Team;
-  map = new Map<{ name: string, label: string }, NotificationSubscription>();
-  private keys: [{ name: string, label: string }];
+  map = new Map<Notification, NotificationSubscription>();
+  private keys: [Notification];
 
   constructor() {
     this.subscriptionsChange = new EventEmitter<Array<NotificationSubscription>>();
@@ -37,5 +43,9 @@ export class NotificationSubscriptionComponent implements OnInit {
 
   toggle(): void {
     this.subscriptionsChange.emit(this.subscriptions);
+  }
+
+  track(_: number, item: KeyValue<Notification, NotificationSubscription>): string {
+    return item.key.name; // or item.id
   }
 }

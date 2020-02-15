@@ -20,9 +20,9 @@ export class SharedService {
 
   static getError(field: NgModel): string {
     const errors = [];
-    for (const err in field.errors) {
-      if (field.errors.hasOwnProperty(err)) {
-        errors.push(field.errors[err]);
+    if (field.errors !== null) {
+      for (const err of field.errors as any) {
+        errors.push(err);
       }
     }
 

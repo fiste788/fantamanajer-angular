@@ -20,7 +20,7 @@ export class UserService {
   }
 
   logout(): Observable<any> {
-    return this.http.get<any>(`${this.url}/logout`);
+    return this.http.get(`${this.url}/logout`);
   }
 
   update(user: User): Observable<any> {

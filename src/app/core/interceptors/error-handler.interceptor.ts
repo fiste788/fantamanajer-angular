@@ -10,13 +10,13 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   constructor(private readonly snackbar: MatSnackBar) { }
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     return next
       .handle(req)
       .pipe(
-        catchError((err: any, _) => {
+        catchError((err: any) => {
           if (err instanceof HttpErrorResponse) {
             let message = '';
             try {

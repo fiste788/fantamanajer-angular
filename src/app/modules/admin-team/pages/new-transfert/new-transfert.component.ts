@@ -99,4 +99,8 @@ export class NewTransfertComponent implements OnInit {
       );
   }
 
+  track(_: number, item: Transfert): number {
+    return item.id; // or item.id
+  }
+
 }

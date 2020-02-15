@@ -3,9 +3,9 @@
   <div class="content mat-dialog-container">
     <h3 class="mat-dialog-title title">Notifiche</h3>
     <div class="mat-dialog-content">
-      <div *ngIf="stream | async as stream2; else loading">
-        <mat-list *ngIf="stream2.results.length; else empty" @listItemAnimation>
-          <mat-list-item *ngFor="let activity of stream2.results">
+      <div *ngIf="stream | async as _stream; else loading">
+        <mat-list *ngIf="_stream.results.length; else empty" @listItemAnimation>
+          <mat-list-item *ngFor="let activity of _stream.results; trackBy: track">
             <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
             <h3 mat-line> {{activity.title}} </h3>
             <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>

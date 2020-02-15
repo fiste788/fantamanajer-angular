@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'srcset' })
 export class SrcsetPipe implements PipeTransform {
-  transform(sizes: any): string {
-    if (sizes) {
+  transform(sizes: Record<string, string> | string | null): string {
+    if (sizes !== null) {
       const srcset = [];
       if (typeof sizes !== 'string') {
         const keys = Object.keys(sizes);

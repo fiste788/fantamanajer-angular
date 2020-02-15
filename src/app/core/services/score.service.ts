@@ -10,7 +10,7 @@ export class ScoreService {
   static cleanScore(score: Score): Score {
     const newScore: Score = JSON.parse(JSON.stringify(score));
     newScore.lineup.dispositions = newScore.lineup.dispositions.filter(
-      value => value.member_id
+      value => value.member_id !== null
     );
     newScore.lineup.dispositions.map(disp => delete disp.member);
     delete newScore.lineup.team;

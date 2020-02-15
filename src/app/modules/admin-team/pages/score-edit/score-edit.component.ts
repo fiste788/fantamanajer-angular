@@ -42,7 +42,7 @@ export class ScoreEditComponent implements OnInit {
 
   save(score: Score): void {
     score.lineup.module = score.lineup.module_object?.key ?? '';
-    score.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
+    score.lineup.dispositions.forEach(value => value.member_id = value.member?.id);
     this.scoreService.update(score)
       .subscribe(() => {
         this.snackBar.open('Punteggio modificato', undefined, {
@@ -52,5 +52,9 @@ export class ScoreEditComponent implements OnInit {
         err => {
           SharedService.getUnprocessableEntityErrors(this.scoreForm, err);
         });
+  }
+
+  track(_: number, item: Score): number {
+    return item.id; // or item.id
   }
 }

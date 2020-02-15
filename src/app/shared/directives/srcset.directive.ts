@@ -1,21 +1,31 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[fmSrcset]'
 })
-export class SrcsetDirective implements OnInit {
-  @Input() fmSrcset: any;
+export class SrcsetDirective implements OnInit, OnChanges {
+  @Input() fmSrcset: Record<string, string> | string | null;
   @Input() placeholder: string;
 
-  constructor(private readonly el: ElementRef) { }
+  constructor(private readonly el: ElementRef<HTMLImageElement>) { }
 
   ngOnInit(): void {
-    if (this.fmSrcset) {
+    this.init();
+  }
+
+  ngOnChanges(): void {
+    this.init();
+  }
+
+  init(): void {
+    if (this.fmSrcset !== null) {
       if (typeof this.fmSrcset !== 'string') {
         const srcset: Array<string> = [];
         const keys = Object.keys(this.fmSrcset);
         keys.forEach(key => {
-          srcset.push(`${this.fmSrcset[key]} ${key}`);
+          if (this.fmSrcset !== null) {
+            srcset.push(`${this.fmSrcset[key]} ${key}`);
+          }
         });
         const lastKey = keys.pop();
         if (lastKey) {

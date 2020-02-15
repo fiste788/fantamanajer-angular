@@ -6,8 +6,8 @@ import { NotificationOverlayComponent } from './notification-overlay/notificatio
 export class NotificationOverlayRef {
   componentInstance?: NotificationOverlayComponent;
 
-  private readonly beforeCloseVar = new Subject<void>();
-  private readonly afterClosedVar = new Subject<void>();
+  private readonly beforeCloseVar = new Subject<undefined>();
+  private readonly afterClosedVar = new Subject<undefined>();
 
   constructor(private readonly overlayRef: OverlayRef) { }
 

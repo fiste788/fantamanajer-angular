@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -41,7 +40,6 @@ export class PlayerComponent {
   ];
 
   constructor(
-    public media: MediaObserver,
     private readonly changeRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
     public app: ApplicationService

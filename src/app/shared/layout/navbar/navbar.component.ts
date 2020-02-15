@@ -1,13 +1,14 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { Championship, Team } from '@app/core/models';
 import { ApplicationService, AuthService, LayoutService, PushService } from '@app/core/services';
+import { combineLatest } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, OnChanges {
+export class NavbarComponent implements OnInit {
 
   deferredPrompt?: BeforeInstallPromptEvent;
   loggedIn: boolean;
@@ -26,10 +27,10 @@ export class NavbarComponent implements OnInit, OnChanges {
     this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
-  }
-
-  ngOnChanges(): void {
-    this.init();
+    this.auth.userChange$.pipe(combineLatest(this.app.teamChange$))
+      .subscribe(() => {
+        this.init();
+      });
   }
 
   init(): void {

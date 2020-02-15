@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 import { Championship, Matchday, Team, User } from '../models';
 import { AuthService } from './auth.service';
 import { MatchdayService } from './matchday.service';
@@ -15,7 +15,7 @@ export class ApplicationService {
   seasonStarted: boolean;
   matchday: Matchday;
   championship?: Championship;
-  teamChange = new BehaviorSubject<Team | undefined>(undefined);
+  teamChange$ = new BehaviorSubject<Team | undefined>(undefined);
   user?: User;
   teams?: Array<Team>;
   private currentTeam?: Team;
@@ -36,9 +36,10 @@ export class ApplicationService {
   }
 
   async initialize(): Promise<void> {
-    this.auth.loggedUser.subscribe((u: User) => {
-      this.setUser(u);
-    });
+    this.auth.userChange$.pipe(skip(1))
+      .subscribe((u: User) => {
+        this.setUser(u);
+      });
     let observable = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
       observable = concat(observable, this.auth.getCurrentUser());
@@ -90,7 +91,7 @@ export class ApplicationService {
     if (!isNull && team) {
       void this.getRouter()
         .navigateByUrl(`/teams/${team.id}`);
-      this.teamChange.next(team);
+      this.teamChange$.next(team);
     }
   }
 

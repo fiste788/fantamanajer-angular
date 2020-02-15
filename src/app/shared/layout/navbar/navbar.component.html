@@ -20,10 +20,10 @@
   <a mat-list-item routerLinkActive="active" routerLink="/user" *ngIf="loggedIn">
     <mat-icon matListIcon>account_circle</mat-icon>Profilo
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!loggedIn">
-    <mat-icon matListIcon>input</mat-icon>Log In
-  </a>
   <a mat-list-item routerLinkActive="active" routerLink="/auth/logout" *ngIf="loggedIn">
     <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
+  </a>
+  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!loggedIn">
+    <mat-icon matListIcon>input</mat-icon>Log In
   </a>
 </mat-nav-list>

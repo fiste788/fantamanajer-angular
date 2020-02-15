@@ -3,9 +3,9 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@app/core/animations';
-import { LayoutService, ScrollService, ThemeService } from '@app/core/services';
-import { combineLatest, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { AuthService, LayoutService, ScrollService, ThemeService } from '@app/core/services';
+import { combineLatest, forkJoin, Observable, zip } from 'rxjs';
+import { combineAll, map, mergeMap } from 'rxjs/operators';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { VisibilityState } from './visibility-state';
@@ -28,7 +28,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
 
-  isReady: Observable<boolean>;
+  loggedIn$: Observable<boolean>;
+  isReady$: Observable<boolean>;
   isHandset$: Observable<boolean>;
   openedSidebar$: Observable<boolean>;
   showedSpeedDial$: Observable<VisibilityState>;
@@ -38,6 +39,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly scrollService: ScrollService,
     private readonly themeService: ThemeService,
+    private readonly auth: AuthService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
     private readonly changeRef: ChangeDetectorRef
@@ -46,15 +48,17 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.themeService.connect();
-    this.isReady = this.layoutService.isReady$;
+    this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar;
-    this.showedSpeedDial$ = this.layoutService.isShowSpeedDial;
+    this.showedSpeedDial$ = combineLatest(this.layoutService.isShowSpeedDial, this.auth.userChange$)
+      .pipe(map(([v, u]) => u === undefined ? VisibilityState.Hidden : v));
     this.showedToolbar$ = this.layoutService.isShowToolbar;
     this.drawer.openedChange.asObservable()
       .subscribe(a => {
         this.layoutService.openSidebar$.next(a);
       });
+    this.loggedIn$ = this.auth.userChange$.pipe(map(u => u !== null));
   }
 
   ngAfterViewInit(): void {
@@ -95,7 +99,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   get isOpen(): Observable<boolean> {
-    return combineLatest([this.isReady, this.isHandset$, this.openedSidebar$])
+    return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$])
       .pipe(
         map(([r, h, o]) => (!h && r) || o)
       );

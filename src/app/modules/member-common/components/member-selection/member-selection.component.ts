@@ -1,20 +1,18 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { createBoxAnimation } from '@app/core/animations';
 import { Member, Role } from '@app/core/models';
 
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => MemberSelectionComponent),
-  multi: true
-};
-
 @Component({
   selector: 'fm-member-selection',
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: MemberSelectionComponent,
+    multi: true
+  }],
   animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {

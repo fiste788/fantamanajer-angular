@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,6 +7,13 @@ import { Member, Role, Team } from '@app/core/models';
 import { MemberService, TeamService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 
+interface TeamMembers {
+  count: number;
+  label: string;
+  entries?: Array<any>;
+  members?: Array<Member>;
+}
+
 @Component({
   selector: 'fm-edit-members',
   templateUrl: './edit-members.component.html',
@@ -13,17 +21,7 @@ import { SharedService } from '@app/shared/services/shared.service';
 })
 export class EditMembersComponent implements OnInit {
 
-  roles: Map<Role, {
-    count: number,
-    label: string,
-    entries?: Array<any>,
-    members?: Array<Member>
-  }> = new Map<Role, {
-    count: number,
-    label: string,
-    entries: Array<any>,
-    members: Array<Member>
-  }>();
+  roles: Map<Role, TeamMembers> = new Map<Role, TeamMembers>();
   team: Team;
   @ViewChild(NgForm) membersForm: NgForm;
   isAlreadySelectedCallback: () => boolean;
@@ -54,13 +52,7 @@ export class EditMembersComponent implements OnInit {
   loadMembers(team: Team): void {
     this.memberService.getByTeamId(team.id)
       .subscribe(members => {
-        this.team.members = members;
-        let i = 0;
-        for (i = 0; i < 25; i++) {
-          if (this.team.members.length < i) {
-            delete this.team.members[i];
-          }
-        }
+        this.team.members = members.slice(0, 25);
         this.roles.forEach((val, key) => {
           const role = this.roles.get(key);
           if (role) {
@@ -80,7 +72,6 @@ export class EditMembersComponent implements OnInit {
 
   isAlreadySelected(member: Member): boolean {
     return this.team.members.filter(element => element !== undefined)
-      // .map(element => member.id)
       .includes(member);
   }
 
@@ -109,7 +100,7 @@ export class EditMembersComponent implements OnInit {
 
   save(): void {
     this.teamService.update(this.team)
-      .subscribe(response => {
+      .subscribe(() => {
         this.snackBar.open('Giocatori modificati', undefined, {
           duration: 3000
         });
@@ -118,5 +109,13 @@ export class EditMembersComponent implements OnInit {
           SharedService.getUnprocessableEntityErrors(this.membersForm, err);
         }
       );
+  }
+
+  track(_: number, item: KeyValue<Role, TeamMembers>): number {
+    return item.key.id; // or item.id
+  }
+
+  trackByMember(_: number): number {
+    return _; // or item.id
   }
 }

@@ -4,7 +4,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { Notification, Stream } from '../models';
 
-type MessageCallback = (payload: any) => void;
+type MessageCallback = (payload: unknown) => void;
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {

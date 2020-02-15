@@ -1,24 +1,19 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApplicationService, AuthService } from '@app/core/services';
+import { ApplicationService } from '@app/core/services';
 
 @Component({
   selector: 'fm-speed-dial',
   templateUrl: './speed-dial.component.html',
   styleUrls: ['./speed-dial.component.scss']
 })
-export class SpeedDialComponent implements OnChanges {
+export class SpeedDialComponent {
   openSpeeddial = false;
-  loggedIn = false;
 
   constructor(
-    public auth: AuthService,
     private readonly router: Router,
-    public app: ApplicationService) { }
-
-  ngOnChanges(): void {
-    this.loggedIn = this.auth.loggedIn();
-  }
+    public app: ApplicationService
+  ) { }
 
   _click(action: string): void {
     let url;

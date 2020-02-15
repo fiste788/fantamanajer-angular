@@ -22,7 +22,7 @@ export class TeamDetailComponent implements OnInit {
     public app: ApplicationService,
     private readonly route: ActivatedRoute,
     private readonly changeRef: ChangeDetectorRef,
-    public dialog: MatDialog
+    private readonly dialog: MatDialog
   ) {
 
   }

@@ -3,7 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { environment } from '@env/environment';
-import { defaultIfEmpty, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, isEmpty, map, take } from 'rxjs/operators';
 import { PushSubscription, User } from '../models';
 import { ApplicationService } from './application.service';
 import { AuthService } from './auth.service';
@@ -17,7 +18,7 @@ export class PushService {
 
   constructor(
     private readonly subscription: PushSubscriptionService,
-    public swPush: SwPush,
+    private readonly swPush: SwPush,
     private readonly snackBar: MatSnackBar,
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
@@ -33,11 +34,11 @@ export class PushService {
       this.beforeInstall.emit(e);
     });
     this.checkForUpdates();
-    this.auth.loggedUser.subscribe(this.initializeUser.bind(this));
+    this.auth.userChange$.subscribe(this.initializeUser.bind(this));
   }
 
   checkForUpdates(): void {
-    this.swUpdate.available.subscribe(event => {
+    this.swUpdate.available.subscribe(() => {
       const snackBarRef = this.snackBar.open(
         'Nuova versione dell\'app disponibile',
         'Aggiorna'
@@ -58,11 +59,12 @@ export class PushService {
   }
 
   subscribeToPush(): void {
-    this.swPush.subscription.pipe(defaultIfEmpty(null))
-      .subscribe(subs => {
-        if (subs !== null) {
-          this.requestSubscription();
-        }
+    this.swPush.subscription.pipe(
+      isEmpty(),
+      filter(s => s)
+    )
+      .subscribe(() => {
+        this.requestSubscription();
       });
   }
 
@@ -99,6 +101,14 @@ export class PushService {
         // this.router.navigateByUrl();
       }
     });
+  }
+
+  isSubscribed(): Observable<boolean> {
+    return this.swPush.subscription
+      .pipe(
+        isEmpty(),
+        map(e => !e)
+      );
   }
 
   private requestSubscription(): void {

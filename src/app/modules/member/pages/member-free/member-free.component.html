@@ -7,7 +7,8 @@
     <mat-form-field floatLabel="never">
       <mat-label>Ruolo</mat-label>
       <mat-select #roleSelect placeholder="Seleziona il ruolo">
-        <mat-option *ngFor="let role of roles | keyvalue" [value]="role.value">{{role.value.singolar}}</mat-option>
+        <mat-option *ngFor="let role of roles | keyvalue; trackBy: track" [value]="role.value">{{role.value.singolar}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 

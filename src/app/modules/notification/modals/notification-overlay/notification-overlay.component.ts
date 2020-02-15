@@ -1,7 +1,7 @@
 import { AnimationEvent } from '@angular/animations';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { listItemAnimation, openOverlayAnimation } from '@app/core/animations';
-import { Stream } from '@app/core/models';
+import { Stream, StreamActivity } from '@app/core/models';
 import { ApplicationService, NotificationService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class NotificationOverlayComponent implements OnInit {
   animationStateChanged = new EventEmitter<AnimationEvent>();
 
   constructor(
-    public notificationService: NotificationService,
+    private readonly notificationService: NotificationService,
     private readonly app: ApplicationService) { }
 
   ngOnInit(): void {
@@ -41,4 +41,7 @@ export class NotificationOverlayComponent implements OnInit {
     this.animationState = 'leave';
   }
 
+  track(_: number, item: StreamActivity): number {
+    return _; // or item.id
+  }
 }

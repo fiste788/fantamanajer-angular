@@ -36,9 +36,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   subscriptions = new Array<Subscription>();
 
   constructor(
-    public bs: McBreadcrumbsService,
-    public ts: Title,
-    public cd: ChangeDetectorRef
+    private readonly bs: McBreadcrumbsService,
+    private readonly ts: Title,
+    private readonly cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {

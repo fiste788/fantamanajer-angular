@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
@@ -49,5 +50,9 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
     if (championshipId) {
       this.members = this.memberService.getFree(championshipId, role?.id);
     }
+  }
+
+  track(_: number, item: KeyValue<number, Role>): number {
+    return item.value.id; // or item.id
   }
 }

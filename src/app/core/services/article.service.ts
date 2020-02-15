@@ -44,6 +44,6 @@ export class ArticleService {
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.url}/${id}`);
+    return this.http.delete(`${this.url}/${id}`);
   }
 }

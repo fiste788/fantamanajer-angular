@@ -25,7 +25,8 @@
           name="repeatPassword" type="password" placeholder="Ripeti password">
       </mat-form-field>
 
-      <mat-slide-toggle [(ngModel)]="push" (change)="togglePush()" name="active_push">Ricevi notifiche push
+      <mat-slide-toggle [checked]="push | async" (change)="togglePush($event.checked)" name="active_push">Ricevi
+        notifiche push
       </mat-slide-toggle>
       <mat-card-actions>
         <button color="accent" mat-raised-button (click)="registerDevice()">Registra device</button>

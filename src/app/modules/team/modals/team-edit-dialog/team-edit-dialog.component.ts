@@ -34,8 +34,8 @@ export class TeamEditDialogComponent {
 
   constructor(
     public app: ApplicationService,
-    public teamService: TeamService,
-    public dialogRef: MatDialogRef<TeamEditDialogComponent>,
+    private readonly teamService: TeamService,
+    private readonly dialogRef: MatDialogRef<TeamEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { team: Team }
   ) {
     this.team = data.team;

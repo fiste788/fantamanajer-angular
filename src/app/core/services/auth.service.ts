@@ -1,7 +1,7 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models';
 import { CredentialService } from './credential.service';
@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  loggedUser: EventEmitter<User> = new EventEmitter();
+  userChange$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();
   private readonly TOKEN_ITEM_NAME = 'token';
@@ -49,7 +49,7 @@ export class AuthService {
           sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
         }
       }
-      this.loggedUser.emit(user);
+      this.userChange$.next(user);
 
       return true;
     }
@@ -66,7 +66,7 @@ export class AuthService {
     this.userService.logout()
       .subscribe();
     this.token = undefined;
-    this.loggedUser.emit(undefined);
+    this.userChange$.next(undefined);
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 
@@ -78,7 +78,7 @@ export class AuthService {
     return this.userService.getCurrent()
       .pipe(
         map(user => {
-          this.loggedUser.emit(user);
+          this.userChange$.next(user);
         })
       );
   }

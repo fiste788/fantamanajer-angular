@@ -43,7 +43,7 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
-    public shared: SharedService,
+    private readonly shared: SharedService,
     private readonly lineupService: LineupService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef
@@ -93,11 +93,10 @@ export class LineupDetailComponent implements OnInit {
           lineup.dispositions[i].position = i + 1;
         }
         if (lineup.dispositions[i].member_id !== null) {
-          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0) ?? null;
+          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
         }
       }
     }
-
   }
 
   getErrors(module: NgModel): string {
@@ -142,9 +141,9 @@ export class LineupDetailComponent implements OnInit {
       .filter(element => element.position > 11)
       // .filter(element => event.value && element.member.id === event.value.id);
       .map(element => {
-        if (event.value && element.member !== null && element.member.id === event.value.id) {
+        if (event.value && element.member?.id === event.value.id) {
           delete element.member;
-          element.member_id = null;
+          delete element.member_id;
         }
       });
   }
