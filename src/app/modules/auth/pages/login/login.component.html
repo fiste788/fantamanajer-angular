@@ -13,10 +13,10 @@
               <mat-label>Email</mat-label>
               <input matInput type="email" [(ngModel)]="loginData.email" name="email" placeholder="Email"
                 #username="ngModel" required>
-              <mat-error *ngIf="username.hasError('email')">
+              <mat-error *ngIf="username.errors?.email">
                 Please enter a valid email address
               </mat-error>
-              <mat-error *ngIf="username.hasError('required')">
+              <mat-error *ngIf="username.errors?.required">
                 Email is
                 <strong>required</strong>
               </mat-error>

@@ -12,7 +12,8 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="mat-table-header-selected" fxLayout="row" *ngIf="memberList != null && !memberList.selection.isEmpty()">
+    <div class="mat-table-header-selected" fxLayout="row"
+      *ngIf="memberList != null && !memberList.selection.selected.length">
       <span class="mat-table-title">Selezionato {{memberList.selection.selected[0].player.full_name}}</span>
       <a matTooltip="Acquista" mat-button [routerLink]="'/teams/' + app.team?.id + '/transferts'"
         [queryParams]="{new_member_id: memberList.selection.selected[0].id}">

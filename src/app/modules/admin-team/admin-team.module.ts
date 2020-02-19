@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogModule } from '@app/modules/confirmation-dialog/confirmation-dialog.module';
 import { LineupModule } from '@app/modules/lineup/lineup.module';
 import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
@@ -22,6 +23,7 @@ import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
     MemberCommonModule,
     LineupModule,
     TransfertModule,
+    ReactiveFormsModule,
     ScoreModule,
     ConfirmationDialogModule
   ],

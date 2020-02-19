@@ -14,7 +14,6 @@ export class DispositionListComponent implements OnInit {
   @Input() dispositions: Array<Disposition>;
   @Input() caption: string;
   @Input() regular = false;
-  captains: Map<number, string>;
 
   dataSource: MatTableDataSource<Disposition>;
   displayedColumns = [
@@ -30,12 +29,6 @@ export class DispositionListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    if (this.lineup) {
-      this.captains = new Map();
-      this.captains.set(this.lineup.captain_id ?? 0, 'C');
-      this.captains.set(this.lineup.vcaptain_id ?? 0, 'VC');
-      this.captains.set(this.lineup.vvcaptain_id ?? 0, 'VVC');
-    }
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
 }

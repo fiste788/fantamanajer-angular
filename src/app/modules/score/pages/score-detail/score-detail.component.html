@@ -1,12 +1,12 @@
-<div *ngIf="score | async as score2; else loading">
-  <div *ngIf="score2.lineup; else nolineup">
-    <fm-disposition-list *ngIf="regular.length" [regular]="true" [lineup]="score2.lineup" [dispositions]="regular"
-      [caption]="'Punteggio: ' + score2.points"></fm-disposition-list>
+<div *ngIf="score | async as _score; else loading">
+  <div *ngIf="_score.lineup; else nolineup">
+    <fm-disposition-list *ngIf="regular.length" [regular]="true" [lineup]="_score.lineup" [dispositions]="regular"
+      [caption]="'Punteggio: ' + _score.points"></fm-disposition-list>
     <fm-disposition-list *ngIf="notRegular.length" [dispositions]="notRegular" caption="Panchinari">
     </fm-disposition-list>
   </div>
   <ng-template #nolineup>
-    <fm-mat-empty-state [label]="'Punteggio: ' + score2.points" description="Formazione non presente" icon="mood_bad">
+    <fm-mat-empty-state [label]="'Punteggio: ' + _score.points" description="Formazione non presente" icon="mood_bad">
     </fm-mat-empty-state>
   </ng-template>
 </div>

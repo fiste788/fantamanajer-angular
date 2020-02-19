@@ -4,10 +4,10 @@ import { Member, Role } from '../models';
 @Injectable({ providedIn: 'root' })
 export class RoleService {
   private readonly roles: Map<number, Role> = new Map<number, Role>([
-    [1, new Role(1, 'Portiere', 'P', 'Portieri')],
-    [2, new Role(2, 'Difensore', 'D', 'Difensori')],
-    [3, new Role(3, 'Centrocampista', 'C', 'Centrocampisti')],
-    [4, new Role(4, 'Attaccante', 'A', 'Attaccanti')]
+    [1, new Role(1, 'Portiere', 3, 'P', 'Portieri')],
+    [2, new Role(2, 'Difensore', 8, 'D', 'Difensori')],
+    [3, new Role(3, 'Centrocampista', 8, 'C', 'Centrocampisti')],
+    [4, new Role(4, 'Attaccante', 6, 'A', 'Attaccanti')]
   ]);
 
   groupMembersByRole(data: Array<Member>): Map<Role, Array<Member>> {
@@ -27,5 +27,12 @@ export class RoleService {
 
   list(): Map<number, Role> {
     return this.roles;
+  }
+
+  totalMembers(): number {
+    let total = 0;
+    this.roles.forEach(r => total += r.count);
+
+    return total;
   }
 }

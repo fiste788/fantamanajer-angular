@@ -1,11 +1,10 @@
 <form *ngIf="team && team.members; else loading" #membersForm="ngForm" (ngSubmit)="save()">
-  <div *ngFor="let role of roles | keyvalue; trackBy: track">
-    <h5>{{role.value.label}}</h5>
+  <div *ngFor="let role of controlsByRole | keyvalue; trackBy: track">
+    <h5>{{role.key.plural}}</h5>
     <div class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start">
-      <div class="disposition" *ngFor="let key2 of role.value.entries;let i = index; trackBy: trackByMember">
-        <fm-member-selection *ngIf="team.members[getIndex(role?.key, i)]" [isMemberDisabled]="isAlreadySelectedCallback"
-          [memberList]="role.value.members" [placeholder]="role.value.label + ' ' + (i + 1)"
-          [name]="'-' + getIndex(role.key, i)" [size]="75" [(ngModel)]="team.members[getIndex(role.key, i)]">
+      <div class="disposition" *ngFor="let c of role.value.controls;let i = index; trackBy: trackByMember">
+        <fm-member-selection [isMemberDisabled]="isAlreadySelectedCallback" [memberList]="role.value.members"
+          [placeholder]="role.key.singolar + ' ' + (i + 1)" [size]="75" [formControl]="membersControls.controls[c]">
         </fm-member-selection>
       </div>
     </div>

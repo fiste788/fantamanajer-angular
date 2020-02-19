@@ -5,26 +5,26 @@
   <table mat-table #table [dataSource]="dataSource" @tableRowAnimation>
     <ng-container matColumnDef="player" sticky>
       <th mat-header-cell *matHeaderCellDef> Giocatore </th>
-      <td mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row;">
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-icon *ngIf="regular && row.consideration == 0">arrow_back</mat-icon>
           <mat-icon *ngIf="!regular && row.consideration == 1">arrow_forward</mat-icon>
           <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
 
           <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.full_name}}</a>
-          <span *ngIf="captains && captains.has(row.member.id)">&nbsp;{{captains.get(row.member.id)}}</span>
+          <span *ngIf="lineup">&nbsp;{{row.member.id | captain: lineup}}</span>
         </div>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="role">
       <th mat-header-cell *matHeaderCellDef> Ruolo </th>
-      <td mat-cell *matCellDef="let row">{{row.member.role.abbreviation}}</td>
+      <td mat-cell *matCellDef="let row;">{{row.member.role.abbreviation}}</td>
     </ng-container>
 
     <ng-container matColumnDef="club">
       <th mat-header-cell *matHeaderCellDef> Club </th>
-      <td mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row;">
         <a [routerLink]="['/clubs',row.member.club.id]">{{row.member.club.name}}</a>
       </td>
     </ng-container>
@@ -33,7 +33,7 @@
       <th mat-header-cell *matHeaderCellDef>
         <span matTooltip="Titolare" matTooltipPosition="above">Tit</span>
       </th>
-      <td mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row;">
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].regular">done</mat-icon>
       </td>
     </ng-container>
@@ -43,7 +43,7 @@
         <span matTooltip="Ammonizioni" matTooltipPosition="above" class="yellow_card"></span>
       </th>
       <th mat-header-cell *matHeaderCellDef> Amm </th>
-      <td mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row;">
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].yellow_card">done</mat-icon>
       </td>
     </ng-container>
@@ -52,26 +52,26 @@
       <th mat-header-cell *matHeaderCellDef>
         <span matTooltip="Espulsioni" matTooltipPosition="above" class="red_card"></span>
       </th>
-      <td mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row;">
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].red_card">done</mat-icon>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="assist">
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Assist </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.member.ratings.length ?
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
                 row.member.ratings[0].assist : ''}}</td>
     </ng-container>
 
     <ng-container matColumnDef="goals">
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Gol </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.member.ratings.length ?
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
                 row.member.ratings[0].goals : ''}}</td>
     </ng-container>
 
     <ng-container matColumnDef="points" stickyEnd>
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Punti </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row">{{row.member.ratings.length ?
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
                 (row.member.ratings[0].points_no_bonus * (regular ? row.consideration : 1)) : ''}}</td>
     </ng-container>
 
