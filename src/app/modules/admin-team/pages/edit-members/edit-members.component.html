@@ -1,9 +1,8 @@
 <form
-  *ngIf="team && team.members; else loading"
-  #membersForm="ngForm"
+  *ngIf="(controlsByRole | async) as _controls; else loading"
   (ngSubmit)="save()"
 >
-  <div *ngFor="let role of (controlsByRole | keyvalue); trackBy: track">
+  <div *ngFor="let role of (_controls | keyvalue); trackBy: track">
     <h5>{{role.key.plural}}</h5>
     <div
       class="flex-container"
@@ -29,7 +28,7 @@
     color="accent"
     mat-raised-button
     type="submit"
-    [disabled]="!membersForm.form.valid"
+    [disabled]="!membersControls.valid"
   >SALVA</button>
 </form>
 <ng-template #loading>

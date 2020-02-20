@@ -1,11 +1,13 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@app/http';
-import { UtilService } from '@app/services';
+import { UtilService } from '@app/services/';
 import { Member, Role, Team } from '@shared/models';
 
 interface TeamMembers {
@@ -22,11 +24,10 @@ export class EditMembersComponent implements OnInit {
   @ViewChild(NgForm) membersForm: NgForm;
 
   membersControls: FormArray;
-  roles: Map<number, Role> = new Map<number, Role>();
-  controlsByRole: Map<Role, TeamMembers> = new Map<Role, TeamMembers>();
-  members: Map<Role, Array<Member>> = new Map<Role, Array<Member>>();
+  controlsByRole: Observable<Map<Role, TeamMembers>>;
   team: Team;
   isAlreadySelectedCallback: () => boolean;
+  private readonly roles: Map<number, Role> = new Map<number, Role>();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -34,8 +35,7 @@ export class EditMembersComponent implements OnInit {
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-    private readonly snackBar: MatSnackBar,
-    private readonly cd: ChangeDetectorRef
+    private readonly snackBar: MatSnackBar
   ) {
     this.roles = this.roleService.list();
   }
@@ -45,35 +45,35 @@ export class EditMembersComponent implements OnInit {
     if (t) {
       this.team = t;
       this.loadMembers(this.team);
-      this.cd.detectChanges();
       this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this);
     }
   }
 
   loadMembers(team: Team): void {
     this.membersControls = new FormArray([]);
-    this.memberService.getByTeamId(team.id)
-      .subscribe(members => {
-        this.team.members = members.slice(0, this.roleService.totalMembers());
-        this.memberService.getAllFree(this.team.championship_id)
-          .subscribe(res => {
-            this.roles.forEach((role, key) => {
-              const m = this.team.members.filter(entry => entry !== undefined && entry.role_id === key)
-                .concat(res[key]);
-              this.members.set(role, m);
-              this.controlsByRole.set(role, { members: m, controls: [] });
-              for (let i = 0; i < role.count; i++) {
-                const c = this.createItem(this.team.members.shift());
-                this.controlsByRole.get(role)
-                  ?.controls
-                  .push(this.getIndex(role, i));
-                this.membersControls.push(c);
-              }
-
-            });
+    this.controlsByRole = forkJoin(
+      this.memberService.getByTeamId(team.id),
+      this.memberService.getAllFree(team.championship_id)
+    )
+      .pipe(
+        map(([teamMembers, allMembers]) => {
+          const m = new Map<Role, TeamMembers>();
+          this.team.members = teamMembers.slice(0, this.roleService.totalMembers());
+          this.roles.forEach((role, roleId) => {
+            const members = this.team.members.filter(entry => entry !== undefined && entry.role_id === roleId)
+              .concat(allMembers[roleId]);
+            const controls = [];
+            for (let i = 0; i < role.count; i++) {
+              const index = this.getIndex(role, i);
+              const c = this.createItem(this.team.members[index]);
+              this.membersControls.push(c);
+              controls.push(index);
+            }
+            m.set(role, { members, controls });
           });
 
-      });
+          return m;
+        }));
   }
 
   getIndex(key: Role, key2: number): number {
@@ -92,7 +92,7 @@ export class EditMembersComponent implements OnInit {
   }
 
   createItem(member?: Member): FormControl {
-    return this.fb.control(member);
+    return this.fb.control(member, Validators.required);
   }
 
   isAlreadySelected(member: Member): boolean {
@@ -109,6 +109,7 @@ export class EditMembersComponent implements OnInit {
   }
 
   save(): void {
+    this.team.members = this.membersControls.value;
     this.teamService.update(this.team)
       .subscribe(() => {
         this.snackBar.open('Giocatori modificati', undefined, {
@@ -116,7 +117,7 @@ export class EditMembersComponent implements OnInit {
         });
       },
         err => {
-          UtilService.getUnprocessableEntityErrors(this.membersForm, err);
+          UtilService.getUnprocessableEntityErrors(this.membersControls, err);
         }
       );
   }
@@ -125,7 +126,7 @@ export class EditMembersComponent implements OnInit {
     return item.key.id; // or item.id
   }
 
-  trackByMember(_: number): number {
-    return _; // or item.id
+  trackByMember(index: number): number {
+    return index; // or item.id
   }
 }

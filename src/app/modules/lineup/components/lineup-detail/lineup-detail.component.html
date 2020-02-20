@@ -9,18 +9,16 @@
     <mat-form-field>
       <mat-label>Modulo</mat-label>
       <mat-select
-        #module="ngModel"
         name="module"
         placeholder="Modulo"
         [disabled]="disabled"
         [(ngModel)]="lineup.module_object"
       >
         <mat-option
-          *ngFor="let module of modules"
-          [value]="module"
-        >{{module.label}}</mat-option>
+          *ngFor="let m of modules"
+          [value]="m"
+        >{{m.label}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="module.invalid">{{getErrors(module)}}</mat-error>
     </mat-form-field>
     <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
     <mat-checkbox
@@ -32,7 +30,7 @@
   </div>
   <ng-container *ngIf="lineup.module_object">
     <div
-      *ngFor="let role of (lineup.module_object?.map | keyvalue:descOrder); trackBy: trackByRole"
+      *ngFor="let role of lineup.module_object?.map | keyvalue:descOrder; trackBy: trackByRole"
       fxLayout="row"
       [ngClass]="[role.key.abbreviation, 'role-container']"
     >
@@ -57,13 +55,13 @@
           [disabled]="disabled"
           [captain]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member?.id == lineup.captain_id"
           [isMemberDisabled]="isRegularCallback"
-          (selectionChange)="removeBenchwarmer(lineup, $event)"
           [memberList]="membersByRole.get(role.key)"
           [placeholder]="role.key.singolar"
           [name]="role.key.abbreviation + '-' + memberKey"
           [width]="320"
           [height]="450"
           [(ngModel)]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member"
+          (selectionChange)="memberSelectionChange(lineup, $event)"
         ></fm-member-selection>
       </div>
     </div>
@@ -85,12 +83,13 @@
           [placeholder]="captain.key"
           [name]="captain.key"
           [(ngModel)]="lineup[captain.value + '_id']"
+          (selectionChange)="captainSelectionChange(lineup)"
         >
           <mat-option
-            *ngFor="let member of getCapitanables(lineup); trackBy: trackByMember"
-            [disabled]="isCaptainAlreadySelected(lineup, member)"
-            [value]="member.id"
-          >{{member.player.full_name}}
+            *ngFor="let c of captainables; trackBy: trackByCaptain"
+            [disabled]="c.disabled"
+            [value]="c.member.id"
+          >{{c.member.player.full_name}}
           </mat-option>
         </mat-select>
       </mat-form-field>

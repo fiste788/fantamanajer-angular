@@ -4,7 +4,8 @@ import { NgForm } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share } from 'rxjs/operators';
 
 import { MemberService, RoleService, SelectionService } from '@app/http';
@@ -24,7 +25,7 @@ export class SelectionComponent implements OnInit {
   members$: Observable<Map<Role, Array<Member>>>;
   newMembers$?: Observable<Array<Member>>;
   role: Subject<Role> = new Subject<Role>();
-  disableOthers: boolean;
+  newPlayerRole: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -49,7 +50,7 @@ export class SelectionComponent implements OnInit {
         });
 
       this.role.pipe(
-        distinctUntilChanged((x, y) => y === null || x.id === y.id),
+        distinctUntilChanged((x, y) => y === undefined || x.id === y.id),
         share()
       )
         .subscribe({
@@ -66,9 +67,9 @@ export class SelectionComponent implements OnInit {
               this.memberService.getById(memberId)
                 .subscribe(member => {
                   this.role.next(this.roleService.getById(member.role_id));
+                  this.newPlayerRole.next(this.roleService.getById(member.role_id));
                   this.selection.new_member = member;
                   this.selection.new_member_id = member.id;
-                  this.disableOthers = true;
                   this.changeRef.detectChanges();
                 });
             }
@@ -80,7 +81,6 @@ export class SelectionComponent implements OnInit {
 
   loadMembers(role?: Role): void {
     if (role) {
-      this.disableOthers = false;
       this.newMember.disabled = true;
       if (this.app.championship) {
         this.newMembers$ = this.memberService.getFree(this.app.championship.id, role.id, false)
@@ -103,7 +103,7 @@ export class SelectionComponent implements OnInit {
   }
 
   compareFn(c1: Member, c2: Member): boolean {
-    return c1 !== undefined && c2 !== undefined ? c1.id === c2.id : c1 === c2;
+    return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
   save(): void {
@@ -133,18 +133,17 @@ export class SelectionComponent implements OnInit {
     a.key.id < b.key.id ? b.key.id : a.key.id;
 
   isDisabled(role: Role): boolean {
-    return this.disableOthers &&
-      this.selection.new_member !== null &&
+    return this.selection.new_member !== null &&
       role !== this.roleService.getById(this.selection.new_member.role_id);
   }
 
   reset(): void {
-    this.disableOthers = false;
     delete this.selection.new_member;
     delete this.selection.new_member_id;
     this.newMember.value = undefined;
     this.newMembers$ = undefined;
     this.role.next();
+    this.newPlayerRole.next(undefined);
   }
 
   track(_: number, item: KeyValue<Role, Array<Member>>): number {

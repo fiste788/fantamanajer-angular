@@ -8,7 +8,7 @@
   svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
   possibile cambiare il giocatore selezionato 2 volte.</p>
 <form
-  *ngIf="(members$ | async) as members"
+  *ngIf="(members$ | async) as members;"
   #selectionForm="ngForm"
   (ngSubmit)="save()"
 >
@@ -17,19 +17,19 @@
       <mat-label>Vecchio giocatore</mat-label>
       <mat-select
         name="old_member"
-        required
         placeholder="Vecchio giocatore"
+        required
         [compareWith]="compareFn"
         [(ngModel)]="selection.old_member"
         (selectionChange)="playerChange()"
       >
         <mat-optgroup
-          *ngFor="let _role of (members | keyvalue:descOrder); trackBy: track"
-          [label]="_role.key.plural"
-          [disabled]="isDisabled(_role.key)"
+          *ngFor="let role of members | keyvalue:descOrder; trackBy: track"
+          [label]="role.key.plural"
+          [disabled]="newPlayerRole.value && role.key !== newPlayerRole.value"
         >
           <mat-option
-            *ngFor="let member of _role.value"
+            *ngFor="let member of role.value"
             [value]="member"
           >{{ member.player.full_name }}</mat-option>
         </mat-optgroup>

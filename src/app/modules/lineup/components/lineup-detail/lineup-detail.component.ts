@@ -1,12 +1,16 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 import { LineupService, RoleService } from '@app/http';
-import { UtilService } from '@app/services';
 import { Disposition, Lineup, Member, Module, Role } from '@shared/models';
+
+interface Captainable {
+  member: Member;
+  disabled: boolean;
+}
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -41,6 +45,7 @@ export class LineupDetailComponent implements OnInit {
   captains: Map<string, string> = new Map<string, string>();
   modules: Array<Module>;
   benchs: Array<number>;
+  captainables: Array<Captainable>;
   isRegularCallback: () => boolean;
   isAlreadySelectedCallback: () => boolean;
 
@@ -97,11 +102,8 @@ export class LineupDetailComponent implements OnInit {
           lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
         }
       }
+      this.captainSelectionChange(lineup);
     }
-  }
-
-  getErrors(module: NgModel): string {
-    return UtilService.getError(module);
   }
 
   getIndex(lineup: Lineup, role: Role, memberKey: number): number {
@@ -119,13 +121,14 @@ export class LineupDetailComponent implements OnInit {
     return count + memberKey;
   }
 
-  getCapitanables(lineup: Lineup): Array<Member> {
+  getCapitanables(lineup: Lineup): Array<Captainable> {
     const regulars = lineup.dispositions.slice(0, 11);
     const def = regulars.filter(element => element.member !== null
       && ['P', 'D'].find(a => this.membersById.get(element.member?.id ?? 0)?.role.abbreviation === a), this);
 
     return def.map(element => this.membersById.get(element.member?.id ?? 0))
-      .filter((x): x is Member => x !== null);
+      .filter((x): x is Member => x !== null)
+      .map(m => ({ disabled: this.isCaptainAlreadySelected(lineup, m), member: m }));
   }
 
   putInLineup(lineup: Lineup, element: Member, i: number): void {
@@ -137,12 +140,21 @@ export class LineupDetailComponent implements OnInit {
     // lineup.dispositions[i].member_id = element.id;
   }
 
-  removeBenchwarmer(lineup: Lineup, event: MatSelectChange): void {
+  memberSelectionChange(lineup: Lineup, event: MatSelectChange): void {
+    this.removeBenchwarmer(lineup, event.value);
+    this.captainSelectionChange(lineup);
+  }
+
+  captainSelectionChange(lineup: Lineup): void {
+    this.captainables = this.getCapitanables(lineup);
+  }
+
+  removeBenchwarmer(lineup: Lineup, member?: Member): void {
     lineup.dispositions
       .filter(element => element.position > 11)
       // .filter(element => event.value && element.member.id === event.value.id);
       .map(element => {
-        if (event.value && element.member?.id === event.value.id) {
+        if (member && element.member?.id === member.id) {
           delete element.member;
           delete element.member_id;
         }
@@ -203,5 +215,9 @@ export class LineupDetailComponent implements OnInit {
 
   trackByMember(_: number, item: Member): number {
     return item.id; // or item.id
+  }
+
+  trackByCaptain(_: number, item: Captainable): number {
+    return item.member.id; // or item.id
   }
 }
