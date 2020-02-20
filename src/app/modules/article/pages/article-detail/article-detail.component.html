@@ -1,6 +1,6 @@
 <h1>Articolo</h1>
 <div>
-  <form #articleForm="ngForm" *ngIf="article | async as _article" (ngSubmit)="save(_article)">
+  <form #articleForm="ngForm" *ngIf="article | async as _article;" (ngSubmit)="save(_article)">
     <mat-form-field>
       <mat-label>Titolo</mat-label>
       <input matInput [(ngModel)]="_article.title" required name="title" placeholder="Titolo">

@@ -1,5 +1,6 @@
 import { League, Season, Team } from './';
 
+// tslint:disable: variable-name
 export class Championship {
   id: number;
   started: boolean;

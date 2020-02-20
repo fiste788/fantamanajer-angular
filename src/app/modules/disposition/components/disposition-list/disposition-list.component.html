@@ -59,20 +59,23 @@
 
     <ng-container matColumnDef="assist">
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Assist </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
-                row.member.ratings[0].assist : ''}}</td>
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">
+        {{row.member.ratings.length ? row.member.ratings[0].assist : ''}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="goals">
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Gol </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
-                row.member.ratings[0].goals : ''}}</td>
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">
+        {{row.member.ratings.length ? row.member.ratings[0].goals : ''}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="points" stickyEnd>
       <th mat-header-cell class="mat-cell-numeric" *matHeaderCellDef> Punti </th>
-      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">{{row.member.ratings.length ?
-                (row.member.ratings[0].points_no_bonus * (regular ? row.consideration : 1)) : ''}}</td>
+      <td mat-cell class="mat-cell-numeric" *matCellDef="let row;">
+        {{(row.points * (regular ? row.consideration : 1))}}
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

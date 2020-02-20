@@ -1,5 +1,6 @@
 import { Championship, Member, NotificationSubscription, User } from './';
 
+// tslint:disable: variable-name
 export class Team {
   id: number;
   name: string;

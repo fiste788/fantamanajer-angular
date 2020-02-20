@@ -1,5 +1,5 @@
 export class StreamActivity {
-  text: string;
+  title: string;
   time: Date;
   humanTime: string;
   icon: string;

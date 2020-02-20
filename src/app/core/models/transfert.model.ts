@@ -1,5 +1,6 @@
 import { Matchday, Member, Team } from './';
 
+// tslint:disable: variable-name
 export class Transfert {
   id: number;
   team_id: number;

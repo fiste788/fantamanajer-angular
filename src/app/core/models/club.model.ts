@@ -1,5 +1,6 @@
 import { Member } from './';
 
+// tslint:disable: variable-name
 export class Club {
   id: number;
   name: string;

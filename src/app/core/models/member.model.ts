@@ -1,5 +1,6 @@
 import { Club, Player, Rating, Role, Season, Team } from './';
 
+// tslint:disable: variable-name
 export class Member {
   id: number;
   code_gazzetta: number;

@@ -1,5 +1,6 @@
 import { Lineup, Member } from './';
 
+// tslint:disable: variable-name
 export class Disposition {
   id: number;
   position: number;

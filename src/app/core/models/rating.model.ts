@@ -1,5 +1,6 @@
 import { Matchday, Member } from './';
 
+// tslint:disable: variable-name
 export class Rating {
   id: number;
   valued: boolean;

@@ -1,5 +1,6 @@
 import { User } from './';
 
+// tslint:disable: variable-name
 export class PublicKeyCredentialSource {
   public_key_credential_id: string;
   name: string;

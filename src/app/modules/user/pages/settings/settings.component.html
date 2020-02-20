@@ -1,5 +1,5 @@
 <div class="flex-container">
-  <form *ngIf="user">
+  <form ngForm *ngIf="user">
     <mat-card>
       <mat-card-title>
         Profilo utente
@@ -21,7 +21,7 @@
 
       <mat-form-field>
         <mat-label>Ripeti password</mat-label>
-        <input matInput [required]="user.password != null && user.password != ''" [(ngModel)]="repeatPassword"
+        <input matInput [required]="user.password && user.password != ''" [(ngModel)]="repeatPassword"
           name="repeatPassword" type="password" placeholder="Ripeti password">
       </mat-form-field>
 
@@ -32,7 +32,6 @@
         <button color="accent" mat-raised-button (click)="registerDevice()">Registra device</button>
         <button color="accent" mat-raised-button (click)="save()">Salva</button>
       </mat-card-actions>
-
     </mat-card>
   </form>
 </div>

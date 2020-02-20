@@ -1,5 +1,6 @@
 import { Season } from './';
 
+// tslint:disable: variable-name
 export class Matchday {
   id: number;
   number: number;

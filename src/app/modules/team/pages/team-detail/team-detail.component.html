@@ -1,4 +1,4 @@
-<ng-container *ngIf="team | async as _team">
+<ng-container *ngIf="team | async as _team;">
   <div @enterDetailAnimation>
     <div class="animation-container">
       <fm-parallax-header [backgroundImage]="_team.photo_url" [tabs]="tabs" [title]="_team.name"

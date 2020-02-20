@@ -5,6 +5,7 @@ import { Module } from './module.model';
 import { Role } from './role.model';
 import { Team } from './team.model';
 
+// tslint:disable: variable-name
 export class Lineup {
   id: number;
   module: string;

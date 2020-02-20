@@ -1,5 +1,6 @@
 import { Matchday, Team } from './';
 
+// tslint:disable: variable-name
 export class Article {
   id: number;
   title: string;

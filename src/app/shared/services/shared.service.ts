@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class SharedService {
 
-  static getUnprocessableEntityErrors(form: NgForm, err: HttpErrorResponse): void {
+  static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
     if (err.status === 422) {
       const errors = err.error.data.errors;
       Object.keys(errors)

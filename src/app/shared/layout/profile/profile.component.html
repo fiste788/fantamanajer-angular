@@ -1,6 +1,6 @@
 <mat-toolbar *ngIf="app.user" color="primary"
   [style.background-image]="app.team?.photo_url ? 'url(' + app.team?.photo_url['240w'] + ')' : ''"
-  [class.has-image]="app.team?.photo_url != null">
+  [class.has-image]="app.team?.photo_url">
   <mat-toolbar-row>
     <span></span>
   </mat-toolbar-row>
