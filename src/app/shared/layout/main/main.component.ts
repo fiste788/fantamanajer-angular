@@ -1,14 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@app/core/animations';
 import { AuthService, LayoutService, ScrollService, ThemeService } from '@app/core/services';
-import { combineLatest, forkJoin, Observable, zip } from 'rxjs';
-import { combineAll, map, mergeMap } from 'rxjs/operators';
+import { environment } from '@env/environment';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { VisibilityState } from './visibility-state';
+
+declare var gtag: Gtag.Gtag;
 
 @Component({
   selector: 'fm-main',
@@ -37,6 +40,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    private readonly router: Router,
     private readonly scrollService: ScrollService,
     private readonly themeService: ThemeService,
     private readonly auth: AuthService,
@@ -44,6 +48,16 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly changeRef: ChangeDetectorRef
   ) {
+    if (environment.gaCode !== undefined) {
+      const navEndEvent$ = this.router.events.pipe(
+        filter(e => e instanceof NavigationEnd)
+      );
+      navEndEvent$.subscribe((e: NavigationEnd) => {
+        gtag('config', environment.gaCode ?? '', {
+          page_path: e.urlAfterRedirects
+        });
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -59,6 +73,12 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.layoutService.openSidebar$.next(a);
       });
     this.loggedIn$ = this.auth.userChange$.pipe(map(u => u !== null));
+    if (environment.gaCode !== undefined) {
+      const script = this.document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${environment.gaCode}`;
+      this.document.head.prepend(script);
+    }
   }
 
   ngAfterViewInit(): void {

@@ -34,7 +34,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     'sum_red_card'
   ];
   footer = {};
-  @Output() readonly selection = new SelectionModel<Member>(false, []);
+  @Output() readonly selection = new SelectionModel<Member>(this.multipleSelection, []);
 
   private subscription: Subscription;
 
