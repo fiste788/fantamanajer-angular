@@ -3,9 +3,8 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { LineupService } from '@app/core/http';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService, UtilService } from '@app/core/services';
 import { Lineup } from '@app/shared/models';
-import { UtilService } from '@app/core/services';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

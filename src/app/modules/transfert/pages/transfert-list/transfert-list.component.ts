@@ -4,9 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
 import { TransfertService } from '@app/core/http';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService, UtilService } from '@app/core/services';
 import { Transfert } from '@app/shared/models';
-import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-transfert-list',

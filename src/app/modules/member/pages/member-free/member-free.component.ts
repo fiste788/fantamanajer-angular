@@ -4,10 +4,9 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
 import { MemberService, RoleService } from '@app/core/http';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService, UtilService } from '@app/core/services';
 import { MemberListComponent } from '@app/modules/member-common/components/member-list/member-list.component';
 import { Member, Role } from '@app/shared/models';
-import { UtilService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -5,9 +5,8 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { MemberService, RoleService, SelectionService } from '@app/core/http';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService, UtilService } from '@app/core/services';
 import { Member, Role, Selection } from '@app/shared/models';
-import { UtilService } from '@app/core/services';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share } from 'rxjs/operators';
 

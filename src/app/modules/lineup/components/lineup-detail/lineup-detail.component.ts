@@ -4,8 +4,8 @@ import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular
 import { NgForm, NgModel } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { LineupService, RoleService } from '@app/core/http';
-import { Disposition, Lineup, Member, Module, Role } from '@app/shared/models';
 import { UtilService } from '@app/core/services';
+import { Disposition, Lineup, Member, Module, Role } from '@app/shared/models';
 
 @Component({
   selector: 'fm-lineup-detail',

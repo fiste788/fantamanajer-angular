@@ -3,8 +3,8 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { cardCreationAnimation } from '@app/core/animations';
 import { TeamService } from '@app/core/http';
-import { Team } from '@app/shared/models';
 import { UtilService } from '@app/core/services';
+import { Team } from '@app/shared/models';
 import { Observable } from 'rxjs';
 
 @Component({
