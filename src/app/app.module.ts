@@ -8,7 +8,7 @@ import { LayoutModule } from '@app/shared/layout/layout.module';
 import { MainComponent } from '@app/shared/layout/main/main.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './modules/home/home.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({

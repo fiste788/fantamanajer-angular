@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/core/guards';
+import { HomeComponent } from '@app/modules/home/pages/home.component';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
-import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, data: { state: 'home' } },
+  {
+    path: 'home',
+    component: HomeComponent,
+    data: { state: 'home' }
+  },
   {
     path: 'auth',
     loadChildren: () => import('./modules/auth/auth.module')

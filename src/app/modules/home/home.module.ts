@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedModule } from '@app/shared/shared.module';
-import { HomeComponent } from './home.component';
+// import { HomeRoutingModule } from './home-routing.module';
+import { HomeComponent } from './pages/home.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    // HomeRoutingModule,
     MatProgressSpinnerModule,
     MatExpansionModule
   ],
