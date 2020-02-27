@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TeamService } from '@app/core/http';
 import { Championship, Team, User } from '@app/core/models';
-import { TeamService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({

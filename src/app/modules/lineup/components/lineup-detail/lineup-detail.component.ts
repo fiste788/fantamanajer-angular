@@ -3,8 +3,8 @@ import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { LineupService, RoleService } from '@app/core/http';
 import { Disposition, Lineup, Member, Module, Role } from '@app/core/models';
-import { LineupService, RoleService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({

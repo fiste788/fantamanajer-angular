@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ScoreService } from '@app/core/http';
 import { Disposition, Score } from '@app/core/models';
-import { ScoreService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

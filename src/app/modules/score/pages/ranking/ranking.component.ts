@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations/table-row.animation';
+import { ScoreService } from '@app/core/http';
 import { Championship, Matchday } from '@app/core/models';
-import { ScoreService } from '@app/core/services';
 
 @Component({
   selector: 'fm-ranking',

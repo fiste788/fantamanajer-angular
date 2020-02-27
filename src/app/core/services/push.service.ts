@@ -5,11 +5,11 @@ import { SwPush, SwUpdate } from '@angular/service-worker';
 import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 import { filter, isEmpty, map, take } from 'rxjs/operators';
+import { PushSubscriptionService } from '../http';
 import { PushSubscription, User } from '../models';
 import { ApplicationService } from './application.service';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
-import { PushSubscriptionService } from './push-subscription.service';
 import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })

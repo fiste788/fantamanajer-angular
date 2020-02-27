@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService, AuthService, CredentialService } from '@app/core/services';
+import { CredentialService } from '@app/core/http';
+import { ApplicationService, AuthService } from '@app/core/services';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { Observable } from 'rxjs';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Tab } from '@app/core/models';
-import { ApplicationService } from '@app/core/services/application.service';
+import { ApplicationService } from '@app/core/services';
 
 @Component({
   selector: 'fm-championship',

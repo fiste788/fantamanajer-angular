@@ -2,8 +2,9 @@ import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { LineupService } from '@app/core/http';
 import { Lineup } from '@app/core/models';
-import { ApplicationService, LineupService } from '@app/core/services';
+import { ApplicationService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 import { Observable, Subscription } from 'rxjs';
 

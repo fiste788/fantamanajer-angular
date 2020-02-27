@@ -3,8 +3,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
+import { TransfertService } from '@app/core/http';
 import { Transfert } from '@app/core/models';
-import { ApplicationService, TransfertService } from '@app/core/services';
+import { ApplicationService } from '@app/core/services';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({

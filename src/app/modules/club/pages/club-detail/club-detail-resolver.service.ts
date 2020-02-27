@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ClubService } from '@app/core/http';
 import { Club } from '@app/core/models';
-import { ClubService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
 @Injectable()

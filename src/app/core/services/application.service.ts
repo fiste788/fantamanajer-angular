@@ -1,12 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatchdayService } from '@app/core/http';
 import { environment } from '@env/environment';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 import { Championship, Matchday, Team, User } from '../models';
 import { AuthService } from './auth.service';
-import { MatchdayService } from './matchday.service';
 
 @Injectable({
   providedIn: 'root'

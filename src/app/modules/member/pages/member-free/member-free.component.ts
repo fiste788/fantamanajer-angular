@@ -3,8 +3,9 @@ import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewC
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
+import { MemberService, RoleService } from '@app/core/http';
 import { Member, Role } from '@app/core/models';
-import { ApplicationService, MemberService, RoleService } from '@app/core/services';
+import { ApplicationService } from '@app/core/services';
 import { MemberListComponent } from '@app/modules/member-common/components/member-list/member-list.component';
 import { SharedService } from '@app/shared/services/shared.service';
 import { Observable } from 'rxjs';
