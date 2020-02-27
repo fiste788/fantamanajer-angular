@@ -1,3 +1,3 @@
-export * from './api.interceptor';
+export * from './api-prefix.interceptor';
 export * from './error-handler.interceptor';
-export * from './jwt.interceptor';
+export * from './jwt-token.interceptor';

@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class JWTInterceptor implements HttpInterceptor {
+export class JWTTokenInterceptor implements HttpInterceptor {
 
   constructor(private readonly auth: AuthService) { }
 
