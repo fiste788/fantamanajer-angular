@@ -4,7 +4,7 @@ import { FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
-export class SharedService {
+export class UtilService {
 
   static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
     if (err.status === 422) {
@@ -30,11 +30,11 @@ export class SharedService {
   }
 
   static getTeamId(route: ActivatedRoute): number | undefined {
-    return SharedService.getParam(route, 'team_id');
+    return UtilService.getParam(route, 'team_id');
   }
 
   static getChampionshipId(route: ActivatedRoute): number | undefined {
-    return SharedService.getParam(route, 'championship_id');
+    return UtilService.getParam(route, 'championship_id');
   }
 
   private static getParam(route: ActivatedRoute, param: string): number | undefined {

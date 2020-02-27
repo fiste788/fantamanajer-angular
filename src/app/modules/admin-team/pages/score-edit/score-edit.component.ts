@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ScoreService } from '@app/core/http';
 import { Score, Team } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -50,7 +50,7 @@ export class ScoreEditComponent implements OnInit {
         });
       },
         err => {
-          SharedService.getUnprocessableEntityErrors(this.scoreForm, err);
+          UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
         });
   }
 

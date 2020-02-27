@@ -6,7 +6,7 @@ import { tableRowAnimation } from '@app/core/animations';
 import { TransfertService } from '@app/core/http';
 import { ApplicationService } from '@app/core/services';
 import { Transfert } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-transfert-list',
@@ -29,7 +29,7 @@ export class TransfertListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.teamId = SharedService.getTeamId(this.route);
+    this.teamId = UtilService.getTeamId(this.route);
     if (this.teamId) {
       // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
       this.transfertService.getTransfert(this.teamId)

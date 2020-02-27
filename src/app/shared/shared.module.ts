@@ -12,7 +12,6 @@ import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-s
 import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
 import { RouterOutletComponent } from './components/router-outlet/router-outlet.component';
 import { MaterialModule } from './material.module';
-import { SharedService } from './services';
 
 export const breakPointsProvider = {
   provide: BREAKPOINTS,
@@ -63,10 +62,6 @@ export const breakPointsProvider = {
     RellaxDirective,
     StickyDirective,
     SrcsetDirective
-  ],
-  providers: [
-    SharedService
   ]
-
 })
 export class SharedModule { }

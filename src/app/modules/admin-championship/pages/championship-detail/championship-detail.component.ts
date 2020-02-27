@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ChampionshipService } from '@app/core/http';
 import { Championship, League } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-championship-detail',
@@ -41,7 +41,7 @@ export class ChampionshipDetailComponent implements OnInit {
         });
       },
         err => {
-          SharedService.getUnprocessableEntityErrors(this.championshipForm, err);
+          UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
         }
       );
   }

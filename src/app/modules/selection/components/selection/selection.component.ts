@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MemberService, RoleService, SelectionService } from '@app/core/http';
 import { ApplicationService } from '@app/core/services';
 import { Member, Role, Selection } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share } from 'rxjs/operators';
 
@@ -38,7 +38,7 @@ export class SelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const teamId = SharedService.getTeamId(this.route);
+    const teamId = UtilService.getTeamId(this.route);
     if (teamId) {
       this.selectionService.getSelection(teamId)
         .subscribe(selection => {
@@ -123,7 +123,7 @@ export class SelectionComponent implements OnInit {
           this.selection.id = response.id;
         },
           err => {
-            SharedService.getUnprocessableEntityErrors(this.selectionForm, err);
+            UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
           }
         );
     }

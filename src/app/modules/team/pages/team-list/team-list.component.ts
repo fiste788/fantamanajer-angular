@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { cardCreationAnimation } from '@app/core/animations';
 import { TeamService } from '@app/core/http';
 import { Team } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -35,7 +35,7 @@ export class TeamListComponent implements OnInit {
     this.scrollTarget = this.scroller.scrollContainers.keys()
       .next().value
       .getElementRef().nativeElement;
-    const id = SharedService.getChampionshipId(this.route);
+    const id = UtilService.getChampionshipId(this.route);
     if (id) {
       this.teams = this.teamService.getTeams(id);
     }

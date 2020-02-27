@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-championship-stream',
@@ -14,6 +14,6 @@ export class ChampionshipStreamComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = SharedService.getChampionshipId(this.route);
+    this.id = UtilService.getChampionshipId(this.route);
   }
 }

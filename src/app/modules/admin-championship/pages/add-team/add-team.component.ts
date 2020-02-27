@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '@app/core/http';
 import { Championship, Team, User } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-add-team',
@@ -39,7 +39,7 @@ export class AddTeamComponent implements OnInit {
         void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
       },
         err => {
-          SharedService.getUnprocessableEntityErrors(this.teamForm, err);
+          UtilService.getUnprocessableEntityErrors(this.teamForm, err);
         }
       );
   }

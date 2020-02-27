@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MemberService, TransfertService } from '@app/core/http';
 import { ConfirmationDialogComponent } from '@app/modules/confirmation-dialog/modals/confirmation-dialog.component';
 import { Member, Team, Transfert } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-new-transfert',
@@ -94,7 +94,7 @@ export class NewTransfertComponent implements OnInit {
         });
       },
         err => {
-          SharedService.getUnprocessableEntityErrors(this.transfertForm, err);
+          UtilService.getUnprocessableEntityErrors(this.transfertForm, err);
         }
       );
   }

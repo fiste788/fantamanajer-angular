@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LineupService } from '@app/core/http';
 import { ApplicationService } from '@app/core/services';
 import { Lineup } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -59,7 +59,7 @@ export class LineupLastComponent implements OnDestroy {
       });
     },
       err => {
-        SharedService.getUnprocessableEntityErrors(this.lineupForm, err);
+        UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
       });
   }
 }

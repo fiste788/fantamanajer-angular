@@ -5,4 +5,5 @@ export * from './notification.service';
 export * from './push.service';
 export * from './scroll.service';
 export * from './theme.service';
+export * from './util.service';
 export * from './window.service';

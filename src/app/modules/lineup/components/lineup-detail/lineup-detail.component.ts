@@ -5,7 +5,7 @@ import { NgForm, NgModel } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { LineupService, RoleService } from '@app/core/http';
 import { Disposition, Lineup, Member, Module, Role } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -43,7 +43,7 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
-    private readonly shared: SharedService,
+    private readonly shared: UtilService,
     private readonly lineupService: LineupService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef
@@ -100,7 +100,7 @@ export class LineupDetailComponent implements OnInit {
   }
 
   getErrors(module: NgModel): string {
-    return SharedService.getError(module);
+    return UtilService.getError(module);
   }
 
   getIndex(lineup: Lineup, role: Role, memberKey: number): number {

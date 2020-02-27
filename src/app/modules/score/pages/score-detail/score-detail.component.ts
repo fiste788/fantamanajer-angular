@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ScoreService } from '@app/core/http';
 import { Disposition, Score } from '@app/shared/models';
-import { SharedService } from '@app/shared/services/shared.service';
+import { UtilService } from '@app/core/services';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ export class ScoreDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.snapshot.url.pop()?.path === 'last') {
-      const teamId = SharedService.getTeamId(this.route);
+      const teamId = UtilService.getTeamId(this.route);
       if (teamId) {
         this.score = this.scoreService.getLastScore(teamId)
           .pipe(
