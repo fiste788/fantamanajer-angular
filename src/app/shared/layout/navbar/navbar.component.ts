@@ -1,5 +1,6 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { ApplicationService, AuthService, LayoutService, PushService } from '@app/core/services';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/core/authentication';
+import { ApplicationService, LayoutService, PushService } from '@app/core/services';
 import { Championship, Team } from '@app/shared/models';
 import { combineLatest } from 'rxjs/operators';
 
@@ -17,7 +18,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly layoutService: LayoutService,
-    private readonly auth: AuthService,
+    private readonly auth: AuthenticationService,
     private readonly push: PushService,
     private readonly app: ApplicationService
   ) { }

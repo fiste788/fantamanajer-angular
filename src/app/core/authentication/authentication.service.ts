@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthenticationService {
   userChange$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();

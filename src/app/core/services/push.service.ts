@@ -2,13 +2,13 @@ import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
+import { AuthenticationService } from '@app/core/authentication';
 import { PushSubscription, User } from '@app/shared/models';
 import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 import { filter, isEmpty, map, take } from 'rxjs/operators';
 import { PushSubscriptionService } from '../http';
 import { ApplicationService } from './application.service';
-import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
 import { WINDOW } from './window.service';
 
@@ -23,7 +23,7 @@ export class PushService {
     private readonly snackBar: MatSnackBar,
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
-    private readonly auth: AuthService,
+    private readonly auth: AuthenticationService,
     private readonly swUpdate: SwUpdate,
     private readonly router: Router
   ) {

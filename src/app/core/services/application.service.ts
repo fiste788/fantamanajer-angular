@@ -1,12 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/core/authentication';
 import { MatchdayService } from '@app/core/http';
 import { Championship, Matchday, Team, User } from '@app/shared/models';
 import { environment } from '@env/environment';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class ApplicationService {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly auth: AuthService,
+    private readonly auth: AuthenticationService,
     private readonly matchdayService: MatchdayService,
     private readonly injector: Injector
   ) { }
