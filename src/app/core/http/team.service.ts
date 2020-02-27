@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Team } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { Team } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamService {

@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { ScoreService } from '@app/core/http';
-import { Score, Team } from '@app/core/models';
+import { Score, Team } from '@app/shared/models';
 import { SharedService } from '@app/shared/services/shared.service';
 import { Observable } from 'rxjs';
 

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { Notification, Stream } from '@app/shared/models';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { Notification, Stream } from '../models';
 
 type MessageCallback = (payload: unknown) => void;
 

@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChi
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { tableRowAnimation } from '@app/core/animations';
-import { Member } from '@app/core/models';
+import { Member } from '@app/shared/models';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

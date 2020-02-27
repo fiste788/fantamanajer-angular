@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Article, PagedResponse } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { Article, PagedResponse } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ArticleService {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Transfert } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { Transfert } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class TransfertService {

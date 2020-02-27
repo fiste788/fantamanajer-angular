@@ -4,8 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
 import { TransfertService } from '@app/core/http';
-import { Transfert } from '@app/core/models';
 import { ApplicationService } from '@app/core/services';
+import { Transfert } from '@app/shared/models';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({

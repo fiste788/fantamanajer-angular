@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { createBoxAnimation } from '@app/core/animations';
 import { TeamService } from '@app/core/http';
-import { NotificationSubscription, Team } from '@app/core/models';
 import { ApplicationService } from '@app/core/services';
+import { NotificationSubscription, Team } from '@app/shared/models';
 
 @Component({
   selector: 'fm-team-edit-dialog',

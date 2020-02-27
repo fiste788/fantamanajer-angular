@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, Output 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { createBoxAnimation } from '@app/core/animations';
-import { Member, Role } from '@app/core/models';
+import { Member, Role } from '@app/shared/models';
 
 @Component({
   selector: 'fm-member-selection',

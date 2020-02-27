@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { MemberService, RoleService, TeamService } from '@app/core/http';
-import { Member, Role, Team } from '@app/core/models';
+import { Member, Role, Team } from '@app/shared/models';
 import { SharedService } from '@app/shared/services/shared.service';
 
 interface TeamMembers {

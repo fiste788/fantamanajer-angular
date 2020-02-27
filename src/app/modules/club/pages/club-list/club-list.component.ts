@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } fr
 import { NavigationStart, Router } from '@angular/router';
 import { cardCreationAnimation } from '@app/core/animations/card-creation.animation';
 import { ClubService } from '@app/core/http';
-import { Club } from '@app/core/models';
+import { Club } from '@app/shared/models';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core
 import { ActivatedRoute } from '@angular/router';
 import { tableRowAnimation } from '@app/core/animations';
 import { MemberService } from '@app/core/http';
-import { Club, Member } from '@app/core/models';
+import { Club, Member } from '@app/shared/models';
 import { Observable } from 'rxjs';
 
 @Component({

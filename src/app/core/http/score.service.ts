@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Score } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { Score } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ScoreService {

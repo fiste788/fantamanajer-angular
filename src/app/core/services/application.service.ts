@@ -2,10 +2,10 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchdayService } from '@app/core/http';
+import { Championship, Matchday, Team, User } from '@app/shared/models';
 import { environment } from '@env/environment';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
-import { Championship, Matchday, Team, User } from '../models';
 import { AuthService } from './auth.service';
 
 @Injectable({

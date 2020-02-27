@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Tab } from '@app/core/models';
 import { ScrollService } from '@app/core/services';
+import { Tab } from '@app/shared/models';
 
 @Component({
   selector: 'fm-parallax-header',

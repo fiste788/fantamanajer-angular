@@ -1,6 +1,6 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
-import { Lineup } from '@app/core/models';
+import { Lineup } from '@app/shared/models';
 
 @Pipe({
   name: 'captain'

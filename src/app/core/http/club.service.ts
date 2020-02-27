@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Club } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { Club } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ClubService {

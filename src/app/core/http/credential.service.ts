@@ -1,17 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  create,
-  CredentialCreationOptionsJSON,
-  CredentialRequestOptionsJSON,
-  get,
-  PublicKeyCredentialWithAssertionJSON,
-  PublicKeyCredentialWithAttestationJSON
-} from '@github/webauthn-json';
+import { PublicKeyCredentialSource, User } from '@app/shared/models';
+import { create, CredentialCreationOptionsJSON, CredentialRequestOptionsJSON, get, PublicKeyCredentialWithAssertionJSON, PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json';
 import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
-import { User } from '../models';
-import { PublicKeyCredentialSource } from '../models/pubic-key-credential-source';
 
 @Injectable({ providedIn: 'root' })
 export class CredentialService {

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { PushSubscription } from '@app/shared/models';
 import { Observable } from 'rxjs';
-import { PushSubscription } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class PushSubscriptionService {

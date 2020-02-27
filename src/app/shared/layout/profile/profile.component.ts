@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Team } from '@app/core/models';
 import { ApplicationService, LayoutService } from '@app/core/services';
+import { Team } from '@app/shared/models';
 
 @Component({
   selector: 'fm-profile',

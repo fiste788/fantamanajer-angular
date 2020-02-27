@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '@app/core/http';
-import { Championship, Team, User } from '@app/core/models';
+import { Championship, Team, User } from '@app/shared/models';
 import { SharedService } from '@app/shared/services/shared.service';
 
 @Component({

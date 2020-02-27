@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Selection } from '@app/shared/models';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Selection } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
