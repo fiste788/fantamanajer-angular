@@ -1,8 +1,8 @@
 @import '~@angular/material/theming';
-@import './components/core';
-@import './components/card';
-@import './components/table';
-@import './components/form';
+@import './partials/core';
+@import './partials/card';
+@import './partials/table';
+@import './partials/form';
 @import '../layout/layout';
 @import '../components/mat-empty-state/mat-empty-state';
 @import '../../modules/auth/pages/login/login';

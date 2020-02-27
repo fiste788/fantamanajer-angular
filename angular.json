@@ -26,16 +26,16 @@
             ],
             "styles": [
               {
-                "input": "src/app/shared/styles/pre-bootstrap.scss",
+                "input": "src/app/shared/scss/pre-bootstrap.scss",
                 "bundleName": "pre-bootstrap"
               },
               {
-                "input": "src/app/shared/styles/theme.scss",
+                "input": "src/app/shared/scss/theme.scss",
                 "bundleName": "light-theme",
                 "inject": false
               },
               {
-                "input": "src/app/shared/styles/dark-theme.scss",
+                "input": "src/app/shared/scss/dark-theme.scss",
                 "bundleName": "dark-theme",
                 "inject": false
               }
