@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
@@ -10,13 +10,14 @@ import { ApplicationService } from './application.service';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
 import { PushSubscriptionService } from './push-subscription.service';
-import { WindowRefService } from './window-ref.service';
+import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
   readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> = new EventEmitter<BeforeInstallPromptEvent>();
 
   constructor(
+    @Inject(WINDOW) private readonly window: Window,
     private readonly subscription: PushSubscriptionService,
     private readonly swPush: SwPush,
     private readonly snackBar: MatSnackBar,
@@ -24,10 +25,9 @@ export class PushService {
     private readonly app: ApplicationService,
     private readonly auth: AuthService,
     private readonly swUpdate: SwUpdate,
-    private readonly router: Router,
-    private readonly winRef: WindowRefService
+    private readonly router: Router
   ) {
-    this.winRef.nativeWindow.addEventListener('beforeinstallprompt', (e: BeforeInstallPromptEvent) => {
+    this.window.addEventListener('beforeinstallprompt', (e: BeforeInstallPromptEvent) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
@@ -46,7 +46,7 @@ export class PushService {
 
       snackBarRef.onAction()
         .subscribe(() => {
-          this.winRef.nativeWindow.location.reload();
+          this.window.location.reload();
         });
     });
   }
@@ -98,7 +98,6 @@ export class PushService {
     this.swPush.notificationClicks.subscribe(click => {
       if (click.notification.data.url) {
         void this.router.navigateByUrl(click.notification.data.url);
-        // this.router.navigateByUrl();
       }
     });
   }

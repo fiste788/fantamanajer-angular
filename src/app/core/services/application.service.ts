@@ -1,4 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
@@ -21,6 +22,7 @@ export class ApplicationService {
   private currentTeam?: Team;
 
   constructor(
+    @Inject(DOCUMENT) private readonly document: Document,
     private readonly auth: AuthService,
     private readonly matchdayService: MatchdayService,
     private readonly injector: Injector
@@ -47,7 +49,7 @@ export class ApplicationService {
 
     return observable.toPromise()
       .catch(e => {
-        const el = document.querySelectorAll('.error')[0];
+        const el = this.document.querySelectorAll('.error')[0];
         el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
         throw e;
       });

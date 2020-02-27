@@ -28,7 +28,7 @@ export class NewTransfertComponent implements OnInit {
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-    public dialog: MatDialog
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit(): void {

@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { createBoxAnimation } from '@app/core/animations/create-box.animation';
 import { Stream } from '@app/core/models';
 import { ApplicationService, NotificationService } from '@app/core/services';
+import { Observable } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
 import { NotificationOverlayComponent } from '../../modals/notification-overlay/notification-overlay.component';
 
@@ -12,7 +14,7 @@ import { NotificationOverlayComponent } from '../../modals/notification-overlay/
   animations: [createBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
-  stream: Stream;
+  stream: Observable<Stream>;
   @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
 
   constructor(
@@ -25,12 +27,13 @@ export class NotificationListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.app.team) {
-      this.notificationService.getNotificationCount(this.app.team.id)
-        .subscribe(res => {
-          this.stream = res;
-          this.notificationService.seen.subscribe((s: Stream) => this.stream = s);
-        });
+      this.stream = this.notificationService.getNotificationCount(this.app.team.id)
+        .pipe(flatMap(_ => this.notificationService.seen.toPromise()));
     }
+  }
+
+  seen(): void {
+    this.stream = this.notificationService.seen;
   }
 
   open(el: ElementRef<HTMLButtonElement>): void {

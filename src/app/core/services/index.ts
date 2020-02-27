@@ -21,4 +21,4 @@ export * from './team.service';
 export * from './theme.service';
 export * from './transfert.service';
 export * from './user.service';
-export * from './window-ref.service';
+export * from './window.service';

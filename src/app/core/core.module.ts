@@ -1,35 +1,27 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from './guards';
 import { ApiInterceptor, ErrorHandlerInterceptor, JWTInterceptor } from './interceptors';
 
-import { MemberCommonModule } from '@app/modules/member-common/member-common.module';
 import { NotificationModule } from '../modules/notification/notification.module';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
-import { ApplicationService } from './services';
+import { ApplicationService, WINDOW_PROVIDERS } from './services';
 
 export const useFactory = (service: ApplicationService) => () => service.initialize();
 
 @NgModule({
   imports: [
-    HttpClientModule,
-    MemberCommonModule,
     NotificationModule
   ],
   exports: [
-    NotificationModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule
-  ],
-  declarations: [
+    NotificationModule
   ],
   providers: [
     AuthGuard,
     AdminGuard,
     NotLoggedGuard,
     ChampionshipAdminGuard,
+    WINDOW_PROVIDERS,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JWTInterceptor,
@@ -61,6 +53,6 @@ export class CoreModule {
   }
 
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    throwIfAlreadyLoaded(parentModule, 'CoreModule');
+    throwIfAlreadyLoaded(parentModule, CoreModule.name);
   }
 }

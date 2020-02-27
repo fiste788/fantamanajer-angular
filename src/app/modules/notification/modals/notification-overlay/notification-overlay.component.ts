@@ -21,7 +21,8 @@ export class NotificationOverlayComponent implements OnInit {
 
   constructor(
     private readonly notificationService: NotificationService,
-    private readonly app: ApplicationService) { }
+    private readonly app: ApplicationService
+  ) { }
 
   ngOnInit(): void {
     if (this.app.team) {
