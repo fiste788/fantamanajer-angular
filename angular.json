@@ -30,16 +30,21 @@
                 "bundleName": "pre-bootstrap"
               },
               {
-                "input": "src/app/shared/scss/theme.scss",
+                "input": "src/app/shared/scss/themes/theme.scss",
                 "bundleName": "light-theme",
                 "inject": false
               },
               {
-                "input": "src/app/shared/scss/dark-theme.scss",
+                "input": "src/app/shared/scss/themes/dark-theme.scss",
                 "bundleName": "dark-theme",
                 "inject": false
               }
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

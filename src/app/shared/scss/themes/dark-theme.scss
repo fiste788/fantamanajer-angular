@@ -1,5 +1,5 @@
 @import '~@angular/material/theming';
-@import './fantamanajer-theme';
+@import '../partials/fantamanajer-theme';
 @include mat-core();
 
 $primary: mat-palette($mat-cyan, A200, A100, A400);

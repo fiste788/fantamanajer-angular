@@ -1,14 +1,14 @@
 @import '~@angular/material/theming';
-@import './partials/core';
-@import './partials/card';
-@import './partials/table';
-@import './partials/form';
-@import '../components/mat-empty-state/mat-empty-state';
-@import '../../core/layout/layout';
-@import '../../modules/auth/pages/login/login';
-@import '../../modules/lineup/components/lineup-detail/lineup-detail';
-@import '../../modules/member-common/components/member-selection/member-selection';
-@import '../../modules/notification/modals/notification-overlay/notification-overlay';
+@import './core';
+@import './card';
+@import './table';
+@import './form';
+@import 'shared/components/mat-empty-state/mat-empty-state';
+@import 'core/layout/layout';
+@import 'modules/auth/pages/login/login';
+@import 'modules/lineup/components/lineup-detail/lineup-detail';
+@import 'modules/member-common/components/member-selection/member-selection';
+@import 'modules/notification/modals/notification-overlay/notification-overlay';
 @mixin fantamanajer-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
