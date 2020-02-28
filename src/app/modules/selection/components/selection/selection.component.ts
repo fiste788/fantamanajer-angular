@@ -4,9 +4,9 @@ import { NgForm } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { MemberService, RoleService, SelectionService } from '@app/core/http';
-import { ApplicationService, UtilService } from '@app/core/services';
-import { Member, Role, Selection } from '@app/shared/models';
+import { MemberService, RoleService, SelectionService } from '@app/http';
+import { ApplicationService, UtilService } from '@app/services';
+import { Member, Role, Selection } from '@shared/models';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share } from 'rxjs/operators';
 

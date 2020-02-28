@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NotificationModule } from '@app/modules/notification/notification.module';
-import { SharedModule } from '@app/shared/shared.module';
 import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
+import { NotificationModule } from '@modules/notification/notification.module';
+import { SharedModule } from '@shared/shared.module';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';

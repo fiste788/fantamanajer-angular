@@ -3,9 +3,9 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { MemberService, RoleService, TeamService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { Member, Role, Team } from '@app/shared/models';
+import { MemberService, RoleService, TeamService } from '@app/http';
+import { UtilService } from '@app/services';
+import { Member, Role, Team } from '@shared/models';
 
 interface TeamMembers {
   controls: Array<number>;

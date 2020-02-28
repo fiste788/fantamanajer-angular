@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChampionshipAdminGuard } from '@app/core/guards';
-import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { ChampionshipAdminGuard } from '@app/guards';
+import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 import { TeamMembersComponent } from './components/team-members/team-members.component';
 import { TeamStreamComponent } from './components/team-stream/team-stream.component';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
@@ -38,7 +38,7 @@ const routes: Routes = [
           },
           {
             path: 'articles',
-            loadChildren: () => import('@app/modules/article/article.module')
+            loadChildren: () => import('@modules/article/article.module')
               .then(m => m.ArticleModule),
             data: { state: 'team-articles' }
           },
@@ -55,25 +55,25 @@ const routes: Routes = [
           },
           {
             path: 'scores',
-            loadChildren: () => import('@app/modules/score/score.module')
+            loadChildren: () => import('@modules/score/score.module')
               .then(m => m.ScoreModule),
             data: { state: 'team-scores' }
           },
           {
             path: 'lineup',
-            loadChildren: () => import('@app/modules/lineup/lineup.module')
+            loadChildren: () => import('@modules/lineup/lineup.module')
               .then(m => m.LineupModule),
             data: { state: 'team-lineup' }
           },
           {
             path: 'transferts',
-            loadChildren: () => import('@app/modules/transfert/transfert.module')
+            loadChildren: () => import('@modules/transfert/transfert.module')
               .then(m => m.TransfertModule),
             data: { state: 'team-transfert' }
           },
           {
             path: 'admin',
-            loadChildren: () => import('@app/modules/admin-team/admin-team.module')
+            loadChildren: () => import('@modules/admin-team/admin-team.module')
               .then(m => m.AdminTeamModule),
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' }

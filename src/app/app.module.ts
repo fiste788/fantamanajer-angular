@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '@env/environment';
+import { environment } from '@env';
 
-import { LayoutModule } from '@app/core/layout/layout.module';
-import { MainComponent } from '@app/core/layout/main/main.component';
+import { LayoutModule } from '@app/layout/layout.module';
+import { MainComponent } from '@app/layout/main/main.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './modules/home/home.module';

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { routerTransition } from '@app/shared/animations';
+import { routerTransition } from '@shared/animations';
 
 @Component({
   selector: 'fm-router-outlet',

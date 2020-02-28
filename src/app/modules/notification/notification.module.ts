@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedModule } from '@app/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
 import { NotificationOverlayService } from './modals/notification-overlay.service';
 import { NotificationOverlayComponent } from './modals/notification-overlay/notification-overlay.component';

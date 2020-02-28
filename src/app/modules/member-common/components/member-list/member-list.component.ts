@@ -2,8 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { tableRowAnimation } from '@app/shared/animations';
-import { Member } from '@app/shared/models';
+import { tableRowAnimation } from '@shared/animations';
+import { Member } from '@shared/models';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

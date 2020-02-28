@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { tableRowAnimation } from '@app/shared/animations';
-import { Disposition, Lineup } from '@app/shared/models';
+import { tableRowAnimation } from '@shared/animations';
+import { Disposition, Lineup } from '@shared/models';
 
 @Component({
   selector: 'fm-disposition-list',

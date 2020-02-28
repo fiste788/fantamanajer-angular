@@ -30,6 +30,8 @@
       true,
       [
         "@app",
+        "@modules",
+        "@shared",
         "@env"
       ]
     ]

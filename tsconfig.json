@@ -27,10 +27,16 @@
     ],
     "paths": {
       "@app/*": [
-        "src/app/*"
+        "src/app/core/*"
       ],
-      "@env/*": [
-        "src/environments/*"
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@env": [
+        "src/environments/environment"
       ]
     }
   },

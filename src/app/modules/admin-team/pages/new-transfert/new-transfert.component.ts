@@ -4,10 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { MemberService, TransfertService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { ConfirmationDialogComponent } from '@app/modules/confirmation-dialog/modals/confirmation-dialog.component';
-import { Member, Team, Transfert } from '@app/shared/models';
+import { MemberService, TransfertService } from '@app/http';
+import { UtilService } from '@app/services';
+import { ConfirmationDialogComponent } from '@modules/confirmation-dialog/modals/confirmation-dialog.component';
+import { Member, Team, Transfert } from '@shared/models';
 
 @Component({
   selector: 'fm-new-transfert',

@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TeamService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { Championship, Team, User } from '@app/shared/models';
+import { TeamService } from '@app/http';
+import { UtilService } from '@app/services';
+import { Championship, Team, User } from '@shared/models';
 
 @Component({
   selector: 'fm-add-team',

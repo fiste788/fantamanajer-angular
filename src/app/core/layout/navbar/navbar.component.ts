@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@app/core/authentication';
-import { ApplicationService, LayoutService, PushService } from '@app/core/services';
-import { Championship, Team } from '@app/shared/models';
+import { AuthenticationService } from '@app/authentication';
+import { ApplicationService, LayoutService, PushService } from '@app/services';
+import { Championship, Team } from '@shared/models';
 import { combineLatest } from 'rxjs/operators';
 
 @Component({

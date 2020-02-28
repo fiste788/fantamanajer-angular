@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { TeamService } from '@app/core/http';
-import { Team } from '@app/shared/models';
+import { TeamService } from '@app/http';
+import { Team } from '@shared/models';
 import { Observable } from 'rxjs';
 
 @Injectable()

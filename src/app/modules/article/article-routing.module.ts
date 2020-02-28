@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RouterOutletComponent } from '@app/shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 import { ArticleListComponent } from './pages/article-list/article-list.component';
 

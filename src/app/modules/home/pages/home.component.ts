@@ -1,8 +1,8 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { MemberService } from '@app/core/http';
-import { ApplicationService } from '@app/core/services';
-import { cardCreationAnimation } from '@app/shared/animations';
-import { Member, Role } from '@app/shared/models';
+import { MemberService } from '@app/http';
+import { ApplicationService } from '@app/services';
+import { cardCreationAnimation } from '@shared/animations';
+import { Member, Role } from '@shared/models';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 

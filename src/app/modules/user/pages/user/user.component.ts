@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { routerTransition, tabTransition } from '@app/shared/animations';
-import { Tab } from '@app/shared/models';
+import { routerTransition, tabTransition } from '@shared/animations';
+import { Tab } from '@shared/models';
 
 @Component({
   selector: 'fm-user',

@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ChampionshipService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { Championship, League } from '@app/shared/models';
+import { ChampionshipService } from '@app/http';
+import { UtilService } from '@app/services';
+import { Championship, League } from '@shared/models';
 
 @Component({
   selector: 'fm-championship-detail',

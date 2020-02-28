@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Stream } from '@app/shared/models';
+import { Stream } from '@shared/models';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

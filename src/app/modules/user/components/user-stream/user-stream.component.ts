@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicationService } from '@app/core/services';
+import { ApplicationService } from '@app/services';
 
 @Component({
   selector: 'fm-user-stream',

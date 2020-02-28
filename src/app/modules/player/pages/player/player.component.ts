@@ -5,9 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ApplicationService } from '@app/core/services';
-import { enterDetailAnimation, tableRowAnimation } from '@app/shared/animations';
-import { Member, Player, Rating } from '@app/shared/models';
+import { ApplicationService } from '@app/services';
+import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
+import { Member, Player, Rating } from '@shared/models';
 
 @Component({
   selector: 'fm-player',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { enterDetailAnimation, tabTransition } from '@app/shared/animations';
-import { Club } from '@app/shared/models';
+import { enterDetailAnimation, tabTransition } from '@shared/animations';
+import { Club } from '@shared/models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

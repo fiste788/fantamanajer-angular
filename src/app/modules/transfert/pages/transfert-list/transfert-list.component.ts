@@ -2,10 +2,10 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { TransfertService } from '@app/core/http';
-import { ApplicationService, UtilService } from '@app/core/services';
-import { tableRowAnimation } from '@app/shared/animations';
-import { Transfert } from '@app/shared/models';
+import { TransfertService } from '@app/http';
+import { ApplicationService, UtilService } from '@app/services';
+import { tableRowAnimation } from '@shared/animations';
+import { Transfert } from '@shared/models';
 
 @Component({
   selector: 'fm-transfert-list',

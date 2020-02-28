@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@app/core/authentication';
-import { MatchdayService } from '@app/core/http';
-import { Championship, Matchday, Team, User } from '@app/shared/models';
-import { environment } from '@env/environment';
+import { AuthenticationService } from '@app/authentication';
+import { MatchdayService } from '@app/http';
+import { environment } from '@env';
+import { Championship, Matchday, Team, User } from '@shared/models';
 import { BehaviorSubject, concat, Observable } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MemberService } from '@app/core/http';
-import { Member, Team } from '@app/shared/models';
+import { MemberService } from '@app/http';
+import { Member, Team } from '@shared/models';
 import { Observable } from 'rxjs';
 
 @Component({

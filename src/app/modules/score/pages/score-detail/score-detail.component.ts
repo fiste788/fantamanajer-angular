@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ScoreService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { Disposition, Score } from '@app/shared/models';
+import { ScoreService } from '@app/http';
+import { UtilService } from '@app/services';
+import { Disposition, Score } from '@shared/models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

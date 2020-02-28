@@ -3,9 +3,9 @@ import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { ScoreService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { Score, Team } from '@app/shared/models';
+import { ScoreService } from '@app/http';
+import { UtilService } from '@app/services';
+import { Score, Team } from '@shared/models';
 import { Observable } from 'rxjs';
 
 @Component({

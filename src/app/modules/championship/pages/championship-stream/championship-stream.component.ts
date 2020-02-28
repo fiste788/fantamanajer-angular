@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UtilService } from '@app/core/services';
+import { UtilService } from '@app/services';
 
 @Component({
   selector: 'fm-championship-stream',

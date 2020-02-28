@@ -10,7 +10,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { WINDOW } from '@app/core/services';
+import { WINDOW } from '@app/services';
 import { fromEvent, Subscription } from 'rxjs';
 
 class Options {

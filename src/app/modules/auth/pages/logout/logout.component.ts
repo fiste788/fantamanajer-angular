@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '@app/core/authentication';
+import { AuthenticationService } from '@app/authentication';
 
 @Component({
   selector: 'fm-logout',

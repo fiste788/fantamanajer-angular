@@ -1,10 +1,10 @@
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { TeamService } from '@app/core/http';
-import { UtilService } from '@app/core/services';
-import { cardCreationAnimation } from '@app/shared/animations';
-import { Team } from '@app/shared/models';
+import { TeamService } from '@app/http';
+import { UtilService } from '@app/services';
+import { cardCreationAnimation } from '@shared/animations';
+import { Team } from '@shared/models';
 import { Observable } from 'rxjs';
 
 @Component({

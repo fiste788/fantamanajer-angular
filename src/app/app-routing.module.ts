@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@app/core/guards';
-import { HomeComponent } from '@app/modules/home/pages/home.component';
+import { AuthGuard } from '@app/guards';
+import { HomeComponent } from '@modules/home/pages/home.component';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 export const routes: Routes = [

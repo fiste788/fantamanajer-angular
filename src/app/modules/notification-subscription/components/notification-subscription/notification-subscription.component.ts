@@ -1,6 +1,6 @@
 import { KeyValue } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NotificationSubscription, Team } from '@app/shared/models';
+import { NotificationSubscription, Team } from '@shared/models';
 import { notificationSubscriptions } from '../../notification-subscription.definition';
 
 interface Notification {

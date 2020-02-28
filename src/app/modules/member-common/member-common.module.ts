@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@app/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { MemberIconsComponent } from './components/member-icons/member-icons.component';
 import { MemberListComponent } from './components/member-list/member-list.component';

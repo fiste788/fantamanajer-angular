@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PublicKeyCredentialSource, User } from '@app/shared/models';
 import { create, CredentialCreationOptionsJSON, CredentialRequestOptionsJSON, get, PublicKeyCredentialWithAssertionJSON, PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json';
+import { PublicKeyCredentialSource, User } from '@shared/models';
 import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CredentialService, UserService } from '@app/core/http';
-import { ApplicationService, PushService } from '@app/core/services';
-import { User } from '@app/shared/models';
+import { CredentialService, UserService } from '@app/http';
+import { ApplicationService, PushService } from '@app/services';
+import { User } from '@shared/models';
 import { from, Observable } from 'rxjs';
 import { share, take } from 'rxjs/operators';
 
