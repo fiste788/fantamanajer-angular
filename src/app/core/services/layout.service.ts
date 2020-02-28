@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { VisibilityState } from '@app/shared/layout/main/visibility-state';
+import { VisibilityState } from '@app/core/layout/main/visibility-state';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ScrollService } from './scroll.service';

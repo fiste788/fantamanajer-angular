@@ -3,8 +3,8 @@
 @import './partials/card';
 @import './partials/table';
 @import './partials/form';
-@import '../layout/layout';
 @import '../components/mat-empty-state/mat-empty-state';
+@import '../../core/layout/layout';
 @import '../../modules/auth/pages/login/login';
 @import '../../modules/lineup/components/lineup-detail/lineup-detail';
 @import '../../modules/member-common/components/member-selection/member-selection';

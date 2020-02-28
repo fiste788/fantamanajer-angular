@@ -4,8 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
 
-import { LayoutModule } from '@app/shared/layout/layout.module';
-import { MainComponent } from '@app/shared/layout/main/main.component';
+import { LayoutModule } from '@app/core/layout/layout.module';
+import { MainComponent } from '@app/core/layout/main/main.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './modules/home/home.module';

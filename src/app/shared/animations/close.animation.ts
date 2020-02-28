@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { VisibilityState } from '@app/shared/layout/main/visibility-state';
+import { VisibilityState } from '@app/core/layout/main/visibility-state';
 
 export const closeAnimation = trigger('closeAnimation', [
   state(
