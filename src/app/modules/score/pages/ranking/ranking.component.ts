@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { tableRowAnimation } from '@app/core/animations/table-row.animation';
 import { ScoreService } from '@app/core/http';
+import { tableRowAnimation } from '@app/shared/animations/table-row.animation';
 import { Championship, Matchday } from '@app/shared/models';
 
 @Component({

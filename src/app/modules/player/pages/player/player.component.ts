@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { enterDetailAnimation, tableRowAnimation } from '@app/core/animations';
 import { ApplicationService } from '@app/core/services';
+import { enterDetailAnimation, tableRowAnimation } from '@app/shared/animations';
 import { Member, Player, Rating } from '@app/shared/models';
 
 @Component({

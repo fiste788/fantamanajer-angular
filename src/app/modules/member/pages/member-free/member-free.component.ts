@@ -2,10 +2,10 @@ import { KeyValue } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { tableRowAnimation } from '@app/core/animations';
 import { MemberService, RoleService } from '@app/core/http';
 import { ApplicationService, UtilService } from '@app/core/services';
 import { MemberListComponent } from '@app/modules/member-common/components/member-list/member-list.component';
+import { tableRowAnimation } from '@app/shared/animations';
 import { Member, Role } from '@app/shared/models';
 import { Observable } from 'rxjs';
 

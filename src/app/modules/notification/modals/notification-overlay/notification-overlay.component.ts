@@ -1,7 +1,7 @@
 import { AnimationEvent } from '@angular/animations';
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { listItemAnimation, openOverlayAnimation } from '@app/core/animations';
 import { ApplicationService, NotificationService } from '@app/core/services';
+import { listItemAnimation, openOverlayAnimation } from '@app/shared/animations';
 import { Stream, StreamActivity } from '@app/shared/models';
 import { Observable } from 'rxjs';
 

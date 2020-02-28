@@ -1,8 +1,8 @@
 import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { cardCreationAnimation } from '@app/core/animations/card-creation.animation';
 import { ClubService } from '@app/core/http';
+import { cardCreationAnimation } from '@app/shared/animations/card-creation.animation';
 import { Club } from '@app/shared/models';
 import { Observable, Subscription } from 'rxjs';
 

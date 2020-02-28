@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '@app/core/authentication';
 import { CredentialService } from '@app/core/http';
-import { ApplicationService, AuthService } from '@app/core/services';
+import { ApplicationService } from '@app/core/services';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { Observable } from 'rxjs';
 
@@ -23,7 +24,7 @@ export class LoginComponent {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly authService: AuthService,
+    private readonly authService: AuthenticationService,
     private readonly credentialService: CredentialService,
     private readonly app: ApplicationService
   ) {

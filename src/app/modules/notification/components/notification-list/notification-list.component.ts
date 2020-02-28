@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { createBoxAnimation } from '@app/core/animations/create-box.animation';
 import { ApplicationService, NotificationService } from '@app/core/services';
+import { createBoxAnimation } from '@app/shared/animations/create-box.animation';
 import { Stream } from '@app/shared/models';
 import { Observable } from 'rxjs';
 import { flatMap } from 'rxjs/operators';

@@ -2,8 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { closeAnimation, routerTransition, scrollUpAnimation } from '@app/core/animations';
-import { AuthService, LayoutService, ScrollService, ThemeService } from '@app/core/services';
+import { AuthenticationService } from '@app/core/authentication';
+import { LayoutService, ScrollService, ThemeService } from '@app/core/services';
+import { closeAnimation, routerTransition, scrollUpAnimation } from '@app/shared/animations';
 import { environment } from '@env/environment';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -43,7 +44,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly router: Router,
     private readonly scrollService: ScrollService,
     private readonly themeService: ThemeService,
-    private readonly auth: AuthService,
+    private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
     private readonly changeRef: ChangeDetectorRef

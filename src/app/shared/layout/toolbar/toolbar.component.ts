@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { scrollUpAnimation } from '@app/core/animations';
 import { LayoutService } from '@app/core/services';
+import { scrollUpAnimation } from '@app/shared/animations';
 
 @Component({
   selector: 'fm-toolbar',

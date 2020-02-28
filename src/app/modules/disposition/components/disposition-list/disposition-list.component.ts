@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { tableRowAnimation } from '@app/core/animations';
+import { tableRowAnimation } from '@app/shared/animations';
 import { Disposition, Lineup } from '@app/shared/models';
 
 @Component({

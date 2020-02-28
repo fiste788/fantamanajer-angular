@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { cardCreationAnimation } from '@app/core/animations';
+import { cardCreationAnimation } from '@app/shared/animations';
 
 @Component({
   selector: 'fm-home',

@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { enterDetailAnimation } from '@app/core/animations';
 import { ApplicationService } from '@app/core/services';
+import { enterDetailAnimation } from '@app/shared/animations';
 import { Team } from '@app/shared/models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
