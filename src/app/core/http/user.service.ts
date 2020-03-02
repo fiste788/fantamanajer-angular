@@ -3,9 +3,16 @@ import { Injectable } from '@angular/core';
 import { User } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'users';
+const routes = {
+  login: `/${url}/login`,
+  logout: `/${url}/logout`,
+  current: `/${url}/current`,
+  update: (id: number) => `/${url}/${id}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private readonly url = 'users';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -16,20 +23,20 @@ export class UserService {
       rememberMe
     };
 
-    return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(body));
+    return this.http.post<{ user: User, token: string }>(routes.login, JSON.stringify(body));
   }
 
   logout(): Observable<any> {
-    return this.http.get(`${this.url}/logout`);
+    return this.http.get(routes.logout);
   }
 
   update(user: User): Observable<any> {
     user.teams = undefined;
 
-    return this.http.put(`${this.url}/${user.id}`, JSON.stringify(user));
+    return this.http.put(routes.update(user.id), JSON.stringify(user));
   }
 
   getCurrent(): Observable<User> {
-    return this.http.get<User>(`${this.url}/current`);
+    return this.http.get<User>(routes.current);
   }
 }

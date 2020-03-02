@@ -4,14 +4,18 @@ import { Selection } from '@shared/models';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+const url = 'selections';
+const routes = {
+  selection: (id: number) => `/teams/${id}/${url}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
-  private readonly url = 'selections';
 
   constructor(private readonly http: HttpClient) { }
 
   getSelection(id: number): Observable<Selection> {
-    return this.http.get<Array<Selection>>(`teams/${id}/${this.url}`)
+    return this.http.get<Array<Selection>>(routes.selection(id))
       .pipe(
         filter(a => a.length > 0),
         map(a => a[0])
@@ -20,15 +24,12 @@ export class SelectionService {
 
   update(selection: Selection): Observable<any> {
     return this.http.put(
-      `teams/${selection.team_id}/${this.url}/${selection.id}`,
+      `${routes.selection(selection.team_id)}/${selection.id}`,
       JSON.stringify(selection)
     );
   }
 
   create(selection: Selection): Observable<Selection> {
-    return this.http.post<Selection>(
-      `teams/${selection.team_id}/${this.url}`,
-      JSON.stringify(selection)
-    );
+    return this.http.post<Selection>(routes.selection(selection.team_id), JSON.stringify(selection));
   }
 }

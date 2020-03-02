@@ -3,22 +3,23 @@ import { Injectable } from '@angular/core';
 import { Championship } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'championships';
+const routes = {
+  championships: `/${url}`,
+  championship: (id: number) => `/${url}/${id}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class ChampionshipService {
-  private readonly url = 'championships';
 
-  constructor(private readonly http: HttpClient) {
-
-  }
+  constructor(private readonly http: HttpClient) { }
 
   update(championship: Championship): Observable<any> {
-    const url = `${this.url}/${championship.id}`;
-
-    return this.http.put(url, JSON.stringify(championship));
+    return this.http.put(routes.championship(championship.id), JSON.stringify(championship));
   }
 
   create(championship: Championship): Observable<Championship> {
-    return this.http.post<Championship>(this.url, JSON.stringify(championship));
+    return this.http.post<Championship>(routes.championships, JSON.stringify(championship));
   }
 
   save(championship: Championship): Observable<any> {

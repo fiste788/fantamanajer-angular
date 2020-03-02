@@ -3,9 +3,16 @@ import { Injectable } from '@angular/core';
 import { Score } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'scores';
+const routes = {
+  ranking: (id: number) => `/championships/${id}/ranking`,
+  score: (id: number) => `/${url}/${id}`,
+  team: (id: number) => `/teams/${id}/${url}`,
+  update: (id: number) => `/${url}/${id}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
-  private readonly url = 'scores';
 
   static cleanScore(score: Score): Score {
     const newScore: Score = JSON.parse(JSON.stringify(score));
@@ -23,8 +30,8 @@ export class ScoreService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getRanking(championshipId?: number): Observable<any> {
-    return this.http.get(`championships/${championshipId}/ranking`);
+  getRanking(championshipId: number): Observable<any> {
+    return this.http.get(routes.ranking(championshipId));
   }
 
   getScore(id: number, members = false): Observable<Score> {
@@ -33,20 +40,18 @@ export class ScoreService {
       params = params.set('members', '1');
     }
 
-    return this.http.get<Score>(`${this.url}/${id}`, { params });
+    return this.http.get<Score>(routes.score(id), { params });
   }
 
   getLastScore(teamId: number): Observable<Score> {
-    return this.http.get<Score>(`teams/${teamId}/${this.url}/last`);
+    return this.http.get<Score>(`${routes.score(teamId)}/last`);
   }
 
   getScoresByTeam(teamId: number): Observable<Array<Score>> {
-    return this.http.get<Array<Score>>(`teams/${teamId}/${this.url}`);
+    return this.http.get<Array<Score>>(routes.score(teamId));
   }
 
   update(score: Score): Observable<any> {
-    const url = `${this.url}/${score.id}`;
-
-    return this.http.put(url, JSON.stringify(ScoreService.cleanScore(score)));
+    return this.http.put(routes.update(score.id), JSON.stringify(ScoreService.cleanScore(score)));
   }
 }

@@ -10,7 +10,7 @@ describe('ScoreService', () => {
   });
 
   it('should be created', inject([ScoreService], (service: ScoreService) => {
-    expect(service)
+    void expect(service)
       .toBeTruthy();
   }));
 });

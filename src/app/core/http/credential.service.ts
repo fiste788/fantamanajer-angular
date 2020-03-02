@@ -5,29 +5,34 @@ import { PublicKeyCredentialSource, User } from '@shared/models';
 import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 
+const url = 'webauthn';
+const routes = {
+  login: `/${url}/login`,
+  register: `/${url}/register`
+};
+
 @Injectable({ providedIn: 'root' })
 export class CredentialService {
-  private readonly url = 'webauthn';
 
   constructor(private readonly http: HttpClient) { }
 
   login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(`${this.url}/login`, JSON.stringify(credential));
+    return this.http.post<{ user: User, token: string }>(routes.login, JSON.stringify(credential));
   }
 
   register(credential: PublicKeyCredentialWithAttestationJSON): Observable<PublicKeyCredentialSource> {
-    return this.http.post<PublicKeyCredentialSource>(`${this.url}/register`, JSON.stringify(credential));
+    return this.http.post<PublicKeyCredentialSource>(routes.register, JSON.stringify(credential));
   }
 
   get(email: string): Observable<CredentialRequestOptionsJSON> {
     const params = new HttpParams().set('email', `${email}`);
 
-    return this.http.get<any>(`${this.url}/login`, { params })
+    return this.http.get<any>(routes.login, { params })
       .pipe(map(e => ({ publicKey: e })));
   }
 
   create(): Observable<CredentialCreationOptionsJSON> {
-    return this.http.get<any>(`${this.url}/register`)
+    return this.http.get<any>(routes.register)
       .pipe(map(e => ({ publicKey: e })));
   }
 

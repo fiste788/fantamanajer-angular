@@ -3,9 +3,16 @@ import { Injectable } from '@angular/core';
 import { Article, PagedResponse } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'articles';
+const routes = {
+  articles: `/${url}`,
+  article: (id: number) => `/${url}/${id}`,
+  teamArticles: (id: number) => `/teams/${id}/${url}`,
+  championshipArticles: (id: number) => `/champtionship/${id}/${url}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
-  private readonly url = 'articles';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -18,32 +25,28 @@ export class ArticleService {
   getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(`teams/${teamId}/${this.url}`, { params });
+    return this.http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
   getArticlesByChampionship(championshipId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(
-      `championships/${championshipId}/${this.url}`
-      , { params });
+    return this.http.get<PagedResponse<Array<Article>>>(routes.championshipArticles(championshipId), { params });
   }
 
   getArticle(id: number): Observable<Article> {
-    return this.http.get<Article>(`${this.url}/${id}`);
+    return this.http.get<Article>(routes.article(id));
   }
 
   update(article: Article): Observable<any> {
-    const url = `${this.url}/${article.id}`;
-
-    return this.http.put(url, JSON.stringify(article));
+    return this.http.put(routes.article(article.id), JSON.stringify(article));
   }
 
   create(article: Article): Observable<Article> {
-    return this.http.post<Article>(this.url, JSON.stringify(article));
+    return this.http.post<Article>(routes.articles, JSON.stringify(article));
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete(routes.article(id));
   }
 }

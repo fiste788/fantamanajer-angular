@@ -3,33 +3,34 @@ import { Injectable } from '@angular/core';
 import { Team } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'teams';
+const routes = {
+  teams: (id: number) => `/championships/${id}/${url}`,
+  team: (id: number) => `/${url}/${id}`,
+  create: `/${url}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class TeamService {
-  private readonly url = 'teams';
 
-  constructor(private readonly http: HttpClient) {
-
-  }
+  constructor(private readonly http: HttpClient) { }
 
   getTeams(championshipId: number): Observable<Array<Team>> {
-    return this.http.get<Array<Team>>(`championships/${championshipId}/${this.url}`);
+    return this.http.get<Array<Team>>(routes.teams(championshipId));
   }
 
   getTeam(id: number): Observable<Team> {
-    return this.http.get<Team>(`${this.url}/${id}`);
+    return this.http.get<Team>(routes.team(id));
   }
 
   update(team: Team): Observable<any> {
-    const url = `${this.url}/${team.id}`;
-
-    return this.http.put(url, JSON.stringify(team));
+    return this.http.put(routes.team(team.id), JSON.stringify(team));
   }
 
   upload(id: number, formData: FormData): Observable<any> {
-    const url = `${this.url}/${id}`;
     formData.set('_method', 'PUT');
 
-    return this.http.post(url, formData, {
+    return this.http.post(routes.team(id), formData, {
       headers: {
         'Content-type': 'multipart/form-data'
       }
@@ -37,7 +38,7 @@ export class TeamService {
   }
 
   create(team: Team): Observable<Team> {
-    return this.http.post<Team>(this.url, JSON.stringify(team));
+    return this.http.post<Team>(routes.create, JSON.stringify(team));
   }
 
   save(team: Team): Observable<any> {

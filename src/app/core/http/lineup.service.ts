@@ -3,10 +3,16 @@ import { Injectable } from '@angular/core';
 import { Lineup, Member } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'lineups';
+const routes = {
+  lineups: (teamId: number) => `/teams/${teamId}/${url}`,
+  lineup: (teamId: number) => `/teams/${teamId}/${url}/current`,
+  update: (teamId: number, id: number) => `/teams/${teamId}/${url}/${id}`,
+  likely: (teamId: number) => `/teams/${teamId}/${url}/likely`
+};
+
 @Injectable({ providedIn: 'root' })
 export class LineupService {
-  private readonly url = 'lineups';
-
   private static cleanLineup(lineup: Lineup): Lineup {
     const newLineup: Lineup = JSON.parse(JSON.stringify(lineup));
     newLineup.dispositions = newLineup.dispositions.filter(
@@ -23,24 +29,18 @@ export class LineupService {
   constructor(private readonly http: HttpClient) { }
 
   getLineup(teamId: number): Observable<Lineup> {
-    return this.http.get<Lineup>(`teams/${teamId}/${this.url}/current`);
+    return this.http.get<Lineup>(routes.lineup(teamId));
   }
 
   update(lineup: Lineup): Observable<any> {
-    return this.http.put(
-      `teams/${lineup.team_id}/${this.url}/${lineup.id}`,
-      JSON.stringify(LineupService.cleanLineup(lineup))
-    );
+    return this.http.put(routes.update(lineup.team_id, lineup.id), JSON.stringify(LineupService.cleanLineup(lineup)));
   }
 
   create(lineup: Lineup): Observable<Lineup> {
-    return this.http.post<Lineup>(
-      `teams/${lineup.team_id}/${this.url}`,
-      JSON.stringify(LineupService.cleanLineup(lineup))
-    );
+    return this.http.post<Lineup>(routes.lineups(lineup.team_id), JSON.stringify(LineupService.cleanLineup(lineup)));
   }
 
   getLikelyLineup(lineup: Lineup): Observable<Array<Member>> {
-    return this.http.get<Array<Member>>(`teams/${lineup.team_id}/${this.url}/likely`);
+    return this.http.get<Array<Member>>(routes.likely(lineup.team_id));
   }
 }

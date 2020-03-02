@@ -32,7 +32,8 @@
         "@app",
         "@modules",
         "@shared",
-        "@env"
+        "@env",
+        "protractor"
       ]
     ]
   }

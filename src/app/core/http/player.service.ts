@@ -3,23 +3,27 @@ import { Injectable } from '@angular/core';
 import { Player } from '@shared/models';
 import { Observable } from 'rxjs';
 
+const url = 'players';
+const routes = {
+  players: `/${url}`,
+  player: (id: number) => `/${url}/${id}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
-  private readonly url = 'players';
 
   constructor(private readonly http: HttpClient) { }
 
   getPlayers(): Observable<Array<Player>> {
-    return this.http.get<Array<Player>>(this.url);
+    return this.http.get<Array<Player>>(routes.players);
   }
 
   getPlayer(id: number, championshipId?: number): Observable<Player> {
     let params = new HttpParams();
-    const url = `${this.url}/${id}`;
     if (championshipId) {
       params = params.set('championshipId', `${championshipId}`);
     }
 
-    return this.http.get<Player>(url, { params });
+    return this.http.get<Player>(routes.player(id), { params });
   }
 }
