@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ApplicationService, NotificationService } from '@app/services';
+import { NotificationService } from '@app/http';
+import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations/create-box.animation';
 import { Stream } from '@shared/models';
 import { Observable } from 'rxjs';

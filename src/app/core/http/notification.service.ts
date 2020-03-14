@@ -6,16 +6,21 @@ import { share } from 'rxjs/operators';
 
 type MessageCallback = (payload: unknown) => void;
 
+const url = 'notifications';
+const routes = {
+  notifications: (id: number) => `/teams/${id}/${url}`
+};
+
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   notifications: Subject<Notification> = new Subject<Notification>();
   seen: EventEmitter<Stream> = new EventEmitter<Stream>();
-  private readonly url = 'notifications';
+  private readonly url = '';
 
   constructor(private readonly http: HttpClient) { }
 
   getNotifications(teamId: number): Observable<Stream> {
-    const seen = this.http.get<Stream>(`teams/${teamId}/${this.url}`)
+    const seen = this.http.get<Stream>(routes.notifications(teamId))
       .pipe(share());
     seen.subscribe(res => {
       this.seen.emit(res);
@@ -25,11 +30,11 @@ export class NotificationService {
   }
 
   getNotificationCount(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(`teams/${teamId}/${this.url}/count`);
+    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`);
   }
 
-  broadcast(title: string, url: string, severity?: number): void {
-    this.notifications.next(new Notification(title, url, severity));
+  broadcast(title: string, uri: string, severity?: number): void {
+    this.notifications.next(new Notification(title, uri, severity));
   }
 
   subscribe(callback: MessageCallback): Subscription {

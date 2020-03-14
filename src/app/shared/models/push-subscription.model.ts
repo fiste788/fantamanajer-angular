@@ -14,19 +14,17 @@ export class PushSubscription {
   user: User;
 
   async convertNativeSubscription(pushSubscription: PushSubscriptionJSON, user_id: number): Promise<PushSubscription | undefined> {
-    if (this.endpoint) {
-      const res = await this.sha256(pushSubscription.endpoint ?? '');
-      const json = JSON.parse(JSON.stringify(pushSubscription));
-      this.id = res;
-      this.endpoint = pushSubscription.endpoint ?? '';
-      this.public_key = json.keys.p256dh;
-      this.auth_token = json.keys.auth;
+    if (pushSubscription.endpoint && pushSubscription.keys) {
+      this.id = await this.sha256(pushSubscription.endpoint);
+      this.endpoint = pushSubscription.endpoint;
+      this.public_key = pushSubscription.keys.p256dh;
+      this.auth_token = pushSubscription.keys.auth;
       this.content_encoding = (PushManager.supportedContentEncodings ?? ['aesgcm'])[0];
       const e = pushSubscription.expirationTime;
       this.expires_at = e !== null && e !== undefined ? new Date(e) : undefined;
       this.user_id = user_id;
 
-      return this as PushSubscription;
+      return this;
     }
 
     return undefined;

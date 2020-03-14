@@ -5,11 +5,10 @@ import { SwPush, SwUpdate } from '@angular/service-worker';
 import { AuthenticationService } from '@app/authentication';
 import { environment } from '@env';
 import { PushSubscription, User } from '@shared/models';
-import { Observable } from 'rxjs';
-import { filter, isEmpty, map, take } from 'rxjs/operators';
-import { PushSubscriptionService } from '../http';
+import { from, Observable, of } from 'rxjs';
+import { catchError, defaultIfEmpty, filter, flatMap, map, share, take } from 'rxjs/operators';
+import { NotificationService, PushSubscriptionService } from '../http';
 import { ApplicationService } from './application.service';
-import { NotificationService } from './notification.service';
 import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
@@ -58,39 +57,6 @@ export class PushService {
     }
   }
 
-  subscribeToPush(): void {
-    this.swPush.subscription.pipe(
-      isEmpty(),
-      filter(s => s)
-    )
-      .subscribe(() => {
-        this.requestSubscription();
-      });
-  }
-
-  unsubscribeFromPush(): void {
-    // Get active subscription
-    this.swPush.subscription.pipe(take(1))
-      .subscribe(pushSubscription => {
-        if (pushSubscription !== null) {
-          // Delete the subscription from the backend
-          this.subscription.delete(pushSubscription.endpoint)
-            .subscribe(res => {
-              this.snackBar.open('Now you are unsubscribed', undefined, {
-                duration: 2000
-              });
-
-              // Unsubscribe current client (browser)
-              pushSubscription
-                .unsubscribe()
-                .then()
-                .catch();
-            });
-        }
-      });
-
-  }
-
   showMessages(): void {
     this.swPush.messages.subscribe((message: any) => {
       this.notificationService.broadcast(message.notification.title, '');
@@ -102,36 +68,88 @@ export class PushService {
     });
   }
 
+  subscribeToPush(): void {
+    this.isSubscribed()
+      .pipe(
+        filter(s => !s),
+        flatMap(() => from(this.requestSubscription()))
+      )
+      .subscribe(() => {
+        this.snackBar.open('Now you are subscribed', undefined, {
+          duration: 2000
+        });
+      });
+  }
+
+  unsubscribeFromPush(): void {
+    from(this.cancelSubscription())
+      .subscribe(() => {
+        this.snackBar.open('Now you are unsubscribed', undefined, {
+          duration: 2000
+        });
+      });
+  }
+
   isSubscribed(): Observable<boolean> {
     return this.swPush.subscription
       .pipe(
-        isEmpty(),
-        map(e => !e)
+        defaultIfEmpty(null),
+        map(e => e !== null),
+        share()
       );
   }
 
-  private requestSubscription(): void {
-    this.swPush.requestSubscription({
+  isEnabled(): boolean {
+    return this.swPush.isEnabled;
+  }
+
+  private async requestSubscription(): Promise<boolean> {
+    const pushSubscription = await this.swPush.requestSubscription({
       serverPublicKey: environment.vapidPublicKey
-    })
-      .then(pushSubscription => {
-        if (this.app.user) {
-          const pushSubscriptionModel = new PushSubscription();
-          void pushSubscriptionModel.convertNativeSubscription(pushSubscription, this.app.user.id)
-            .then(sub => {
-              if (sub) {
-                this.subscription.add(sub)
-                  .subscribe(() => {
-                    this.snackBar.open('Now you are subscribed', undefined, {
-                      duration: 2000
-                    });
-                  }, () => pushSubscription.unsubscribe());
-              }
-            });
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    });
+    if (this.app.user) {
+      const pushSubscriptionModel = new PushSubscription();
+      const sub = await pushSubscriptionModel.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
+      if (sub) {
+        return this.subscription.add(sub)
+          .pipe(
+            map(s => s !== null),
+            catchError(() => {
+              void pushSubscription.unsubscribe();
+
+              return of(false);
+            })
+          )
+          .toPromise();
+      }
+    }
+
+    return false;
+  }
+
+  private async cancelSubscription(): Promise<boolean> {
+    // Get active subscription
+    const pushSubscription = await this.swPush.subscription.pipe(take(1))
+      .toPromise();
+    if (pushSubscription !== null) {
+      // Delete the subscription from the backend
+      const pushSubscriptionModel = new PushSubscription();
+      const sub = await pushSubscriptionModel.sha256(pushSubscription.endpoint);
+
+      return this.subscription.delete(sub)
+        .pipe(
+          map(() => {
+            pushSubscription
+              .unsubscribe()
+              .then()
+              .catch();
+
+            return true;
+          }),
+          catchError(() => of(false)))
+        .toPromise();
+    }
+
+    return true;
   }
 }

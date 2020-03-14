@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
   user: User;
   repeatPassword: string;
   push: Observable<boolean>;
+  enabled: boolean;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -29,6 +30,7 @@ export class SettingsComponent implements OnInit {
     if (this.app.user) {
       this.user = this.app.user;
     }
+    this.enabled = this.pushService.isEnabled();
     this.push = this.pushService.isSubscribed();
   }
 

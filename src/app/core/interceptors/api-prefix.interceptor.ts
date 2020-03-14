@@ -13,7 +13,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     const ct = 'Content-type';
     if (!req.url.endsWith('matchdays/current')) {
       headers = headers.set('Accept', 'application/json');
-      if (!req.headers.has(ct)) {
+      if (!req.headers.has(ct) && req.method !== 'DELETE') {
         headers = headers.set(ct, 'application/json');
       } else if (headers.get(ct) === 'multipart/form-data') {
         headers = headers.delete(ct);

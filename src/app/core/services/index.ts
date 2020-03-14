@@ -1,6 +1,5 @@
 export * from './application.service';
 export * from './layout.service';
-export * from './notification.service';
 export * from './push.service';
 export * from './scroll.service';
 export * from './theme.service';
