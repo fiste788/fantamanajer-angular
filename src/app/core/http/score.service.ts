@@ -44,11 +44,11 @@ export class ScoreService {
   }
 
   getLastScore(teamId: number): Observable<Score> {
-    return this.http.get<Score>(`${routes.score(teamId)}/last`);
+    return this.http.get<Score>(`${routes.team(teamId)}/last`);
   }
 
   getScoresByTeam(teamId: number): Observable<Array<Score>> {
-    return this.http.get<Array<Score>>(routes.score(teamId));
+    return this.http.get<Array<Score>>(routes.team(teamId));
   }
 
   update(score: Score): Observable<any> {

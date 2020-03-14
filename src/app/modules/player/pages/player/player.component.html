@@ -1,4 +1,4 @@
-<ng-container *ngIf="player | async as _player; else loading">
+<ng-container *ngIf="player | async as _player;">
   <div @enterDetailAnimation>
     <div class="animation-container">
       <fm-parallax-header [title]="_player.full_name"
@@ -6,7 +6,7 @@
         [backgroundImage]="selectedMember.club.background_url"
         [image]="selectedMember.photo_url || _player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id">
         <div parallax-header-right class="inherit-color">
-          <a *ngIf="selectedMember.free" (click)="buy()" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
+          <a *ngIf="selectedMember.free" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
           <mat-form-field appearance="standard">
             <mat-label>Stagione</mat-label>
@@ -20,8 +20,8 @@
       </fm-parallax-header>
     </div>
   </div>
-  <div class="table-container" *ngIf="dataSource">
-    <table mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
+  <div class="table-container" *ngIf="ratings | async as _ratings; else loading">
+    <table mat-table #table [dataSource]="_ratings" @tableRowAnimation matSort>
       <ng-container matColumnDef="matchday">
         <th mat-header-cell *matHeaderCellDef>
           <span matTooltipPosition="above" matTooltip="Giornata">#</span>
@@ -111,7 +111,8 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <span matTooltip="Quotazione" matTooltipPosition="above">Q.</span>
         </th>
-        <td mat-cell *matCellDef="let row;">{{row.quotation}}
+        <td mat-cell *matCellDef="let row;">
+          {{row.quotation}}
         <td>
       </ng-container>
 
@@ -119,7 +120,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+  <ng-template #loading>
+    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  </ng-template>
 </ng-container>
-<ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
-</ng-template>

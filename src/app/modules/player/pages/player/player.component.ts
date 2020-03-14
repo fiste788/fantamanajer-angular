@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
+import { RatingService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { Member, Player, Rating } from '@shared/models';
@@ -23,7 +23,7 @@ export class PlayerComponent {
   selectedMember: Member;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource?: MatTableDataSource<Rating>;
+  ratings: Observable<Array<Rating>>;
   displayedColumns = [
     'matchday',
     'rating',
@@ -40,32 +40,20 @@ export class PlayerComponent {
   ];
 
   constructor(
-    private readonly changeRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
+    private readonly ratingService: RatingService,
     public app: ApplicationService
   ) {
-    this.player = this.route.data.pipe(map(({ player }) => {
-      this.selectedMember = player.members[0];
-      this.seasonChange();
-
-      return player;
-    }));
+    this.player = this.route.data.pipe(
+      map((data: { player: Player }) => data.player),
+      tap(player => {
+        this.selectedMember = player.members[0];
+        this.seasonChange();
+      }));
   }
 
   seasonChange(): void {
-    if (this.dataSource !== undefined) {
-      this.dataSource = undefined;
-      this.changeRef.detectChanges();
-    }
-    this.dataSource = new MatTableDataSource<Rating>(this.selectedMember.ratings);
-    this.changeRef.detectChanges();
-    this.dataSource.sort = this.sort;
-  }
-
-  buy(): boolean {
-    localStorage.setItem('buyingMember', JSON.stringify(this.selectedMember));
-
-    return false;
+    this.ratings = this.ratingService.getRatings(this.selectedMember.id);
   }
 
   track(_: number, item: Member): number {

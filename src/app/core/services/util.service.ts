@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UtilService {
 
   static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
