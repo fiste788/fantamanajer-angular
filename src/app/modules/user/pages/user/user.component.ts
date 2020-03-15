@@ -17,7 +17,7 @@ export class UserComponent {
   ];
 
   getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
+    return outlet.isActivated ? outlet.activatedRouteData.state : '';
   }
 
   track(_: number, item: Tab): string {

@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
-  article: Observable<Article>;
+  article$: Observable<Article>;
   @ViewChild(NgForm) articleForm: NgForm;
 
   constructor(
@@ -27,13 +27,13 @@ export class ArticleDetailComponent implements OnInit {
   ngOnInit(): void {
     if (this.route.snapshot.params.id) {
       const id = parseInt(this.route.snapshot.params.id, 10);
-      this.article = this.articleService.getArticle(id);
+      this.article$ = this.articleService.getArticle(id);
     } else {
       const article = new Article();
       if (this.app.team) {
         article.team_id = this.app.team.id;
       }
-      this.article = of(article);
+      this.article$ = of(article);
     }
   }
 

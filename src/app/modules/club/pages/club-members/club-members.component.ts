@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ClubMembersComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  members?: Observable<Array<Member>>;
+  members$?: Observable<Array<Member>>;
 
   constructor(
     private readonly memberService: MemberService,
@@ -23,12 +23,12 @@ export class ClubMembersComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent?.data.subscribe((data: { club: Club }) => {
-      this.members = undefined;
+      this.members$ = undefined;
       try {
         this.changeRef.detectChanges();
         // tslint:disable-next-line: no-empty
       } catch (e) { }
-      this.members = this.memberService.getByClubId(data.club.id);
+      this.members$ = this.memberService.getByClubId(data.club.id);
     });
   }
 }

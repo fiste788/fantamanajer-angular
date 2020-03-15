@@ -19,7 +19,7 @@ export class LoginComponent {
   } = { email: '', password: '', remember_me: true };
   loading = false;
   error = '';
-  token: Observable<CredentialRequestOptionsJSON>;
+  token$: Observable<CredentialRequestOptionsJSON>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -47,7 +47,7 @@ export class LoginComponent {
   }
 
   checkToken(): void {
-    this.token = this.credentialService.get(this.loginData.email);
+    this.token$ = this.credentialService.get(this.loginData.email);
   }
 
   postLogin(result: boolean): void {

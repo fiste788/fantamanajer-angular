@@ -7,13 +7,13 @@
   giornata (ad esempio se la giornata è il 25/12 saranno attivi dalle ore 02:00 del 25/12).<br />Se il giocatore
   svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
   possibile cambiare il giocatore selezionato 2 volte.</p>
-<form #selectionForm="ngForm" (ngSubmit)="save()" *ngIf="members | async as _members">
+<form #selectionForm="ngForm" (ngSubmit)="save()" *ngIf="members$ | async as members">
   <div class="row">
     <mat-form-field>
       <mat-label>Vecchio giocatore</mat-label>
       <mat-select [compareWith]="compareFn" required (selectionChange)="playerChange()"
         [(ngModel)]="selection.old_member" name="old_member" placeholder="Vecchio giocatore">
-        <mat-optgroup *ngFor="let _role of _members | keyvalue:descOrder; trackBy: track" [label]="_role.key.plural"
+        <mat-optgroup *ngFor="let _role of members | keyvalue:descOrder; trackBy: track" [label]="_role.key.plural"
           [disabled]="isDisabled(_role.key)">
           <mat-option *ngFor="let member of _role.value" [value]="member">{{ member.player.full_name }}</mat-option>
         </mat-optgroup>
@@ -23,7 +23,7 @@
       <mat-label>Nuovo giocatore</mat-label>
       <mat-select [compareWith]="compareFn" required #newMember [(ngModel)]="selection.new_member" name="new_member"
         placeholder="Nuovo giocatore">
-        <mat-option *ngFor="let member of newMembers | async; trackBy: trackMember" [value]="member">
+        <mat-option *ngFor="let member of newMembers$ | async; trackBy: trackMember" [value]="member">
           {{ member.player.full_name }}
         </mat-option>
       </mat-select>

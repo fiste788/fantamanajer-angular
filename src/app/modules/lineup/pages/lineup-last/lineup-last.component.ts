@@ -15,7 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 export class LineupLastComponent implements OnDestroy {
   @ViewChild(NgForm) lineupForm: NgForm;
 
-  lineup: Observable<Lineup>;
+  lineup$: Observable<Lineup>;
   editMode = false;
   teamId: number;
   private subscription: Subscription;
@@ -28,7 +28,7 @@ export class LineupLastComponent implements OnDestroy {
   ) {
     this.teamId = this.route.parent?.parent?.parent?.snapshot.data.team.id;
     this.editMode = this.app.team?.id === this.teamId;
-    this.lineup = this.lineupService.getLineup(this.teamId);
+    this.lineup$ = this.lineupService.getLineup(this.teamId);
   }
 
   ngOnDestroy(): void {

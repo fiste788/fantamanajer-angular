@@ -12,7 +12,7 @@ export enum Direction {
   providedIn: 'root'
 })
 export class ScrollService {
-  private scrollObservable: Observable<Direction>;
+  private scrollObservable$: Observable<Direction>;
   private container: MatSidenavContent;
 
   connect(container: MatSidenavContent): void {
@@ -20,7 +20,7 @@ export class ScrollService {
   }
 
   connectScrollAnimation(offset = 0): void {
-    this.scrollObservable = this.container.elementScrolled()
+    this.scrollObservable$ = this.container.elementScrolled()
       .pipe(
         throttleTime(15),
         map(() => this.container.measureScrollOffset('top')),
@@ -35,13 +35,13 @@ export class ScrollService {
   }
 
   get goingUp$(): Observable<Direction> {
-    return this.scrollObservable.pipe(
+    return this.scrollObservable$.pipe(
       filter(direction => direction === Direction.Up)
     );
   }
 
   get goingDown$(): Observable<Direction> {
-    return this.scrollObservable.pipe(
+    return this.scrollObservable$.pipe(
       filter(direction => direction === Direction.Down)
     );
   }

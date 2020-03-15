@@ -25,7 +25,7 @@
           name="repeatPassword" type="password" placeholder="Ripeti password">
       </mat-form-field>
 
-      <mat-slide-toggle [disabled]="!enabled" [checked]="push | async" (change)="togglePush($event.checked)"
+      <mat-slide-toggle [disabled]="!enabled" [checked]="push$ | async" (change)="togglePush($event.checked)"
         name="active_push">Ricevi
         notifiche push
       </mat-slide-toggle>

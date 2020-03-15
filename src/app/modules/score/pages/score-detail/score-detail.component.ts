@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./score-detail.component.scss']
 })
 export class ScoreDetailComponent implements OnInit {
-  score: Observable<Score>;
+  score$: Observable<Score>;
   regular: Array<Disposition>;
   notRegular: Array<Disposition>;
 
@@ -25,14 +25,14 @@ export class ScoreDetailComponent implements OnInit {
     if (this.route.snapshot.url.pop()?.path === 'last') {
       const teamId = UtilService.getTeamId(this.route);
       if (teamId) {
-        this.score = this.scoreService.getLastScore(teamId)
+        this.score$ = this.scoreService.getLastScore(teamId)
           .pipe(
             map(score => this.getData(score))
           );
       }
     } else {
       const id = parseInt(this.route.snapshot.params.id, 10);
-      this.score = this.scoreService.getScore(id)
+      this.score$ = this.scoreService.getScore(id)
         .pipe(
           map(score => this.getData(score))
         );

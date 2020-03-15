@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./team-members.component.scss']
 })
 export class TeamMembersComponent implements OnInit {
-  members?: Observable<Array<Member>>;
+  members$?: Observable<Array<Member>>;
 
   constructor(
     private readonly memberService: MemberService,
@@ -20,12 +20,12 @@ export class TeamMembersComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent?.data.subscribe((data: { team: Team }) => {
-      this.members = undefined;
+      this.members$ = undefined;
       try {
         this.changeRef.detectChanges();
         // tslint:disable-next-line: no-empty
       } catch (e) { }
-      this.members = this.memberService.getByTeamId(data.team.id);
+      this.members$ = this.memberService.getByTeamId(data.team.id);
     });
   }
 }

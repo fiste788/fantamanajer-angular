@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class NotificationOverlayComponent implements OnInit {
-  stream: Observable<Stream>;
+  stream$: Observable<Stream>;
   animationState: 'void' | 'enter' | 'leave' = 'enter';
   animationStateChanged = new EventEmitter<AnimationEvent>();
 
@@ -27,7 +27,7 @@ export class NotificationOverlayComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.app.team) {
-      this.stream = this.notificationService.getNotifications(this.app.team.id);
+      this.stream$ = this.notificationService.getNotifications(this.app.team.id);
     }
   }
 

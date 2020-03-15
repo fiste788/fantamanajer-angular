@@ -15,7 +15,7 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
   animations: [enterDetailAnimation]
 })
 export class TeamDetailComponent implements OnInit {
-  team: Observable<Team>;
+  team$: Observable<Team>;
   tabs: Array<{ label: string; link: string }> = [];
 
   constructor(
@@ -28,7 +28,7 @@ export class TeamDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.team = this.route.data.pipe(map((data: { team: Team }) => {
+    this.team$ = this.route.data.pipe(map((data: { team: Team }) => {
       this.loadTabs(data.team);
 
       return data.team;
@@ -61,8 +61,8 @@ export class TeamDetailComponent implements OnInit {
       .afterClosed()
       .subscribe((t?: Observable<Team>) => {
         if (t) {
-          this.team = t;
-          this.team.subscribe(res => {
+          this.team$ = t;
+          this.team$.subscribe(res => {
             if (this.app.team) {
               this.app.team.photo_url = res.photo_url;
               this.app.team.name = res.name;

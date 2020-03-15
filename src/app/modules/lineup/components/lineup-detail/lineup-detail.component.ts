@@ -43,7 +43,6 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
-    private readonly shared: UtilService,
     private readonly lineupService: LineupService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef

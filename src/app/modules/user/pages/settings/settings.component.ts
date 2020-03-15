@@ -12,10 +12,10 @@ import { share, take } from 'rxjs/operators';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  userObservable: Observable<User>;
+  user$: Observable<User>;
   user: User;
   repeatPassword: string;
-  push: Observable<boolean>;
+  push$: Observable<boolean>;
   enabled: boolean;
 
   constructor(
@@ -31,14 +31,14 @@ export class SettingsComponent implements OnInit {
       this.user = this.app.user;
     }
     this.enabled = this.pushService.isEnabled();
-    this.push = this.pushService.isSubscribed();
+    this.push$ = this.pushService.isSubscribed();
   }
 
   save(): void {
     if (this.user?.password === this.repeatPassword) {
-      this.userObservable = this.userService.update(this.user)
+      this.user$ = this.userService.update(this.user)
         .pipe(share());
-      this.userObservable.subscribe(response => {
+      this.user$.subscribe(response => {
         this.snackBar.open('Modifiche salvate', undefined, {
           duration: 3000
         });

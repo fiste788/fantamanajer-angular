@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class TeamListComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  teams?: Observable<Array<Team>>;
+  teams$?: Observable<Array<Team>>;
   exit = false;
   scrollTarget: Element;
 
@@ -29,7 +29,7 @@ export class TeamListComponent implements OnInit {
     this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
-        this.teams = undefined;
+        this.teams$ = undefined;
       }
     });
     this.scrollTarget = this.scroller.scrollContainers.keys()
@@ -37,7 +37,7 @@ export class TeamListComponent implements OnInit {
       .getElementRef().nativeElement;
     const id = UtilService.getChampionshipId(this.route);
     if (id) {
-      this.teams = this.teamService.getTeams(id);
+      this.teams$ = this.teamService.getTeams(id);
     }
   }
 

@@ -37,8 +37,8 @@
 
             <mat-checkbox [(ngModel)]="loginData.remember_me" name="remember_me">Ricordami</mat-checkbox>
             <div class="actions" fxLayout="row" fxLayoutAlign="end">
-              <button color="accent" mat-raised-button type="button" (click)="tokenLogin(t)"
-                *ngIf="token | async as t;">Accedi tramite token</button>
+              <button color="accent" mat-raised-button type="button" (click)="tokenLogin(token)"
+                *ngIf="token$ | async as token;">Accedi tramite token</button>
               <button color="accent" mat-raised-button>Accedi</button>
             </div>
           </mat-step>

@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   animations: [enterDetailAnimation, tabTransition]
 })
 export class ClubDetailComponent implements OnInit {
-  club: Observable<Club>;
+  club$: Observable<Club>;
   tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' }
@@ -21,7 +21,7 @@ export class ClubDetailComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.club = this.route.data.pipe(map((data: { club: Club }) => data.club));
+    this.club$ = this.route.data.pipe(map((data: { club: Club }) => data.club));
   }
 
   getState(outlet: RouterOutlet): string {

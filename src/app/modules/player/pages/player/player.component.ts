@@ -19,11 +19,10 @@ import { Member, Player, Rating } from '@shared/models';
   ]
 })
 export class PlayerComponent {
-  player: Observable<Player>;
-  selectedMember: Member;
   @ViewChild(MatSort) sort: MatSort;
-
-  ratings: Observable<Array<Rating>>;
+  player$: Observable<Player>;
+  ratings$: Observable<Array<Rating>>;
+  selectedMember: Member;
   displayedColumns = [
     'matchday',
     'rating',
@@ -44,7 +43,7 @@ export class PlayerComponent {
     private readonly ratingService: RatingService,
     public app: ApplicationService
   ) {
-    this.player = this.route.data.pipe(
+    this.player$ = this.route.data.pipe(
       map((data: { player: Player }) => data.player),
       tap(player => {
         this.selectedMember = player.members[0];
@@ -53,7 +52,7 @@ export class PlayerComponent {
   }
 
   seasonChange(): void {
-    this.ratings = this.ratingService.getRatings(this.selectedMember.id);
+    this.ratings$ = this.ratingService.getRatings(this.selectedMember.id);
   }
 
   track(_: number, item: Member): number {

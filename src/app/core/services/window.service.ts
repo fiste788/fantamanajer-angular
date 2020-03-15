@@ -8,7 +8,6 @@ export abstract class WindowRef {
   get nativeWindow(): Window | Object {
     throw new Error('Not implemented.');
   }
-
 }
 
 export class BrowserWindowRef extends WindowRef {
@@ -16,7 +15,6 @@ export class BrowserWindowRef extends WindowRef {
   get nativeWindow(): Window | Object {
     return window;
   }
-
 }
 
 export const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: Object): Window | Object => {

@@ -20,8 +20,8 @@ export class SelectionComponent implements OnInit {
   @ViewChild(NgForm) selectionForm: NgForm;
 
   selection: Selection = new Selection();
-  members: Observable<Map<Role, Array<Member>>>;
-  newMembers?: Observable<Array<Member>>;
+  members$: Observable<Map<Role, Array<Member>>>;
+  newMembers$?: Observable<Array<Member>>;
   role: Subject<Role> = new Subject<Role>();
   disableOthers: boolean;
 
@@ -55,7 +55,7 @@ export class SelectionComponent implements OnInit {
           next: this.loadMembers.bind(this)
         });
 
-      this.members = this.memberService.getByTeamId(teamId)
+      this.members$ = this.memberService.getByTeamId(teamId)
         .pipe(
           map(data => this.roleService.groupMembersByRole(data)),
           map(members => {
@@ -82,7 +82,7 @@ export class SelectionComponent implements OnInit {
       this.disableOthers = false;
       this.newMember.disabled = true;
       if (this.app.championship) {
-        this.newMembers = this.memberService.getFree(this.app.championship.id, role.id, false)
+        this.newMembers$ = this.memberService.getFree(this.app.championship.id, role.id, false)
           .pipe(
             map(members => {
               this.changeRef.detectChanges();
@@ -142,7 +142,7 @@ export class SelectionComponent implements OnInit {
     delete this.selection.new_member;
     delete this.selection.new_member_id;
     this.newMember.value = undefined;
-    this.newMembers = undefined;
+    this.newMembers$ = undefined;
     this.role.next();
   }
 

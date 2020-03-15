@@ -15,7 +15,7 @@ import { NotificationOverlayComponent } from '../../modals/notification-overlay/
   animations: [createBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
-  stream: Observable<Stream>;
+  stream$: Observable<Stream>;
   @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
 
   constructor(
@@ -28,13 +28,13 @@ export class NotificationListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.app.team) {
-      this.stream = this.notificationService.getNotificationCount(this.app.team.id)
+      this.stream$ = this.notificationService.getNotificationCount(this.app.team.id)
         .pipe(flatMap(_ => this.notificationService.seen.toPromise()));
     }
   }
 
   seen(): void {
-    this.stream = this.notificationService.seen;
+    this.stream$ = this.notificationService.seen;
   }
 
   open(el: ElementRef<HTMLButtonElement>): void {

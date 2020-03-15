@@ -14,7 +14,7 @@ import { share } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  roles: Observable<Array<Role>>;
+  roles$: Observable<Array<Role>>;
 
   constructor(
     private readonly memberService: MemberService,
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.roles = this.memberService.getBest()
+    this.roles$ = this.memberService.getBest()
       .pipe(share());
   }
 

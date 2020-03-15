@@ -65,7 +65,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.themeService.connect();
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
-    this.openedSidebar$ = this.layoutService.openedSidebar;
+    this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.showedSpeedDial$ = combineLatest(this.layoutService.isShowSpeedDial, this.auth.userChange$)
       .pipe(map(([v, u]) => u === undefined ? VisibilityState.Hidden : v));
     this.showedToolbar$ = this.layoutService.isShowToolbar;

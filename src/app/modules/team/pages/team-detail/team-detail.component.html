@@ -1,10 +1,10 @@
-<ng-container *ngIf="team | async as _team;">
+<ng-container *ngIf="team$ | async as team;">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header [backgroundImage]="_team.photo_url" [tabs]="tabs" [title]="_team.name"
-        [subtitle]="_team.user.name + ' ' + _team.user.surname">
-        <div parallax-header-right *ngIf="_team.user.id == app.user?.id && !app.seasonEnded">
-          <button mat-icon-button (click)="openDialog(_team)" aria-label="Settings">
+      <fm-parallax-header [backgroundImage]="team.photo_url" [tabs]="tabs" [title]="team.name"
+        [subtitle]="team.user.name + ' ' + team.user.surname">
+        <div parallax-header-right *ngIf="team.user.id == app.user?.id && !app.seasonEnded">
+          <button mat-icon-button (click)="openDialog(team)" aria-label="Settings">
             <mat-icon>settings</mat-icon>
           </button>
         </div>

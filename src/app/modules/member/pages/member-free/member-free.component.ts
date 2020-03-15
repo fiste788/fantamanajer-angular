@@ -17,9 +17,9 @@ import { Observable } from 'rxjs';
 })
 export class MemberFreeComponent implements OnInit, AfterViewInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  @ViewChild(MemberListComponent) memberList: MemberListComponent;
+  @ViewChild(MemberListComponent) memberList?: MemberListComponent;
   @ViewChild(MatSelect) roleSelect: MatSelect;
-  members?: Observable<Array<Member>>;
+  members$?: Observable<Array<Member>>;
   roles: Map<number, Role>;
 
   constructor(
@@ -45,10 +45,10 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
 
   roleChange(role?: Role): void {
     const championshipId = UtilService.getChampionshipId(this.route);
-    this.members = undefined;
+    this.members$ = undefined;
     this.changeRef.detectChanges();
     if (championshipId) {
-      this.members = this.memberService.getFree(championshipId, role?.id);
+      this.members$ = this.memberService.getFree(championshipId, role?.id);
     }
   }
 

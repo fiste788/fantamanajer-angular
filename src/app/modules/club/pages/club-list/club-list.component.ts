@@ -15,7 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class ClubListComponent implements OnInit, OnDestroy {
   @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-  clubs?: Observable<Array<Club>>;
+  clubs$?: Observable<Array<Club>>;
   subscription: Subscription;
   exit = false;
   id: number;
@@ -27,10 +27,10 @@ export class ClubListComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
-        this.clubs = undefined;
+        this.clubs$ = undefined;
       }
     });
-    this.clubs = this.clubService.getClubs();
+    this.clubs$ = this.clubService.getClubs();
   }
 
   track(_: number, club: Club): number {

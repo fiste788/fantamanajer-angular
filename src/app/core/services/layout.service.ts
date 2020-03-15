@@ -12,7 +12,7 @@ export class LayoutService {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
   openSidebar$ = new BehaviorSubject<boolean>(false);
-  openedSidebar = this.openSidebar$.asObservable();
+  openedSidebar$ = this.openSidebar$.asObservable();
   isReady$ = new BehaviorSubject<boolean>(false);
   private readonly showSpeedDial$ = new BehaviorSubject<boolean>(false);
   private readonly showToolbar$ = new BehaviorSubject<boolean>(true);

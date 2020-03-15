@@ -1,17 +1,17 @@
-<ng-container *ngIf="player | async as _player;">
+<ng-container *ngIf="player$ | async as player;">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header [title]="_player.full_name"
+      <fm-parallax-header [title]="player.full_name"
         [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
         [backgroundImage]="selectedMember.club.background_url"
-        [image]="selectedMember.photo_url || _player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id">
+        [image]="selectedMember.photo_url || player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id">
         <div parallax-header-right class="inherit-color">
           <a *ngIf="selectedMember.free" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
           <mat-form-field appearance="standard">
             <mat-label>Stagione</mat-label>
             <mat-select (selectionChange)="seasonChange()" placeholder="Stagione" [(ngModel)]="selectedMember">
-              <mat-option *ngFor="let member of _player.members; trackBy: track" [value]="member">
+              <mat-option *ngFor="let member of player.members; trackBy: track" [value]="member">
                 {{ member.season.name }}
               </mat-option>
             </mat-select>
@@ -20,8 +20,8 @@
       </fm-parallax-header>
     </div>
   </div>
-  <div class="table-container" *ngIf="ratings | async as _ratings; else loading">
-    <table mat-table #table [dataSource]="_ratings" @tableRowAnimation matSort>
+  <div class="table-container" *ngIf="ratings$ | async as ratings; else loading">
+    <table mat-table #table [dataSource]="ratings" @tableRowAnimation matSort>
       <ng-container matColumnDef="matchday">
         <th mat-header-cell *matHeaderCellDef>
           <span matTooltipPosition="above" matTooltip="Giornata">#</span>

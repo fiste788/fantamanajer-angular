@@ -1,7 +1,7 @@
-<ng-container *ngIf="club | async as _club;">
+<ng-container *ngIf="club$ | async as club;">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header [backgroundImage]="_club.background_url" [image]="_club.photo_url" [title]="_club.name"
+      <fm-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"
         [tabs]="tabs">
       </fm-parallax-header>
     </div>
