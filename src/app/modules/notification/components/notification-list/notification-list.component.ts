@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { NotificationService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations/create-box.animation';
 import { Stream } from '@shared/models';
-import { Observable } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
 import { NotificationOverlayComponent } from '../../modals/notification-overlay/notification-overlay.component';
 

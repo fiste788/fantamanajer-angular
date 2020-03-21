@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { BREAKPOINTS, DEFAULT_BREAKPOINTS, FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
-import { CaptainPipe, PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
+
+import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
+import { CaptainPipe, PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
+
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
 import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Team } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Team } from '@shared/models';
 
 const url = 'teams';
 const routes = {

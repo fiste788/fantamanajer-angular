@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+
 import { CredentialService, UserService } from '@app/http';
 import { ApplicationService, PushService } from '@app/services';
 import { User } from '@shared/models';
-import { from, Observable } from 'rxjs';
-import { share, take } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-settings',

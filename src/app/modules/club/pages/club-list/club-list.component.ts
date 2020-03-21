@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+
 import { ClubService } from '@app/http';
 import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
 import { Club } from '@shared/models';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-club-list',
@@ -13,8 +14,6 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClubListComponent implements OnInit, OnDestroy {
-  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-
   clubs$?: Observable<Array<Club>>;
   subscription: Subscription;
   exit = false;

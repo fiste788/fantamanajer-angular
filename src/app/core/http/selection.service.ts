@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Selection } from '@shared/models';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
+import { Selection } from '@shared/models';
 
 const url = 'selections';
 const routes = {

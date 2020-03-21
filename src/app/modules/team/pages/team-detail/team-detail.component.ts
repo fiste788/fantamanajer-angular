@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation } from '@shared/animations';
 import { Team } from '@shared/models';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
 
 @Component({

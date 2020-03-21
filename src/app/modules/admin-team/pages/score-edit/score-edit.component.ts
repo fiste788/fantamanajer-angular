@@ -3,10 +3,11 @@ import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
 import { Score, Team } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-score-edit',

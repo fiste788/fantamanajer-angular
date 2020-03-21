@@ -1,17 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostBinding,
-  Inject,
-  Input,
-  NgZone,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
-import { WINDOW } from '@app/services';
+import { AfterViewInit, Directive, ElementRef, HostBinding, Inject, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
+
+import { WINDOW } from '@app/services';
 
 class Options {
   speed: number;

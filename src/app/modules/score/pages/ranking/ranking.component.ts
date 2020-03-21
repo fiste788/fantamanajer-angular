@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+
 import { ScoreService } from '@app/http';
 import { tableRowAnimation } from '@shared/animations/table-row.animation';
 import { Championship, Matchday } from '@shared/models';
@@ -12,8 +13,6 @@ import { Championship, Matchday } from '@shared/models';
   animations: [tableRowAnimation]
 })
 export class RankingComponent implements OnInit {
-  // @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-
   dataSource: MatTableDataSource<Array<any>>;
   rankingDisplayedColumns = ['teamName', 'points'];
   matchdays: Array<string> = [];

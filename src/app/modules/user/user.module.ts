@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 
 import { StreamModule } from '@modules/stream/stream.module';
+import { SharedModule } from '@shared/shared.module';
+
 import { UserStreamComponent } from './components/user-stream/user-stream.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserComponent } from './pages/user/user.component';

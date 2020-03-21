@@ -2,12 +2,13 @@ import { KeyValue } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { MemberService, RoleService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 import { tableRowAnimation } from '@shared/animations';
 import { Member, Role } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-member-free',

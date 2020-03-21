@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Stream } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Stream } from '@shared/models';
 
 const url = 'stream';
 const routes = {

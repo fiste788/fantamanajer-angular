@@ -1,7 +1,9 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import { StreamService } from '@app/http';
 import { listItemAnimation } from '@shared/animations/list-item.animation';
+
 import { StreamDataSource } from './stream.datasource';
 
 @Component({

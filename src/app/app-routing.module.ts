@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
+
 import { AuthGuard } from '@app/guards';
 import { HomeComponent } from '@modules/home/pages/home.component';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { ApplicationService } from '@app/services';
 import { Tab } from '@shared/models';
 

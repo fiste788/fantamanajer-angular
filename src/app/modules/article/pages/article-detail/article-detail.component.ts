@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import { ArticleService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { Article } from '@shared/models';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'fm-article-detail',

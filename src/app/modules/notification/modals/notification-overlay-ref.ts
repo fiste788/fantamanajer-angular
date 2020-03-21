@@ -1,6 +1,7 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+
 import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 
 export class NotificationOverlayRef {

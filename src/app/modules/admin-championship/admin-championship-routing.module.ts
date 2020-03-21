@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+
 import { AddTeamComponent } from './pages/add-team/add-team.component';
 import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
 import { HomeComponent } from './pages/home/home.component';

@@ -1,6 +1,7 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { ComponentRef, ElementRef, Injectable, Injector } from '@angular/core';
+
 import { NotificationOverlayRef } from './notification-overlay-ref';
 import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 

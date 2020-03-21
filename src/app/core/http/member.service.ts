@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Member, Role } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Member, Role } from '@shared/models';
 
 const url = 'members';
 const routes = {

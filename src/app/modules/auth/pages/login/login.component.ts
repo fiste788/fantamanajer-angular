@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
+import { Observable } from 'rxjs';
+
 import { AuthenticationService } from '@app/authentication';
 import { CredentialService } from '@app/http';
 import { ApplicationService } from '@app/services';
-import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-login',

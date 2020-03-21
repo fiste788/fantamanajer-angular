@@ -1,5 +1,6 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { Lineup } from '@shared/models';
 
 @Pipe({

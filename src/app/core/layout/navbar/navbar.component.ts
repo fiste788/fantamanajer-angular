@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatListItem } from '@angular/material/list';
 import { Event, NavigationStart, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { combineLatest, filter } from 'rxjs/operators';
+
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
 import { Championship, Team } from '@shared/models';
-import { fromEvent, Observable } from 'rxjs';
-import { combineLatest, filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-navbar',

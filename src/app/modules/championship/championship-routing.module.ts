@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AdminGuard } from '@app/guards';
+
 import { ChampionshipStreamComponent } from './pages/championship-stream/championship-stream.component';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
 import { ChampionshipComponent } from './pages/championship/championship.component';

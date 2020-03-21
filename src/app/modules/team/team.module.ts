@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ngfModule } from 'angular-file';
+
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
+import { NotificationSubscriptionModule } from '@modules/notification-subscription/notification-subscription.module';
 import { StreamModule } from '@modules/stream/stream.module';
 import { SharedModule } from '@shared/shared.module';
-import { ngfModule } from 'angular-file';
-import { NotificationSubscriptionModule } from '../notification-subscription/notification-subscription.module';
+
 import { TeamMembersComponent } from './components/team-members/team-members.component';
 import { TeamStreamComponent } from './components/team-stream/team-stream.component';
 import { TeamEditDialogComponent } from './modals/team-edit-dialog/team-edit-dialog.component';

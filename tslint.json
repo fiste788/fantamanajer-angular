@@ -1,6 +1,7 @@
 {
   "rulesDirectory": [
-    "node_modules/codelyzer"
+    "node_modules/codelyzer",
+    "node_modules/tslint-origin-ordered-imports-rule/dist"
   ],
   "extends": [
     "angular-tslint-rules"
@@ -34,6 +35,15 @@
         "@shared",
         "@env",
         "protractor"
+      ]
+    ],
+    "origin-ordered-imports": [
+      true,
+      "one-blank-line",
+      [
+        "lib",
+        "^@app/.+|^@shared/.+|^@modules/.+|^@env",
+        "user"
       ]
     ]
   }

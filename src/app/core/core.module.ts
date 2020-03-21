@@ -1,10 +1,11 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from './guards';
-import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 
-import { NotificationModule } from '../modules/notification/notification.module';
+import { NotificationModule } from '@modules/notification/notification.module';
+
+import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from './guards';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
+import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, WINDOW_PROVIDERS } from './services';
 
 export const useFactory = (service: ApplicationService) => () => service.initialize();

@@ -1,10 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+
 import { MemberService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { Member, Role } from '@shared/models';
-import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'fm-home',
@@ -13,7 +14,6 @@ import { share } from 'rxjs/operators';
   animations: [cardCreationAnimation]
 })
 export class HomeComponent implements OnInit {
-  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
 
   roles$: Observable<Array<Role>>;
 

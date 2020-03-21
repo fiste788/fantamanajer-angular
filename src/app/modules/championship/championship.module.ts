@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
 import { StreamModule } from '@modules/stream/stream.module';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
+
 import { ChampionshipRoutingModule } from './championship-routing.module';
 import { ChampionshipStreamComponent } from './pages/championship-stream/championship-stream.component';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';

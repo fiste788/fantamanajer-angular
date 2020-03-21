@@ -1,7 +1,8 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+
 import { StreamService } from '@app/http';
 import { Stream, StreamActivity } from '@shared/models';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   isEmpty = false;

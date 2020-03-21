@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
 import { ClubDetailComponent } from './pages/club-detail/club-detail.component';
 import { ClubListComponent } from './pages/club-list/club-list.component';

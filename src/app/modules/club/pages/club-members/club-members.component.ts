@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { MemberService } from '@app/http';
 import { tableRowAnimation } from '@shared/animations';
 import { Club, Member } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-club-members',

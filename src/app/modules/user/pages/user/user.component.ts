@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { routerTransition, tabTransition } from '@shared/animations';
 import { Tab } from '@shared/models';
 

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { ScrollService } from '@app/services';
 import { Tab } from '@shared/models';
 

@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Article, PagedResponse } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Article, PagedResponse } from '@shared/models';
 
 const url = 'articles';
 const routes = {

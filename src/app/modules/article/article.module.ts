@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { SharedModule } from '@shared/shared.module';
+
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 import { ArticleListComponent } from './pages/article-list/article-list.component';
 

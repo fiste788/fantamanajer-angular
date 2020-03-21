@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Lineup, Member } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Lineup, Member } from '@shared/models';
 
 const url = 'lineups';
 const routes = {

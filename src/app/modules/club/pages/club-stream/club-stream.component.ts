@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Club } from '@shared/models';
 import { map } from 'rxjs/operators';
+
+import { Club } from '@shared/models';
 
 @Component({
   selector: 'fm-club-stream',

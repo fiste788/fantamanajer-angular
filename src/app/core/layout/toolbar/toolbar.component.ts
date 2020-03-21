@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { LayoutService } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
 

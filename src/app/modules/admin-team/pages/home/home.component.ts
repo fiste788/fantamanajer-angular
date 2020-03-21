@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({

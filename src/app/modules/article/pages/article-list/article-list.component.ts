@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { ArticleService } from '@app/http';
 import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
 import { Article, PagedResponse, Pagination } from '@shared/models';
@@ -11,8 +12,6 @@ import { Article, PagedResponse, Pagination } from '@shared/models';
   animations: [cardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
-  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-
   articles: Array<Article> = [];
   pagination: Pagination;
   isLoading = false;

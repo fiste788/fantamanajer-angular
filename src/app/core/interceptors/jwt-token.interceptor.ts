@@ -1,8 +1,9 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@env';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from '../authentication';
+
+import { AuthenticationService } from '@app/authentication';
+import { environment } from '@env';
 
 @Injectable()
 export class JWTTokenInterceptor implements HttpInterceptor {

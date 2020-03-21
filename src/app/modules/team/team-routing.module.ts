@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { ChampionshipAdminGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+
 import { TeamMembersComponent } from './components/team-members/team-members.component';
 import { TeamStreamComponent } from './components/team-stream/team-stream.component';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
+
 import { SharedModule } from '@shared/shared.module';
+
 import { ConfirmationDialogComponent } from './modals/confirmation-dialog.component';
 
 @NgModule({

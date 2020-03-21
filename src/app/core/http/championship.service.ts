@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Championship } from '@shared/models';
 import { Observable } from 'rxjs';
+
+import { Championship } from '@shared/models';
 
 const url = 'championships';
 const routes = {

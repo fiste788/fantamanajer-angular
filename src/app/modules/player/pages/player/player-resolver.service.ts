@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { PlayerService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { Player } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class PlayerResolver implements Resolve<Player | undefined> {

@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { create, CredentialCreationOptionsJSON, CredentialRequestOptionsJSON, get, PublicKeyCredentialWithAssertionJSON, PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json';
-import { PublicKeyCredentialSource, User } from '@shared/models';
 import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
+
+import { PublicKeyCredentialSource, User } from '@shared/models';
 
 const url = 'webauthn';
 const routes = {

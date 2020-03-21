@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { PlayerResolver } from './pages/player/player-resolver.service';
 import { PlayerComponent } from './pages/player/player.component';
 

@@ -2,12 +2,14 @@ import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { AuthenticationService } from '@app/authentication';
-import { environment } from '@env';
-import { PushSubscription, User } from '@shared/models';
 import { from, Observable, of } from 'rxjs';
 import { catchError, defaultIfEmpty, filter, flatMap, map, share, take } from 'rxjs/operators';
-import { NotificationService, PushSubscriptionService } from '../http';
+
+import { AuthenticationService } from '@app/authentication';
+import { NotificationService, PushSubscriptionService } from '@app/http';
+import { environment } from '@env';
+import { PushSubscription, User } from '@shared/models';
+
 import { ApplicationService } from './application.service';
 import { WINDOW } from './window.service';
 

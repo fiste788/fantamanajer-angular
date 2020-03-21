@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CredentialService, UserService } from '@app/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
-import { User } from '@shared/models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { CredentialService, UserService } from '@app/http';
+import { User } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

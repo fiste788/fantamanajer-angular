@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { TeamService } from '@app/http';
 import { Team } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class TeamDetailResolver implements Resolve<Team | undefined>  {

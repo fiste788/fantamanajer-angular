@@ -1,11 +1,12 @@
 import { ScrollDispatcher } from '@angular/cdk/overlay';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { TeamService } from '@app/http';
 import { UtilService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { Team } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-team-list',
@@ -14,8 +15,6 @@ import { Observable } from 'rxjs';
   animations: [cardCreationAnimation]
 })
 export class TeamListComponent implements OnInit {
-  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
-
   teams$?: Observable<Array<Team>>;
   exit = false;
   scrollTarget: Element;

@@ -2,10 +2,11 @@ import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+
 import { LineupService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
 import { Lineup } from '@shared/models';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'fm-lineup-last',

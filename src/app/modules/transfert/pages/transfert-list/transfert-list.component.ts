@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+
 import { TransfertService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations';

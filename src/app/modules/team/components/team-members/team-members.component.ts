@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import { MemberService } from '@app/http';
 import { Member, Team } from '@shared/models';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fm-team-members',
