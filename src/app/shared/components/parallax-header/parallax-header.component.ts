@@ -13,6 +13,7 @@ export class ParallaxHeaderComponent {
   @Input() image: string;
   @Input() backgroundImage: Record<string, string> | string | null;
   @Input() tabs: Array<Tab> = [];
+
   srcset = '';
   width = 0;
 

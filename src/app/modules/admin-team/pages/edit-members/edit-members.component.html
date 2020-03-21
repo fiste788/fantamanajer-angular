@@ -1,16 +1,40 @@
-<form *ngIf="team && team.members; else loading" #membersForm="ngForm" (ngSubmit)="save()">
-  <div *ngFor="let role of controlsByRole | keyvalue; trackBy: track">
+<form
+  *ngIf="team && team.members; else loading"
+  #membersForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <div *ngFor="let role of (controlsByRole | keyvalue); trackBy: track">
     <h5>{{role.key.plural}}</h5>
-    <div class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start">
-      <div class="disposition" *ngFor="let c of role.value.controls;let i = index; trackBy: trackByMember">
-        <fm-member-selection [isMemberDisabled]="isAlreadySelectedCallback" [memberList]="role.value.members"
-          [placeholder]="role.key.singolar + ' ' + (i + 1)" [size]="75" [formControl]="membersControls.controls[c]">
-        </fm-member-selection>
-      </div>
+    <div
+      class="flex-container"
+      fxLayout="row wrap"
+      fxLayout.xs="column"
+      fxLayoutAlign="space-around flex-start"
+    >
+      <ng-container *ngFor="let c of role.value.controls;let i = index; trackBy: trackByMember">
+        <div class="disposition">
+          <fm-member-selection
+            [isMemberDisabled]="isAlreadySelectedCallback"
+            [memberList]="role.value.members"
+            [placeholder]="role.key.singolar + ' ' + (i + 1)"
+            [size]="75"
+            [formControl]="membersControls.controls[c]"
+          >
+          </fm-member-selection>
+        </div>
+      </ng-container>
     </div>
   </div>
-  <button color="accent" mat-raised-button type="submit" [disabled]="!membersForm.form.valid">SALVA</button>
+  <button
+    color="accent"
+    mat-raised-button
+    type="submit"
+    [disabled]="!membersForm.form.valid"
+  >SALVA</button>
 </form>
 <ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-spinner>
 </ng-template>

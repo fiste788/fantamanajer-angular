@@ -1,42 +1,91 @@
 <div *ngIf="dataSource; else loading">
-  <div class="table-container mat-elevation-z1" *ngIf="dataSource.data.length; else empty">
-    <table mat-table #table [dataSource]="dataSource" @tableRowAnimation matSort>
+  <div
+    *ngIf="dataSource.data.length; else empty"
+    class="table-container mat-elevation-z1"
+  >
+    <table
+      @tableRowAnimation
+      #table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+    >
       <ng-container matColumnDef="old_member">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vecchio giocatore </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Vecchio giocatore </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.full_name}}</a>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="new_member">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nuovo giocatore </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Nuovo giocatore </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.full_name}}</a>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="constraint">
-        <th mat-header-cell *matHeaderCellDef> Obbligato </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        > Obbligato </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <mat-icon *ngIf="row.constrained">done</mat-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="matchday">
-        <th mat-header-cell *matHeaderCellDef> Giornata </th>
-        <td mat-cell *matCellDef="let row;">{{row.matchday.number}}</td>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        > Giornata </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >{{row.matchday.number}}</td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr
+        *matHeaderRowDef="displayedColumns; sticky: true"
+        mat-header-row
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns;"
+        mat-row
+      ></tr>
     </table>
   </div>
 </div>
 <ng-template #empty>
-  <fm-mat-empty-state [rounded]="true" [size]="330" label="Nessun trasferimento presente" icon="swap_vert">
+  <fm-mat-empty-state
+    label="Nessun trasferimento presente"
+    icon="swap_vert"
+    [rounded]="true"
+    [size]="330"
+  >
   </fm-mat-empty-state>
 </ng-template>
 <ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-spinner>
 </ng-template>
 <fm-selection *ngIf="app.team?.id == teamId && !app.seasonEnded"></fm-selection>

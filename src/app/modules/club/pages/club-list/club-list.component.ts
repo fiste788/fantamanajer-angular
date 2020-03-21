@@ -1,4 +1,3 @@
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ClubService } from '@app/http';
@@ -14,13 +13,17 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClubListComponent implements OnInit, OnDestroy {
-  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+
   clubs$?: Observable<Array<Club>>;
   subscription: Subscription;
   exit = false;
   id: number;
 
-  constructor(private readonly clubService: ClubService, private readonly router: Router, private readonly scroller: ScrollDispatcher) {
+  constructor(
+    private readonly clubService: ClubService,
+    private readonly router: Router
+  ) {
   }
 
   ngOnInit(): void {

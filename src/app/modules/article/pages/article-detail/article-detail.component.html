@@ -1,20 +1,45 @@
 <h1>Articolo</h1>
-<div>
-  <form #articleForm="ngForm" *ngIf="article$ | async as article;" (ngSubmit)="save(article)">
-    <mat-form-field>
-      <mat-label>Titolo</mat-label>
-      <input matInput [(ngModel)]="article.title" required name="title" placeholder="Titolo">
-    </mat-form-field>
+<form
+  *ngIf="(article$ | async) as article"
+  #articleForm="ngForm"
+  (ngSubmit)="save(article)"
+>
+  <mat-form-field>
+    <mat-label>Titolo</mat-label>
+    <input
+      matInput
+      required
+      name="title"
+      placeholder="Titolo"
+      [(ngModel)]="article.title"
+    >
+  </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Sotto titolo</mat-label>
-      <input matInput [(ngModel)]="article.subtitle" name="subTitle" placeholder="Sotto titolo">
-    </mat-form-field>
+  <mat-form-field>
+    <mat-label>Sotto titolo</mat-label>
+    <input
+      matInput
+      name="subTitle"
+      placeholder="Sotto titolo"
+      [(ngModel)]="article.subtitle"
+    >
+  </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Testo</mat-label>
-      <textarea matInput rows="5" [(ngModel)]="article.body" required name="body" placeholder="Testo"></textarea>
-    </mat-form-field>
-    <button color="accent" mat-raised-button type="submit" [disabled]="!articleForm.form.valid">SALVA</button>
-  </form>
-</div>
+  <mat-form-field>
+    <mat-label>Testo</mat-label>
+    <textarea
+      matInput
+      name="body"
+      rows="5"
+      required
+      placeholder="Testo"
+      [(ngModel)]="article.body"
+    ></textarea>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    type="submit"
+    color="accent"
+    [disabled]="!articleForm.form.valid"
+  >SALVA</button>
+</form>

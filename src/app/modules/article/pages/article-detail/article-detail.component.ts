@@ -13,8 +13,9 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
-  article$: Observable<Article>;
   @ViewChild(NgForm) articleForm: NgForm;
+
+  article$: Observable<Article>;
 
   constructor(
     private readonly snackBar: MatSnackBar,

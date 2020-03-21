@@ -10,5 +10,4 @@ export class MemberIconsComponent {
   @Input() member: Member;
   @Input() circle = false;
   @Input() captain = false;
-
 }

@@ -7,7 +7,6 @@ import { ApplicationService } from '@app/services';
   styleUrls: ['./user-stream.component.scss']
 })
 export class UserStreamComponent implements OnInit {
-
   id?: number;
 
   constructor(private readonly app: ApplicationService) { }

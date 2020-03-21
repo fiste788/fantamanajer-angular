@@ -17,8 +17,10 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Input() type: string;
   @Input() label: string;
   @Input() subscriptions: Array<NotificationSubscription>;
-  @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>>;
   @Input() team: Team;
+
+  @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>>;
+
   map = new Map<Notification, NotificationSubscription>();
   private keys: [Notification];
 

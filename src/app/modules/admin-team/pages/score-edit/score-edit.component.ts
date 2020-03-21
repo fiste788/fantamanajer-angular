@@ -14,13 +14,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./score-edit.component.scss']
 })
 export class ScoreEditComponent implements OnInit {
-
   @ViewChild(NgForm) scoreForm: NgForm;
+
   team: Team;
   penality: boolean;
   selectedScore: Score;
-  score: Observable<Score>;
-  scores: Observable<Array<Score>>;
+  score$: Observable<Score>;
+  scores$: Observable<Array<Score>>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -31,13 +31,13 @@ export class ScoreEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
       this.team = data.team;
-      this.scores = this.scoreService.getScoresByTeam(this.team.id);
+      this.scores$ = this.scoreService.getScoresByTeam(this.team.id);
     });
   }
 
   getScore(event: MatSelectChange): void {
     this.selectedScore = event.value;
-    this.score = this.scoreService.getScore(this.selectedScore.id, true);
+    this.score$ = this.scoreService.getScore(this.selectedScore.id, true);
   }
 
   save(score: Score): void {

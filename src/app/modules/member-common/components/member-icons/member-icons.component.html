@@ -1,9 +1,27 @@
-<span *ngIf="member.likely_lineup" [ngClass]="{'circle':circle}">
-  <mat-icon matTooltip="Titolare" *ngIf="member.likely_lineup.regular">verified_user</mat-icon>
-  <mat-icon matTooltip="Panchina" *ngIf="!member.likely_lineup.regular">event_seat</mat-icon>
-  <mat-icon matTooltip="Infortunato" *ngIf="member.likely_lineup.injured">local_hospital</mat-icon>
-  <mat-icon matTooltip="Squalificato" *ngIf="member.likely_lineup.disqualified">highlight_off</mat-icon>
-  <mat-icon matTooltip="Capitano" *ngIf="captain">copyright</mat-icon>
+<span
+  *ngIf="member.likely_lineup"
+  [ngClass]="{'circle':circle}"
+>
+  <mat-icon
+    *ngIf="member.likely_lineup?.regular"
+    matTooltip="Titolare"
+  >verified_user</mat-icon>
+  <mat-icon
+    *ngIf="!member.likely_lineup?.regular"
+    matTooltip="Panchina"
+  >event_seat</mat-icon>
+  <mat-icon
+    *ngIf="member.likely_lineup?.injured"
+    matTooltip="Infortunato"
+  >local_hospital</mat-icon>
+  <mat-icon
+    *ngIf="member.likely_lineup?.disqualified"
+    matTooltip="Squalificato"
+  >highlight_off</mat-icon>
+  <mat-icon
+    *ngIf="captain"
+    matTooltip="Capitano"
+  >copyright</mat-icon>
 </span>
 <ng-container *ngIf="!circle">
   {{member.player.full_name}}

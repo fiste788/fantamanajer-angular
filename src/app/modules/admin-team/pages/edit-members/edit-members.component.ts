@@ -18,13 +18,13 @@ interface TeamMembers {
   styleUrls: ['./edit-members.component.scss']
 })
 export class EditMembersComponent implements OnInit {
+  @ViewChild(NgForm) membersForm: NgForm;
 
   membersControls: FormArray;
   roles: Map<number, Role> = new Map<number, Role>();
   controlsByRole: Map<Role, TeamMembers> = new Map<Role, TeamMembers>();
   members: Map<Role, Array<Member>> = new Map<Role, Array<Member>>();
   team: Team;
-  @ViewChild(NgForm) membersForm: NgForm;
   isAlreadySelectedCallback: () => boolean;
 
   constructor(

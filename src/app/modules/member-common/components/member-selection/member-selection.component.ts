@@ -16,7 +16,6 @@ import { Member, Role } from '@shared/models';
   animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @HostBinding('@createBox') createBox = '';
   @Input() value: Member;
   @Input() name: string;
   @Input() disabled: boolean;
@@ -29,8 +28,10 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() height = 100;
   @Input() captain = false;
   @Input() isMemberDisabled: (m: Member) => boolean;
+
   @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
+  @HostBinding('@createBox') createBox = '';
   // tslint:disable-next-line: no-empty
   onChange: Function = () => { };
   // tslint:disable-next-line: no-empty

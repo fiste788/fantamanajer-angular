@@ -1,17 +1,35 @@
-<ng-container *ngIf="player$ | async as player;">
+<ng-container *ngIf="(player$ | async) as player;">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header [title]="player.full_name"
+      <fm-parallax-header
+        [title]="player.full_name"
         [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
         [backgroundImage]="selectedMember.club.background_url"
-        [image]="selectedMember.photo_url || player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id">
-        <div parallax-header-right class="inherit-color">
-          <a *ngIf="selectedMember.free" [routerLink]="'/teams/' + app.team?.id + '/transferts'"
-            [queryParams]="{new_member_id: selectedMember.id}" mat-button>Acquista</a>
+        [image]="selectedMember.photo_url || player.photo_url || '/assets/clubs.svg#club-' + selectedMember.club_id"
+      >
+        <div
+          parallax-header-right
+          class="inherit-color"
+        >
+          <a
+            *ngIf="selectedMember.free"
+            mat-button
+            [routerLink]="'/teams/' + app.team?.id + '/transferts'"
+            [queryParams]="{new_member_id: selectedMember.id}"
+          >
+            Acquista
+          </a>
           <mat-form-field appearance="standard">
             <mat-label>Stagione</mat-label>
-            <mat-select (selectionChange)="seasonChange()" placeholder="Stagione" [(ngModel)]="selectedMember">
-              <mat-option *ngFor="let member of player.members; trackBy: track" [value]="member">
+            <mat-select
+              placeholder="Stagione"
+              [(ngModel)]="selectedMember"
+              (selectionChange)="seasonChange()"
+            >
+              <mat-option
+                *ngFor="let member of player.members; trackBy: track"
+                [value]="member"
+              >
                 {{ member.season.name }}
               </mat-option>
             </mat-select>
@@ -20,107 +38,224 @@
       </fm-parallax-header>
     </div>
   </div>
-  <div class="table-container" *ngIf="ratings$ | async as ratings; else loading">
-    <table mat-table #table [dataSource]="ratings" @tableRowAnimation matSort>
+  <div
+    *ngIf="(ratings$ | async) as ratings; else loading"
+    class="table-container"
+  >
+    <table
+      @tableRowAnimation
+      #table
+      mat-table
+      matSort
+      [dataSource]="ratings"
+    >
       <ng-container matColumnDef="matchday">
-        <th mat-header-cell *matHeaderCellDef>
-          <span matTooltipPosition="above" matTooltip="Giornata">#</span>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          <span
+            matTooltipPosition="above"
+            matTooltip="Giornata"
+          >#</span>
         </th>
-        <td mat-cell *matCellDef="let row;">
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.matchday.number}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="rating">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Voto </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Voto </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.rating}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Punti </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Punti </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.points}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="goals">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Gol </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Gol </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.goals}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="goals_against">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Gol s </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Gol s </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.goals_against}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="assist">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Assist </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Assist </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.assist}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="penalities_scored">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rig </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        > Rig </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.penalities_scored}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="penalities_taken">
-        <th mat-header-cell *matHeaderCellDef> Rig s </th>
-        <td mat-cell *matCellDef="let row;">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        > Rig s </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.penalities_taken}}
         <td>
       </ng-container>
 
       <ng-container matColumnDef="regular">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <span matTooltipPosition="above" matTooltip="Titolare">Tit</span>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltipPosition="above"
+            matTooltip="Titolare"
+          >Tit</span>
         </th>
-        <td mat-cell *matCellDef="let row;">
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <mat-icon *ngIf="row.regular">done</mat-icon>
         <td>
       </ng-container>
 
       <ng-container matColumnDef="yellow_card">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <span matTooltip="Ammonizioni" matTooltipPosition="above" class="yellow_card"></span>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltip="Ammonizioni"
+            matTooltipPosition="above"
+            class="yellow_card"
+          ></span>
         </th>
-        <td mat-cell *matCellDef="let row;">
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <mat-icon *ngIf="row.yellow_card">done</mat-icon>
         <td>
       </ng-container>
 
       <ng-container matColumnDef="red_card">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <span matTooltip="Espulsioni" matTooltipPosition="above" class="red_card"></span>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltip="Espulsioni"
+            matTooltipPosition="above"
+            class="red_card"
+          ></span>
         </th>
-        <td mat-cell *matCellDef="let row;">
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           <mat-icon *ngIf="row.red_card">done</mat-icon>
         <td>
       </ng-container>
 
       <ng-container matColumnDef="quotation">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          <span matTooltip="Quotazione" matTooltipPosition="above">Q.</span>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltip="Quotazione"
+            matTooltipPosition="above"
+          >Q.</span>
         </th>
-        <td mat-cell *matCellDef="let row;">
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
           {{row.quotation}}
         <td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr
+        *matHeaderRowDef="displayedColumns; sticky: true"
+        mat-header-row
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns;"
+        mat-row
+      ></tr>
     </table>
   </div>
   <ng-template #loading>
-    <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+    ></mat-progress-spinner>
   </ng-template>
 </ng-container>

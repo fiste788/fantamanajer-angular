@@ -13,7 +13,8 @@ import { share } from 'rxjs/operators';
   animations: [cardCreationAnimation]
 })
 export class HomeComponent implements OnInit {
-  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+
   roles$: Observable<Array<Role>>;
 
   constructor(

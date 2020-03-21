@@ -11,7 +11,8 @@ import { Article, PagedResponse, Pagination } from '@shared/models';
   animations: [cardCreationAnimation]
 })
 export class ArticleListComponent implements OnInit {
-  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+
   articles: Array<Article> = [];
   pagination: Pagination;
   isLoading = false;

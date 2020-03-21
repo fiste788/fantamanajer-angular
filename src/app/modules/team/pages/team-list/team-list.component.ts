@@ -14,7 +14,8 @@ import { Observable } from 'rxjs';
   animations: [cardCreationAnimation]
 })
 export class TeamListComponent implements OnInit {
-  @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+  // @HostBinding('@cardCreationAnimation') cardCreationAnimation = '';
+
   teams$?: Observable<Array<Team>>;
   exit = false;
   scrollTarget: Element;

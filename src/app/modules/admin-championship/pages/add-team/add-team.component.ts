@@ -12,8 +12,8 @@ import { Championship, Team, User } from '@shared/models';
   styleUrls: ['./add-team.component.scss']
 })
 export class AddTeamComponent implements OnInit {
-
   @ViewChild(NgForm) teamForm: NgForm;
+
   team = new Team();
 
   constructor(

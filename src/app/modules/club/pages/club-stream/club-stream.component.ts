@@ -9,7 +9,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./club-stream.component.scss']
 })
 export class ClubStreamComponent {
-
   id: number;
 
   constructor(private readonly route: ActivatedRoute) {

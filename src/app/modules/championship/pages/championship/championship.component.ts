@@ -8,7 +8,6 @@ import { Tab } from '@shared/models';
   templateUrl: './championship.component.html'
 })
 export class ChampionshipComponent implements OnInit {
-
   tabs: Array<Tab>;
 
   constructor(private readonly app: ApplicationService) {

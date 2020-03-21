@@ -1,24 +1,58 @@
-<div *ngIf="clubs$ | async as clubs; else loading" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
-  fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
-
-  <mat-card class="flex-item" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100"
-    *ngFor="let club of clubs; let i=index; trackBy: track">
+<div
+  *ngIf="(clubs$ | async) as clubs; else loading"
+  @cardCreationAnimation
+  class="flex-container"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+  fxLayoutAlign="space-around flex-start"
+  fxLayoutAlign.xs="start"
+>
+  <mat-card
+    *ngFor="let club of clubs; let i=index; trackBy: track"
+    class="flex-item"
+    fxFlex.xs="100"
+    fxFlex.sm="45"
+    fxFlex.md="30"
+    fxFlex.gt-md="30"
+  >
     <mat-card-header>
-      <img mat-card-avatar [alt]="club.name" class="club-header-image" [lazyLoad]="club.photo_url">
+      <img
+        mat-card-avatar
+        class="club-header-image"
+        [alt]="club.name"
+        [lazyLoad]="club.photo_url"
+      >
       <mat-card-title>{{club.name}}</mat-card-title>
       <mat-card-subtitle>Club</mat-card-subtitle>
     </mat-card-header>
 
-    <img [alt]="club.name" mat-card-image [class.has-image]="club.background_url"
+    <img
+      mat-card-image
       sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-      [lazyLoad]="club.background_url | srcset" [useSrcset]="true" defaultImage="//via.placeholder.com/350x200">
+      defaultImage="//via.placeholder.com/350x200"
+      [alt]="club.name"
+      [class.has-image]="club.background_url"
+      [lazyLoad]="(club.background_url | srcset)"
+      [useSrcset]="true"
+    >
     <mat-card-actions>
-      <a mat-button color="primary" [routerLink]="[club.id]">DETTAGLI</a>
-      <a mat-button color="primary" [routerLink]="[club.id, 'stream']">ATTIVITÀ</a>
+      <a
+        mat-button
+        color="primary"
+        [routerLink]="[club.id]"
+      >DETTAGLI</a>
+      <a
+        mat-button
+        color="primary"
+        [routerLink]="[club.id, 'stream']"
+      >ATTIVITÀ</a>
     </mat-card-actions>
   </mat-card>
 
 </div>
 <ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-spinner>
 </ng-template>

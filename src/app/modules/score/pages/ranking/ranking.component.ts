@@ -12,7 +12,7 @@ import { Championship, Matchday } from '@shared/models';
   animations: [tableRowAnimation]
 })
 export class RankingComponent implements OnInit {
-  @HostBinding('@tableRowAnimation') tableRowAnimation = '';
+  // @HostBinding('@tableRowAnimation') tableRowAnimation = '';
 
   dataSource: MatTableDataSource<Array<any>>;
   rankingDisplayedColumns = ['teamName', 'points'];

@@ -24,11 +24,9 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class MatEmptyStateComponent {
-
   @Input() label: string;
   @Input() description: string;
   @Input() icon: string;
   @Input() rounded: boolean;
   @Input() size = 492;
-
 }

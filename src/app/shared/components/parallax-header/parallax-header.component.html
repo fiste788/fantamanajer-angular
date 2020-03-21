@@ -2,26 +2,50 @@
   <div class="parallax">
     <div class="parallax-header-img">
       <div fmRellax>
-        <img (load)="initialScroll($event)" sizes="" [fmSrcset]="backgroundImage"
-          placeholder="//via.placeholder.com/1200x800" [alt]="title">
+        <img
+          sizes=""
+          placeholder="//via.placeholder.com/1200x800"
+          [alt]="title"
+          [fmSrcset]="backgroundImage"
+          (load)="initialScroll($event)"
+        >
       </div>
     </div>
     <div class="parallax-header-title-container">
-      <img [alt]="title" *ngIf="image" [src]="image">
+      <img
+        *ngIf="image"
+        [alt]="title"
+        [src]="image"
+      >
       <div class="parallax-header-title">
         <h1 class="mat-display-1 title">{{title}}</h1>
         <div class="subtitle">
-          <p *ngIf="subtitle" class="mat-body-2">{{subtitle}}
+          <p
+            *ngIf="subtitle"
+            class="mat-body-2"
+          >{{subtitle}}
             <ng-content select="subtitle"></ng-content>
           </p>
         </div>
       </div>
-      <ng-content class="parallax-header-right" select="[parallax-header-right]"></ng-content>
+      <ng-content
+        class="parallax-header-right"
+        select="[parallax-header-right]"
+      ></ng-content>
     </div>
   </div>
-  <nav mat-tab-nav-bar *ngIf="tabs.length">
-    <a mat-tab-link *ngFor="let tab of tabs; trackBy: track" [routerLink]="tab.link" routerLinkActive
-      #rla="routerLinkActive" [active]="rla.isActive">
+  <nav
+    *ngIf="tabs.length"
+    mat-tab-nav-bar
+  >
+    <a
+      *ngFor="let tab of tabs; trackBy: track"
+      #rla="routerLinkActive"
+      mat-tab-link
+      routerLinkActive
+      [active]="rla.isActive"
+      [routerLink]="tab.link"
+    >
       {{tab.label}}
     </a>
   </nav>

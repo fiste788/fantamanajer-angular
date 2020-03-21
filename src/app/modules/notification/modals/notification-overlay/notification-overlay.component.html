@@ -1,23 +1,39 @@
-<div class="overlay-animation-container" [@openOverlayAnimation]="animationState"
-  (@openOverlayAnimation.start)="onAnimationStart($event)" (@openOverlayAnimation.done)="onAnimationDone($event)">
+<div
+  class="overlay-animation-container"
+  [@openOverlayAnimation]="animationState"
+  (@openOverlayAnimation.start)="onAnimationStart($event)"
+  (@openOverlayAnimation.done)="onAnimationDone($event)"
+>
   <div class="content mat-dialog-container">
     <h3 class="mat-dialog-title title">Notifiche</h3>
     <div class="mat-dialog-content">
-      <div *ngIf="stream$ | async as stream; else loading">
-        <mat-list *ngIf="stream.results.length; else empty" @listItemAnimation>
+      <div *ngIf="(stream$ | async) as stream; else loading">
+        <mat-list
+          *ngIf="stream.results.length; else empty"
+          @listItemAnimation
+        >
           <mat-list-item *ngFor="let activity of stream.results; trackBy: track">
             <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
             <h3 mat-line> {{activity.title}} </h3>
-            <p mat-line [title]="activity.time | date: 'dd/MM/y HH:mm'"> {{activity.humanTime}} </p>
+            <p
+              mat-line
+              [title]="(activity.time | date: 'dd/MM/y HH:mm')"
+            > {{activity.humanTime}} </p>
             <p mat-line> {{activity.body}} </p>
           </mat-list-item>
         </mat-list>
         <ng-template #empty>
-          <fm-mat-empty-state label="Nessuna notifica presente" icon="mood"></fm-mat-empty-state>
+          <fm-mat-empty-state
+            label="Nessuna notifica presente"
+            icon="mood"
+          ></fm-mat-empty-state>
         </ng-template>
       </div>
       <ng-template #loading>
-        <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+        <mat-progress-spinner
+          color="accent"
+          mode="indeterminate"
+        ></mat-progress-spinner>
       </ng-template>
     </div>
   </div>

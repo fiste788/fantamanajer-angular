@@ -1,7 +1,18 @@
-<div *ngIf="articles.length" class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
-  fxLayoutAlign="space-around flex-start" fxLayoutAlign.xs="start" @cardCreationAnimation>
-  <mat-card [id]="article.id" fxFlex.gt-sm="45" fxFlex.xs="100"
-    *ngFor="let article of articles; let i=index; trackBy: track">
+<div
+  *ngIf="articles.length"
+  @cardCreationAnimation
+  class="flex-container"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+  fxLayoutAlign="space-around flex-start"
+  fxLayoutAlign.xs="start"
+>
+  <mat-card
+    *ngFor="let article of articles; let i=index; trackBy: track"
+    fxFlex.xs="100"
+    fxFlex.gt-sm="45"
+    [id]="article.id"
+  >
     <mat-card-header>
       <mat-card-title>{{article.title}}</mat-card-title>
       <mat-card-subtitle>{{article.created_at | date: 'dd/MM/y HH:mm'}}</mat-card-subtitle>
@@ -10,13 +21,32 @@
       <p>{{article.body}}</p>
     </mat-card-content>
     <mat-card-actions fxLayoutAlign="end">
-      <a mat-button [routerLink]="['/articles',article.id]">EDIT</a>
-      <button mat-button (click)="delete(article.id)">DELETE</button>
+      <a
+        mat-button
+        [routerLink]="['/articles',article.id]"
+      >EDIT</a>
+      <button
+        mat-button
+        (click)="delete(article.id)"
+      >DELETE</button>
     </mat-card-actions>
   </mat-card>
 </div>
-<fm-mat-empty-state *ngIf="articles.length == 0 && !isLoading" label="Nessuna conferenza stampa ancora rilasciata"
-  description="Sii il primo" icon="message">
-  <a mat-raised-button color="accent" routerLink="/articles/new">Nuova conferenza stampa</a>
+<fm-mat-empty-state
+  *ngIf="articles.length == 0 && !isLoading"
+  label="Nessuna conferenza stampa ancora rilasciata"
+  description="Sii il primo"
+  icon="message"
+>
+  <a
+    mat-raised-button
+    color="accent"
+    routerLink="/articles/new"
+  >Nuova conferenza stampa</a>
 </fm-mat-empty-state>
-<mat-progress-spinner #loading *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
+<mat-progress-spinner
+  *ngIf="isLoading"
+  #loading
+  color="accent"
+  mode="indeterminate"
+></mat-progress-spinner>

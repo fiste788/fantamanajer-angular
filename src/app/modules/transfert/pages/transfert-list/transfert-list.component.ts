@@ -14,11 +14,11 @@ import { Transfert } from '@shared/models';
   animations: [tableRowAnimation]
 })
 export class TransfertListComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
+
   teamId?: number;
   dataSource: MatTableDataSource<Transfert>;
   displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
-
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private readonly transfertService: TransfertService,

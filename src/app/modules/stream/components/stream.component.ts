@@ -11,11 +11,13 @@ import { StreamDataSource } from './stream.datasource';
   animations: [listItemAnimation]
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  ds: StreamDataSource;
-  width: number;
   @Input() context: 'teams' | 'users' | 'clubs' | 'championships';
   @Input() id: number;
+
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
+
+  ds: StreamDataSource;
+  width: number;
 
   constructor(private readonly streamService: StreamService) { }
 

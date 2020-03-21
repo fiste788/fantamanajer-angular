@@ -19,6 +19,7 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
   @ViewChild(MemberListComponent) memberList?: MemberListComponent;
   @ViewChild(MatSelect) roleSelect: MatSelect;
+
   members$?: Observable<Array<Member>>;
   roles: Map<number, Role>;
 

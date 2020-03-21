@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,8 +18,9 @@ import { Member, Player, Rating } from '@shared/models';
     enterDetailAnimation
   ]
 })
-export class PlayerComponent {
+export class PlayerComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
+
   player$: Observable<Player>;
   ratings$: Observable<Array<Rating>>;
   selectedMember: Member;
@@ -42,7 +43,9 @@ export class PlayerComponent {
     private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
     public app: ApplicationService
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     this.player$ = this.route.data.pipe(
       map((data: { player: Player }) => data.player),
       tap(player => {

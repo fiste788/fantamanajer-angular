@@ -8,7 +8,6 @@ import { UtilService } from '@app/services';
   styleUrls: ['./team-stream.component.scss']
 })
 export class TeamStreamComponent implements OnInit {
-
   id?: number;
 
   constructor(private readonly route: ActivatedRoute) { }

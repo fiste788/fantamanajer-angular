@@ -7,8 +7,8 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   isEmpty = false;
   private readonly length = 0;
   private readonly pageSize = 10;
-  private cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
   private readonly fetchedPages = new Set<number>();
+  private cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
   private readonly dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
   private readonly subscription = new Subscription();
 

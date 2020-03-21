@@ -8,7 +8,6 @@ import { UtilService } from '@app/services';
   styleUrls: ['./championship-stream.component.scss']
 })
 export class ChampionshipStreamComponent implements OnInit {
-
   id?: number;
 
   constructor(private readonly route: ActivatedRoute) { }

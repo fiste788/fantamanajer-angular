@@ -1,7 +1,19 @@
-<div class="flex-container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around flex-start"
-  fxLayoutAlign.xs="start" @cardCreationAnimation>
-
-  <a class="flex-item" routerLink="../edit" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100">
+<div
+  @cardCreationAnimation
+  class="flex-container"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+  fxLayoutAlign="space-around flex-start"
+  fxLayoutAlign.xs="start"
+>
+  <a
+    class="flex-item"
+    routerLink="../edit"
+    fxFlex.xs="100"
+    fxFlex.sm="45"
+    fxFlex.md="30"
+    fxFlex.gt-md="30"
+  >
     <mat-card>
       <mat-card-header>
         <mat-card-title>Modifica opzioni</mat-card-title>
@@ -9,7 +21,14 @@
     </mat-card>
   </a>
 
-  <a class="flex-item" routerLink="../add-team" fxFlex.gt-md="30" fxFlex.md="30" fxFlex.sm="45" fxFlex.xs="100">
+  <a
+    class="flex-item"
+    routerLink="../add-team"
+    fxFlex.xs="100"
+    fxFlex.sm="45"
+    fxFlex.md="30"
+    fxFlex.gt-md="30"
+  >
     <mat-card>
       <mat-card-header>
         <mat-card-title>Aggiungi squadra</mat-card-title>

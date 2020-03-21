@@ -15,8 +15,9 @@ import { NotificationOverlayComponent } from '../../modals/notification-overlay/
   animations: [createBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
-  stream$: Observable<Stream>;
   @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
+
+  stream$: Observable<Stream>;
 
   constructor(
     private readonly notificationService: NotificationService,

@@ -30,10 +30,11 @@ import { Disposition, Lineup, Member, Module, Role } from '@shared/models';
   ]
 })
 export class LineupDetailComponent implements OnInit {
-  @ViewChild(NgForm) lineupForm: NgForm;
-
   @Input() lineup: Lineup;
   @Input() disabled = false;
+
+  @ViewChild(NgForm) lineupForm: NgForm;
+
   membersByRole: Map<Role, Array<Member>>;
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>();

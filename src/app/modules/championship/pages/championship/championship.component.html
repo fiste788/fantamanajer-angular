@@ -1,9 +1,17 @@
-<nav mat-tab-nav-bar *ngIf="tabs.length">
-  <a mat-tab-link *ngFor="let tab of tabs; trackBy: track" [routerLink]="tab.link" routerLinkActive
-    #rla="routerLinkActive" [active]="rla.isActive">
-    {{tab.label}}
-  </a>
-</nav>
+<ng-container *ngIf="tabs.length">
+  <nav mat-tab-nav-bar>
+    <a
+      *ngFor="let tab of tabs; trackBy: track"
+      #rla="routerLinkActive"
+      mat-tab-link
+      routerLinkActive
+      [routerLink]="tab.link"
+      [active]="rla.isActive"
+    >
+      {{tab.label}}
+    </a>
+  </nav>
+</ng-container>
 <div class="tabbed-container">
   <router-outlet #o="outlet"></router-outlet>
 </div>

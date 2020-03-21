@@ -1,37 +1,80 @@
 <div class="flex-container">
-  <form ngForm *ngIf="user">
+  <form
+    *ngIf="user"
+    ngForm
+  >
     <mat-card>
       <mat-card-title>
         Profilo utente
       </mat-card-title>
       <mat-form-field>
         <mat-label>Nome</mat-label>
-        <input matInput required [(ngModel)]="user.name" name="name" placeholder="Nome">
+        <input
+          name="name"
+          placeholder="Nome"
+          matInput
+          required
+          [(ngModel)]="user.name"
+        >
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Cognome</mat-label>
-        <input matInput required [(ngModel)]="user.surname" name="surname" placeholder="Cognome">
+        <input
+          name="surname"
+          placeholder="Cognome"
+          matInput
+          required
+          [(ngModel)]="user.surname"
+        >
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="user.password" name="password" type="password" placeholder="Password">
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          matInput
+          [(ngModel)]="user.password"
+        >
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Ripeti password</mat-label>
-        <input matInput [required]="user.password && user.password != ''" [(ngModel)]="repeatPassword"
-          name="repeatPassword" type="password" placeholder="Ripeti password">
+        <input
+          name="repeatPassword"
+          type="password"
+          placeholder="Ripeti password"
+          matInput
+          [required]="user.password && user.password != ''"
+          [(ngModel)]="repeatPassword"
+        >
       </mat-form-field>
 
-      <mat-slide-toggle [disabled]="!enabled" [checked]="push$ | async" (change)="togglePush($event.checked)"
-        name="active_push">Ricevi
-        notifiche push
+      <mat-slide-toggle
+        name="active_push"
+        [disabled]="!enabled"
+        [checked]="(push$ | async)"
+        (change)="togglePush($event.checked)"
+      >
+        Ricevi notifiche push
       </mat-slide-toggle>
       <mat-card-actions>
-        <button color="accent" mat-raised-button (click)="registerDevice()">Registra device</button>
-        <button color="accent" mat-raised-button (click)="save()">Salva</button>
+        <button
+          color="accent"
+          mat-raised-button
+          (click)="registerDevice()"
+        >
+          Registra device
+        </button>
+        <button
+          color="accent"
+          mat-raised-button
+          (click)="save()"
+        >
+          Salva
+        </button>
       </mat-card-actions>
     </mat-card>
   </form>

@@ -1,10 +1,24 @@
-<div @createBox class="mat-empty-state" [class.mat-rounded]="rounded" [style.width.px]="size" [style.height.px]="size">
+<div
+  @createBox
+  class="mat-empty-state"
+  [class.mat-rounded]="rounded"
+  [style.width.px]="size"
+  [style.height.px]="size"
+>
   <div class="mat-empty-state-container">
-    <mat-icon *ngIf="icon" class="mat-empty-state-icon">
+    <mat-icon
+      *ngIf="icon"
+      class="mat-empty-state-icon"
+    >
       {{icon}}
     </mat-icon>
     <strong class="mat-empty-state-label">{{label}}</strong>
-    <p *ngIf="description" class="mat-empty-state-description">{{description}}</p>
+    <p
+      *ngIf="description"
+      class="mat-empty-state-description"
+    >
+      {{description}}
+    </p>
     <ng-content></ng-content>
   </div>
 </div>

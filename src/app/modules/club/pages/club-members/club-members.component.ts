@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ClubMembersComponent implements OnInit {
   @HostBinding('@tableRowAnimation') tableRowAnimation = '';
+
   members$?: Observable<Array<Member>>;
 
   constructor(

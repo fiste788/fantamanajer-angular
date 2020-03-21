@@ -12,8 +12,8 @@ import { Championship, League } from '@shared/models';
   styleUrls: ['./championship-detail.component.scss']
 })
 export class ChampionshipDetailComponent implements OnInit {
-
   @ViewChild(NgForm) championshipForm: NgForm;
+
   championship: Championship;
 
   constructor(
