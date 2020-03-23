@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
-import { Disposition, Score } from '@shared/models';
+import { Disposition, Score, Team } from '@shared/models';
 
 @Component({
   selector: 'fm-score-detail',
@@ -24,7 +24,7 @@ export class ScoreDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.snapshot.url.pop()?.path === 'last') {
-      const teamId = UtilService.getTeamId(this.route);
+      const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
       if (teamId) {
         this.score$ = this.scoreService.getLastScore(teamId)
           .pipe(

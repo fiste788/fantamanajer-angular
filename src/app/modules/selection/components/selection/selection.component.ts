@@ -9,7 +9,7 @@ import { distinctUntilChanged, map, share } from 'rxjs/operators';
 
 import { MemberService, RoleService, SelectionService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
-import { Member, Role, Selection } from '@shared/models';
+import { Member, Role, Selection, Team } from '@shared/models';
 
 @Component({
   selector: 'fm-selection',
@@ -38,7 +38,7 @@ export class SelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const teamId = UtilService.getTeamId(this.route);
+    const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (teamId) {
       this.selectionService.getSelection(teamId)
         .subscribe(selection => {

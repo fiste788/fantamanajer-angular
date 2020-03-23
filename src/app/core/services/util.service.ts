@@ -29,19 +29,13 @@ export class UtilService {
     return errors.join(' - ');
   }
 
-  static getTeamId(route: ActivatedRoute): number | undefined {
-    return UtilService.getParam(route, 'team_id');
-  }
-
-  static getChampionshipId(route: ActivatedRoute): number | undefined {
-    return UtilService.getParam(route, 'championship_id');
-  }
-
-  private static getParam(route: ActivatedRoute, param: string): number | undefined {
-    for (const current of route.snapshot.pathFromRoot) {
-      if (current.params.hasOwnProperty(param)) {
-        return parseInt(current.params[param], 10);
+  static getSnapshotData<T>(route: ActivatedRoute, param: string): T | undefined {
+    let current: ActivatedRoute | null = route;
+    while (current !== null) {
+      if (current.snapshot.data.hasOwnProperty(param)) {
+        return current.snapshot.data[param];
       }
+      current = current.parent;
     }
 
     return undefined;

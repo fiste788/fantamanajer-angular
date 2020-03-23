@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { LineupService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
-import { Lineup } from '@shared/models';
+import { Lineup, Team } from '@shared/models';
 
 @Component({
   selector: 'fm-lineup-last',
@@ -27,7 +27,7 @@ export class LineupLastComponent implements OnDestroy {
     private readonly route: ActivatedRoute,
     public app: ApplicationService
   ) {
-    this.teamId = this.route.parent?.parent?.parent?.snapshot.data.team.id;
+    this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
     this.editMode = this.app.team?.id === this.teamId;
     this.lineup$ = this.lineupService.getLineup(this.teamId);
   }

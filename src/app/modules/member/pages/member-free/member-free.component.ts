@@ -8,7 +8,7 @@ import { MemberService, RoleService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 import { tableRowAnimation } from '@shared/animations';
-import { Member, Role } from '@shared/models';
+import { Championship, Member, Role } from '@shared/models';
 
 @Component({
   selector: 'fm-member-free',
@@ -46,11 +46,11 @@ export class MemberFreeComponent implements OnInit, AfterViewInit {
   }
 
   roleChange(role?: Role): void {
-    const championshipId = UtilService.getChampionshipId(this.route);
+    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     this.members$ = undefined;
     this.changeRef.detectChanges();
-    if (championshipId) {
-      this.members$ = this.memberService.getFree(championshipId, role?.id);
+    if (championship) {
+      this.members$ = this.memberService.getFree(championship.id, role?.id);
     }
   }
 

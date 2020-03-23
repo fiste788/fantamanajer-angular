@@ -41,12 +41,13 @@ export class EditMembersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
-      this.team = data.team;
+    const t = UtilService.getSnapshotData<Team>(this.route, 'team');
+    if (t) {
+      this.team = t;
       this.loadMembers(this.team);
       this.cd.detectChanges();
       this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this);
-    });
+    }
   }
 
   loadMembers(team: Team): void {

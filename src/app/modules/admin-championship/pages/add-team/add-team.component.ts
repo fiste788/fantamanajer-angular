@@ -24,10 +24,11 @@ export class AddTeamComponent implements OnInit {
     private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
-      this.team.championship_id = data.championship.id;
+    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
+    if (championship) {
+      this.team.championship_id = championship.id;
       this.team.user = new User();
-    });
+    }
   }
 
   save(): void {

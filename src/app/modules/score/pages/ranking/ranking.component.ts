@@ -1,10 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { ScoreService } from '@app/http';
+import { UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations/table-row.animation';
-import { Championship, Matchday } from '@shared/models';
+import { Championship, Matchday, Score, Team } from '@shared/models';
+
+interface Position {
+  team_id: number;
+  team: Team;
+  scores: Array<Score>;
+  sum_points: number;
+}
 
 @Component({
   selector: 'fm-ranking',
@@ -13,30 +22,30 @@ import { Championship, Matchday } from '@shared/models';
   animations: [tableRowAnimation]
 })
 export class RankingComponent implements OnInit {
-  dataSource: MatTableDataSource<Array<any>>;
+  ranking$: Observable<Array<Position>>;
   rankingDisplayedColumns = ['teamName', 'points'];
   matchdays: Array<string> = [];
 
   constructor(
     private readonly scoreService: ScoreService,
-    private readonly route: ActivatedRoute,
-    private readonly cd: ChangeDetectorRef
+    private readonly route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
-      this.scoreService.getRanking(data.championship.id)
-        .subscribe((ranking: Array<any>) => {
-          this.dataSource = new MatTableDataSource(ranking);
-          if (ranking.length && ranking[0].scores) {
-            this.matchdays = Object.keys(ranking[0].scores)
-              .reverse();
-            this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(this.matchdays);
-          }
-          this.cd.detectChanges();
-        });
-    });
+    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
+    if (championship) {
+      this.ranking$ = this.scoreService.getRanking(championship.id)
+        .pipe(
+          tap(ranking => {
+            if (ranking.length && ranking[0].scores) {
+              this.matchdays = Object.keys(ranking[0].scores)
+                .reverse();
+              this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(this.matchdays);
+            }
+          })
+        );
+    }
   }
 
   track(_: number, item: Matchday): number {

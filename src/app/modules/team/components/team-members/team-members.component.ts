@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { MemberService } from '@app/http';
+import { UtilService } from '@app/services';
 import { Member, Team } from '@shared/models';
 
 @Component({
@@ -15,18 +16,13 @@ export class TeamMembersComponent implements OnInit {
 
   constructor(
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
-    private readonly changeRef: ChangeDetectorRef
+    private readonly route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.route.parent?.data.subscribe((data: { team: Team }) => {
-      this.members$ = undefined;
-      try {
-        this.changeRef.detectChanges();
-        // tslint:disable-next-line: no-empty
-      } catch (e) { }
-      this.members$ = this.memberService.getByTeamId(data.team.id);
-    });
+    const team = UtilService.getSnapshotData<Team>(this.route, 'team');
+    if (team) {
+      this.members$ = this.memberService.getByTeamId(team.id);
+    }
   }
 }

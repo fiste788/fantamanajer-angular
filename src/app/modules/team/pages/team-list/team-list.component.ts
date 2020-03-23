@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { TeamService } from '@app/http';
 import { UtilService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
-import { Team } from '@shared/models';
+import { Championship, Team } from '@shared/models';
 
 @Component({
   selector: 'fm-team-list',
@@ -35,7 +35,7 @@ export class TeamListComponent implements OnInit {
     this.scrollTarget = this.scroller.scrollContainers.keys()
       .next().value
       .getElementRef().nativeElement;
-    const id = UtilService.getChampionshipId(this.route);
+    const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
     if (id) {
       this.teams$ = this.teamService.getTeams(id);
     }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UtilService } from '@app/services';
+import { Team } from '@shared/models';
 
 @Component({
   selector: 'fm-team-stream',
@@ -14,7 +15,7 @@ export class TeamStreamComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = UtilService.getTeamId(this.route);
+    this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
   }
 
 }

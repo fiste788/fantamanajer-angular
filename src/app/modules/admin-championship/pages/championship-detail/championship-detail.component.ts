@@ -24,10 +24,9 @@ export class ChampionshipDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.route.snapshot.parent?.parent?.parent?.params.championship_id) {
-      this.route.parent?.parent?.parent?.data.subscribe((data: { championship: Championship }) => {
-        this.championship = data.championship;
-      });
+    const c = UtilService.getSnapshotData<Championship>(this.route, 'championship');
+    if (c) {
+      this.championship = c;
     } else {
       this.championship = new Championship();
       this.championship.league = new League();

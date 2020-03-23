@@ -1,5 +1,5 @@
 <div
-  *ngIf="dataSource; else loading"
+  *ngIf="(ranking$ | async) as ranking; else loading"
   class="mat-elevation-z1 ranking-container table-container"
 >
   <table
@@ -7,7 +7,7 @@
     #table
     mat-table
     class="ranking"
-    [dataSource]="dataSource"
+    [dataSource]="ranking"
   >
     <ng-container
       matColumnDef="teamName"

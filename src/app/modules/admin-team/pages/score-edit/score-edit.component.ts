@@ -30,10 +30,11 @@ export class ScoreEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
-      this.team = data.team;
+    const t = UtilService.getSnapshotData<Team>(this.route, 'team');
+    if (t) {
+      this.team = t;
       this.scores$ = this.scoreService.getScoresByTeam(this.team.id);
-    });
+    }
   }
 
   getScore(event: MatSelectChange): void {

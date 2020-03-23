@@ -33,11 +33,12 @@ export class NewTransfertComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.parent?.parent?.parent?.data.subscribe((data: { team: Team }) => {
-      this.team = data.team;
-      this.transfert.team_id = data.team.id;
+    const team = UtilService.getSnapshotData<Team>(this.route, 'team');
+    if (team) {
+      this.team = team;
+      this.transfert.team_id = team.id;
       this.loadMembers(this.team);
-    });
+    }
   }
 
   loadMembers(team: Team): void {
