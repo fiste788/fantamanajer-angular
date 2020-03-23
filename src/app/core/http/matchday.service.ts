@@ -1,27 +1,32 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { environment } from '@env';
 import { Matchday } from '@shared/models';
 
 const url = 'matchdays';
 const routes = {
-  matchday: (id: number) => `/${url}/${id}`,
   current: `/${url}/current`
 };
 
 @Injectable({ providedIn: 'root' })
 export class MatchdayService {
+  private readonly httpWithoutIntercept: HttpClient;
 
-  constructor(private readonly http: HttpClient) { }
-
-  getMatchday(id: number): Observable<Matchday> {
-    return this.http.get<Matchday>(routes.matchday(id));
+  constructor(
+    httpback: HttpBackend
+  ) {
+    this.httpWithoutIntercept = new HttpClient(httpback);
   }
 
   getCurrentMatchday(): Observable<Matchday> {
-    return this.http.get<Matchday>(routes.current, {
+    return this.httpWithoutIntercept.get<{ success: boolean, data: Matchday }>(environment.apiEndpoint + routes.current, {
       withCredentials: false
-    });
+    })
+      .pipe(
+        map(r => r.data)
+      );
   }
 }
