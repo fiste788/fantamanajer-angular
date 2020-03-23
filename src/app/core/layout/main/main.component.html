@@ -1,15 +1,26 @@
 <mat-sidenav-container>
-  <mat-sidenav #drawer fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="isOpen | async">
+  <mat-sidenav
+    #drawer
+    fixedInViewport="true"
+    [opened]="(isOpen | async)"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  >
     <fm-navbar></fm-navbar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <fm-toolbar #toolbar [showDrawerButton]="isHandset$ | async" [state]="showedToolbar$ | async"></fm-toolbar>
+    <fm-toolbar
+      #toolbar
+      [showDrawerButton]="(isHandset$ | async)"
+      [state]="(showedToolbar$ | async)"
+    ></fm-toolbar>
     <main>
-      <div>
-        <router-outlet #o="outlet"></router-outlet>
-      </div>
+      <router-outlet #o="outlet"></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<fm-speed-dial #speedDial [@closeAnimation]="showedSpeedDial$ | async" class="speed-dial"></fm-speed-dial>
+<fm-speed-dial
+  #speedDial
+  class="speed-dial"
+  [@closeAnimation]="(showedSpeedDial$ | async)"
+></fm-speed-dial>

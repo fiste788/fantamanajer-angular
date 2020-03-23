@@ -1,29 +1,68 @@
 <fm-profile></fm-profile>
 <mat-nav-list>
-  <a mat-list-item href="" (click)="install()" *ngIf="deferredPrompt">
+  <a
+    *ngIf="deferredPrompt"
+    mat-list-item
+    href=""
+    (click)="install()"
+  >
     <mat-icon matListIcon>get_app</mat-icon>Installa l'app
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/home">
+  <a
+    mat-list-item
+    routerLinkActive="active"
+    routerLink="/home"
+  >
     <mat-icon matListIcon>home</mat-icon>Homepage
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['teams', team?.id]" *ngIf="loggedIn">
+  <a
+    *ngIf="loggedIn"
+    mat-list-item
+    routerLinkActive="active"
+    [routerLink]="['teams', team?.id]"
+  >
     <mat-icon matListIcon>account_box</mat-icon>{{team?.name}}
   </a>
-  <a mat-list-item routerLinkActive="active" [routerLink]="['championships', championship?.id]" *ngIf="loggedIn">
+  <a
+    *ngIf="loggedIn"
+    mat-list-item
+    routerLinkActive="active"
+    [routerLink]="['championships', championship?.id]"
+  >
     <mat-icon matListIcon>bubble_chart</mat-icon>{{championship?.league.name}}
   </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/clubs">
+  <a
+    mat-list-item
+    routerLinkActive="active"
+    routerLink="/clubs"
+  >
     <mat-icon matListIcon>group_work</mat-icon>Clubs
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>
-  <a mat-list-item routerLinkActive="active" routerLink="/user" *ngIf="loggedIn">
-    <mat-icon matListIcon>account_circle</mat-icon>Profilo
-  </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/auth/logout" *ngIf="loggedIn">
-    <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
-  </a>
-  <a mat-list-item routerLinkActive="active" routerLink="/auth/login" *ngIf="!loggedIn">
-    <mat-icon matListIcon>input</mat-icon>Log In
-  </a>
+  <ng-container *ngIf="loggedIn; else notLogged">
+    <a
+      mat-list-item
+      routerLinkActive="active"
+      routerLink="/user"
+    >
+      <mat-icon matListIcon>account_circle</mat-icon>Profilo
+    </a>
+    <a
+      mat-list-item
+      routerLinkActive="active"
+      routerLink="/auth/logout"
+    >
+      <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
+    </a>
+  </ng-container>
+  <ng-template #notLogged>
+    <a
+      mat-list-item
+      routerLinkActive="active"
+      routerLink="/auth/login"
+    >
+      <mat-icon matListIcon>input</mat-icon>Log In
+    </a>
+  </ng-template>
 </mat-nav-list>

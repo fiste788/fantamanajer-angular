@@ -1,22 +1,40 @@
-<mat-toolbar *ngIf="app.user" color="primary"
+<mat-toolbar
+  *ngIf="app.user"
+  color="primary"
   [style.background-image]="app.team?.photo_url ? 'url(' + app.team?.photo_url['240w'] + ')' : ''"
-  [class.has-image]="app.team?.photo_url">
+  [class.has-image]="app.team?.photo_url"
+>
   <mat-toolbar-row>
     <span></span>
   </mat-toolbar-row>
-  <mat-toolbar-row class="mat-body" fxLayout="column" fxLayoutAlign="end none">
-    <mat-form-field appearance="standard" *ngIf="app.teams?.length">
-      <mat-select [(ngModel)]="app.team" (selectionChange)="change()" panelClass="teams-panel" role="listbox"
-        aria-label="Squadra selezionata">
+  <mat-toolbar-row
+    class="mat-body"
+    fxLayout="column"
+    fxLayoutAlign="end none"
+  >
+    <mat-form-field
+      *ngIf="app.teams?.length"
+      appearance="standard"
+    >
+      <mat-select
+        panelClass="teams-panel"
+        role="listbox"
+        aria-label="Squadra selezionata"
+        [(ngModel)]="app.team"
+        (selectionChange)="change()"
+      >
         <mat-select-trigger *ngIf="app.team">
-          <h3>{{app.team.name}}</h3>
+          <h3>{{app.team?.name}}</h3>
         </mat-select-trigger>
-        <mat-option *ngFor="let team of app.teams; trackBy: track" [value]="team">
+        <mat-option
+          *ngFor="let team of app.teams; trackBy: track"
+          [value]="team"
+        >
           {{team.name}}<br />
           <small>{{team.championship.season.name}}</small>
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <span>{{app.user.email}}</span>
+    <span>{{app.user?.email}}</span>
   </mat-toolbar-row>
 </mat-toolbar>
