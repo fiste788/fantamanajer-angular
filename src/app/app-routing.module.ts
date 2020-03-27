@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 import { AuthGuard } from '@app/guards';
-import { HomeComponent } from '@modules/home/pages/home.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
-    component: HomeComponent,
+    loadChildren: () => import('./modules/home/home.module')
+      .then(m => m.HomeModule),
     data: { state: 'home' }
   },
   {
