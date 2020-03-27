@@ -2,7 +2,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatDialogModule } from '@angular/material/dialog';
+// import { MatDialogModule } from '@angular/material/dialog';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -15,7 +15,7 @@ import { NotificationOverlayComponent } from './modals/notification-overlay/noti
     CommonModule,
     SharedModule,
     MatBadgeModule,
-    MatDialogModule,
+    // MatDialogModule,
     OverlayModule
   ],
   exports: [

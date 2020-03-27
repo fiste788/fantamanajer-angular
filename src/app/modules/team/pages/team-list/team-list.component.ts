@@ -1,4 +1,3 @@
-import { ScrollDispatcher } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -17,13 +16,12 @@ import { Championship, Team } from '@shared/models';
 export class TeamListComponent implements OnInit {
   teams$?: Observable<Array<Team>>;
   exit = false;
-  scrollTarget: Element;
 
   constructor(
     private readonly router: Router,
     private readonly teamService: TeamService,
-    private readonly route: ActivatedRoute,
-    private readonly scroller: ScrollDispatcher) { }
+    private readonly route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(evt => {
@@ -32,9 +30,6 @@ export class TeamListComponent implements OnInit {
         this.teams$ = undefined;
       }
     });
-    this.scrollTarget = this.scroller.scrollContainers.keys()
-      .next().value
-      .getElementRef().nativeElement;
     const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
     if (id) {
       this.teams$ = this.teamService.getTeams(id);
