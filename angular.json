@@ -78,7 +78,7 @@
                 }
               ]
             },
-            "testprod": {
+            "stage": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -97,7 +97,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.testprod.ts"
+                  "with": "src/environments/environment.stage.ts"
                 }
               ]
             }
@@ -113,8 +113,8 @@
             "production": {
               "browserTarget": "fantamanajer-angular:build:production"
             },
-            "testprod": {
-              "browserTarget": "fantamanajer-angular:build:testprod"
+            "stage": {
+              "browserTarget": "fantamanajer-angular:build:stage"
             }
           }
         },
