@@ -1,12 +1,12 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-	
+  RewriteEngine On
+
 	#RewriteCond %{SERVER_PORT} !^443
-    #RewriteRule ^ https://fantamanajer.it%{REQUEST_URI} [R=301,L]
+  #RewriteRule ^ https://fantamanajer.it%{REQUEST_URI} [R=301,L]
 	RewriteCond %{HTTPS} !=on
 	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-	
-	
+
+
 	# If an existing asset or directory is requested go to it as it is
 	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
 	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
@@ -28,7 +28,7 @@ ExpiresActive on
   # CSS
 
     ExpiresByType text/css                              "access plus 1 year"
-	
+
   # JavaScript
 
     ExpiresByType application/javascript                "access plus 1 year"

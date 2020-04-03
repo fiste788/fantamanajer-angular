@@ -8,7 +8,6 @@
 @import 'modules/auth/pages/login/login';
 @import 'modules/lineup/components/lineup-detail/lineup-detail';
 @import 'modules/member-common/components/member-selection/member-selection';
-@import 'modules/notification/modals/notification-overlay/notification-overlay';
 @mixin fantamanajer-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -25,5 +24,4 @@
   @include mat-empty-state-theme($theme);
   @include member-selection-theme($theme);
   @include lineup-detail-theme($theme);
-  @include notification-overlay-theme($theme);
 }

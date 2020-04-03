@@ -7,8 +7,8 @@
   </div>
   <table
     @tableRowAnimation
-    mat-table
     #table
+    mat-table
     [dataSource]="dataSource"
   >
     <ng-container
@@ -16,12 +16,12 @@
       sticky
     >
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       > Giocatore </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >
         <div
           fxLayout="row"
@@ -39,23 +39,23 @@
 
     <ng-container matColumnDef="role">
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       > Ruolo </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >{{row.member.role.abbreviation}}</td>
     </ng-container>
 
     <ng-container matColumnDef="club">
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       > Club </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >
         <a [routerLink]="['/clubs',row.member.club.id]">{{row.member.club.name}}</a>
       </td>
@@ -63,8 +63,8 @@
 
     <ng-container matColumnDef="regular">
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       >
         <span
           matTooltip="Titolare"
@@ -72,8 +72,8 @@
         >Tit</span>
       </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].regular">done</mat-icon>
       </td>
@@ -81,8 +81,8 @@
 
     <ng-container matColumnDef="yellowCard">
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       >
         <span
           matTooltip="Ammonizioni"
@@ -91,12 +91,12 @@
         ></span>
       </th>
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       > Amm </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].yellow_card">done</mat-icon>
       </td>
@@ -104,8 +104,8 @@
 
     <ng-container matColumnDef="redCard">
       <th
-        mat-header-cell
         *matHeaderCellDef
+        mat-header-cell
       >
         <span
           matTooltip="Espulsioni"
@@ -114,8 +114,8 @@
         ></span>
       </th>
       <td
-        mat-cell
         *matCellDef="let row;"
+        mat-cell
       >
         <mat-icon *ngIf="row.member.ratings.length && row.member.ratings[0].red_card">done</mat-icon>
       </td>
@@ -123,14 +123,14 @@
 
     <ng-container matColumnDef="assist">
       <th
+        *matHeaderCellDef
         mat-header-cell
         class="mat-cell-numeric"
-        *matHeaderCellDef
       > Assist </th>
       <td
+        *matCellDef="let row;"
         mat-cell
         class="mat-cell-numeric"
-        *matCellDef="let row;"
       >
         {{row.member.ratings.length ? row.member.ratings[0].assist : ''}}
       </td>
@@ -138,14 +138,14 @@
 
     <ng-container matColumnDef="goals">
       <th
+        *matHeaderCellDef
         mat-header-cell
         class="mat-cell-numeric"
-        *matHeaderCellDef
       > Gol </th>
       <td
+        *matCellDef="let row;"
         mat-cell
         class="mat-cell-numeric"
-        *matCellDef="let row;"
       >
         {{row.member.ratings.length ? row.member.ratings[0].goals : ''}}
       </td>
@@ -156,26 +156,26 @@
       stickyEnd
     >
       <th
+        *matHeaderCellDef
         mat-header-cell
         class="mat-cell-numeric"
-        *matHeaderCellDef
       > Punti </th>
       <td
+        *matCellDef="let row;"
         mat-cell
         class="mat-cell-numeric"
-        *matCellDef="let row;"
       >
         {{(row.points * (regular ? row.consideration : 1))}}
       </td>
     </ng-container>
 
     <tr
-      mat-header-row
       *matHeaderRowDef="displayedColumns; sticky: true"
+      mat-header-row
     ></tr>
     <tr
-      mat-row
       *matRowDef="let row; columns: displayedColumns;"
+      mat-row
     ></tr>
   </table>
 </div>

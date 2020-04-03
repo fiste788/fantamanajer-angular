@@ -4,8 +4,8 @@
   fxLayoutAlign="space-around center"
 >
   <form
-    name="form"
     #f="ngForm"
+    name="form"
     (ngSubmit)="f.form.valid && login()"
   >
     <mat-card>
@@ -15,16 +15,16 @@
       </mat-card-header>
       <mat-card-content>
         <mat-horizontal-stepper
-          [linear]="true"
           #stepper
+          [linear]="true"
         >
           <mat-step>
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input
+                #username="ngModel"
                 name="email"
                 type="email"
-                #username="ngModel"
                 matInput
                 placeholder="Email"
                 required
@@ -54,8 +54,8 @@
             <mat-form-field>
               <mat-label>Password</mat-label>
               <input
-                name="password"
                 #password="ngModel"
+                name="password"
                 type="password"
                 matInput
                 placeholder="Password"
