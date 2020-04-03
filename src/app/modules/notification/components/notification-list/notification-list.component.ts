@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
 
 import { NotificationService } from '@app/http';
 import { ApplicationService } from '@app/services';
@@ -31,8 +30,7 @@ export class NotificationListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.app.team) {
-      this.stream$ = this.notificationService.getNotificationCount(this.app.team.id)
-        .pipe(flatMap(_ => this.notificationService.seen.toPromise()));
+      this.stream$ = this.notificationService.getNotificationCount(this.app.team.id);
     }
   }
 
@@ -42,5 +40,6 @@ export class NotificationListComponent implements OnInit {
 
   open(el: ElementRef<HTMLButtonElement>): void {
     this.overlayService.open(el);
+    this.notificationService.seen.subscribe();
   }
 }
