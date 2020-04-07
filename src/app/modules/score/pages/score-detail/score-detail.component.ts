@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
@@ -23,30 +23,29 @@ export class ScoreDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.route.snapshot.url.pop()?.path === 'last') {
-      const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
-      if (teamId) {
-        this.score$ = this.scoreService.getLastScore(teamId)
-          .pipe(
-            map(score => this.getData(score))
-          );
-      }
-    } else {
-      const id = parseInt(this.route.snapshot.params.id, 10);
-      this.score$ = this.scoreService.getScore(id)
-        .pipe(
-          map(score => this.getData(score))
-        );
-    }
+    this.loadData();
   }
 
-  getData(score: Score): Score {
+  loadData(): void {
+    const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
+    if (this.route.snapshot.url.pop()?.path === 'last' && teamId) {
+      this.score$ = this.scoreService.getLastScore(teamId);
+    } else {
+      const id = parseInt(this.route.snapshot.params.id, 10);
+      this.score$ = this.scoreService.getScore(id);
+    }
+    this.score$.pipe(
+      tap(score => {
+        this.getData(score);
+      })
+    );
+  }
+
+  getData(score: Score): void {
     if (score !== undefined && score.lineup !== undefined) {
       const dispositions: Array<Disposition> = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;
     }
-
-    return score;
   }
 }

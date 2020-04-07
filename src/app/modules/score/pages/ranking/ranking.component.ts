@@ -35,17 +35,21 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     if (championship) {
-      this.ranking$ = this.scoreService.getRanking(championship.id)
-        .pipe(
-          tap(ranking => {
-            if (ranking.length && ranking[0].scores) {
-              this.matchdays = Object.keys(ranking[0].scores)
-                .reverse();
-              this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(this.matchdays);
-            }
-          })
-        );
+      this.ranking$ = this.loadRanking(championship);
     }
+  }
+
+  loadRanking(championship: Championship): Observable<any> {
+    return this.scoreService.getRanking(championship.id)
+      .pipe(
+        tap(ranking => {
+          if (ranking.length && ranking[0].scores) {
+            this.matchdays = Object.keys(ranking[0].scores)
+              .reverse();
+            this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(this.matchdays);
+          }
+        })
+      );
   }
 
   track(_: number, item: Matchday): number {

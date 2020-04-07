@@ -19,6 +19,10 @@
       "fm",
       "kebab-case"
     ],
+    "template-cyclomatic-complexity": [
+      true,
+      8
+    ],
     "i18n": [
       false
     ],

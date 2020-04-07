@@ -29,27 +29,30 @@ export class NavbarComponent implements OnInit {
     private readonly push: PushService,
     private readonly app: ApplicationService,
     private readonly router: Router
-  ) {
-    this.navStart$ = this.router.events.pipe(
-      filter(evt => evt instanceof NavigationStart)
-    );
-  }
+  ) { }
 
   ngOnInit(): void {
     this.init();
+    this.refresh();
+  }
+
+  init(): void {
     this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
     this.auth.userChange$.pipe(combineLatest(this.app.teamChange$))
       .subscribe(() => {
-        this.init();
+        this.refresh();
       });
+    this.navStart$ = this.router.events.pipe(
+      filter(evt => evt instanceof NavigationStart)
+    );
     this.navStart$.subscribe(() => {
       this.layoutService.closeSidebar();
     });
   }
 
-  init(): void {
+  refresh(): void {
     this.loggedIn = this.auth.loggedIn();
     this.team = this.app.team;
     this.championship = this.app.championship;

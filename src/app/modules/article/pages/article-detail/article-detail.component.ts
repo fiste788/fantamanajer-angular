@@ -27,16 +27,22 @@ export class ArticleDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      const id = parseInt(this.route.snapshot.params.id, 10);
-      this.article$ = this.articleService.getArticle(id);
-    } else {
-      const article = new Article();
-      if (this.app.team) {
-        article.team_id = this.app.team.id;
-      }
-      this.article$ = of(article);
+    this.article$ = this.route.snapshot.params.id ? this.load() : this.new();
+  }
+
+  load(): Observable<Article> {
+    const id = parseInt(this.route.snapshot.params.id, 10);
+
+    return this.articleService.getArticle(id);
+  }
+
+  new(): Observable<Article> {
+    const article = new Article();
+    if (this.app.team) {
+      article.team_id = this.app.team.id;
     }
+
+    return of(article);
   }
 
   save(article: Article): void {

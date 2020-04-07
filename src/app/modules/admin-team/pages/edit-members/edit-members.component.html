@@ -1,8 +1,8 @@
 <form
-  *ngIf="(controlsByRole | async) as _controls; else loading"
+  *ngIf="(controlsByRole$ | async) as controls; else loading"
   (ngSubmit)="save()"
 >
-  <div *ngFor="let role of (_controls | keyvalue); trackBy: track">
+  <div *ngFor="let role of (controls | keyvalue); trackBy: track">
     <h5>{{role.key.plural}}</h5>
     <div
       class="flex-container"
@@ -10,7 +10,7 @@
       fxLayout.xs="column"
       fxLayoutAlign="space-around flex-start"
     >
-      <ng-container *ngFor="let c of role.value.controls;let i = index; trackBy: trackByMember">
+      <ng-container *ngFor="let c of role.value.controls; let i = index; trackBy: trackByMember">
         <div class="disposition">
           <fm-member-selection
             [isMemberDisabled]="isAlreadySelectedCallback"

@@ -29,6 +29,10 @@ export class TransfertListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
     this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (this.teamId) {
       // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;

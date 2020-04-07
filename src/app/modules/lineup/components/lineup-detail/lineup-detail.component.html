@@ -20,7 +20,7 @@
         >{{m.label}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM/y HH:mm'}}</div>
+    <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM HH:mm'}}</div>
     <mat-checkbox
       name="jolly"
       [disabled]="disabled"
@@ -30,7 +30,7 @@
   </div>
   <ng-container *ngIf="lineup.module_object">
     <div
-      *ngFor="let role of lineup.module_object?.map | keyvalue:descOrder; trackBy: trackByRole"
+      *ngFor="let role of (lineup.module_object?.map | keyvalue: descOrder); trackBy: trackByRole"
       fxLayout="row"
       [ngClass]="[role.key.abbreviation, 'role-container']"
     >

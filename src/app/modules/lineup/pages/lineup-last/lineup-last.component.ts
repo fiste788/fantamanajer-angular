@@ -19,7 +19,7 @@ export class LineupLastComponent implements OnDestroy {
   lineup$: Observable<Lineup>;
   editMode = false;
   teamId: number;
-  private subscription: Subscription;
+  private subscription?: Subscription;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -33,9 +33,7 @@ export class LineupLastComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
   }
 
   save(lineup: Lineup): void {

@@ -42,6 +42,10 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.loadBreadcrumb();
+  }
+
+  loadBreadcrumb(): void {
     this.subscriptions.push(this.bs.crumbs$.subscribe(x => {
       if (x.length === 0) {
         const def: IBreadcrumb = { text: 'FantaManajer', path: '/' };

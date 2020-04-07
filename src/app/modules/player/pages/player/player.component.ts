@@ -46,6 +46,10 @@ export class PlayerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
     this.player$ = this.route.data.pipe(
       map((data: { player: Player }) => data.player),
       tap(player => {

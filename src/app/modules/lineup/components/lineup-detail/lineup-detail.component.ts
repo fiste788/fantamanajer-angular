@@ -35,16 +35,20 @@ interface Captainable {
   ]
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() lineup: Lineup;
+  @Input() lineup?: Lineup;
   @Input() disabled = false;
 
   @ViewChild(NgForm) lineupForm: NgForm;
 
   membersByRole: Map<Role, Array<Member>>;
   membersById: Map<number, Member> = new Map<number, Member>();
-  captains: Map<string, string> = new Map<string, string>();
+  captains: Map<string, string> = new Map<string, string>([
+    ['C', 'captain'], ['VC', 'vcaptain'], ['VVC', 'vvcaptain']
+  ]);
   modules: Array<Module>;
-  benchs: Array<number>;
+  benchs: Array<number> = Array(7)
+    .fill(7)
+    .map((_, i) => i + 11);
   captainables: Array<Captainable>;
   isRegularCallback: () => boolean;
   isAlreadySelectedCallback: () => boolean;
@@ -56,53 +60,62 @@ export class LineupDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.benchs = Array(7)
-      .fill(7)
-      .map((_, i) => i + 11);
-    this.captains.set('C', 'captain');
-    this.captains.set('VC', 'vcaptain');
-    this.captains.set('VVC', 'vvcaptain');
+    this.loadLineup();
+  }
 
+  loadLineup(): void {
     const lineup = this.lineup ?? ((!this.disabled) ? new Lineup(this.roleService.list()) : undefined);
-    lineup.team_id = lineup.team_id || lineup.team.id;
     this.isRegularCallback = this.isRegular.bind(this, lineup);
     this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
     if (lineup !== undefined && lineup.team.members !== undefined) {
+      lineup.team_id = lineup.team_id || lineup.team.id;
       this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
       lineup.team.members.forEach(member => this.membersById.set(member.id, member), this);
       if (!this.disabled) {
-        this.lineupService.getLikelyLineup(lineup)
-          .subscribe(members => {
-            members.forEach(member => {
-              const m = this.membersById.get(member.id);
-              if (m) {
-                m.likely_lineup = member.likely_lineup;
-              }
-            });
-            this.cd.detectChanges();
-          });
+        this.loadLikely(lineup);
       }
-      this.modules = lineup.modules.map(m => new Module(m, this.roleService.list()));
-      if (lineup.module) {
-        lineup.module_object = this.modules.find(e => e.key === lineup.module, this);
-      }
-      let i = 0;
-      if (lineup.dispositions === undefined) {
-        lineup.dispositions = [];
-      }
-      for (i = 0; i < 18; i++) {
-        if (
-          lineup.dispositions.length < i ||
-          lineup.dispositions[i] === undefined
-        ) {
-          lineup.dispositions[i] = new Disposition();
-          lineup.dispositions[i].position = i + 1;
-        }
-        if (lineup.dispositions[i].member_id !== null) {
-          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
-        }
-      }
+      this.loadModules(lineup);
+      this.loadDispositions(lineup);
       this.captainSelectionChange(lineup);
+    }
+  }
+
+  loadLikely(lineup: Lineup): void {
+    this.lineupService.getLikelyLineup(lineup)
+      .subscribe(members => {
+        members.forEach(member => {
+          const m = this.membersById.get(member.id);
+          if (m) {
+            m.likely_lineup = member.likely_lineup;
+          }
+        });
+        this.cd.detectChanges();
+      });
+  }
+
+  loadModules(lineup: Lineup): void {
+    this.modules = lineup.modules.map(m => new Module(m, this.roleService.list()));
+    if (lineup.module) {
+      lineup.module_object = this.modules.find(e => e.key === lineup.module, this);
+    }
+  }
+
+  loadDispositions(lineup: Lineup): void {
+    let i = 0;
+    if (lineup.dispositions === undefined) {
+      lineup.dispositions = [];
+    }
+    for (i = 0; i < 18; i++) {
+      if (
+        lineup.dispositions.length < i ||
+        lineup.dispositions[i] === undefined
+      ) {
+        lineup.dispositions[i] = new Disposition();
+        lineup.dispositions[i].position = i + 1;
+      }
+      if (lineup.dispositions[i].member_id !== null) {
+        lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
+      }
     }
   }
 

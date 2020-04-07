@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, share } from 'rxjs/operators';
+import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 
 import { MemberService, RoleService, SelectionService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
@@ -24,8 +24,8 @@ export class SelectionComponent implements OnInit {
   selection: Selection = new Selection();
   members$: Observable<Map<Role, Array<Member>>>;
   newMembers$?: Observable<Array<Member>>;
-  role: Subject<Role> = new Subject<Role>();
-  newPlayerRole: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
+  newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
+  private readonly role$: Subject<Role> = new Subject<Role>();
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -41,42 +41,47 @@ export class SelectionComponent implements OnInit {
   ngOnInit(): void {
     const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (teamId) {
-      this.selectionService.getSelection(teamId)
-        .subscribe(selection => {
-          if (selection !== null) {
-            this.selection = selection;
-            this.playerChange();
-          }
-        });
-
-      this.role.pipe(
-        distinctUntilChanged((x, y) => y === undefined || x.id === y.id),
-        share()
-      )
-        .subscribe({
-          next: this.loadMembers.bind(this)
-        });
-
-      this.members$ = this.memberService.getByTeamId(teamId)
-        .pipe(
-          map(data => this.roleService.groupMembersByRole(data)),
-          map(members => {
-            const id = this.route.snapshot.queryParamMap.get('new_member_id');
-            if (id !== null) {
-              const memberId = parseInt(id, 10);
-              this.memberService.getById(memberId)
-                .subscribe(member => {
-                  this.role.next(this.roleService.getById(member.role_id));
-                  this.newPlayerRole.next(this.roleService.getById(member.role_id));
-                  this.selection.new_member = member;
-                  this.selection.new_member_id = member.id;
-                  this.changeRef.detectChanges();
-                });
-            }
-
-            return members;
-          }));
+      this.loadData(teamId);
+      this.setupEvents();
     }
+  }
+
+  loadData(teamId: number): void {
+    this.selectionService.getSelection(teamId)
+      .subscribe(selection => {
+        if (selection !== null) {
+          this.selection = selection;
+          this.playerChange();
+        }
+      });
+
+    this.members$ = this.memberService.getByTeamId(teamId)
+      .pipe(
+        map(data => this.roleService.groupMembersByRole(data)),
+        tap(() => {
+          const id = this.route.snapshot.queryParamMap.get('new_member_id');
+          if (id !== null) {
+            const memberId = parseInt(id, 10);
+            this.memberService.getById(memberId)
+              .subscribe(member => {
+                this.role$.next(this.roleService.getById(member.role_id));
+                this.newPlayerRole$.next(this.roleService.getById(member.role_id));
+                this.selection.new_member = member;
+                this.selection.new_member_id = member.id;
+                this.changeRef.detectChanges();
+              });
+          }
+        }));
+  }
+
+  setupEvents(): void {
+    this.role$.pipe(
+      distinctUntilChanged((x, y) => y === undefined || x.id === y.id),
+      share()
+    )
+      .subscribe({
+        next: this.loadMembers.bind(this)
+      });
   }
 
   loadMembers(role?: Role): void {
@@ -98,7 +103,7 @@ export class SelectionComponent implements OnInit {
 
   playerChange(): void {
     if (this.selection.old_member !== null) {
-      this.role.next(this.selection.old_member.role);
+      this.role$.next(this.selection.old_member.role);
     }
   }
 
@@ -142,8 +147,8 @@ export class SelectionComponent implements OnInit {
     delete this.selection.new_member_id;
     this.newMember.value = undefined;
     this.newMembers$ = undefined;
-    this.role.next();
-    this.newPlayerRole.next(undefined);
+    this.role$.next();
+    this.newPlayerRole$.next(undefined);
   }
 
   track(_: number, item: KeyValue<Role, Array<Member>>): number {

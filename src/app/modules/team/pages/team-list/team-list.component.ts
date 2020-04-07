@@ -24,16 +24,24 @@ export class TeamListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
+    this.attachEvents();
+  }
+
+  loadData(): void {
+    const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
+    if (id) {
+      this.teams$ = this.teamService.getTeams(id);
+    }
+  }
+
+  attachEvents(): void {
     this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
         this.teams$ = undefined;
       }
     });
-    const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
-    if (id) {
-      this.teams$ = this.teamService.getTeams(id);
-    }
   }
 
   track(_: number, item: Team): number {

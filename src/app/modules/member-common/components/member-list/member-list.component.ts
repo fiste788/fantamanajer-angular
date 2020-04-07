@@ -44,13 +44,20 @@ export class MemberListComponent implements OnInit, OnDestroy {
   constructor(private readonly changeRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.fixColumns();
+    this.loadMembers();
+  }
+
+  fixColumns(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
     if (this.isSelectable) {
       this.displayedColumns.unshift('select');
     }
+  }
 
+  loadMembers(): void {
     this.subscription = this.members.subscribe(data => {
       this.dataSource = new MatTableDataSource<Member>(data);
       if (data.length) {

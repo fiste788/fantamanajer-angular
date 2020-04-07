@@ -21,16 +21,17 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Input() subscriptions: Array<NotificationSubscription>;
   @Input() team: Team;
 
-  @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>>;
+  @Output() readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
+    new EventEmitter<Array<NotificationSubscription>>();
 
   map = new Map<Notification, NotificationSubscription>();
   private keys: [Notification];
 
-  constructor() {
-    this.subscriptionsChange = new EventEmitter<Array<NotificationSubscription>>();
+  ngOnInit(): void {
+    this.load();
   }
 
-  ngOnInit(): void {
+  load(): void {
     this.keys = notificationSubscriptions[this.type];
     this.keys.forEach(element => {
       let sub = this.subscriptions.find(subscription => subscription.name === element.name);

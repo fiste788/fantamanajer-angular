@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
 
 import { MemberService } from '@app/http';
 import { ApplicationService } from '@app/services';
@@ -23,8 +22,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.roles$ = this.memberService.getBest()
-      .pipe(share());
+    this.roles$ = this.memberService.getBest();
   }
 
   track(_: number, item: Member): number {

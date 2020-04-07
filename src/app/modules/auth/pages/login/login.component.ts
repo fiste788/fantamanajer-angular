@@ -18,7 +18,6 @@ export class LoginComponent {
     password: string,
     remember_me: boolean
   } = { email: '', password: '', remember_me: true };
-  loading = false;
   error = '';
   token$: Observable<CredentialRequestOptionsJSON>;
 
@@ -32,7 +31,6 @@ export class LoginComponent {
   }
 
   login(): void {
-    this.loading = true;
     this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
       .subscribe(result => {
         this.postLogin(result);
@@ -40,7 +38,6 @@ export class LoginComponent {
   }
 
   tokenLogin(t: CredentialRequestOptionsJSON): void {
-    this.loading = true;
     this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
       .subscribe(result => {
         this.postLogin(result);
@@ -59,7 +56,6 @@ export class LoginComponent {
       void this.router.navigate([url]);
     } else {
       this.error = 'Username or password invalid';
-      this.loading = false;
     }
   }
 }

@@ -24,9 +24,9 @@
         (selectionChange)="playerChange()"
       >
         <mat-optgroup
-          *ngFor="let role of members | keyvalue:descOrder; trackBy: track"
+          *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
           [label]="role.key.plural"
-          [disabled]="newPlayerRole.value && role.key !== newPlayerRole.value"
+          [disabled]="newPlayerRole$.value && role.key !== newPlayerRole$.value"
         >
           <mat-option
             *ngFor="let member of role.value"

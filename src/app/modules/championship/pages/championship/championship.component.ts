@@ -15,6 +15,10 @@ export class ChampionshipComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadTab();
+  }
+
+  loadTab(): void {
     this.tabs = [
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },

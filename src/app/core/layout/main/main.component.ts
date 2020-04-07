@@ -51,20 +51,25 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly changeRef: ChangeDetectorRef
   ) {
-    if (environment.gaCode !== undefined) {
-      const navEndEvent$ = this.router.events.pipe(
-        filter(e => e instanceof NavigationEnd)
-      );
-      navEndEvent$.subscribe((e: NavigationEnd) => {
-        gtag('config', environment.gaCode ?? '', {
-          page_path: e.urlAfterRedirects
-        });
-      });
-    }
   }
 
   ngOnInit(): void {
     this.themeService.connect();
+    this.setupEvents();
+    this.loadGA();
+  }
+
+  ngAfterViewInit(): void {
+    this.layoutService.connect();
+    this.scrollService.connect(this.container);
+    this.ngZone.runOutsideAngular(() => {
+      this.setupScrollAnimation();
+    });
+    this.initDrawer();
+    this.changeRef.detectChanges();
+  }
+
+  setupEvents(): void {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
@@ -76,36 +81,42 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.layoutService.openSidebar$.next(a);
       });
     this.loggedIn$ = this.auth.userChange$.pipe(map(u => u !== null));
+  }
+
+  setupScrollAnimation(): void {
+    this.layoutService.connectScrollAnimation(
+      () => {
+        const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
+        const height = toolbar !== null ? toolbar.clientHeight : 0;
+        this.document.querySelectorAll('.sticky')
+          .forEach((e: HTMLElement) => e.style.top = `${height}px`);
+        this.changeRef.detectChanges();
+      },
+      () => {
+        this.speedDial.openSpeeddial = false;
+        this.document.querySelectorAll('.sticky')
+          .forEach((e: HTMLElement) => e.style.top = '0');
+        this.changeRef.detectChanges();
+      },
+      this.toolbarEl.nativeElement.firstChild.clientHeight);
+  }
+
+  loadGA(): void {
     if (environment.gaCode !== undefined) {
       const script = this.document.createElement('script');
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${environment.gaCode}`;
       this.document.head.prepend(script);
-    }
-  }
 
-  ngAfterViewInit(): void {
-    this.layoutService.connect();
-    this.scrollService.connect(this.container);
-    this.ngZone.runOutsideAngular(() => {
-      this.layoutService.connectScrollAnimation(
-        () => {
-          const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
-          const height = toolbar !== null ? toolbar.clientHeight : 0;
-          this.document.querySelectorAll('.sticky')
-            .forEach((e: HTMLElement) => e.style.top = `${height}px`);
-          this.changeRef.detectChanges();
-        },
-        () => {
-          this.speedDial.openSpeeddial = false;
-          this.document.querySelectorAll('.sticky')
-            .forEach((e: HTMLElement) => e.style.top = '0');
-          this.changeRef.detectChanges();
-        },
-        this.toolbarEl.nativeElement.firstChild.clientHeight);
-    });
-    this.initDrawer();
-    this.changeRef.detectChanges();
+      const navEndEvent$ = this.router.events.pipe(
+        filter(e => e instanceof NavigationEnd)
+      );
+      navEndEvent$.subscribe((e: NavigationEnd) => {
+        gtag('config', environment.gaCode ?? '', {
+          page_path: e.urlAfterRedirects
+        });
+      });
+    }
   }
 
   initDrawer(): void {

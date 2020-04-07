@@ -24,7 +24,7 @@ export class EditMembersComponent implements OnInit {
   @ViewChild(NgForm) membersForm: NgForm;
 
   membersControls: FormArray;
-  controlsByRole: Observable<Map<Role, TeamMembers>>;
+  controlsByRole$: Observable<Map<Role, TeamMembers>>;
   team: Team;
   isAlreadySelectedCallback: () => boolean;
   private readonly roles: Map<number, Role> = new Map<number, Role>();
@@ -51,7 +51,7 @@ export class EditMembersComponent implements OnInit {
 
   loadMembers(team: Team): void {
     this.membersControls = new FormArray([]);
-    this.controlsByRole = forkJoin(
+    this.controlsByRole$ = forkJoin(
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id)
     )

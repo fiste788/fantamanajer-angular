@@ -26,13 +26,17 @@ export class ClubListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.router.events.subscribe(evt => {
+    this.subscription = this.exitSubscription();
+    this.clubs$ = this.clubService.getClubs();
+  }
+
+  exitSubscription(): Subscription {
+    return this.router.events.subscribe(evt => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
         this.clubs$ = undefined;
       }
     });
-    this.clubs$ = this.clubService.getClubs();
   }
 
   track(_: number, club: Club): number {
