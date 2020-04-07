@@ -32,4 +32,10 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminChampionshipRoutingModule { }
+export class AdminChampionshipRoutingModule {
+  static components = [
+    HomeComponent,
+    AddTeamComponent,
+    ChampionshipDetailComponent
+  ];
+}

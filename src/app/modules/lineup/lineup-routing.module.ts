@@ -20,4 +20,8 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LineupRoutingModule { }
+export class LineupRoutingModule {
+  static components = [
+    LineupLastComponent
+  ];
+}

@@ -68,4 +68,9 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ChampionshipRoutingModule { }
+export class ChampionshipRoutingModule {
+  static components = [
+    ChampionshipComponent,
+    ChampionshipStreamComponent
+  ];
+}

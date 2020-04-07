@@ -10,10 +10,6 @@ import { SharedModule } from '@shared/shared.module';
 
 import { TeamEditDialogComponent } from './modals/team-edit-dialog/team-edit-dialog.component';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
-import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
-import { TeamListComponent } from './pages/team-list/team-list.component';
-import { TeamMembersComponent } from './pages/team-members/team-members.component';
-import { TeamStreamComponent } from './pages/team-stream/team-stream.component';
 import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
@@ -28,11 +24,8 @@ import { TeamRoutingModule } from './team-routing.module';
     ngfModule
   ],
   declarations: [
-    TeamListComponent,
-    TeamDetailComponent,
-    TeamMembersComponent,
     TeamEditDialogComponent,
-    TeamStreamComponent
+    TeamRoutingModule.components
   ],
   providers: [
     TeamDetailResolver

@@ -4,9 +4,6 @@ import { NgModule } from '@angular/core';
 import { StreamModule } from '@modules/stream/stream.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { SettingsComponent } from './pages/settings/settings.component';
-import { UserStreamComponent } from './pages/user-stream/user-stream.component';
-import { UserComponent } from './pages/user/user.component';
 import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
@@ -16,13 +13,8 @@ import { UserRoutingModule } from './user-routing.module';
     UserRoutingModule,
     StreamModule
   ],
-  exports: [
-    UserStreamComponent
-  ],
   declarations: [
-    UserComponent,
-    SettingsComponent,
-    UserStreamComponent
+    UserRoutingModule.components
   ]
 })
 export class UserModule { }

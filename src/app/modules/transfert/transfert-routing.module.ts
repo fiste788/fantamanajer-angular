@@ -15,4 +15,8 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TransfertRoutingModule { }
+export class TransfertRoutingModule {
+  static components = [
+    TransfertListComponent
+  ];
+}

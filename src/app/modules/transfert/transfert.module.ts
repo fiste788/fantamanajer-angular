@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { SelectionModule } from '@modules/selection/selection.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { TransfertListComponent } from './pages/transfert-list/transfert-list.component';
 import { TransfertRoutingModule } from './transfert-routing.module';
 
 @NgModule({
@@ -14,6 +13,8 @@ import { TransfertRoutingModule } from './transfert-routing.module';
     TransfertRoutingModule,
     SelectionModule
   ],
-  declarations: [TransfertListComponent]
+  declarations: [
+    TransfertRoutingModule.components
+  ]
 })
 export class TransfertModule { }

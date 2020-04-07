@@ -14,9 +14,8 @@ import { MemberFreeComponent } from './pages/member-free/member-free.component';
     MemberCommonModule,
     MemberRoutingModule
   ],
-  exports: [],
   declarations: [
-    MemberFreeComponent
+    MemberRoutingModule.components
   ]
 })
 export class MemberModule { }

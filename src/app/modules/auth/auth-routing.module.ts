@@ -23,4 +23,9 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {
+  static components = [
+    LoginComponent,
+    LogoutComponent
+  ];
+}

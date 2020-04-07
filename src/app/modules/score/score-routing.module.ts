@@ -23,4 +23,9 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ScoreRoutingModule { }
+export class ScoreRoutingModule {
+  static components = [
+    RankingComponent,
+    ScoreDetailComponent
+  ];
+}

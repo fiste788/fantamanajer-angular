@@ -11,10 +11,6 @@ import { TransfertModule } from '@modules/transfert/transfert.module';
 import { SharedModule } from '@shared/shared.module';
 
 import { AdminTeamRoutingModule } from './admin-team-routing.module';
-import { EditMembersComponent } from './pages/edit-members/edit-members.component';
-import { HomeComponent } from './pages/home/home.component';
-import { NewTransfertComponent } from './pages/new-transfert/new-transfert.component';
-import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
 
 @NgModule({
   imports: [
@@ -30,10 +26,7 @@ import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
     ConfirmationDialogModule
   ],
   declarations: [
-    EditMembersComponent,
-    NewTransfertComponent,
-    HomeComponent,
-    ScoreEditComponent
+    AdminTeamRoutingModule.components
   ]
 })
 export class AdminTeamModule { }

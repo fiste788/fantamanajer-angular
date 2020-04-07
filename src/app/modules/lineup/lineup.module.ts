@@ -6,7 +6,6 @@ import { SharedModule } from '@shared/shared.module';
 
 import { LineupDetailComponent } from './components/lineup-detail/lineup-detail.component';
 import { LineupRoutingModule } from './lineup-routing.module';
-import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
 
 @NgModule({
   imports: [
@@ -18,6 +17,9 @@ import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
   exports: [
     LineupDetailComponent
   ],
-  declarations: [LineupDetailComponent, LineupLastComponent]
+  declarations: [
+    LineupDetailComponent,
+    LineupRoutingModule.components
+  ]
 })
 export class LineupModule { }

@@ -6,9 +6,6 @@ import { TeamModule } from '@modules/team/team.module';
 import { SharedModule } from '@shared/shared.module';
 
 import { AdminChampionshipRoutingModule } from './admin-championship-routing.module';
-import { AddTeamComponent } from './pages/add-team/add-team.component';
-import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
-import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   imports: [
@@ -19,9 +16,7 @@ import { HomeComponent } from './pages/home/home.component';
     TeamModule
   ],
   declarations: [
-    ChampionshipDetailComponent,
-    HomeComponent,
-    AddTeamComponent
+    AdminChampionshipRoutingModule.components
   ]
 })
 export class AdminChampionshipModule { }

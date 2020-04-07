@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 import { PlayerResolver } from './pages/player/player-resolver.service';
-import { PlayerComponent } from './pages/player/player.component';
 import { PlayerRoutingModule } from './player-routing.module';
 
 @NgModule({
@@ -14,7 +13,7 @@ import { PlayerRoutingModule } from './player-routing.module';
     PlayerRoutingModule
   ],
   declarations: [
-    PlayerComponent
+    PlayerRoutingModule.components
   ],
   providers: [
     PlayerResolver
