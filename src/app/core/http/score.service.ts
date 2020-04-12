@@ -53,6 +53,6 @@ export class ScoreService {
   }
 
   update(score: Score): Observable<any> {
-    return this.http.put(routes.update(score.id), JSON.stringify(ScoreService.cleanScore(score)));
+    return this.http.put(routes.update(score.id), ScoreService.cleanScore(score));
   }
 }

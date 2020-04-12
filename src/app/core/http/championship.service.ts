@@ -16,11 +16,11 @@ export class ChampionshipService {
   constructor(private readonly http: HttpClient) { }
 
   update(championship: Championship): Observable<any> {
-    return this.http.put(routes.championship(championship.id), JSON.stringify(championship));
+    return this.http.put(routes.championship(championship.id), championship);
   }
 
   create(championship: Championship): Observable<Championship> {
-    return this.http.post<Championship>(routes.championships, JSON.stringify(championship));
+    return this.http.post<Championship>(routes.championships, championship);
   }
 
   save(championship: Championship): Observable<any> {

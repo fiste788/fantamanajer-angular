@@ -9,7 +9,7 @@ const routes = {
   articles: `/${url}`,
   article: (id: number) => `/${url}/${id}`,
   teamArticles: (id: number) => `/teams/${id}/${url}`,
-  championshipArticles: (id: number) => `/champtionship/${id}/${url}`
+  championshipArticles: (id: number) => `/championship/${id}/${url}`
 };
 
 @Injectable({ providedIn: 'root' })
@@ -20,7 +20,7 @@ export class ArticleService {
   getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(location.pathname.substring(1), { params });
+    return this.http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
   }
 
   getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
@@ -40,11 +40,11 @@ export class ArticleService {
   }
 
   update(article: Article): Observable<any> {
-    return this.http.put(routes.article(article.id), JSON.stringify(article));
+    return this.http.put(routes.article(article.id), article);
   }
 
   create(article: Article): Observable<Article> {
-    return this.http.post<Article>(routes.articles, JSON.stringify(article));
+    return this.http.post<Article>(routes.articles, article);
   }
 
   delete(id: number): Observable<any> {

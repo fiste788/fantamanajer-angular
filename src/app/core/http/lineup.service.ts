@@ -34,11 +34,11 @@ export class LineupService {
   }
 
   update(lineup: Lineup): Observable<any> {
-    return this.http.put(routes.update(lineup.team_id, lineup.id), JSON.stringify(LineupService.cleanLineup(lineup)));
+    return this.http.put(routes.update(lineup.team_id, lineup.id), LineupService.cleanLineup(lineup));
   }
 
   create(lineup: Lineup): Observable<Lineup> {
-    return this.http.post<Lineup>(routes.lineups(lineup.team_id), JSON.stringify(LineupService.cleanLineup(lineup)));
+    return this.http.post<Lineup>(routes.lineups(lineup.team_id), LineupService.cleanLineup(lineup));
   }
 
   getLikelyLineup(lineup: Lineup): Observable<Array<Member>> {

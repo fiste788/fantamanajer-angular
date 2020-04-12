@@ -20,7 +20,7 @@ export class TransfertService {
   }
 
   create(transfert: Transfert): Observable<Transfert> {
-    return this.http.post<Transfert>(routes.create, JSON.stringify(transfert));
+    return this.http.post<Transfert>(routes.create, transfert);
   }
 
 }

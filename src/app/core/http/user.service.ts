@@ -24,7 +24,7 @@ export class UserService {
       rememberMe
     };
 
-    return this.http.post<{ user: User, token: string }>(routes.login, JSON.stringify(body));
+    return this.http.post<{ user: User, token: string }>(routes.login, body);
   }
 
   logout(): Observable<any> {
@@ -34,7 +34,7 @@ export class UserService {
   update(user: User): Observable<any> {
     user.teams = undefined;
 
-    return this.http.put(routes.update(user.id), JSON.stringify(user));
+    return this.http.put(routes.update(user.id), user);
   }
 
   getCurrent(): Observable<User> {

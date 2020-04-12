@@ -18,11 +18,11 @@ export class CredentialService {
   constructor(private readonly http: HttpClient) { }
 
   login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(routes.login, JSON.stringify(credential));
+    return this.http.post<{ user: User, token: string }>(routes.login, credential);
   }
 
   register(credential: PublicKeyCredentialWithAttestationJSON): Observable<PublicKeyCredentialSource> {
-    return this.http.post<PublicKeyCredentialSource>(routes.register, JSON.stringify(credential));
+    return this.http.post<PublicKeyCredentialSource>(routes.register, credential);
   }
 
   get(email: string): Observable<CredentialRequestOptionsJSON> {

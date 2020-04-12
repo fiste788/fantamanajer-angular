@@ -25,7 +25,7 @@ export class TeamService {
   }
 
   update(team: Team): Observable<any> {
-    return this.http.put(routes.team(team.id), JSON.stringify(team));
+    return this.http.put(routes.team(team.id), team);
   }
 
   upload(id: number, formData: FormData): Observable<any> {
@@ -39,7 +39,7 @@ export class TeamService {
   }
 
   create(team: Team): Observable<Team> {
-    return this.http.post<Team>(routes.create, JSON.stringify(team));
+    return this.http.post<Team>(routes.create, team);
   }
 
   save(team: Team): Observable<any> {

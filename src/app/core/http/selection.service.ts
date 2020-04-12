@@ -24,13 +24,10 @@ export class SelectionService {
   }
 
   update(selection: Selection): Observable<any> {
-    return this.http.put(
-      `${routes.selection(selection.team_id)}/${selection.id}`,
-      JSON.stringify(selection)
-    );
+    return this.http.put(`${routes.selection(selection.team_id)}/${selection.id}`, selection);
   }
 
   create(selection: Selection): Observable<Selection> {
-    return this.http.post<Selection>(routes.selection(selection.team_id), JSON.stringify(selection));
+    return this.http.post<Selection>(routes.selection(selection.team_id), selection);
   }
 }
