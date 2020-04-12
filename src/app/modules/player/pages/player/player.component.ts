@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { pluck, tap } from 'rxjs/operators';
 
 import { RatingService } from '@app/http';
 import { ApplicationService } from '@app/services';
@@ -51,8 +51,8 @@ export class PlayerComponent implements OnInit {
 
   load(): void {
     this.player$ = this.route.data.pipe(
-      map((data: { player: Player }) => data.player),
-      tap(player => {
+      pluck('player'),
+      tap((player: Player) => {
         this.selectedMember = player.members[0];
         this.seasonChange();
       }));

@@ -11,10 +11,20 @@ const routes: Routes = [
   {
     path: '',
     component: RouterOutletComponent,
-    data: { state: 'article-outlet' },
+    data: { state: 'login-outlet' },
     children: [
-      { path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], data: { state: 'login' } },
-      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard], data: { state: 'logout' } }
+      {
+        path: 'login',
+        component: LoginComponent,
+        canActivate: [NotLoggedGuard],
+        data: { state: 'login' }
+      },
+      {
+        path: 'logout',
+        component: LogoutComponent,
+        canActivate: [AuthGuard],
+        data: { state: 'logout' }
+      }
     ]
   }
 ];

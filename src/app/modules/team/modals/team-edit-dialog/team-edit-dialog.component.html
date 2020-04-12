@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{data.team.name}}</h1>
 <div mat-dialog-content>
-  <div *ngIf="app.matchday.number <= 3">
+  <div *ngIf="app.matchday.number <= 34">
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>
       <input
@@ -19,8 +19,8 @@
     accept="image/*"
     [selectable]="true"
     [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
-    [(validDrag)]="validComboDrag"
     [(file)]="file"
+    [(validDrag)]="validComboDrag"
     [(invalidDrag)]="invalidComboDrag"
   >
     <p>Clicca o trascina il file quì per caricare l'immagine</p>

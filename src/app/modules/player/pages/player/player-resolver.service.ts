@@ -13,7 +13,7 @@ export class PlayerResolver implements Resolve<Player | undefined> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Player> | undefined {
     const playerId = route.paramMap.get('id');
     if (playerId !== null) {
-      const id = parseInt(playerId, 10);
+      const id = +playerId;
 
       return this.cs.getPlayer(id, this.app.championship ? this.app.championship.id : undefined);
     }

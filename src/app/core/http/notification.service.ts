@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { share, tap } from 'rxjs/operators';
 
 import { Notification, Stream } from '@shared/models';
 
@@ -31,7 +31,12 @@ export class NotificationService {
   }
 
   getNotificationCount(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`);
+    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`)
+      .pipe(tap(s => {
+        if ((navigator as any).setAppBadge) {
+          (navigator as any).setAppBadge(s.unseen);
+        }
+      }));
   }
 
   broadcast(title: string, uri: string, severity?: number): void {

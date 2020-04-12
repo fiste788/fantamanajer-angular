@@ -30,7 +30,7 @@ export class SrcsetDirective implements OnInit, OnChanges {
         const lastKey = keys.pop();
         if (lastKey) {
           const src = this.fmSrcset[lastKey];
-          const width = parseInt(lastKey.substring(0, lastKey.indexOf('w')), 10);
+          const width = +lastKey.substring(0, lastKey.indexOf('w'));
           if (this.el.nativeElement.sizes === '') {
             this.el.nativeElement.sizes = `(max-width:${width}px) 100vw, ${width}px`;
           }

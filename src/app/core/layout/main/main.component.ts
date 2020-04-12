@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { LayoutService, ScrollService, ThemeService } from '@app/services';
@@ -123,11 +123,15 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.drawer !== undefined) {
       this.drawer.autoFocus = false;
       this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
+        .pipe(
+          tap(() => {
+            this.layoutService.showSpeedDial();
+            setTimeout(() => this.document.querySelector('.pre-bootstrap')
+              ?.remove(), 500);
+          })
+        )
         .subscribe(() => {
-          this.layoutService.showSpeedDial();
           this.layoutService.setReady();
-          setTimeout(() => this.document.querySelector('.pre-bootstrap')
-            ?.remove(), 500);
         });
     }
   }

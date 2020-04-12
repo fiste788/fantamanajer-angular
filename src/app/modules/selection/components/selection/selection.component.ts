@@ -49,10 +49,8 @@ export class SelectionComponent implements OnInit {
   loadData(teamId: number): void {
     this.selectionService.getSelection(teamId)
       .subscribe(selection => {
-        if (selection !== null) {
-          this.selection = selection;
-          this.playerChange();
-        }
+        this.selection = selection;
+        this.playerChange();
       });
 
     this.members$ = this.memberService.getByTeamId(teamId)
@@ -61,8 +59,7 @@ export class SelectionComponent implements OnInit {
         tap(() => {
           const id = this.route.snapshot.queryParamMap.get('new_member_id');
           if (id !== null) {
-            const memberId = parseInt(id, 10);
-            this.memberService.getById(memberId)
+            this.memberService.getById(+id)
               .subscribe(member => {
                 this.role$.next(this.roleService.getById(member.role_id));
                 this.newPlayerRole$.next(this.roleService.getById(member.role_id));

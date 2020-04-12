@@ -12,7 +12,7 @@ export class ClubDetailResolver implements Resolve<Club | undefined> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club> | undefined {
     const clubId = route.paramMap.get('id');
     if (clubId !== null) {
-      const id = parseInt(clubId, 10);
+      const id = +clubId;
 
       return this.cs.getClub(id);
     }

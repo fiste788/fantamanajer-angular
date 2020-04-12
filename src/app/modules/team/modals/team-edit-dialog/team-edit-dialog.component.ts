@@ -16,7 +16,7 @@ export class TeamEditDialogComponent {
   validComboDrag = false;
   invalidComboDrag = false;
   team: Team;
-  file: File;
+  file?: File;
 
   static objectToPostParams(team: Team, fieldName: string, formData: FormData): void {
     team[fieldName].forEach((element: NotificationSubscription, i: number) => {
@@ -49,7 +49,7 @@ export class TeamEditDialogComponent {
 
   save(): void {
     const myFormData = new FormData();
-    if (this.file !== null) {
+    if (this.file !== undefined) {
       myFormData.set('photo', this.file);
     }
     myFormData.append('name', this.team.name);
@@ -57,7 +57,7 @@ export class TeamEditDialogComponent {
     TeamEditDialogComponent.objectToPostParams(this.team, 'push_notification_subscriptions', myFormData);
     this.teamService.upload(this.team.id, myFormData)
       .subscribe(() => {
-        this.dialogRef.close(this.teamService.getTeam(this.team.id));
+        this.dialogRef.close(this.team);
       });
   }
 }

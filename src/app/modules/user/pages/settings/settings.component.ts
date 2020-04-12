@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { share, tap } from 'rxjs/operators';
 
 import { CredentialService, UserService } from '@app/http';
 import { ApplicationService, PushService } from '@app/services';
@@ -39,12 +39,14 @@ export class SettingsComponent implements OnInit {
     if (this.user?.password === this.repeatPassword) {
       this.user$ = this.userService.update(this.user)
         .pipe(share());
-      this.user$.subscribe(response => {
-        this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000
+      this.user$.pipe(
+        tap(() => this.app.user = this.user)
+      )
+        .subscribe(() => {
+          this.snackBar.open('Modifiche salvate', undefined, {
+            duration: 3000
+          });
         });
-        this.app.user = this.user;
-      });
     }
   }
 

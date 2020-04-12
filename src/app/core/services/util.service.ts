@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UtilService {
@@ -34,6 +36,18 @@ export class UtilService {
     while (current !== null) {
       if (current.snapshot.data.hasOwnProperty(param)) {
         return current.snapshot.data[param];
+      }
+      current = current.parent;
+    }
+
+    return undefined;
+  }
+
+  static getData<T>(route: ActivatedRoute, param: string): Observable<T> | undefined {
+    let current: ActivatedRoute | null = route;
+    while (current !== null) {
+      if (current.snapshot.data.hasOwnProperty(param)) {
+        return current.data.pipe(pluck(param));
       }
       current = current.parent;
     }

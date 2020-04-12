@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { enterDetailAnimation, tabTransition } from '@shared/animations';
 import { Club } from '@shared/models';
@@ -22,7 +22,7 @@ export class ClubDetailComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.club$ = this.route.data.pipe(map((data: { club: Club }) => data.club));
+    this.club$ = this.route.data.pipe(pluck('club'));
   }
 
   getState(outlet: RouterOutlet): string {

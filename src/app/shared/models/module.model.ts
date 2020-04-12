@@ -11,7 +11,7 @@ export class Module {
       this.label = key.substring(key.indexOf('-') + 1);
       this.map = key.split('-')
         .reduce((map: Map<Role, Array<number>>, num, index) => {
-          const players = parseInt(num, 10);
+          const players = +num;
           const role = roles.get(index + 1);
 
           return role ? map.set(role, Array(players)

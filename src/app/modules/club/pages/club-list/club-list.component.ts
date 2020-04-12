@@ -26,8 +26,8 @@ export class ClubListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.exitSubscription();
     this.clubs$ = this.clubService.getClubs();
+    this.subscription = this.exitSubscription();
   }
 
   exitSubscription(): Subscription {

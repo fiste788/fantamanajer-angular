@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 import { MemberService, TransfertService } from '@app/http';
 import { UtilService } from '@app/services';
@@ -73,10 +74,9 @@ export class NewTransfertComponent implements OnInit {
           }
         });
         dialogRef.afterClosed()
-          .subscribe(result => {
-            if (result) {
-              this.save();
-            }
+          .pipe(filter(r => r))
+          .subscribe(() => {
+            this.save();
           });
       } else {
         this.save();

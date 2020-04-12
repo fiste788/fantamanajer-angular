@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { MemberService } from '@app/http';
 import { UtilService } from '@app/services';
@@ -20,9 +21,7 @@ export class TeamMembersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const team = UtilService.getSnapshotData<Team>(this.route, 'team');
-    if (team) {
-      this.members$ = this.memberService.getByTeamId(team.id);
-    }
+    this.members$ = UtilService.getData<Team>(this.route, 'team')
+      ?.pipe(switchMap(team => this.memberService.getByTeamId(team.id)));
   }
 }

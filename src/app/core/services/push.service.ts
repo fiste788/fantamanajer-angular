@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { from, Observable, of } from 'rxjs';
-import { catchError, defaultIfEmpty, filter, flatMap, map, share, take } from 'rxjs/operators';
+import { catchError, defaultIfEmpty, filter, flatMap, map, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@app/http';
@@ -39,17 +39,16 @@ export class PushService {
   }
 
   checkForUpdates(): void {
-    this.swUpdate.available.subscribe(() => {
-      const snackBarRef = this.snackBar.open(
+    this.swUpdate.available.pipe(
+      map(() => this.snackBar.open(
         'Nuova versione dell\'app disponibile',
         'Aggiorna'
-      );
-
-      snackBarRef.onAction()
-        .subscribe(() => {
-          this.window.location.reload();
-        });
-    });
+      )),
+      switchMap(ref => ref.onAction())
+    )
+      .subscribe(() => {
+        this.window.location.reload();
+      });
   }
 
   initializeUser(user?: User): void {
@@ -74,7 +73,8 @@ export class PushService {
     this.isSubscribed()
       .pipe(
         filter(s => !s),
-        flatMap(() => from(this.requestSubscription()))
+        flatMap(() => from(this.requestSubscription())),
+        filter(s => s)
       )
       .subscribe(() => {
         this.snackBar.open('Now you are subscribed', undefined, {
@@ -85,6 +85,7 @@ export class PushService {
 
   unsubscribeFromPush(): void {
     from(this.cancelSubscription())
+      .pipe(filter(r => r))
       .subscribe(() => {
         this.snackBar.open('Now you are unsubscribed', undefined, {
           duration: 2000
@@ -95,6 +96,7 @@ export class PushService {
   isSubscribed(): Observable<boolean> {
     return this.swPush.subscription
       .pipe(
+        // tslint:disable-next-line: no-null-keyword
         defaultIfEmpty(null),
         map(e => e !== null),
         share()

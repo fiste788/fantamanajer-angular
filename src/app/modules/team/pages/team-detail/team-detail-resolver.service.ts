@@ -12,7 +12,7 @@ export class TeamDetailResolver implements Resolve<Team | undefined>  {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> | undefined {
     const teamId = route.paramMap.get('team_id');
     if (teamId !== null) {
-      const id = parseInt(teamId, 10);
+      const id = +teamId;
 
       return this.ts.getTeam(id);
     }

@@ -16,12 +16,11 @@ export class AuthenticationService {
   private readonly ADMIN_ROLE = 'ROLE_ADMIN';
   private readonly USER_ROLE = 'ROLE_USER';
 
-  constructor(private readonly userService: UserService, private readonly credentialService: CredentialService) {
-    localStorage.removeItem('currentUser');
-    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
-    if (!this.token) {
-      this.token = sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
-    }
+  constructor(
+    private readonly userService: UserService,
+    private readonly credentialService: CredentialService
+  ) {
+    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     if (this.token && !this.loggedIn()) {
       this.logout();
     }
@@ -84,8 +83,7 @@ export class AuthenticationService {
   }
 
   private getRoles(user: User): Array<string> {
-    const roles = [];
-    roles.push(this.USER_ROLE);
+    const roles = [this.USER_ROLE];
     if (user.admin) {
       roles.push(this.ADMIN_ROLE);
     }

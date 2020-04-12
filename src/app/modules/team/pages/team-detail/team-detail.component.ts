@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, pluck, tap } from 'rxjs/operators';
 
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation } from '@shared/animations';
@@ -25,21 +25,18 @@ export class TeamDetailComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.team$ = this.route.data.pipe(map((data: { team: Team }) => {
-      this.loadTabs(data.team);
-
-      return data.team;
-    }));
+    this.team$ = this.route.data.pipe(
+      pluck('team'),
+      tap((team: Team) => {
+        this.loadTabs(team);
+      }));
   }
 
   loadTabs(team: Team): void {
-    this.tabs = [];
-    this.tabs.push({ label: 'Giocatori', link: 'players' });
+    this.tabs = [{ label: 'Giocatori', link: 'players' }];
     if (this.app.championship?.started) {
       if (!this.app.seasonEnded) {
         this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
@@ -61,19 +58,17 @@ export class TeamDetailComponent implements OnInit {
       data: { team }
     })
       .afterClosed()
-      .subscribe((t?: Observable<Team>) => {
-        if (t) {
-          this.team$ = t;
-          this.team$.subscribe(res => {
-            if (this.app.team) {
-              this.app.team.photo_url = res.photo_url;
-              this.app.team.name = res.name;
-              this.app.team.email_notification_subscriptions = res.email_notification_subscriptions;
-              this.app.team.push_notification_subscriptions = res.push_notification_subscriptions;
-            }
-            this.changeRef.detectChanges();
-          });
+      .pipe(
+        filter(t => t)
+      )
+      .subscribe((t: Team) => {
+        if (this.app.team) {
+          this.app.team.photo_url = t.photo_url;
+          this.app.team.name = t.name;
+          this.app.team.email_notification_subscriptions = t.email_notification_subscriptions;
+          this.app.team.push_notification_subscriptions = t.push_notification_subscriptions;
         }
+        this.changeRef.detectChanges();
       });
   }
 

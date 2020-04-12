@@ -31,7 +31,7 @@ export class ScoreDetailComponent implements OnInit {
     if (this.route.snapshot.url.pop()?.path === 'last' && teamId) {
       this.score$ = this.scoreService.getLastScore(teamId);
     } else {
-      const id = parseInt(this.route.snapshot.params.id, 10);
+      const id = +this.route.snapshot.params.id;
       this.score$ = this.scoreService.getScore(id);
     }
     this.score$.pipe(

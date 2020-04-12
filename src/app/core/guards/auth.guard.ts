@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
         return true;
       }
 
-      return this.checkLogin(authorities, state.url);
+      return this.checkAuth(authorities, state.url);
     }
     void this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
 
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
 
   }
 
-  checkLogin(authorities: Array<string>, url: string): boolean {
+  checkAuth(authorities: Array<string>, url: string): boolean {
     for (const a of authorities) {
       if (this.app.user?.roles.includes(a)) {
         return true;
