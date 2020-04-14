@@ -36,7 +36,7 @@
         "src/app/shared/*"
       ],
       "@env": [
-        "src/environments/environment"
+        "src/environments/environment.ts"
       ]
     }
   },

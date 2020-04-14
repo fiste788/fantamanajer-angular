@@ -14,8 +14,8 @@ import { Disposition, Score, Team } from '@shared/models';
 })
 export class ScoreDetailComponent implements OnInit {
   score$: Observable<Score>;
-  regular: Array<Disposition>;
-  notRegular: Array<Disposition>;
+  regular: Array<Disposition> = [];
+  notRegular: Array<Disposition> = [];
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -34,7 +34,7 @@ export class ScoreDetailComponent implements OnInit {
       const id = +this.route.snapshot.params.id;
       this.score$ = this.scoreService.getScore(id);
     }
-    this.score$.pipe(
+    this.score$ = this.score$.pipe(
       tap(score => {
         this.getData(score);
       })

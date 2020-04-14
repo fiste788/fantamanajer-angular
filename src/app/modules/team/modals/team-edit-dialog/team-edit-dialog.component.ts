@@ -48,16 +48,16 @@ export class TeamEditDialogComponent {
   }
 
   save(): void {
-    const myFormData = new FormData();
+    const fd = new FormData();
     if (this.file !== undefined) {
-      myFormData.set('photo', this.file);
+      fd.set('photo', this.file);
     }
-    myFormData.append('name', this.team.name);
-    TeamEditDialogComponent.objectToPostParams(this.team, 'email_notification_subscriptions', myFormData);
-    TeamEditDialogComponent.objectToPostParams(this.team, 'push_notification_subscriptions', myFormData);
-    this.teamService.upload(this.team.id, myFormData)
+    fd.set('name', this.team.name);
+    TeamEditDialogComponent.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
+    TeamEditDialogComponent.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
+    this.teamService.upload(this.team.id, fd)
       .subscribe(() => {
-        this.dialogRef.close(this.team);
+        this.dialogRef.close(true);
       });
   }
 }

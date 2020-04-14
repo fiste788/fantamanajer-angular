@@ -20,8 +20,9 @@
         panelClass="teams-panel"
         role="listbox"
         aria-label="Squadra selezionata"
-        [(ngModel)]="app.team"
-        (selectionChange)="change()"
+        [ngModel]="app.team"
+        [compareWith]="compareFn"
+        (ngModelChange)="change($event)"
       >
         <mat-select-trigger *ngIf="app.team">
           <h3>{{app.team?.name}}</h3>
@@ -35,6 +36,6 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <span>{{app.user?.email}}</span>
+    <span>{{app.team?.championship.season.name}}</span>
   </mat-toolbar-row>
 </mat-toolbar>

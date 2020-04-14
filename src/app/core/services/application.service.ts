@@ -13,6 +13,7 @@ import { Championship, Matchday, Team, User } from '@shared/models';
   providedIn: 'root'
 })
 export class ApplicationService {
+
   seasonEnded: boolean;
   seasonStarted: boolean;
   matchday: Matchday;
@@ -29,16 +30,10 @@ export class ApplicationService {
     private readonly injector: Injector
   ) { }
 
-  getCurrentMatchday(): Observable<void> {
-    return this.matchdayService.getCurrentMatchday()
-      .pipe(
-        map(m => {
-          this.setCurrentMatchday(m);
-        })
-      );
-  }
-
   async initialize(): Promise<void> {
+    this.teamChange$.subscribe(t => {
+      this.setTeam(t, true);
+    });
     this.auth.userChange$.pipe(skip(1))
       .subscribe((u: User) => {
         this.setUser(u);
@@ -50,13 +45,19 @@ export class ApplicationService {
 
     return observable.toPromise()
       .catch(e => {
-        const el = this.document.querySelectorAll('.error')[0];
-        el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
+        const el = this.document.querySelector('.error');
+        if (el !== null) {
+          el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
+        }
         throw e;
       });
   }
 
-  setUser(user?: User): void {
+  get team(): Team | undefined {
+    return this.currentTeam;
+  }
+
+  private setUser(user?: User): void {
     this.user = user;
     if (user) {
       this.loadTeams(user.teams);
@@ -68,20 +69,22 @@ export class ApplicationService {
     }
   }
 
-  loadTeams(teams?: Array<Team>): void {
+  private loadTeams(teams?: Array<Team>): void {
     this.teams = teams ?? [];
     if (this.teams.length) {
-      this.team = this.teams[0];
+      this.setTeam(this.teams[0], false);
     }
   }
 
-  get team(): Team | undefined {
-    return this.currentTeam;
+  private getRouter(): Router {
+    return this.injector.get(Router);
   }
 
-  set team(team: Team | undefined) {
-    const isNull = !this.currentTeam;
-    if (team && this.team !== team) {
+  private setTeam(team: Team | undefined, redirect = true): void {
+    if (team) {
+      if (this.currentTeam && team.championship === undefined) {
+        team.championship = this.currentTeam?.championship;
+      }
       this.currentTeam = team;
       this.championship = team.championship;
       if (this.championship.season_id !== this.matchday.season_id) {
@@ -90,16 +93,20 @@ export class ApplicationService {
       } else {
         this.setCurrentMatchday(this.matchday);
       }
-    }
-    if (!isNull && team) {
-      void this.getRouter()
-        .navigateByUrl(`/teams/${team.id}`);
-      this.teamChange$.next(team);
+      if (redirect) {
+        void this.getRouter()
+          .navigateByUrl(`/teams/${team.id}`);
+      }
     }
   }
 
-  getRouter(): Router {
-    return this.injector.get(Router);
+  private getCurrentMatchday(): Observable<void> {
+    return this.matchdayService.getCurrentMatchday()
+      .pipe(
+        map(m => {
+          this.setCurrentMatchday(m);
+        })
+      );
   }
 
   private setCurrentMatchday(matchday: Matchday): void {

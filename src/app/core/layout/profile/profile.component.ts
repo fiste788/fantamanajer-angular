@@ -15,8 +15,13 @@ export class ProfileComponent {
     private readonly layoutService: LayoutService
   ) { }
 
-  change(): void {
+  change(team: Team): void {
+    this.app.teamChange$.next(team);
     this.layoutService.closeSidebar();
+  }
+
+  compareFn(t1: Team, t2: Team): boolean {
+    return t1.id === t2.id;
   }
 
   track(_: number, team: Team): number {

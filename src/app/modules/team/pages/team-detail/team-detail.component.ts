@@ -2,8 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, pluck, tap } from 'rxjs/operators';
+import { filter, flatMap, pluck, tap } from 'rxjs/operators';
 
+import { TeamService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation } from '@shared/animations';
 import { Team } from '@shared/models';
@@ -23,6 +24,7 @@ export class TeamDetailComponent implements OnInit {
   constructor(
     public app: ApplicationService,
     private readonly route: ActivatedRoute,
+    private readonly teamService: TeamService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog
   ) { }
@@ -59,15 +61,11 @@ export class TeamDetailComponent implements OnInit {
     })
       .afterClosed()
       .pipe(
-        filter(t => t)
+        filter(t => t),
+        flatMap(() => this.teamService.getTeam(team.id))
       )
       .subscribe((t: Team) => {
-        if (this.app.team) {
-          this.app.team.photo_url = t.photo_url;
-          this.app.team.name = t.name;
-          this.app.team.email_notification_subscriptions = t.email_notification_subscriptions;
-          this.app.team.push_notification_subscriptions = t.push_notification_subscriptions;
-        }
+        this.app.teamChange$.next(t);
         this.changeRef.detectChanges();
       });
   }
