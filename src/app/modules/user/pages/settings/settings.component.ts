@@ -5,12 +5,14 @@ import { share, tap } from 'rxjs/operators';
 
 import { CredentialService, UserService } from '@app/http';
 import { ApplicationService, PushService } from '@app/services';
+import { cardCreationAnimation } from '@shared/animations';
 import { User } from '@shared/models';
 
 @Component({
   selector: 'fm-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
+  animations: [cardCreationAnimation]
 })
 export class SettingsComponent implements OnInit {
   user$: Observable<User>;

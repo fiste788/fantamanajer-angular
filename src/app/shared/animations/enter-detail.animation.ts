@@ -1,4 +1,4 @@
-import { animate, query, style, transition, trigger } from '@angular/animations';
+import { animate, animateChild, query, sequence, style, transition, trigger } from '@angular/animations';
 
 export const enterDetailAnimation = trigger('enterDetailAnimation', [
   transition(':enter', [
@@ -13,10 +13,13 @@ export const enterDetailAnimation = trigger('enterDetailAnimation', [
     )
   ]),
   transition(':leave', [
-    query('.animation-container',
-      animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
-        style({ opacity: 0, transform: 'translateY(7%)' })
+    sequence([
+      query('@*', [animateChild()], { optional: true }),
+      query('.animation-container',
+        animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          style({ opacity: 0, transform: 'translateY(7%)' })
+        )
       )
-    )
+    ])
   ])
 ]);

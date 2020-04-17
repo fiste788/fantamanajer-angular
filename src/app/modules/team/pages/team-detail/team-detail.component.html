@@ -1,26 +1,24 @@
 <ng-container *ngIf="(team$ | async) as team;">
-  <div @enterDetailAnimation>
-    <div class="animation-container">
-      <fm-parallax-header
-        [backgroundImage]="team.photo_url"
-        [tabs]="tabs"
-        [title]="team.name"
-        [subtitle]="team.user.name + ' ' + team.user.surname"
+  <div class="animation-container">
+    <fm-parallax-header
+      [backgroundImage]="team.photo_url"
+      [tabs]="tabs"
+      [title]="team.name"
+      [subtitle]="team.user.name + ' ' + team.user.surname"
+    >
+      <div
+        *ngIf="team.user.id == app.user?.id && !app.seasonEnded"
+        parallax-header-right
       >
-        <div
-          *ngIf="team.user.id == app.user?.id && !app.seasonEnded"
-          parallax-header-right
+        <button
+          mat-icon-button
+          aria-label="Settings"
+          (click)="openDialog(team)"
         >
-          <button
-            mat-icon-button
-            aria-label="Settings"
-            (click)="openDialog(team)"
-          >
-            <mat-icon>settings</mat-icon>
-          </button>
-        </div>
-      </fm-parallax-header>
-    </div>
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+    </fm-parallax-header>
   </div>
   <div class="tabbed-container">
     <router-outlet #o1="outlet"></router-outlet>

@@ -7,8 +7,8 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
       { optional: true }
     ),
     query('.mat-card',
-      stagger(75, [
-        animate('450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+      stagger(60, [
+        animate('350ms cubic-bezier(0.4, 0.0, 0.2, 1)',
           style({ opacity: 1, transform: 'translateY(0)' })
         )
       ]), { optional: true }
@@ -17,7 +17,7 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
   transition(':leave', [
     query('.mat-card',
       stagger(-40, [
-        animate('.4s cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        animate('.3s cubic-bezier(0.4, 0.0, 0.2, 1)',
           style({ opacity: 0, transform: 'translateY(10%)' })
         )
       ]), { optional: true }

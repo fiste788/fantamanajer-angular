@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,6 +18,7 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
   animations: [enterDetailAnimation]
 })
 export class TeamDetailComponent implements OnInit {
+  @HostBinding('@enterDetailAnimation') e = '';
   team$: Observable<Team>;
   tabs: Array<{ label: string; link: string }> = [];
 
