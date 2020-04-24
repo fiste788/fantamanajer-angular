@@ -1,5 +1,9 @@
 @import '~@angular/flex-layout/mq';
 
+:host {
+  display: block;
+}
+
 .mat-empty-state.mat-rounded {
   min-width: 320px;
   min-height: 320px;
@@ -18,8 +22,6 @@
   padding: 36px;
   margin: 0 auto;
   position: relative;
-  transition: opacity .15s cubic-bezier(0,0,.2,1),transform .3s cubic-bezier(0,0,.2,1);
-  will-change: transform,opacity;
 }
 
 .mat-empty-state.mat-rounded .mat-empty-state-container {
@@ -37,8 +39,6 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  transition: opacity .4s cubic-bezier(.4,0,.2,1);
-  will-change: opacity;
 }
 
 .mat-empty-state-label {

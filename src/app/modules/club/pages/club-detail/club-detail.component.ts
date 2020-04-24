@@ -1,16 +1,21 @@
+import { trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
-import { enterDetailAnimation, tabTransition } from '@shared/animations';
+import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
 import { Club } from '@shared/models';
 
 @Component({
   selector: 'fm-club-detail',
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss'],
-  animations: [enterDetailAnimation, tabTransition]
+  animations: [
+    enterDetailAnimation,
+    tabTransition,
+    trigger('contextChange', routerTransition)
+  ]
 })
 export class ClubDetailComponent implements OnInit {
   club$: Observable<Club>;
@@ -26,6 +31,6 @@ export class ClubDetailComponent implements OnInit {
   }
 
   getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : '';
+    return outlet.activatedRouteData.state;
   }
 }

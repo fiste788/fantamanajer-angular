@@ -1,14 +1,17 @@
+import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { routerTransition, tabTransition } from '@shared/animations';
+import { routerTransition } from '@shared/animations';
 import { Tab } from '@shared/models';
 
 @Component({
   selector: 'fm-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
-  animations: [tabTransition, routerTransition]
+  animations: [
+    trigger('contextChange', routerTransition)
+  ]
 })
 export class UserComponent {
 
@@ -18,7 +21,7 @@ export class UserComponent {
   ];
 
   getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : '';
+    return outlet.activatedRouteData.state;
   }
 
   track(_: number, item: Tab): string {

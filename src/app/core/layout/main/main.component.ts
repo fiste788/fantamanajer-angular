@@ -1,3 +1,4 @@
+import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
@@ -22,7 +23,7 @@ declare var gtag: Gtag.Gtag;
   styleUrls: ['./main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    routerTransition,
+    trigger('contextChange', routerTransition),
     scrollUpAnimation,
     closeAnimation
   ]
@@ -143,7 +144,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       );
   }
 
-  getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : 'empty';
+  getContext(routerOutlet: RouterOutlet): string {
+    return routerOutlet.activatedRouteData.state;
   }
 }

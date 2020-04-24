@@ -1,30 +1,30 @@
-import { animate, animateChild, group, query, sequence, style, transition, trigger } from '@angular/animations';
+import { animate, animateChild, AnimationStateMetadata, AnimationTransitionMetadata, group, query, sequence, style, transition, trigger } from '@angular/animations';
 
-export const routerTransition = trigger('routerTransition', [
-  transition('* <=> *', [
-    query(
-      ':enter',
-      [style({ opacity: 0 })],
-      { optional: true }
-    ),
+export const routerTransition: Array<AnimationStateMetadata | AnimationTransitionMetadata> = [
+  // Used when switching between different app contexts.
+  transition('* => *', [
+    // Prepare current context and next context for transition.
+    query(':enter', style({ opacity: 0 }), { optional: true }),
+    // Create a sequence of animations.
     sequence([
-      query(':leave', animateChild(), { optional: true }),
-      group([
-        // query(':leave', animateChild(), { optional: true }),
-        query(
-          ':leave',
-          // here we apply a style and use the animate function to apply the style over 0.3 seconds
-          [style({ opacity: 1 }), animate('0.3s', style({ opacity: 0 }))],
-          { optional: true }
-        ),
-        query(
-          ':enter',
-          [style({ opacity: 0 }), animate('0.3s', style({ opacity: 1 }))],
-          { optional: true }
-        )
-        // query(':enter', animateChild(), { optional: true })
-      ]),
-      query(':enter', animateChild(), { optional: true })
+      // Fade out current context.
+      query('@*', animateChild(), { optional: true }),
+      query(
+        ':leave',
+        [
+          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ opacity: 0 }))
+        ],
+        { optional: true }
+      ),
+      // Fade in next context.
+      query(
+        ':enter',
+        [
+          style({ opacity: 0 }),
+          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+        ],
+        { optional: true }
+      )
     ])
   ])
-]);
+];

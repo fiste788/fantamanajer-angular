@@ -12,4 +12,9 @@
     </a>
   </nav>
 </ng-container>
-<router-outlet #o="outlet"></router-outlet>
+<div
+  class="tabbed-container"
+  [@contextChange]="getState(o)"
+>
+  <router-outlet #o="outlet"></router-outlet>
+</div>

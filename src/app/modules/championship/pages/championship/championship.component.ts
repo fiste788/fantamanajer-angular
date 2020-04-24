@@ -1,12 +1,17 @@
+import { trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { ApplicationService } from '@app/services';
+import { routerTransition } from '@shared/animations';
 import { Tab } from '@shared/models';
 
 @Component({
   selector: 'fm-championship',
-  templateUrl: './championship.component.html'
+  templateUrl: './championship.component.html',
+  animations: [
+    trigger('contextChange', routerTransition)
+  ]
 })
 export class ChampionshipComponent implements OnInit {
   tabs: Array<Tab>;

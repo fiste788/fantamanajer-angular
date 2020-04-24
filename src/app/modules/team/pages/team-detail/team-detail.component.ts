@@ -1,3 +1,4 @@
+import { trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
@@ -6,7 +7,7 @@ import { filter, flatMap, pluck, tap } from 'rxjs/operators';
 
 import { TeamService } from '@app/http';
 import { ApplicationService } from '@app/services';
-import { enterDetailAnimation } from '@shared/animations';
+import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { Team } from '@shared/models';
 
 import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit-dialog.component';
@@ -15,7 +16,10 @@ import { TeamEditDialogComponent } from '../../modals/team-edit-dialog/team-edit
   selector: 'fm-team-detail',
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.scss'],
-  animations: [enterDetailAnimation]
+  animations: [
+    enterDetailAnimation,
+    trigger('contextChange', routerTransition)
+  ]
 })
 export class TeamDetailComponent implements OnInit {
   @HostBinding('@enterDetailAnimation') e = '';
@@ -71,7 +75,7 @@ export class TeamDetailComponent implements OnInit {
       });
   }
 
-  getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : '';
+  getContext(routerOutlet: RouterOutlet): string {
+    return routerOutlet.activatedRouteData.state;
   }
 }

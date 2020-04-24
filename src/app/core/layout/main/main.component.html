@@ -14,7 +14,7 @@
       [showDrawerButton]="(isHandset$ | async)"
       [state]="(showedToolbar$ | async)"
     ></fm-toolbar>
-    <main>
+    <main [@contextChange]="getContext(o)">
       <router-outlet #o="outlet"></router-outlet>
     </main>
   </mat-sidenav-content>

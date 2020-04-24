@@ -6,11 +6,13 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { CredentialService } from '@app/http';
 import { ApplicationService } from '@app/services';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   selector: 'fm-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [cardCreationAnimation]
 })
 export class LoginComponent {
   loginData: {

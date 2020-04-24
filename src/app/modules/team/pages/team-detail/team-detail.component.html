@@ -20,7 +20,10 @@
       </div>
     </fm-parallax-header>
   </div>
-  <div class="tabbed-container">
-    <router-outlet #o1="outlet"></router-outlet>
+  <div
+    class="tabbed-container"
+    [@contextChange]="getContext(o)"
+  >
+    <router-outlet #o="outlet"></router-outlet>
   </div>
 </ng-container>

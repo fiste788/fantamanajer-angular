@@ -107,13 +107,47 @@ export class PushService {
     return this.swPush.isEnabled;
   }
 
+  async convertNativeSubscription(pushSubscription: PushSubscriptionJSON, userId: number): Promise<PushSubscription | undefined> {
+    if (pushSubscription.endpoint && pushSubscription.keys) {
+      const psm = new PushSubscription();
+      psm.id = await this.sha256(pushSubscription.endpoint);
+      psm.endpoint = pushSubscription.endpoint;
+      psm.public_key = pushSubscription.keys.p256dh;
+      psm.auth_token = pushSubscription.keys.auth;
+      psm.content_encoding = (PushManager.supportedContentEncodings ?? ['aesgcm'])[0];
+      const e = pushSubscription.expirationTime;
+      psm.expires_at = e !== null && e !== undefined ? new Date(e) : undefined;
+      psm.user_id = userId;
+
+      return psm;
+    }
+
+    return undefined;
+  }
+
+  async sha256(message: string): Promise<string> {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder().encode(message);
+
+    // hash the message
+    const hashBuffer = await (crypto.subtle.digest('SHA-256', msgBuffer) as Promise<ArrayBuffer>);
+
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    // convert bytes to hex string
+    const hashHex = hashArray.map(b => (`00${b.toString(16)}`).slice(-2))
+      .join('');
+
+    return hashHex;
+  }
+
   private async requestSubscription(): Promise<boolean> {
     const pushSubscription = await this.swPush.requestSubscription({
       serverPublicKey: environment.vapidPublicKey
     });
     if (this.app.user) {
-      const pushSubscriptionModel = new PushSubscription();
-      const sub = await pushSubscriptionModel.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
+      const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
       if (sub) {
         return this.subscription.add(sub)
           .pipe(
@@ -137,8 +171,7 @@ export class PushService {
       .toPromise();
     if (pushSubscription !== null) {
       // Delete the subscription from the backend
-      const pushSubscriptionModel = new PushSubscription();
-      const sub = await pushSubscriptionModel.sha256(pushSubscription.endpoint);
+      const sub = await this.sha256(pushSubscription.endpoint);
 
       return this.subscription.delete(sub)
         .pipe(

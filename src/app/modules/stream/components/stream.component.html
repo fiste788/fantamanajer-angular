@@ -1,5 +1,5 @@
 <cdk-virtual-scroll-viewport
-  *ngIf="!ds.isEmpty; else empty"
+  *ngIf="!ds.isEmpty"
   itemSize="88"
   class="viewport"
 >
@@ -54,9 +54,8 @@
     </ng-container>
   </mat-list>
 </cdk-virtual-scroll-viewport>
-<ng-template #empty>
-  <fm-mat-empty-state
-    label="Ancora nessuna attività"
-    icon="message"
-  ></fm-mat-empty-state>
-</ng-template>
+<fm-mat-empty-state
+  *ngIf="ds.isEmpty"
+  label="Ancora nessuna attività"
+  icon="message"
+></fm-mat-empty-state>

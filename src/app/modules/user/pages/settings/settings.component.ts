@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
@@ -15,6 +15,8 @@ import { User } from '@shared/models';
   animations: [cardCreationAnimation]
 })
 export class SettingsComponent implements OnInit {
+  @HostBinding('@cardCreationAnimation') a = '';
+
   user$: Observable<User>;
   user: User;
   repeatPassword: string;
