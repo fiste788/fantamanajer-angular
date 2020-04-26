@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { AddTeamComponent } from './pages/add-team/add-team.component';
-import { ChampionshipDetailComponent } from './pages/championship-detail/championship-detail.component';
-import { HomeComponent } from './pages/home/home.component';
+import { AddTeamPage } from './pages/add-team/add-team.page';
+import { ChampionshipDetailPage } from './pages/championship-detail/championship-detail.page';
+import { HomePage } from './pages/home/home.page';
 
 const routes: Routes = [
   {
@@ -13,12 +13,12 @@ const routes: Routes = [
     component: RouterOutletComponent,
     children: [
       { path: '', redirectTo: 'index', pathMatch: 'full', data: { state: 'admin-championship-outlet' } },
-      { path: 'index', component: HomeComponent, data: { state: 'admin-championship-home' } },
-      { path: 'add-team', component: AddTeamComponent, data: { state: 'admin-add-team' } },
-      { path: 'edit', component: ChampionshipDetailComponent, data: { state: 'admin-edit' } },
+      { path: 'index', component: HomePage, data: { state: 'admin-championship-home' } },
+      { path: 'add-team', component: AddTeamPage, data: { state: 'admin-add-team' } },
+      { path: 'edit', component: ChampionshipDetailPage, data: { state: 'admin-edit' } },
       {
         path: 'new',
-        component: ChampionshipDetailComponent,
+        component: ChampionshipDetailPage,
         data: {
           breadcrumbs: 'Nuovo lega',
           data: { state: 'admin-championship-detail' }
@@ -34,8 +34,8 @@ const routes: Routes = [
 })
 export class AdminChampionshipRoutingModule {
   static components = [
-    HomeComponent,
-    AddTeamComponent,
-    ChampionshipDetailComponent
+    HomePage,
+    AddTeamPage,
+    ChampionshipDetailPage
   ];
 }

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './pages/home.component';
+import { HomePage } from './pages/home.page';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent, data: { state: 'home' }
+    component: HomePage, data: { state: 'home' }
   }
 ];
 
@@ -17,6 +17,6 @@ const routes: Routes = [
 })
 export class HomeRoutingModule {
   static components = [
-    HomeComponent
+    HomePage
   ];
 }

@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -16,6 +16,7 @@ interface Captainable {
   selector: 'fm-lineup-detail',
   templateUrl: './lineup-detail.component.html',
   styleUrls: ['./lineup-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     // transition(':leave', animateChild()),
     trigger('items', [

@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '@app/guards';
 
-import { SettingsComponent } from './pages/settings/settings.component';
-import { UserStreamComponent } from './pages/user-stream/user-stream.component';
-import { UserComponent } from './pages/user/user.component';
+import { SettingsPage } from './pages/settings/settings.page';
+import { UserStreamPage } from './pages/user-stream/user-stream.page';
+import { UserPage } from './pages/user/user.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: UserComponent,
+    component: UserPage,
     canActivate: [AuthGuard],
     data: {
       state: 'user',
@@ -18,8 +18,8 @@ const routes: Routes = [
     },
     children: [
       { path: '', redirectTo: 'profile' },
-      { path: 'profile', component: SettingsComponent, data: { state: 'settings' } },
-      { path: 'stream', component: UserStreamComponent, data: { state: 'stream' } }
+      { path: 'profile', component: SettingsPage, data: { state: 'settings' } },
+      { path: 'stream', component: UserStreamPage, data: { state: 'stream' } }
     ]
   }
 ];
@@ -30,8 +30,8 @@ const routes: Routes = [
 })
 export class UserRoutingModule {
   static components = [
-    UserComponent,
-    SettingsComponent,
-    UserStreamComponent
+    UserPage,
+    SettingsPage,
+    UserStreamPage
   ];
 }

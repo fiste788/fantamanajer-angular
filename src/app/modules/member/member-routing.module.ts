@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { MemberFreeComponent } from './pages/member-free/member-free.component';
+import { MemberFreePage } from './pages/member-free/member-free.page';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     component: RouterOutletComponent,
     data: { state: 'member-outlet' },
     children: [
-      { path: 'free', component: MemberFreeComponent, canActivate: [AuthGuard], data: { state: 'free' } }
+      { path: 'free', component: MemberFreePage, canActivate: [AuthGuard], data: { state: 'free' } }
     ]
   }
 ];
@@ -23,6 +23,6 @@ const routes: Routes = [
 })
 export class MemberRoutingModule {
   static components = [
-    MemberFreeComponent
+    MemberFreePage
   ];
 }

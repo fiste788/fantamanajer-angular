@@ -1,6 +1,5 @@
 import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 import { routerTransition } from '@shared/animations';
 
@@ -12,9 +11,5 @@ import { routerTransition } from '@shared/animations';
   ]
 })
 export class RouterOutletComponent {
-
-  getState(outlet: RouterOutlet): string {
-    return outlet.isActivated ? outlet.activatedRouteData.state : '';
-  }
 
 }

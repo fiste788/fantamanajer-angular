@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ScrollService } from '@app/services';
 import { Tab } from '@shared/models';
@@ -6,7 +6,8 @@ import { Tab } from '@shared/models';
 @Component({
   selector: 'fm-parallax-header',
   templateUrl: './parallax-header.component.html',
-  styleUrls: ['./parallax-header.component.scss']
+  styleUrls: ['./parallax-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParallaxHeaderComponent {
   @Input() title: string;

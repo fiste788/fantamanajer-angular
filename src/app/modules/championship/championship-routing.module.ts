@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminGuard } from '@app/guards';
 
-import { ChampionshipStreamComponent } from './pages/championship-stream/championship-stream.component';
+import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
-import { ChampionshipComponent } from './pages/championship/championship.component';
+import { ChampionshipPage } from './pages/championship/championship.page';
 
 const routes: Routes = [
   {
     path: ':championship_id',
-    component: ChampionshipComponent,
+    component: ChampionshipPage,
     data: {
       state: 'championship',
       breadcrumbs: '{{ championship.league.name }}'
@@ -50,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'stream',
-        component: ChampionshipStreamComponent,
+        component: ChampionshipStreamPage,
         data: { state: 'stream' }
       },
       {
@@ -70,7 +70,7 @@ const routes: Routes = [
 })
 export class ChampionshipRoutingModule {
   static components = [
-    ChampionshipComponent,
-    ChampionshipStreamComponent
+    ChampionshipPage,
+    ChampionshipStreamPage
   ];
 }

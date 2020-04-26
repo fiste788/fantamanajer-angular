@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
-import { ArticleListComponent } from './pages/article-list/article-list.component';
+import { ArticleDetailPage } from './pages/article-detail/article-detail.page';
+import { ArticleListPage } from './pages/article-list/article-list.page';
 
 const routes: Routes = [
   {
@@ -14,12 +14,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ArticleListComponent,
+        component: ArticleListPage,
         data: { state: 'article-list' }
       },
       {
         path: 'new',
-        component: ArticleDetailComponent,
+        component: ArticleDetailPage,
         data: {
           state: 'article-new',
           breadcrumbs: 'Nuovo articolo'
@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: ':id',
-        component: ArticleDetailComponent,
+        component: ArticleDetailPage,
         data: { state: 'article-detail' }
       }
     ]
@@ -40,7 +40,7 @@ const routes: Routes = [
 })
 export class ArticleRoutingModule {
   static components = [
-    ArticleListComponent,
-    ArticleDetailComponent
+    ArticleListPage,
+    ArticleDetailPage
   ];
 }

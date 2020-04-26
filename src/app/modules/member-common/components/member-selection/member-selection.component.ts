@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -14,6 +14,7 @@ import { Member, Role } from '@shared/models';
     useExisting: MemberSelectionComponent,
     multi: true
   }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {

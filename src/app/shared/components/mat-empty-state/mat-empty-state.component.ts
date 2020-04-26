@@ -1,10 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'fm-mat-empty-state',
   templateUrl: './mat-empty-state.component.html',
   styleUrls: ['./mat-empty-state.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('createBox', [
       transition(':enter', [

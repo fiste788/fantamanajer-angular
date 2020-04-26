@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { EditMembersComponent } from './pages/edit-members/edit-members.component';
-import { HomeComponent } from './pages/home/home.component';
-import { NewTransfertComponent } from './pages/new-transfert/new-transfert.component';
-import { ScoreEditComponent } from './pages/score-edit/score-edit.component';
+import { EditMembersPage } from './pages/edit-members/edit-members.page';
+import { HomePage } from './pages/home/home.page';
+import { NewTransfertPage } from './pages/new-transfert/new-transfert.page';
+import { ScoreEditPage } from './pages/score-edit/score-edit.page';
 
 const routes: Routes = [
   {
@@ -14,10 +14,10 @@ const routes: Routes = [
     component: RouterOutletComponent,
     children: [
       { path: '', redirectTo: 'index', pathMatch: 'full' },
-      { path: 'index', component: HomeComponent, data: { state: 'admin-team-index' } },
-      { path: 'members', component: EditMembersComponent, data: { state: 'admin-team-members' } },
-      { path: 'new_transfert', component: NewTransfertComponent, data: { state: 'admin-new-transferts' } },
-      { path: 'score/edit', component: ScoreEditComponent, data: { state: 'admin-score-edit' } }
+      { path: 'index', component: HomePage, data: { state: 'admin-team-index' } },
+      { path: 'members', component: EditMembersPage, data: { state: 'admin-team-members' } },
+      { path: 'new_transfert', component: NewTransfertPage, data: { state: 'admin-new-transferts' } },
+      { path: 'score/edit', component: ScoreEditPage, data: { state: 'admin-score-edit' } }
     ]
   }
 ];
@@ -28,9 +28,9 @@ const routes: Routes = [
 })
 export class AdminTeamRoutingModule {
   static components = [
-    HomeComponent,
-    EditMembersComponent,
-    NewTransfertComponent,
-    ScoreEditComponent
+    HomePage,
+    EditMembersPage,
+    NewTransfertPage,
+    ScoreEditPage
   ];
 }

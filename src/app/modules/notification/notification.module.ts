@@ -7,8 +7,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { SharedModule } from '@shared/shared.module';
 
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
+import { NotificationListModal } from './modals/notification-list/notification-list.modal';
 import { NotificationOverlayService } from './modals/notification-overlay.service';
-import { NotificationOverlayComponent } from './modals/notification-overlay/notification-overlay.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { NotificationOverlayComponent } from './modals/notification-overlay/noti
   ],
   declarations: [
     NotificationListComponent,
-    NotificationOverlayComponent
+    NotificationListModal
   ],
   providers: [NotificationOverlayService]
 })

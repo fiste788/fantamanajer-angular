@@ -39,15 +39,15 @@ export class ArticleService {
     return this.http.get<Article>(routes.article(id));
   }
 
-  update(article: Article): Observable<any> {
+  update(article: Article): Observable<{}> {
     return this.http.put(routes.article(article.id), article);
   }
 
-  create(article: Article): Observable<Article> {
-    return this.http.post<Article>(routes.articles, article);
+  create(article: Article): Observable<Partial<Article>> {
+    return this.http.post(routes.articles, article);
   }
 
-  delete(id: number): Observable<any> {
+  delete(id: number): Observable<{}> {
     return this.http.delete(routes.article(id));
   }
 }

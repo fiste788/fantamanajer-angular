@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { StreamService } from '@app/http';
 import { listItemAnimation } from '@shared/animations/list-item.animation';
@@ -10,7 +10,8 @@ import { StreamDataSource } from './stream.datasource';
   selector: 'fm-stream',
   templateUrl: './stream.component.html',
   styleUrls: ['./stream.component.scss'],
-  animations: [listItemAnimation]
+  animations: [listItemAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() context: 'teams' | 'users' | 'clubs' | 'championships';

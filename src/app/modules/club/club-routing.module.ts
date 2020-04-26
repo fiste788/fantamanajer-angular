@@ -4,10 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
-import { ClubDetailComponent } from './pages/club-detail/club-detail.component';
-import { ClubListComponent } from './pages/club-list/club-list.component';
-import { ClubMembersComponent } from './pages/club-members/club-members.component';
-import { ClubStreamComponent } from './pages/club-stream/club-stream.component';
+import { ClubDetailPage } from './pages/club-detail/club-detail.page';
+import { ClubListPage } from './pages/club-list/club-list.page';
+import { ClubMembersPage } from './pages/club-members/club-members.page';
+import { ClubStreamPage } from './pages/club-stream/club-stream.page';
 
 const routes: Routes = [
   {
@@ -20,14 +20,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ClubListComponent,
+        component: ClubListPage,
         data: {
           state: 'club-list'
         }
       },
       {
         path: ':id',
-        component: ClubDetailComponent,
+        component: ClubDetailPage,
         data: {
           state: 'club-detail',
           breadcrumbs: '{{club.name}}'
@@ -37,8 +37,8 @@ const routes: Routes = [
         },
         children: [
           { path: '', redirectTo: 'players', pathMatch: 'full' },
-          { path: 'players', component: ClubMembersComponent, data: { state: 'players' } },
-          { path: 'stream', component: ClubStreamComponent, data: { state: 'stream' } }
+          { path: 'players', component: ClubMembersPage, data: { state: 'players' } },
+          { path: 'stream', component: ClubStreamPage, data: { state: 'stream' } }
         ]
       }
     ]
@@ -51,9 +51,9 @@ const routes: Routes = [
 })
 export class ClubRoutingModule {
   static components = [
-    ClubListComponent,
-    ClubDetailComponent,
-    ClubMembersComponent,
-    ClubStreamComponent
+    ClubListPage,
+    ClubDetailPage,
+    ClubMembersPage,
+    ClubStreamPage
   ];
 }

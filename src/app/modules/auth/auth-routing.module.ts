@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard, NotLoggedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { LoginComponent } from './pages/login/login.component';
-import { LogoutComponent } from './pages/logout/logout.component';
+import { LoginPage } from './pages/login/login.page';
+import { LogoutPage } from './pages/logout/logout.page';
 
 const routes: Routes = [
   {
@@ -15,13 +15,13 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent,
+        component: LoginPage,
         canActivate: [NotLoggedGuard],
         data: { state: 'login' }
       },
       {
         path: 'logout',
-        component: LogoutComponent,
+        component: LogoutPage,
         canActivate: [AuthGuard],
         data: { state: 'logout' }
       }
@@ -35,7 +35,7 @@ const routes: Routes = [
 })
 export class AuthRoutingModule {
   static components = [
-    LoginComponent,
-    LogoutComponent
+    LoginPage,
+    LogoutPage
   ];
 }

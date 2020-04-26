@@ -2,8 +2,8 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { ComponentRef, ElementRef, Injectable, Injector } from '@angular/core';
 
+import { NotificationListModal } from './notification-list/notification-list.modal';
 import { NotificationOverlayRef } from './notification-overlay-ref';
-import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 
 @Injectable()
 export class NotificationOverlayService {
@@ -63,11 +63,11 @@ export class NotificationOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(overlayRef: OverlayRef, dialogRef: NotificationOverlayRef): NotificationOverlayComponent {
+  private attachDialogContainer(overlayRef: OverlayRef, dialogRef: NotificationOverlayRef): NotificationListModal {
     const injector = this.createInjector(dialogRef);
 
-    const containerPortal = new ComponentPortal(NotificationOverlayComponent, undefined, injector);
-    const containerRef: ComponentRef<NotificationOverlayComponent> = overlayRef.attach(containerPortal);
+    const containerPortal = new ComponentPortal(NotificationListModal, undefined, injector);
+    const containerRef: ComponentRef<NotificationListModal> = overlayRef.attach(containerPortal);
 
     return containerRef.instance;
   }

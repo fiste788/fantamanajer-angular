@@ -8,7 +8,7 @@ import { NotificationSubscriptionModule } from '@modules/notification-subscripti
 import { StreamModule } from '@modules/stream/stream.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { TeamEditDialogComponent } from './modals/team-edit-dialog/team-edit-dialog.component';
+import { TeamEditModal } from './modals/team-edit/team-edit.modal';
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { TeamRoutingModule } from './team-routing.module';
 
@@ -24,7 +24,7 @@ import { TeamRoutingModule } from './team-routing.module';
     ngfModule
   ],
   declarations: [
-    TeamEditDialogComponent,
+    TeamEditModal,
     TeamRoutingModule.components
   ],
   providers: [

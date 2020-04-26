@@ -5,10 +5,10 @@ import { ChampionshipAdminGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
-import { TeamDetailComponent } from './pages/team-detail/team-detail.component';
-import { TeamListComponent } from './pages/team-list/team-list.component';
-import { TeamMembersComponent } from './pages/team-members/team-members.component';
-import { TeamStreamComponent } from './pages/team-stream/team-stream.component';
+import { TeamDetailPage } from './pages/team-detail/team-detail.page';
+import { TeamListPage } from './pages/team-list/team-list.page';
+import { TeamMembersPage } from './pages/team-members/team-members.page';
+import { TeamStreamPage } from './pages/team-stream/team-stream.page';
 
 const routes: Routes = [
   {
@@ -18,12 +18,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: TeamListComponent,
+        component: TeamListPage,
         data: { state: 'team-list' }
       },
       {
         path: ':team_id',
-        component: TeamDetailComponent,
+        component: TeamDetailPage,
         data: {
           breadcrumbs: '{{team.name}}',
           state: 'team-detail'
@@ -46,13 +46,13 @@ const routes: Routes = [
           },
           {
             path: 'players',
-            component: TeamMembersComponent,
+            component: TeamMembersPage,
             runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
             data: { state: 'team-players' }
           },
           {
             path: 'stream',
-            component: TeamStreamComponent,
+            component: TeamStreamPage,
             data: { state: 'team-stream' }
           },
           {
@@ -92,9 +92,9 @@ const routes: Routes = [
 })
 export class TeamRoutingModule {
   static components = [
-    TeamListComponent,
-    TeamDetailComponent,
-    TeamMembersComponent,
-    TeamStreamComponent
+    TeamListPage,
+    TeamDetailPage,
+    TeamMembersPage,
+    TeamStreamPage
   ];
 }

@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { NotificationSubscription, Team } from '@shared/models';
 
@@ -13,7 +13,8 @@ interface Notification {
 @Component({
   selector: 'fm-notification-subscription',
   templateUrl: './notification-subscription.component.html',
-  styleUrls: ['./notification-subscription.component.scss']
+  styleUrls: ['./notification-subscription.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationSubscriptionComponent implements OnInit {
   @Input() type: string;

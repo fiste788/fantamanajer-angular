@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription } from 'rxjs';
@@ -11,7 +11,8 @@ import { Member } from '@shared/models';
   selector: 'fm-member-list',
   templateUrl: './member-list.component.html',
   styleUrls: ['./member-list.component.scss'],
-  animations: [tableRowAnimation]
+  animations: [tableRowAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberListComponent implements OnInit, OnDestroy {
   @Input() members: Observable<Array<Member>>;

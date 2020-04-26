@@ -2,7 +2,7 @@ import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
@@ -142,9 +142,5 @@ export class MainComponent implements OnInit, AfterViewInit {
       .pipe(
         map(([r, h, o]) => (!h && r) || o)
       );
-  }
-
-  getContext(routerOutlet: RouterOutlet): string {
-    return routerOutlet.activatedRouteData.state;
   }
 }

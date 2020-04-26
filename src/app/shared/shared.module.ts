@@ -7,7 +7,7 @@ import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-ima
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
-import { CaptainPipe, PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
+import { CaptainPipe, PlaceholderPipe, SrcsetPipe, StatePipe } from '@shared/pipes';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
@@ -38,12 +38,15 @@ export const breakPointsProvider = {
     RellaxDirective,
     SrcsetDirective,
     StickyDirective,
-    SrcsetPipe,
+
     CaptainPipe,
     PlaceholderPipe,
-    ParallaxHeaderComponent,
+    SrcsetPipe,
+    StatePipe,
+
     BreadcrumbComponent,
     MatEmptyStateComponent,
+    ParallaxHeaderComponent,
     RouterOutletComponent
   ],
   exports: [
@@ -51,19 +54,22 @@ export const breakPointsProvider = {
     FormsModule,
     RouterModule,
     MaterialModule,
-
     FlexLayoutModule,
     McBreadcrumbsModule,
-    ParallaxHeaderComponent,
-    BreadcrumbComponent,
-    MatEmptyStateComponent,
     LazyLoadImageModule,
+
+    RellaxDirective,
+    SrcsetDirective,
+    StickyDirective,
+
     CaptainPipe,
     PlaceholderPipe,
     SrcsetPipe,
-    RellaxDirective,
-    StickyDirective,
-    SrcsetDirective
+    StatePipe,
+
+    BreadcrumbComponent,
+    MatEmptyStateComponent,
+    ParallaxHeaderComponent
   ]
 })
 export class SharedModule { }

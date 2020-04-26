@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { LayoutService } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
@@ -7,7 +7,8 @@ import { scrollUpAnimation } from '@shared/animations';
   selector: 'fm-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
-  animations: [scrollUpAnimation]
+  animations: [scrollUpAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent {
   @Input() state: VisibilityState;

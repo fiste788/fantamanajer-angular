@@ -6,8 +6,8 @@ import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations/create-box.animation';
 import { Stream } from '@shared/models';
 
+import { NotificationListModal } from '../../modals/notification-list/notification-list.modal';
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
-import { NotificationOverlayComponent } from '../../modals/notification-overlay/notification-overlay.component';
 
 @Component({
   selector: 'fm-notification-list',
@@ -16,7 +16,7 @@ import { NotificationOverlayComponent } from '../../modals/notification-overlay/
   animations: [createBoxAnimation]
 })
 export class NotificationListComponent implements OnInit {
-  @ViewChild(NotificationOverlayComponent) overlay: NotificationOverlayComponent;
+  @ViewChild(NotificationListModal) overlay: NotificationListModal;
 
   stream$: Observable<Stream>;
 

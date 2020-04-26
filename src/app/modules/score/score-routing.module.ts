@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { RankingComponent } from './pages/ranking/ranking.component';
-import { ScoreDetailComponent } from './pages/score-detail/score-detail.component';
+import { RankingPage } from './pages/ranking/ranking.page';
+import { ScoreDetailPage } from './pages/score-detail/score-detail.page';
 
 const routes: Routes = [
   {
@@ -12,9 +12,9 @@ const routes: Routes = [
     component: RouterOutletComponent,
     data: { state: 'score-outlet' },
     children: [
-      { path: '', component: RankingComponent, data: { state: 'ranking' } },
-      { path: ':id', component: ScoreDetailComponent, data: { state: 'details' } },
-      { path: 'last', component: ScoreDetailComponent, data: { state: 'last' } }
+      { path: '', component: RankingPage, data: { state: 'ranking' } },
+      { path: ':id', component: ScoreDetailPage, data: { state: 'details' } },
+      { path: 'last', component: ScoreDetailPage, data: { state: 'last' } }
     ]
   }
 ];
@@ -25,7 +25,7 @@ const routes: Routes = [
 })
 export class ScoreRoutingModule {
   static components = [
-    RankingComponent,
-    ScoreDetailComponent
+    RankingPage,
+    ScoreDetailPage
   ];
 }

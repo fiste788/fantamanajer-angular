@@ -7,6 +7,15 @@
     "angular-tslint-rules"
   ],
   "rules": {
+    "no-any": [
+      true
+    ],
+    "component-class-suffix": [
+      true,
+      "Component",
+      "Page",
+      "Modal"
+    ],
     "directive-selector": [
       true,
       "attribute",

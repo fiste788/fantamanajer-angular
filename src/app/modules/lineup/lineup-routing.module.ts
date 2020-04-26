@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
-import { LineupLastComponent } from './pages/lineup-last/lineup-last.component';
+import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
     data: { state: 'lineup-outlet' },
     component: RouterOutletComponent,
     children: [
-      { path: 'current', component: LineupLastComponent, data: { state: 'lineup-detail' } }
+      { path: 'current', component: LineupLastPage, data: { state: 'lineup-detail' } }
     ]
   }
 ];
@@ -22,6 +22,6 @@ const routes: Routes = [
 })
 export class LineupRoutingModule {
   static components = [
-    LineupLastComponent
+    LineupLastPage
   ];
 }

@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PlayerResolver } from './pages/player/player-resolver.service';
-import { PlayerComponent } from './pages/player/player.component';
+import { PlayerPage } from './pages/player/player.page';
 
 const routes: Routes = [
-  { path: '', component: PlayerComponent, data: { state: 'player' } },
+  { path: '', component: PlayerPage, data: { state: 'player' } },
   {
     path: ':id',
-    component: PlayerComponent,
+    component: PlayerPage,
     resolve: {
       player: PlayerResolver
     },
@@ -25,6 +25,6 @@ const routes: Routes = [
 })
 export class PlayerRoutingModule {
   static components = [
-    PlayerComponent
+    PlayerPage
   ];
 }

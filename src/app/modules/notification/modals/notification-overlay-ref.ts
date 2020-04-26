@@ -2,10 +2,10 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
+import { NotificationListModal } from './notification-list/notification-list.modal';
 
 export class NotificationOverlayRef {
-  componentInstance?: NotificationOverlayComponent;
+  componentInstance?: NotificationListModal;
 
   private readonly beforeCloseVar = new Subject<undefined>();
   private readonly afterClosedVar = new Subject<undefined>();

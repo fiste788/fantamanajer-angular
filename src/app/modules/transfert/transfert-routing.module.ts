@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TransfertListComponent } from './pages/transfert-list/transfert-list.component';
+import { TransfertListPage } from './pages/transfert-list/transfert-list.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TransfertListComponent,
+    component: TransfertListPage,
     data: { state: 'transfert-list' }
   }
 ];
@@ -17,6 +17,6 @@ const routes: Routes = [
 })
 export class TransfertRoutingModule {
   static components = [
-    TransfertListComponent
+    TransfertListPage
   ];
 }
