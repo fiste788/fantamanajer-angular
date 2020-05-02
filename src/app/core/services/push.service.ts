@@ -59,7 +59,7 @@ export class PushService {
   }
 
   showMessages(): void {
-    this.swPush.messages.subscribe((message: any) => {
+    this.swPush.messages.subscribe((message: { notification: Notification }) => {
       this.notificationService.broadcast(message.notification.title, '');
     });
     this.swPush.notificationClicks.subscribe(click => {

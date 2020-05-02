@@ -28,13 +28,13 @@ export class CredentialService {
   get(email: string): Observable<CredentialRequestOptionsJSON> {
     const params = new HttpParams().set('email', `${email}`);
 
-    return this.http.get<any>(routes.login, { params })
-      .pipe(map(e => ({ publicKey: e })));
+    return this.http.get(routes.login, { params })
+      .pipe(map((e: { challenge: string }) => ({ publicKey: e })));
   }
 
   create(): Observable<CredentialCreationOptionsJSON> {
-    return this.http.get<any>(routes.register)
-      .pipe(map(e => ({ publicKey: e })));
+    return this.http.get(routes.register)
+      .pipe(map((e: any) => ({ publicKey: e })));
   }
 
   createPublicKey(): Observable<PublicKeyCredentialSource> {

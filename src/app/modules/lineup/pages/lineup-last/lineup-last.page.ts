@@ -38,7 +38,7 @@ export class LineupLastPage implements OnDestroy {
   save(lineup: Lineup): void {
     lineup.module = lineup.module_object?.key ?? '';
     lineup.dispositions.forEach(value => value.member_id = value.member?.id);
-    let obs: Observable<Lineup>;
+    let obs: Observable<Partial<Lineup>>;
     let message: string;
     if (lineup.id) {
       message = 'Formazione aggiornata';

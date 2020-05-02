@@ -23,11 +23,11 @@ export class SelectionService {
       );
   }
 
-  update(selection: Selection): Observable<any> {
+  update(selection: Selection): Observable<{}> {
     return this.http.put(`${routes.selection(selection.team_id)}/${selection.id}`, selection);
   }
 
-  create(selection: Selection): Observable<Selection> {
+  create(selection: Selection): Observable<Partial<Selection>> {
     return this.http.post<Selection>(routes.selection(selection.team_id), selection);
   }
 }

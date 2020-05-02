@@ -90,7 +90,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   }
 
-  sortingDataAccessor(data: Member, sortHeaderId: string): any {
+  sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
     let value;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;

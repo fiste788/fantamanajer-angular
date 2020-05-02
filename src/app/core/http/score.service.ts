@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Score } from '@shared/models';
+import { Score, Team } from '@shared/models';
 
 const url = 'scores';
 const routes = {
@@ -11,6 +11,15 @@ const routes = {
   team: (id: number) => `/teams/${id}/${url}`,
   update: (id: number) => `/${url}/${id}`
 };
+
+export interface RankingPosition {
+  scores?: {
+    [key: number]: Partial<Score>
+  };
+  sum_points: number;
+  team: Team;
+  tem_id: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
@@ -31,8 +40,8 @@ export class ScoreService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getRanking(championshipId: number): Observable<any> {
-    return this.http.get(routes.ranking(championshipId));
+  getRanking(championshipId: number): Observable<Array<RankingPosition>> {
+    return this.http.get<Array<RankingPosition>>(routes.ranking(championshipId));
   }
 
   getScore(id: number, members = false): Observable<Score> {
@@ -52,7 +61,7 @@ export class ScoreService {
     return this.http.get<Array<Score>>(routes.team(teamId));
   }
 
-  update(score: Score): Observable<any> {
+  update(score: Score): Observable<{}> {
     return this.http.put(routes.update(score.id), ScoreService.cleanScore(score));
   }
 }

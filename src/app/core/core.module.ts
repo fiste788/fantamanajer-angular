@@ -7,6 +7,7 @@ import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from '.
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, WINDOW_PROVIDERS } from './services';
+import { NAVIGATOR_PROVIDERS } from './services/navigator.service';
 
 export const useFactory = (service: ApplicationService) => () => service.initialize();
 
@@ -24,6 +25,7 @@ export const useFactory = (service: ApplicationService) => () => service.initial
     NotLoggedGuard,
     ChampionshipAdminGuard,
     WINDOW_PROVIDERS,
+    NAVIGATOR_PROVIDERS,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,

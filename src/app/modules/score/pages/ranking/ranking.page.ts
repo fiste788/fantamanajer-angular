@@ -3,17 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { ScoreService } from '@app/http';
+import { RankingPosition, ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations/table-row.animation';
 import { Championship, Matchday, Score, Team } from '@shared/models';
-
-interface Position {
-  team_id: number;
-  team: Team;
-  scores: Array<Score>;
-  sum_points: number;
-}
 
 @Component({
   templateUrl: './ranking.page.html',
@@ -21,7 +14,7 @@ interface Position {
   animations: [tableRowAnimation]
 })
 export class RankingPage implements OnInit {
-  ranking$: Observable<Array<Position>>;
+  ranking$: Observable<Array<RankingPosition>>;
   rankingDisplayedColumns = ['teamName', 'points'];
   matchdays: Array<string> = [];
 
@@ -38,10 +31,10 @@ export class RankingPage implements OnInit {
     }
   }
 
-  loadRanking(championship: Championship): Observable<any> {
+  loadRanking(championship: Championship): Observable<Array<RankingPosition>> {
     return this.scoreService.getRanking(championship.id)
       .pipe(
-        tap(ranking => {
+        tap((ranking: Array<RankingPosition>) => {
           if (ranking.length && ranking[0].scores) {
             this.matchdays = Object.keys(ranking[0].scores)
               .reverse();

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Team } from '@shared/models';
 
@@ -24,11 +25,12 @@ export class TeamService {
     return this.http.get<Team>(routes.team(id));
   }
 
-  update(team: Team): Observable<any> {
-    return this.http.put(routes.team(team.id), team);
+  update(team: Team): Observable<Pick<Team, 'id'>> {
+    return this.http.put(routes.team(team.id), team)
+      .pipe(map(() => team));
   }
 
-  upload(id: number, formData: FormData): Observable<any> {
+  upload(id: number, formData: FormData): Observable<{}> {
     formData.set('_method', 'PUT');
 
     return this.http.post(routes.team(id), formData, {
@@ -42,7 +44,7 @@ export class TeamService {
     return this.http.post<Team>(routes.create, team);
   }
 
-  save(team: Team): Observable<any> {
+  save(team: Team): Observable<Pick<Team, 'id'>> {
     if (team.id) {
       return this.update(team);
     }

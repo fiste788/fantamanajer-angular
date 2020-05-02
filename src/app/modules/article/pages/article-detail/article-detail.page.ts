@@ -44,11 +44,11 @@ export class ArticleDetailPage implements OnInit {
   save(article: Article): void {
     if (this.articleForm.valid === true) {
       const observable = article.id ? this.articleService.update(article) : this.articleService.create(article);
-      observable.subscribe(() => {
+      observable.subscribe((a: Partial<Article>) => {
         this.snackBar.open('Articolo salvato correttamente', undefined, {
           duration: 3000
         });
-        void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${article.id}`);
+        void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id ?? article.id}`);
       });
     }
   }

@@ -19,7 +19,7 @@ export class TransfertService {
     return this.http.get<Array<Transfert>>(routes.transferts(id));
   }
 
-  create(transfert: Transfert): Observable<Transfert> {
+  create(transfert: Transfert): Observable<Partial<Transfert>> {
     return this.http.post<Transfert>(routes.create, transfert);
   }
 

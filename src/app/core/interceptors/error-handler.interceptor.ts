@@ -16,7 +16,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     return next
       .handle(req)
       .pipe(
-        catchError((err: any) => {
+        catchError((err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             let message = '';
             try {

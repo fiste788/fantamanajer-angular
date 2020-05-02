@@ -78,16 +78,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    try {
-      const opts = Object.defineProperty({}, 'passive', {
-        get: (): void => {
-          this.supportsPassive = true;
-        }
-      });
-      (window as any).addEventListener('testPassive', undefined, opts);
-      (window as any).removeEventListener('testPassive', undefined, opts);
-      // tslint:disable-next-line: no-empty
-    } catch (e) { }
+    this.testPassive();
 
     const w = this.document.querySelector(this.wrapper);
     if (w !== null) {
@@ -95,6 +86,21 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.clamp(this.options.speed, -10, 10);
+  }
+
+  testPassive(): void {
+    try {
+      const opts = Object.defineProperty({}, 'passive', {
+        get: (): void => {
+          this.supportsPassive = true;
+        }
+      });
+      // tslint:disable-next-line: no-any
+      (this.window as any).addEventListener('testPassive', undefined, opts);
+      // tslint:disable-next-line: no-any
+      (this.window as any).removeEventListener('testPassive', undefined, opts);
+      // tslint:disable-next-line: no-empty
+    } catch (e) { }
   }
 
   ngAfterViewInit(): void {
@@ -216,12 +222,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     const oldX = this.posX;
 
     this.posY = this.options.wrapper ? this.options.wrapper.scrollTop :
-      (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body as any).scrollTop || this.window.pageYOffset;
+      (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body).scrollTop || this.window.pageYOffset;
     this.posX = this.options.wrapper ? this.options.wrapper.scrollLeft :
-      (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body as any).scrollLeft || this.window.pageXOffset;
+      (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body).scrollLeft || this.window.pageXOffset;
     // If option relativeToWrapper is true, use relative wrapper value instead.
     if (this.options.relativeToWrapper) {
-      const scrollPosY = (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body as any).scrollTop
+      const scrollPosY = (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body).scrollTop
         || this.window.pageYOffset;
       this.posY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
     }

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
+import { NAVIGATOR, WkNavigator } from '@app/services/navigator.service';
 import { Notification, Stream } from '@shared/models';
 
 type MessageCallback = (payload: unknown) => void;
@@ -16,9 +17,11 @@ const routes = {
 export class NotificationService {
   notifications: Subject<Notification> = new Subject<Notification>();
   seen: EventEmitter<Stream> = new EventEmitter<Stream>();
-  private readonly url = '';
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    @Inject(NAVIGATOR) private readonly navigator: WkNavigator,
+    private readonly http: HttpClient
+  ) { }
 
   getNotifications(teamId: number): Observable<Stream> {
     const seen = this.http.get<Stream>(routes.notifications(teamId))
@@ -33,8 +36,8 @@ export class NotificationService {
   getNotificationCount(teamId: number): Observable<Stream> {
     return this.http.get<Stream>(`${routes.notifications(teamId)}/count`)
       .pipe(tap(s => {
-        if ((navigator as any).setAppBadge) {
-          (navigator as any).setAppBadge(s.unseen);
+        if (this.navigator.setAppBadge) {
+          this.navigator.setAppBadge(s.unseen);
         }
       }));
   }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { User } from '@shared/models';
 
@@ -27,14 +28,15 @@ export class UserService {
     return this.http.post<{ user: User, token: string }>(routes.login, body);
   }
 
-  logout(): Observable<any> {
+  logout(): Observable<{}> {
     return this.http.get(routes.logout);
   }
 
-  update(user: User): Observable<any> {
+  update(user: User): Observable<User> {
     user.teams = undefined;
 
-    return this.http.put(routes.update(user.id), user);
+    return this.http.put(routes.update(user.id), user)
+      .pipe(map(() => user));
   }
 
   getCurrent(): Observable<User> {

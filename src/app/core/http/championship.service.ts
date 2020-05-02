@@ -15,7 +15,7 @@ export class ChampionshipService {
 
   constructor(private readonly http: HttpClient) { }
 
-  update(championship: Championship): Observable<any> {
+  update(championship: Championship): Observable<{}> {
     return this.http.put(routes.championship(championship.id), championship);
   }
 
@@ -23,7 +23,7 @@ export class ChampionshipService {
     return this.http.post<Championship>(routes.championships, championship);
   }
 
-  save(championship: Championship): Observable<any> {
+  save(championship: Championship): Observable<Partial<Championship>> {
     if (championship.id) {
       return this.update(championship);
     }

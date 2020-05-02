@@ -14,7 +14,7 @@ export class JWTTokenInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if ((req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) && !req.url.endsWith('matchdays/current')) {
+    if (req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) {
       const token = this.auth.getToken();
 
       let headers = req.headers;

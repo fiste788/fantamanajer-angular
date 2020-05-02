@@ -23,7 +23,7 @@ export class UtilService {
   static getError(field: NgModel): string {
     const errors = [];
     if (field.errors !== null) {
-      for (const err of field.errors as any) {
+      for (const err of Object.values(field.errors)) {
         errors.push(err);
       }
     }

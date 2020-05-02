@@ -33,11 +33,11 @@ export class LineupService {
     return this.http.get<Lineup>(routes.lineup(teamId));
   }
 
-  update(lineup: Lineup): Observable<any> {
+  update(lineup: Lineup): Observable<Partial<Lineup>> {
     return this.http.put(routes.update(lineup.team_id, lineup.id), LineupService.cleanLineup(lineup));
   }
 
-  create(lineup: Lineup): Observable<Lineup> {
+  create(lineup: Lineup): Observable<Pick<Lineup, 'id'>> {
     return this.http.post<Lineup>(routes.lineups(lineup.team_id), LineupService.cleanLineup(lineup));
   }
 
