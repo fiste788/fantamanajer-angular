@@ -9,16 +9,17 @@ import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
+  selector: 'fm-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   animations: [cardCreationAnimation]
 })
 export class LoginPage {
   loginData: {
-    email: string,
-    password: string,
+    email?: string,
+    password?: string,
     remember_me: boolean
-  } = { email: '', password: '', remember_me: true };
+  } = { remember_me: true };
   error = '';
   token$: Observable<CredentialRequestOptionsJSON>;
 
@@ -32,21 +33,27 @@ export class LoginPage {
   }
 
   login(): void {
-    this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
-      .subscribe(result => {
-        this.postLogin(result);
-      });
+    if (this.loginData.email && this.loginData.password) {
+      this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
+        .subscribe(result => {
+          this.postLogin(result);
+        });
+    }
   }
 
   tokenLogin(t: CredentialRequestOptionsJSON): void {
-    this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
-      .subscribe(result => {
-        this.postLogin(result);
-      });
+    if (this.loginData.email) {
+      this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
+        .subscribe(result => {
+          this.postLogin(result);
+        });
+    }
   }
 
   checkToken(): void {
-    this.token$ = this.credentialService.get(this.loginData.email);
+    if (this.loginData.email) {
+      this.token$ = this.credentialService.get(this.loginData.email);
+    }
   }
 
   postLogin(result: boolean): void {

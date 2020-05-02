@@ -6,7 +6,6 @@
 >
   <form
     #f="ngForm"
-    name="form"
     (ngSubmit)="f.form.valid && login()"
   >
     <mat-card>
@@ -20,15 +19,17 @@
           [linear]="true"
         >
           <mat-step>
+
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input
                 #username="ngModel"
+                autofocus
+                required
                 name="email"
                 type="email"
                 matInput
                 placeholder="Email"
-                required
                 [(ngModel)]="loginData.email"
               >
               <mat-error *ngIf="username.errors?.email">
@@ -45,10 +46,10 @@
                 color="accent"
                 mat-raised-button
                 matStepperNext
+                [disabled]="f.form.controls.email?.errors"
                 (click)="checkToken()"
               >Avanti</button>
             </div>
-
           </mat-step>
           <mat-step>
             <h3>{{loginData.email}}</h3>

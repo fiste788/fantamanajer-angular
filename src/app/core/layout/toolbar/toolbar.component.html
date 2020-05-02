@@ -14,5 +14,5 @@
   </button>
   <fm-breadcrumb></fm-breadcrumb>
   <span class="spacer"></span>
-  <fm-notification-list></fm-notification-list>
+  <fm-notification-list *ngIf="loggedIn$ | async"></fm-notification-list>
 </mat-toolbar>

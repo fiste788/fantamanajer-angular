@@ -4,10 +4,10 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { LayoutService, ScrollService, ThemeService } from '@app/services';
+import { LayoutService, ScrollService } from '@app/services';
 import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
@@ -35,7 +35,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
   @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
 
-  loggedIn$: Observable<boolean>;
   isReady$: Observable<boolean>;
   isHandset$: Observable<boolean>;
   openedSidebar$: Observable<boolean>;
@@ -46,7 +45,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly router: Router,
     private readonly scrollService: ScrollService,
-    private readonly themeService: ThemeService,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -55,9 +53,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.themeService.connect();
     this.setupEvents();
-    this.loadGA();
   }
 
   ngAfterViewInit(): void {
@@ -74,14 +70,24 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
-    this.showedSpeedDial$ = combineLatest(this.layoutService.isShowSpeedDial, this.auth.userChange$)
-      .pipe(map(([v, u]) => u === undefined ? VisibilityState.Hidden : v));
+    this.showedSpeedDial$ = combineLatest(this.layoutService.isShowSpeedDial, this.auth.loggedIn$)
+      .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
     this.showedToolbar$ = this.layoutService.isShowToolbar;
     this.drawer.openedChange.asObservable()
       .subscribe(a => {
-        this.layoutService.openSidebar$.next(a);
+        this.layoutService.openSidebarSubject.next(a);
       });
-    this.loggedIn$ = this.auth.userChange$.pipe(map(u => u !== null));
+    this.isReady$.pipe(
+      filter(e => e),
+      tap(() => {
+        this.layoutService.showSpeedDial();
+        setTimeout(() => this.document.querySelector('.pre-bootstrap')
+          ?.remove(), 500);
+      })
+    )
+      .subscribe(() => {
+        this.loadGA();
+      });
   }
 
   setupScrollAnimation(): void {
@@ -106,6 +112,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (environment.gaCode !== undefined) {
       const script = this.document.createElement('script');
       script.async = true;
+      script.defer = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${environment.gaCode}`;
       this.document.head.prepend(script);
 
@@ -124,13 +131,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.drawer !== undefined) {
       this.drawer.autoFocus = false;
       this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
-        .pipe(
-          tap(() => {
-            this.layoutService.showSpeedDial();
-            setTimeout(() => this.document.querySelector('.pre-bootstrap')
-              ?.remove(), 500);
-          })
-        )
         .subscribe(() => {
           this.layoutService.setReady();
         });
@@ -140,7 +140,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   get isOpen(): Observable<boolean> {
     return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$])
       .pipe(
-        map(([r, h, o]) => (!h && r) || o)
+        map(([r, h, o]) =>
+          o || (!h && r)),
+        distinctUntilChanged()
       );
   }
 }

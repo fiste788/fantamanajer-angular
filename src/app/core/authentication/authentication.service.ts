@@ -10,6 +10,8 @@ import { User } from '@shared/models';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   userChange$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
+  loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
+
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();
   private readonly TOKEN_ITEM_NAME = 'token';

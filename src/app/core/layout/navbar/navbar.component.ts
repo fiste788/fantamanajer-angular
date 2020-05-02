@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { MatListItem } from '@angular/material/list';
 import { Event, NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { combineLatest, filter } from 'rxjs/operators';
+import { combineLatest, filter, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
@@ -47,9 +47,13 @@ export class NavbarComponent implements OnInit {
     this.navStart$ = this.router.events.pipe(
       filter(evt => evt instanceof NavigationStart)
     );
-    this.navStart$.subscribe(() => {
-      this.layoutService.closeSidebar();
-    });
+    this.navStart$.pipe(
+      mergeMap(() => this.layoutService.isHandset$),
+      filter(r => r)
+    )
+      .subscribe(() => {
+        this.layoutService.closeSidebar();
+      });
   }
 
   refresh(): void {

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, concat, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -38,12 +38,17 @@ export class ApplicationService {
       .subscribe((u: User) => {
         this.setUser(u);
       });
-    let observable = this.getCurrentMatchday();
+    // let obs = merge(
+    //  this.themeService.load(),
+    //  this.getCurrentMatchday()
+    // );
+    let obs = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
-      observable = concat(observable, this.auth.getCurrentUser());
+      // obs.pipe(this.auth.getCurrentUser();
+      obs = forkJoin([obs, this.auth.getCurrentUser()], () => undefined);
     }
 
-    return observable.toPromise()
+    return obs.toPromise()
       .catch(e => {
         const el = this.document.querySelector('.error');
         if (el !== null) {

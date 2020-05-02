@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/layout/main/visibility-state';
 
@@ -11,13 +11,17 @@ import { ScrollService } from './scroll.service';
   providedIn: 'root'
 })
 export class LayoutService {
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
-  openSidebar$ = new BehaviorSubject<boolean>(false);
-  openedSidebar$ = this.openSidebar$.asObservable();
-  isReady$ = new BehaviorSubject<boolean>(false);
-  private readonly showSpeedDial$ = new BehaviorSubject<boolean>(false);
-  private readonly showToolbar$ = new BehaviorSubject<boolean>(true);
+  openSidebarSubject = new BehaviorSubject<boolean>(false);
+  openedSidebar$ = this.openSidebarSubject.asObservable();
+  isReadySubject = new BehaviorSubject<boolean>(false);
+  isReady$ = this.isReadySubject.asObservable()
+    .pipe(distinctUntilChanged());
+
+  private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
+  private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -28,10 +32,12 @@ export class LayoutService {
 
   connect(): void {
     this.isHandset$.subscribe(e => {
-      this.openSidebar$.next(!e);
-      this.showSpeedDial$.next(this.showSpeedDial$.value || e);
-      this.showToolbar$.next(true);
-      this.setReady();
+      this.openSidebarSubject.next(!e);
+      this.showSpeedDialSubject.next(this.showSpeedDialSubject.value || e);
+      this.showToolbarSubject.next(true);
+      if (e) {
+        this.setReady();
+      }
     });
   }
 
@@ -70,42 +76,42 @@ export class LayoutService {
   }
 
   openSidebar(): void {
-    this.openSidebar$.next(true);
+    this.openSidebarSubject.next(true);
   }
 
   closeSidebar(): void {
-    this.openSidebar$.next(false);
+    this.openSidebarSubject.next(false);
   }
 
   toggleSidebar(): void {
-    this.openSidebar$.next(!this.openSidebar$.value);
+    this.openSidebarSubject.next(!this.openSidebarSubject.value);
   }
 
   showSpeedDial(): void {
-    this.showSpeedDial$.next(true);
+    this.showSpeedDialSubject.next(true);
   }
 
   hideSpeedDial(): void {
-    this.showSpeedDial$.next(false);
+    this.showSpeedDialSubject.next(false);
   }
 
   showToolbar(): void {
-    this.showToolbar$.next(true);
+    this.showToolbarSubject.next(true);
   }
 
   hideToolbar(): void {
-    this.showToolbar$.next(false);
+    this.showToolbarSubject.next(false);
   }
 
   setReady(): void {
-    this.isReady$.next(true);
+    this.isReadySubject.next(true);
   }
 
   get isShowSpeedDial(): Observable<VisibilityState> {
-    return this.showSpeedDial$.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    return this.showSpeedDialSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 
   get isShowToolbar(): Observable<VisibilityState> {
-    return this.showToolbar$.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    return this.showToolbarSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 }
