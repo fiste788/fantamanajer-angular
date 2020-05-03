@@ -15,11 +15,13 @@ export class CamelcaseInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
       .pipe(
-        map((event: HttpEvent<any>) => {
+        map((event: HttpEvent<{}>) => {
           if (event instanceof HttpResponse) {
-            return event.clone({
-              body: this.keysToCamel(event.body)
-            });
+            if (event.body !== null) {
+              return event.clone({
+                body: this.keysToCamel(event.body)
+              });
+            }
           }
 
           return event;

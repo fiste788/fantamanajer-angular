@@ -34,10 +34,9 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
   @HostBinding('@createBox') createBox = '';
-  // tslint:disable-next-line: no-empty
-  onChange: Function = () => { };
-  // tslint:disable-next-line: no-empty
-  onTouched: Function = () => { };
+
+  onChange = (_: Member) => undefined;
+  onTouched = (_: Member) => undefined;
 
   constructor(
     private readonly cd: ChangeDetectorRef
@@ -50,7 +49,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   set val(val) {
     this.value = val;
     this.onChange(val);
-    this.onTouched();
+    this.onTouched(val);
     this.cd.detectChanges();
   }
 
@@ -58,11 +57,11 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.selectionChange.emit(event);
   }
 
-  registerOnChange(fn: (_: Function) => void): void {
+  registerOnChange(fn: (member: Member) => undefined): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: (_: Function) => void): void {
+  registerOnTouched(fn: (member: Member) => undefined): void {
     this.onTouched = fn;
   }
 

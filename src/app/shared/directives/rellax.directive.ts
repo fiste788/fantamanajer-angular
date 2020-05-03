@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Directive, ElementRef, HostBinding, Inject, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostBinding, Inject, Input, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
 import { WINDOW } from '@app/services';
@@ -10,13 +10,13 @@ class Options {
   wrapperSelector: string;
   wrapper?: HTMLElement;
   relativeToWrapper: boolean;
-  round ?= true;
-  vertical ?= true;
-  horizontal ?= false;
+  round?= true;
+  vertical?= true;
+  horizontal?= false;
   percentage: number;
   min?: number;
   max?: number;
-  zindex ?= 1;
+  zindex?= 1;
   callback?: Function;
 }
 
@@ -67,7 +67,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     @Inject(WINDOW) private readonly window: Window,
-    private readonly el: ElementRef,
+    private readonly renderer: Renderer2,
+    private readonly el: ElementRef<HTMLElement>,
     private readonly ngZone: NgZone
   ) {
     this.options.speed = this.speed;
@@ -99,18 +100,22 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       (this.window as any).addEventListener('testPassive', undefined, opts);
       // tslint:disable-next-line: no-any
       (this.window as any).removeEventListener('testPassive', undefined, opts);
-      // tslint:disable-next-line: no-empty
-    } catch (e) { }
+    } catch (e) {
+      return;
+    }
   }
 
   ngAfterViewInit(): void {
-    if (this.el?.nativeElement) {
-      this.subscription = fromEvent(this.el.nativeElement.querySelector('img'), 'load')
-        .subscribe(() => {
-          this.ngZone.runOutsideAngular(() => {
-            this.init();
+    if (this.el?.nativeElement !== undefined) {
+      const target = this.el.nativeElement.querySelector('img');
+      if (target !== null) {
+        this.subscription = fromEvent(target, 'load')
+          .subscribe(() => {
+            this.ngZone.runOutsideAngular(() => {
+              this.init();
+            });
           });
-        });
+      }
     }
   }
 
@@ -140,40 +145,23 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   createBlock(el: HTMLElement): Block {
     const dataPercentage = this.options.percentage;
 
-    // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
-    // ensures elements are positioned based on HTML layout.
-    //
-    // If the element has the percentage attribute, the posY and posX needs to be
-    // the current scroll position's value, so that the elements are still positioned based on HTML layout
-    let wrapperPosY = this.options.wrapper ? this.options.wrapper.scrollTop : (
-      this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop
-    );
-    // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
-    if (this.options.relativeToWrapper) {
-      const scrollPosY = (this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop);
-      wrapperPosY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
-    }
-    const posY: number = this.options.vertical ? (dataPercentage || this.options.center ? wrapperPosY : 0) : 0;
-    const posX: number = this.options.horizontal ? (dataPercentage || this.options.center ? this.options.wrapper ?
-      this.options.wrapper.scrollLeft : (
-        window.pageXOffset || this.document.documentElement.scrollLeft || this.document.body.scrollLeft) : 0) : 0;
+    const pos = this.getPos(dataPercentage);
 
-    const blockTop = posY + el.getBoundingClientRect().top;
+    const blockTop = pos.y + el.getBoundingClientRect().top;
     const blockHeight = el.clientHeight || el.offsetHeight || el.scrollHeight;
 
-    const blockLeft = posX + el.getBoundingClientRect().left;
+    const blockLeft = pos.x + el.getBoundingClientRect().left;
     const blockWidth = el.clientWidth || el.offsetWidth || el.scrollWidth;
 
     let percentageY = 0.5;
     let percentageX = 0.5;
     if (!this.options.center) {
       // apparently parallax equation everyone uses
-      percentageY = dataPercentage ? dataPercentage : (posY - blockTop + this.screenY) / (blockHeight + this.screenY);
-      percentageX = dataPercentage ? dataPercentage : (posX - blockLeft + this.screenX) / (blockWidth + this.screenX);
+      percentageY = dataPercentage ? dataPercentage : (pos.y - blockTop + this.screenY) / (blockHeight + this.screenY);
+      percentageX = dataPercentage ? dataPercentage : (pos.x - blockLeft + this.screenX) / (blockWidth + this.screenX);
     }
 
     const bases = this.updatePosition(percentageX, percentageY, this.options.speed);
@@ -193,6 +181,30 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       speed: this.options.speed,
       style,
       transform
+    };
+  }
+
+  getPos(dataPercentage: number): { x: number, y: number } {
+    // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
+    // ensures elements are positioned based on HTML layout.
+    //
+    // If the element has the percentage attribute, the posY and posX needs to be
+    // the current scroll position's value, so that the elements are still positioned based on HTML layout
+    let wrapperPosY = this.options.wrapper ? this.options.wrapper.scrollTop : (
+      this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop
+    );
+    const wrapperPosX = this.options.wrapper ? this.options.wrapper.scrollLeft : (
+      this.window.pageXOffset || this.document.documentElement.scrollLeft || this.document.body.scrollLeft
+    );
+    // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
+    if (this.options.relativeToWrapper) {
+      const scrollPosY = (this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop);
+      wrapperPosY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
+    }
+
+    return {
+      x: this.options.vertical ? (dataPercentage || this.options.center ? wrapperPosY : 0) : 0,
+      y: this.options.horizontal ? (dataPercentage || this.options.center ? wrapperPosX : 0) : 0
     };
   }
 
@@ -329,7 +341,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     // Move that element
     // (Set the new translation and append initial inline transforms.)
     const translate = `translate3d(${this.options.horizontal ? positionX : 0}px,${this.options.vertical ? positionY : 0}px,${this.options.zindex}px) ${this.block.transform}`;
-    this.el.nativeElement.style.transform = translate;
+    this.renderer.setStyle(this.el.nativeElement, 'transform', translate);
 
     if (this.options.callback) {
       this.options.callback(positions);

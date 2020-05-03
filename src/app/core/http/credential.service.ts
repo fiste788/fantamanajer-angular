@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { create, CredentialCreationOptionsJSON, CredentialRequestOptionsJSON, get, PublicKeyCredentialWithAssertionJSON, PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json';
 import { Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
 
 import { PublicKeyCredentialSource, User } from '@shared/models';
 
@@ -26,15 +26,13 @@ export class CredentialService {
   }
 
   get(email: string): Observable<CredentialRequestOptionsJSON> {
-    const params = new HttpParams().set('email', `${email}`);
+    const params = new HttpParams().set('email', email);
 
-    return this.http.get(routes.login, { params })
-      .pipe(map((e: { challenge: string }) => ({ publicKey: e })));
+    return this.http.get<CredentialRequestOptionsJSON>(routes.login, { params });
   }
 
   create(): Observable<CredentialCreationOptionsJSON> {
-    return this.http.get(routes.register)
-      .pipe(map((e: any) => ({ publicKey: e })));
+    return this.http.get<CredentialCreationOptionsJSON>(routes.register);
   }
 
   createPublicKey(): Observable<PublicKeyCredentialSource> {

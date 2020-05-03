@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[fmSrcset]'
@@ -7,7 +7,10 @@ export class SrcsetDirective implements OnInit, OnChanges {
   @Input() fmSrcset: Record<string, string> | string | null;
   @Input() placeholder: string;
 
-  constructor(private readonly el: ElementRef<HTMLImageElement>) { }
+  constructor(
+    private readonly renderer: Renderer2,
+    private readonly el: ElementRef<HTMLImageElement>
+  ) { }
 
   ngOnInit(): void {
     this.init();
@@ -32,14 +35,14 @@ export class SrcsetDirective implements OnInit, OnChanges {
           const src = this.fmSrcset[lastKey];
           const width = +lastKey.substring(0, lastKey.indexOf('w'));
           if (this.el.nativeElement.sizes === '') {
-            this.el.nativeElement.sizes = `(max-width:${width}px) 100vw, ${width}px`;
+            this.renderer.setStyle(this.el.nativeElement, 'sizes', `(max-width:${width}px) 100vw, ${width}px`);
           }
-          this.el.nativeElement.src = src;
-          this.el.nativeElement.srcset = srcset.join(',');
+          this.renderer.setAttribute(this.el.nativeElement, 'src', src);
+          this.renderer.setAttribute(this.el.nativeElement, 'srcset', srcset.join(','));
         }
       }
     } else {
-      this.el.nativeElement.src = this.placeholder;
+      this.renderer.setProperty(this.el.nativeElement, 'src', this.placeholder);
     }
   }
 }

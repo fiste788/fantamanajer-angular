@@ -9,7 +9,6 @@ import { environment } from '@env';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-// import { HomeModule } from './modules/home/home.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { SharedModule } from './shared/shared.module';
 
     // 3rd party
     LayoutModule,
-    // HomeModule,
 
     // core & shared
     CoreModule,

@@ -26,9 +26,8 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
         })
       )
       .pipe(
-        // tslint:disable-next-line: no-any
-        map((event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse) {
+        map((event: HttpEvent<{ data: {}, success: boolean }>) => {
+          if (event instanceof HttpResponse && event.body !== null) {
             if (!req.params.has('page') || !event.body.hasOwnProperty('pagination')) {
               return event.clone({
                 body: event.body.data
