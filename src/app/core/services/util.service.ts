@@ -21,11 +21,10 @@ export class UtilService {
   }
 
   static getError(field: NgModel): string {
-    const errors = [];
+    const errors: Array<string> = [];
     if (field.errors !== null) {
-      for (const err of Object.values(field.errors)) {
-        errors.push(err);
-      }
+      Object.values<string>(field.errors)
+        .forEach(err => errors.push(err));
     }
 
     return errors.join(' - ');

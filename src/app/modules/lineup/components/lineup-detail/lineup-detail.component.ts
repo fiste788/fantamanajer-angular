@@ -102,37 +102,33 @@ export class LineupDetailComponent implements OnInit {
   }
 
   loadDispositions(lineup: Lineup): void {
-    let i = 0;
     if (lineup.dispositions === undefined) {
       lineup.dispositions = [];
     }
-    for (i = 0; i < 18; i++) {
-      if (
-        lineup.dispositions.length < i ||
-        lineup.dispositions[i] === undefined
-      ) {
-        lineup.dispositions[i] = new Disposition();
-        lineup.dispositions[i].position = i + 1;
-      }
-      if (lineup.dispositions[i].member_id !== null) {
-        lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
-      }
-    }
+    Array(18)
+      .forEach((_, i) => {
+        if (
+          lineup.dispositions.length < i ||
+          lineup.dispositions[i] === undefined
+        ) {
+          lineup.dispositions[i] = new Disposition();
+          lineup.dispositions[i].position = i + 1;
+        }
+        if (lineup.dispositions[i].member_id !== null) {
+          lineup.dispositions[i].member = this.membersById.get(lineup.dispositions[i].member_id ?? 0);
+        }
+      });
   }
 
   getIndex(lineup: Lineup, role: Role, memberKey: number): number {
-    let count = 0;
-    let i = 0;
     if (lineup.module_object?.map) {
-      const roleKeys = Array.from(lineup.module_object.map.keys());
-
-      const index = roleKeys.indexOf(role);
-      for (i = 0; i < index; i++) {
-        count += Array.from(lineup.module_object.map.values())[i].length;
-      }
+      return Array.from(lineup.module_object.map.entries())
+        .filter(([r]) => r.id < role.id)
+        .map(([_, v]) => v)
+        .reduce((c, v) => c + v.length, memberKey);
     }
 
-    return count + memberKey;
+    return memberKey;
   }
 
   getCapitanables(lineup: Lineup): Array<Captainable> {

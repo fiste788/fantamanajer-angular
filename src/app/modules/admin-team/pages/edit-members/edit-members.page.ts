@@ -61,13 +61,14 @@ export class EditMembersPage implements OnInit {
           this.roles.forEach((role, roleId) => {
             const members = this.team.members.filter(entry => entry !== undefined && entry.role_id === roleId)
               .concat(allMembers[roleId]);
-            const controls = [];
-            for (let i = 0; i < role.count; i++) {
-              const index = this.getIndex(role, i);
-              const c = this.createItem(this.team.members[index]);
-              this.membersControls.push(c);
-              controls.push(index);
-            }
+            const controls: Array<number> = [];
+            Array(role.count)
+              .forEach((_, i) => {
+                const index = this.getIndex(role, i);
+                const c = this.createItem(this.team.members[index]);
+                this.membersControls.push(c);
+                controls.push(index);
+              });
             m.set(role, { members, controls });
           });
 
@@ -75,19 +76,11 @@ export class EditMembersPage implements OnInit {
         }));
   }
 
-  getIndex(key: Role, key2: number): number {
-    let count = 0;
-    let i = 0;
-    const keys = Array.from(this.roles.keys());
-    const index = keys.indexOf(key.id);
-    for (i = 0; i < index; i++) {
-      const l = Array.from(this.roles.values());
-      if (l !== undefined) {
-        count += l[i]?.count ?? 0;
-      }
-    }
-
-    return count + key2;
+  getIndex(role: Role, memberKey: number): number {
+    return Array.from(this.roles.entries())
+      .filter(([n]) => n < role.id)
+      .map(([_, v]) => v)
+      .reduce((c, v) => c + v.count, memberKey);
   }
 
   createItem(member?: Member): FormControl {
