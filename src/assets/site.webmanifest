@@ -27,5 +27,25 @@
   "theme_color": "#00bcd4",
   "background_color": "#fafafa",
   "start_url": "/",
-  "display": "standalone"
+  "display": "standalone",
+  "shortcuts": [
+    {
+      "name": "Inserisci formazione",
+      "short_name": "Formazione",
+      "description": "Inserisci la formazione per la giornata corrente",
+      "url": "/lineups/new"
+    },
+    {
+      "name": "Nuovo trasferimento",
+      "short_name": "Trasferimento",
+      "description": "Seleziona un nuovo giocatore da acquistare",
+      "url": "/transferts/new"
+    },
+    {
+      "name": "Nuovo conferenza stampa",
+      "short_name": "Conferenza",
+      "description": "Inserisci una conferenza stampa",
+      "url": "/articles/new"
+    }
+  ]
 }

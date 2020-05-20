@@ -64,6 +64,20 @@ export const routes: Routes = [
       .then(m => m.ScoreModule),
     canActivate: [AuthGuard],
     data: { state: 'scores' }
+  },
+  {
+    path: 'lineups',
+    loadChildren: () => import('./modules/lineup/lineup.module')
+      .then(m => m.LineupModule),
+    canActivate: [AuthGuard],
+    data: { state: 'lineup' }
+  },
+  {
+    path: 'transferts',
+    loadChildren: () => import('./modules/transfert/transfert.module')
+      .then(m => m.TransfertModule),
+    canActivate: [AuthGuard],
+    data: { state: 'transfert' }
   }
 ];
 @NgModule({

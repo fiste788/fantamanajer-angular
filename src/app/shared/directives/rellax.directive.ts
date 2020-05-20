@@ -10,13 +10,13 @@ class Options {
   wrapperSelector: string;
   wrapper?: HTMLElement;
   relativeToWrapper: boolean;
-  round?= true;
-  vertical?= true;
-  horizontal?= false;
+  round ?= true;
+  vertical ?= true;
+  horizontal ?= false;
   percentage: number;
   min?: number;
   max?: number;
-  zindex?= 1;
+  zindex ?= 1;
   callback?: Function;
 }
 
