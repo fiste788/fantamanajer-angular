@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 import { LineupService, RoleService } from '@app/http';
@@ -10,6 +10,11 @@ import { Disposition, Lineup, Member, Module, Role } from '@shared/models';
 interface Captainable {
   member: Member;
   disabled: boolean;
+}
+
+interface TeamMembers {
+  controls: Array<number>;
+  members: Array<Member>;
 }
 
 @Component({
@@ -41,6 +46,8 @@ export class LineupDetailComponent implements OnInit {
 
   @ViewChild(NgForm) lineupForm: NgForm;
 
+  controlsByRole: Map<Role, TeamMembers>;
+  membersControls: FormArray;
   membersByRole: Map<Role, Array<Member>>;
   membersById: Map<number, Member> = new Map<number, Member>();
   captains: Map<string, string> = new Map<string, string>([
@@ -55,6 +62,7 @@ export class LineupDetailComponent implements OnInit {
   isAlreadySelectedCallback: () => boolean;
 
   constructor(
+    private readonly fb: FormBuilder,
     private readonly lineupService: LineupService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef
@@ -69,6 +77,8 @@ export class LineupDetailComponent implements OnInit {
     this.isRegularCallback = this.isRegular.bind(this, lineup);
     this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this, lineup);
     if (lineup !== undefined && lineup.team.members !== undefined) {
+      this.membersControls = new FormArray([]);
+
       lineup.team_id = lineup.team_id || lineup.team.id;
       this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
       lineup.team.members.forEach(member => this.membersById.set(member.id, member), this);
@@ -95,10 +105,36 @@ export class LineupDetailComponent implements OnInit {
   }
 
   loadModules(lineup: Lineup): void {
-    this.modules = lineup.modules.map(m => new Module(m, this.roleService.list()));
+    this.modules = lineup.modules.map(mod => new Module(mod, this.roleService.list()));
     if (lineup.module) {
       lineup.module_object = this.modules.find(e => e.key === lineup.module, this);
+      this.changeModule(lineup);
     }
+  }
+
+  changeModule(lineup: Lineup): void {
+    if (lineup.module_object?.map) {
+      this.controlsByRole = new Map<Role, TeamMembers>();
+      Array.from(lineup.module_object.map.entries())
+        .map(([role, positions]) => {
+          const members = this.membersByRole.get(role) ?? [];
+          const controls: Array<number> = [];
+          positions.forEach((_, i) => {
+            const index = this.getIndex(lineup, role, i);
+            const member = this.membersById.get(lineup.dispositions[index].member_id ?? 0);
+            this.membersControls.push(this.createItem(member));
+            controls.push(index);
+          });
+          this.controlsByRole.set(role, { members, controls });
+        });
+    }
+  }
+
+  createItem(member?: Member): FormControl {
+    const c = this.fb.control(undefined, Validators.required);
+    c.setValue(member);
+
+    return c;
   }
 
   loadDispositions(lineup: Lineup): void {

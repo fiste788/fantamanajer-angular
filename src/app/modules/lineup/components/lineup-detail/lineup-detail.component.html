@@ -13,6 +13,7 @@
         placeholder="Modulo"
         [disabled]="disabled"
         [(ngModel)]="lineup.module_object"
+        (selectionChange)="changeModule(lineup)"
       >
         <mat-option
           *ngFor="let m of modules"
@@ -30,7 +31,7 @@
   </div>
   <ng-container *ngIf="lineup.module_object">
     <div
-      *ngFor="let role of (lineup.module_object?.map | keyvalue: descOrder); trackBy: trackByRole"
+      *ngFor="let role of (controlsByRole | keyvalue); trackBy: trackByRole"
       fxLayout="row"
       [ngClass]="[role.key.abbreviation, 'role-container']"
     >
@@ -44,25 +45,25 @@
         fxLayout.xs="column"
         fxLayoutAlign="space-around"
       >
-        <fm-member-selection
-          *ngFor="let memberKey of role.value; trackBy: trackBySelection"
-          @items
-          fxLayout="column"
-          fxLayout.xs="row"
-          fxLayoutAlign="start center"
-          class="regular"
-          [required]="true"
-          [disabled]="disabled"
-          [captain]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member?.id == lineup.captain_id"
-          [isMemberDisabled]="isRegularCallback"
-          [memberList]="membersByRole.get(role.key)"
-          [placeholder]="role.key.singolar"
-          [name]="role.key.abbreviation + '-' + memberKey"
-          [width]="320"
-          [height]="450"
-          [(ngModel)]="lineup.dispositions[getIndex(lineup, role.key, memberKey)].member"
-          (selectionChange)="memberSelectionChange(lineup, $event)"
-        ></fm-member-selection>
+        <ng-container *ngFor="let c of role.value.controls; let i = index; ">
+          <fm-member-selection
+            @items
+            fxLayout="column"
+            fxLayout.xs="row"
+            fxLayoutAlign="start center"
+            class="regular"
+            [required]="true"
+            [disabled]="disabled"
+            [captain]="lineup?.dispositions[c].member?.id == lineup?.captain_id"
+            [isMemberDisabled]="isRegularCallback"
+            [members]="role.value.members"
+            [placeholder]="role.key.singolar"
+            [width]="320"
+            [height]="450"
+            [formControl]="membersControls.controls[c]"
+            (selectionChange)="memberSelectionChange(lineup, $event)"
+          ></fm-member-selection>
+        </ng-container>
       </div>
     </div>
   </ng-container>
@@ -110,7 +111,7 @@
         fxLayoutAlign="start center"
         [disabled]="disabled"
         [isMemberDisabled]="isAlreadySelectedCallback"
-        [memberMap]="membersByRole"
+        [members]="membersByRole"
         [placeholder]="'Panchinaro ' + (bench - 10)"
         [name]="bench"
         [width]="320"
