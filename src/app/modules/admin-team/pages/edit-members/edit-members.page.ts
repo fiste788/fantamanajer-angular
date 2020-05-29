@@ -63,6 +63,7 @@ export class EditMembersPage implements OnInit {
               .concat(allMembers[roleId]);
             const controls: Array<number> = [];
             Array(role.count)
+              .fill(0)
               .forEach((_, i) => {
                 const index = this.getIndex(role, i);
                 const c = this.createItem(this.team.members[index]);

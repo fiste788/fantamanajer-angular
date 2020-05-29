@@ -37,11 +37,11 @@
     </mat-select-trigger>
     <ng-container *ngIf="memberList?.length">
       <mat-option
-        *ngFor="let member of memberList; trackBy: track"
-        [value]="member"
-        [disabled]="isMemberDisabled(member)"
+        *ngFor="let opt of memberList; trackBy: track"
+        [value]="opt.member"
+        [disabled]="opt.disabled"
       >
-        <fm-member-icons [member]="member"></fm-member-icons>
+        <fm-member-icons [member]="opt.member"></fm-member-icons>
       </mat-option>
     </ng-container>
     <ng-container *ngIf="memberMap">
@@ -50,11 +50,11 @@
         [label]="role.key.plural"
       >
         <mat-option
-          *ngFor="let member of role.value; trackBy: track"
-          [value]="member"
-          [disabled]="isMemberDisabled(member)"
+          *ngFor="let opt of role.value; trackBy: track"
+          [value]="opt.member"
+          [disabled]="opt.disabled"
         >
-          <fm-member-icons [member]="member"></fm-member-icons>
+          <fm-member-icons [member]="opt.member"></fm-member-icons>
         </mat-option>
       </mat-optgroup>
     </ng-container>

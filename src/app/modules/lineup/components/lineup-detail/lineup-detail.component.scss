@@ -1,6 +1,6 @@
 @import '~@angular/flex-layout/mq';
 
-.role {
+.area {
   width: 100%;
   padding-bottom: 1rem;
 }
@@ -10,11 +10,11 @@ mat-select {
   display: inline-block !important;
 }
 
-.role fm-member-selection {
+.area fm-member-selection {
   flex: 1;
 }
 
-.role-container {
+.area-container {
   margin: .5rem 0;
 
   h5 {

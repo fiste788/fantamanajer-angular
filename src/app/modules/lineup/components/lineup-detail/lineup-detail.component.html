@@ -13,7 +13,7 @@
         placeholder="Modulo"
         [disabled]="disabled"
         [(ngModel)]="lineup.module_object"
-        (selectionChange)="changeModule(lineup)"
+        (selectionChange)="lineupService.changeModule(lineup)"
       >
         <mat-option
           *ngFor="let m of modules"
@@ -31,38 +31,38 @@
   </div>
   <ng-container *ngIf="lineup.module_object">
     <div
-      *ngFor="let role of (controlsByRole | keyvalue); trackBy: trackByRole"
+      *ngFor="let area of lineupService.areas; trackBy: trackByArea"
       fxLayout="row"
-      [ngClass]="[role.key.abbreviation, 'role-container']"
+      [ngClass]="[area.role.abbreviation, 'area-container']"
     >
       <h5
         fmSticky
-        [title]="role.key.plural"
-      >{{role.key.plural | uppercase}}</h5>
+        [title]="area.role.plural"
+      >{{area.role.plural | uppercase}}</h5>
       <div
-        class="role"
+        class="area"
         fxLayout="row"
         fxLayout.xs="column"
         fxLayoutAlign="space-around"
       >
-        <ng-container *ngFor="let c of role.value.controls; let i = index; ">
+        <ng-container *ngFor="let i of (area.toIndex | range: area.fromIndex)">
           <fm-member-selection
             @items
             fxLayout="column"
             fxLayout.xs="row"
             fxLayoutAlign="start center"
             class="regular"
-            [required]="true"
             [disabled]="disabled"
-            [captain]="lineup?.dispositions[c].member?.id == lineup?.captain_id"
-            [isMemberDisabled]="isRegularCallback"
-            [members]="role.value.members"
-            [placeholder]="role.key.singolar"
+            [required]="true"
+            [memberList]="area.options"
+            [captain]="lineup?.dispositions[i].member?.id == lineup?.captain_id"
+            [placeholder]="area.role.singolar"
             [width]="320"
             [height]="450"
-            [formControl]="membersControls.controls[c]"
-            (selectionChange)="memberSelectionChange(lineup, $event)"
-          ></fm-member-selection>
+            [(ngModel)]="lineup?.dispositions[i].member"
+            (selectionChange)="lineupService.memberSelectionChange($event)"
+          >
+          </fm-member-selection>
         </ng-container>
       </div>
     </div>
@@ -75,7 +75,7 @@
       fxLayoutAlign="space-evenly start"
     >
       <mat-form-field
-        *ngFor="let captain of (captains | keyvalue)"
+        *ngFor="let captain of (lineupService.captains | keyvalue)"
         appearance="standard"
       >
         <mat-label>{{captain.key}}</mat-label>
@@ -84,10 +84,10 @@
           [placeholder]="captain.key"
           [name]="captain.key"
           [(ngModel)]="lineup[captain.value + '_id']"
-          (selectionChange)="captainSelectionChange(lineup)"
+          (selectionChange)="lineupService.captainSelectionChange()"
         >
           <mat-option
-            *ngFor="let c of captainables; trackBy: trackByCaptain"
+            *ngFor="let c of lineupService.captainables; trackBy: trackByCaptain"
             [disabled]="c.disabled"
             [value]="c.member.id"
           >{{c.member.player.full_name}}
@@ -104,20 +104,21 @@
       fxLayoutAlign="space-around"
     >
       <fm-member-selection
-        *ngFor="let bench of benchs; trackBy: trackByBench"
+        *ngFor="let bench of lineupService.benchs; trackBy: trackByBench"
         class="benchwarmer"
         fxLayout="column"
         fxLayout.xs="row"
         fxLayoutAlign="start center"
+        [memberMap]="lineupService.benchOptions"
         [disabled]="disabled"
-        [isMemberDisabled]="isAlreadySelectedCallback"
-        [members]="membersByRole"
         [placeholder]="'Panchinaro ' + (bench - 10)"
         [name]="bench"
         [width]="320"
         [height]="450"
         [(ngModel)]="lineup.dispositions[bench].member"
-      ></fm-member-selection>
+        (selectionChange)="lineupService.benchwarmerSelectionChange($event)"
+      >
+      </fm-member-selection>
     </div>
   </div>
 </ng-container>

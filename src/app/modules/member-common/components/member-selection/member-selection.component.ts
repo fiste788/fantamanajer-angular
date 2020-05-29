@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 import { createBoxAnimation } from '@shared/animations';
 import { Member, Role } from '@shared/models';
+
+export interface MemberOption {
+  member: Member;
+  disabled: boolean;
+}
 
 @Component({
   selector: 'fm-member-selection',
@@ -14,7 +19,6 @@ import { Member, Role } from '@shared/models';
     useExisting: MemberSelectionComponent,
     multi: true
   }],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
@@ -23,24 +27,17 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() disabled: boolean;
   @Input() required: boolean;
   @Input() placeholder: string;
-  @Input() memberList: Array<Member> = [];
-  @Input() memberMap: Map<Role, Array<Member>>;
+  @Input() memberList: Array<MemberOption> = [];
+  @Input() memberMap: Map<Role, Array<MemberOption>>;
   @Input() size = 100;
   @Input() width = 100;
   @Input() height = 100;
   @Input() captain = false;
-  @Input() isMemberDisabled: (m: Member) => boolean;
 
   @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
-  @HostBinding('@createBox') createBox = '';
-
   onChange = (_: Member) => undefined;
   onTouched = (_: Member) => undefined;
-
-  constructor(
-    private readonly cd: ChangeDetectorRef
-  ) { }
 
   get val(): Member {
     return this.value;
@@ -50,7 +47,6 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.value = val;
     this.onChange(val);
     this.onTouched(val);
-    this.cd.detectChanges();
   }
 
   change(event: MatSelectChange): void {

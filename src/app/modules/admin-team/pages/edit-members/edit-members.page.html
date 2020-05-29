@@ -13,7 +13,6 @@
       <ng-container *ngFor="let c of role.value.controls; let i = index; trackBy: trackByMember">
         <div class="disposition">
           <fm-member-selection
-            [isMemberDisabled]="isAlreadySelectedCallback"
             [memberList]="role.value.members"
             [placeholder]="role.key.singolar + ' ' + (i + 1)"
             [size]="75"

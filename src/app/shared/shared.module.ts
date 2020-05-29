@@ -7,7 +7,7 @@ import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-ima
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
-import { CaptainPipe, PlaceholderPipe, SrcsetPipe, StatePipe } from '@shared/pipes';
+import { CaptainPipe, PlaceholderPipe, RangePipe, SrcsetPipe, StatePipe } from '@shared/pipes';
 
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
@@ -41,6 +41,7 @@ export const breakPointsProvider = {
 
     CaptainPipe,
     PlaceholderPipe,
+    RangePipe,
     SrcsetPipe,
     StatePipe,
 
@@ -64,6 +65,7 @@ export const breakPointsProvider = {
 
     CaptainPipe,
     PlaceholderPipe,
+    RangePipe,
     SrcsetPipe,
     StatePipe,
 
