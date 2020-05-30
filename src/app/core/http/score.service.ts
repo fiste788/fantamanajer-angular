@@ -33,7 +33,6 @@ export class ScoreService {
     delete newScore.lineup.team;
     delete newScore.team;
     delete newScore.lineup.modules;
-    delete newScore.lineup.module_object;
 
     return newScore;
   }

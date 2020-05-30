@@ -3,8 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
 import { RoleService } from '@app/http';
-import { MemberOption } from '@modules/member-common/components/member-selection/member-selection.component';
-import { Disposition, Lineup, Member, Module, Role } from '@shared/models';
+import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@shared/models';
 
 export interface Area {
   role: Role;
@@ -16,13 +15,14 @@ export interface Area {
 @Injectable()
 export class LineupService {
   lineup: Lineup;
-  areas: Array<Area>;
+
   benchOptions: Map<Role, Array<MemberOption>>;
   membersById: Map<number, Member>;
   captains: Map<string, string> = new Map<string, string>([
     ['C', 'captain'], ['VC', 'vcaptain'], ['VVC', 'vvcaptain']
   ]);
   modules: Array<Module>;
+  selectedModule: Module;
   benchs: Array<number> = Array(7)
     .fill(7)
     .map((_, i) => i + 11);
@@ -43,20 +43,25 @@ export class LineupService {
       this.benchOptions = Array.from(this.membersByRole.entries())
         .reduce((m, [k, v]) => m.set(k, v.map(member => ({ member, disabled: this.isAlreadySelected(member) }))),
           new Map<Role, Array<MemberOption>>());
+      this.loadModules();
       this.loadDispositions();
       this.captainSelectionChange();
     }
   }
 
-  changeModule(lineup: Lineup): void {
-    if (lineup.module_object?.map) {
-      this.areas = Array.from(lineup.module_object.map.entries())
-        .map(([role, count]) => {
-          const options = (this.membersByRole.get(role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }));
-
-          return { role, options, fromIndex: this.getIndex(role, 0), toIndex: count.length };
-        });
+  loadModules(): void {
+    this.modules = this.lineup.modules.map(mod => new Module(mod, this.roleService.list()));
+    const module = this.modules.find(e => e.key === this.lineup.module);
+    if (module) {
+      this.selectedModule = module;
+      this.changeModule();
     }
+  }
+
+  changeModule(): void {
+    this.selectedModule.areas.forEach(area => (
+      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }))
+    ));
   }
 
   loadDispositions(): void {
@@ -74,17 +79,6 @@ export class LineupService {
           this.lineup.dispositions[i].member = this.membersById.get(this.lineup.dispositions[i].member_id ?? 0);
         }
       });
-  }
-
-  getIndex(role: Role, memberKey: number): number {
-    if (this.lineup.module_object?.map) {
-      return Array.from(this.lineup.module_object.map.entries())
-        .filter(([r]) => r.id < role.id)
-        .map(([_, v]) => v)
-        .reduce((c, v) => c + v.length, memberKey);
-    }
-
-    return memberKey;
   }
 
   getCapitanables(): Array<MemberOption> {
@@ -137,17 +131,9 @@ export class LineupService {
             delete element.member_id;
           }
         });
-      this.areas.forEach(v => v.options.filter(o => o.member.club_id === member.club_id)
+      this.selectedModule.areas.forEach(v => v.options.filter(o => o.member.club_id === member.club_id)
         .map(o => o.disabled = this.isRegular(o.member)));
     }
-  }
-
-  getMemberByKeys(role: Role, memberKey: number): Member | undefined {
-    return this.membersById.get(this.lineup.dispositions[this.getIndex(role, memberKey)].member?.id ?? 0);
-  }
-
-  getMemberLabelByKeys(role: Role, memberKey: number): string {
-    return this.getMemberByKeys(role, memberKey)?.player.full_name ?? '';
   }
 
   isAlreadySelected(member: Member): boolean {

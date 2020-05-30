@@ -1,23 +1,32 @@
+import { Area } from './area.model';
 import { Role } from './role.model';
 
 export class Module {
   key: string;
   label: string;
-  map?: Map<Role, Array<number>>;
+  areas: Array<Area>;
 
   constructor(key: string, roles: Map<number, Role>) {
     if (key) {
       this.key = key;
       this.label = key.substring(key.indexOf('-') + 1);
-      this.map = key.split('-')
-        .reduce((map: Map<Role, Array<number>>, num, index) => {
-          const players = +num;
-          const role = roles.get(index + 1);
+      const mod = key.split('-')
+        .map(c => +c);
+      this.areas = Array.from(roles.entries())
+        .reduce((array, [_, role], index) => {
+          array.push({
+            role,
+            fromIndex: this.getIndex(array),
+            toIndex: mod[index],
+            options: []
+          });
 
-          return role ? map.set(role, Array(players)
-            .fill(players)
-            .map((_, i) => i)) : undefined;
-        }, new Map<Role, Array<number>>());
+          return array;
+        }, new Array<Area>());
     }
+  }
+
+  getIndex(previous: Array<Area>): number {
+    return previous.reduce((p, v) => p + v.toIndex, 0);
   }
 }

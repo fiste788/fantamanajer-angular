@@ -24,11 +24,14 @@
   appearance="standard"
 >
   <mat-select
+    #memberSelection="ngModel"
     [disabled]="disabled"
     [placeholder]="placeholder"
     [attr.required]="required"
     [name]="name"
+    [compareWith]="compareFn"
     [(ngModel)]="val"
+    (blur)="onTouched()"
     (selectionChange)="change($event)"
   >
     <mat-option>{{placeholder}}</mat-option>
@@ -59,6 +62,7 @@
       </mat-optgroup>
     </ng-container>
   </mat-select>
+  <mat-error *ngIf="memberSelection.errors?.required">Seleziona il giocatore</mat-error>
   <mat-hint *ngIf="val?.stats">
     <span>Ø P.ti: {{val.stats?.avg_points | number: '1.1-1'}}</span> -
     <span>Ø Voti: {{val.stats?.avg_rating | number: '1.1-1'}}</span> -

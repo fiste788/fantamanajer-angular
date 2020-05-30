@@ -16,13 +16,10 @@ const routes = {
 export class LineupService {
   private static cleanLineup(lineup: Lineup): Lineup {
     const newLineup: Lineup = JSON.parse(JSON.stringify(lineup));
-    newLineup.dispositions = newLineup.dispositions.filter(
-      value => value.member_id !== null
-    );
-    newLineup.dispositions.map(disp => delete disp.member);
+    newLineup.dispositions = newLineup.dispositions.filter(value => value.member_id !== null);
+    newLineup.dispositions.forEach(disp => delete disp.member);
     delete newLineup.team;
     delete newLineup.modules;
-    delete newLineup.module_object;
 
     return newLineup;
   }

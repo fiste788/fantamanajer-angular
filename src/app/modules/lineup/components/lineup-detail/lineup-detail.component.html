@@ -12,11 +12,11 @@
         name="module"
         placeholder="Modulo"
         [disabled]="disabled"
-        [(ngModel)]="lineup.module_object"
-        (selectionChange)="lineupService.changeModule(lineup)"
+        [(ngModel)]="lineupService.selectedModule"
+        (selectionChange)="lineupService.changeModule()"
       >
         <mat-option
-          *ngFor="let m of modules"
+          *ngFor="let m of lineupService.modules"
           [value]="m"
         >{{m.label}}</mat-option>
       </mat-select>
@@ -29,9 +29,9 @@
       [(ngModel)]="lineup.jolly"
     >Jolly</mat-checkbox>
   </div>
-  <ng-container *ngIf="lineup.module_object">
+  <ng-container *ngIf="lineupService.selectedModule">
     <div
-      *ngFor="let area of lineupService.areas; trackBy: trackByArea"
+      *ngFor="let area of lineupService.selectedModule.areas; trackBy: trackByArea"
       fxLayout="row"
       [ngClass]="[area.role.abbreviation, 'area-container']"
     >
@@ -54,6 +54,7 @@
             class="regular"
             [disabled]="disabled"
             [required]="true"
+            [name]="'member-' + i"
             [memberList]="area.options"
             [captain]="lineup?.dispositions[i].member?.id == lineup?.captain_id"
             [placeholder]="area.role.singolar"

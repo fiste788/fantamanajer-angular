@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { LineupService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
+import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
 import { Lineup, Team } from '@shared/models';
 
 @Component({
@@ -14,6 +15,7 @@ import { Lineup, Team } from '@shared/models';
 })
 export class LineupLastPage implements OnDestroy {
   @ViewChild(NgForm) lineupForm: NgForm;
+  @ViewChild(LineupDetailComponent) lineupDetail: LineupDetailComponent;
 
   lineup$: Observable<Lineup>;
   editMode = false;
@@ -35,28 +37,29 @@ export class LineupLastPage implements OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  save(lineup: Lineup): void {
-    lineup.module = lineup.module_object?.key ?? '';
-    lineup.dispositions.forEach(value => value.member_id = value.member?.id);
-    let obs: Observable<Partial<Lineup>>;
-    let message: string;
-    if (lineup.id) {
-      message = 'Formazione aggiornata';
-      obs = this.lineupService.update(lineup);
-    } else {
-      message = 'Formazione caricata';
-      obs = this.lineupService.create(lineup);
-    }
-    this.subscription = obs.subscribe(response => {
-      if (response.id) {
-        lineup.id = response.id;
+  save(): void {
+    if (this.lineupForm.valid === true) {
+      const lineup = this.lineupDetail.getLineup();
+      let obs: Observable<Partial<Lineup>>;
+      let message: string;
+      if (lineup.id) {
+        message = 'Formazione aggiornata';
+        obs = this.lineupService.update(lineup);
+      } else {
+        message = 'Formazione caricata';
+        obs = this.lineupService.create(lineup);
       }
-      this.snackBar.open(message, undefined, {
-        duration: 3000
-      });
-    },
-      err => {
-        UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
-      });
+      this.subscription = obs.subscribe(response => {
+        if (response.id) {
+          lineup.id = response.id;
+        }
+        this.snackBar.open(message, undefined, {
+          duration: 3000
+        });
+      },
+        err => {
+          UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
+        });
+    }
   }
 }

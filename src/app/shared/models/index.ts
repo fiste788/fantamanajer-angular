@@ -1,3 +1,4 @@
+export * from './area.model';
 export * from './article.model';
 export * from './championship.model';
 export * from './club.model';
@@ -7,6 +8,7 @@ export * from './league.model';
 export * from './lineup.model';
 export * from './matchday.model';
 export * from './member.model';
+export * from './member-option.model';
 export * from './module.model';
 export * from './notification-subscription.model';
 export * from './notification.model';

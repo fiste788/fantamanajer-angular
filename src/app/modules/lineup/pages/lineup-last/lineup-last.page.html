@@ -4,9 +4,10 @@
       *ngIf="lineup.module || lineup.team.id == teamId; else notSet"
       #lineupForm="ngForm"
       class="flex-container"
-      (ngSubmit)="save(lineup)"
+      (ngSubmit)="save()"
     >
       <fm-lineup-detail
+        #lineupDetail
         [lineup]="lineup"
         [disabled]="!editMode"
       ></fm-lineup-detail>

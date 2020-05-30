@@ -1,11 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, ControlContainer } from '@angular/forms';
 
-import { LineupService as LineupHttpService, RoleService } from '@app/http';
-import { MemberOption } from '@modules/member-common/components/member-selection/member-selection.component';
-import { Lineup, Member, Module, Role } from '@shared/models';
+import { LineupService as LineupHttpService } from '@app/http';
+import { Lineup, Member, MemberOption, Role } from '@shared/models';
 
 import { Area, LineupService } from '../lineup.service';
 
@@ -15,6 +14,7 @@ import { Area, LineupService } from '../lineup.service';
   styleUrls: ['./lineup-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LineupService],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [
     // transition(':leave', animateChild()),
     trigger('items', [
@@ -39,12 +39,9 @@ export class LineupDetailComponent implements OnInit {
 
   @ViewChild(NgForm) lineupForm: NgForm;
 
-  modules: Array<Module>;
-
   constructor(
     readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
-    private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef
   ) { }
 
@@ -53,13 +50,12 @@ export class LineupDetailComponent implements OnInit {
   }
 
   loadLineup(): void {
-    const lineup = this.lineup ?? ((!this.disabled) ? new Lineup(this.roleService.list()) : undefined);
+    const lineup = this.lineup ?? ((!this.disabled) ? new Lineup() : undefined);
     if (lineup !== undefined && lineup.team.members !== undefined) {
       this.lineupService.loadLineup(lineup);
       if (!this.disabled) {
         this.loadLikely(lineup);
       }
-      this.loadModules(lineup);
     }
   }
 
@@ -76,12 +72,11 @@ export class LineupDetailComponent implements OnInit {
       });
   }
 
-  loadModules(lineup: Lineup): void {
-    this.modules = lineup.modules.map(mod => new Module(mod, this.roleService.list()));
-    if (lineup.module) {
-      lineup.module_object = this.modules.find(e => e.key === lineup.module, this);
-      this.lineupService.changeModule(lineup);
-    }
+  getLineup(): Lineup {
+    this.lineupService.lineup.module = this.lineupService.selectedModule.key;
+    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id);
+
+    return this.lineupService.lineup;
   }
 
   descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>

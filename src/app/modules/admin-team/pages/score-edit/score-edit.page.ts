@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 
 import { ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
+import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
 import { Score, Team } from '@shared/models';
 
 @Component({
@@ -15,6 +16,7 @@ import { Score, Team } from '@shared/models';
 })
 export class ScoreEditPage implements OnInit {
   @ViewChild(NgForm) scoreForm: NgForm;
+  @ViewChild(LineupDetailComponent) lineupDetail: LineupDetailComponent;
 
   team: Team;
   penality: boolean;
@@ -42,8 +44,7 @@ export class ScoreEditPage implements OnInit {
   }
 
   save(score: Score): void {
-    score.lineup.module = score.lineup.module_object?.key ?? '';
-    score.lineup.dispositions.forEach(value => value.member_id = value.member?.id);
+    score.lineup = this.lineupDetail.getLineup();
     this.scoreService.update(score)
       .subscribe(() => {
         this.snackBar.open('Punteggio modificato', undefined, {

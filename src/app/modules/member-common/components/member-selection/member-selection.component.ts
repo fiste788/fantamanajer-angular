@@ -1,24 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
+import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, NgForm, NG_VALIDATORS } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 import { createBoxAnimation } from '@shared/animations';
-import { Member, Role } from '@shared/models';
-
-export interface MemberOption {
-  member: Member;
-  disabled: boolean;
-}
+import { Member, MemberOption, Role } from '@shared/models';
 
 @Component({
   selector: 'fm-member-selection',
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: MemberSelectionComponent,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: MemberSelectionComponent,
+      multi: true
+    }
+  ],
+  // viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [createBoxAnimation]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
@@ -36,8 +34,8 @@ export class MemberSelectionComponent implements ControlValueAccessor {
 
   @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
-  onChange = (_: Member) => undefined;
-  onTouched = (_: Member) => undefined;
+  onChange = (_?: Member) => undefined;
+  onTouched = () => undefined;
 
   get val(): Member {
     return this.value;
@@ -46,10 +44,11 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   set val(val) {
     this.value = val;
     this.onChange(val);
-    this.onTouched(val);
+    this.onTouched();
   }
 
   change(event: MatSelectChange): void {
+    this.onChange(event.value);
     this.selectionChange.emit(event);
   }
 
@@ -57,7 +56,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: (member: Member) => undefined): void {
+  registerOnTouched(fn: () => undefined): void {
     this.onTouched = fn;
   }
 
@@ -69,6 +68,10 @@ export class MemberSelectionComponent implements ControlValueAccessor {
 
   track(_: number, member: Member): number {
     return member.id;
+  }
+
+  compareFn(t1: Member, t2: Member): boolean {
+    return t1?.id === t2?.id;
   }
 
 }

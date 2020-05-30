@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
 import { SharedModule } from '@shared/shared.module';
@@ -13,8 +12,7 @@ import { LineupRoutingModule } from './lineup-routing.module';
     CommonModule,
     SharedModule,
     LineupRoutingModule,
-    MemberCommonModule,
-    ReactiveFormsModule
+    MemberCommonModule
   ],
   exports: [
     LineupDetailComponent
