@@ -13,7 +13,7 @@
         placeholder="Modulo"
         [disabled]="disabled"
         [(ngModel)]="lineupService.selectedModule"
-        (selectionChange)="lineupService.changeModule()"
+        (selectionChange)="lineupService.moduleChange()"
       >
         <mat-option
           *ngFor="let m of lineupService.modules"
@@ -60,8 +60,8 @@
             [placeholder]="area.role.singolar"
             [width]="320"
             [height]="450"
-            [(ngModel)]="lineup?.dispositions[i].member"
-            (selectionChange)="lineupService.memberSelectionChange($event)"
+            [(member)]="lineup?.dispositions[i].member"
+            (memberChange)="lineupService.memberSelectionChange(area.role, $event)"
           >
           </fm-member-selection>
         </ng-container>
@@ -116,8 +116,8 @@
         [name]="bench"
         [width]="320"
         [height]="450"
-        [(ngModel)]="lineup.dispositions[bench].member"
-        (selectionChange)="lineupService.benchwarmerSelectionChange($event)"
+        [(member)]="lineup.dispositions[bench].member"
+        (memberChange)="lineupService.benchwarmerSelectionChange($event)"
       >
       </fm-member-selection>
     </div>

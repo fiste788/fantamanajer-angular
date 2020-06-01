@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BREAKPOINTS, DEFAULT_BREAKPOINTS, FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { intersectionObserverPreset, LazyLoadImageModule } from 'ng-lazyload-image';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
@@ -30,9 +30,7 @@ export const breakPointsProvider = {
 
     FlexLayoutModule,
     McBreadcrumbsModule,
-    LazyLoadImageModule.forRoot({
-      preset: intersectionObserverPreset
-    })
+    LazyLoadImageModule
   ],
   declarations: [
     RellaxDirective,

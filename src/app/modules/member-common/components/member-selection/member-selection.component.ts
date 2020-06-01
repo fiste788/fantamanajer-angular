@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, NgForm, NG_VALIDATORS } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 import { createBoxAnimation } from '@shared/animations';
 import { Member, MemberOption, Role } from '@shared/models';
@@ -9,21 +8,14 @@ import { Member, MemberOption, Role } from '@shared/models';
   selector: 'fm-member-selection',
   templateUrl: './member-selection.component.html',
   styleUrls: ['./member-selection.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: MemberSelectionComponent,
-      multi: true
-    }
-  ],
-  // viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [createBoxAnimation]
 })
-export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() value: Member;
+export class MemberSelectionComponent {
+  @Input() member?: Member;
   @Input() name: string;
-  @Input() disabled: boolean;
-  @Input() required: boolean;
+  @Input() disabled = false;
+  @Input() required = false;
   @Input() placeholder: string;
   @Input() memberList: Array<MemberOption> = [];
   @Input() memberMap: Map<Role, Array<MemberOption>>;
@@ -32,39 +24,12 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() height = 100;
   @Input() captain = false;
 
-  @Output() readonly selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
+  @Output() readonly memberChange: EventEmitter<Member> = new EventEmitter<Member>();
 
-  onChange = (_?: Member) => undefined;
-  onTouched = () => undefined;
-
-  get val(): Member {
-    return this.value;
+  change(event?: Member): void {
+    this.member = event;
+    this.memberChange.emit(event);
   }
-
-  set val(val) {
-    this.value = val;
-    this.onChange(val);
-    this.onTouched();
-  }
-
-  change(event: MatSelectChange): void {
-    this.onChange(event.value);
-    this.selectionChange.emit(event);
-  }
-
-  registerOnChange(fn: (member: Member) => undefined): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => undefined): void {
-    this.onTouched = fn;
-  }
-
-  writeValue(value: Member): void {
-    this.value = value;
-  }
-
-  setDisabledState?(isDisabled: boolean): void;
 
   track(_: number, member: Member): number {
     return member.id;

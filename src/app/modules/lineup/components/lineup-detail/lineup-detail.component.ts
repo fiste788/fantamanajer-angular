@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm, ControlContainer } from '@angular/forms';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
 import { Lineup, Member, MemberOption, Role } from '@shared/models';
@@ -73,7 +73,6 @@ export class LineupDetailComponent implements OnInit {
   }
 
   getLineup(): Lineup {
-    this.lineupService.lineup.module = this.lineupService.selectedModule.key;
     this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id);
 
     return this.lineupService.lineup;

@@ -4,9 +4,12 @@
 .circle mat-icon {
   position: absolute;
   @include mat-elevation(4);
-  padding: 4px;
+  padding: 2px;
   border-radius: 50%;
   cursor: help;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 
   &:nth-child(1) {
     top: -6px;
@@ -37,6 +40,7 @@
     font-size: 32px;
     width: 32px;
     height: 32px;
+    padding: 4px;
 
     &:nth-child(1) {
       top: .33rem;

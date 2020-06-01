@@ -38,14 +38,11 @@ export class ApplicationService {
       .subscribe((u: User) => {
         this.setUser(u);
       });
-    // let obs = merge(
-    //  this.themeService.load(),
-    //  this.getCurrentMatchday()
-    // );
+
     let obs = this.getCurrentMatchday();
     if (this.auth.loggedIn()) {
-      // obs.pipe(this.auth.getCurrentUser();
-      obs = forkJoin([obs, this.auth.getCurrentUser()], () => undefined);
+      obs = forkJoin([obs, this.auth.getCurrentUser()])
+        .pipe(map(() => undefined));
     }
 
     return obs.toPromise()

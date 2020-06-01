@@ -1,42 +1,41 @@
-<div
-  @createBox
-  class="photo-container"
->
-  <div class="img-container mat-elevation-z2">
-    <img
-      [alt]="val?.player?.full_name || placeholder"
-      [defaultImage]="'/assets/clubs.svg#club-' + val?.club_id"
-      [lazyLoad]="val?.player?.photo_url"
-    >
-  </div>
-  <fm-member-icons
-    *ngIf="val?.likely_lineup"
-    @createBox
-    [captain]="captain"
-    [member]="val"
-    [circle]="true"
-  >
-  </fm-member-icons>
-</div>
 <mat-form-field
   hideRequiredMarker="true"
   floatLabel="never"
   appearance="standard"
 >
+  <div
+    @createBox
+    class="photo-container"
+  >
+    <div class="img-container mat-elevation-z2">
+      <img
+        [alt]="member?.player?.full_name || placeholder"
+        [defaultImage]="'/assets/clubs.svg#club-' + member?.club_id"
+        [lazyLoad]="member?.player?.photo_url"
+      >
+    </div>
+    <fm-member-icons
+      *ngIf="member?.likely_lineup"
+      @createBox
+      [captain]="captain"
+      [member]="member"
+      [circle]="true"
+    >
+    </fm-member-icons>
+  </div>
   <mat-select
     #memberSelection="ngModel"
     [disabled]="disabled"
     [placeholder]="placeholder"
-    [attr.required]="required"
+    [required]="required"
     [name]="name"
     [compareWith]="compareFn"
-    [(ngModel)]="val"
-    (blur)="onTouched()"
-    (selectionChange)="change($event)"
+    [(ngModel)]="member"
+    (ngModelChange)="change($event)"
   >
     <mat-option>{{placeholder}}</mat-option>
-    <mat-select-trigger *ngIf="val">
-      {{val.player.full_name}}
+    <mat-select-trigger *ngIf="member">
+      {{member?.player?.full_name}}
     </mat-select-trigger>
     <ng-container *ngIf="memberList?.length">
       <mat-option
@@ -63,9 +62,9 @@
     </ng-container>
   </mat-select>
   <mat-error *ngIf="memberSelection.errors?.required">Seleziona il giocatore</mat-error>
-  <mat-hint *ngIf="val?.stats">
-    <span>Ø P.ti: {{val.stats?.avg_points | number: '1.1-1'}}</span> -
-    <span>Ø Voti: {{val.stats?.avg_rating | number: '1.1-1'}}</span> -
-    <span>Σ Gol: {{val.role_id != 1 ? val.stats?.sum_goals : val.stats?.sum_goals_against}}</span>
+  <mat-hint *ngIf="member?.stats">
+    <span>Ø P.ti: {{member?.stats?.avg_points | number: '1.1-1'}}</span> -
+    <span>Ø Voti: {{member?.stats?.avg_rating | number: '1.1-1'}}</span> -
+    <span>Σ Gol: {{member?.role_id != 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against}}</span>
   </mat-hint>
 </mat-form-field>
