@@ -60,6 +60,10 @@ export class LineupLastPage implements OnDestroy {
         err => {
           UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
         });
+    } else {
+      this.snackBar.open('Si sono verificati errori di validazione', undefined, {
+        duration: 3000
+      });
     }
   }
 }

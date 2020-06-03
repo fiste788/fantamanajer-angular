@@ -1,6 +1,7 @@
 export * from './card-creation.animation';
 export * from './create-box.animation';
 export * from './enter-detail.animation';
+export * from './lineup-disposition.animation';
 export * from './list-item.animation';
 export * from './open-overlay.animation';
 export * from './router-transition.animation';

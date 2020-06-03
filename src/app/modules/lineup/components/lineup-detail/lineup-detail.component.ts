@@ -1,10 +1,10 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
-import { Lineup, Member, MemberOption, Role } from '@shared/models';
+import { lineupDispositionAnimation } from '@shared/animations';
+import { Lineup, MemberOption, Role } from '@shared/models';
 
 import { Area, LineupService } from '../lineup.service';
 
@@ -15,23 +15,7 @@ import { Area, LineupService } from '../lineup.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LineupService],
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  animations: [
-    // transition(':leave', animateChild()),
-    trigger('items', [
-      transition(':enter', [
-        style({ flex: 0.00001 }),  // initial
-        animate('500ms ease',
-          style({ flex: 1 }))  // final
-      ]),
-      transition(':leave', [
-        style({ flex: 1 }),
-        animate('500ms ease',
-          style({
-            flex: 0.00001
-          }))
-      ])
-    ])
-  ]
+  animations: [lineupDispositionAnimation]
 })
 export class LineupDetailComponent implements OnInit {
   @Input() lineup?: Lineup;
@@ -85,16 +69,8 @@ export class LineupDetailComponent implements OnInit {
     return item.role.id; // or item.id
   }
 
-  trackBySelection(_: number, item: KeyValue<number, Role>): number {
-    return item.key; // or item.id
-  }
-
   trackByBench(_: number, item: number): number {
     return item; // or item.id
-  }
-
-  trackByMember(_: number, item: Member): number {
-    return item.id; // or item.id
   }
 
   trackByCaptain(_: number, item: MemberOption): number {

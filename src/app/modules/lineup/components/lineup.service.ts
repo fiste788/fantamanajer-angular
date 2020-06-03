@@ -44,8 +44,9 @@ export class LineupService {
       this.loadModules();
       this.captainSelectionChange();
       this.benchOptions = Array.from(this.membersByRole.entries())
-        .reduce((m, [k, v]) => m.set(k, v.map(member => ({ member, disabled: this.isAlreadySelected(member) }))),
+        .reduce((m, [k, v]) => m.set(k, v.map(member => ({ member, disabled: false }))),
           new Map<Role, Array<MemberOption>>());
+      this.reloadBenchwarmerState();
     }
   }
 
@@ -121,12 +122,10 @@ export class LineupService {
   private removeBenchwarmer(member: Member): void {
     this.lineup.dispositions
       .filter(element => element.position > 11)
-      // .filter(element => event.value && element.member.id === event.value.id);
-      .map(element => {
-        if (element.member?.id === member.id) {
-          delete element.member;
-          delete element.member_id;
-        }
+      .filter(element => element.member?.id === member.id)
+      .forEach(element => {
+        delete element.member;
+        delete element.member_id;
       });
     this.reloadRegularState(member.role_id);
   }
@@ -146,20 +145,14 @@ export class LineupService {
   }
 
   private isCaptainAlreadySelected(member: Member): boolean {
-    return (
-      this.lineup.captain_id === member.id ||
-      this.lineup.vcaptain_id === member.id ||
-      this.lineup.vvcaptain_id === member.id
-    );
+    return [this.lineup.captain_id, this.lineup.vcaptain_id, this.lineup.vvcaptain_id].includes(member.id);
   }
 
   private getCapitanables(): Array<MemberOption> {
-    const regulars = this.lineup.dispositions.slice(0, 11);
-    const def = regulars.filter(element => element.member !== undefined
-      && ['P', 'D'].find(a => this.membersById.get(element.member?.id ?? 0)?.role.abbreviation === a));
-
-    return def.map(element => this.membersById.get(element.member?.id ?? 0))
-      .filter((x): x is Member => x !== null)
+    return this.lineup.dispositions.slice(0, 11)
+      .filter(e => e !== undefined && e !== null)
+      .map(element => element.member as Member)
+      .filter(m => ['P', 'D'].includes(m.role.abbreviation))
       .map(m => ({ disabled: this.isCaptainAlreadySelected(m), member: m }));
   }
 }

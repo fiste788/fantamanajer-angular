@@ -12,6 +12,12 @@
     font-family: Roboto, sans-serif;
   }
 
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
   .mat-text-accent {
     color: mat-color($accent);
   }
