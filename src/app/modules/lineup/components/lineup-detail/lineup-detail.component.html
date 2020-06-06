@@ -6,7 +6,7 @@
     fxLayoutAlign="space-between center"
     fxLayoutAlign.xs="left left"
   >
-    <mat-form-field>
+    <mat-form-field class="module">
       <mat-label>Modulo</mat-label>
       <mat-select
         name="module"
@@ -30,41 +30,44 @@
     >Jolly</mat-checkbox>
   </div>
   <ng-container *ngIf="lineupService.selectedModule">
-    <div
-      *ngFor="let area of lineupService.selectedModule.areas; trackBy: trackByArea"
-      fxLayout="row"
-      [ngClass]="[area.role.abbreviation, 'area-container']"
-    >
-      <h5
-        fmSticky
-        [title]="area.role.plural"
-      >{{area.role.plural | uppercase}}</h5>
+    <div ngModelGroup="dispositions">
       <div
-        class="area"
+        *ngFor="let area of lineupService.selectedModule.areas; trackBy: trackByArea"
         fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutAlign="space-around"
+        [ngClass]="[area.role.abbreviation, 'area-container']"
       >
-        <ng-container *ngFor="let i of (area.toIndex | range: area.fromIndex)">
-          <fm-member-selection
-            @items
-            fxLayout="column"
-            fxLayout.xs="row"
-            fxLayoutAlign="start center"
-            class="regular"
-            [disabled]="disabled"
-            [required]="true"
-            [name]="'member-' + i"
-            [memberList]="area.options"
-            [captain]="lineup?.dispositions[i].member?.id == lineup?.captain_id"
-            [placeholder]="area.role.singolar"
-            [width]="320"
-            [height]="450"
-            [(member)]="lineup?.dispositions[i].member"
-            (memberChange)="lineupService.memberSelectionChange(area.role, $event)"
-          >
-          </fm-member-selection>
-        </ng-container>
+        <h5
+          fmSticky
+          [title]="area.role.plural"
+        >{{area.role.plural | uppercase}}</h5>
+        <div
+          class="area"
+          fxLayout="column"
+          fxLayout.gt-sm="row"
+          fxLayoutAlign="space-around"
+        >
+          <ng-container *ngFor="let i of (area.toIndex | range: area.fromIndex)">
+            <div [ngModelGroup]="i">
+              <fm-member-selection
+                name="member"
+                fxLayout="row"
+                fxLayout.gt-sm="column"
+                fxLayoutAlign="start center"
+                class="regular"
+                [disabled]="disabled"
+                [required]="true"
+                [memberList]="area.options"
+                [captain]="lineup?.dispositions[i].member?.id == lineup?.captain_id"
+                [placeholder]="area.role.singolar"
+                [width]="320"
+                [height]="450"
+                [(member)]="lineup?.dispositions[i].member"
+                (memberChange)="lineupService.memberSelectionChange(area.role, $event)"
+              >
+              </fm-member-selection>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </ng-container>
@@ -100,26 +103,30 @@
   <fieldset class="benchwarmers">
     <h5>Panchinari</h5>
     <div
-      fxLayout="row wrap"
-      fxLayout.xs="column"
+      fxLayout="column"
+      fxLayout.gt-sm="row wrap"
       fxLayoutAlign="space-around"
+      ngModelGroup="dispositions"
     >
-      <fm-member-selection
-        *ngFor="let bench of lineupService.benchs; trackBy: trackByBench"
-        class="benchwarmer"
-        fxLayout="column"
-        fxLayout.xs="row"
-        fxLayoutAlign="start center"
-        [memberMap]="lineupService.benchOptions"
-        [disabled]="disabled"
-        [placeholder]="'Panchinaro ' + (bench - 10)"
-        [name]="bench"
-        [width]="320"
-        [height]="450"
-        [(member)]="lineup.dispositions[bench].member"
-        (memberChange)="lineupService.benchwarmerSelectionChange($event)"
-      >
-      </fm-member-selection>
+      <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
+        <div [ngModelGroup]="bench">
+          <fm-member-selection
+            name="member"
+            class="benchwarmer"
+            fxLayout="row"
+            fxLayout.gt-sm="column"
+            fxLayoutAlign="start center"
+            [memberMap]="lineupService.benchOptions"
+            [disabled]="disabled"
+            [placeholder]="'Panchinaro ' + (bench - 10)"
+            [width]="320"
+            [height]="450"
+            [(member)]="lineup.dispositions[bench].member"
+            (memberChange)="lineupService.benchwarmerSelectionChange($event)"
+          >
+          </fm-member-selection>
+        </div>
+      </ng-container>
     </div>
   </fieldset>
 </ng-container>

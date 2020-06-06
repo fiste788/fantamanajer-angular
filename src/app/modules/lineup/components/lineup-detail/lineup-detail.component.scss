@@ -29,14 +29,14 @@ mat-select {
   }
 }
 
-.mat-form-field {
+.mat-form-field:not(.module) {
   width: 100%;
 }
 
 .flex-container {
   margin: 0 1rem;
 }
-@include layout-bp(gt-xs) {
+@include layout-bp(gt-md) {
   .mat-form-field {
     width: unset;
     min-width: 10rem;

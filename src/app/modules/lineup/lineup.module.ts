@@ -5,6 +5,7 @@ import { MemberCommonModule } from '@modules/member-common/member-common.module'
 import { SharedModule } from '@shared/shared.module';
 
 import { LineupDetailComponent } from './components/lineup-detail/lineup-detail.component';
+import { MemberAlreadySelectedValidator } from './components/lineup-detail/member-already-selected-validator.directive';
 import { LineupRoutingModule } from './lineup-routing.module';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { LineupRoutingModule } from './lineup-routing.module';
   ],
   declarations: [
     LineupDetailComponent,
-    LineupRoutingModule.components
+    LineupRoutingModule.components,
+    MemberAlreadySelectedValidator
   ]
 })
 export class LineupModule { }

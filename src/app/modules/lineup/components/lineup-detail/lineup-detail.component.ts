@@ -14,8 +14,7 @@ import { Area, LineupService } from '../lineup.service';
   styleUrls: ['./lineup-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LineupService],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  animations: [lineupDispositionAnimation]
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 export class LineupDetailComponent implements OnInit {
   @Input() lineup?: Lineup;

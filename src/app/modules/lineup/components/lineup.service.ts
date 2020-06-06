@@ -71,7 +71,7 @@ export class LineupService {
 
   benchwarmerSelectionChange(member?: Member): void {
     if (member) {
-      this.removeBenchwarmer(member);
+      // this.removeBenchwarmer(member);
     }
     this.selectionChange.emit(member);
   }
@@ -114,7 +114,7 @@ export class LineupService {
   private reloadBenchwarmerState(): void {
     this.benchOptions.forEach(v => {
       v.forEach(o => {
-        o.disabled = this.isAlreadySelected(o.member);
+        o.disabled = this.isRegular(o.member);
       });
     });
   }

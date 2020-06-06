@@ -3,6 +3,7 @@
     <form
       *ngIf="lineup.module || lineup.team.id == teamId; else notSet"
       #lineupForm="ngForm"
+      [fmMemberAlreadySelected]="lineup"
       class="flex-container"
       (ngSubmit)="save()"
     >

@@ -39,7 +39,7 @@
 .select-container {
   max-width: 100%;
 }
-@include layout-bp(gt-xs) {
+@include layout-bp(gt-sm) {
   :host {
     overflow: hidden;
     max-width: 180px;
