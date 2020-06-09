@@ -23,7 +23,10 @@ export class MatchdayService {
 
   getCurrentMatchday(): Observable<Matchday> {
     return this.httpWithoutIntercept.get<{ success: boolean, data: Matchday }>(environment.apiEndpoint + routes.current, {
-      withCredentials: false
+      withCredentials: false,
+      headers: {
+        Accept: '*/*'
+      }
     })
       .pipe(pluck('data'));
   }

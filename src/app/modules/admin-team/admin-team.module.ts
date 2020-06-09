@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { ConfirmationDialogModule } from '@modules/confirmation-dialog/confirmation-dialog.module';
 import { LineupModule } from '@modules/lineup/lineup.module';
@@ -16,7 +15,6 @@ import { AdminTeamRoutingModule } from './admin-team-routing.module';
     AdminTeamRoutingModule,
     MemberCommonModule,
     LineupModule,
-    ReactiveFormsModule,
     ConfirmationDialogModule
   ],
   declarations: [

@@ -31,44 +31,13 @@
   </div>
   <ng-container *ngIf="lineupService.selectedModule">
     <div ngModelGroup="dispositions">
-      <div
-        *ngFor="let area of lineupService.selectedModule.areas; trackBy: trackByArea"
-        fxLayout="row"
-        [ngClass]="[area.role.abbreviation, 'area-container']"
-      >
-        <h5
-          fmSticky
-          [title]="area.role.plural"
-        >{{area.role.plural | uppercase}}</h5>
-        <div
-          class="area"
-          fxLayout="column"
-          fxLayout.gt-sm="row"
-          fxLayoutAlign="space-around"
-        >
-          <ng-container *ngFor="let i of (area.toIndex | range: area.fromIndex)">
-            <div [ngModelGroup]="i">
-              <fm-member-selection
-                name="member"
-                fxLayout="row"
-                fxLayout.gt-sm="column"
-                fxLayoutAlign="start center"
-                class="regular"
-                [disabled]="disabled"
-                [required]="true"
-                [memberList]="area.options"
-                [captain]="lineup?.dispositions[i].member?.id == lineup?.captain_id"
-                [placeholder]="area.role.singolar"
-                [width]="320"
-                [height]="450"
-                [(member)]="lineup?.dispositions[i].member"
-                (memberChange)="lineupService.memberSelectionChange(area.role, $event)"
-              >
-              </fm-member-selection>
-            </div>
-          </ng-container>
-        </div>
-      </div>
+      <fm-module-area
+        [module]="lineupService.selectedModule"
+        [membersByRole]="lineupService.membersByRole"
+        [dispositions]="lineupService.lineup.dispositions"
+        [disabled]="disabled"
+        (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
+      ></fm-module-area>
     </div>
   </ng-container>
   <fieldset>

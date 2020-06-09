@@ -1,0 +1,37 @@
+@import '~@angular/flex-layout/mq';
+
+.area {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.area fm-member-selection {
+  flex: 1;
+}
+
+.area-container {
+  margin: .5rem 0;
+
+  h5 {
+    top: 1rem;
+    height: min-content;
+    margin: 0;
+    position: sticky;
+    text-orientation: upright;
+    writing-mode: vertical-lr;
+    padding: .5rem 1.5rem 1rem 0;
+    text-overflow: ellipsis;
+  }
+}
+
+mat-select {
+  min-width: 100%;
+  display: inline-block !important;
+}
+@include layout-bp(gt-md) {
+  .mat-form-field {
+    width: unset;
+    min-width: 10rem;
+    margin: 0 .5rem;
+  }
+}

@@ -1,16 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { MatSelectChange } from '@angular/material/select';
-
 import { RoleService } from '@app/http';
 import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@shared/models';
-
-export interface Area {
-  role: Role;
-  fromIndex: number;
-  toIndex: number;
-  options: Array<MemberOption>;
-}
 
 @Injectable()
 export class LineupService {
@@ -28,7 +19,7 @@ export class LineupService {
     .map((_, i) => i + 11);
   captainables: Array<MemberOption>;
   selectionChange: EventEmitter<Member> = new EventEmitter<Member>();
-  private membersByRole: Map<Role, Array<Member>>;
+  membersByRole: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService
@@ -51,14 +42,10 @@ export class LineupService {
   }
 
   moduleChange(): void {
-    this.selectedModule.areas.forEach(area => (
-      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }))
-    ));
     this.lineup.module = this.selectedModule.key;
   }
 
   memberSelectionChange(role: Role, member?: Member): void {
-    this.reloadRegularState(role.id);
     this.reloadBenchwarmerState();
     if (member) {
       this.removeBenchwarmer(member);
@@ -106,11 +93,6 @@ export class LineupService {
       });
   }
 
-  private reloadRegularState(roleId?: number): void {
-    this.selectedModule.areas.filter(a => roleId === undefined || a.role.id === roleId)
-      .forEach(v => v.options.map(o => o.disabled = this.isRegular(o.member)));
-  }
-
   private reloadBenchwarmerState(): void {
     this.benchOptions.forEach(v => {
       v.forEach(o => {
@@ -127,7 +109,6 @@ export class LineupService {
         delete element.member;
         delete element.member_id;
       });
-    this.reloadRegularState(member.role_id);
   }
 
   private isAlreadySelected(member: Member): boolean {

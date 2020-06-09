@@ -1,33 +1,20 @@
 <form
-  *ngIf="(controlsByRole$ | async) as controls; else loading"
+  *ngIf="(controlsByRole$ | async); else loading"
+  #lineupForm="ngForm"
   (ngSubmit)="save()"
 >
-  <div *ngFor="let role of (controls | keyvalue); trackBy: track">
-    <h5>{{role.key.plural}}</h5>
-    <div
-      class="flex-container"
-      fxLayout="row wrap"
-      fxLayout.xs="column"
-      fxLayoutAlign="space-around flex-start"
-    >
-      <ng-container *ngFor="let c of role.value.controls; let i = index; trackBy: trackByMember">
-        <div class="disposition">
-          <fm-member-selection
-            [memberList]="role.value.members"
-            [placeholder]="role.key.singolar + ' ' + (i + 1)"
-            [size]="75"
-            [formControl]="membersControls.controls[c]"
-          >
-          </fm-member-selection>
-        </div>
-      </ng-container>
-    </div>
+  <div ngModelGroup="members">
+    <fm-module-area
+      [module]="module"
+      [wrap]="true"
+      [membersByRole]="membersByRole"
+      [dispositions]="members"
+    ></fm-module-area>
   </div>
   <button
     color="accent"
-    mat-raised-button
     type="submit"
-    [disabled]="!membersControls.valid"
+    mat-raised-button
   >SALVA</button>
 </form>
 <ng-template #loading>

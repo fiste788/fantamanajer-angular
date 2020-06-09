@@ -1,6 +1,5 @@
-import { KeyValue } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
@@ -8,12 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@app/http';
 import { UtilService } from '@app/services/';
-import { Member, Role, Team } from '@shared/models';
-
-interface TeamMembers {
-  controls: Array<number>;
-  members: Array<Member>;
-}
+import { Member, Module, Role, Team } from '@shared/models';
 
 @Component({
   templateUrl: './edit-members.page.html',
@@ -22,21 +16,24 @@ interface TeamMembers {
 export class EditMembersPage implements OnInit {
   @ViewChild(NgForm) membersForm: NgForm;
 
-  membersControls: FormArray;
-  controlsByRole$: Observable<Map<Role, TeamMembers>>;
+  roles = this.roleService.list();
+  module: Module;
+  controlsByRole$: Observable<boolean>;
   team: Team;
-  isAlreadySelectedCallback: () => boolean;
-  private readonly roles: Map<number, Role> = new Map<number, Role>();
+  members: Array<{ member: Member }>;
+  membersByRole: Map<Role, Array<Member>>;
 
   constructor(
-    private readonly fb: FormBuilder,
     private readonly roleService: RoleService,
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar
   ) {
-    this.roles = this.roleService.list();
+    const key = Array.from(this.roles.values())
+      .map(r => r.count)
+      .join('-');
+    this.module = new Module(key, this.roles);
   }
 
   ngOnInit(): void {
@@ -44,53 +41,28 @@ export class EditMembersPage implements OnInit {
     if (t) {
       this.team = t;
       this.loadMembers(this.team);
-      this.isAlreadySelectedCallback = this.isAlreadySelected.bind(this);
     }
   }
 
   loadMembers(team: Team): void {
-    this.membersControls = new FormArray([]);
     this.controlsByRole$ = forkJoin(
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id)
     )
       .pipe(
         map(([teamMembers, allMembers]) => {
-          const m = new Map<Role, TeamMembers>();
           this.team.members = teamMembers.slice(0, this.roleService.totalMembers());
-          this.roles.forEach((role, roleId) => {
-            const members = this.team.members.filter(entry => entry !== undefined && entry.role_id === roleId)
-              .concat(allMembers[roleId]);
-            const controls: Array<number> = [];
-            Array(role.count)
-              .fill(0)
-              .forEach((_, i) => {
-                const index = this.getIndex(role, i);
-                const c = this.createItem(this.team.members[index]);
-                this.membersControls.push(c);
-                controls.push(index);
-              });
-            m.set(role, { members, controls });
-          });
+          this.members = this.team.members.map(member => ({ member }));
+          this.membersByRole = Array.from(this.roles.values())
+            .reduce((m, c) => {
+              const members = this.team.members.filter(entry => entry !== undefined && entry.role_id === c.id)
+                .concat(allMembers[c.id]);
 
-          return m;
+              return m.set(c, members);
+            }, new Map<Role, Array<Member>>());
+
+          return true;
         }));
-  }
-
-  getIndex(role: Role, memberKey: number): number {
-    return Array.from(this.roles.entries())
-      .filter(([n]) => n < role.id)
-      .map(([_, v]) => v)
-      .reduce((c, v) => c + v.count, memberKey);
-  }
-
-  createItem(member?: Member): FormControl {
-    return this.fb.control(member, Validators.required);
-  }
-
-  isAlreadySelected(member: Member): boolean {
-    return this.team.members.filter(element => element !== undefined)
-      .includes(member);
   }
 
   compareTeam(c1: Team, c2: Team): boolean {
@@ -102,7 +74,7 @@ export class EditMembersPage implements OnInit {
   }
 
   save(): void {
-    this.team.members = this.membersControls.value;
+    this.team.members = this.members.map(m => m.member);
     this.teamService.update(this.team)
       .subscribe(() => {
         this.snackBar.open('Giocatori modificati', undefined, {
@@ -110,16 +82,8 @@ export class EditMembersPage implements OnInit {
         });
       },
         err => {
-          UtilService.getUnprocessableEntityErrors(this.membersControls, err);
+          UtilService.getUnprocessableEntityErrors(this.membersForm, err);
         }
       );
-  }
-
-  track(_: number, item: KeyValue<Role, TeamMembers>): number {
-    return item.key.id; // or item.id
-  }
-
-  trackByMember(index: number): number {
-    return index; // or item.id
   }
 }

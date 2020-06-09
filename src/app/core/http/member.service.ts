@@ -33,10 +33,10 @@ export class MemberService {
 
   }
 
-  getAllFree(championshipId: number): Observable<Array<Member>> {
+  getAllFree(championshipId: number): Observable<{ [id: number]: Array<Member> }> {
     const params = new HttpParams().set('stats', '0');
 
-    return this.http.get<Array<Member>>(routes.free(championshipId), { params });
+    return this.http.get<{ [id: number]: Array<Member> }>(routes.free(championshipId), { params });
 
   }
 

@@ -3,10 +3,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
-import { lineupDispositionAnimation } from '@shared/animations';
-import { Lineup, MemberOption, Role } from '@shared/models';
+import { Area, Lineup, MemberOption, Role } from '@shared/models';
 
-import { Area, LineupService } from '../lineup.service';
+import { LineupService } from '../lineup.service';
 
 @Component({
   selector: 'fm-lineup-detail',
@@ -63,10 +62,6 @@ export class LineupDetailComponent implements OnInit {
 
   descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>
     (a.key < b.key) ? b.key : a.key;
-
-  trackByArea(_: number, item: Area): number {
-    return item.role.id; // or item.id
-  }
 
   trackByBench(_: number, item: number): number {
     return item; // or item.id

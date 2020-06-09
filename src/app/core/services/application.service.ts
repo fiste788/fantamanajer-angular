@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
+import { map, skip, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { MatchdayService } from '@app/http';
@@ -39,13 +39,14 @@ export class ApplicationService {
         this.setUser(u);
       });
 
-    let obs = this.getCurrentMatchday();
+    const obs: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
     if (this.auth.loggedIn()) {
-      obs = forkJoin([obs, this.auth.getCurrentUser()])
-        .pipe(map(() => undefined));
+      obs.push(this.auth.getCurrentUser());
     }
 
-    return obs.toPromise()
+    return forkJoin(obs)
+      .pipe(map(() => undefined))
+      .toPromise()
       .catch(e => {
         const el = this.document.querySelector('.error');
         if (el !== null) {
@@ -102,10 +103,10 @@ export class ApplicationService {
     }
   }
 
-  private getCurrentMatchday(): Observable<void> {
+  private loadCurrentMatchday(): Observable<Matchday> {
     return this.matchdayService.getCurrentMatchday()
       .pipe(
-        map(m => {
+        tap(m => {
           this.setCurrentMatchday(m);
         })
       );
