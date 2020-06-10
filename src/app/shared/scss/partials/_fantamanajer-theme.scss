@@ -6,7 +6,7 @@
 @import 'shared/components/mat-empty-state/mat-empty-state';
 @import 'core/layout/layout';
 @import 'modules/auth/pages/login/login';
-@import 'modules/lineup/components/lineup-detail/lineup-detail';
+@import 'modules/lineup-common/components/lineup-detail/lineup-detail';
 @import 'modules/member-common/components/member-selection/member-selection';
 @mixin fantamanajer-theme($theme) {
   $primary: map-get($theme, primary);

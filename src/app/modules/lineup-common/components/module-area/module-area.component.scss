@@ -3,10 +3,10 @@
 .area {
   width: 100%;
   padding-bottom: 1rem;
-}
 
-.area fm-member-selection {
-  flex: 1;
+  fm-member-selection {
+    transition: flex .3s ease-out;
+  }
 }
 
 .area-container {

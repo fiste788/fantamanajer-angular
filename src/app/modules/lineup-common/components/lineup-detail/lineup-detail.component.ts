@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
-import { Area, Lineup, MemberOption, Role } from '@shared/models';
+import { Lineup, MemberOption, Role } from '@shared/models';
 
 import { LineupService } from '../lineup.service';
 

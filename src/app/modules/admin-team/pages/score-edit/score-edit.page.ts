@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 import { ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
-import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
+import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 import { Score, Team } from '@shared/models';
 
 @Component({

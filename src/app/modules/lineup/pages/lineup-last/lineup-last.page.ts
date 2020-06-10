@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { LineupService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
-import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
+import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 import { Lineup, Team } from '@shared/models';
 
 @Component({
