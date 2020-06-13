@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { CredentialService, UserService } from '@app/http';
 import { User } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  userChange$: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
+  userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
+  userChange$ = this.userSubject.asObservable();
   loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
 
   private token?: string;
@@ -30,15 +31,15 @@ export class AuthenticationService {
 
   login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
     return this.userService.login(email, password, rememberMe)
-      .pipe(map(res => this.postLogin(res, rememberMe)));
+      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
   }
 
   webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
     return this.credentialService.getPublicKey(email, token)
-      .pipe(map(res => this.postLogin(res, rememberMe)));
+      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
   }
 
-  postLogin(res: { user: User, token: string }, rememberMe?: boolean): boolean {
+  postLogin(res: { user: User, token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
       this.token = res.token;
       const user = res.user;
@@ -50,12 +51,12 @@ export class AuthenticationService {
           sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
         }
       }
-      this.userChange$.next(user);
+      this.userSubject.next(user);
 
-      return true;
+      return this.userChange$.pipe(map(u => u !== undefined));
     }
 
-    return false;
+    return of(false);
 
   }
 
@@ -67,7 +68,7 @@ export class AuthenticationService {
     this.userService.logout()
       .subscribe();
     this.token = undefined;
-    this.userChange$.next(undefined);
+    this.userSubject.next(undefined);
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 
@@ -75,11 +76,11 @@ export class AuthenticationService {
     return !this.jwtHelper.isTokenExpired(this.token);
   }
 
-  getCurrentUser(): Observable<void> {
+  getCurrentUser(): Observable<User> {
     return this.userService.getCurrent()
       .pipe(
-        map(user => {
-          this.userChange$.next(user);
+        tap(user => {
+          this.userSubject.next(user);
         })
       );
   }

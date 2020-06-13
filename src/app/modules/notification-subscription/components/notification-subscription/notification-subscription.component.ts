@@ -3,12 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 
 import { NotificationSubscription, Team } from '@shared/models';
 
-import { notificationSubscriptions } from '../../notification-subscription.definition';
-
-interface Notification {
-  name: string;
-  label: string;
-}
+import { Keys, Notification, notificationSubscriptions } from '../../notification-subscription.definition';
 
 @Component({
   selector: 'fm-notification-subscription',
@@ -17,7 +12,7 @@ interface Notification {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationSubscriptionComponent implements OnInit {
-  @Input() type: string;
+  @Input() type: Keys;
   @Input() label: string;
   @Input() subscriptions: Array<NotificationSubscription>;
   @Input() team: Team;
@@ -26,7 +21,7 @@ export class NotificationSubscriptionComponent implements OnInit {
     new EventEmitter<Array<NotificationSubscription>>();
 
   map = new Map<Notification, NotificationSubscription>();
-  private keys: [Notification];
+  private keys: Array<Notification>;
 
   ngOnInit(): void {
     this.load();

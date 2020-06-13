@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormArray, NgForm, NgModel } from '@angular/forms';
+import { FormArray, NgForm, NgModel, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
@@ -14,7 +14,9 @@ export class UtilService {
       Object.keys(errors)
         .forEach(key => {
           if (form.controls.hasOwnProperty(key)) {
-            form.controls[key].setErrors(errors[key]);
+            (form.controls as {
+              [key: string]: AbstractControl;
+            })[key].setErrors(errors[key]);
           }
         });
     }

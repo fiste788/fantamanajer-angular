@@ -27,4 +27,8 @@ export class HomePage implements OnInit {
   track(_: number, item: Member): number {
     return item.id; // or item.id
   }
+
+  trackByRole(_: number, item: Role): number {
+    return item.id; // or item.id
+  }
 }

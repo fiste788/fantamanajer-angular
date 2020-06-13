@@ -100,7 +100,7 @@ export class NewTransfertPage implements OnInit {
       );
   }
 
-  track(_: number, item: Transfert): number {
+  track(_: number, item: Member): number {
     return item.id; // or item.id
   }
 

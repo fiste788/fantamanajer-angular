@@ -10,7 +10,7 @@
       fxLayoutAlign.xs="start"
     >
       <mat-card
-        *ngFor="let role of roles; trackBy: track"
+        *ngFor="let role of roles; trackBy: trackByRole"
         class="flex-item"
         fxFlex.xs="100"
         fxFlex.sm="45"
@@ -19,16 +19,16 @@
       >
         <img
           mat-card-image
-          [alt]=" role.best_players[0].player.full_name"
-          [lazyLoad]="role.best_players[0].photo_url || ''"
-          [defaultImage]="'/assets/clubs.svg#club-' + role.best_players[0].club_id"
+          [alt]=" role.best_players[0]?.player?.full_name"
+          [lazyLoad]="role.best_players[0]?.photo_url || ''"
+          [defaultImage]="'/assets/clubs.svg#club-' + role.best_players[0]?.club_id"
         >
         <mat-card-header>
           <mat-card-title>
             <span class="mat-text-primary">
-              {{role.best_players[0].ratings[0].points}}
+              {{role.best_players[0]?.ratings[0]?.points}}
             </span>
-            {{role.best_players[0].player.full_name}}
+            {{role.best_players[0]?.player?.full_name}}
           </mat-card-title>
           <mat-card-subtitle>{{role.singolar}}</mat-card-subtitle>
         </mat-card-header>

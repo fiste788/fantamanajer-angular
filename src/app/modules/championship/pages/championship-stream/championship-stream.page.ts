@@ -10,11 +10,11 @@ import { Championship } from '@shared/models';
   styleUrls: ['./championship-stream.page.scss']
 })
 export class ChampionshipStreamPage implements OnInit {
-  id?: number;
+  id: number;
 
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
+    this.id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id ?? 0;
   }
 }

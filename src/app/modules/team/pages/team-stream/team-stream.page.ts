@@ -9,12 +9,12 @@ import { Team } from '@shared/models';
   styleUrls: ['./team-stream.page.scss']
 })
 export class TeamStreamPage implements OnInit {
-  id?: number;
+  id: number;
 
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
+    this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
   }
 
 }

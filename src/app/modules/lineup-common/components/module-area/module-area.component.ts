@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
-import { Area, Disposition, Member, Module, Role } from '@shared/models';
+import { Area, Member, Module, Role } from '@shared/models';
 
 @Component({
   selector: 'fm-module-area',
@@ -15,7 +15,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() wrap = false;
   @Input() captain?: Member;
   @Input() membersByRole: Map<Role, Array<Member>>;
-  @Input() dispositions: Array<Disposition>;
+  @Input() dispositions: Array<{ member?: Member, position?: number }>;
 
   @Output() readonly selectionChange: EventEmitter<{ role: Role, member?: Member }> = new EventEmitter<{ role: Role, member?: Member }>();
 
@@ -48,7 +48,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   private isRegular(member: Member): boolean {
     return this.dispositions
-      .filter(element => element.position <= 11 && element.member !== null)
+      .filter(element => element.position && element.position <= 11 && element.member !== null)
       .map(element => element.member?.id)
       .includes(member.id);
   }

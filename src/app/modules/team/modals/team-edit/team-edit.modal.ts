@@ -17,17 +17,21 @@ export class TeamEditModal {
   team: Team;
   file?: File;
 
-  static objectToPostParams(team: Team, fieldName: string, formData: FormData): void {
+  static objectToPostParams(
+    team: Team,
+    fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
+    formData: FormData
+  ): void {
     team[fieldName].forEach((element: NotificationSubscription, i: number) => {
       if (element.enabled) {
         Object.keys(element)
           .filter(f => f !== 'id')
-          .forEach(field => {
+          .forEach((field: keyof NotificationSubscription) => {
             let value = element[field];
             if (field === 'enabled') {
               value = 1;
             }
-            formData.append(`${fieldName}[${i}][${field}]`, value);
+            formData.append(`${fieldName}[${i}][${field}]`, value as string);
           });
       }
     });

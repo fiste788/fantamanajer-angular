@@ -29,7 +29,7 @@
     routerLinkActive="active"
     [routerLink]="['championships', championship?.id]"
   >
-    <mat-icon matListIcon>bubble_chart</mat-icon>{{championship?.league.name}}
+    <mat-icon matListIcon>bubble_chart</mat-icon>{{championship?.league?.name}}
   </a>
   <a
     mat-list-item

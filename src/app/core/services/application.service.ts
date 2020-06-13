@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, skip, switchMap, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { MatchdayService } from '@app/http';
@@ -16,48 +16,104 @@ export class ApplicationService {
 
   seasonEnded: boolean;
   seasonStarted: boolean;
-  matchday: Matchday;
+  selectedMatchday: Matchday;
   championship?: Championship;
   teamChange$ = new BehaviorSubject<Team | undefined>(undefined);
   user?: User;
   teams?: Array<Team>;
-  private currentTeam?: Team;
+  private selectedTeam?: Team;
+  private currentMatchday: Matchday;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly auth: AuthenticationService,
+    private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
     private readonly injector: Injector
   ) { }
 
-  async initialize(): Promise<void> {
-    this.teamChange$.subscribe(t => {
-      this.setTeam(t, true);
-    });
-    this.auth.userChange$.pipe(skip(1))
-      .subscribe((u: User) => {
-        this.setUser(u);
-      });
+  get team(): Team | undefined {
+    return this.selectedTeam;
+  }
 
-    const obs: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
-    if (this.auth.loggedIn()) {
-      obs.push(this.auth.getCurrentUser());
+  set team(team: Team | undefined) {
+    if (team) {
+      if (this.selectedTeam && team.championship === undefined) {
+        team.championship = this.selectedTeam?.championship;
+      }
+      this.selectedTeam = team;
+      this.championship = team.championship;
+      if (this.matchday !== undefined) {
+        if (this.championship.season_id !== this.matchday.season_id) {
+          this.seasonStarted = false;
+          this.seasonEnded = true;
+        } else {
+          this.matchday = this.matchday;
+        }
+      }
+    }
+  }
+
+  get matchday(): Matchday {
+    return this.selectedMatchday;
+  }
+
+  set matchday(matchday: Matchday) {
+    this.selectedMatchday = matchday;
+    this.seasonEnded = matchday.number > environment.matchdaysCount;
+    this.seasonStarted = matchday.number > 0;
+  }
+
+  async initialize(): Promise<void> {
+    const obs: Array<Observable<unknown>> = [];
+    obs.push(this.loadCurrentMatchday());
+    if (this.authService.loggedIn()) {
+      obs.push(this.loadCurrentUser());
     }
 
     return forkJoin(obs)
-      .pipe(map(() => undefined))
+      .pipe(map(() => {
+        this.connectObservables();
+      }))
       .toPromise()
       .catch(e => {
-        const el = this.document.querySelector('.error');
-        if (el !== null) {
-          el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
-        }
-        throw e;
+        this.writeError(e);
       });
   }
 
-  get team(): Team | undefined {
-    return this.currentTeam;
+  private connectObservables(): void {
+    this.teamChange$.subscribe(t => {
+      this.setTeam(t);
+    });
+    this.authService.userChange$.subscribe(u => {
+      this.setUser(u);
+    });
+  }
+
+  private writeError(e: Error): void {
+    const el = this.document.querySelector('.error');
+    if (el !== null) {
+      el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
+    }
+    throw e;
+  }
+
+  private loadCurrentUser(): Observable<User> {
+    return this.authService.getCurrentUser()
+      .pipe(
+        tap(u => {
+          this.setUser(u);
+        })
+      );
+  }
+
+  private loadCurrentMatchday(): Observable<Matchday> {
+    return this.matchdayService.getCurrentMatchday()
+      .pipe(
+        tap(m => {
+          this.currentMatchday = m;
+          this.matchday = m;
+        })
+      );
   }
 
   private setUser(user?: User): void {
@@ -66,55 +122,29 @@ export class ApplicationService {
       this.loadTeams(user.teams);
     } else {
       this.teams = undefined;
-      this.currentTeam = undefined;
+      this.selectedTeam = undefined;
+      this.matchday = this.currentMatchday;
       void this.getRouter()
         .navigate(['/']);
+    }
+  }
+
+  private setTeam(team?: Team): void {
+    this.team = team;
+    if (team) {
+      void this.getRouter()
+        .navigateByUrl(`/teams/${team.id}`);
     }
   }
 
   private loadTeams(teams?: Array<Team>): void {
     this.teams = teams ?? [];
     if (this.teams.length) {
-      this.setTeam(this.teams[0], false);
+      this.team = this.teams[0];
     }
   }
 
   private getRouter(): Router {
     return this.injector.get(Router);
-  }
-
-  private setTeam(team: Team | undefined, redirect = true): void {
-    if (team) {
-      if (this.currentTeam && team.championship === undefined) {
-        team.championship = this.currentTeam?.championship;
-      }
-      this.currentTeam = team;
-      this.championship = team.championship;
-      if (this.championship.season_id !== this.matchday.season_id) {
-        this.seasonStarted = false;
-        this.seasonEnded = true;
-      } else {
-        this.setCurrentMatchday(this.matchday);
-      }
-      if (redirect) {
-        void this.getRouter()
-          .navigateByUrl(`/teams/${team.id}`);
-      }
-    }
-  }
-
-  private loadCurrentMatchday(): Observable<Matchday> {
-    return this.matchdayService.getCurrentMatchday()
-      .pipe(
-        tap(m => {
-          this.setCurrentMatchday(m);
-        })
-      );
-  }
-
-  private setCurrentMatchday(matchday: Matchday): void {
-    this.matchday = matchday;
-    this.seasonEnded = matchday.number > environment.matchdaysCount;
-    this.seasonStarted = matchday.number > 0;
   }
 }

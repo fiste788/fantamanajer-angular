@@ -65,8 +65,8 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.member = value;
   }
 
-  track(_: number, member: Member): number {
-    return member.id;
+  track(_: number, option: MemberOption): number {
+    return option.member.id;
   }
 
   compareFn(t1: Member, t2: Member): boolean {

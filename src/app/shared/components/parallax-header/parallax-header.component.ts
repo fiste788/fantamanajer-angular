@@ -12,7 +12,7 @@ import { Tab } from '@shared/models';
 export class ParallaxHeaderComponent {
   @Input() title: string;
   @Input() subtitle: string;
-  @Input() image: string;
+  @Input() image: string | null;
   @Input() backgroundImage: Record<string, string> | string | null;
   @Input() tabs: Array<Tab> = [];
 

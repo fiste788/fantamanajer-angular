@@ -36,9 +36,10 @@ export class CamelcaseInterceptor implements HttpInterceptor {
         .replace('_', ''));
   }
 
-  keysToCamel(o: {}): unknown {
+  // tslint:disable-next-line: no-any
+  keysToCamel(o: { [k: string]: any }): unknown {
     if (o === Object(o) && !Array.isArray(o) && typeof o !== 'function') {
-      const n = {};
+      const n: { [k: string]: unknown } = {};
       Object.keys(o)
         .forEach(k => {
           n[this.toCamel(k)] = this.keysToCamel(o[k]);

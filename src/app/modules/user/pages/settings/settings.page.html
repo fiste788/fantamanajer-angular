@@ -47,7 +47,7 @@
           type="password"
           placeholder="Ripeti password"
           matInput
-          [required]="user.password && user.password != ''"
+          [required]="user.password !== undefined && user.password !== ''"
           [(ngModel)]="repeatPassword"
         >
       </mat-form-field>

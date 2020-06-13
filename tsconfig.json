@@ -16,7 +16,7 @@
     "noImplicitThis": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "suppressImplicitAnyIndexErrors": false,
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
@@ -44,7 +44,7 @@
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "strictTemplates": false,
+    "strictTemplates": true,
     "disableTypeScriptVersionCheck": true
   }
 }

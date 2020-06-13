@@ -8,7 +8,7 @@
       <img
         [alt]="member?.player?.full_name || placeholder"
         [defaultImage]="'/assets/clubs.svg#club-' + member?.club_id"
-        [lazyLoad]="member?.player?.photo_url"
+        [lazyLoad]="member?.player?.photo_url || ''"
       >
     </div>
     <fm-member-icons

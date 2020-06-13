@@ -11,7 +11,7 @@
   <mat-sidenav-content>
     <fm-toolbar
       #toolbar
-      [showDrawerButton]="(isHandset$ | async)"
+      [showDrawerButton]="(isHandset$ | async) || false"
       [state]="(showedToolbar$ | async)"
     ></fm-toolbar>
     <main [@contextChange]="o | state">

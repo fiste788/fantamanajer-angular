@@ -16,7 +16,7 @@ import { Championship, Matchday, Score, Team } from '@shared/models';
 export class RankingPage implements OnInit {
   ranking$: Observable<Array<RankingPosition>>;
   rankingDisplayedColumns = ['teamName', 'points'];
-  matchdays: Array<string> = [];
+  matchdays: Array<number> = [];
 
   constructor(
     private readonly scoreService: ScoreService,
@@ -36,15 +36,16 @@ export class RankingPage implements OnInit {
       .pipe(
         tap((ranking: Array<RankingPosition>) => {
           if (ranking.length && ranking[0].scores) {
-            this.matchdays = Object.keys(ranking[0].scores)
+            const matchdays = Object.keys(ranking[0].scores)
               .reverse();
-            this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(this.matchdays);
+            this.matchdays = matchdays.map(m => +m);
+            this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(matchdays);
           }
         })
       );
   }
 
-  track(_: number, item: Matchday): number {
-    return item.id;
+  track(_: number, item: number): number {
+    return item;
   }
 }

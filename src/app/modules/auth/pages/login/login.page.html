@@ -46,7 +46,7 @@
                 color="accent"
                 mat-raised-button
                 matStepperNext
-                [disabled]="f.form.controls.email?.errors"
+                [disabled]="username.errors !== null"
                 (click)="checkToken()"
               >Avanti</button>
             </div>

@@ -41,7 +41,7 @@
 
     <ng-container
       *ngFor="let matchday of matchdays; trackBy: track"
-      [matColumnDef]="matchday"
+      [matColumnDef]="matchday + ''"
     >
       <th
         *matHeaderCellDef

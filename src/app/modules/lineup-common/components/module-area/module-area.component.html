@@ -16,7 +16,7 @@
     >
       <ng-container
         *ngFor="let i of (area.toIndex | range: area.fromIndex); trackBy: trackByPosition"
-        [ngModelGroup]="i"
+        [ngModelGroup]="i + ''"
       >
         <fm-member-selection
           name="member"

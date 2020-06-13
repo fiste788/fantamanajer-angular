@@ -7,11 +7,11 @@ import { ApplicationService } from '@app/services';
   styleUrls: ['./user-stream.page.scss']
 })
 export class UserStreamPage implements OnInit {
-  id?: number;
+  id: number;
 
   constructor(private readonly app: ApplicationService) { }
 
   ngOnInit(): void {
-    this.id = this.app.user?.id;
+    this.id = this.app.user?.id ?? 0;
   }
 }

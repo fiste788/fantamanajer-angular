@@ -7,6 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 import { tableRowAnimation } from '@shared/animations';
 import { Member } from '@shared/models';
 
+type Stats = 'avg_points' | 'avg_rating' | 'sum_goals' | 'sum_goals_against';
+
 @Component({
   selector: 'fm-member-list',
   templateUrl: './member-list.component.html',
@@ -39,7 +41,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     'sum_yellow_card',
     'sum_red_card'
   ];
-  footer = {};
+  footer: { [column: string]: number } = {};
   private subscription: Subscription;
 
   constructor(private readonly changeRef: ChangeDetectorRef) { }
@@ -73,8 +75,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   calcSummary(data: Array<Member>): void {
-    this.displayedColumns.forEach(column => {
-      if (column.startsWith('sum') || column.startsWith('avg')) {
+    this.displayedColumns.filter(c => c.startsWith('sum') || c.startsWith('avg'))
+      .forEach((column: Stats) => {
         this.footer[column] = 0;
         const rows = data.filter(row => row.stats && row.stats[column] > 0);
         data.forEach(row => {
@@ -85,16 +87,15 @@ export class MemberListComponent implements OnInit, OnDestroy {
         if (column.startsWith('avg')) {
           this.footer[column] /= rows.length;
         }
-      }
-    });
+      });
 
   }
 
-  sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
+  sortingDataAccessor(data: Member, sortHeaderId: 'player' | Stats): string | number {
     let value;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;
-      default: value = data.stats ? data.stats[sortHeaderId] : undefined; break;
+      default: value = data.stats ? data.stats[sortHeaderId] : 0; break;
     }
     if (typeof value === 'string' && !value.trim()) {
       return value;

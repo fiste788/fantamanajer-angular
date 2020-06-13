@@ -78,7 +78,7 @@
       ngModelGroup="dispositions"
     >
       <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
-        <div [ngModelGroup]="bench">
+        <div [ngModelGroup]="bench + ''">
           <fm-member-selection
             name="member"
             class="benchwarmer"
