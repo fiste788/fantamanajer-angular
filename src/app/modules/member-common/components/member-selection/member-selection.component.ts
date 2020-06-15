@@ -19,7 +19,7 @@ import { Member, MemberOption, Role } from '@shared/models';
   ]
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() member?: Member;
+  @Input() member: Member | null;
   @Input() name: string;
   @Input() disabled = false;
   @Input() required = false;
@@ -31,14 +31,14 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() height = 100;
   @Input() captain = false;
 
-  @Output() readonly memberChange: EventEmitter<Member> = new EventEmitter<Member>();
+  @Output() readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
   @HostBinding('@lineupDisposition') lineupDisposition = '';
 
-  onChange = (_?: Member) => undefined;
+  onChange = (_: Member | null) => undefined;
   onTouched = () => undefined;
 
-  get val(): Member | undefined {
+  get val(): Member | null {
     return this.member;
   }
 
@@ -56,12 +56,12 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  change(event?: Member): void {
+  change(event: Member | null): void {
     this.member = event;
     this.memberChange.emit(event);
   }
 
-  writeValue(value?: Member): void {
+  writeValue(value: Member | null): void {
     this.member = value;
   }
 

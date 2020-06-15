@@ -9,8 +9,8 @@ export class LineupService {
 
   benchOptions: Map<Role, Array<MemberOption>>;
   membersById: Map<number, Member>;
-  captains: Map<string, string> = new Map<string, string>([
-    ['C', 'captain'], ['VC', 'vcaptain'], ['VVC', 'vvcaptain']
+  captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
+    ['C', 'captain_id'], ['VC', 'vcaptain_id'], ['VVC', 'vvcaptain_id']
   ]);
   modules: Array<Module>;
   selectedModule: Module;
@@ -18,48 +18,43 @@ export class LineupService {
     .fill(7)
     .map((_, i) => i + 11);
   captainables: Array<MemberOption>;
-  selectionChange: EventEmitter<Member> = new EventEmitter<Member>();
+  selectionChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
   membersByRole: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService
   ) { }
 
-  loadLineup(lineup?: Lineup): void {
-    if (lineup) {
-      lineup.team_id = lineup.team_id || lineup.team.id;
-      this.lineup = lineup;
-      this.membersById = lineup.team.members.reduce((m, v) => m.set(v.id, v), new Map<number, Member>());
-      this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
-      this.loadDispositions();
-      this.loadModules();
-      this.captainSelectionChange();
-      this.benchOptions = Array.from(this.membersByRole.entries())
-        .reduce((m, [k, v]) => m.set(k, v.map(member => ({ member, disabled: false }))),
-          new Map<Role, Array<MemberOption>>());
-      this.reloadBenchwarmerState();
-    }
+  loadLineup(lineup: Lineup): void {
+    lineup.team_id = lineup.team_id || lineup.team.id;
+    this.lineup = lineup;
+    this.membersById = lineup.team.members.reduce((m, v) => m.set(v.id, v), new Map<number, Member>());
+    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
+    this.loadDispositions();
+    this.loadModules();
+    this.captainSelectionChange();
+    this.benchOptions = Array.from(this.membersByRole.entries())
+      .reduce((m, [k, v]) => m.set(k, v.map(member => ({ member, disabled: false }))),
+        new Map<Role, Array<MemberOption>>());
+    this.reloadBenchwarmerState();
   }
 
   moduleChange(): void {
     this.lineup.module = this.selectedModule.key;
   }
 
-  memberSelectionChange(role: Role, member?: Member): void {
+  memberSelectionChange(role: Role, member?: Member | null): void {
     this.reloadBenchwarmerState();
-    if (member) {
-      this.removeBenchwarmer(member);
-    }
     if (['P', 'D'].includes(role.abbreviation)) {
       this.captainSelectionChange();
+    }
+    if (member !== undefined && member !== null) {
+      this.removeBenchwarmer(member);
     }
     this.selectionChange.emit(member);
   }
 
-  benchwarmerSelectionChange(member?: Member): void {
-    if (member) {
-      // this.removeBenchwarmer(member);
-    }
+  benchwarmerSelectionChange(member?: Member | null): void {
     this.selectionChange.emit(member);
   }
 
@@ -84,11 +79,13 @@ export class LineupService {
       .fill(0)
       .forEach((_, i) => {
         if (this.lineup.dispositions.length < i || this.lineup.dispositions[i] === undefined) {
-          this.lineup.dispositions[i] = new Disposition();
-          this.lineup.dispositions[i].position = i + 1;
+          const disp = new Disposition();
+          disp.position = i + 1;
+          this.lineup.dispositions[i] = disp;
         }
         if (this.lineup.dispositions[i].member_id !== null) {
-          this.lineup.dispositions[i].member = this.membersById.get(this.lineup.dispositions[i].member_id ?? 0);
+          // tslint:disable-next-line: no-null-keyword
+          this.lineup.dispositions[i].member = this.membersById.get(this.lineup.dispositions[i].member_id ?? 0) ?? null;
         }
       });
   }
@@ -113,14 +110,14 @@ export class LineupService {
 
   private isAlreadySelected(member: Member): boolean {
     return this.lineup.dispositions
-      .filter(element => element.member !== undefined)
+      .filter(element => element.member !== null && element.member !== undefined)
       .map(element => element.member?.id)
       .includes(member.id);
   }
 
   private isRegular(member: Member): boolean {
     return this.lineup.dispositions
-      .filter(element => element.position <= 11 && element.member !== null)
+      .filter(element => element.position <= 11 && element.member !== null && element.member !== undefined)
       .map(element => element.member?.id)
       .includes(member.id);
   }
@@ -131,9 +128,9 @@ export class LineupService {
 
   private getCapitanables(): Array<MemberOption> {
     return this.lineup.dispositions.slice(0, 11)
-      .filter(e => e !== undefined && e !== null)
-      .map(element => element.member as Member)
-      .filter(m => ['P', 'D'].includes(m.role.abbreviation))
-      .map(m => ({ disabled: this.isCaptainAlreadySelected(m), member: m }));
+      .map(element => element.member)
+      .filter(d => d !== undefined && d !== null)
+      .filter((m: Member) => ['P', 'D'].includes(m.role.abbreviation))
+      .map((m: Member) => ({ disabled: this.isCaptainAlreadySelected(m), member: m }));
   }
 }

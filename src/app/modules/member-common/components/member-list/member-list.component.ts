@@ -23,7 +23,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   @Input() multipleSelection = false;
   @Input() elevation = 1;
 
-  @Output() readonly selection = new SelectionModel<Member>(this.multipleSelection, []);
+  @Output() readonly selection = new SelectionModel<Member>(this.multipleSelection, [], true);
 
   @ViewChild(MatSort) sort: MatSort;
 

@@ -55,7 +55,8 @@ export class LineupDetailComponent implements OnInit {
   }
 
   getLineup(): Lineup {
-    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id);
+    // tslint:disable-next-line: no-null-keyword
+    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
 
     return this.lineupService.lineup;
   }

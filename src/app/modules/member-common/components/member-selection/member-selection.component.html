@@ -12,7 +12,7 @@
       >
     </div>
     <fm-member-icons
-      *ngIf="member?.likely_lineup"
+      *ngIf="member && member?.likely_lineup"
       @createBox
       [captain]="captain"
       [member]="member"

@@ -3,6 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewC
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 
 import { MemberService, RoleService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
@@ -22,6 +23,7 @@ export class MemberFreePage implements OnInit, AfterViewInit {
 
   members$?: Observable<Array<Member>>;
   roles: Map<number, Role>;
+  selectedMember$: Observable<Member | undefined>;
 
   constructor(
     private readonly changeRef: ChangeDetectorRef,
@@ -49,7 +51,15 @@ export class MemberFreePage implements OnInit, AfterViewInit {
     this.members$ = undefined;
     this.changeRef.detectChanges();
     if (championship) {
-      this.members$ = this.memberService.getFree(championship.id, role?.id);
+      this.members$ = this.memberService.getFree(championship.id, role?.id)
+        .pipe(tap(() => {
+          if (this.memberList) {
+            this.selectedMember$ = this.memberList.selection.changed.asObservable()
+              .pipe(
+                map(m => m.source.selected[0])
+              );
+          }
+        }));
     }
   }
 

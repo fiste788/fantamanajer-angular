@@ -11,7 +11,7 @@
         matBadgeColor="accent"
         matBadgePosition="above after"
         [matBadgeHidden]="stream.unseen == 0"
-        [matBadge]="(stream.unseen | number:1) || ''"
+        [matBadge]="(stream.unseen | number: '1.0-0') || ''"
       >notifications</mat-icon>
     </button>
   </div>

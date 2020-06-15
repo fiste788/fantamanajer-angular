@@ -13,7 +13,7 @@ import { scrollUpAnimation } from '@shared/animations';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent implements OnInit {
-  @Input() state: VisibilityState;
+  @Input() state: VisibilityState | null;
   @Input() showDrawerButton: boolean;
 
   loggedIn$: Observable<boolean>;

@@ -1,8 +1,8 @@
 <mat-toolbar
   *ngIf="app.user"
   color="primary"
-  [style.background-image]="app.team?.photo_url ? 'url(' + app.team?.photo_url['240w'] + ')' : ''"
-  [class.has-image]="app.team?.photo_url"
+  [style.background-image]="photo !== undefined ? 'url(' + (photo || '') + ')' : ''"
+  [class.has-image]="photo"
 >
   <mat-toolbar-row>
     <span></span>
@@ -32,10 +32,10 @@
           [value]="team"
         >
           {{team.name}}<br />
-          <small>{{team.championship.season.name}}</small>
+          <small>{{team.championship?.season?.name}}</small>
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <span>{{app.team?.championship.season.name}}</span>
+    <span>{{app.team?.championship?.season?.name}}</span>
   </mat-toolbar-row>
 </mat-toolbar>

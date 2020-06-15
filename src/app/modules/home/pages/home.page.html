@@ -1,7 +1,6 @@
 <ng-container *ngIf="app.seasonStarted; else started">
-  <ng-container *ngIf="(roles$ | async) as roles; else loading">
+  <ng-container *ngIf="(bestPlayers$ | async) as bestPlayers; else loading">
     <div
-      *ngIf="roles[0].best_players?.length; else started"
       @cardCreationAnimation
       class="flex-container"
       fxLayout="row wrap"
@@ -9,52 +8,52 @@
       fxLayoutAlign="space-around start"
       fxLayoutAlign.xs="start"
     >
-      <mat-card
-        *ngFor="let role of roles; trackBy: trackByRole"
-        class="flex-item"
-        fxFlex.xs="100"
-        fxFlex.sm="45"
-        fxFlex.md="22"
-        fxFlex.gt-md="22"
-      >
-        <img
-          mat-card-image
-          [alt]=" role.best_players[0]?.player?.full_name"
-          [lazyLoad]="role.best_players[0]?.photo_url || ''"
-          [defaultImage]="'/assets/clubs.svg#club-' + role.best_players[0]?.club_id"
+      <ng-container *ngFor="let role of bestPlayers; trackBy: trackByRole">
+        <mat-card
+          class="flex-item"
+          fxFlex.xs="100"
+          fxFlex.sm="45"
+          fxFlex.md="22"
+          fxFlex.gt-md="22"
         >
-        <mat-card-header>
-          <mat-card-title>
-            <span class="mat-text-primary">
-              {{role.best_players[0]?.ratings[0]?.points}}
-            </span>
-            {{role.best_players[0]?.player?.full_name}}
-          </mat-card-title>
-          <mat-card-subtitle>{{role.singolar}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-expansion-panel class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                MOSTRA DI PIU'
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <ng-template matExpansionPanelContent>
-              <mat-list dense>
-                <mat-list-item *ngFor="let member of role.best_players; trackBy: track">
-                  <a
-                    matLine
-                    routerLink="/players/{{member.player.id}}"
-                  >
-                    {{member.player.full_name}}: {{member.ratings[0].points}}
-                  </a>
-                </mat-list-item>
-              </mat-list>
-            </ng-template>
-          </mat-expansion-panel>
-        </mat-card-content>
-      </mat-card>
+          <img
+            mat-card-image
+            [alt]="role.first.player.full_name"
+            [lazyLoad]="role.first.photo_url || ''"
+            [defaultImage]="'/assets/clubs.svg#club-' + role.first.club_id"
+          >
+          <mat-card-header>
+            <mat-card-title>
+              <span class="mat-text-primary">
+                {{role.first.ratings[0]?.points}}
+              </span>
+              {{role.first.player.full_name}}
+            </mat-card-title>
+            <mat-card-subtitle>{{role.role}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-expansion-panel class="mat-elevation-z0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  MOSTRA DI PIU'
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <mat-list dense>
+                  <mat-list-item *ngFor="let member of role.others; trackBy: track">
+                    <a
+                      matLine
+                      routerLink="/players/{{member.player.id}}"
+                    >
+                      {{member.player.full_name}}: {{member.ratings[0].points}}
+                    </a>
+                  </mat-list-item>
+                </mat-list>
+              </ng-template>
+            </mat-expansion-panel>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
     </div>
   </ng-container>
 

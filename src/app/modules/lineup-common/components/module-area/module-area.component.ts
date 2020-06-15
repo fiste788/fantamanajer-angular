@@ -15,9 +15,10 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() wrap = false;
   @Input() captain?: Member;
   @Input() membersByRole: Map<Role, Array<Member>>;
-  @Input() dispositions: Array<{ member?: Member, position?: number }>;
+  @Input() dispositions: Array<{ member: Member | null, position?: number }>;
 
-  @Output() readonly selectionChange: EventEmitter<{ role: Role, member?: Member }> = new EventEmitter<{ role: Role, member?: Member }>();
+  @Output() readonly selectionChange: EventEmitter<{ role: Role, member: Member | null }> =
+    new EventEmitter<{ role: Role, member: Member | null }>();
 
   ngOnInit(): void {
     this.moduleChange();
@@ -41,7 +42,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     return item; // or item.id
   }
 
-  memberSelectionChange(role: Role, member?: Member): void {
+  memberSelectionChange(role: Role, member: Member | null): void {
     this.reloadRegularState(role.id);
     this.selectionChange.emit({ role, member });
   }

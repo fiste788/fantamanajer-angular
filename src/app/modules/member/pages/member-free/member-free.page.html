@@ -18,21 +18,23 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <div
-      *ngIf="!memberList?.selection?.isEmpty()"
-      class="mat-table-header-selected"
-      fxLayout="row"
-    >
-      <span class="mat-table-title">Selezionato {{memberList?.selection?.selected[0]?.player?.full_name}}</span>
-      <a
-        matTooltip="Acquista"
-        mat-button
-        [routerLink]="'/teams/' + app.team?.id + '/transferts'"
-        [queryParams]="{new_member_id: memberList?.selection?.selected[0]?.id}"
+    <ng-container *ngIf="(selectedMember$ | async) as member">
+      <div
+        *ngIf="member !== undefined"
+        class="mat-table-header-selected"
+        fxLayout="row"
       >
-        <mat-icon>add_shopping_cart</mat-icon>
-      </a>
-    </div>
+        <span class="mat-table-title">Selezionato {{member?.player?.full_name}}</span>
+        <a
+          matTooltip="Acquista"
+          mat-button
+          [routerLink]="'/teams/' + app.team?.id + '/transferts'"
+          [queryParams]="{new_member_id: member?.id}"
+        >
+          <mat-icon>add_shopping_cart</mat-icon>
+        </a>
+      </div>
+    </ng-container>
   </div>
   <fm-member-list
     *ngIf="members$"

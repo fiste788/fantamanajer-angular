@@ -38,8 +38,8 @@ export class NotificationListComponent implements OnInit {
     this.stream$ = this.notificationService.seen;
   }
 
-  open(el: ElementRef<HTMLButtonElement>): void {
-    this.overlayService.open(el);
+  open(el: EventTarget | null): void {
+    this.overlayService.open(el as unknown as ElementRef);
     this.notificationService.seen.subscribe();
   }
 }

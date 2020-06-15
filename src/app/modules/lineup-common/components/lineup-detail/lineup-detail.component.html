@@ -56,7 +56,7 @@
           [disabled]="disabled"
           [placeholder]="captain.key"
           [name]="captain.key"
-          [(ngModel)]="lineup[captain.value + '_id']"
+          [(ngModel)]="lineup[captain.value]"
           (selectionChange)="lineupService.captainSelectionChange()"
         >
           <mat-option

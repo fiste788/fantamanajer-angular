@@ -10,6 +10,8 @@ import { Team } from '@shared/models';
 })
 export class ProfileComponent {
 
+  photo?: string;
+
   constructor(
     public app: ApplicationService,
     private readonly layoutService: LayoutService
@@ -17,6 +19,7 @@ export class ProfileComponent {
 
   change(team: Team): void {
     this.app.teamChange$.next(team);
+    this.photo = team.photo_url ?? undefined;
     this.layoutService.closeSidebar();
   }
 
