@@ -28,7 +28,7 @@
     "@angular/platform-server": "^9.0.6",
     "@angular/router": "^9.0.6",
     "@angular/service-worker": "^9.0.6",
-    "@auth0/angular-jwt": "^4.0.0",
+    "@auth0/angular-jwt": "^4.1.2",
     "@ecodev/fab-speed-dial": "^5.0.3",
     "@github/webauthn-json": "^0.4.1",
     "@netbasal/content-loader": "^2.0.0",
