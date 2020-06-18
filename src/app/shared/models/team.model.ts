@@ -10,7 +10,7 @@ export class Team {
   members: Array<Member> = [];
   championship_id: number;
   championship: Championship;
-  photo_url: string | null;
+  photo_url: Record<string, string> | null;
   email_notification_subscriptions: Array<NotificationSubscription>;
   push_notification_subscriptions: Array<NotificationSubscription>;
 }

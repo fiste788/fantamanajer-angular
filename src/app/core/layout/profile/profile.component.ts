@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService, LayoutService } from '@app/services';
 import { Team } from '@shared/models';
@@ -8,7 +8,7 @@ import { Team } from '@shared/models';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
   photo?: string;
 
@@ -17,9 +17,13 @@ export class ProfileComponent {
     private readonly layoutService: LayoutService
   ) { }
 
+  ngOnInit(): void {
+    this.loadPhoto(this.app.team);
+  }
+
   change(team: Team): void {
     this.app.teamChange$.next(team);
-    this.photo = team.photo_url ?? undefined;
+    this.loadPhoto(team);
     this.layoutService.closeSidebar();
   }
 
@@ -29,5 +33,11 @@ export class ProfileComponent {
 
   track(_: number, team: Team): number {
     return team.id;
+  }
+
+  private loadPhoto(team?: Team): void {
+    if (team !== undefined && team.photo_url !== null) {
+      this.photo = team.photo_url['240w'] ?? undefined;
+    }
   }
 }
