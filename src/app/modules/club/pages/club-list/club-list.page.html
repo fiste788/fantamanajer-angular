@@ -29,9 +29,11 @@
     <img
       mat-card-image
       sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-      defaultImage="//via.placeholder.com/350x200"
+      defaultImage="//via.placeholder.com/600x337"
+      height="337"
+      width="600"
       [alt]="club.name"
-      [class.has-image]="club.background_url"
+      [class.has-image]="club.background_url !== null"
       [lazyLoad]="(club.background_url | srcset)"
       [useSrcset]="true"
     >

@@ -9,10 +9,7 @@ import { McBreadcrumbsModule } from 'ngx-breadcrumbs-ui';
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
 import { CaptainPipe, PlaceholderPipe, RangePipe, SrcsetPipe, StatePipe } from '@shared/pipes';
 
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { MatEmptyStateComponent } from './components/mat-empty-state/mat-empty-state.component';
-import { ParallaxHeaderComponent } from './components/parallax-header/parallax-header.component';
-import { RouterOutletComponent } from './components/router-outlet/router-outlet.component';
+import { BreadcrumbComponent, MatEmptyStateComponent, ParallaxHeaderComponent, PlayerImageComponent, RouterOutletComponent } from './components';
 import { MaterialModule } from './material.module';
 
 export const breakPointsProvider = {
@@ -46,6 +43,7 @@ export const breakPointsProvider = {
     BreadcrumbComponent,
     MatEmptyStateComponent,
     ParallaxHeaderComponent,
+    PlayerImageComponent,
     RouterOutletComponent
   ],
   exports: [
@@ -69,7 +67,8 @@ export const breakPointsProvider = {
 
     BreadcrumbComponent,
     MatEmptyStateComponent,
-    ParallaxHeaderComponent
+    ParallaxHeaderComponent,
+    PlayerImageComponent
   ]
 })
 export class SharedModule { }

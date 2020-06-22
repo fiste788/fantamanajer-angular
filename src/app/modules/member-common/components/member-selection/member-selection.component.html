@@ -5,11 +5,7 @@
 >
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
-      <img
-        [alt]="member?.player?.full_name || placeholder"
-        [defaultImage]="'/assets/clubs.svg#club-' + member?.club_id"
-        [lazyLoad]="member?.player?.photo_url || ''"
-      >
+      <fm-player-image [member]="member || undefined"></fm-player-image>
     </div>
     <fm-member-icons
       *ngIf="member && member?.likely_lineup"

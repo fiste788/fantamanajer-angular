@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -15,7 +15,8 @@ interface BestPlayer {
 @Component({
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  animations: [cardCreationAnimation]
+  animations: [cardCreationAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage implements OnInit {
 

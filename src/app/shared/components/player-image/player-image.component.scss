@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+img {
+  height: 100%;
+
+  &:not(.mat-card-image) {
+    max-width: 100%;
+  }
+}

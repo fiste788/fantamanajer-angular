@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 
 export const breadcrumbTransition = trigger('breadcrumbTransition', [
   transition('* => *', [
-    // query(':enter, :leave', style({ position: 'absolute', width: '100%', top: 0 })),
     query(':enter', style({ transform: 'translateX(100%)', opacity: 0 }), { optional: true }),
     sequence([
       query(':leave', [

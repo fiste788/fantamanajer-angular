@@ -1,0 +1,8 @@
+<img
+  width="181"
+  height="256"
+  [class.mat-card-image]="inCard"
+  [alt]="member?.player?.full_name"
+  [lazyLoad]="member?.photo_url || ''"
+  [defaultImage]="'/assets/clubs.svg#club-' + member?.club_id"
+/>

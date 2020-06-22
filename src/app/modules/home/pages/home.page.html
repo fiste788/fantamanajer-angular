@@ -16,12 +16,10 @@
           fxFlex.md="22"
           fxFlex.gt-md="22"
         >
-          <img
-            mat-card-image
-            [alt]="role.first.player.full_name"
-            [lazyLoad]="role.first.photo_url || ''"
-            [defaultImage]="'/assets/clubs.svg#club-' + role.first.club_id"
-          >
+          <fm-player-image
+            [inCard]="true"
+            [member]="role.first"
+          ></fm-player-image>
           <mat-card-header>
             <mat-card-title>
               <span class="mat-text-primary">
@@ -43,7 +41,7 @@
                   <mat-list-item *ngFor="let member of role.others; trackBy: track">
                     <a
                       matLine
-                      routerLink="/players/{{member.player.id}}"
+                      [routerLink]="['/players', member.player.id]"
                     >
                       {{member.player.full_name}}: {{member.ratings[0].points}}
                     </a>

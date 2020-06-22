@@ -1,5 +1,6 @@
 .mat-card-avatar {
   width: auto;
+  min-width: 24px;
   border-radius: 0;
 }
 
@@ -8,6 +9,14 @@
   opacity: 0;
 }
 
-img.ng-lazyloaded {
-  opacity: 1;
+img {
+  object-fit: cover;
+
+  &.ng-lazyloaded {
+    opacity: 1;
+  }
+}
+
+.mat-card-image {
+  height: 100%;
 }

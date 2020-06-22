@@ -32,7 +32,7 @@
     "@ecodev/fab-speed-dial": "^5.0.3",
     "@github/webauthn-json": "^0.4.2",
     "@netbasal/content-loader": "^2.0.0",
-    "angular-file": "^3.1.1",
+    "angular-file": "^3.1.2",
     "ng-lazyload-image": "^8.0.1",
     "ngx-breadcrumbs-ui": "0.0.10",
     "ngx-infinite-scroll": "^9.0.0",
@@ -42,9 +42,9 @@
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.8",
-    "@angular-devkit/core": "^9.1.8",
-    "@angular/cli": "^9.1.8",
+    "@angular-devkit/build-angular": "^0.901.9",
+    "@angular-devkit/core": "^9.1.9",
+    "@angular/cli": "^9.1.9",
     "@angular/compiler-cli": "^9.1.11",
     "@angular/language-service": "~9.1.11",
     "@types/gtag.js": "0.0.3",
