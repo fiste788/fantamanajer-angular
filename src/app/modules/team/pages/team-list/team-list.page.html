@@ -15,16 +15,21 @@
     fxFlex.md="30"
     fxFlex.gt-md="30"
   >
-    <img
+    <figure
       mat-card-image
-      sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-      defaultImage="//via.placeholder.com/600x450"
-      height="450"
-      width="600"
-      [alt]="team.name"
-      [lazyLoad]="(team.photo_url | srcset)"
-      [useSrcset]="true"
+      class="aspect-ratio-box"
     >
+      <img
+        sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+        defaultImage="//via.placeholder.com/600x450"
+        height="450"
+        width="600"
+        [class.has-image]="team.photo_url !== null"
+        [alt]="team.name"
+        [lazyLoad]="(team.photo_url | srcset)"
+        [useSrcset]="true"
+      >
+    </figure>
     <mat-card-header>
       <mat-card-title>{{team.name}}</mat-card-title>
       <mat-card-subtitle>{{team.user.email}}</mat-card-subtitle>
