@@ -48,7 +48,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  registerOnChange(fn: (member: Member) => undefined): void {
+  registerOnChange(fn: (member: Member | null) => undefined): void {
     this.onChange = fn;
   }
 

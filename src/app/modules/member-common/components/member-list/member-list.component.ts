@@ -7,7 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 import { tableRowAnimation } from '@shared/animations';
 import { Member } from '@shared/models';
 
-type Stats = 'avg_points' | 'avg_rating' | 'sum_goals' | 'sum_goals_against';
+const stats = ['avg_points', 'avg_rating', 'sum_goals', 'sum_goals_against'] as const;
+type Stats = typeof stats[number];
 
 @Component({
   selector: 'fm-member-list',
@@ -75,8 +76,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   calcSummary(data: Array<Member>): void {
-    this.displayedColumns.filter(c => c.startsWith('sum') || c.startsWith('avg'))
-      .forEach((column: Stats) => {
+    this.displayedColumns.filter((c): c is Stats => c.startsWith('sum') || c.startsWith('avg'))
+      .forEach(column => {
         this.footer[column] = 0;
         const rows = data.filter(row => row.stats && row.stats[column] > 0);
         data.forEach(row => {
@@ -91,7 +92,15 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   }
 
-  sortingDataAccessor(data: Member, sortHeaderId: 'player' | Stats): string | number {
+  sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
+    if (sortHeaderId === 'player' || stats.find(s => s === sortHeaderId)) {
+      return this.sorting(data, sortHeaderId as Stats | 'player');
+    }
+
+    return 0;
+  }
+
+  sorting(data: Member, sortHeaderId: 'player' | Stats): string | number {
     let value;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;

@@ -25,8 +25,8 @@ export class TeamEditModal {
     team[fieldName].forEach((element: NotificationSubscription, i: number) => {
       if (element.enabled) {
         Object.keys(element)
-          .filter(f => f !== 'id')
-          .forEach((field: keyof NotificationSubscription) => {
+          .filter((f): f is keyof NotificationSubscription => f !== 'id' as const)
+          .forEach(field => {
             let value = element[field];
             if (field === 'enabled') {
               value = 1;

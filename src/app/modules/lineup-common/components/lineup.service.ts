@@ -108,17 +108,9 @@ export class LineupService {
       });
   }
 
-  private isAlreadySelected(member: Member): boolean {
-    return this.lineup.dispositions
-      .filter(element => element.member !== null && element.member !== undefined)
-      .map(element => element.member?.id)
-      .includes(member.id);
-  }
-
   private isRegular(member: Member): boolean {
-    return this.lineup.dispositions
-      .filter(element => element.position <= 11 && element.member !== null && element.member !== undefined)
-      .map(element => element.member?.id)
+    return this.getRegulars()
+      .map(memb => memb.id)
       .includes(member.id);
   }
 
@@ -127,10 +119,15 @@ export class LineupService {
   }
 
   private getCapitanables(): Array<MemberOption> {
-    return this.lineup.dispositions.slice(0, 11)
-      .map(element => element.member)
-      .filter(d => d !== undefined && d !== null)
-      .filter((m: Member) => ['P', 'D'].includes(m.role.abbreviation))
-      .map((m: Member) => ({ disabled: this.isCaptainAlreadySelected(m), member: m }));
+    return this.getRegulars()
+      .filter(member => ['P', 'D'].includes(member.role.abbreviation))
+      .map(member => ({ disabled: this.isCaptainAlreadySelected(member), member }));
+  }
+
+  private getRegulars(): Array<Member> {
+    return this.lineup.dispositions
+      .filter(disp => disp.position <= 11)
+      .map(disp => disp.member)
+      .filter((member): member is Member => member !== undefined && member !== null);
   }
 }

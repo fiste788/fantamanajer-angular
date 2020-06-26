@@ -14,12 +14,14 @@ export class MemberAlreadySelectedValidator implements Validator {
     const disp = formGroup.controls.dispositions as FormGroup;
     if (disp !== undefined) {
       const ids = Object.values(disp.controls)
-        .filter((v: FormGroup) => v.controls)
+        .filter((v): v is FormGroup => v instanceof FormGroup)
+        .filter(v => v.controls)
         .map((v: FormGroup) => v.controls.member?.value?.id);
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
 
       Object.values(disp.controls)
-        .map((c: FormGroup) => {
+        .filter((c): c is FormGroup => c instanceof FormGroup)
+        .map(c => {
           if (dup.includes(c.controls?.member?.value?.id)) {
             c.controls?.member?.setErrors({ duplicate: true });
 

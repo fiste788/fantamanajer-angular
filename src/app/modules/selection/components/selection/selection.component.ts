@@ -118,11 +118,13 @@ export class SelectionComponent implements OnInit {
       selection.old_member_id = this.selection.old_member.id;
       selection.team_id = this.app.team?.id ?? 0;
       selection.id ? this.selectionService.update(selection) : this.selectionService.create(selection)
-        .subscribe((response: Selection) => {
+        .subscribe((response: Partial<Selection>) => {
           this.snackBar.open('Selezione salvata correttamente', undefined, {
             duration: 3000
           });
-          this.selection.id = response.id;
+          if (response.id) {
+            this.selection.id = response.id;
+          }
         },
           err => {
             UtilService.getUnprocessableEntityErrors(this.selectionForm, err);

@@ -7,6 +7,9 @@
     "angular-tslint-rules"
   ],
   "rules": {
+    "deprecation": {
+      "severity": "warning"
+    },
     "no-any": [
       true
     ],

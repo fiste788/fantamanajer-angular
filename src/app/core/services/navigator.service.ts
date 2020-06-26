@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ClassProvider, FactoryProvider, InjectionToken, PLATFORM_ID } from '@angular/core';
+import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 
 export interface WkNavigator extends Navigator {
   setAppBadge?(count?: number): void;
@@ -15,6 +15,7 @@ export abstract class NavigatorRef {
   }
 }
 
+@Injectable()
 export class BrowserNavigatorRef extends NavigatorRef {
 
   get nativeNavigator(): WkNavigator | Object {

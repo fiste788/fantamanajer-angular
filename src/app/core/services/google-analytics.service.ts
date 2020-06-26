@@ -26,9 +26,9 @@ export class GoogleAnalyticsService {
       this.document.head.prepend(script);
 
       this.router.events.pipe(
-        filter(e => e instanceof NavigationEnd)
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd)
       )
-        .subscribe((e: NavigationEnd) => {
+        .subscribe(e => {
           gtag('config', environment.gaCode ?? '', {
             page_path: e.urlAfterRedirects
           });

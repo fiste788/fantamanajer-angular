@@ -28,7 +28,7 @@ export class PushService {
     private readonly swUpdate: SwUpdate,
     private readonly router: Router
   ) {
-    this.window.addEventListener('beforeinstallprompt', (e: BeforeInstallPromptEvent) => {
+    this.window.addEventListener('beforeinstallprompt', e => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
@@ -59,7 +59,8 @@ export class PushService {
   }
 
   showMessages(): void {
-    this.swPush.messages.subscribe((message: { notification: Notification }) => {
+    this.swPush.messages.subscribe(obj => {
+      const message = obj as { notification: Notification };
       this.notificationService.broadcast(message.notification.title, '');
     });
     this.swPush.notificationClicks.subscribe(click => {
@@ -97,7 +98,7 @@ export class PushService {
     return this.swPush.subscription
       .pipe(
         // tslint:disable-next-line: no-null-keyword
-        defaultIfEmpty(null),
+        // defaultIfEmpty(null),
         map(e => e !== null),
         share()
       );

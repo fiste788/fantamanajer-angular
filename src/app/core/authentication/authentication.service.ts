@@ -9,7 +9,7 @@ import { User } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject(undefined);
+  userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
   userChange$ = this.userSubject.asObservable();
   loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
 

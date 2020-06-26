@@ -45,10 +45,10 @@ export class EditMembersPage implements OnInit {
   }
 
   loadMembers(team: Team): void {
-    this.controlsByRole$ = forkJoin(
+    this.controlsByRole$ = forkJoin([
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id)
-    )
+    ])
       .pipe(
         map(([teamMembers, allMembers]) => {
           this.team.members = teamMembers.slice(0, this.roleService.totalMembers());

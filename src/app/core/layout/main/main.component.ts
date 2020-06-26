@@ -64,7 +64,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
-    this.showedSpeedDial$ = combineLatest(this.layoutService.isShowSpeedDial, this.auth.loggedIn$)
+    this.showedSpeedDial$ = combineLatest([this.layoutService.isShowSpeedDial, this.auth.loggedIn$])
       .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
     this.showedToolbar$ = this.layoutService.isShowToolbar;
     this.drawer.openedChange.asObservable()
@@ -99,14 +99,22 @@ export class MainComponent implements OnInit, AfterViewInit {
     const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
     const height = toolbar !== null ? toolbar.clientHeight : 0;
     this.document.querySelectorAll('.sticky')
-      .forEach((e: HTMLElement) => e.style.top = `${height}px`);
+      .forEach((e: Element) => {
+        if (e instanceof HTMLElement) {
+          e.style.top = `${height}px`;
+        }
+      });
     this.changeRef.detectChanges();
   }
 
   down(): void {
     this.speedDial.openSpeeddial = false;
     this.document.querySelectorAll('.sticky')
-      .forEach((e: HTMLElement) => e.style.top = '0');
+      .forEach((e: Element) => {
+        if (e instanceof HTMLElement) {
+          e.style.top = '0';
+        }
+      });
     this.changeRef.detectChanges();
   }
 

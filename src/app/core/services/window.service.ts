@@ -1,5 +1,14 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ClassProvider, FactoryProvider, InjectionToken, PLATFORM_ID } from '@angular/core';
+import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
+
+declare global {
+  interface Window {
+    addEventListener(
+      type: 'beforeinstallprompt',
+      // tslint:disable-next-line: no-any
+      listener: (this: Window, ev: BeforeInstallPromptEvent) => any, options?: boolean | AddEventListenerOptions): void;
+  }
+}
 
 export const WINDOW = new InjectionToken('WindowToken');
 
@@ -10,6 +19,7 @@ export abstract class WindowRef {
   }
 }
 
+@Injectable()
 export class BrowserWindowRef extends WindowRef {
 
   get nativeWindow(): Window | Object {

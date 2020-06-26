@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatListItem } from '@angular/material/list';
 import { Event, NavigationStart, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { combineLatest, filter, mergeMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
     this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
-    this.auth.userChange$.pipe(combineLatest(this.app.teamChange$))
+    combineLatest([this.auth.userChange$, this.app.teamChange$])
       .subscribe(() => {
         this.refresh();
       });
