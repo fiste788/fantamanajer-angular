@@ -11,10 +11,10 @@ export class AuthGuard implements CanActivate {
   constructor(
     private readonly auth: AuthenticationService,
     private readonly router: Router,
-    private readonly app: ApplicationService
+    private readonly app: ApplicationService,
   ) { }
 
-  canActivate(
+  public canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.loggedIn()) {
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
 
   }
 
-  checkAuth(authorities: Array<string>, url: string): boolean {
-    return authorities.some(r => this.app.user?.roles.includes(r)) ?? false;
+  public checkAuth(authorities: Array<string>, url: string): boolean {
+    return authorities.some((r) => this.app.user?.roles.includes(r)) ?? false;
   }
 }

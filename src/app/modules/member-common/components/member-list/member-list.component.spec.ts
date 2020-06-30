@@ -8,7 +8,7 @@ describe('MemberListComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [MemberListComponent]
+      declarations: [MemberListComponent],
     })
       .compileComponents();
   }));

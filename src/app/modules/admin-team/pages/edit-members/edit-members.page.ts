@@ -10,33 +10,33 @@ import { UtilService } from '@app/services/';
 import { Member, Module, Role, Team } from '@shared/models';
 
 @Component({
+  styleUrls: ['./edit-members.page.scss'],
   templateUrl: './edit-members.page.html',
-  styleUrls: ['./edit-members.page.scss']
 })
 export class EditMembersPage implements OnInit {
-  @ViewChild(NgForm) membersForm: NgForm;
+  @ViewChild(NgForm) public membersForm: NgForm;
 
-  roles = this.roleService.list();
-  module: Module;
-  controlsByRole$: Observable<boolean>;
-  team: Team;
-  members: Array<{ member: Member }>;
-  membersByRole: Map<Role, Array<Member>>;
+  public roles = this.roleService.list();
+  public module: Module;
+  public controlsByRole$: Observable<boolean>;
+  public team: Team;
+  public members: Array<{ member: Member }>;
+  public membersByRole: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService,
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
   ) {
     const key = Array.from(this.roles.values())
-      .map(r => r.count)
+      .map((r) => r.count)
       .join('-');
     this.module = new Module(key, this.roles);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const t = UtilService.getSnapshotData<Team>(this.route, 'team');
     if (t) {
       this.team = t;
@@ -44,18 +44,18 @@ export class EditMembersPage implements OnInit {
     }
   }
 
-  loadMembers(team: Team): void {
+  public loadMembers(team: Team): void {
     this.controlsByRole$ = forkJoin([
       this.memberService.getByTeamId(team.id),
-      this.memberService.getAllFree(team.championship_id)
+      this.memberService.getAllFree(team.championship_id),
     ])
       .pipe(
         map(([teamMembers, allMembers]) => {
           this.team.members = teamMembers.slice(0, this.roleService.totalMembers());
-          this.members = this.team.members.map(member => ({ member }));
+          this.members = this.team.members.map((member) => ({ member }));
           this.membersByRole = Array.from(this.roles.values())
             .reduce((m, c) => {
-              const members = this.team.members.filter(entry => entry !== undefined && entry.role_id === c.id)
+              const members = this.team.members.filter((entry) => entry !== undefined && entry.role_id === c.id)
                 .concat(allMembers[c.id]);
 
               return m.set(c, members);
@@ -65,25 +65,25 @@ export class EditMembersPage implements OnInit {
         }));
   }
 
-  compareTeam(c1: Team, c2: Team): boolean {
+  public compareTeam(c1: Team, c2: Team): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  compareMember(c1: Member, c2: Member): boolean {
+  public compareMember(c1: Member, c2: Member): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  save(): void {
-    this.team.members = this.members.map(m => m.member);
+  public save(): void {
+    this.team.members = this.members.map((m) => m.member);
     this.teamService.update(this.team)
       .subscribe(() => {
         this.snackBar.open('Giocatori modificati', undefined, {
-          duration: 3000
+          duration: 3000,
         });
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.membersForm, err);
-        }
+        },
       );
   }
 }

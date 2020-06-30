@@ -8,7 +8,7 @@ describe('AddTeamPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [AddTeamPage]
+      declarations: [AddTeamPage],
     })
       .compileComponents();
   }));

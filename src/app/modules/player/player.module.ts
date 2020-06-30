@@ -7,16 +7,16 @@ import { PlayerResolver } from './pages/player/player-resolver.service';
 import { PlayerRoutingModule } from './player-routing.module';
 
 @NgModule({
+  declarations: [
+    PlayerRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
-    PlayerRoutingModule
-  ],
-  declarations: [
-    PlayerRoutingModule.components
+    PlayerRoutingModule,
   ],
   providers: [
-    PlayerResolver
-  ]
+    PlayerResolver,
+  ],
 })
 export class PlayerModule { }

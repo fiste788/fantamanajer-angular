@@ -8,7 +8,7 @@ describe('MemberFreePage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [MemberFreePage]
+      declarations: [MemberFreePage],
     })
       .compileComponents();
   }));

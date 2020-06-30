@@ -13,25 +13,25 @@ const routes: Routes = [
     component: UserPage,
     canActivate: [AuthGuard],
     data: {
+      breadcrumbs: 'Impostazioni',
       state: 'user',
-      breadcrumbs: 'Impostazioni'
     },
     children: [
       { path: '', redirectTo: 'profile' },
       { path: 'profile', component: SettingsPage, data: { state: 'settings' } },
-      { path: 'stream', component: UserStreamPage, data: { state: 'stream' } }
-    ]
-  }
+      { path: 'stream', component: UserStreamPage, data: { state: 'stream' } },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class UserRoutingModule {
-  static components = [
+  public static components = [
     UserPage,
     SettingsPage,
-    UserStreamPage
+    UserStreamPage,
   ];
 }

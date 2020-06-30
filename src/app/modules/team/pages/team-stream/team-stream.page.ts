@@ -5,15 +5,15 @@ import { UtilService } from '@app/services';
 import { Team } from '@shared/models';
 
 @Component({
+  styleUrls: ['./team-stream.page.scss'],
   templateUrl: './team-stream.page.html',
-  styleUrls: ['./team-stream.page.scss']
 })
 export class TeamStreamPage implements OnInit {
-  id: number;
+  public id: number;
 
   constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
   }
 

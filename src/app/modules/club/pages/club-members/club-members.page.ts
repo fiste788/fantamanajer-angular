@@ -8,19 +8,19 @@ import { tableRowAnimation } from '@shared/animations';
 import { Club, Member } from '@shared/models';
 
 @Component({
-  templateUrl: './club-members.page.html',
+  animations: [tableRowAnimation],
   styleUrls: ['./club-members.page.scss'],
-  animations: [tableRowAnimation]
+  templateUrl: './club-members.page.html',
 })
 export class ClubMembersPage implements OnInit {
-  members$?: Observable<Array<Member>>;
+  public members$?: Observable<Array<Member>>;
 
   constructor(
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const club = UtilService.getSnapshotData<Club>(this.route, 'club');
     if (club) {
       this.members$ = this.memberService.getByClubId(club.id);

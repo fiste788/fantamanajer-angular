@@ -2,7 +2,7 @@
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);
 
-  fm-login {
+  app-login {
     .mat-card-title,
     mat-icon {
       color: mat-color($foreground, 'icon');

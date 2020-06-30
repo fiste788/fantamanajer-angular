@@ -9,31 +9,31 @@ import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
 const routes: Routes = [
   {
     path: '',
-    data: { state: 'lineup-outlet' },
     component: RouterOutletComponent,
+    data: { state: 'lineup-outlet' },
     children: [
       {
         path: 'current',
         component: LineupLastPage,
         data: {
-          state: 'lineup-detail'
-        }
+          state: 'lineup-detail',
+        },
       },
       {
         path: 'new',
-        component: AddLineupShortcutPage
-      }
-    ]
-  }
+        component: AddLineupShortcutPage,
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class LineupRoutingModule {
-  static components = [
+  public static components = [
     LineupLastPage,
-    AddLineupShortcutPage
+    AddLineupShortcutPage,
   ];
 }

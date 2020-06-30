@@ -9,9 +9,9 @@ import { catchError } from 'rxjs/operators';
 export class ErrorHandlerInterceptor implements HttpInterceptor {
   constructor(private readonly snackbar: MatSnackBar) { }
 
-  intercept(
+  public intercept(
     req: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return next
       .handle(req)
@@ -26,12 +26,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             }
             console.error(message);
             this.snackbar.open(message, 'CLOSE', {
-              duration: 5000
+              duration: 5000,
             });
           }
 
           return observableThrowError(err);
-        })
+        }),
       );
     // return next.handle(req);
   }

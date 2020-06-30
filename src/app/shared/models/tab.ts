@@ -1,4 +1,4 @@
-export interface Tab {
-  link: string;
+export interface ITab {
   label: string;
+  link: string;
 }

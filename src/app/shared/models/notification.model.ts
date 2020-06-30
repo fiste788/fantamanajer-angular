@@ -1,7 +1,7 @@
 export class Notification {
-  title: string;
-  url: string;
-  severity: number;
+  public title: string;
+  public url: string;
+  public severity: number;
 
   constructor(title: string, url: string, severity = 0) {
     this.title = title;

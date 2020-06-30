@@ -7,14 +7,14 @@ import { SharedModule } from '@shared/shared.module';
 import { TransfertRoutingModule } from './transfert-routing.module';
 
 @NgModule({
+  declarations: [
+    TransfertRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     TransfertRoutingModule,
-    SelectionModule
+    SelectionModule,
   ],
-  declarations: [
-    TransfertRoutingModule.components
-  ]
 })
 export class TransfertModule { }

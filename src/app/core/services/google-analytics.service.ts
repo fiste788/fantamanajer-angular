@@ -8,16 +8,16 @@ import { environment } from '@env';
 declare var gtag: Gtag.Gtag;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoogleAnalyticsService {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
-  load(): void {
+  public load(): void {
     if (environment.gaCode !== undefined) {
       const script = this.document.createElement('script');
       script.async = true;
@@ -26,11 +26,11 @@ export class GoogleAnalyticsService {
       this.document.head.prepend(script);
 
       this.router.events.pipe(
-        filter((e): e is NavigationEnd => e instanceof NavigationEnd)
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
       )
-        .subscribe(e => {
+        .subscribe((e) => {
           gtag('config', environment.gaCode ?? '', {
-            page_path: e.urlAfterRedirects
+            page_path: e.urlAfterRedirects,
           });
         });
     }

@@ -7,7 +7,7 @@ import { environment } from '@env';
 
 @Injectable()
 export class ApiPrefixInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const url = environment.apiEndpoint + req.url;
     const ct = 'Content-type';
     let headers = req.headers;
@@ -21,22 +21,22 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     return next
       .handle(
         req.clone({
+          headers,
           url,
-          headers
-        })
+        }),
       )
       .pipe(
         map((event: HttpEvent<{ data: {}, success: boolean }>) => {
           if (event instanceof HttpResponse && event.body !== null) {
             if (!req.params.has('page') || !event.body.hasOwnProperty('pagination')) {
               return event.clone({
-                body: event.body.data
+                body: event.body.data,
               });
             }
           }
 
           return event;
-        })
+        }),
       );
   }
 }

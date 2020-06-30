@@ -8,21 +8,21 @@ import { UtilService } from '@app/services';
 import { Championship, League } from '@shared/models';
 
 @Component({
+  styleUrls: ['./championship-detail.page.scss'],
   templateUrl: './championship-detail.page.html',
-  styleUrls: ['./championship-detail.page.scss']
 })
 export class ChampionshipDetailPage implements OnInit {
-  @ViewChild(NgForm) championshipForm: NgForm;
+  @ViewChild(NgForm) public championshipForm: NgForm;
 
-  championship: Championship;
+  public championship: Championship;
 
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
-    private readonly championshipService: ChampionshipService
+    private readonly championshipService: ChampionshipService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const c = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     if (c) {
       this.championship = c;
@@ -32,20 +32,20 @@ export class ChampionshipDetailPage implements OnInit {
     }
   }
 
-  save(): void {
+  public save(): void {
     this.championshipService.save(this.championship)
       .subscribe(() => {
         this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000
+          duration: 3000,
         });
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
-        }
+        },
       );
   }
 
-  formatLabel(value: number): string {
+  public formatLabel(value: number): string {
     return `${value}%`;
   }
 

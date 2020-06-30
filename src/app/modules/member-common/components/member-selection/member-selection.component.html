@@ -1,55 +1,27 @@
-<mat-form-field
-  hideRequiredMarker="true"
-  floatLabel="never"
-  appearance="standard"
->
+<mat-form-field hideRequiredMarker="true" floatLabel="never" appearance="standard">
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
-      <fm-player-image [member]="member || undefined"></fm-player-image>
+      <app-player-image [member]="member || undefined"></app-player-image>
     </div>
-    <fm-member-icons
-      *ngIf="member && member?.likely_lineup"
-      @createBox
-      [captain]="captain"
-      [member]="member"
-      [circle]="true"
-    >
-    </fm-member-icons>
+    <app-member-icons *ngIf="member && member?.likely_lineup" @createBox [captain]="captain" [member]="member"
+      [circle]="true">
+    </app-member-icons>
   </div>
-  <mat-select
-    #memberSelection="ngModel"
-    [disabled]="disabled"
-    [placeholder]="placeholder"
-    [required]="required"
-    [name]="name"
-    [compareWith]="compareFn"
-    [(ngModel)]="member"
-    (ngModelChange)="change($event)"
-  >
+  <mat-select #memberSelection="ngModel" [disabled]="disabled" [placeholder]="placeholder" [required]="required"
+    [name]="name" [compareWith]="compareFn" [(ngModel)]="member" (ngModelChange)="change($event)">
     <mat-option>{{placeholder}}</mat-option>
     <mat-select-trigger *ngIf="member">
       {{member?.player?.full_name}}
     </mat-select-trigger>
     <ng-container *ngIf="memberList?.length">
-      <mat-option
-        *ngFor="let opt of memberList; trackBy: track"
-        [value]="opt.member"
-        [disabled]="opt.disabled"
-      >
-        <fm-member-icons [member]="opt.member"></fm-member-icons>
+      <mat-option *ngFor="let opt of memberList; trackBy: track" [value]="opt.member" [disabled]="opt.disabled">
+        <app-member-icons [member]="opt.member"></app-member-icons>
       </mat-option>
     </ng-container>
     <ng-container *ngIf="memberMap">
-      <mat-optgroup
-        *ngFor="let role of (memberMap | keyvalue)"
-        [label]="role.key.plural"
-      >
-        <mat-option
-          *ngFor="let opt of role.value; trackBy: track"
-          [value]="opt.member"
-          [disabled]="opt.disabled"
-        >
-          <fm-member-icons [member]="opt.member"></fm-member-icons>
+      <mat-optgroup *ngFor="let role of (memberMap | keyvalue)" [label]="role.key.plural">
+        <mat-option *ngFor="let opt of role.value; trackBy: track" [value]="opt.member" [disabled]="opt.disabled">
+          <app-member-icons [member]="opt.member"></app-member-icons>
         </mat-option>
       </mat-optgroup>
     </ng-container>

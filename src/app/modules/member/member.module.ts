@@ -7,14 +7,14 @@ import { SharedModule } from '@shared/shared.module';
 import { MemberRoutingModule } from './member-routing.module';
 
 @NgModule({
+  declarations: [
+    MemberRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     MemberCommonModule,
-    MemberRoutingModule
+    MemberRoutingModule,
   ],
-  declarations: [
-    MemberRoutingModule.components
-  ]
 })
 export class MemberModule { }

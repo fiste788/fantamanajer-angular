@@ -13,18 +13,18 @@ import { ApplicationService, UtilService } from '@app/services';
 import { Member, Role, Selection, Team } from '@shared/models';
 
 @Component({
-  selector: 'fm-selection',
+  selector: 'app-selection',
+  styleUrls: ['./selection.component.scss'],
   templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
-  @ViewChild('newMember') newMember: MatSelect;
-  @ViewChild(NgForm) selectionForm: NgForm;
+  @ViewChild('newMember') public newMember: MatSelect;
+  @ViewChild(NgForm) public selectionForm: NgForm;
 
-  selection: Selection = new Selection();
-  members$: Observable<Map<Role, Array<Member>>>;
-  newMembers$?: Observable<Array<Member>>;
-  newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
+  public selection: Selection = new Selection();
+  public members$: Observable<Map<Role, Array<Member>>>;
+  public newMembers$?: Observable<Array<Member>>;
+  public newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
   private readonly role$: Subject<Role> = new Subject<Role>();
 
   constructor(
@@ -34,11 +34,11 @@ export class SelectionComponent implements OnInit {
     private readonly roleService: RoleService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (teamId) {
       this.loadData(teamId);
@@ -46,21 +46,21 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  loadData(teamId: number): void {
+  public loadData(teamId: number): void {
     this.selectionService.getSelection(teamId)
-      .subscribe(selection => {
+      .subscribe((selection) => {
         this.selection = selection;
         this.playerChange();
       });
 
     this.members$ = this.memberService.getByTeamId(teamId)
       .pipe(
-        map(data => this.roleService.groupMembersByRole(data)),
+        map((data) => this.roleService.groupMembersByRole(data)),
         tap(() => {
           const id = this.route.snapshot.queryParamMap.get('new_member_id');
           if (id !== null) {
             this.memberService.getById(+id)
-              .subscribe(member => {
+              .subscribe((member) => {
                 this.role$.next(this.roleService.getById(member.role_id));
                 this.newPlayerRole$.next(this.roleService.getById(member.role_id));
                 this.selection.new_member = member;
@@ -71,44 +71,44 @@ export class SelectionComponent implements OnInit {
         }));
   }
 
-  setupEvents(): void {
+  public setupEvents(): void {
     this.role$.pipe(
       distinctUntilChanged((x, y) => y === undefined || x.id === y.id),
-      share()
+      share(),
     )
       .subscribe({
-        next: this.loadMembers.bind(this)
+        next: this.loadMembers.bind(this),
       });
   }
 
-  loadMembers(role?: Role): void {
+  public loadMembers(role?: Role): void {
     if (role) {
       this.newMember.disabled = true;
       if (this.app.championship) {
         this.newMembers$ = this.memberService.getFree(this.app.championship.id, role.id, false)
           .pipe(
-            map(members => {
+            map((members) => {
               this.changeRef.detectChanges();
               this.newMember.disabled = false;
 
               return members;
-            })
+            }),
           );
       }
     }
   }
 
-  playerChange(): void {
+  public playerChange(): void {
     if (this.selection.old_member !== null) {
       this.role$.next(this.selection.old_member.role);
     }
   }
 
-  compareFn(c1: Member, c2: Member): boolean {
+  public compareFn(c1: Member, c2: Member): boolean {
     return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
-  save(): void {
+  public save(): void {
     if (this.selectionForm.valid === true) {
       const selection = new Selection();
       if (this.selection.id) {
@@ -120,28 +120,28 @@ export class SelectionComponent implements OnInit {
       selection.id ? this.selectionService.update(selection) : this.selectionService.create(selection)
         .subscribe((response: Partial<Selection>) => {
           this.snackBar.open('Selezione salvata correttamente', undefined, {
-            duration: 3000
+            duration: 3000,
           });
           if (response.id) {
             this.selection.id = response.id;
           }
         },
-          err => {
+          (err) => {
             UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
-          }
+          },
         );
     }
   }
 
-  descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>) =>
-    a.key.id < b.key.id ? b.key.id : a.key.id;
+  public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>) =>
+    a.key.id < b.key.id ? b.key.id : a.key.id
 
-  isDisabled(role: Role): boolean {
+  public isDisabled(role: Role): boolean {
     return this.selection.new_member !== null &&
       role !== this.roleService.getById(this.selection.new_member.role_id);
   }
 
-  reset(): void {
+  public reset(): void {
     delete this.selection.new_member;
     delete this.selection.new_member_id;
     this.newMember.value = undefined;
@@ -150,11 +150,11 @@ export class SelectionComponent implements OnInit {
     this.newPlayerRole$.next(undefined);
   }
 
-  track(_: number, item: KeyValue<Role, Array<Member>>): number {
+  public track(_: number, item: KeyValue<Role, Array<Member>>): number {
     return item.key.id;
   }
 
-  trackMember(_: number, item: Member): number {
+  public trackMember(_: number, item: Member): number {
     return item.id;
   }
 }

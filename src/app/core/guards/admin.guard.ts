@@ -8,10 +8,10 @@ import { ApplicationService } from '@app/services';
 export class AdminGuard implements CanActivate {
 
   constructor(
-    private readonly app: ApplicationService
+    private readonly app: ApplicationService,
   ) { }
 
-  canActivate(
+  public canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.app.user?.admin || false;

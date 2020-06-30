@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  templateUrl: './home.page.html',
+  animations: [cardCreationAnimation],
   styleUrls: ['./home.page.scss'],
-  animations: [cardCreationAnimation]
+  templateUrl: './home.page.html',
 })
 export class HomePage {
 

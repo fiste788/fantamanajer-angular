@@ -9,34 +9,34 @@ import { tableRowAnimation } from '@shared/animations';
 import { Team, Transfert } from '@shared/models';
 
 @Component({
-  templateUrl: './transfert-list.page.html',
+  animations: [tableRowAnimation],
   styleUrls: ['./transfert-list.page.scss'],
-  animations: [tableRowAnimation]
+  templateUrl: './transfert-list.page.html',
 })
 export class TransfertListPage implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  teamId?: number;
-  dataSource: MatTableDataSource<Transfert>;
-  displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
+  public teamId?: number;
+  public dataSource: MatTableDataSource<Transfert>;
+  public displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
   constructor(
     private readonly transfertService: TransfertService,
     private readonly route: ActivatedRoute,
     private readonly ref: ChangeDetectorRef,
-    public app: ApplicationService
+    public app: ApplicationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadData();
   }
 
-  loadData(): void {
+  public loadData(): void {
     this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (this.teamId) {
       // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
       this.transfertService.getTransfert(this.teamId)
-        .subscribe(data => {
+        .subscribe((data) => {
           this.dataSource = new MatTableDataSource<Transfert>(data);
           if (data.length) {
             this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
@@ -47,7 +47,7 @@ export class TransfertListPage implements OnInit {
     }
   }
 
-  sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
+  public sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
       case 'old_member': value = data.old_member.player.full_name; break;

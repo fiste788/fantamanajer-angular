@@ -9,54 +9,54 @@ import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  selector: 'fm-login',
-  templateUrl: './login.page.html',
+  animations: [cardCreationAnimation],
+  selector: 'app-login',
   styleUrls: ['./login.page.scss'],
-  animations: [cardCreationAnimation]
+  templateUrl: './login.page.html',
 })
 export class LoginPage {
-  loginData: {
+  public loginData: {
     email?: string,
     password?: string,
-    remember_me: boolean
+    remember_me: boolean,
   } = { remember_me: true };
-  error = '';
-  token$: Observable<CredentialRequestOptionsJSON>;
+  public error = '';
+  public token$: Observable<CredentialRequestOptionsJSON>;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly authService: AuthenticationService,
     private readonly credentialService: CredentialService,
-    private readonly app: ApplicationService
+    private readonly app: ApplicationService,
   ) {
   }
 
-  login(): void {
+  public login(): void {
     if (this.loginData.email && this.loginData.password) {
       this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
-        .subscribe(result => {
+        .subscribe((result) => {
           this.postLogin(result);
         });
     }
   }
 
-  tokenLogin(t: CredentialRequestOptionsJSON): void {
+  public tokenLogin(t: CredentialRequestOptionsJSON): void {
     if (this.loginData.email) {
       this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
-        .subscribe(result => {
+        .subscribe((result) => {
           this.postLogin(result);
         });
     }
   }
 
-  checkToken(): void {
+  public checkToken(): void {
     if (this.loginData.email) {
       this.token$ = this.credentialService.get(this.loginData.email);
     }
   }
 
-  postLogin(result: boolean): void {
+  public postLogin(result: boolean): void {
     if (result) {
       const url =
         this.route.snapshot.queryParams.returnUrl ||

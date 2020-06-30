@@ -11,26 +11,26 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
 import { Score, Team } from '@shared/models';
 
 @Component({
+  styleUrls: ['./score-edit.page.scss'],
   templateUrl: './score-edit.page.html',
-  styleUrls: ['./score-edit.page.scss']
 })
 export class ScoreEditPage implements OnInit {
-  @ViewChild(NgForm) scoreForm: NgForm;
-  @ViewChild(LineupDetailComponent) lineupDetail: LineupDetailComponent;
+  @ViewChild(NgForm) public scoreForm: NgForm;
+  @ViewChild(LineupDetailComponent) public lineupDetail: LineupDetailComponent;
 
-  team: Team;
-  penality: boolean;
-  selectedScore: Score;
-  score$: Observable<Score>;
-  scores$: Observable<Array<Score>>;
+  public team: Team;
+  public penality: boolean;
+  public selectedScore: Score;
+  public score$: Observable<Score>;
+  public scores$: Observable<Array<Score>>;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly scoreService: ScoreService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const t = UtilService.getSnapshotData<Team>(this.route, 'team');
     if (t) {
       this.team = t;
@@ -38,25 +38,25 @@ export class ScoreEditPage implements OnInit {
     }
   }
 
-  getScore(event: MatSelectChange): void {
+  public getScore(event: MatSelectChange): void {
     this.selectedScore = event.value;
     this.score$ = this.scoreService.getScore(this.selectedScore.id, true);
   }
 
-  save(score: Score): void {
+  public save(score: Score): void {
     score.lineup = this.lineupDetail.getLineup();
     this.scoreService.update(score)
       .subscribe(() => {
         this.snackBar.open('Punteggio modificato', undefined, {
-          duration: 3000
+          duration: 3000,
         });
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
         });
   }
 
-  track(_: number, item: Score): number {
+  public track(_: number, item: Score): number {
     return item.id; // or item.id
   }
 }

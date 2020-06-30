@@ -7,45 +7,45 @@ import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { Member } from '@shared/models';
 
-interface BestPlayer {
+interface IBestPlayer {
   role: string;
   first: Member;
   others: Array<Member>;
 }
 @Component({
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
   animations: [cardCreationAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./home.page.scss'],
+  templateUrl: './home.page.html',
 })
 export class HomePage implements OnInit {
 
-  bestPlayers$: Observable<Array<BestPlayer> | undefined>;
+  public bestPlayers$: Observable<Array<IBestPlayer> | undefined>;
 
   constructor(
     private readonly memberService: MemberService,
-    public app: ApplicationService
+    public app: ApplicationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.bestPlayers$ = this.memberService.getBest()
-      .pipe(map(role =>
-        role.filter(a => a.best_players !== undefined)
-          .map(a =>
+      .pipe(map((role) =>
+        role.filter((a) => a.best_players !== undefined)
+          .map((a) =>
             ({
-              role: a.singolar,
               first: a.best_players?.shift() as Member,
-              others: a.best_players ?? []
-            })
-          )
+              others: a.best_players ?? [],
+              role: a.singolar,
+            }),
+          ),
       ));
   }
 
-  track(_: number, item: Member): number {
+  public track(_: number, item: Member): number {
     return item.id; // or item.id
   }
 
-  trackByRole(_: number, item: BestPlayer): string {
+  public trackByRole(_: number, item: IBestPlayer): string {
     return item.role; // or item.id
   }
 }

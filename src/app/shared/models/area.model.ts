@@ -1,9 +1,9 @@
-import { MemberOption } from './member-option.model';
+import { IMemberOption } from './member-option.model';
 import { Role } from './role.model';
 
-export interface Area {
+export interface IArea {
   role: Role;
   fromIndex: number;
   toIndex: number;
-  options: Array<MemberOption>;
+  options: Array<IMemberOption>;
 }

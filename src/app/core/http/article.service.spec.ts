@@ -5,7 +5,7 @@ import { ArticleService } from './article.service';
 describe('ArticleService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      providers: [ArticleService]
+      providers: [ArticleService],
     });
   });
 

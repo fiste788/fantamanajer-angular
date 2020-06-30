@@ -5,7 +5,7 @@ import { MatchdayService } from './matchday.service';
 describe('MatchdayService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      providers: [MatchdayService]
+      providers: [MatchdayService],
     });
   });
 

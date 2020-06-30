@@ -2,11 +2,11 @@ import { Lineup, Member } from './';
 
 // tslint:disable: variable-name
 export class Disposition {
-  id: number;
-  position: number;
-  consideration: number;
-  lineup_id: number;
-  member_id: number | null;
-  lineup: Lineup;
-  member: Member | null;
+  public id: number;
+  public position: number;
+  public consideration: number;
+  public lineup_id: number;
+  public member_id: number | null;
+  public lineup: Lineup;
+  public member: Member | null;
 }

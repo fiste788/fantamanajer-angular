@@ -7,14 +7,14 @@ import { SharedModule } from '@shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
+  declarations: [
+    AuthRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     AuthRoutingModule,
-    MatStepperModule
+    MatStepperModule,
   ],
-  declarations: [
-    AuthRoutingModule.components
-  ]
 })
 export class AuthModule { }

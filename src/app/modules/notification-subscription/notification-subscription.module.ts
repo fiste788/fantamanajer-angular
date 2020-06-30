@@ -6,11 +6,11 @@ import { SharedModule } from '@shared/shared.module';
 import { NotificationSubscriptionComponent } from './components/notification-subscription/notification-subscription.component';
 
 @NgModule({
+  declarations: [NotificationSubscriptionComponent],
+  exports: [NotificationSubscriptionComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
-  exports: [NotificationSubscriptionComponent],
-  declarations: [NotificationSubscriptionComponent]
 })
 export class NotificationSubscriptionModule { }

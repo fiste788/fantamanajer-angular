@@ -5,7 +5,7 @@ import { PushService } from './push.service';
 describe('PushService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      providers: [PushService]
+      providers: [PushService],
     });
   });
 

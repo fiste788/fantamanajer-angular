@@ -1,41 +1,41 @@
 import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[fmSrcset]'
+  selector: '[appSrcset]',
 })
 export class SrcsetDirective implements OnInit, OnChanges {
-  @Input() fmSrcset: Record<string, string> | string | null;
-  @Input() placeholder: string;
+  @Input() public appSrcset: Record<string, string> | string | null;
+  @Input() public placeholder: string;
 
   constructor(
     private readonly renderer: Renderer2,
-    private readonly el: ElementRef<HTMLImageElement>
+    private readonly el: ElementRef<HTMLImageElement>,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.init();
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.init();
   }
 
-  init(): void {
-    if (this.fmSrcset !== null) {
-      if (typeof this.fmSrcset !== 'string') {
-        this.processRecord(this.fmSrcset);
+  public init(): void {
+    if (this.appSrcset !== null) {
+      if (typeof this.appSrcset !== 'string') {
+        this.processRecord(this.appSrcset);
       } else {
-        this.renderer.setProperty(this.el.nativeElement, 'srcset', this.fmSrcset);
+        this.renderer.setProperty(this.el.nativeElement, 'srcset', this.appSrcset);
       }
     } else {
       this.renderer.setProperty(this.el.nativeElement, 'src', this.placeholder);
     }
   }
 
-  processRecord(set: Record<string, string>): void {
+  public processRecord(set: Record<string, string>): void {
     const srcset: Array<string> = [];
     const keys = Object.keys(set);
-    keys.forEach(key => {
+    keys.forEach((key) => {
       srcset.push(`${set[key]} ${key}`);
 
     });

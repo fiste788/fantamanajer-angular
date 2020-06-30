@@ -8,16 +8,16 @@ import { SharedModule } from '@shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
+  declarations: [
+    HomeRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     HomeRoutingModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
-  declarations: [
-    HomeRoutingModule.components
-  ]
 })
 export class HomeModule {
 

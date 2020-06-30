@@ -9,28 +9,28 @@ import { cardCreationAnimation } from '@shared/animations';
 import { User } from '@shared/models';
 
 @Component({
-  templateUrl: './settings.page.html',
+  animations: [cardCreationAnimation],
   styleUrls: ['./settings.page.scss'],
-  animations: [cardCreationAnimation]
+  templateUrl: './settings.page.html',
 })
 export class SettingsPage implements OnInit {
-  @HostBinding('@cardCreationAnimation') a = '';
+  @HostBinding('@cardCreationAnimation') public a = '';
 
-  user$: Observable<User>;
-  user: User;
-  repeatPassword: string;
-  push$: Observable<boolean>;
-  enabled: boolean;
+  public user$: Observable<User>;
+  public user: User;
+  public repeatPassword: string;
+  public push$: Observable<boolean>;
+  public enabled: boolean;
 
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly app: ApplicationService,
     private readonly userService: UserService,
     private readonly pushService: PushService,
-    private readonly credentialService: CredentialService
+    private readonly credentialService: CredentialService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.app.user) {
       this.user = this.app.user;
     }
@@ -38,22 +38,22 @@ export class SettingsPage implements OnInit {
     this.push$ = this.pushService.isSubscribed();
   }
 
-  save(): void {
+  public save(): void {
     if (this.user?.password === this.repeatPassword) {
       this.user$ = this.userService.update(this.user)
         .pipe(share());
       this.user$.pipe(
-        tap(() => this.app.user = this.user)
+        tap(() => this.app.user = this.user),
       )
         .subscribe(() => {
           this.snackBar.open('Modifiche salvate', undefined, {
-            duration: 3000
+            duration: 3000,
           });
         });
     }
   }
 
-  togglePush(checked: boolean): void {
+  public togglePush(checked: boolean): void {
     if (checked) {
       this.pushService.subscribeToPush();
     } else {
@@ -61,7 +61,7 @@ export class SettingsPage implements OnInit {
     }
   }
 
-  registerDevice(): void {
+  public registerDevice(): void {
     this.credentialService.createPublicKey()
       .subscribe();
   }

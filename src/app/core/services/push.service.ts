@@ -15,7 +15,7 @@ import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> = new EventEmitter<BeforeInstallPromptEvent>();
+  public readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> = new EventEmitter<BeforeInstallPromptEvent>();
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
@@ -26,9 +26,9 @@ export class PushService {
     private readonly app: ApplicationService,
     private readonly auth: AuthenticationService,
     private readonly swUpdate: SwUpdate,
-    private readonly router: Router
+    private readonly router: Router,
   ) {
-    this.window.addEventListener('beforeinstallprompt', e => {
+    this.window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
@@ -38,77 +38,77 @@ export class PushService {
     this.auth.userChange$.subscribe(this.initializeUser.bind(this));
   }
 
-  checkForUpdates(): void {
+  public checkForUpdates(): void {
     this.swUpdate.available.pipe(
       map(() => this.snackBar.open(
         'Nuova versione dell\'app disponibile',
-        'Aggiorna'
+        'Aggiorna',
       )),
-      switchMap(ref => ref.onAction())
+      switchMap((ref) => ref.onAction()),
     )
       .subscribe(() => {
         this.window.location.reload();
       });
   }
 
-  initializeUser(user?: User): void {
+  public initializeUser(user?: User): void {
     if (user && environment.production) {
       this.subscribeToPush();
       this.showMessages();
     }
   }
 
-  showMessages(): void {
-    this.swPush.messages.subscribe(obj => {
+  public showMessages(): void {
+    this.swPush.messages.subscribe((obj) => {
       const message = obj as { notification: Notification };
       this.notificationService.broadcast(message.notification.title, '');
     });
-    this.swPush.notificationClicks.subscribe(click => {
+    this.swPush.notificationClicks.subscribe((click) => {
       if (click.notification.data.url) {
         void this.router.navigateByUrl(click.notification.data.url);
       }
     });
   }
 
-  subscribeToPush(): void {
+  public subscribeToPush(): void {
     this.isSubscribed()
       .pipe(
-        filter(s => !s),
+        filter((s) => !s),
         flatMap(() => from(this.requestSubscription())),
-        filter(s => s)
+        filter((s) => s),
       )
       .subscribe(() => {
         this.snackBar.open('Now you are subscribed', undefined, {
-          duration: 2000
+          duration: 2000,
         });
       });
   }
 
-  unsubscribeFromPush(): void {
+  public unsubscribeFromPush(): void {
     from(this.cancelSubscription())
-      .pipe(filter(r => r))
+      .pipe(filter((r) => r))
       .subscribe(() => {
         this.snackBar.open('Now you are unsubscribed', undefined, {
-          duration: 2000
+          duration: 2000,
         });
       });
   }
 
-  isSubscribed(): Observable<boolean> {
+  public isSubscribed(): Observable<boolean> {
     return this.swPush.subscription
       .pipe(
         // tslint:disable-next-line: no-null-keyword
         // defaultIfEmpty(null),
-        map(e => e !== null),
-        share()
+        map((e) => e !== null),
+        share(),
       );
   }
 
-  isEnabled(): boolean {
+  public isEnabled(): boolean {
     return this.swPush.isEnabled;
   }
 
-  async convertNativeSubscription(pushSubscription: PushSubscriptionJSON, userId: number): Promise<PushSubscription | undefined> {
+  public async convertNativeSubscription(pushSubscription: PushSubscriptionJSON, userId: number): Promise<PushSubscription | undefined> {
     if (pushSubscription.endpoint && pushSubscription.keys) {
       const psm = new PushSubscription();
       psm.id = await this.sha256(pushSubscription.endpoint);
@@ -126,7 +126,7 @@ export class PushService {
     return undefined;
   }
 
-  async sha256(message: string): Promise<string> {
+  public async sha256(message: string): Promise<string> {
     // encode as UTF-8
     const msgBuffer = new TextEncoder().encode(message);
 
@@ -137,7 +137,7 @@ export class PushService {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
 
     // convert bytes to hex string
-    const hashHex = hashArray.map(b => (`00${b.toString(16)}`).slice(-2))
+    const hashHex = hashArray.map((b) => (`00${b.toString(16)}`).slice(-2))
       .join('');
 
     return hashHex;
@@ -145,19 +145,19 @@ export class PushService {
 
   private async requestSubscription(): Promise<boolean> {
     const pushSubscription = await this.swPush.requestSubscription({
-      serverPublicKey: environment.vapidPublicKey
+      serverPublicKey: environment.vapidPublicKey,
     });
     if (this.app.user) {
       const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
       if (sub) {
         return this.subscription.add(sub)
           .pipe(
-            map(s => s !== null),
+            map((s) => s !== null),
             catchError(() => {
               void pushSubscription.unsubscribe();
 
               return of(false);
-            })
+            }),
           )
           .toPromise();
       }

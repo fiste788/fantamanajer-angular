@@ -2,7 +2,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
-// import { MatDialogModule } from '@angular/material/dialog';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -11,20 +10,19 @@ import { NotificationListModal } from './modals/notification-list/notification-l
 import { NotificationOverlayService } from './modals/notification-overlay.service';
 
 @NgModule({
+  declarations: [
+    NotificationListComponent,
+    NotificationListModal,
+  ],
+  exports: [
+    NotificationListComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     MatBadgeModule,
-    // MatDialogModule,
-    OverlayModule
+    OverlayModule,
   ],
-  exports: [
-    NotificationListComponent
-  ],
-  declarations: [
-    NotificationListComponent,
-    NotificationListModal
-  ],
-  providers: [NotificationOverlayService]
+  providers: [NotificationOverlayService],
 })
 export class NotificationModule { }

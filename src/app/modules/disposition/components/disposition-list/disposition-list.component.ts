@@ -5,20 +5,20 @@ import { tableRowAnimation } from '@shared/animations';
 import { Disposition, Lineup } from '@shared/models';
 
 @Component({
-  selector: 'fm-disposition-list',
-  templateUrl: './disposition-list.component.html',
-  styleUrls: ['./disposition-list.component.scss'],
   animations: [tableRowAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-disposition-list',
+  styleUrls: ['./disposition-list.component.scss'],
+  templateUrl: './disposition-list.component.html',
 })
 export class DispositionListComponent implements OnInit {
-  @Input() lineup?: Lineup;
-  @Input() dispositions: Array<Disposition>;
-  @Input() caption: string;
-  @Input() regular = false;
+  @Input() public lineup?: Lineup;
+  @Input() public dispositions: Array<Disposition>;
+  @Input() public caption: string;
+  @Input() public regular = false;
 
-  dataSource: MatTableDataSource<Disposition>;
-  displayedColumns = [
+  public dataSource: MatTableDataSource<Disposition>;
+  public displayedColumns = [
     'player',
     'role',
     'club',
@@ -27,10 +27,10 @@ export class DispositionListComponent implements OnInit {
     'redCard',
     'assist',
     'goals',
-    'points'
+    'points',
   ];
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
 }

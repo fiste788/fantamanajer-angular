@@ -8,34 +8,34 @@ import { cardCreationAnimation } from '@shared/animations';
 import { Championship, Team } from '@shared/models';
 
 @Component({
-  templateUrl: './team-list.page.html',
+  animations: [cardCreationAnimation],
   styleUrls: ['./team-list.page.scss'],
-  animations: [cardCreationAnimation]
+  templateUrl: './team-list.page.html',
 })
 export class TeamListPage implements OnInit {
-  teams$?: Observable<Array<Team>>;
-  exit = false;
+  public teams$?: Observable<Array<Team>>;
+  public exit = false;
 
   constructor(
     private readonly router: Router,
     private readonly teamService: TeamService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadData();
     this.attachEvents();
   }
 
-  loadData(): void {
+  public loadData(): void {
     const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
     if (id) {
       this.teams$ = this.teamService.getTeams(id);
     }
   }
 
-  attachEvents(): void {
-    this.router.events.subscribe(evt => {
+  public attachEvents(): void {
+    this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
         this.teams$ = undefined;
@@ -43,7 +43,7 @@ export class TeamListPage implements OnInit {
     });
   }
 
-  track(_: number, item: Team): number {
+  public track(_: number, item: Team): number {
     return item.id;
   }
 }

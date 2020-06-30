@@ -4,24 +4,28 @@ import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/
 import { Lineup } from '@shared/models';
 
 @Directive({
-  selector: '[fmMemberAlreadySelected]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: MemberAlreadySelectedValidator, multi: true }]
+  providers: [{
+    multi: true,
+    provide: NG_VALIDATORS,
+    useExisting: MemberAlreadySelectedValidator,
+  }],
+  selector: '[appMemberAlreadySelected]',
 })
 export class MemberAlreadySelectedValidator implements Validator {
-  @Input('fmMemberAlreadySelected') lineup: Lineup;
+  @Input('appMemberAlreadySelected') public lineup: Lineup;
 
-  validate(formGroup: FormGroup): ValidationErrors | null {
+  public validate(formGroup: FormGroup): ValidationErrors | null {
     const disp = formGroup.controls.dispositions as FormGroup;
     if (disp !== undefined) {
       const ids = Object.values(disp.controls)
         .filter((v): v is FormGroup => v instanceof FormGroup)
-        .filter(v => v.controls)
+        .filter((v) => v.controls)
         .map((v: FormGroup) => v.controls.member?.value?.id);
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
 
       Object.values(disp.controls)
         .filter((c): c is FormGroup => c instanceof FormGroup)
-        .map(c => {
+        .map((c) => {
           if (dup.includes(c.controls?.member?.value?.id)) {
             c.controls?.member?.setErrors({ duplicate: true });
 

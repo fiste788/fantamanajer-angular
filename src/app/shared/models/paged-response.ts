@@ -1,6 +1,6 @@
-import { Pagination } from './';
+import { IPagination } from './';
 
-export interface PagedResponse<T> {
-  pagination: Pagination;
+export interface IPagedResponse<T> {
+  pagination: IPagination;
   data: T;
 }

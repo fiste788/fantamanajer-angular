@@ -6,8 +6,8 @@ import { Transfert } from '@shared/models';
 
 const url = 'transferts';
 const routes = {
+  create: `/admin/${url}`,
   transferts: (id: number) => `/teams/${id}/${url}`,
-  create: `/admin/${url}`
 };
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +15,11 @@ export class TransfertService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getTransfert(id: number): Observable<Array<Transfert>> {
+  public getTransfert(id: number): Observable<Array<Transfert>> {
     return this.http.get<Array<Transfert>>(routes.transferts(id));
   }
 
-  create(transfert: Transfert): Observable<Partial<Transfert>> {
+  public create(transfert: Transfert): Observable<Partial<Transfert>> {
     return this.http.post<Transfert>(routes.create, transfert);
   }
 

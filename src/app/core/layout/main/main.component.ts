@@ -13,27 +13,27 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { VisibilityState } from './visibility-state';
 
 @Component({
-  selector: 'fm-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('contextChange', routerTransition),
     scrollUpAnimation,
-    closeAnimation
-  ]
+    closeAnimation,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-main',
+  styleUrls: ['./main.component.scss'],
+  templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSidenav, { static: true }) drawer: MatSidenav;
-  @ViewChild(MatSidenavContent) container: MatSidenavContent;
-  @ViewChild(SpeedDialComponent) speedDial: SpeedDialComponent;
-  @ViewChild('toolbar', { read: ElementRef }) toolbarEl: ElementRef;
+  @ViewChild(MatSidenav, { static: true }) public drawer: MatSidenav;
+  @ViewChild(MatSidenavContent) public container: MatSidenavContent;
+  @ViewChild(SpeedDialComponent) public speedDial: SpeedDialComponent;
+  @ViewChild('toolbar', { read: ElementRef }) public toolbarEl: ElementRef;
 
-  isReady$: Observable<boolean>;
-  isHandset$: Observable<boolean>;
-  openedSidebar$: Observable<boolean>;
-  showedSpeedDial$: Observable<VisibilityState>;
-  showedToolbar$: Observable<VisibilityState>;
+  public isReady$: Observable<boolean>;
+  public isHandset$: Observable<boolean>;
+  public openedSidebar$: Observable<boolean>;
+  public showedSpeedDial$: Observable<VisibilityState>;
+  public showedToolbar$: Observable<VisibilityState>;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -42,15 +42,15 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
-    private readonly changeRef: ChangeDetectorRef
+    private readonly changeRef: ChangeDetectorRef,
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setupEvents();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.layoutService.connect();
     this.scrollService.connect(this.container);
     this.ngZone.runOutsideAngular(() => {
@@ -60,7 +60,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  setupEvents(): void {
+  public setupEvents(): void {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
@@ -68,23 +68,23 @@ export class MainComponent implements OnInit, AfterViewInit {
       .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
     this.showedToolbar$ = this.layoutService.isShowToolbar;
     this.drawer.openedChange.asObservable()
-      .subscribe(a => {
+      .subscribe((a) => {
         this.layoutService.openSidebarSubject.next(a);
       });
     this.isReady$.pipe(
-      filter(e => e),
+      filter((e) => e),
       tap(() => {
         this.layoutService.showSpeedDial();
         setTimeout(() => this.document.querySelector('.pre-bootstrap')
           ?.remove(), 500);
-      })
+      }),
     )
       .subscribe(() => {
         this.gaService.load();
       });
   }
 
-  setupScrollAnimation(): void {
+  public setupScrollAnimation(): void {
     this.layoutService.connectScrollAnimation(
       () => {
         this.up();
@@ -95,8 +95,8 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.toolbarEl.nativeElement.firstChild.clientHeight);
   }
 
-  up(): void {
-    const toolbar = this.document.querySelector('fm-toolbar > .mat-toolbar.mat-primary');
+  public up(): void {
+    const toolbar = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary');
     const height = toolbar !== null ? toolbar.clientHeight : 0;
     this.document.querySelectorAll('.sticky')
       .forEach((e: Element) => {
@@ -107,7 +107,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  down(): void {
+  public down(): void {
     this.speedDial.openSpeeddial = false;
     this.document.querySelectorAll('.sticky')
       .forEach((e: Element) => {
@@ -118,7 +118,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  initDrawer(): void {
+  public initDrawer(): void {
     if (this.drawer !== undefined) {
       this.drawer.autoFocus = false;
       this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
@@ -133,7 +133,7 @@ export class MainComponent implements OnInit, AfterViewInit {
       .pipe(
         map(([r, h, o]) =>
           o || (!h && r)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 }

@@ -8,7 +8,7 @@ describe('RankingPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [RankingPage]
+      declarations: [RankingPage],
     })
       .compileComponents();
   }));

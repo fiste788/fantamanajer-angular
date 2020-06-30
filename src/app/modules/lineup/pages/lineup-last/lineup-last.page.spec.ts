@@ -8,7 +8,7 @@ describe('LineupLastPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [LineupLastPage]
+      declarations: [LineupLastPage],
     })
       .compileComponents();
   }));

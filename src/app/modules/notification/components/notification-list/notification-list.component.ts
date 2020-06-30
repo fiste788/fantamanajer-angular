@@ -10,35 +10,35 @@ import { NotificationListModal } from '../../modals/notification-list/notificati
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';
 
 @Component({
-  selector: 'fm-notification-list',
-  templateUrl: './notification-list.component.html',
+  animations: [createBoxAnimation],
+  selector: 'app-notification-list',
   styleUrls: ['./notification-list.component.scss'],
-  animations: [createBoxAnimation]
+  templateUrl: './notification-list.component.html',
 })
 export class NotificationListComponent implements OnInit {
-  @ViewChild(NotificationListModal) overlay: NotificationListModal;
+  @ViewChild(NotificationListModal) public overlay: NotificationListModal;
 
-  stream$: Observable<Stream>;
+  public stream$: Observable<Stream>;
 
   constructor(
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
-    private readonly overlayService: NotificationOverlayService
+    private readonly overlayService: NotificationOverlayService,
   ) {
 
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.app.team) {
       this.stream$ = this.notificationService.getNotificationCount(this.app.team.id);
     }
   }
 
-  seen(): void {
+  public seen(): void {
     this.stream$ = this.notificationService.seen;
   }
 
-  open(el: EventTarget | null): void {
+  public open(el: EventTarget | null): void {
     this.overlayService.open(el as unknown as ElementRef);
     this.notificationService.seen.subscribe();
   }

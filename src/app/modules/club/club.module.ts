@@ -9,18 +9,18 @@ import { ClubRoutingModule } from './club-routing.module';
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
 
 @NgModule({
+  declarations: [
+    ClubRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     ClubRoutingModule,
     MemberCommonModule,
-    StreamModule
-  ],
-  declarations: [
-    ClubRoutingModule.components
+    StreamModule,
   ],
   providers: [
-    ClubDetailResolver
-  ]
+    ClubDetailResolver,
+  ],
 })
 export class ClubModule { }

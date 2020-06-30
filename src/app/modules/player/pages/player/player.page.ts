@@ -10,20 +10,20 @@ import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { Member, Player, Rating } from '@shared/models';
 
 @Component({
-  templateUrl: './player.page.html',
-  styleUrls: ['./player.page.scss'],
   animations: [
     tableRowAnimation,
-    enterDetailAnimation
-  ]
+    enterDetailAnimation,
+  ],
+  styleUrls: ['./player.page.scss'],
+  templateUrl: './player.page.html',
 })
 export class PlayerPage implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  player$: Observable<Player>;
-  ratings$: Observable<Array<Rating>>;
-  selectedMember: Member;
-  displayedColumns = [
+  public player$: Observable<Player>;
+  public ratings$: Observable<Array<Rating>>;
+  public selectedMember: Member;
+  public displayedColumns = [
     'matchday',
     'rating',
     'points',
@@ -35,20 +35,20 @@ export class PlayerPage implements OnInit {
     'regular',
     'yellow_card',
     'red_card',
-    'quotation'
+    'quotation',
   ];
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
-    public app: ApplicationService
+    public app: ApplicationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.load();
   }
 
-  load(): void {
+  public load(): void {
     this.player$ = this.route.data.pipe(
       pluck('player'),
       tap((player: Player) => {
@@ -57,11 +57,11 @@ export class PlayerPage implements OnInit {
       }));
   }
 
-  seasonChange(): void {
+  public seasonChange(): void {
     this.ratings$ = this.ratingService.getRatings(this.selectedMember.id);
   }
 
-  track(_: number, item: Member): number {
+  public track(_: number, item: Member): number {
     return item.id;
   }
 }

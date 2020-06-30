@@ -2,41 +2,41 @@ import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/co
 import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgModelGroup } from '@angular/forms';
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
-import { Member, MemberOption, Role } from '@shared/models';
+import { IMemberOption, Member, Role } from '@shared/models';
 
 @Component({
-  selector: 'fm-member-selection',
-  templateUrl: './member-selection.component.html',
-  styleUrls: ['./member-selection.component.scss'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   animations: [lineupDispositionAnimation, createBoxAnimation],
   providers: [
     {
+      multi: true,
       provide: NG_VALUE_ACCESSOR,
       useExisting: MemberSelectionComponent,
-      multi: true
-    }
-  ]
+    },
+  ],
+  selector: 'app-member-selection',
+  styleUrls: ['./member-selection.component.scss'],
+  templateUrl: './member-selection.component.html',
+  viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() member: Member | null;
-  @Input() name: string;
-  @Input() disabled = false;
-  @Input() required = false;
-  @Input() placeholder: string;
-  @Input() memberList: Array<MemberOption> = [];
-  @Input() memberMap: Map<Role, Array<MemberOption>>;
-  @Input() size = 100;
-  @Input() width = 100;
-  @Input() height = 100;
-  @Input() captain = false;
+  @Input() public member: Member | null;
+  @Input() public name: string;
+  @Input() public disabled = false;
+  @Input() public required = false;
+  @Input() public placeholder: string;
+  @Input() public memberList: Array<IMemberOption> = [];
+  @Input() public memberMap: Map<Role, Array<IMemberOption>>;
+  @Input() public size = 100;
+  @Input() public width = 100;
+  @Input() public height = 100;
+  @Input() public captain = false;
 
-  @Output() readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
+  @Output() public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
-  @HostBinding('@lineupDisposition') lineupDisposition = '';
+  @HostBinding('@lineupDisposition') public lineupDisposition = '';
 
-  onChange = (_: Member | null) => undefined;
-  onTouched = () => undefined;
+  public onChange = (_: Member | null) => undefined;
+  public onTouched = () => undefined;
 
   get val(): Member | null {
     return this.member;
@@ -48,28 +48,28 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  registerOnChange(fn: (member: Member | null) => undefined): void {
+  public registerOnChange(fn: (member: Member | null) => undefined): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => undefined): void {
+  public registerOnTouched(fn: () => undefined): void {
     this.onTouched = fn;
   }
 
-  change(event: Member | null): void {
+  public change(event: Member | null): void {
     this.member = event;
     this.memberChange.emit(event);
   }
 
-  writeValue(value: Member | null): void {
+  public writeValue(value: Member | null): void {
     this.member = value;
   }
 
-  track(_: number, option: MemberOption): number {
+  public track(_: number, option: IMemberOption): number {
     return option.member.id;
   }
 
-  compareFn(t1: Member, t2: Member): boolean {
+  public compareFn(t1: Member, t2: Member): boolean {
     return t1?.id === t2?.id;
   }
 

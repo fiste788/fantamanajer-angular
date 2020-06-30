@@ -3,60 +3,26 @@
   <div *ngIf="app.matchday.number <= 34">
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>
-      <input
-        matInput
-        name="name"
-        placeholder="Nome"
-        required
-        [(ngModel)]="team.name"
-      >
+      <input matInput name="name" placeholder="Nome" required [(ngModel)]="team.name">
     </mat-form-field>
   </div>
 
-  <div
-    ngfDrop
-    class="my-drop-zone"
-    accept="image/*"
-    [selectable]="true"
-    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
-    [(file)]="file"
-    [(validDrag)]="validComboDrag"
-    [(invalidDrag)]="invalidComboDrag"
-  >
+  <div ngfDrop class="my-drop-zone" accept="image/*" [selectable]="true"
+    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}" [(file)]="file"
+    [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag">
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
-    <div
-      *ngIf="file"
-      @createBox
-    >
-      <img
-        alt="uploadImage"
-        [ngfSrc]="file"
-      />
+    <div *ngIf="file" @createBox>
+      <img alt="uploadImage" [ngfSrc]="file" />
     </div>
   </div>
   <div>
-    <fm-notification-subscription
-      type="email"
-      label="Notifiche tramite email"
-      [team]="team"
-      [(subscriptions)]="team.email_notification_subscriptions"
-    ></fm-notification-subscription>
-    <fm-notification-subscription
-      type="push"
-      label="Notifiche push"
-      [team]="team"
-      [(subscriptions)]="team.push_notification_subscriptions"
-    ></fm-notification-subscription>
+    <app-notification-subscription type="email" label="Notifiche tramite email" [team]="team"
+      [(subscriptions)]="team.email_notification_subscriptions"></app-notification-subscription>
+    <app-notification-subscription type="push" label="Notifiche push" [team]="team"
+      [(subscriptions)]="team.push_notification_subscriptions"></app-notification-subscription>
   </div>
 </div>
 <div mat-dialog-actions>
-  <button
-    mat-button
-    (click)="save()"
-  >SALVA</button>
-  <button
-    mat-button
-    (click)="cancel()"
-    tabindex="-1"
-  >ANNULLA</button>
+  <button mat-button (click)="save()">SALVA</button>
+  <button mat-button (click)="cancel()" tabindex="-1">ANNULLA</button>
 </div>

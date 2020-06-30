@@ -8,7 +8,7 @@ import { Matchday } from '@shared/models';
 
 const url = 'matchdays';
 const routes = {
-  current: `/${url}/current?force`
+  current: `/${url}/current?force`,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -16,17 +16,17 @@ export class MatchdayService {
   private readonly httpWithoutIntercept: HttpClient;
 
   constructor(
-    httpback: HttpBackend
+    httpback: HttpBackend,
   ) {
     this.httpWithoutIntercept = new HttpClient(httpback);
   }
 
-  getCurrentMatchday(): Observable<Matchday> {
+  public getCurrentMatchday(): Observable<Matchday> {
     return this.httpWithoutIntercept.get<{ success: boolean, data: Matchday }>(environment.apiEndpoint + routes.current, {
-      withCredentials: false,
       headers: {
-        Accept: '*/*'
-      }
+        Accept: '*/*',
+      },
+      withCredentials: false,
     })
       .pipe(pluck('data'));
   }

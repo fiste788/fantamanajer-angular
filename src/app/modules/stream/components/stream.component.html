@@ -1,61 +1,21 @@
-<cdk-virtual-scroll-viewport
-  *ngIf="!ds.isEmpty"
-  itemSize="88"
-  class="viewport"
->
+<cdk-virtual-scroll-viewport *ngIf="!ds.isEmpty" itemSize="88" class="viewport">
   <mat-list @listItemAnimation>
     <ng-container *cdkVirtualFor="let activity of ds">
       <mat-list-item *ngIf="activity; else placeholder">
         <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
         <h3 mat-line> {{activity.title}} </h3>
-        <p
-          mat-line
-          [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-        > {{activity.humanTime}} </p>
+        <p mat-line [title]="(activity.time | date: 'dd/MM/y HH:mm')"> {{activity.humanTime}} </p>
         <p mat-line> {{activity.body}} </p>
       </mat-list-item>
       <ng-template #placeholder>
-        <content-loader
-          preserveAspectRatio="none"
-          [height]="88"
-          [width]="width"
-        >
-          <svg:rect
-            x="66"
-            y="17"
-            rx="3"
-            ry="3"
-            width="250"
-            height="15"
-          />
-          <svg:rect
-            x="66"
-            y="42"
-            rx="3"
-            ry="3"
-            width="100"
-            height="10"
-          />
-          <svg:rect
-            x="66"
-            y="62"
-            rx="3"
-            ry="3"
-            width="90%"
-            height="10"
-          />
-          <svg:circle
-            cx="33"
-            cy="44"
-            r="20"
-          />
+        <content-loader preserveAspectRatio="none" [height]="88" [width]="width">
+          <svg:rect x="66" y="17" rx="3" ry="3" width="250" height="15" />
+          <svg:rect x="66" y="42" rx="3" ry="3" width="100" height="10" />
+          <svg:rect x="66" y="62" rx="3" ry="3" width="90%" height="10" />
+          <svg:circle cx="33" cy="44" r="20" />
         </content-loader>
       </ng-template>
     </ng-container>
   </mat-list>
 </cdk-virtual-scroll-viewport>
-<fm-mat-empty-state
-  *ngIf="ds.isEmpty"
-  label="Ancora nessuna attività"
-  icon="message"
-></fm-mat-empty-state>
+<app-mat-empty-state *ngIf="ds.isEmpty" label="Ancora nessuna attività" icon="message"></app-mat-empty-state>

@@ -13,19 +13,19 @@ import { SpeedDialComponent } from './speed-dial/speed-dial.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    EcoFabSpeedDialModule,
-    NotificationModule
-  ],
   declarations: [
     ProfileComponent,
     NavbarComponent,
     SpeedDialComponent,
     MainComponent,
-    ToolbarComponent
-  ]
+    ToolbarComponent,
+  ],
+  imports: [
+    SharedModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    EcoFabSpeedDialModule,
+    NotificationModule,
+  ],
 })
 export class LayoutModule { }

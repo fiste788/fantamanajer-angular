@@ -12,20 +12,38 @@ const routes: Routes = [
     component: RouterOutletComponent,
     data: { state: 'score-outlet' },
     children: [
-      { path: '', component: RankingPage, data: { state: 'ranking' } },
-      { path: ':id', component: ScoreDetailPage, data: { state: 'details' } },
-      { path: 'last', component: ScoreDetailPage, data: { state: 'last' } }
-    ]
-  }
+      {
+        path: '',
+        component: RankingPage,
+        data: {
+          state: 'ranking',
+        },
+      },
+      {
+        path: ':id',
+        component: ScoreDetailPage,
+        data: {
+          state: 'details',
+        },
+      },
+      {
+        path: 'last',
+        component: ScoreDetailPage,
+        data: {
+          state: 'last',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class ScoreRoutingModule {
-  static components = [
+  public static components = [
     RankingPage,
-    ScoreDetailPage
+    ScoreDetailPage,
   ];
 }

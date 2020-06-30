@@ -8,7 +8,7 @@ describe('AddLineupShortcutPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [AddLineupShortcutPage]
+      declarations: [AddLineupShortcutPage],
     })
       .compileComponents();
   }));

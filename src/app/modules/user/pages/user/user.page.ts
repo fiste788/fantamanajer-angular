@@ -2,23 +2,23 @@ import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 
 import { routerTransition } from '@shared/animations';
-import { Tab } from '@shared/models';
+import { ITab } from '@shared/models';
 
 @Component({
-  templateUrl: './user.page.html',
-  styleUrls: ['./user.page.scss'],
   animations: [
-    trigger('contextChange', routerTransition)
-  ]
+    trigger('contextChange', routerTransition),
+  ],
+  styleUrls: ['./user.page.scss'],
+  templateUrl: './user.page.html',
 })
 export class UserPage {
 
-  tabs: Array<{ label: string, link: string }> = [
+  public tabs: Array<ITab> = [
     { label: 'Profilo', link: 'profile' },
-    { label: 'Attività', link: 'stream' }
+    { label: 'Attività', link: 'stream' },
   ];
 
-  track(_: number, item: Tab): string {
+  public track(_: number, item: ITab): string {
     return item.link;
   }
 

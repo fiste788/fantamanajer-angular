@@ -9,44 +9,44 @@ import { ApplicationService } from '@app/services';
 import { Article } from '@shared/models';
 
 @Component({
+  styleUrls: ['./article-detail.page.scss'],
   templateUrl: './article-detail.page.html',
-  styleUrls: ['./article-detail.page.scss']
 })
 export class ArticleDetailPage implements OnInit {
-  @ViewChild(NgForm) articleForm: NgForm;
+  @ViewChild(NgForm) public articleForm: NgForm;
 
-  article$: Observable<Article>;
+  public article$: Observable<Article>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly app: ApplicationService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly articleService: ArticleService
+    private readonly articleService: ArticleService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const id = this.route.snapshot.params.id;
     this.article$ = this.route.snapshot.params.id ? this.load(+id) : this.new();
   }
 
-  load(id: number): Observable<Article> {
+  public load(id: number): Observable<Article> {
     return this.articleService.getArticle(id);
   }
 
-  new(): Observable<Article> {
+  public new(): Observable<Article> {
     const article = new Article();
     article.team_id = this.app.team?.id ?? 0;
 
     return of(article);
   }
 
-  save(article: Article): void {
+  public save(article: Article): void {
     if (this.articleForm.valid === true) {
       const observable = article.id ? this.articleService.update(article) : this.articleService.create(article);
       observable.subscribe((a: Partial<Article>) => {
         this.snackBar.open('Articolo salvato correttamente', undefined, {
-          duration: 3000
+          duration: 3000,
         });
         void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id ?? article.id}`);
       });

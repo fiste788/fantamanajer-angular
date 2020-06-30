@@ -8,15 +8,15 @@ import { SharedModule } from '@shared/shared.module';
 import { LineupRoutingModule } from './lineup-routing.module';
 
 @NgModule({
+  declarations: [
+    LineupRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     LineupCommonModule,
     LineupRoutingModule,
-    MemberCommonModule
+    MemberCommonModule,
   ],
-  declarations: [
-    LineupRoutingModule.components
-  ]
 })
 export class LineupModule { }

@@ -13,22 +13,12 @@ import { BreadcrumbComponent, MatEmptyStateComponent, ParallaxHeaderComponent, P
 import { MaterialModule } from './material.module';
 
 export const breakPointsProvider = {
+  multi: true,
   provide: BREAKPOINTS,
   useValue: DEFAULT_BREAKPOINTS,
-  multi: true
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    MaterialModule,
-
-    FlexLayoutModule,
-    McBreadcrumbsModule,
-    LazyLoadImageModule
-  ],
   declarations: [
     RellaxDirective,
     SrcsetDirective,
@@ -44,7 +34,7 @@ export const breakPointsProvider = {
     MatEmptyStateComponent,
     ParallaxHeaderComponent,
     PlayerImageComponent,
-    RouterOutletComponent
+    RouterOutletComponent,
   ],
   exports: [
     CommonModule,
@@ -68,7 +58,17 @@ export const breakPointsProvider = {
     BreadcrumbComponent,
     MatEmptyStateComponent,
     ParallaxHeaderComponent,
-    PlayerImageComponent
-  ]
+    PlayerImageComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MaterialModule,
+
+    FlexLayoutModule,
+    McBreadcrumbsModule,
+    LazyLoadImageModule,
+  ],
 })
 export class SharedModule { }

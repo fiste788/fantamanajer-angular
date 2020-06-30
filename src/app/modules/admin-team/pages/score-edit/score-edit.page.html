@@ -2,78 +2,38 @@
   <div class="flex-container">
     <mat-form-field>
       <mat-label>Giornata</mat-label>
-      <mat-select
-        #matchday
-        name="score"
-        placeholder="Giornata"
-        [(ngModel)]="selectedScore"
-        (selectionChange)="getScore($event)"
-      >
-        <mat-option
-          *ngFor="let score of scores; trackBy: track"
-          [value]="score"
-        >{{score.matchday.number}}</mat-option>
+      <mat-select #matchday name="score" placeholder="Giornata" [(ngModel)]="selectedScore"
+        (selectionChange)="getScore($event)">
+        <mat-option *ngFor="let score of scores; trackBy: track" [value]="score">{{score.matchday.number}}</mat-option>
       </mat-select>
     </mat-form-field>
     <div *ngIf="selectedScore">
-      <form
-        *ngIf="(score$ | async) as score; else loading"
-        #scoreForm="ngForm"
-        class="flex-container"
-        (ngSubmit)="save(score)"
-      >
+      <form *ngIf="(score$ | async) as score; else loading" #scoreForm="ngForm" class="flex-container"
+        (ngSubmit)="save(score)">
         <mat-form-field>
           <mat-label>Punteggio</mat-label>
-          <input
-            name="points"
-            type="number"
-            matInput
-            step="0.5"
-            required
-            placeholder="Punteggio"
-            [(ngModel)]="score.points"
-          >
+          <input name="points" type="number" matInput step="0.5" required placeholder="Punteggio"
+            [(ngModel)]="score.points">
         </mat-form-field>
-        <mat-slide-toggle
-          name="penality"
-          [(ngModel)]="penality"
-        >Penalità</mat-slide-toggle>
+        <mat-slide-toggle name="penality" [(ngModel)]="penality">Penalità</mat-slide-toggle>
         <div *ngIf="penality">
           <mat-form-field>
             <mat-label>Penalità</mat-label>
-            <input
-              name="penality_points"
-              type="number"
-              matInput
-              step="0.5"
-              placeholder="Penalità"
-              [(ngModel)]="score.penality_points"
-            >
+            <input name="penality_points" type="number" matInput step="0.5" placeholder="Penalità"
+              [(ngModel)]="score.penality_points">
           </mat-form-field>
           <mat-form-field>
             <mat-label>Motivazione penalità</mat-label>
-            <input
-              name="penality"
-              matInput
-              placeholder="Motivazione penalità"
-              [(ngModel)]="score.penality"
-            >
+            <input name="penality" matInput placeholder="Motivazione penalità" [(ngModel)]="score.penality">
           </mat-form-field>
         </div>
         <h4>Formazione</h4>
-        <fm-lineup-detail [lineup]="score.lineup"></fm-lineup-detail>
-        <button
-          color="accent"
-          mat-raised-button
-          type="submit"
-        >Salva</button>
+        <app-lineup-detail [lineup]="score.lineup"></app-lineup-detail>
+        <button color="accent" mat-raised-button type="submit">Salva</button>
       </form>
     </div>
   </div>
 </ng-container>
 <ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-spinner>
+  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
 </ng-template>

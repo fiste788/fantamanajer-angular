@@ -12,17 +12,17 @@ import { ModuleAreaComponent } from './components/module-area/module-area.compon
   declarations: [
     LineupDetailComponent,
     MemberAlreadySelectedValidator,
-    ModuleAreaComponent
+    ModuleAreaComponent,
   ],
   exports: [
     LineupDetailComponent,
     MemberAlreadySelectedValidator,
-    ModuleAreaComponent
+    ModuleAreaComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    MemberCommonModule
-  ]
+    MemberCommonModule,
+  ],
 })
 export class LineupCommonModule { }

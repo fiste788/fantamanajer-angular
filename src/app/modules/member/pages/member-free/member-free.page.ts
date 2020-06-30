@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewC
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { MemberService, RoleService } from '@app/http';
 import { ApplicationService, UtilService } from '@app/services';
@@ -12,33 +12,33 @@ import { tableRowAnimation } from '@shared/animations';
 import { Championship, Member, Role } from '@shared/models';
 
 @Component({
-  templateUrl: './member-free.page.html',
+  animations: [tableRowAnimation],
   styleUrls: ['./member-free.page.scss'],
-  animations: [tableRowAnimation]
+  templateUrl: './member-free.page.html',
 })
 export class MemberFreePage implements OnInit, AfterViewInit {
-  @HostBinding('@tableRowAnimation') tableRowAnimation = '';
-  @ViewChild(MemberListComponent) memberList?: MemberListComponent;
-  @ViewChild(MatSelect) roleSelect: MatSelect;
+  @HostBinding('@tableRowAnimation') public tableRowAnimation = '';
+  @ViewChild(MemberListComponent) public memberList?: MemberListComponent;
+  @ViewChild(MatSelect) public roleSelect: MatSelect;
 
-  members$?: Observable<Array<Member>>;
-  roles: Map<number, Role>;
-  selectedMember$: Observable<Member | undefined>;
+  public members$?: Observable<Array<Member>>;
+  public roles: Map<number, Role>;
+  public selectedMember$: Observable<Member | undefined>;
 
   constructor(
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
     private readonly roleService: RoleService,
-    public app: ApplicationService
+    public app: ApplicationService,
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.roles = this.roleService.list();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.roleSelect.selectionChange.subscribe((change: MatSelectChange) => {
       this.roleChange(change.value);
     });
@@ -46,7 +46,7 @@ export class MemberFreePage implements OnInit, AfterViewInit {
     this.roleChange(this.roles.get(1));
   }
 
-  roleChange(role?: Role): void {
+  public roleChange(role?: Role): void {
     const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     this.members$ = undefined;
     this.changeRef.detectChanges();
@@ -56,14 +56,14 @@ export class MemberFreePage implements OnInit, AfterViewInit {
           if (this.memberList) {
             this.selectedMember$ = this.memberList.selection.changed.asObservable()
               .pipe(
-                map(m => m.source.selected[0])
+                map((m) => m.source.selected[0]),
               );
           }
         }));
     }
   }
 
-  track(_: number, item: KeyValue<number, Role>): number {
+  public track(_: number, item: KeyValue<number, Role>): number {
     return item.value.id; // or item.id
   }
 }

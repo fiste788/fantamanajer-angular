@@ -9,10 +9,10 @@ export class NotLoggedGuard implements CanActivate {
 
   constructor(
     private readonly auth: AuthenticationService,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
-  canActivate(
+  public canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.auth.loggedIn()) {

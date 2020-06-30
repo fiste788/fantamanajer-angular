@@ -1,18 +1,8 @@
-<mat-toolbar
-  color="primary"
-  class="mat-elevation-z4"
-  [@scrollUpAnimation]="state"
->
-  <button
-    *ngIf="showDrawerButton"
-    type="button"
-    aria-label="Toggle sidenav"
-    mat-icon-button
-    (click)="clickNav()"
-  >
+<mat-toolbar color="primary" class="mat-elevation-z4" [@scrollUpAnimation]="state">
+  <button *ngIf="showDrawerButton" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="clickNav()">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-  <fm-breadcrumb></fm-breadcrumb>
+  <app-breadcrumb></app-breadcrumb>
   <span class="spacer"></span>
-  <fm-notification-list *ngIf="loggedIn$ | async"></fm-notification-list>
+  <app-notification-list *ngIf="loggedIn$ | async"></app-notification-list>
 </mat-toolbar>

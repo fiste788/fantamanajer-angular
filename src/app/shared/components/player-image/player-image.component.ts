@@ -3,14 +3,14 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { Member } from '@shared/models';
 
 @Component({
-  selector: 'fm-player-image',
-  templateUrl: './player-image.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-player-image',
   styleUrls: ['./player-image.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './player-image.component.html',
 })
 export class PlayerImageComponent {
 
-  @Input() member?: Member;
-  @Input() inCard = false;
+  @Input() public member?: Member;
+  @Input() public inCard = false;
 
 }

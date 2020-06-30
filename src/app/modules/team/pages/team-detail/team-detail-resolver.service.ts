@@ -9,7 +9,7 @@ import { Team } from '@shared/models';
 export class TeamDetailResolver implements Resolve<Team | undefined>  {
   constructor(private readonly ts: TeamService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> | undefined {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> | undefined {
     const teamId = route.paramMap.get('team_id');
     if (teamId !== null) {
       const id = +teamId;

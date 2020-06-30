@@ -7,14 +7,14 @@ import { SharedModule } from '@shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
+  declarations: [
+    UserRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     UserRoutingModule,
-    StreamModule
+    StreamModule,
   ],
-  declarations: [
-    UserRoutingModule.components
-  ]
 })
 export class UserModule { }

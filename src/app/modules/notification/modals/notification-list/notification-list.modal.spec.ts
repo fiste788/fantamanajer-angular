@@ -8,7 +8,7 @@ describe('NotificationListModal', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [NotificationListModal]
+      declarations: [NotificationListModal],
     })
       .compileComponents();
   }));

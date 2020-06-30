@@ -1,7 +1,7 @@
 export class StreamActivity {
-  title: string;
-  time: Date;
-  humanTime: string;
-  icon: string;
-  body: string;
+  public title: string;
+  public time: Date;
+  public humanTime: string;
+  public icon: string;
+  public body: string;
 }

@@ -5,7 +5,7 @@ import { LineupService } from './lineup.service';
 describe('LineupService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      providers: [LineupService]
+      providers: [LineupService],
     });
   });
 

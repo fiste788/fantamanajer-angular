@@ -5,18 +5,18 @@ import { filter, take } from 'rxjs/operators';
 import { NotificationListModal } from './notification-list/notification-list.modal';
 
 export class NotificationOverlayRef {
-  componentInstance?: NotificationListModal;
+  public componentInstance?: NotificationListModal;
 
   private readonly beforeCloseVar = new Subject<undefined>();
   private readonly afterClosedVar = new Subject<undefined>();
 
   constructor(private readonly overlayRef: OverlayRef) { }
 
-  close(): void {
+  public close(): void {
     // Listen for animation 'start' events
     this.componentInstance?.animationStateChanged.pipe(
-      filter(event => event.phaseName === 'start'),
-      take(1)
+      filter((event) => event.phaseName === 'start'),
+      take(1),
     )
       .subscribe(() => {
         this.beforeCloseVar.next();
@@ -26,8 +26,8 @@ export class NotificationOverlayRef {
 
     // Listen for animation 'done' events
     this.componentInstance?.animationStateChanged.pipe(
-      filter(event => event.phaseName === 'done' && event.toState === 'leave'),
-      take(1)
+      filter((event) => event.phaseName === 'done' && event.toState === 'leave'),
+      take(1),
     )
       .subscribe(() => {
         this.overlayRef.dispose();
@@ -43,11 +43,11 @@ export class NotificationOverlayRef {
     this.componentInstance?.startExitAnimation();
   }
 
-  afterClosed(): Observable<void> {
+  public afterClosed(): Observable<void> {
     return this.afterClosedVar.asObservable();
   }
 
-  beforeClose(): Observable<void> {
+  public beforeClose(): Observable<void> {
     return this.beforeCloseVar.asObservable();
   }
 

@@ -15,32 +15,32 @@ const routes: Routes = [
       {
         path: '',
         component: ArticleListPage,
-        data: { state: 'article-list' }
+        data: { state: 'article-list' },
       },
       {
         path: 'new',
         component: ArticleDetailPage,
         data: {
+          breadcrumbs: 'Nuovo articolo',
           state: 'article-new',
-          breadcrumbs: 'Nuovo articolo'
-        }
+        },
       },
       {
         path: ':id',
         component: ArticleDetailPage,
-        data: { state: 'article-detail' }
-      }
-    ]
-  }
+        data: { state: 'article-detail' },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class ArticleRoutingModule {
-  static components = [
+  public static components = [
     ArticleListPage,
-    ArticleDetailPage
+    ArticleDetailPage,
   ];
 }

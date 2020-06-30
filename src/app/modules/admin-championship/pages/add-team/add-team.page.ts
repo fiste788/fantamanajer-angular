@@ -8,13 +8,13 @@ import { UtilService } from '@app/services';
 import { Championship, Team, User } from '@shared/models';
 
 @Component({
+  styleUrls: ['./add-team.page.scss'],
   templateUrl: './add-team.page.html',
-  styleUrls: ['./add-team.page.scss']
 })
 export class AddTeamPage implements OnInit {
-  @ViewChild(NgForm) teamForm: NgForm;
+  @ViewChild(NgForm) public teamForm: NgForm;
 
-  team = new Team();
+  public team = new Team();
 
   constructor(
     private readonly teamService: TeamService,
@@ -22,7 +22,7 @@ export class AddTeamPage implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     if (championship) {
       this.team.championship_id = championship.id;
@@ -30,18 +30,18 @@ export class AddTeamPage implements OnInit {
     }
   }
 
-  save(): void {
+  public save(): void {
     this.teamService.save(this.team)
-      .subscribe(response => {
+      .subscribe((response) => {
         this.team.id = response.id;
         this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000
+          duration: 3000,
         });
         void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.teamForm, err);
-        }
+        },
       );
   }
 

@@ -8,19 +8,19 @@ import { UtilService } from '@app/services';
 import { Member, Team } from '@shared/models';
 
 @Component({
+  styleUrls: ['./team-members.page.scss'],
   templateUrl: './team-members.page.html',
-  styleUrls: ['./team-members.page.scss']
 })
 export class TeamMembersPage implements OnInit {
-  members$?: Observable<Array<Member>>;
+  public members$?: Observable<Array<Member>>;
 
   constructor(
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.members$ = UtilService.getData<Team>(this.route, 'team')
-      ?.pipe(switchMap(team => this.memberService.getByTeamId(team.id)));
+      ?.pipe(switchMap((team) => this.memberService.getByTeamId(team.id)));
   }
 }

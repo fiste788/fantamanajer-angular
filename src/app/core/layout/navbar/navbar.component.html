@@ -1,4 +1,4 @@
-<fm-profile></fm-profile>
+<app-profile></app-profile>
 <mat-nav-list>
   <a
     *ngIf="deferredPrompt"
@@ -29,14 +29,14 @@
     routerLinkActive="active"
     [routerLink]="['championships', championship?.id]"
   >
-    <mat-icon matListIcon>bubble_chart</mat-icon>{{championship?.league?.name}}
+    <mat-icon matListIcon>emoji_events</mat-icon>{{championship?.league?.name}}
   </a>
   <a
     mat-list-item
     routerLinkActive="active"
     routerLink="/clubs"
   >
-    <mat-icon matListIcon>group_work</mat-icon>Clubs
+    <mat-icon matListIcon>security</mat-icon>Clubs
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>

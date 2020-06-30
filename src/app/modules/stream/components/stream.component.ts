@@ -7,32 +7,32 @@ import { listItemAnimation } from '@shared/animations/list-item.animation';
 import { StreamDataSource } from './stream.datasource';
 
 @Component({
-  selector: 'fm-stream',
-  templateUrl: './stream.component.html',
-  styleUrls: ['./stream.component.scss'],
   animations: [listItemAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-stream',
+  styleUrls: ['./stream.component.scss'],
+  templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() context: 'teams' | 'users' | 'clubs' | 'championships';
-  @Input() id: number;
+  @Input() public context: 'teams' | 'users' | 'clubs' | 'championships';
+  @Input() public id: number;
 
-  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport) public viewport: CdkVirtualScrollViewport;
 
-  ds: StreamDataSource;
-  width: number;
+  public ds: StreamDataSource;
+  public width: number;
 
   constructor(private readonly streamService: StreamService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.ds = new StreamDataSource(this.streamService, this.context, this.id);
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.width = this.viewport.elementRef.nativeElement.clientWidth;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.ds.disconnect();
   }
 }

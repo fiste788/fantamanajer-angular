@@ -7,16 +7,18 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomePage, data: { state: 'home' }
-  }
+    component: HomePage, data: {
+      state: 'home',
+    },
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class HomeRoutingModule {
-  static components = [
-    HomePage
+  public static components = [
+    HomePage,
   ];
 }

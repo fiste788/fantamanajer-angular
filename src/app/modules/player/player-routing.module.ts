@@ -9,22 +9,22 @@ const routes: Routes = [
   {
     path: ':id',
     component: PlayerPage,
-    resolve: {
-      player: PlayerResolver
-    },
     data: {
+      breadcrumbs: '{{ player.full_name }}',
       state: 'player-detail',
-      breadcrumbs: '{{ player.full_name }}'
-    }
-  }
+    },
+    resolve: {
+      player: PlayerResolver,
+    },
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class PlayerRoutingModule {
-  static components = [
-    PlayerPage
+  public static components = [
+    PlayerPage,
   ];
 }

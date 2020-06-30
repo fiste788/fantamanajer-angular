@@ -6,11 +6,11 @@ import { SharedModule } from '@shared/shared.module';
 import { SelectionComponent } from './components/selection/selection.component';
 
 @NgModule({
+  declarations: [SelectionComponent],
+  exports: [SelectionComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
-  exports: [SelectionComponent],
-  declarations: [SelectionComponent]
 })
 export class SelectionModule { }

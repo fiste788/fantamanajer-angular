@@ -10,9 +10,9 @@ export class JWTTokenInterceptor implements HttpInterceptor {
 
   constructor(private readonly auth: AuthenticationService) { }
 
-  intercept(
+  public intercept(
     req: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     if (req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) {
       const token = this.auth.getToken();
@@ -23,7 +23,7 @@ export class JWTTokenInterceptor implements HttpInterceptor {
       }
 
       return next.handle(req.clone({
-        headers
+        headers,
       }));
     }
 

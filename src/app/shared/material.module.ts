@@ -19,29 +19,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 const formFieldDefaults: MatFormFieldDefaultOptions = {
-  appearance: 'outline'
+  appearance: 'outline',
 };
 
 @NgModule({
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatSlideToggleModule,
-    MatSortModule,
-    MatTooltipModule,
-    MatTableModule,
-    MatTabsModule,
-    MatRippleModule
-  ],
   exports: [
     MatButtonModule,
     MatCardModule,
@@ -59,10 +40,29 @@ const formFieldDefaults: MatFormFieldDefaultOptions = {
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
-    MatRippleModule
+    MatRippleModule,
+  ],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatTabsModule,
+    MatRippleModule,
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults }
-  ]
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults },
+  ],
 })
 export class MaterialModule { }

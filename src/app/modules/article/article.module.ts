@@ -6,13 +6,13 @@ import { SharedModule } from '@shared/shared.module';
 import { ArticleRoutingModule } from './article-routing.module';
 
 @NgModule({
+  declarations: [
+    ArticleRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
-    ArticleRoutingModule
+    ArticleRoutingModule,
   ],
-  declarations: [
-    ArticleRoutingModule.components
-  ]
 })
 export class ArticleModule { }

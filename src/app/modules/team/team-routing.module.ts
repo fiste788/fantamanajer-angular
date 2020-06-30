@@ -19,82 +19,82 @@ const routes: Routes = [
       {
         path: '',
         component: TeamListPage,
-        data: { state: 'team-list' }
+        data: { state: 'team-list' },
       },
       {
         path: ':team_id',
         component: TeamDetailPage,
         data: {
           breadcrumbs: '{{team.name}}',
-          state: 'team-detail'
+          state: 'team-detail',
         },
-        runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
         resolve: {
-          team: TeamDetailResolver
+          team: TeamDetailResolver,
         },
         children: [
           {
             path: '',
+            pathMatch: 'full',
             redirectTo: 'players',
-            pathMatch: 'full'
           },
           {
             path: 'articles',
+            data: { state: 'team-articles' },
             loadChildren: () => import('@modules/article/article.module')
-              .then(m => m.ArticleModule),
-            data: { state: 'team-articles' }
+              .then((m) => m.ArticleModule),
           },
           {
             path: 'players',
             component: TeamMembersPage,
+            data: { state: 'team-players' },
             runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
-            data: { state: 'team-players' }
           },
           {
             path: 'stream',
             component: TeamStreamPage,
-            data: { state: 'team-stream' }
+            data: { state: 'team-stream' },
           },
           {
             path: 'scores',
+            data: { state: 'team-scores' },
             loadChildren: () => import('@modules/score/score.module')
-              .then(m => m.ScoreModule),
-            data: { state: 'team-scores' }
+              .then((m) => m.ScoreModule),
           },
           {
             path: 'lineup',
+            data: { state: 'team-lineup' },
             loadChildren: () => import('@modules/lineup/lineup.module')
-              .then(m => m.LineupModule),
-            data: { state: 'team-lineup' }
+              .then((m) => m.LineupModule),
           },
           {
             path: 'transferts',
+            data: { state: 'team-transfert' },
             loadChildren: () => import('@modules/transfert/transfert.module')
-              .then(m => m.TransfertModule),
-            data: { state: 'team-transfert' }
+              .then((m) => m.TransfertModule),
           },
           {
             path: 'admin',
-            loadChildren: () => import('@modules/admin-team/admin-team.module')
-              .then(m => m.AdminTeamModule),
             canActivate: [ChampionshipAdminGuard],
-            data: { state: 'team-admin' }
-          }
-        ]
-      }
-    ]
-  }
+            data: { state: 'team-admin' },
+            loadChildren: () => import('@modules/admin-team/admin-team.module')
+              .then((m) => m.AdminTeamModule),
+          },
+        ],
+        runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class TeamRoutingModule {
-  static components = [
+  public static components = [
     TeamListPage,
     TeamDetailPage,
     TeamMembersPage,
-    TeamStreamPage
+    TeamStreamPage,
   ];
 }

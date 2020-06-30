@@ -3,15 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from '@app/services';
 
 @Component({
+  styleUrls: ['./user-stream.page.scss'],
   templateUrl: './user-stream.page.html',
-  styleUrls: ['./user-stream.page.scss']
 })
 export class UserStreamPage implements OnInit {
-  id: number;
+  public id: number;
 
   constructor(private readonly app: ApplicationService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.id = this.app.user?.id ?? 0;
   }
 }

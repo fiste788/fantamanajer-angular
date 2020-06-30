@@ -2,13 +2,13 @@ import { Team } from './';
 
 // tslint:disable: variable-name
 export class User {
-  id: number;
-  name: string;
-  surname: string;
-  email: string;
-  admin: boolean;
-  active_email: boolean;
-  password?: string;
-  teams?: Array<Team>;
-  roles: Array<string>;
+  public id: number;
+  public name: string;
+  public surname: string;
+  public email: string;
+  public admin: boolean;
+  public active_email: boolean;
+  public password?: string;
+  public teams?: Array<Team>;
+  public roles: Array<string>;
 }

@@ -11,7 +11,7 @@ $foreground: map-get($theme, foreground);
 $background: map-get($theme, background);
 @include fantamanajer-theme($theme);
 
-fm-profile .mat-toolbar.has-image,
+app-profile .mat-toolbar.has-image,
 img {
   filter: grayscale(60%);
 }

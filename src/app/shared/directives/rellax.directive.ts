@@ -5,22 +5,22 @@ import { fromEvent, Subscription } from 'rxjs';
 import { WINDOW } from '@app/services';
 
 class Options {
-  speed: number;
-  center: boolean;
-  wrapperSelector: string;
-  wrapper?: HTMLElement;
-  relativeToWrapper: boolean;
-  round ?= true;
-  vertical ?= true;
-  horizontal ?= false;
-  percentage: number;
-  min?: number;
-  max?: number;
-  zindex ?= 1;
-  callback?: Function;
+  public speed: number;
+  public center: boolean;
+  public wrapperSelector: string;
+  public wrapper?: HTMLElement;
+  public relativeToWrapper: boolean;
+  public round ?= true;
+  public vertical ?= true;
+  public horizontal ?= false;
+  public percentage: number;
+  public min?: number;
+  public max?: number;
+  public zindex ?= 1;
+  public callback?: (position: { x: number, y: number }) => void;
 }
 
-interface Block {
+interface IBlock {
   baseX: number;
   baseY: number;
   top: number;
@@ -33,19 +33,19 @@ interface Block {
 }
 
 @Directive({
-  selector: '[fmRellax]'
+  selector: '[appRellax]',
 })
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
-  @HostBinding('style.will-change') will = 'transform';
+  @HostBinding('style.will-change') public will = 'transform';
   // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
-  @Input() speed = -3;
-  @Input() center = false;
-  @Input() percentage = 0;
-  @Input() relativeToWrapper = false;
-  @Input() wrapper = '.mat-drawer-content';
+  @Input() public speed = -3;
+  @Input() public center = false;
+  @Input() public percentage = 0;
+  @Input() public relativeToWrapper = false;
+  @Input() public wrapper = '.mat-drawer-content';
 
   private readonly options: Options = new Options();
-  private block: Block;
+  private block: IBlock;
   private posY = 0;
   private posX = 0;
   private pause = true;
@@ -57,7 +57,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private readonly loop = this.window.requestAnimationFrame ??
     this.window.webkitRequestAnimationFrame ??
-    ((callback: Function) => {
+    ((callback: () => void) => {
       setTimeout(callback, 1000 / 60);
     });
 
@@ -69,7 +69,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     @Inject(WINDOW) private readonly window: Window,
     private readonly renderer: Renderer2,
     private readonly el: ElementRef<HTMLElement>,
-    private readonly ngZone: NgZone
+    private readonly ngZone: NgZone,
   ) {
     this.options.speed = this.speed;
     this.options.center = this.center;
@@ -78,7 +78,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     this.options.wrapperSelector = this.wrapper;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.testPassive();
 
     const w = this.document.querySelector(this.wrapper);
@@ -89,12 +89,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     this.clamp(this.options.speed, -10, 10);
   }
 
-  testPassive(): void {
+  public testPassive(): void {
     try {
       const opts = Object.defineProperty({}, 'passive', {
         get: (): void => {
           this.supportsPassive = true;
-        }
+        },
       });
       // tslint:disable-next-line: no-any
       (this.window as any).addEventListener('testPassive', undefined, opts);
@@ -105,7 +105,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     if (this.el?.nativeElement !== undefined) {
       const target = this.el.nativeElement.querySelector('img');
       if (target !== null) {
@@ -119,11 +119,11 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  clamp(num: number, min: number, max: number): number {
+  public clamp(num: number, min: number, max: number): number {
     return num <= min ? min : num >= max ? max : num;
   }
 
-  init(): void {
+  public init(): void {
     if (this.block !== undefined) {
       this.el.nativeElement.style.cssText = this.block.style;
     }
@@ -145,7 +145,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  createBlock(el: HTMLElement): Block {
+  public createBlock(el: HTMLElement): IBlock {
     const dataPercentage = this.options.percentage;
 
     const pos = this.getPos(dataPercentage);
@@ -180,11 +180,11 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       width: blockWidth,
       speed: this.options.speed,
       style,
-      transform
+      transform,
     };
   }
 
-  getPos(dataPercentage: number): { x: number, y: number } {
+  public getPos(dataPercentage: number): { x: number, y: number } {
     // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
     // ensures elements are positioned based on HTML layout.
     //
@@ -204,11 +204,11 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
     return {
       x: this.options.vertical ? (dataPercentage || this.options.center ? wrapperPosY : 0) : 0,
-      y: this.options.horizontal ? (dataPercentage || this.options.center ? wrapperPosX : 0) : 0
+      y: this.options.horizontal ? (dataPercentage || this.options.center ? wrapperPosX : 0) : 0,
     };
   }
 
-  calcTransform(style: string): string {
+  public calcTransform(style: string): string {
     let transform = '';
 
     // Check if there's an inline styled transform
@@ -229,7 +229,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     return transform;
   }
 
-  setPosition(): boolean {
+  public setPosition(): boolean {
     const oldY = this.posY;
     const oldX = this.posX;
 
@@ -257,20 +257,20 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  updatePosition(percentageX: number, percentageY: number, speed: number): { x: number, y: number } {
+  public updatePosition(percentageX: number, percentageY: number, speed: number): { x: number, y: number } {
     const valueX = (speed * ((1 - percentageX) * 100));
     const valueY = (speed * ((1 - percentageY) * 100));
 
     const result = {
       x: this.options.round ? Math.round(valueX) : Math.round(valueX * 100) / 100,
-      y: this.options.round ? Math.round(valueY) : Math.round(valueY * 100) / 100
+      y: this.options.round ? Math.round(valueY) : Math.round(valueY * 100) / 100,
     };
 
     return result;
   }
 
   // Remove event listeners and loop again
-  deferredUpdate(): void {
+  public deferredUpdate(): void {
     this.window.removeEventListener('resize', this.deferredUpdate.bind(this));
     this.window.removeEventListener('orientationchange', this.deferredUpdate.bind(this));
     (this.options.wrapper ? this.options.wrapper : this.window).removeEventListener('scroll', this.deferredUpdate.bind(this));
@@ -280,7 +280,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     this.loopId = this.loop(this.update.bind(this));
   }
 
-  update(): void {
+  public update(): void {
     if (this.setPosition() && !this.pause) {
       this.animate();
 
@@ -301,7 +301,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     this.loopId = this.loop(this.update.bind(this));
   }
 
-  animate(): void {
+  public animate(): void {
     const percentageY = ((this.posY - this.block.top + this.screenY) / (this.block.height + this.screenY));
     const percentageX = ((this.posX - this.block.left + this.screenX) / (this.block.width + this.screenX));
 
@@ -348,7 +348,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  destroy(): void {
+  public destroy(): void {
     if (!this.pause) {
       this.window.removeEventListener('resize', () => {
         this.init();
@@ -361,7 +361,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     this.loopId = 0;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy();
     this.subscription.unsubscribe();
   }

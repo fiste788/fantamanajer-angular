@@ -5,16 +5,16 @@ import { UtilService } from '@app/services';
 import { Championship } from '@shared/models';
 
 @Component({
-  selector: 'fm-championship-stream',
+  selector: 'app-championship-stream',
+  styleUrls: ['./championship-stream.page.scss'],
   templateUrl: './championship-stream.page.html',
-  styleUrls: ['./championship-stream.page.scss']
 })
 export class ChampionshipStreamPage implements OnInit {
-  id: number;
+  public id: number;
 
   constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id ?? 0;
   }
 }

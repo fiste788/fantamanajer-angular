@@ -8,21 +8,21 @@ const routes: Routes = [
   {
     path: '',
     component: TransfertListPage,
-    data: { state: 'transfert-list' }
+    data: { state: 'transfert-list' },
   },
   {
     path: 'new',
-    component: AddTransfertShortcutPage
-  }
+    component: AddTransfertShortcutPage,
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class TransfertRoutingModule {
-  static components = [
+  public static components = [
     TransfertListPage,
-    AddTransfertShortcutPage
+    AddTransfertShortcutPage,
   ];
 }

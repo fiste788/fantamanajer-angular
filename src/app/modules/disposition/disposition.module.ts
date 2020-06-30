@@ -6,15 +6,15 @@ import { SharedModule } from '@shared/shared.module';
 import { DispositionListComponent } from './components/disposition-list/disposition-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule
+  declarations: [
+    DispositionListComponent,
   ],
   exports: [
-    DispositionListComponent
+    DispositionListComponent,
   ],
-  declarations: [
-    DispositionListComponent
-  ]
+  imports: [
+    CommonModule,
+    SharedModule,
+  ],
 })
 export class DispositionModule { }

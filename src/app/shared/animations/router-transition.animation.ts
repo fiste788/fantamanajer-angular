@@ -1,4 +1,4 @@
-import { animate, animateChild, AnimationStateMetadata, AnimationTransitionMetadata, group, query, sequence, style, transition, trigger } from '@angular/animations';
+import { animate, animateChild, AnimationStateMetadata, AnimationTransitionMetadata, query, sequence, style, transition } from '@angular/animations';
 
 export const routerTransition: Array<AnimationStateMetadata | AnimationTransitionMetadata> = [
   // Used when switching between different app contexts.
@@ -12,19 +12,19 @@ export const routerTransition: Array<AnimationStateMetadata | AnimationTransitio
       query(
         ':leave',
         [
-          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ opacity: 0 }))
+          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ opacity: 0 })),
         ],
-        { optional: true }
+        { optional: true },
       ),
       // Fade in next context.
       query(
         ':enter',
         [
           style({ opacity: 0 }),
-          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+          animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
         ],
-        { optional: true }
-      )
-    ])
-  ])
+        { optional: true },
+      ),
+    ]),
+  ]),
 ];

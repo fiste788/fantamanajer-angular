@@ -8,7 +8,7 @@ describe('ModuleAreaComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [ModuleAreaComponent]
+      declarations: [ModuleAreaComponent],
     })
       .compileComponents();
   }));

@@ -1,6 +1,6 @@
 import { Member } from './member.model';
 
-export interface MemberOption {
+export interface IMemberOption {
   member: Member;
   disabled: boolean;
 }

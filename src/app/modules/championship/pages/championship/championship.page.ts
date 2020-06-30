@@ -3,38 +3,38 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService } from '@app/services';
 import { routerTransition } from '@shared/animations';
-import { Tab } from '@shared/models';
+import { ITab } from '@shared/models';
 
 @Component({
-  templateUrl: './championship.page.html',
   animations: [
-    trigger('contextChange', routerTransition)
-  ]
+    trigger('contextChange', routerTransition),
+  ],
+  templateUrl: './championship.page.html',
 })
 export class ChampionshipPage implements OnInit {
-  tabs: Array<Tab>;
+  public tabs: Array<ITab>;
 
   constructor(private readonly app: ApplicationService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadTab();
   }
 
-  loadTab(): void {
+  public loadTab(): void {
     this.tabs = [
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },
       { label: 'Giocatori liberi', link: 'members/free' },
       { label: 'Articoli', link: 'articles' },
-      { label: 'Attività', link: 'stream' }
+      { label: 'Attività', link: 'stream' },
     ];
     if (this.app.user?.admin || this.app.team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }
 
-  track(_: number, item: Tab): string {
+  public track(_: number, item: ITab): string {
     return item.link;
   }
 

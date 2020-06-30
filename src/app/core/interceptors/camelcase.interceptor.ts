@@ -3,7 +3,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -12,42 +12,42 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class CamelcaseInterceptor implements HttpInterceptor {
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
       .pipe(
         map((event: HttpEvent<{}>) => {
           if (event instanceof HttpResponse) {
             if (event.body !== null) {
               return event.clone({
-                body: this.keysToCamel(event.body)
+                body: this.keysToCamel(event.body),
               });
             }
           }
 
           return event;
-        })
+        }),
       );
   }
 
-  toCamel(s: string): string {
-    return s.replace(/([-_][a-z])/ig, $1 =>
+  public toCamel(s: string): string {
+    return s.replace(/([-_][a-z])/ig, ($1) =>
       $1.toUpperCase()
         .replace('-', '')
         .replace('_', ''));
   }
 
   // tslint:disable-next-line: no-any
-  keysToCamel(o: { [k: string]: any }): unknown {
+  public keysToCamel(o: { [k: string]: any }): unknown {
     if (o === Object(o) && !Array.isArray(o) && typeof o !== 'function') {
       const n: { [k: string]: unknown } = {};
       Object.keys(o)
-        .forEach(k => {
+        .forEach((k) => {
           n[this.toCamel(k)] = this.keysToCamel(o[k]);
         });
 
       return n;
     } else if (Array.isArray(o)) {
-      return o.map(i =>
+      return o.map((i) =>
         this.keysToCamel(i));
     }
 

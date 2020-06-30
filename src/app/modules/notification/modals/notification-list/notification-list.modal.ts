@@ -8,43 +8,43 @@ import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 import { Stream, StreamActivity } from '@shared/models';
 
 @Component({
-  selector: 'fm-notification-overlay',
-  templateUrl: './notification-list.modal.html',
-  styleUrls: ['./notification-list.modal.scss'],
   animations: [
     openOverlayAnimation,
-    listItemAnimation
-  ]
+    listItemAnimation,
+  ],
+  selector: 'app-notification-overlay',
+  styleUrls: ['./notification-list.modal.scss'],
+  templateUrl: './notification-list.modal.html',
 })
 export class NotificationListModal implements OnInit {
-  stream$: Observable<Stream>;
-  animationState: 'void' | 'enter' | 'leave' = 'enter';
-  animationStateChanged = new EventEmitter<AnimationEvent>();
+  public stream$: Observable<Stream>;
+  public animationState: 'void' | 'enter' | 'leave' = 'enter';
+  public animationStateChanged = new EventEmitter<AnimationEvent>();
 
   constructor(
     private readonly notificationService: NotificationService,
-    private readonly app: ApplicationService
+    private readonly app: ApplicationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.app.team) {
       this.stream$ = this.notificationService.getNotifications(this.app.team.id);
     }
   }
 
-  onAnimationStart(event: AnimationEvent): void {
+  public onAnimationStart(event: AnimationEvent): void {
     this.animationStateChanged.emit(event);
   }
 
-  onAnimationDone(event: AnimationEvent): void {
+  public onAnimationDone(event: AnimationEvent): void {
     this.animationStateChanged.emit(event);
   }
 
-  startExitAnimation(): void {
+  public startExitAnimation(): void {
     this.animationState = 'leave';
   }
 
-  track(_: number, item: StreamActivity): number {
+  public track(_: number, item: StreamActivity): number {
     return _; // or item.id
   }
 }

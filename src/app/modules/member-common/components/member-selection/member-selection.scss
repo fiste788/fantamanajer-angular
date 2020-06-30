@@ -13,12 +13,12 @@
     background-color: mat-color($background, 'card');
   }
 
-  fm-member-selection .mat-form-field-infix {
+  app-member-selection .mat-form-field-infix {
     display: flex !important;
     align-items: center;
   }
   @include layout-bp(gt-sm) {
-    fm-member-selection .mat-form-field-infix {
+    app-member-selection .mat-form-field-infix {
       display: block !important;
     }
   }

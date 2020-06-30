@@ -10,7 +10,7 @@ export class NotificationOverlayService {
 
   constructor(private readonly overlay: Overlay, private readonly injector: Injector) { }
 
-  open(origin: ElementRef): NotificationOverlayRef {
+  public open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)
     const overlayRef = this.createOverlay(origin);
 
@@ -41,15 +41,15 @@ export class NotificationOverlayService {
         originX: 'end',
         originY: 'bottom',
         overlayX: 'end',
-        overlayY: 'top'
-      }
+        overlayY: 'top',
+      },
       ]);
 
     const overlayConfig = new OverlayConfig({
-      width: '599px',
       hasBackdrop: true,
+      positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.block(),
-      positionStrategy
+      width: '599px',
     });
 
     return overlayConfig;

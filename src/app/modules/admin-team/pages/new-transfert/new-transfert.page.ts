@@ -12,16 +12,16 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
 import { Member, Team, Transfert } from '@shared/models';
 
 @Component({
+  styleUrls: ['./new-transfert.page.scss'],
   templateUrl: './new-transfert.page.html',
-  styleUrls: ['./new-transfert.page.scss']
 })
 export class NewTransfertPage implements OnInit {
-  @ViewChild(MatSelect) newMember: MatSelect;
-  @ViewChild(NgForm) transfertForm: NgForm;
+  @ViewChild(MatSelect) public newMember: MatSelect;
+  @ViewChild(NgForm) public transfertForm: NgForm;
 
-  transfert: Transfert = new Transfert();
-  team: Team;
-  newMembers: Array<Member>;
+  public transfert: Transfert = new Transfert();
+  public team: Team;
+  public newMembers: Array<Member>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -29,10 +29,10 @@ export class NewTransfertPage implements OnInit {
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const team = UtilService.getSnapshotData<Team>(this.route, 'team');
     if (team) {
       this.team = team;
@@ -41,18 +41,18 @@ export class NewTransfertPage implements OnInit {
     }
   }
 
-  loadMembers(team: Team): void {
+  public loadMembers(team: Team): void {
     this.memberService.getByTeamId(team.id)
-      .subscribe(members => {
+      .subscribe((members) => {
         this.team.members = members;
       });
   }
 
-  playerChange(): void {
+  public playerChange(): void {
     if (this.transfert.old_member !== undefined) {
       this.newMember.disabled = true;
       this.memberService.getNotMine(this.team.id, this.transfert.old_member.role_id)
-        .subscribe(members => {
+        .subscribe((members) => {
           this.newMembers = members;
           this.changeRef.detectChanges();
           this.newMember.disabled = false;
@@ -60,20 +60,20 @@ export class NewTransfertPage implements OnInit {
     }
   }
 
-  compareFn(c1: Member, c2: Member): boolean {
+  public compareFn(c1: Member, c2: Member): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  submit(): void {
+  public submit(): void {
     if (this.transfertForm.valid === true) {
       if (this.transfert.new_member.teams.length) {
         const dialogRef = this.dialog.open(ConfirmationDialogModal, {
           data: {
-            text: `Il giocatore appartiene alla squadra ${this.transfert.new_member.teams[0].name}. Vuoi effettuare lo scambio?`
-          }
+            text: `Il giocatore appartiene alla squadra ${this.transfert.new_member.teams[0].name}. Vuoi effettuare lo scambio?`,
+          },
         });
         dialogRef.afterClosed()
-          .pipe(filter(r => r))
+          .pipe(filter((r) => r))
           .subscribe(() => {
             this.save();
           });
@@ -83,7 +83,7 @@ export class NewTransfertPage implements OnInit {
     }
   }
 
-  save(): void {
+  public save(): void {
     this.transfert.new_member_id = this.transfert.new_member.id;
     // this.transfert.new_member = undefined;
     this.transfert.old_member_id = this.transfert.old_member.id;
@@ -91,16 +91,16 @@ export class NewTransfertPage implements OnInit {
     this.transfertService.create(this.transfert)
       .subscribe(() => {
         this.snackBar.open('Trasferimento effettuato', undefined, {
-          duration: 3000
+          duration: 3000,
         });
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.transfertForm, err);
-        }
+        },
       );
   }
 
-  track(_: number, item: Member): number {
+  public track(_: number, item: Member): number {
     return item.id; // or item.id
   }
 

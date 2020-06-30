@@ -6,12 +6,12 @@ import { Member, Role } from '@shared/models';
 
 const url = 'members';
 const routes = {
-  free: (id: number) => `/championships/${id}/${url}/free`,
   best: `/${url}/best`,
-  team: (id: number) => `/teams/${id}/${url}`,
-  notMine: (id: number, roleId: number) => `/teams/${id}/${url}/not_mine/${roleId}`,
   club: (id: number) => `/clubs/${id}/${url}`,
-  member: (id: number) => `/${url}/${id}`
+  free: (id: number) => `/championships/${id}/${url}/free`,
+  member: (id: number) => `/${url}/${id}`,
+  notMine: (id: number, roleId: number) => `/teams/${id}/${url}/not_mine/${roleId}`,
+  team: (id: number) => `/teams/${id}/${url}`,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class MemberService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
+  public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
     let params = new HttpParams();
     let murl = routes.free(championshipId);
     if (roleId) {
@@ -33,30 +33,30 @@ export class MemberService {
 
   }
 
-  getAllFree(championshipId: number): Observable<{ [id: number]: Array<Member> }> {
+  public getAllFree(championshipId: number): Observable<{ [id: number]: Array<Member> }> {
     const params = new HttpParams().set('stats', '0');
 
     return this.http.get<{ [id: number]: Array<Member> }>(routes.free(championshipId), { params });
 
   }
 
-  getBest(): Observable<Array<Role>> {
+  public getBest(): Observable<Array<Role>> {
     return this.http.get<Array<Role>>(routes.best);
   }
 
-  getByTeamId(teamId: number): Observable<Array<Member>> {
+  public getByTeamId(teamId: number): Observable<Array<Member>> {
     return this.http.get<Array<Member>>(routes.team(teamId));
   }
 
-  getNotMine(teamId: number, roleId: number): Observable<Array<Member>> {
+  public getNotMine(teamId: number, roleId: number): Observable<Array<Member>> {
     return this.http.get<Array<Member>>(routes.notMine(teamId, roleId));
   }
 
-  getByClubId(clubId: number): Observable<Array<Member>> {
+  public getByClubId(clubId: number): Observable<Array<Member>> {
     return this.http.get<Array<Member>>(routes.club(clubId));
   }
 
-  getById(id: number): Observable<Member> {
+  public getById(id: number): Observable<Member> {
     return this.http.get<Member>(routes.member(id));
   }
 }

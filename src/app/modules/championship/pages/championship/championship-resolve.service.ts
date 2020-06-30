@@ -9,7 +9,7 @@ import { Championship } from '@shared/models';
 export class ChampionshipResolver implements Resolve<Championship | undefined> {
   constructor(private readonly app: ApplicationService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Championship> | Championship | undefined {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Championship> | Championship | undefined {
     return this.app.championship;
   }
 }

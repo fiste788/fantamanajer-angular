@@ -8,7 +8,7 @@ describe('PlayerImageComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [PlayerImageComponent]
+      declarations: [PlayerImageComponent],
     })
       .compileComponents();
   }));

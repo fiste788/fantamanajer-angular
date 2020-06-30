@@ -12,17 +12,24 @@ const routes: Routes = [
     component: RouterOutletComponent,
     data: { state: 'member-outlet' },
     children: [
-      { path: 'free', component: MemberFreePage, canActivate: [AuthGuard], data: { state: 'free' } }
-    ]
-  }
+      {
+        path: 'free',
+        component: MemberFreePage,
+        canActivate: [AuthGuard],
+        data: {
+          state: 'free',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class MemberRoutingModule {
-  static components = [
-    MemberFreePage
+  public static components = [
+    MemberFreePage,
   ];
 }

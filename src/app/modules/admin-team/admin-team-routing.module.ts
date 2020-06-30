@@ -13,24 +13,52 @@ const routes: Routes = [
     path: '',
     component: RouterOutletComponent,
     children: [
-      { path: '', redirectTo: 'index', pathMatch: 'full' },
-      { path: 'index', component: HomePage, data: { state: 'admin-team-index' } },
-      { path: 'members', component: EditMembersPage, data: { state: 'admin-team-members' } },
-      { path: 'new_transfert', component: NewTransfertPage, data: { state: 'admin-new-transferts' } },
-      { path: 'score/edit', component: ScoreEditPage, data: { state: 'admin-score-edit' } }
-    ]
-  }
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'index',
+      },
+      {
+        path: 'index',
+        component: HomePage,
+        data: {
+          state: 'admin-team-index',
+        },
+      },
+      {
+        path: 'members',
+        component: EditMembersPage,
+        data: {
+          state: 'admin-team-members',
+        },
+      },
+      {
+        path: 'new_transfert',
+        component: NewTransfertPage,
+        data: {
+          state: 'admin-new-transferts',
+        },
+      },
+      {
+        path: 'score/edit',
+        component: ScoreEditPage,
+        data: {
+          state: 'admin-score-edit',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class AdminTeamRoutingModule {
-  static components = [
+  public static components = [
     HomePage,
     EditMembersPage,
     NewTransfertPage,
-    ScoreEditPage
+    ScoreEditPage,
   ];
 }

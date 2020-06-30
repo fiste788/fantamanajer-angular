@@ -8,7 +8,7 @@ describe('ParallaxHeaderComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [ParallaxHeaderComponent]
+      declarations: [ParallaxHeaderComponent],
     })
       .compileComponents();
   }));

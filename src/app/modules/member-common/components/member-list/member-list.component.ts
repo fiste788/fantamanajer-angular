@@ -11,25 +11,25 @@ const stats = ['avg_points', 'avg_rating', 'sum_goals', 'sum_goals_against'] as 
 type Stats = typeof stats[number];
 
 @Component({
-  selector: 'fm-member-list',
-  templateUrl: './member-list.component.html',
-  styleUrls: ['./member-list.component.scss'],
   animations: [tableRowAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-member-list',
+  styleUrls: ['./member-list.component.scss'],
+  templateUrl: './member-list.component.html',
 })
 export class MemberListComponent implements OnInit, OnDestroy {
-  @Input() members: Observable<Array<Member>>;
-  @Input() hideClub = false;
-  @Input() isSelectable = false;
-  @Input() multipleSelection = false;
-  @Input() elevation = 1;
+  @Input() public members: Observable<Array<Member>>;
+  @Input() public hideClub = false;
+  @Input() public isSelectable = false;
+  @Input() public multipleSelection = false;
+  @Input() public elevation = 1;
 
-  @Output() readonly selection = new SelectionModel<Member>(this.multipleSelection, [], true);
+  @Output() public readonly selection = new SelectionModel<Member>(this.multipleSelection, [], true);
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  dataSource: MatTableDataSource<Member>;
-  displayedColumns = [
+  public dataSource: MatTableDataSource<Member>;
+  public displayedColumns = [
     'player',
     'role',
     'club',
@@ -40,19 +40,19 @@ export class MemberListComponent implements OnInit, OnDestroy {
     'sum_goals_against',
     'sum_assist',
     'sum_yellow_card',
-    'sum_red_card'
+    'sum_red_card',
   ];
-  footer: { [column: string]: number } = {};
+  public footer: { [column: string]: number } = {};
   private subscription: Subscription;
 
   constructor(private readonly changeRef: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.fixColumns();
     this.loadMembers();
   }
 
-  fixColumns(): void {
+  public fixColumns(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
@@ -61,8 +61,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadMembers(): void {
-    this.subscription = this.members.subscribe(data => {
+  public loadMembers(): void {
+    this.subscription = this.members.subscribe((data) => {
       this.dataSource = new MatTableDataSource<Member>(data);
       if (data.length) {
         this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
@@ -75,12 +75,12 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
-  calcSummary(data: Array<Member>): void {
+  public calcSummary(data: Array<Member>): void {
     this.displayedColumns.filter((c): c is Stats => c.startsWith('sum') || c.startsWith('avg'))
-      .forEach(column => {
+      .forEach((column) => {
         this.footer[column] = 0;
-        const rows = data.filter(row => row.stats && row.stats[column] > 0);
-        data.forEach(row => {
+        const rows = data.filter((row) => row.stats && row.stats[column] > 0);
+        data.forEach((row) => {
           if (row.stats) {
             this.footer[column] += row.stats[column];
           }
@@ -92,15 +92,15 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   }
 
-  sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
-    if (sortHeaderId === 'player' || stats.find(s => s === sortHeaderId)) {
+  public sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
+    if (sortHeaderId === 'player' || stats.find((s) => s === sortHeaderId)) {
       return this.sorting(data, sortHeaderId as Stats | 'player');
     }
 
     return 0;
   }
 
-  sorting(data: Member, sortHeaderId: 'player' | Stats): string | number {
+  public sorting(data: Member, sortHeaderId: 'player' | Stats): string | number {
     let value;
     switch (sortHeaderId) {
       case 'player': value = data.player.full_name; break;
@@ -113,7 +113,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     return isNaN(+value) ? value : +value;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.dataSource !== undefined) {
       this.dataSource.disconnect();
     }

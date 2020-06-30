@@ -6,28 +6,28 @@ import { LayoutService } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
 
 @Component({
-  selector: 'fm-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
   animations: [scrollUpAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-toolbar',
+  styleUrls: ['./toolbar.component.scss'],
+  templateUrl: './toolbar.component.html',
 })
 export class ToolbarComponent implements OnInit {
-  @Input() state: VisibilityState | null;
-  @Input() showDrawerButton: boolean;
+  @Input() public state: VisibilityState | null;
+  @Input() public showDrawerButton: boolean;
 
-  loggedIn$: Observable<boolean>;
+  public loggedIn$: Observable<boolean>;
 
   constructor(
     private readonly layoutService: LayoutService,
-    private readonly auth: AuthenticationService
+    private readonly auth: AuthenticationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loggedIn$ = this.auth.loggedIn$;
   }
 
-  clickNav(): void {
+  public clickNav(): void {
     this.layoutService.toggleSidebar();
   }
 

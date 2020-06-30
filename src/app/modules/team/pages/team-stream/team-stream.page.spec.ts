@@ -8,7 +8,7 @@ describe('TeamStreamPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [TeamStreamPage]
+      declarations: [TeamStreamPage],
     })
       .compileComponents();
   }));

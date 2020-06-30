@@ -9,9 +9,9 @@ import { User } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
-  userChange$ = this.userSubject.asObservable();
-  loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
+  public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
+  public userChange$ = this.userSubject.asObservable();
+  public loggedIn$: Observable<boolean> = this.userChange$.pipe(map((u) => u !== undefined));
 
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();
@@ -21,7 +21,7 @@ export class AuthenticationService {
 
   constructor(
     private readonly userService: UserService,
-    private readonly credentialService: CredentialService
+    private readonly credentialService: CredentialService,
   ) {
     this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     if (this.token && !this.loggedIn()) {
@@ -29,17 +29,17 @@ export class AuthenticationService {
     }
   }
 
-  login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
+  public login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
     return this.userService.login(email, password, rememberMe)
-      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
+      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
   }
 
-  webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
+  public webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
     return this.credentialService.getPublicKey(email, token)
-      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
+      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
   }
 
-  postLogin(res: { user: User, token: string }, rememberMe?: boolean): Observable<boolean> {
+  public postLogin(res: { user: User, token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
       this.token = res.token;
       const user = res.user;
@@ -53,18 +53,18 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
-      return this.userChange$.pipe(map(u => u !== undefined));
+      return this.userChange$.pipe(map((u) => u !== undefined));
     }
 
     return of(false);
 
   }
 
-  getToken(): string | undefined {
+  public getToken(): string | undefined {
     return this.token;
   }
 
-  logout(): void {
+  public logout(): void {
     this.userService.logout()
       .subscribe();
     this.token = undefined;
@@ -72,16 +72,16 @@ export class AuthenticationService {
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 
-  loggedIn(): boolean {
+  public loggedIn(): boolean {
     return !this.jwtHelper.isTokenExpired(this.token);
   }
 
-  getCurrentUser(): Observable<User> {
+  public getCurrentUser(): Observable<User> {
     return this.userService.getCurrent()
       .pipe(
-        tap(user => {
+        tap((user) => {
           this.userSubject.next(user);
-        })
+        }),
       );
   }
 

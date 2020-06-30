@@ -13,27 +13,27 @@ import { Team } from '@shared/models';
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
-  templateUrl: './team-detail.page.html',
-  styleUrls: ['./team-detail.page.scss'],
   animations: [
     enterDetailAnimation,
-    trigger('contextChange', routerTransition)
-  ]
+    trigger('contextChange', routerTransition),
+  ],
+  styleUrls: ['./team-detail.page.scss'],
+  templateUrl: './team-detail.page.html',
 })
 export class TeamDetailPage implements OnInit {
-  @HostBinding('@enterDetailAnimation') e = '';
-  team$: Observable<Team>;
-  tabs: Array<{ label: string; link: string }> = [];
+  @HostBinding('@enterDetailAnimation') public e = '';
+  public team$: Observable<Team>;
+  public tabs: Array<{ label: string; link: string }> = [];
 
   constructor(
     public app: ApplicationService,
     private readonly route: ActivatedRoute,
     private readonly teamService: TeamService,
     private readonly changeRef: ChangeDetectorRef,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.team$ = this.route.data.pipe(
       pluck('team'),
       tap((team: Team) => {
@@ -41,7 +41,7 @@ export class TeamDetailPage implements OnInit {
       }));
   }
 
-  loadTabs(team: Team): void {
+  public loadTabs(team: Team): void {
     this.tabs = [{ label: 'Giocatori', link: 'players' }];
     if (this.app.championship?.started) {
       if (!this.app.seasonEnded) {
@@ -59,14 +59,14 @@ export class TeamDetailPage implements OnInit {
     }
   }
 
-  openDialog(team: Team): void {
+  public openDialog(team: Team): void {
     this.dialog.open(TeamEditModal, {
-      data: { team }
+      data: { team },
     })
       .afterClosed()
       .pipe(
-        filter(t => t),
-        flatMap(() => this.teamService.getTeam(team.id))
+        filter((t) => t),
+        flatMap(() => this.teamService.getTeam(team.id)),
       )
       .subscribe((t: Team) => {
         this.app.teamChange$.next(t);

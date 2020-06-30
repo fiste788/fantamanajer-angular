@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 
 declare global {
+  // tslint:disable-next-line: interface-name
   interface Window {
     addEventListener(
       type: 'beforeinstallprompt',
@@ -14,7 +15,7 @@ export const WINDOW = new InjectionToken('WindowToken');
 
 export abstract class WindowRef {
 
-  get nativeWindow(): Window | Object {
+  get nativeWindow(): Window | object {
     throw new Error('Not implemented.');
   }
 }
@@ -22,12 +23,12 @@ export abstract class WindowRef {
 @Injectable()
 export class BrowserWindowRef extends WindowRef {
 
-  get nativeWindow(): Window | Object {
+  get nativeWindow(): Window | object {
     return window;
   }
 }
 
-export const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: Object): Window | Object => {
+export const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: object): Window | object => {
   if (isPlatformBrowser(platformId)) {
     return browserWindowRef.nativeWindow;
   }
@@ -37,16 +38,18 @@ export const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: Ob
 
 const browserWindowProvider: ClassProvider = {
   provide: WindowRef,
-  useClass: BrowserWindowRef
+  // tslint:disable-next-line: object-literal-sort-keys
+  useClass: BrowserWindowRef,
 };
 
 const windowProvider: FactoryProvider = {
   provide: WINDOW,
+  // tslint:disable-next-line: object-literal-sort-keys
+  deps: [WindowRef, PLATFORM_ID],
   useFactory: windowFactory,
-  deps: [WindowRef, PLATFORM_ID]
 };
 
 export const WINDOW_PROVIDERS = [
   browserWindowProvider,
-  windowProvider
+  windowProvider,
 ];

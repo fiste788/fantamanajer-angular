@@ -7,10 +7,10 @@ import { User } from '@shared/models';
 
 const url = 'users';
 const routes = {
+  current: `/${url}/current`,
   login: `/${url}/login`,
   logout: `/${url}/logout`,
-  current: `/${url}/current`,
-  update: (id: number) => `/${url}/${id}`
+  update: (id: number) => `/${url}/${id}`,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -18,28 +18,28 @@ export class UserService {
 
   constructor(private readonly http: HttpClient) { }
 
-  login(email: string, password: string, rememberMe = false): Observable<{ user: User, token: string }> {
+  public login(email: string, password: string, rememberMe = false): Observable<{ user: User, token: string }> {
     const body = {
       email,
       password,
-      rememberMe
+      rememberMe,
     };
 
     return this.http.post<{ user: User, token: string }>(routes.login, body);
   }
 
-  logout(): Observable<{}> {
+  public logout(): Observable<{}> {
     return this.http.get(routes.logout);
   }
 
-  update(user: User): Observable<User> {
+  public update(user: User): Observable<User> {
     user.teams = undefined;
 
     return this.http.put(routes.update(user.id), user)
       .pipe(map(() => user));
   }
 
-  getCurrent(): Observable<User> {
+  public getCurrent(): Observable<User> {
     return this.http.get<User>(routes.current);
   }
 }

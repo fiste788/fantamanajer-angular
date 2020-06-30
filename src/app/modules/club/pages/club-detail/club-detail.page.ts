@@ -8,24 +8,24 @@ import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/a
 import { Club } from '@shared/models';
 
 @Component({
-  templateUrl: './club-detail.page.html',
-  styleUrls: ['./club-detail.page.scss'],
   animations: [
     enterDetailAnimation,
     tabTransition,
-    trigger('contextChange', routerTransition)
-  ]
+    trigger('contextChange', routerTransition),
+  ],
+  styleUrls: ['./club-detail.page.scss'],
+  templateUrl: './club-detail.page.html',
 })
 export class ClubDetailPage implements OnInit {
-  club$: Observable<Club>;
-  tabs: Array<{ label: string; link: string }> = [
+  public club$: Observable<Club>;
+  public tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
-    { label: 'Attività', link: 'stream' }
+    { label: 'Attività', link: 'stream' },
   ];
 
   constructor(private readonly route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.club$ = this.route.data.pipe(pluck('club'));
   }
 }

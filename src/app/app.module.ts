@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
+  bootstrap: [MainComponent],
   imports: [
     // angular
     BrowserModule,
@@ -26,8 +27,7 @@ import { SharedModule } from './shared/shared.module';
 
     // app
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  bootstrap: [MainComponent]
 })
 export class AppModule { }

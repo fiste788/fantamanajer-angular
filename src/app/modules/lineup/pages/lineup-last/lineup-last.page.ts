@@ -10,34 +10,34 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
 import { Lineup, Team } from '@shared/models';
 
 @Component({
+  styleUrls: ['./lineup-last.page.scss'],
   templateUrl: './lineup-last.page.html',
-  styleUrls: ['./lineup-last.page.scss']
 })
 export class LineupLastPage implements OnDestroy {
-  @ViewChild(NgForm) lineupForm: NgForm;
-  @ViewChild(LineupDetailComponent) lineupDetail: LineupDetailComponent;
+  @ViewChild(NgForm) public lineupForm: NgForm;
+  @ViewChild(LineupDetailComponent) public lineupDetail: LineupDetailComponent;
 
-  lineup$: Observable<Lineup>;
-  editMode = false;
-  teamId: number;
+  public lineup$: Observable<Lineup>;
+  public editMode = false;
+  public teamId: number;
   private subscription?: Subscription;
 
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly lineupService: LineupService,
     private readonly route: ActivatedRoute,
-    public app: ApplicationService
+    public app: ApplicationService,
   ) {
     this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
     this.editMode = this.app.team?.id === this.teamId;
     this.lineup$ = this.lineupService.getLineup(this.teamId);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  save(): void {
+  public save(): void {
     if (this.lineupForm.valid === true) {
       const lineup = this.lineupDetail.getLineup();
       let obs: Observable<Partial<Lineup>>;
@@ -49,20 +49,20 @@ export class LineupLastPage implements OnDestroy {
         message = 'Formazione caricata';
         obs = this.lineupService.create(lineup);
       }
-      this.subscription = obs.subscribe(response => {
+      this.subscription = obs.subscribe((response) => {
         if (response.id) {
           lineup.id = response.id;
         }
         this.snackBar.open(message, undefined, {
-          duration: 3000
+          duration: 3000,
         });
       },
-        err => {
+        (err) => {
           UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
         });
     } else {
       this.snackBar.open('Si sono verificati errori di validazione', undefined, {
-        duration: 3000
+        duration: 3000,
       });
     }
   }

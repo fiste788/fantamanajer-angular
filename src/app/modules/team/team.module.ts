@@ -13,6 +13,10 @@ import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.ser
 import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
+  declarations: [
+    TeamEditModal,
+    TeamRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -21,14 +25,10 @@ import { TeamRoutingModule } from './team-routing.module';
     MatDialogModule,
     NotificationSubscriptionModule,
     StreamModule,
-    ngfModule
-  ],
-  declarations: [
-    TeamEditModal,
-    TeamRoutingModule.components
+    ngfModule,
   ],
   providers: [
-    TeamDetailResolver
-  ]
+    TeamDetailResolver,
+  ],
 })
 export class TeamModule { }

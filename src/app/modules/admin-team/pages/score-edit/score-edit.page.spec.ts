@@ -8,7 +8,7 @@ describe('ScoreEditPage', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [ScoreEditPage]
+      declarations: [ScoreEditPage],
     })
       .compileComponents();
   }));

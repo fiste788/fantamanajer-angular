@@ -12,65 +12,65 @@ const routes: Routes = [
     path: ':championship_id',
     component: ChampionshipPage,
     data: {
+      breadcrumbs: '{{ championship.league.name }}',
       state: 'championship',
-      breadcrumbs: '{{ championship.league.name }}'
     },
     resolve: {
-      championship: ChampionshipResolver
+      championship: ChampionshipResolver,
     },
     children: [
       {
         path: '',
+        pathMatch: 'full',
         redirectTo: 'teams',
-        pathMatch: 'full'
       },
       {
         path: 'articles',
+        data: { state: 'articles' },
         loadChildren: () => import('@modules/article/article.module')
-          .then(m => m.ArticleModule),
-        data: { state: 'articles' }
+          .then((m) => m.ArticleModule),
       },
       {
         path: 'teams',
+        data: { state: 'teams' },
         loadChildren: () => import('@modules/team/team.module')
-          .then(m => m.TeamModule),
-        data: { state: 'teams' }
+          .then((m) => m.TeamModule),
       },
       {
         path: 'members',
+        data: { state: 'members' },
         loadChildren: () => import('@modules/member/member.module')
-          .then(m => m.MemberModule),
-        data: { state: 'members' }
+          .then((m) => m.MemberModule),
       },
       {
         path: 'ranking',
+        data: { state: 'ranking' },
         loadChildren: () => import('@modules/score/score.module')
-          .then(m => m.ScoreModule),
-        data: { state: 'ranking' }
+          .then((m) => m.ScoreModule),
       },
       {
         path: 'stream',
         component: ChampionshipStreamPage,
-        data: { state: 'stream' }
+        data: { state: 'stream' },
       },
       {
         path: 'admin',
-        loadChildren: () => import('@modules/admin-championship/admin-championship.module')
-          .then(m => m.AdminChampionshipModule),
         canActivate: [AdminGuard],
-        data: { state: 'championship-admin' }
-      }
-    ]
-  }
+        data: { state: 'championship-admin' },
+        loadChildren: () => import('@modules/admin-championship/admin-championship.module')
+          .then((m) => m.AdminChampionshipModule),
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class ChampionshipRoutingModule {
-  static components = [
+  public static components = [
     ChampionshipPage,
-    ChampionshipStreamPage
+    ChampionshipStreamPage,
   ];
 }

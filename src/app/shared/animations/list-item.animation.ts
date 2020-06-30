@@ -4,24 +4,24 @@ export const listItemAnimation = trigger('listItemAnimation', [
   transition(':enter', [
     query('mat-list-item',
       style({ opacity: 0, transform: 'translatey(1.5rem)' }),
-      { optional: true }
+      { optional: true },
     ),
 
     query('mat-list-item',
       stagger('20ms', [
         animate('120ms 50ms ease-out',
-          style({ opacity: 1, transform: 'translateX(0)' })
-        )
-      ]), { optional: true }
-    )
+          style({ opacity: 1, transform: 'translateX(0)' }),
+        ),
+      ]), { optional: true },
+    ),
   ]),
   transition(':leave', [
     query('mat-list-item',
       stagger('20ms', [
         animate('120ms 50ms ease-out',
-          style({ opacity: 0, transform: 'translatey(1.5rem)' })
-        )
-      ]), { optional: true }
-    )
-  ])
+          style({ opacity: 0, transform: 'translatey(1.5rem)' }),
+        ),
+      ]), { optional: true },
+    ),
+  ]),
 ]);

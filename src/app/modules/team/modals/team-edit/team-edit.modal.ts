@@ -7,26 +7,26 @@ import { createBoxAnimation } from '@shared/animations';
 import { NotificationSubscription, Team } from '@shared/models';
 
 @Component({
-  templateUrl: './team-edit.modal.html',
+  animations: [createBoxAnimation],
   styleUrls: ['./team-edit.modal.scss'],
-  animations: [createBoxAnimation]
+  templateUrl: './team-edit.modal.html',
 })
 export class TeamEditModal {
-  validComboDrag = false;
-  invalidComboDrag = false;
-  team: Team;
-  file: File;
+  public validComboDrag = false;
+  public invalidComboDrag = false;
+  public team: Team;
+  public file: File;
 
-  static objectToPostParams(
+  public static objectToPostParams(
     team: Team,
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
-    formData: FormData
+    formData: FormData,
   ): void {
     team[fieldName].forEach((element: NotificationSubscription, i: number) => {
       if (element.enabled) {
         Object.keys(element)
           .filter((f): f is keyof NotificationSubscription => f !== 'id' as const)
-          .forEach(field => {
+          .forEach((field) => {
             let value = element[field];
             if (field === 'enabled') {
               value = 1;
@@ -41,16 +41,16 @@ export class TeamEditModal {
     public app: ApplicationService,
     private readonly teamService: TeamService,
     private readonly dialogRef: MatDialogRef<TeamEditModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { team: Team }
+    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
   ) {
     this.team = data.team;
   }
 
-  cancel(): void {
+  public cancel(): void {
     this.dialogRef.close();
   }
 
-  save(): void {
+  public save(): void {
     const fd = new FormData();
     if (this.file !== undefined) {
       fd.set('photo', this.file);

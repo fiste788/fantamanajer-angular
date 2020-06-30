@@ -8,7 +8,7 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [BreadcrumbComponent]
+      declarations: [BreadcrumbComponent],
     })
       .compileComponents();
   }));

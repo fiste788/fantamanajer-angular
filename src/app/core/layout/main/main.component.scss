@@ -31,7 +31,7 @@ main {
 }
 
 .speed-dial,
-fm-toolbar {
+app-toolbar {
   will-change: transform;
 }
 @include layout-bp(gt-sm) {

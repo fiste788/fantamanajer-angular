@@ -3,35 +3,35 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
-import { Lineup, MemberOption, Role } from '@shared/models';
+import { IMemberOption, Lineup, Role } from '@shared/models';
 
 import { LineupService } from '../lineup.service';
 
 @Component({
-  selector: 'fm-lineup-detail',
-  templateUrl: './lineup-detail.component.html',
-  styleUrls: ['./lineup-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LineupService],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
+  selector: 'app-lineup-detail',
+  styleUrls: ['./lineup-detail.component.scss'],
+  templateUrl: './lineup-detail.component.html',
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() lineup?: Lineup;
-  @Input() disabled = false;
+  @Input() public lineup?: Lineup;
+  @Input() public disabled = false;
 
-  @ViewChild(NgForm) lineupForm: NgForm;
+  @ViewChild(NgForm) public lineupForm: NgForm;
 
   constructor(
     readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadLineup();
   }
 
-  loadLineup(): void {
+  public loadLineup(): void {
     const lineup = this.lineup ?? ((!this.disabled) ? new Lineup() : undefined);
     if (lineup !== undefined && lineup.team.members !== undefined) {
       this.lineupService.loadLineup(lineup);
@@ -41,10 +41,10 @@ export class LineupDetailComponent implements OnInit {
     }
   }
 
-  loadLikely(lineup: Lineup): void {
+  public loadLikely(lineup: Lineup): void {
     this.lineupHttpService.getLikelyLineup(lineup)
-      .subscribe(members => {
-        members.forEach(member => {
+      .subscribe((members) => {
+        members.forEach((member) => {
           const m = this.lineupService.membersById.get(member.id);
           if (m) {
             m.likely_lineup = member.likely_lineup;
@@ -54,21 +54,21 @@ export class LineupDetailComponent implements OnInit {
       });
   }
 
-  getLineup(): Lineup {
+  public getLineup(): Lineup {
     // tslint:disable-next-line: no-null-keyword
-    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
+    this.lineupService.lineup.dispositions.forEach((value) => value.member_id = value.member?.id ?? null);
 
     return this.lineupService.lineup;
   }
 
-  descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>
-    (a.key < b.key) ? b.key : a.key;
+  public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>
+    (a.key < b.key) ? b.key : a.key
 
-  trackByBench(_: number, item: number): number {
+  public trackByBench(_: number, item: number): number {
     return item; // or item.id
   }
 
-  trackByCaptain(_: number, item: MemberOption): number {
+  public trackByCaptain(_: number, item: IMemberOption): number {
     return item.member.id; // or item.id
   }
 }

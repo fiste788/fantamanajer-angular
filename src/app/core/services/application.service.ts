@@ -10,17 +10,17 @@ import { environment } from '@env';
 import { Championship, Matchday, Team, User } from '@shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApplicationService {
 
-  seasonEnded: boolean;
-  seasonStarted: boolean;
-  selectedMatchday: Matchday;
-  championship?: Championship;
-  teamChange$ = new BehaviorSubject<Team | undefined>(undefined);
-  user?: User;
-  teams?: Array<Team>;
+  public seasonEnded: boolean;
+  public seasonStarted: boolean;
+  public selectedMatchday: Matchday;
+  public championship?: Championship;
+  public teamChange$ = new BehaviorSubject<Team | undefined>(undefined);
+  public user?: User;
+  public teams?: Array<Team>;
   private selectedTeam?: Team;
   private currentMatchday: Matchday;
 
@@ -28,7 +28,7 @@ export class ApplicationService {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
-    private readonly injector: Injector
+    private readonly injector: Injector,
   ) { }
 
   get team(): Team | undefined {
@@ -63,7 +63,7 @@ export class ApplicationService {
     this.seasonStarted = matchday.number > 0;
   }
 
-  async initialize(): Promise<void> {
+  public async initialize(): Promise<void> {
     const obs: Array<Observable<unknown>> = [];
     obs.push(this.loadCurrentMatchday());
     if (this.authService.loggedIn()) {
@@ -75,16 +75,16 @@ export class ApplicationService {
         this.connectObservables();
       }))
       .toPromise()
-      .catch(e => {
+      .catch((e) => {
         this.writeError(e);
       });
   }
 
   private connectObservables(): void {
-    this.teamChange$.subscribe(t => {
+    this.teamChange$.subscribe((t) => {
       this.setTeam(t);
     });
-    this.authService.userChange$.subscribe(u => {
+    this.authService.userChange$.subscribe((u) => {
       this.setUser(u);
     });
   }
@@ -100,19 +100,19 @@ export class ApplicationService {
   private loadCurrentUser(): Observable<User> {
     return this.authService.getCurrentUser()
       .pipe(
-        tap(u => {
+        tap((u) => {
           this.setUser(u);
-        })
+        }),
       );
   }
 
   private loadCurrentMatchday(): Observable<Matchday> {
     return this.matchdayService.getCurrentMatchday()
       .pipe(
-        tap(m => {
+        tap((m) => {
           this.currentMatchday = m;
           this.matchday = m;
-        })
+        }),
       );
   }
 

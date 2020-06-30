@@ -1,32 +1,32 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ScrollService } from '@app/services';
-import { Tab } from '@shared/models';
+import { ITab } from '@shared/models';
 
 @Component({
-  selector: 'fm-parallax-header',
-  templateUrl: './parallax-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-parallax-header',
   styleUrls: ['./parallax-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './parallax-header.component.html',
 })
 export class ParallaxHeaderComponent {
-  @Input() title: string;
-  @Input() subtitle: string;
-  @Input() image: string | null;
-  @Input() backgroundImage: Record<string, string> | string | null;
-  @Input() tabs: Array<Tab> = [];
+  @Input() public title: string;
+  @Input() public subtitle: string;
+  @Input() public image: string | null;
+  @Input() public backgroundImage: Record<string, string> | string | null;
+  @Input() public tabs: Array<ITab> = [];
 
-  srcset = '';
-  width = 0;
+  public srcset = '';
+  public width = 0;
 
   constructor(private readonly scrollService: ScrollService) {
   }
 
-  initialScroll(event: Event): void {
+  public initialScroll(event: Event): void {
     this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);
   }
 
-  track(_: number, item: Tab): string {
+  public track(_: number, item: ITab): string {
     return item.link;
   }
 }

@@ -2,11 +2,11 @@ import { Member } from './';
 
 // tslint:disable: variable-name
 export class Club {
-  id: number;
-  name: string;
-  partitive: string;
-  determinant: string;
-  members: Array<Member>;
-  photo_url: string | null;
-  background_url: {} | null;
+  public id: number;
+  public name: string;
+  public partitive: string;
+  public determinant: string;
+  public members: Array<Member>;
+  public photo_url: string | null;
+  public background_url: {} | null;
 }

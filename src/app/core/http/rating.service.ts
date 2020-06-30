@@ -6,7 +6,7 @@ import { Rating } from '@shared/models';
 
 const url = 'ratings';
 const routes = {
-  rating: (id: number) => `/members/${id}/${url}`
+  rating: (id: number) => `/members/${id}/${url}`,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -14,7 +14,7 @@ export class RatingService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getRatings(memberId: number): Observable<Array<Rating>> {
+  public getRatings(memberId: number): Observable<Array<Rating>> {
     return this.http.get<Array<Rating>>(routes.rating(memberId));
   }
 }

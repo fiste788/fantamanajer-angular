@@ -5,18 +5,18 @@ export class PlaceholderPipe implements PipeTransform {
 
   // private placeholderService = require('placeholder.js');
 
-  opts = {
-    size: '512x256',
+  public opts = {
     bgcolor: '#ccc',
     color: '#969696',
-    text: 'Hello World',
+    ffamily: 'arial',
+    fsize: '32',
     fstyle: 'normal',
     fweight: 'bold',
-    fsize: '32',
-    ffamily: 'arial'
+    size: '512x256',
+    text: 'Hello World',
   };
 
-  transform(size: string, text: string): string {
+  public transform(size: string, text: string): string {
     this.opts.text = text;
     this.opts.size = size;
     // return this.placeholderService.getData(this.opts);

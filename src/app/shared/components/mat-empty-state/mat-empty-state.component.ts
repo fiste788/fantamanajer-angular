@@ -2,32 +2,32 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 @Component({
-  selector: 'fm-mat-empty-state',
-  templateUrl: './mat-empty-state.component.html',
-  styleUrls: ['./mat-empty-state.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('createBox', [
       transition(':enter', [
         style({ opacity: 0, transform: 'scale(0.4)' }),
         animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
-          style({ transform: 'scale(1)', opacity: 1 })
-        )
+          style({ transform: 'scale(1)', opacity: 1 }),
+        ),
       ]),
       transition(':leave', [
         animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
-          style({ transform: 'scale(0.4)', opacity: 0 })
-        )
-      ])
-    ])
-  ]
+          style({ transform: 'scale(0.4)', opacity: 0 }),
+        ),
+      ]),
+    ]),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-mat-empty-state',
+  styleUrls: ['./mat-empty-state.component.scss'],
+  templateUrl: './mat-empty-state.component.html',
 })
 export class MatEmptyStateComponent {
-  @Input() label: string;
-  @Input() description: string;
-  @Input() icon: string;
-  @Input() rounded: boolean;
-  @Input() size = 492;
+  @Input() public label: string;
+  @Input() public description: string;
+  @Input() public icon: string;
+  @Input() public rounded: boolean;
+  @Input() public size = 492;
 
-  @HostBinding('@createBox') createBox = true;
+  @HostBinding('@createBox') public createBox = true;
 }

@@ -7,30 +7,30 @@ import { cardCreationAnimation } from '@shared/animations/card-creation.animatio
 import { Club } from '@shared/models';
 
 @Component({
-  templateUrl: './club-list.page.html',
-  styleUrls: ['./club-list.page.scss'],
   animations: [cardCreationAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./club-list.page.scss'],
+  templateUrl: './club-list.page.html',
 })
 export class ClubListPage implements OnInit, OnDestroy {
-  clubs$?: Observable<Array<Club>>;
-  subscription: Subscription;
-  exit = false;
-  id: number;
+  public clubs$?: Observable<Array<Club>>;
+  public subscription: Subscription;
+  public exit = false;
+  public id: number;
 
   constructor(
     private readonly clubService: ClubService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.clubs$ = this.clubService.getClubs();
     this.subscription = this.exitSubscription();
   }
 
-  exitSubscription(): Subscription {
-    return this.router.events.subscribe(evt => {
+  public exitSubscription(): Subscription {
+    return this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
         this.exit = true;
         this.clubs$ = undefined;
@@ -38,11 +38,11 @@ export class ClubListPage implements OnInit, OnDestroy {
     });
   }
 
-  track(_: number, club: Club): number {
+  public track(_: number, club: Club): number {
     return club.id;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

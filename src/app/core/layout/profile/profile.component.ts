@@ -4,34 +4,34 @@ import { ApplicationService, LayoutService } from '@app/services';
 import { Team } from '@shared/models';
 
 @Component({
-  selector: 'fm-profile',
+  selector: 'app-profile',
+  styleUrls: ['./profile.component.scss'],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
 
-  photo?: string;
+  public photo?: string;
 
   constructor(
     public app: ApplicationService,
-    private readonly layoutService: LayoutService
+    private readonly layoutService: LayoutService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadPhoto(this.app.team);
   }
 
-  change(team: Team): void {
+  public change(team: Team): void {
     this.app.teamChange$.next(team);
     this.loadPhoto(team);
     this.layoutService.closeSidebar();
   }
 
-  compareFn(t1: Team, t2: Team): boolean {
+  public compareFn(t1: Team, t2: Team): boolean {
     return t1.id === t2.id;
   }
 
-  track(_: number, team: Team): number {
+  public track(_: number, team: Team): number {
     return team.id;
   }
 

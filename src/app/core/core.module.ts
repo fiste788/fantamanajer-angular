@@ -12,12 +12,12 @@ import { NAVIGATOR_PROVIDERS } from './services/navigator.service';
 export const useFactory = (service: ApplicationService) => () => service.initialize();
 
 @NgModule({
+  exports: [
+    NotificationModule,
+  ],
   imports: [
     HttpClientModule,
-    NotificationModule
-  ],
-  exports: [
-    NotificationModule
+    NotificationModule,
   ],
   providers: [
     AuthGuard,
@@ -27,32 +27,32 @@ export const useFactory = (service: ApplicationService) => () => service.initial
     WINDOW_PROVIDERS,
     NAVIGATOR_PROVIDERS,
     {
+      multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,
-      multi: true
     },
     {
+      multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
-      multi: true
     },
     {
+      multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: ApiPrefixInterceptor,
-      multi: true
     },
     {
+      deps: [ApplicationService],
+      multi: true,
       provide: APP_INITIALIZER,
       useFactory,
-      deps: [ApplicationService],
-      multi: true
-    }
-  ]
+    },
+  ],
 })
 export class CoreModule {
-  static forRoot(): ModuleWithProviders<CoreModule> {
+  public static forRoot(): ModuleWithProviders<CoreModule> {
     return {
-      ngModule: CoreModule
+      ngModule: CoreModule,
     };
   }
 

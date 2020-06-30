@@ -74,7 +74,7 @@
     background-color: red;
   }
 
-  fm-main:not(:empty) + .pre-bootstrap {
+  app-main:not(:empty) + .pre-bootstrap {
     animation: leave-animation .5s forwards;
   }
   @keyframes leave-animation {

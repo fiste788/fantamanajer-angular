@@ -11,31 +11,37 @@ const routes: Routes = [
   {
     path: '',
     component: RouterOutletComponent,
-    data: { state: 'login-outlet' },
+    data: {
+      state: 'login-outlet',
+    },
     children: [
       {
         path: 'login',
         component: LoginPage,
         canActivate: [NotLoggedGuard],
-        data: { state: 'login' }
+        data: {
+          state: 'login',
+        },
       },
       {
         path: 'logout',
         component: LogoutPage,
         canActivate: [AuthGuard],
-        data: { state: 'logout' }
-      }
-    ]
-  }
+        data: {
+          state: 'logout',
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class AuthRoutingModule {
-  static components = [
+  public static components = [
     LoginPage,
-    LogoutPage
+    LogoutPage,
   ];
 }

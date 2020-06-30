@@ -8,17 +8,17 @@ import { ChampionshipRoutingModule } from './championship-routing.module';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
 
 @NgModule({
+  declarations: [
+    ChampionshipRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     ChampionshipRoutingModule,
-    StreamModule
-  ],
-  declarations: [
-    ChampionshipRoutingModule.components
+    StreamModule,
   ],
   providers: [
-    ChampionshipResolver
-  ]
+    ChampionshipResolver,
+  ],
 })
 export class ChampionshipModule { }

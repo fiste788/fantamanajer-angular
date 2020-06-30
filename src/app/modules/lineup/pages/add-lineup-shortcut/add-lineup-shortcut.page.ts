@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 import { ApplicationService } from '@app/services';
 
 @Component({
-  template: ''
+  template: '',
 })
 export class AddLineupShortcutPage implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly app: ApplicationService
+    private readonly app: ApplicationService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.app.team) {
       void this.router.navigate(['teams', this.app.team.id, 'lineup', 'current']);
     }

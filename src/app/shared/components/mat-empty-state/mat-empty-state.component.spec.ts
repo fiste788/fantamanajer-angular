@@ -8,7 +8,7 @@ describe('MatEmptyStateComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [MatEmptyStateComponent]
+      declarations: [MatEmptyStateComponent],
     })
       .compileComponents();
   }));

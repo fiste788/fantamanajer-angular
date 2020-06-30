@@ -5,7 +5,7 @@ import { ClubService } from './club.service';
 describe('ClubService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      providers: [ClubService]
+      providers: [ClubService],
     });
   });
 

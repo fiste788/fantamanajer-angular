@@ -5,11 +5,11 @@ import { UtilService } from '@app/services';
 import { Club } from '@shared/models';
 
 @Component({
+  styleUrls: ['./club-stream.page.scss'],
   templateUrl: './club-stream.page.html',
-  styleUrls: ['./club-stream.page.scss']
 })
 export class ClubStreamPage {
-  id: number;
+  public id: number;
 
   constructor(private readonly route: ActivatedRoute) {
     const club = UtilService.getSnapshotData<Club>(this.route, 'club');

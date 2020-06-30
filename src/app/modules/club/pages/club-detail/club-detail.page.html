@@ -1,19 +1,12 @@
 <ng-container *ngIf="(club$ | async) as club;">
   <div @enterDetailAnimation>
     <div class="animation-container">
-      <fm-parallax-header
-        [backgroundImage]="club.background_url"
-        [image]="club.photo_url"
-        [title]="club.name"
-        [tabs]="tabs"
-      >
-      </fm-parallax-header>
+      <app-parallax-header [backgroundImage]="club.background_url" [image]="club.photo_url" [title]="club.name"
+        [tabs]="tabs">
+      </app-parallax-header>
     </div>
   </div>
-  <div
-    class="tabbed-container"
-    [@contextChange]="o | state"
-  >
+  <div class="tabbed-container" [@contextChange]="o | state">
     <router-outlet #o="outlet"></router-outlet>
   </div>
 </ng-container>

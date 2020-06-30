@@ -2,13 +2,13 @@ import { Member } from './';
 
 // tslint:disable: variable-name
 export class Role {
-  id: number;
-  singolar: string;
-  plural: string;
-  abbreviation: string;
-  determinant: string;
-  best_players?: Array<Member>;
-  count: number;
+  public id: number;
+  public singolar: string;
+  public plural: string;
+  public abbreviation: string;
+  public determinant: string;
+  public best_players?: Array<Member>;
+  public count: number;
 
   constructor(id: number, singolar: string, count: number, abbreviation?: string, plural?: string) {
     this.id = id;

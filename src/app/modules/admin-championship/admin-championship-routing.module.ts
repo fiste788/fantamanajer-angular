@@ -12,30 +12,55 @@ const routes: Routes = [
     path: '',
     component: RouterOutletComponent,
     children: [
-      { path: '', redirectTo: 'index', pathMatch: 'full', data: { state: 'admin-championship-outlet' } },
-      { path: 'index', component: HomePage, data: { state: 'admin-championship-home' } },
-      { path: 'add-team', component: AddTeamPage, data: { state: 'admin-add-team' } },
-      { path: 'edit', component: ChampionshipDetailPage, data: { state: 'admin-edit' } },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'index',
+        data: {
+          state: 'admin-championship-outlet',
+        },
+      },
+      {
+        path: 'index',
+        component: HomePage,
+        data: {
+          state: 'admin-championship-home',
+        },
+      },
+      {
+        path: 'add-team',
+        component: AddTeamPage,
+        data: {
+          state: 'admin-add-team',
+        },
+      },
+      {
+        path: 'edit',
+        component: ChampionshipDetailPage,
+        data: {
+          state: 'admin-edit',
+        },
+      },
       {
         path: 'new',
         component: ChampionshipDetailPage,
         data: {
           breadcrumbs: 'Nuovo lega',
-          data: { state: 'admin-championship-detail' }
-        }
-      }
-    ]
-  }
+          data: { state: 'admin-championship-detail' },
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class AdminChampionshipRoutingModule {
-  static components = [
+  public static components = [
     HomePage,
     AddTeamPage,
-    ChampionshipDetailPage
+    ChampionshipDetailPage,
   ];
 }

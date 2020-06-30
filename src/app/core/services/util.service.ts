@@ -8,11 +8,11 @@ import { pluck } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class UtilService {
 
-  static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
+  public static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
     if (err.status === 422) {
       const errors = err.error.data.errors;
       Object.keys(errors)
-        .forEach(key => {
+        .forEach((key) => {
           if (form.controls.hasOwnProperty(key)) {
             (form.controls as {
               [key: string]: AbstractControl;
@@ -22,17 +22,17 @@ export class UtilService {
     }
   }
 
-  static getError(field: NgModel): string {
+  public static getError(field: NgModel): string {
     const errors: Array<string> = [];
     if (field.errors !== null) {
       Object.values<string>(field.errors)
-        .forEach(err => errors.push(err));
+        .forEach((err) => errors.push(err));
     }
 
     return errors.join(' - ');
   }
 
-  static getSnapshotData<T>(route: ActivatedRoute, param: string): T | undefined {
+  public static getSnapshotData<T>(route: ActivatedRoute, param: string): T | undefined {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
       if (current.snapshot.data.hasOwnProperty(param)) {
@@ -44,7 +44,7 @@ export class UtilService {
     return undefined;
   }
 
-  static getData<T>(route: ActivatedRoute, param: string): Observable<T> | undefined {
+  public static getData<T>(route: ActivatedRoute, param: string): Observable<T> | undefined {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
       if (current.snapshot.data.hasOwnProperty(param)) {

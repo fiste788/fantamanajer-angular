@@ -7,10 +7,10 @@ import { Stream } from '@shared/models';
 const url = 'stream';
 const routes = {
   championships: (id: number) => `/championships/${id}/${url}`,
-  team: (id: number) => `/teams/${id}/${url}`,
   club: (id: number) => `/clubs/${id}/${url}`,
+  get: (context: string, id: number) => `/${context}/${id}/${url}`,
+  team: (id: number) => `/teams/${id}/${url}`,
   user: (id: number) => `/users/${id}/${url}`,
-  get: (context: string, id: number) => `/${context}/${id}/${url}`
 };
 
 @Injectable({ providedIn: 'root' })
@@ -18,43 +18,43 @@ export class StreamService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getByChampionship(championshipsId: number, page = 1): Observable<Stream> {
+  public getByChampionship(championshipsId: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.championships(championshipsId), {
       params: {
-        page: [`${page}`]
-      }
+        page: [`${page}`],
+      },
     });
   }
 
-  getByTeam(teamId: number, page = 1): Observable<Stream> {
+  public getByTeam(teamId: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.team(teamId), {
       params: {
-        page: [`${page}`]
-      }
+        page: [`${page}`],
+      },
     });
   }
 
-  getByClub(clubId: number, page = 1): Observable<Stream> {
+  public getByClub(clubId: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.club(clubId), {
       params: {
-        page: [`${page}`]
-      }
+        page: [`${page}`],
+      },
     });
   }
 
-  getByUser(userId: number, page = 1): Observable<Stream> {
+  public getByUser(userId: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.user(userId), {
       params: {
-        page: [`${page}`]
-      }
+        page: [`${page}`],
+      },
     });
   }
 
-  get(context: 'teams' | 'users' | 'clubs' | 'championships', id: number, page = 1): Observable<Stream> {
+  public get(context: 'teams' | 'users' | 'clubs' | 'championships', id: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.get(context, id), {
       params: {
-        page: [`${page}`]
-      }
+        page: [`${page}`],
+      },
     });
   }
 }

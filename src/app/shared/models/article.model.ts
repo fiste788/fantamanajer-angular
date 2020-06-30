@@ -2,14 +2,14 @@ import { Matchday, Team } from './';
 
 // tslint:disable: variable-name
 export class Article {
-  id: number;
-  title: string;
-  subtitle: string;
-  body: string;
-  created_at: Date;
-  modified_at: Date | null;
-  team_id: number;
-  matchday_id: number;
-  team: Team;
-  matchday: Matchday;
+  public id: number;
+  public title: string;
+  public subtitle: string;
+  public body: string;
+  public created_at: Date;
+  public modified_at: Date | null;
+  public team_id: number;
+  public matchday_id: number;
+  public team: Team;
+  public matchday: Matchday;
 }

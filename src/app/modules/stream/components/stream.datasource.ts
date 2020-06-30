@@ -5,7 +5,7 @@ import { StreamService } from '@app/http';
 import { Stream, StreamActivity } from '@shared/models';
 
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
-  isEmpty = false;
+  public isEmpty = false;
   private readonly length = 0;
   private readonly pageSize = 10;
   private readonly fetchedPages = new Set<number>();
@@ -16,14 +16,14 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   constructor(
     private readonly streamService: StreamService,
     private readonly name: 'teams' | 'users' | 'clubs' | 'championships',
-    private readonly id: number
+    private readonly id: number,
   ) {
     super();
     this.fetchPage(1);
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<Array<StreamActivity | undefined>> {
-    this.subscription.add(collectionViewer.viewChange.subscribe(range => {
+  public connect(collectionViewer: CollectionViewer): Observable<Array<StreamActivity | undefined>> {
+    this.subscription.add(collectionViewer.viewChange.subscribe((range) => {
       const startPage = this.getPageForIndex(range.start);
       const endPage = this.getPageForIndex(range.end);
       for (let i = startPage; i <= endPage; i++) {
@@ -34,7 +34,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     return this.dataStream;
   }
 
-  disconnect(): void {
+  public disconnect(): void {
     this.subscription.unsubscribe();
   }
 
@@ -54,7 +54,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
 
     this.streamService.get(this.name, this.id, page)
       .subscribe((data: Stream) => {
-        this.cachedData = this.cachedData.filter(it => it !== undefined)
+        this.cachedData = this.cachedData.filter((it) => it !== undefined)
           .concat(data.results);
         if (this.cachedData.length === 0) {
           this.isEmpty = true;
@@ -67,7 +67,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.cachedData = [
       ...this.cachedData,
       ...Array(this.pageSize)
-        .fill(undefined)
+        .fill(undefined),
     ];
   }
 }

@@ -2,9 +2,9 @@ import { Season } from './';
 
 // tslint:disable: variable-name
 export class Matchday {
-  id: number;
-  number: number;
-  date: Date;
-  season_id: number;
-  season: Season;
+  public id: number;
+  public number: number;
+  public date: Date;
+  public season_id: number;
+  public season: Season;
 }

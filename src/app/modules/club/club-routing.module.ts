@@ -14,46 +14,56 @@ const routes: Routes = [
     path: '',
     component: RouterOutletComponent,
     data: {
+      breadcrumbs: 'Club',
       state: 'club-outlet',
-      breadcrumbs: 'Club'
     },
     children: [
       {
         path: '',
         component: ClubListPage,
-        data: {
-          state: 'club-list'
-        }
+        data: { state: 'club-list' },
       },
       {
         path: ':id',
         component: ClubDetailPage,
         data: {
+          breadcrumbs: '{{club.name}}',
           state: 'club-detail',
-          breadcrumbs: '{{club.name}}'
         },
         resolve: {
-          club: ClubDetailResolver
+          club: ClubDetailResolver,
         },
         children: [
-          { path: '', redirectTo: 'players', pathMatch: 'full' },
-          { path: 'players', component: ClubMembersPage, data: { state: 'players' } },
-          { path: 'stream', component: ClubStreamPage, data: { state: 'stream' } }
-        ]
-      }
-    ]
-  }
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'players',
+          },
+          {
+            path: 'players',
+            component: ClubMembersPage,
+            data: { state: 'players' },
+          },
+          {
+            path: 'stream',
+            component: ClubStreamPage,
+            data: { state: 'stream' },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
+  exports: [RouterModule],
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
 })
 export class ClubRoutingModule {
-  static components = [
+  public static components = [
     ClubListPage,
     ClubDetailPage,
     ClubMembersPage,
-    ClubStreamPage
+    ClubStreamPage,
   ];
 }

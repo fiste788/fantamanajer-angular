@@ -4,9 +4,18 @@
   "newProjectRoot": "projects",
   "projects": {
     "fantamanajer-angular": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -59,8 +68,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "optimization": true,
@@ -84,7 +93,7 @@
               "budgets": [
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "2kb"
                 }
               ],
               "optimization": true,
@@ -168,15 +177,6 @@
     }
   },
   "defaultProject": "fantamanajer-angular",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "fm",
-      "style": "scss"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "fm"
-    }
-  },
   "cli": {
     "analytics": "2c669fec-8a87-4f51-b703-4509caf7aa22"
   }

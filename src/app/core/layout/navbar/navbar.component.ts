@@ -9,34 +9,34 @@ import { ApplicationService, LayoutService, PushService } from '@app/services';
 import { Championship, Team } from '@shared/models';
 
 @Component({
-  selector: 'fm-navbar',
+  selector: 'app-navbar',
+  styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
 
-  @ViewChildren(MatListItem, { read: ElementRef }) links?: QueryList<ElementRef<HTMLLIElement>>;
+  @ViewChildren(MatListItem, { read: ElementRef }) public links?: QueryList<ElementRef<HTMLLIElement>>;
 
-  deferredPrompt?: BeforeInstallPromptEvent;
-  loggedIn: boolean;
-  team?: Team;
-  championship?: Championship;
-  navStart$: Observable<Event>;
+  public deferredPrompt?: BeforeInstallPromptEvent;
+  public loggedIn: boolean;
+  public team?: Team;
+  public championship?: Championship;
+  public navStart$: Observable<Event>;
 
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
     private readonly push: PushService,
     private readonly app: ApplicationService,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.init();
     this.refresh();
   }
 
-  init(): void {
+  public init(): void {
     this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
       this.deferredPrompt = e;
     });
@@ -45,24 +45,24 @@ export class NavbarComponent implements OnInit {
         this.refresh();
       });
     this.navStart$ = this.router.events.pipe(
-      filter(evt => evt instanceof NavigationStart)
+      filter((evt) => evt instanceof NavigationStart),
     );
     this.navStart$.pipe(
       mergeMap(() => this.layoutService.isHandset$),
-      filter(r => r)
+      filter((r) => r),
     )
       .subscribe(() => {
         this.layoutService.closeSidebar();
       });
   }
 
-  refresh(): void {
+  public refresh(): void {
     this.loggedIn = this.auth.loggedIn();
     this.team = this.app.team;
     this.championship = this.app.championship;
   }
 
-  install(): boolean {
+  public install(): boolean {
     if (this.deferredPrompt) {
       // Show the prompt
       void this.deferredPrompt.prompt();

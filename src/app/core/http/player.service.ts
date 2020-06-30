@@ -6,8 +6,8 @@ import { Player } from '@shared/models';
 
 const url = 'players';
 const routes = {
+  player: (id: number) => `/${url}/${id}`,
   players: `/${url}`,
-  player: (id: number) => `/${url}/${id}`
 };
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +15,11 @@ export class PlayerService {
 
   constructor(private readonly http: HttpClient) { }
 
-  getPlayers(): Observable<Array<Player>> {
+  public getPlayers(): Observable<Array<Player>> {
     return this.http.get<Array<Player>>(routes.players);
   }
 
-  getPlayer(id: number, championshipId?: number): Observable<Player> {
+  public getPlayer(id: number, championshipId?: number): Observable<Player> {
     let params = new HttpParams();
     if (championshipId) {
       params = params.set('championshipId', `${championshipId}`);

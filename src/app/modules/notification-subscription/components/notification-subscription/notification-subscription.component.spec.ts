@@ -8,7 +8,7 @@ describe('EmailNotificationSubscriptionComponent', () => {
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [NotificationSubscriptionComponent]
+      declarations: [NotificationSubscriptionComponent],
     })
       .compileComponents();
   }));

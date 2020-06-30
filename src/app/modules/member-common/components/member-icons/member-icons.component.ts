@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 import { Member } from '@shared/models';
 
 @Component({
-  selector: 'fm-member-icons',
+  selector: 'app-member-icons',
+  styleUrls: ['./member-icons.component.scss'],
   templateUrl: './member-icons.component.html',
-  styleUrls: ['./member-icons.component.scss']
 })
 export class MemberIconsComponent {
-  @Input() member: Member;
-  @Input() circle = false;
-  @Input() captain = false;
+  @Input() public member: Member;
+  @Input() public circle = false;
+  @Input() public captain = false;
 }

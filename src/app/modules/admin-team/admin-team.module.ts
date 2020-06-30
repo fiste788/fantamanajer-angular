@@ -9,16 +9,16 @@ import { SharedModule } from '@shared/shared.module';
 import { AdminTeamRoutingModule } from './admin-team-routing.module';
 
 @NgModule({
+  declarations: [
+    AdminTeamRoutingModule.components,
+  ],
   imports: [
     CommonModule,
     SharedModule,
     AdminTeamRoutingModule,
     MemberCommonModule,
     LineupCommonModule,
-    ConfirmationDialogModule
+    ConfirmationDialogModule,
   ],
-  declarations: [
-    AdminTeamRoutingModule.components
-  ]
 })
 export class AdminTeamModule { }
