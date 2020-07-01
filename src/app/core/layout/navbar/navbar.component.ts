@@ -1,5 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { MatListItem } from '@angular/material/list';
+import { Component, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, mergeMap } from 'rxjs/operators';
@@ -14,9 +13,6 @@ import { Championship, Team } from '@shared/models';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
-
-  @ViewChildren(MatListItem, { read: ElementRef }) public links?: QueryList<ElementRef<HTMLLIElement>>;
-
   public deferredPrompt?: BeforeInstallPromptEvent;
   public loggedIn: boolean;
   public team?: Team;

@@ -1,7 +1,9 @@
 import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
+import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
 
@@ -43,10 +45,12 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
-  ) {
-  }
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer,
+  ) { }
 
   public ngOnInit(): void {
+    this.iconRegistry.addSvgIconSet(this.sanitizer.bypassSecurityTrustResourceUrl('../assets/fantamanajer-icons.svg'));
     this.setupEvents();
   }
 

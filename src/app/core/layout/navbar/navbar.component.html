@@ -13,7 +13,7 @@
     routerLinkActive="active"
     routerLink="/home"
   >
-    <mat-icon matListIcon>home</mat-icon>Homepage
+    <mat-icon matListIcon>home</mat-icon>Home
   </a>
   <a
     *ngIf="loggedIn"
@@ -21,7 +21,10 @@
     routerLinkActive="active"
     [routerLink]="['teams', team?.id]"
   >
-    <mat-icon matListIcon>account_box</mat-icon>{{team?.name}}
+    <mat-icon
+      svgIcon="team"
+      matListIcon
+    ></mat-icon>{{team?.name}}
   </a>
   <a
     *ngIf="loggedIn"
@@ -36,7 +39,7 @@
     routerLinkActive="active"
     routerLink="/clubs"
   >
-    <mat-icon matListIcon>security</mat-icon>Clubs
+    <mat-icon matListIcon>sports_soccer</mat-icon>Clubs
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>

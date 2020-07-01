@@ -8,7 +8,7 @@ import { environment } from '@env';
 @Injectable()
 export class ApiPrefixInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const url = environment.apiEndpoint + req.url;
+    const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
     const ct = 'Content-type';
     let headers = req.headers;
     headers = headers.set('Accept', 'application/json');
