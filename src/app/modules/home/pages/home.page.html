@@ -1,10 +1,25 @@
 <ng-container *ngIf="app.seasonStarted; else started">
   <ng-container *ngIf="(bestPlayers$ | async) as bestPlayers; else loading">
-    <div @cardCreationAnimation class="flex-container" fxLayout="row wrap" fxLayout.xs="column"
-      fxLayoutAlign="space-around start" fxLayoutAlign.xs="start">
+    <div
+      @cardCreationAnimation
+      class="flex-container"
+      fxLayout="row wrap"
+      fxLayout.xs="column"
+      fxLayoutAlign="space-around start"
+      fxLayoutAlign.xs="start"
+    >
       <ng-container *ngFor="let role of bestPlayers; trackBy: trackByRole">
-        <mat-card class="flex-item" fxFlex.xs="100" fxFlex.sm="45" fxFlex.md="22" fxFlex.gt-md="22">
-          <app-player-image [inCard]="true" [member]="role.first"></app-player-image>
+        <mat-card
+          class="flex-item"
+          fxFlex.xs="100"
+          fxFlex.sm="45"
+          fxFlex.md="22"
+          fxFlex.gt-md="22"
+        >
+          <app-player-image
+            [inCard]="true"
+            [member]="role.first"
+          ></app-player-image>
           <mat-card-header>
             <mat-card-title>
               <span class="mat-text-primary">
@@ -24,7 +39,10 @@
               <ng-template matExpansionPanelContent>
                 <mat-list dense>
                   <mat-list-item *ngFor="let member of role.others; trackBy: track">
-                    <a matLine [routerLink]="['/players', member.player.id]">
+                    <a
+                      matLine
+                      [routerLink]="['/players', member.player.id]"
+                    >
                       {{member.player.full_name}}: {{member.ratings[0].points}}
                     </a>
                   </mat-list-item>
@@ -39,9 +57,16 @@
 
 </ng-container>
 <ng-template #started>
-  <app-mat-empty-state label="La stagione non è ancora iniziata" description="Buona asta!" icon="wb_sunny"
-    [rounded]="true"></app-mat-empty-state>
+  <app-mat-empty-state
+    label="La stagione non è ancora iniziata"
+    description="Buona asta!"
+    icon="wb_sunny"
+    [rounded]="true"
+  ></app-mat-empty-state>
 </ng-template>
 <ng-template #loading>
-  <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-spinner>
 </ng-template>

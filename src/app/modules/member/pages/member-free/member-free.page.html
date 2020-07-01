@@ -1,24 +1,45 @@
 <div class="table-container">
-  <div class="mat-table-header" fxLayout="row">
+  <div
+    class="mat-table-header"
+    fxLayout="row"
+  >
     <span class="mat-table-title">Seleziona per acquistarlo</span>
     <mat-form-field floatLabel="never">
       <mat-label>Ruolo</mat-label>
-      <mat-select #roleSelect placeholder="Seleziona il ruolo">
-        <mat-option *ngFor="let role of (roles | keyvalue); trackBy: track" [value]="role.value">
+      <mat-select
+        #roleSelect
+        placeholder="Seleziona il ruolo"
+      >
+        <mat-option
+          *ngFor="let role of (roles | keyvalue); trackBy: track"
+          [value]="role.value"
+        >
           {{role.value.singolar}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <ng-container *ngIf="(selectedMember$ | async) as member">
-      <div *ngIf="member !== undefined" class="mat-table-header-selected" fxLayout="row">
+      <div
+        *ngIf="member !== undefined"
+        class="mat-table-header-selected"
+        fxLayout="row"
+      >
         <span class="mat-table-title">Selezionato {{member?.player?.full_name}}</span>
-        <a matTooltip="Acquista" mat-button [routerLink]="'/teams/' + app.team?.id + '/transferts'"
-          [queryParams]="{new_member_id: member?.id}">
+        <a
+          matTooltip="Acquista"
+          mat-button
+          [routerLink]="'/teams/' + app.team?.id + '/transferts'"
+          [queryParams]="{new_member_id: member?.id}"
+        >
           <mat-icon>add_shopping_cart</mat-icon>
         </a>
       </div>
     </ng-container>
   </div>
-  <app-member-list *ngIf="members$" [members]="members$"
-    [isSelectable]="app.championship?.started && !app.seasonEnded || false" [elevation]="0"></app-member-list>
+  <app-member-list
+    *ngIf="members$"
+    [members]="members$"
+    [isSelectable]="app.championship?.started && !app.seasonEnded || false"
+    [elevation]="0"
+  ></app-member-list>
 </div>
