@@ -9,7 +9,7 @@ import {
   PublicKeyCredentialWithAttestationJSON,
 } from '@github/webauthn-json';
 import { Observable, of } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import { PublicKeyCredentialSource, User } from '@shared/models';
 
@@ -45,8 +45,8 @@ export class CredentialService {
   public createPublicKey(): Observable<PublicKeyCredentialSource> {
     return this.create()
       .pipe(
-        flatMap(create),
-        flatMap((data) => this.register(data)),
+        mergeMap(create),
+        mergeMap((data) => this.register(data)),
       );
   }
 
@@ -54,8 +54,8 @@ export class CredentialService {
     const token = publicKey ? of(publicKey) : this.get(email);
 
     return token.pipe(
-      flatMap(get),
-      flatMap((data) => this.login(data)),
+      mergeMap(get),
+      mergeMap((data) => this.login(data)),
     );
   }
 }

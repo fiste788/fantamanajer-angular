@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, flatMap, pluck, tap } from 'rxjs/operators';
+import { filter, mergeMap, pluck, tap } from 'rxjs/operators';
 
 import { TeamService } from '@app/http';
 import { ApplicationService } from '@app/services';
@@ -66,7 +66,7 @@ export class TeamDetailPage implements OnInit {
       .afterClosed()
       .pipe(
         filter((t) => t),
-        flatMap(() => this.teamService.getTeam(team.id)),
+        mergeMap(() => this.teamService.getTeam(team.id)),
       )
       .subscribe((t: Team) => {
         this.app.teamChange$.next(t);

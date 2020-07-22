@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { from, Observable, of } from 'rxjs';
-import { catchError, defaultIfEmpty, filter, flatMap, map, share, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@app/http';
@@ -74,7 +74,7 @@ export class PushService {
     this.isSubscribed()
       .pipe(
         filter((s) => !s),
-        flatMap(() => from(this.requestSubscription())),
+        mergeMap(() => from(this.requestSubscription())),
         filter((s) => s),
       )
       .subscribe(() => {
