@@ -1,7 +1,7 @@
 import { animate, query, sequence, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { IBreadcrumb, McBreadcrumbsService } from 'ngx-breadcrumbs-ui';
+import { IBreadcrumb, McBreadcrumbsService } from 'ngx-breadcrumbs';
 import { Subscription } from 'rxjs';
 
 export const breadcrumbTransition = trigger('breadcrumbTransition', [
