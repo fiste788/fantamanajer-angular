@@ -45,7 +45,7 @@ const routes: Routes = [
         path: 'new',
         component: ChampionshipDetailPage,
         data: {
-          breadcrumbs: 'Nuovo lega',
+          breadcrumbs: 'Nuova lega',
           data: { state: 'admin-championship-detail' },
         },
       },

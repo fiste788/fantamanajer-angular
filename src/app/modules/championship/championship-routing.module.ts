@@ -12,7 +12,7 @@ const routes: Routes = [
     path: ':championship_id',
     component: ChampionshipPage,
     data: {
-      breadcrumbs: '{{ championship.league.name }}',
+      breadcrumbs: '${championship.league.name}',
       state: 'championship',
     },
     resolve: {

@@ -10,7 +10,7 @@ const routes: Routes = [
     path: ':id',
     component: PlayerPage,
     data: {
-      breadcrumbs: '{{ player.full_name }}',
+      breadcrumbs: '${player.full_name}',
       state: 'player-detail',
     },
     resolve: {

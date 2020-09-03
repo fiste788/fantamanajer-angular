@@ -25,7 +25,7 @@ const routes: Routes = [
         path: ':team_id',
         component: TeamDetailPage,
         data: {
-          breadcrumbs: '{{team.name}}',
+          breadcrumbs: '${team.name}',
           state: 'team-detail',
         },
         resolve: {
