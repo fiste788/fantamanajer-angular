@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MemberFreePage } from './member-free.page';
 
@@ -6,7 +6,7 @@ describe('MemberFreePage', () => {
   let component: MemberFreePage;
   let fixture: ComponentFixture<MemberFreePage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [MemberFreePage],
     })

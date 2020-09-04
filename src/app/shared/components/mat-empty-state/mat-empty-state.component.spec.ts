@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MatEmptyStateComponent } from './mat-empty-state.component';
 
@@ -6,7 +6,7 @@ describe('MatEmptyStateComponent', () => {
   let component: MatEmptyStateComponent;
   let fixture: ComponentFixture<MatEmptyStateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [MatEmptyStateComponent],
     })

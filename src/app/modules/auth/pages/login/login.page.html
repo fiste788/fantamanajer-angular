@@ -28,8 +28,9 @@
                 required
                 name="email"
                 type="email"
-                matInput
                 placeholder="Email"
+                autocomplete="username"
+                matInput
                 [(ngModel)]="loginData.email"
               >
               <mat-error *ngIf="username.errors?.email">
@@ -59,8 +60,9 @@
                 #password="ngModel"
                 name="password"
                 type="password"
-                matInput
                 placeholder="Password"
+                autocomplete="current-password"
+                matInput
                 required
                 [(ngModel)]="loginData.password"
               >

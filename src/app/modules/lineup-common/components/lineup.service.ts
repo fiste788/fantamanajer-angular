@@ -103,8 +103,8 @@ export class LineupService {
       .filter((element) => element.position > 11)
       .filter((element) => element.member?.id === member.id)
       .forEach((element) => {
-        delete element.member;
-        delete element.member_id;
+        element.member = null;
+        element.member_id = null;
       });
   }
 

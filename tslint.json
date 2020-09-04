@@ -3,6 +3,10 @@
     "angular-tslint-rules",
     "tslint:recommended"
   ],
+  "rulesDirectory": [
+    "codelyzer",
+    "node_modules/tslint-origin-ordered-imports-rule/dist"
+  ],
   "rules": {
     "align": {
       "options": [
@@ -189,9 +193,5 @@
         "user"
       ]
     ]
-  },
-  "rulesDirectory": [
-    "codelyzer",
-    "node_modules/tslint-origin-ordered-imports-rule/dist"
-  ]
+  }
 }

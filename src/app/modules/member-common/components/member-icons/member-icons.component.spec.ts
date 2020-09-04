@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MemberIconsComponent } from './member-icons.component';
 
@@ -6,7 +6,7 @@ describe('MemberOptionComponent', () => {
   let component: MemberIconsComponent;
   let fixture: ComponentFixture<MemberIconsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [MemberIconsComponent],
     })

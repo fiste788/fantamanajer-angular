@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ClubStreamPage } from './club-stream.page';
 
@@ -6,7 +6,7 @@ describe('ClubStreamPage', () => {
   let component: ClubStreamPage;
   let fixture: ComponentFixture<ClubStreamPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [ClubStreamPage],
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StreamComponent } from './stream.component';
 
@@ -6,7 +6,7 @@ describe('EventListComponent', () => {
   let component: StreamComponent;
   let fixture: ComponentFixture<StreamComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [StreamComponent],
     })

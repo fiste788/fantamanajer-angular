@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AddTransfertShortcutPage } from './add-transfert-shortcut.page';
 
@@ -6,7 +6,7 @@ describe('AddTransfertShortcutPage', () => {
   let component: AddTransfertShortcutPage;
   let fixture: ComponentFixture<AddTransfertShortcutPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [AddTransfertShortcutPage],
     })

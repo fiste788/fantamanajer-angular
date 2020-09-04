@@ -8,7 +8,7 @@ import { Matchday } from '@shared/models';
 
 const url = 'matchdays';
 const routes = {
-  current: `/${url}/current?force`,
+  current: `/${url}/current`,
 };
 
 @Injectable({ providedIn: 'root' })

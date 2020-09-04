@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LineupLastPage } from './lineup-last.page';
 
@@ -6,7 +6,7 @@ describe('LineupLastPage', () => {
   let component: LineupLastPage;
   let fixture: ComponentFixture<LineupLastPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [LineupLastPage],
     })

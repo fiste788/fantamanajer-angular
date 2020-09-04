@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { Score, Team } from '@shared/models';
 
 const url = 'scores';
@@ -24,15 +25,17 @@ export interface IRankingPosition {
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
 
-  public static cleanScore(score: Score): Score {
-    const newScore: Score = JSON.parse(JSON.stringify(score));
-    newScore.lineup.dispositions = newScore.lineup.dispositions.filter(
-      (value) => value.member_id !== null,
-    );
-    newScore.lineup.dispositions.map((disp) => delete disp.member);
-    delete newScore.lineup.team;
+  public static cleanScore(score: Score): RecursivePartial<Score> {
+    const newScore: RecursivePartial<Score> = JSON.parse(JSON.stringify(score));
+    const disp = score.lineup.dispositions.filter((value) => value.member_id !== null);
+    disp.forEach((d) => { d.member = null });
+    if (newScore.lineup) {
+      newScore.lineup.dispositions = disp;
+      delete newScore.lineup.modules;
+      delete newScore.team;
+    }
+
     delete newScore.team;
-    delete newScore.lineup.modules;
 
     return newScore;
   }

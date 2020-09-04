@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AddLineupShortcutPage } from './add-lineup-shortcut.page';
 
@@ -6,7 +6,7 @@ describe('AddLineupShortcutPage', () => {
   let component: AddLineupShortcutPage;
   let fixture: ComponentFixture<AddLineupShortcutPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       declarations: [AddLineupShortcutPage],
     })

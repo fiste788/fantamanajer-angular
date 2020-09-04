@@ -142,10 +142,7 @@ export class SelectionComponent implements OnInit {
   }
 
   public reset(): void {
-    delete this.selection.new_member;
-    delete this.selection.new_member_id;
-    this.newMember.value = undefined;
-    this.newMembers$ = undefined;
+    this.selection = new Selection();
     this.role$.next();
     this.newPlayerRole$.next(undefined);
   }
