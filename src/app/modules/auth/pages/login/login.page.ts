@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { CredentialService } from '@app/http';
+import { WebauthnService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 
@@ -22,12 +24,13 @@ export class LoginPage {
   } = { remember_me: true };
   public error = '';
   public token$: Observable<CredentialRequestOptionsJSON>;
+  @ViewChild('stepper') private readonly stepper: MatHorizontalStepper;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly authService: AuthenticationService,
-    private readonly credentialService: CredentialService,
+    private readonly webauthnService: WebauthnService,
     private readonly app: ApplicationService,
   ) {
   }
@@ -52,7 +55,12 @@ export class LoginPage {
 
   public checkToken(): void {
     if (this.loginData.email) {
-      this.token$ = this.credentialService.get(this.loginData.email);
+      this.token$ = this.webauthnService.get(this.loginData.email)
+        .pipe(share());
+      this.token$.subscribe((t) => {
+        this.tokenLogin(t);
+        this.stepper.next();
+      });
     }
   }
 

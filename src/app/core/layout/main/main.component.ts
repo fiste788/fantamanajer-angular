@@ -50,7 +50,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   ) { }
 
   public ngOnInit(): void {
-    this.iconRegistry.addSvgIconSet(this.sanitizer.bypassSecurityTrustResourceUrl('../assets/fantamanajer-icons.svg'));
+    this.iconRegistry.addSvgIconSet(this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'));
     this.setupEvents();
   }
 

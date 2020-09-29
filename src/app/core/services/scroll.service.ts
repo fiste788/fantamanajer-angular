@@ -29,7 +29,6 @@ export class ScrollService {
         filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
         map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
         distinctUntilChanged(),
-        auditTime(300),
         share(),
       );
   }
@@ -37,6 +36,7 @@ export class ScrollService {
   get goingUp$(): Observable<Direction> {
     return this.scrollObservable$.pipe(
       filter((direction) => direction === Direction.Up),
+      auditTime(300),
     );
   }
 

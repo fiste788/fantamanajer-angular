@@ -4,7 +4,7 @@ import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { CredentialService, UserService } from '@app/http';
+import { UserService, WebauthnService } from '@app/http';
 import { User } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,7 @@ export class AuthenticationService {
 
   constructor(
     private readonly userService: UserService,
-    private readonly credentialService: CredentialService,
+    private readonly webauthnService: WebauthnService,
   ) {
     this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
     if (this.token && !this.loggedIn()) {
@@ -35,7 +35,7 @@ export class AuthenticationService {
   }
 
   public webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
-    return this.credentialService.getPublicKey(email, token)
+    return this.webauthnService.getPublicKey(email, token)
       .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
   }
 

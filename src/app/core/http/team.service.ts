@@ -35,7 +35,7 @@ export class TeamService {
 
     return this.http.post(routes.team(id), formData, {
       headers: {
-        'Content-type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data',
       },
     });
   }

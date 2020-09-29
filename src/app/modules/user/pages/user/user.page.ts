@@ -15,6 +15,7 @@ export class UserPage {
 
   public tabs: Array<ITab> = [
     { label: 'Profilo', link: 'profile' },
+    { label: 'Dispositivi', link: 'devices' },
     { label: 'Attività', link: 'stream' },
   ];
 

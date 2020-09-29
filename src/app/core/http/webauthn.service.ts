@@ -20,7 +20,7 @@ const routes = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class CredentialService {
+export class WebauthnService {
 
   constructor(private readonly http: HttpClient) { }
 

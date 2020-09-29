@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
-import { CredentialService, UserService } from '@app/http';
+import { UserService, WebauthnService } from '@app/http';
 import { ApplicationService, PushService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { User } from '@shared/models';
@@ -27,7 +27,7 @@ export class SettingsPage implements OnInit {
     private readonly app: ApplicationService,
     private readonly userService: UserService,
     private readonly pushService: PushService,
-    private readonly credentialService: CredentialService,
+    private readonly webauthnService: WebauthnService,
   ) { }
 
   public ngOnInit(): void {
@@ -62,7 +62,7 @@ export class SettingsPage implements OnInit {
   }
 
   public registerDevice(): void {
-    this.credentialService.createPublicKey()
+    this.webauthnService.createPublicKey()
       .subscribe();
   }
 }

@@ -28,7 +28,7 @@ export class ScoreService {
   public static cleanScore(score: Score): RecursivePartial<Score> {
     const newScore: RecursivePartial<Score> = JSON.parse(JSON.stringify(score));
     const disp = score.lineup.dispositions.filter((value) => value.member_id !== null);
-    disp.forEach((d) => { d.member = null });
+    disp.forEach((d) => { d.member = null; });
     if (newScore.lineup) {
       newScore.lineup.dispositions = disp;
       delete newScore.lineup.modules;
