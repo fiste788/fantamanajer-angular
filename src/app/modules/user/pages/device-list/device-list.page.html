@@ -34,7 +34,7 @@
           *matCellDef="let row;"
           mat-cell
         >
-          {{row.created_at}}
+          {{row.created_at | date: 'dd/MM/y HH:mm'}}
         </td>
       </ng-container>
 
@@ -51,6 +51,23 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="actions">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        > </th>
+        <td
+          *matCellDef="let row;"
+          mat-cell
+        >
+          <button
+            color="accent"
+            mat-raised-button
+            (click)="unregister(row)"
+          >Elimina</button>
+        </td>
+      </ng-container>
+
       <tr
         *matHeaderRowDef="displayedColumns; sticky: true"
         mat-header-row
@@ -61,6 +78,15 @@
       ></tr>
     </table>
   </div>
+  <p>Web Authentication is a new standard enabling the creation and use of strong, attested, scoped, public key-based
+    credentials by web applications, for the purpose of strongly authenticating users using hardware authenticators.</p>
+  <button
+    color="accent"
+    mat-raised-button
+    (click)="register()"
+  >
+    Registra device
+  </button>
 </div>
 <ng-template #empty>
   <app-mat-empty-state

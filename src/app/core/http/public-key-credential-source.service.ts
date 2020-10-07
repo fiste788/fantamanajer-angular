@@ -6,6 +6,7 @@ import { PublicKeyCredentialSource } from '@shared/models';
 
 const url = 'public-key-credential-sources';
 const routes = {
+  delete: (userId: number, id: string) => `/users/${userId}/${url}/${id}`,
   index: (id: number) => `/users/${id}/${url}`,
 };
 
@@ -16,5 +17,9 @@ export class PublicKeyCredentialSourceService {
 
   public index(userId: number): Observable<PublicKeyCredentialSource[]> {
     return this.http.get<PublicKeyCredentialSource[]>(routes.index(userId));
+  }
+
+  public delete(userId: number, id: string): Observable<{}> {
+    return this.http.delete(routes.delete(userId, id));
   }
 }
