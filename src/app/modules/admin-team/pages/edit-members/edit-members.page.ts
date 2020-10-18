@@ -52,6 +52,10 @@ export class EditMembersPage implements OnInit {
       .pipe(
         map(([teamMembers, allMembers]) => {
           this.team.members = teamMembers.slice(0, this.roleService.totalMembers());
+          if (this.team.members.length < this.roleService.totalMembers()) {
+            const missing = new Array<Member>(this.roleService.totalMembers() - this.team.members.length).fill(new Member());
+            this.team.members = [...this.team.members, ...missing];
+          }
           this.members = this.team.members.map((member) => ({ member }));
           this.membersByRole = Array.from(this.roles.values())
             .reduce((m, c) => {

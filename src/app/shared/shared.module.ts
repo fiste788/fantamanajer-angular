@@ -4,7 +4,7 @@ import { BREAKPOINTS, DEFAULT_BREAKPOINTS, FlexLayoutModule } from '@angular/fle
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs/build/ngx-breadcrumbs';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
 import { CaptainPipe, PlaceholderPipe, RangePipe, SrcsetPipe, StatePipe } from '@shared/pipes';

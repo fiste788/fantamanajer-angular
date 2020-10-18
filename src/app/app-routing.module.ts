@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs/build/ngx-breadcrumbs';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 
 import { AuthGuard } from '@app/guards';
 
