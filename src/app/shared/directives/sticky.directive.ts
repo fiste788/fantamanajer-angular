@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, Inject, Input, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Inject, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appSticky]',

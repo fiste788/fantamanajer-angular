@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
@@ -9,7 +9,7 @@ import { Championship } from '@shared/models';
 export class ChampionshipResolver implements Resolve<Championship | undefined> {
   constructor(private readonly app: ApplicationService) { }
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Championship> | Championship | undefined {
+  public resolve(): Observable<Championship> | Championship | undefined {
     return this.app.championship;
   }
 }

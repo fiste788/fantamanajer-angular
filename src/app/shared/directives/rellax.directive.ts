@@ -10,13 +10,13 @@ class Options {
   public wrapperSelector: string;
   public wrapper?: HTMLElement;
   public relativeToWrapper: boolean;
-  public round ?= true;
-  public vertical ?= true;
-  public horizontal ?= false;
+  public round?= true;
+  public vertical?= true;
+  public horizontal?= false;
   public percentage: number;
   public min?: number;
   public max?: number;
-  public zindex ?= 1;
+  public zindex?= 1;
   public callback?: (position: { x: number, y: number }) => void;
 }
 
@@ -51,7 +51,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private pause = true;
   private subscription: Subscription;
   private loopId = 0;
-  private supportsPassive = false;
+  // private supportsPassive = false;
   private screenX = 0;
   private screenY = 0;
 
@@ -93,7 +93,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     try {
       const opts = Object.defineProperty({}, 'passive', {
         get: (): void => {
-          this.supportsPassive = true;
+          // this.supportsPassive = true;
         },
       });
       // tslint:disable-next-line: no-any

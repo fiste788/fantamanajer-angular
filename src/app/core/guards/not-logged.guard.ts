@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -12,9 +12,7 @@ export class NotLoggedGuard implements CanActivate {
     private readonly router: Router,
   ) { }
 
-  public canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.auth.loggedIn()) {
       return true;
     }

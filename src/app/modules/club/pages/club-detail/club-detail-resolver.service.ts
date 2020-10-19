@@ -9,7 +9,7 @@ import { Club } from '@shared/models';
 export class ClubDetailResolver implements Resolve<Club | undefined> {
   constructor(private readonly cs: ClubService) { }
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club> | undefined {
+  public resolve(route: ActivatedRouteSnapshot, _: RouterStateSnapshot): Observable<Club> | undefined {
     const clubId = route.paramMap.get('id');
     if (clubId !== null) {
       const id = +clubId;

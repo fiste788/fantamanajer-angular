@@ -24,7 +24,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     this.moduleChange();
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(_: SimpleChanges): void {
     this.moduleChange();
   }
 

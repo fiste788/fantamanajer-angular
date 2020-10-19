@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { NotificationService } from '@app/http';
 import { ApplicationService } from '@app/services';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
-import { Stream, StreamActivity } from '@shared/models';
+import { Stream } from '@shared/models';
 
 @Component({
   animations: [
@@ -44,7 +44,7 @@ export class NotificationListModal implements OnInit {
     this.animationState = 'leave';
   }
 
-  public track(_: number, item: StreamActivity): number {
+  public track(_: number): number {
     return _; // or item.id
   }
 }

@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import { IRankingPosition, ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations/table-row.animation';
-import { Championship, Matchday, Score, Team } from '@shared/models';
+import { Championship } from '@shared/models';
 
 @Component({
   animations: [tableRowAnimation],

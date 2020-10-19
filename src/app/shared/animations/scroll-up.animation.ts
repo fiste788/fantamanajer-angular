@@ -1,4 +1,4 @@
-import { animate, group, sequence, state, style, transition, trigger } from '@angular/animations';
+import { animate, sequence, state, style, transition, trigger } from '@angular/animations';
 
 import { VisibilityState } from '@app/layout/main/visibility-state';
 

@@ -1,4 +1,4 @@
-import { animate, animateChild, group, query, sequence, style, transition, trigger } from '@angular/animations';
+import { animate, animateChild, group, sequence, style, transition, trigger } from '@angular/animations';
 
 export const tabTransition = trigger('tabTransition', [
   transition('* <=> *', [
