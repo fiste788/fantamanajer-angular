@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
-import { Lineup, Member } from '@shared/models';
+import { Disposition, Lineup, Member } from '@shared/models';
 
 const url = 'lineups';
 const routes = {
@@ -15,15 +15,17 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
-  private static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
-    const newLineup: RecursivePartial<Lineup> = JSON.parse(JSON.stringify(lineup));
-    const disp = lineup.dispositions.filter((value) => value.member_id !== null);
+  public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
+    const clonedLineup: Lineup = JSON.parse(JSON.stringify(lineup));
+    const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
+    const disp = dispositions.filter((value) => value?.member_id !== null);
     disp.forEach((d) => d.member = null);
-    newLineup.dispositions = disp;
-    delete newLineup.team;
-    delete newLineup.modules;
+    const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
+    cleanedLineup.dispositions = disp;
+    delete cleanedLineup.team;
+    delete cleanedLineup.modules;
 
-    return newLineup;
+    return cleanedLineup;
   }
 
   constructor(private readonly http: HttpClient) { }
