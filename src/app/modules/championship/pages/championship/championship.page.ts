@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService } from '@app/services';
 import { routerTransition } from '@shared/animations';
-import { ITab } from '@shared/models';
+import { Tab } from '@shared/models';
 
 @Component({
   animations: [
@@ -12,7 +12,7 @@ import { ITab } from '@shared/models';
   templateUrl: './championship.page.html',
 })
 export class ChampionshipPage implements OnInit {
-  public tabs: Array<ITab>;
+  public tabs: Array<Tab>;
 
   constructor(private readonly app: ApplicationService) {
   }
@@ -34,7 +34,7 @@ export class ChampionshipPage implements OnInit {
     }
   }
 
-  public track(_: number, item: ITab): string {
+  public track(_: number, item: Tab): string {
     return item.link;
   }
 

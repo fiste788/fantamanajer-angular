@@ -56,7 +56,7 @@ export class MemberFreePage implements OnInit, AfterViewInit {
           if (this.memberList) {
             this.selectedMember$ = this.memberList.selection.changed.asObservable()
               .pipe(
-                map((m) => m.source.selected[0]),
+                map(m => m.source.selected[0]),
               );
           }
         }));

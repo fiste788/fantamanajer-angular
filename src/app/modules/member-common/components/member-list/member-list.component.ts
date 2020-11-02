@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tableRowAnimation } from '@shared/animations';
 import { Member } from '@shared/models';
 
-const stats = ['avg_points', 'avg_rating', 'sum_goals', 'sum_goals_against'] as const;
+const stats = ['sum_present', 'avg_points', 'avg_rating', 'sum_goals', 'sum_goals_against', 'sum_yellow_card', 'sum_red_card'] as const;
 type Stats = typeof stats[number];
 
 @Component({
@@ -28,7 +28,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) public sort: MatSort;
 
-  public dataSource: MatTableDataSource<Member>;
+  public dataSource?: MatTableDataSource<Member>;
   public displayedColumns = [
     'player',
     'role',
@@ -79,7 +79,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     this.displayedColumns.filter((c): c is Stats => c.startsWith('sum') || c.startsWith('avg'))
       .forEach((column) => {
         this.footer[column] = 0;
-        const rows = data.filter((row) => row.stats && row.stats[column] > 0);
+        const rows = data.filter(row => row.stats && row.stats[column] > 0);
         data.forEach((row) => {
           if (row.stats) {
             this.footer[column] += row.stats[column];
@@ -93,24 +93,21 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   public sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
-    if (sortHeaderId === 'player' || stats.find((s) => s === sortHeaderId)) {
-      return this.sorting(data, sortHeaderId as Stats | 'player');
+    if (sortHeaderId === 'player' || stats.find(s => s === sortHeaderId)) {
+      let value;
+      const id = sortHeaderId as (Stats | 'player');
+      switch (id) {
+        case 'player': value = data.player.full_name; break;
+        default: value = data.stats ? data.stats[id] : 0; break;
+      }
+      if (typeof value === 'string' && !value.trim()) {
+        return value;
+      }
+
+      return isNaN(+value) ? value : +value;
     }
 
     return 0;
-  }
-
-  public sorting(data: Member, sortHeaderId: 'player' | Stats): string | number {
-    let value;
-    switch (sortHeaderId) {
-      case 'player': value = data.player.full_name; break;
-      default: value = data.stats ? data.stats[sortHeaderId] : 0; break;
-    }
-    if (typeof value === 'string' && !value.trim()) {
-      return value;
-    }
-
-    return isNaN(+value) ? value : +value;
   }
 
   public ngOnDestroy(): void {

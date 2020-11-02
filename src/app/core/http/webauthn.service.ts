@@ -42,11 +42,11 @@ export class WebauthnService {
     return this.http.get<CredentialCreationOptionsJSON>(routes.register);
   }
 
-  public createPublicKey(): Observable<PublicKeyCredentialSource> {
+  public createPublicKey(): Observable<PublicKeyCredentialSource | undefined> {
     return this.create()
       .pipe(
         mergeMap(create),
-        mergeMap((data) => this.register(data)),
+        mergeMap(data => this.register(data)),
       );
   }
 
@@ -55,7 +55,7 @@ export class WebauthnService {
 
     return token.pipe(
       mergeMap(get),
-      mergeMap((data) => this.login(data)),
+      mergeMap(data => this.login(data)),
     );
   }
 }

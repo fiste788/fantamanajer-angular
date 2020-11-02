@@ -19,7 +19,7 @@ export class NewTransfertPage implements OnInit {
   @ViewChild(MatSelect) public newMember: MatSelect;
   @ViewChild(NgForm) public transfertForm: NgForm;
 
-  public transfert: Transfert = new Transfert();
+  public transfert: Partial<Transfert> = new Transfert();
   public team: Team;
   public newMembers: Array<Member>;
 
@@ -60,20 +60,20 @@ export class NewTransfertPage implements OnInit {
     }
   }
 
-  public compareFn(c1: Member, c2: Member): boolean {
+  public compareFn(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
   public submit(): void {
     if (this.transfertForm.valid === true) {
-      if (this.transfert.new_member.teams.length) {
+      if (this.transfert.new_member?.teams.length) {
         const dialogRef = this.dialog.open(ConfirmationDialogModal, {
           data: {
             text: `Il giocatore appartiene alla squadra ${this.transfert.new_member.teams[0].name}. Vuoi effettuare lo scambio?`,
           },
         });
         dialogRef.afterClosed()
-          .pipe(filter((r) => r))
+          .pipe(filter(r => r))
           .subscribe(() => {
             this.save();
           });
@@ -84,9 +84,9 @@ export class NewTransfertPage implements OnInit {
   }
 
   public save(): void {
-    this.transfert.new_member_id = this.transfert.new_member.id;
+    this.transfert.new_member_id = this.transfert.new_member?.id;
     // this.transfert.new_member = undefined;
-    this.transfert.old_member_id = this.transfert.old_member.id;
+    this.transfert.old_member_id = this.transfert.old_member?.id;
     // this.transfert.old_member = undefined;
     this.transfertService.create(this.transfert)
       .subscribe(() => {

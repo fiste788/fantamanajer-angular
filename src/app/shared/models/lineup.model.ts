@@ -3,7 +3,7 @@ import { Matchday } from './matchday.model';
 import { Member } from './member.model';
 import { Team } from './team.model';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Lineup {
   public id: number;
   public module: string;
@@ -19,7 +19,7 @@ export class Lineup {
   public vvcaptain: Member | null;
   public matchday: Matchday;
   public team: Team;
-  public dispositions: Array<Disposition> = [];
+  public dispositions: Array<Disposition | undefined> = [];
   public modified_at: Date | null;
   public created_at: Date;
 }

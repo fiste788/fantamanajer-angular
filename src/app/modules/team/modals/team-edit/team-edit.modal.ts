@@ -22,7 +22,7 @@ export class TeamEditModal {
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
     formData: FormData,
   ): void {
-    team[fieldName].forEach((element: NotificationSubscription, i: number) => {
+    team[fieldName].forEach((element: NotificationSubscription, i) => {
       if (element.enabled) {
         Object.keys(element)
           .filter((f): f is keyof NotificationSubscription => f !== 'id' as const)
@@ -52,6 +52,7 @@ export class TeamEditModal {
 
   public save(): void {
     const fd = new FormData();
+    // tslint:disable-next-line: strict-type-predicates
     if (this.file !== undefined) {
       fd.set('photo', this.file);
     }

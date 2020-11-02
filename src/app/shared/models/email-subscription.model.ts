@@ -1,4 +1,4 @@
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class EmailSubscription {
   public id: number;
   public score: boolean;

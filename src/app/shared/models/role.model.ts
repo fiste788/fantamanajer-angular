@@ -1,6 +1,6 @@
 import { Member } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Role {
   public id: number;
   public singolar: string;

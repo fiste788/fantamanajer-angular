@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { Score, Team } from '@shared/models';
+
 import { LineupService } from './lineup.service';
 
 const url = 'scores';
@@ -14,7 +15,7 @@ const routes = {
   update: (id: number) => `/${url}/${id}`,
 };
 
-export interface IRankingPosition {
+export interface RankingPosition {
   scores?: {
     [key: number]: Partial<Score>,
   };
@@ -29,7 +30,7 @@ export class ScoreService {
   public static cleanScore(score: Score): RecursivePartial<Score> {
     const clonedScore: Score = JSON.parse(JSON.stringify(score));
     const cleanedScore: RecursivePartial<Score> = clonedScore;
-    if (cleanedScore.lineup) {
+    if (clonedScore.lineup) {
       cleanedScore.lineup = LineupService.cleanLineup(clonedScore.lineup);
       delete cleanedScore.lineup.modules;
     }
@@ -41,8 +42,8 @@ export class ScoreService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public getRanking(championshipId: number): Observable<Array<IRankingPosition>> {
-    return this.http.get<Array<IRankingPosition>>(routes.ranking(championshipId));
+  public getRanking(championshipId: number): Observable<Array<RankingPosition>> {
+    return this.http.get<Array<RankingPosition>>(routes.ranking(championshipId));
   }
 
   public getScore(id: number, members = false): Observable<Score> {

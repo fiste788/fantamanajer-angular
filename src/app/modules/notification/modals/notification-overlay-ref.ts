@@ -15,7 +15,7 @@ export class NotificationOverlayRef {
   public close(): void {
     // Listen for animation 'start' events
     this.componentInstance?.animationStateChanged.pipe(
-      filter((event) => event.phaseName === 'start'),
+      filter(event => event.phaseName === 'start'),
       take(1),
     )
       .subscribe(() => {
@@ -26,7 +26,7 @@ export class NotificationOverlayRef {
 
     // Listen for animation 'done' events
     this.componentInstance?.animationStateChanged.pipe(
-      filter((event) => event.phaseName === 'done' && event.toState === 'leave'),
+      filter(event => event.phaseName === 'done' && event.toState === 'leave'),
       take(1),
     )
       .subscribe(() => {

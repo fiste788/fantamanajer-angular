@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "angular-tslint-rules",
-    "tslint:recommended"
-  ],
+  "extends": "angular-strict-tslint-rules",
   "rulesDirectory": [
     "codelyzer",
     "node_modules/tslint-origin-ordered-imports-rule/dist"
@@ -129,13 +126,6 @@
         }
       ]
     },
-    "variable-name": {
-      "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
-      ]
-    },
     "whitespace": {
       "options": [
         "check-branch",
@@ -145,6 +135,9 @@
         "check-type",
         "check-typecast"
       ]
+    },
+    "naming-convention": {
+      "leadingUnderscore": "forbid"
     },
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,

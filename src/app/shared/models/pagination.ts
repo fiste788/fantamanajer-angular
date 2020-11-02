@@ -1,4 +1,4 @@
-export interface IPagination {
+export interface Pagination {
   count: number;
   current_page: number;
   has_next_page: boolean;

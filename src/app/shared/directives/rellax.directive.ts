@@ -10,17 +10,17 @@ class Options {
   public wrapperSelector: string;
   public wrapper?: HTMLElement;
   public relativeToWrapper: boolean;
-  public round?= true;
-  public vertical?= true;
-  public horizontal?= false;
+  public round ?= true;
+  public vertical ?= true;
+  public horizontal ?= false;
   public percentage: number;
   public min?: number;
   public max?: number;
-  public zindex?= 1;
+  public zindex ?= 1;
   public callback?: (position: { x: number, y: number }) => void;
 }
 
-interface IBlock {
+interface Block {
   baseX: number;
   baseY: number;
   top: number;
@@ -45,7 +45,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @Input() public wrapper = '.mat-drawer-content';
 
   private readonly options: Options = new Options();
-  private block: IBlock;
+  private block: Block;
   private posY = 0;
   private posX = 0;
   private pause = true;
@@ -106,17 +106,17 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.el?.nativeElement !== undefined) {
-      const target = this.el.nativeElement.querySelector('img');
-      if (target !== null) {
-        this.subscription = fromEvent(target, 'load')
-          .subscribe(() => {
-            this.ngZone.runOutsideAngular(() => {
-              this.init();
-            });
+    // if (this.el.nativeElement !== undefined) {
+    const target = this.el.nativeElement.querySelector('img');
+    if (target !== null) {
+      this.subscription = fromEvent(target, 'load')
+        .subscribe(() => {
+          this.ngZone.runOutsideAngular(() => {
+            this.init();
           });
-      }
+        });
     }
+    // }
   }
 
   public clamp(num: number, min: number, max: number): number {
@@ -124,6 +124,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public init(): void {
+    // tslint:disable-next-line: strict-type-predicates
     if (this.block !== undefined) {
       this.el.nativeElement.style.cssText = this.block.style;
     }
@@ -145,7 +146,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public createBlock(el: HTMLElement): IBlock {
+  public createBlock(el: HTMLElement): Block {
     const dataPercentage = this.options.percentage;
 
     const pos = this.getPos(dataPercentage);
@@ -261,12 +262,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     const valueX = (speed * ((1 - percentageX) * 100));
     const valueY = (speed * ((1 - percentageY) * 100));
 
-    const result = {
+    return {
       x: this.options.round ? Math.round(valueX) : Math.round(valueX * 100) / 100,
       y: this.options.round ? Math.round(valueY) : Math.round(valueY * 100) / 100,
     };
-
-    return result;
   }
 
   // Remove event listeners and loop again
@@ -310,7 +309,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       this.updatePosition(percentageX, percentageY, this.block.speed); // - this.block.base;
     let positionY = positions.y - this.block.baseY;
     let positionX = positions.x - this.block.baseX;
-
     // The next two "if" blocks go like this:
     // Check if a limit is defined (first "min", then "max");
     // Check if we need to change the Y or the X

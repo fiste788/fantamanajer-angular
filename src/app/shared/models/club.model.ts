@@ -1,6 +1,6 @@
 import { Member } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Club {
   public id: number;
   public name: string;

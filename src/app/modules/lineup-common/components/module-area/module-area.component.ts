@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
-import { IArea, Member, Module, Role } from '@shared/models';
+import { Area, Member, Module, Role } from '@shared/models';
 
 @Component({
   selector: 'app-module-area',
@@ -29,12 +29,12 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   }
 
   public moduleChange(): void {
-    this.module.areas.forEach((area) => (
-      area.options = (this.membersByRole.get(area.role) ?? []).map((member) => ({ member, disabled: this.isRegular(member) }))
+    this.module.areas.forEach(area => (
+      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }))
     ));
   }
 
-  public trackByArea(_: number, item: IArea): number {
+  public trackByArea(_: number, item: Area): number {
     return item.role.id; // or item.id
   }
 
@@ -49,14 +49,14 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   private isRegular(member: Member): boolean {
     return this.dispositions
-      .filter((element) => element.position && element.position <= 11 && element.member !== null)
-      .map((element) => element.member?.id)
+      .filter(element => element.position && element.position <= 11 && element.member !== null)
+      .map(element => element.member?.id)
       .includes(member.id);
   }
 
   private reloadRegularState(roleId?: number): void {
-    this.module.areas.filter((a) => roleId === undefined || a.role.id === roleId)
-      .forEach((v) => v.options.map((o) => o.disabled = this.isRegular(o.member)));
+    this.module.areas.filter(a => roleId === undefined || a.role.id === roleId)
+      .forEach(v => v.options.map(o => o.disabled = this.isRegular(o.member)));
   }
 
 }

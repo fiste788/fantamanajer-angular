@@ -1,6 +1,6 @@
 import { Team } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class User {
   public id: number;
   public name: string;

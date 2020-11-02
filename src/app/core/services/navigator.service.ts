@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 
 declare global {
-  // tslint:disable-next-line: interface-name
   export interface Navigator {
     setAppBadge?(count?: number): void;
     clearAppBadge?(): void;

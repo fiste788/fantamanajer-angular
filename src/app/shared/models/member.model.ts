@@ -1,6 +1,6 @@
 import { Club, Player, Rating, Role, Season, Team } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Member {
   public id: number;
   public code_gazzetta: number;
@@ -22,6 +22,9 @@ export class Member {
     avg_rating: number,
     sum_goals: number,
     sum_goals_against: number,
+    sum_present: number,
+    sum_yellow_card: number,
+    sum_red_card: number,
   };
   public likely_lineup?: {
     regular: boolean;

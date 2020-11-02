@@ -1,6 +1,6 @@
 import { Lineup, Matchday, Team } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Score {
   public id: number;
   public points: number;
@@ -10,7 +10,7 @@ export class Score {
   public matchday_id: number;
   public team_id: number;
   public lineup_id: number;
-  public lineup: Lineup;
+  public lineup?: Lineup;
   public matchday: Matchday;
   public team: Team;
 }

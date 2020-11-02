@@ -1,11 +1,11 @@
-export interface INotification {
+export interface Notification {
   name: string;
   label: string;
 }
 
 export type Keys = 'email' | 'push';
 
-export const notificationSubscriptions: { [K in Keys]: Array<INotification> } = {
+export const notificationSubscriptions: { [K in Keys]: Array<Notification> } = {
   email: [
     { name: 'score', label: 'Punteggio giornata' },
     { name: 'lost_member', label: 'Giocatore rubato' },

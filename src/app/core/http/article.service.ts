@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Article, IPagedResponse } from '@shared/models';
+import { Article, PagedResponse } from '@shared/models';
 
 const url = 'articles';
 const routes = {
@@ -17,22 +17,22 @@ export class ArticleService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public getArticles(page = 1): Observable<IPagedResponse<Array<Article>>> {
+  public getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<IPagedResponse<Array<Article>>>(location.pathname, { params });
+    return this.http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
   }
 
-  public getArticlesByTeam(teamId: number, page = 1): Observable<IPagedResponse<Array<Article>>> {
+  public getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<IPagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
+    return this.http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
-  public getArticlesByChampionship(championshipId: number, page = 1): Observable<IPagedResponse<Array<Article>>> {
+  public getArticlesByChampionship(championshipId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<IPagedResponse<Array<Article>>>(routes.championshipArticles(championshipId), { params });
+    return this.http.get<PagedResponse<Array<Article>>>(routes.championshipArticles(championshipId), { params });
   }
 
   public getArticle(id: number): Observable<Article> {

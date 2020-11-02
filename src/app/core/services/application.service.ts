@@ -37,18 +37,17 @@ export class ApplicationService {
 
   set team(team: Team | undefined) {
     if (team) {
+      // tslint:disable-next-line: strict-type-predicates
       if (this.selectedTeam && team.championship === undefined) {
         team.championship = this.selectedTeam?.championship;
       }
       this.selectedTeam = team;
       this.championship = team.championship;
-      if (this.matchday !== undefined) {
-        if (this.championship.season_id !== this.matchday.season_id) {
-          this.seasonStarted = false;
-          this.seasonEnded = true;
-        } else {
-          this.matchday = this.matchday;
-        }
+      if (this.championship.season_id !== this.matchday.season_id) {
+        this.seasonStarted = false;
+        this.seasonEnded = true;
+      } else {
+        this.matchday = this.matchday;
       }
     }
   }

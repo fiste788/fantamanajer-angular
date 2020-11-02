@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ArticleService } from '@app/http';
 import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
-import { Article, IPagedResponse, IPagination } from '@shared/models';
+import { Article, PagedResponse, Pagination } from '@shared/models';
 
 @Component({
   animations: [cardCreationAnimation],
@@ -12,7 +12,7 @@ import { Article, IPagedResponse, IPagination } from '@shared/models';
 })
 export class ArticleListPage implements OnInit {
   public articles: Array<Article> = [];
-  public pagination: IPagination;
+  public pagination: Pagination;
   public isLoading = false;
   private page = 1;
 
@@ -31,7 +31,7 @@ export class ArticleListPage implements OnInit {
     this.isLoading = true;
     this.articleService.getArticles(page)
       .subscribe(
-        (data: IPagedResponse<Array<Article>>) => {
+        (data: PagedResponse<Array<Article>>) => {
           this.isLoading = false;
           this.pagination = data.pagination;
           this.articles = this.articles.concat(data.data);
@@ -54,7 +54,7 @@ export class ArticleListPage implements OnInit {
         this.snackBar.open('Article deleted', undefined, {
           duration: 3000,
         });
-        this.articles.filter((article) => article.id !== id);
+        this.articles.filter(article => article.id !== id);
       });
   }
 

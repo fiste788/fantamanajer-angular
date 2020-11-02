@@ -15,11 +15,11 @@ export class MemberAlreadySelectedValidator implements Validator {
   @Input('appMemberAlreadySelected') public lineup: Lineup;
 
   public validate(formGroup: FormGroup): ValidationErrors | null {
-    const disp = formGroup.controls.dispositions as FormGroup;
+    const disp = formGroup.controls.dispositions as FormGroup | undefined;
     if (disp !== undefined) {
       const ids = Object.values(disp.controls)
         .filter((v): v is FormGroup => v instanceof FormGroup)
-        .filter((v) => v.controls)
+        .filter(v => v.controls)
         .map((v: FormGroup) => v.controls.member?.value?.id);
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
 

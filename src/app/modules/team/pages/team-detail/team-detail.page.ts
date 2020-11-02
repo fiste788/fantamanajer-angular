@@ -65,7 +65,7 @@ export class TeamDetailPage implements OnInit {
     })
       .afterClosed()
       .pipe(
-        filter((t) => t),
+        filter(t => t),
         mergeMap(() => this.teamService.getTeam(team.id)),
       )
       .subscribe((t: Team) => {

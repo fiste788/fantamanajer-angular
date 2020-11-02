@@ -13,7 +13,7 @@ import { ScrollService } from './scroll.service';
 export class LayoutService {
 
   public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(map((result) => result.matches));
+    .pipe(map(result => result.matches));
   public openSidebarSubject = new BehaviorSubject<boolean>(false);
   public openedSidebar$ = this.openSidebarSubject.asObservable();
   public isReadySubject = new BehaviorSubject<boolean>(false);
@@ -108,10 +108,10 @@ export class LayoutService {
   }
 
   get isShowSpeedDial(): Observable<VisibilityState> {
-    return this.showSpeedDialSubject.pipe(map((s) => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    return this.showSpeedDialSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 
   get isShowToolbar(): Observable<VisibilityState> {
-    return this.showToolbarSubject.pipe(map((s) => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    return this.showToolbarSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 }

@@ -31,7 +31,7 @@ export class EditMembersPage implements OnInit {
     private readonly snackBar: MatSnackBar,
   ) {
     const key = Array.from(this.roles.values())
-      .map((r) => r.count)
+      .map(r => r.count)
       .join('-');
     this.module = new Module(key, this.roles);
   }
@@ -56,10 +56,10 @@ export class EditMembersPage implements OnInit {
             const missing = new Array<Member>(this.roleService.totalMembers() - this.team.members.length).fill(new Member());
             this.team.members = [...this.team.members, ...missing];
           }
-          this.members = this.team.members.map((member) => ({ member }));
+          this.members = this.team.members.map(member => ({ member }));
           this.membersByRole = Array.from(this.roles.values())
             .reduce((m, c) => {
-              const members = this.team.members.filter((entry) => entry !== undefined && entry.role_id === c.id)
+              const members = this.team.members.filter(entry => entry.role_id === c.id)
                 .concat(allMembers[c.id]);
 
               return m.set(c, members);
@@ -69,16 +69,16 @@ export class EditMembersPage implements OnInit {
         }));
   }
 
-  public compareTeam(c1: Team, c2: Team): boolean {
+  public compareTeam(c1: Team | null, c2: Team | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public compareMember(c1: Member, c2: Member): boolean {
+  public compareMember(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
   public save(): void {
-    this.team.members = this.members.map((m) => m.member);
+    this.team.members = this.members.map(m => m.member);
     this.teamService.update(this.team)
       .subscribe(() => {
         this.snackBar.open('Giocatori modificati', undefined, {

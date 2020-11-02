@@ -32,7 +32,7 @@ export class RoleService {
 
   public totalMembers(): number {
     let total = 0;
-    this.roles.forEach((r) => total += r.count);
+    this.roles.forEach(r => total += r.count);
 
     return total;
   }

@@ -43,7 +43,7 @@ export class DeviceListPage implements OnInit {
 
   public register(): void {
     this.webauthnService.createPublicKey()
-      .pipe(filter((p) => p !== undefined))
+      .pipe(filter(p => p !== undefined))
       .subscribe(() => {
         this.loadData();
       });

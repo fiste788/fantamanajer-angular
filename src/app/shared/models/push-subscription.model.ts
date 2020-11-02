@@ -1,6 +1,6 @@
 import { User } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class PushSubscription {
   public id: string;
   public endpoint: string;

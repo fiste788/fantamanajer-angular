@@ -2,7 +2,7 @@ import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/co
 import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgModelGroup } from '@angular/forms';
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
-import { IMemberOption, Member, Role } from '@shared/models';
+import { Member, MemberOption, Role } from '@shared/models';
 
 @Component({
   animations: [lineupDispositionAnimation, createBoxAnimation],
@@ -24,8 +24,8 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() public disabled = false;
   @Input() public required = false;
   @Input() public placeholder: string;
-  @Input() public memberList: Array<IMemberOption> = [];
-  @Input() public memberMap: Map<Role, Array<IMemberOption>>;
+  @Input() public memberList: Array<MemberOption> = [];
+  @Input() public memberMap: Map<Role, Array<MemberOption>>;
   @Input() public size = 100;
   @Input() public width = 100;
   @Input() public height = 100;
@@ -65,7 +65,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.member = value;
   }
 
-  public track(_: number, option: IMemberOption): number {
+  public track(_: number, option: MemberOption): number {
     return option.member.id;
   }
 

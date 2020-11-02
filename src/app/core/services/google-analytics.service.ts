@@ -18,6 +18,7 @@ export class GoogleAnalyticsService {
   ) { }
 
   public load(): void {
+    // tslint:disable-next-line: strict-type-predicates
     if (environment.gaCode !== undefined) {
       const script = this.document.createElement('script');
       script.async = true;

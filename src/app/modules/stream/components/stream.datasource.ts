@@ -54,7 +54,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
 
     this.streamService.get(this.name, this.id, page)
       .subscribe((data: Stream) => {
-        this.cachedData = this.cachedData.filter((it) => it !== undefined)
+        this.cachedData = this.cachedData.filter(it => it !== undefined)
           .concat(data.results);
         if (this.cachedData.length === 0) {
           this.isEmpty = true;

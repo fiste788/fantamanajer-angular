@@ -76,7 +76,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.layoutService.openSidebarSubject.next(a);
       });
     this.isReady$.pipe(
-      filter((e) => e),
+      filter(e => e),
       tap(() => {
         this.layoutService.showSpeedDial();
         setTimeout(() => this.document.querySelector('.pre-bootstrap')
@@ -123,13 +123,13 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   public initDrawer(): void {
-    if (this.drawer !== undefined) {
-      this.drawer.autoFocus = false;
-      this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
-        .subscribe(() => {
-          this.layoutService.setReady();
-        });
-    }
+
+    this.drawer.autoFocus = false;
+    this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
+      .subscribe(() => {
+        this.layoutService.setReady();
+      });
+
   }
 
   get isOpen(): Observable<boolean> {

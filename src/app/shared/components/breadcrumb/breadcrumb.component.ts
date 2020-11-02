@@ -50,8 +50,8 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         const def: IBreadcrumb = { text: 'FantaManajer', path: '/' };
         x.push(def);
       }
-      if (x !== null && x.length && this.crumbs !== null && this.crumbs.length && this.crumbs.map((a) => a.text)
-        .join('') !== x.map((a) => a.text)
+      if (x.length && this.crumbs.length && this.crumbs.map(a => a.text)
+        .join('') !== x.map(a => a.text)
           .join('')) {
         this.crumbs = [];
         this.cd.detectChanges();
@@ -63,7 +63,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   }
 
   public setTitle(x: Array<IBreadcrumb>): void {
-    const title = x.map((value) => value.text);
+    const title = x.map(value => value.text);
     if (x.length > 0 && title[0] !== 'FantaManajer') {
       title.unshift('FantaManajer');
     }
@@ -76,7 +76,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     });
   }
 
-  public track(index: number, crumb: IBreadcrumb): string {
+  public track(index: number, crumb: IBreadcrumb | null): string {
     return crumb !== null ? crumb.text : `${index}`;
   }
 

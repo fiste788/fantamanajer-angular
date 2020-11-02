@@ -24,7 +24,7 @@ export class ScrollService {
       .pipe(
         throttleTime(15),
         map(() => this.container.measureScrollOffset('top')),
-        filter((y) => y > offset),
+        filter(y => y > offset),
         pairwise(),
         filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
         map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
@@ -35,14 +35,14 @@ export class ScrollService {
 
   get goingUp$(): Observable<Direction> {
     return this.scrollObservable$.pipe(
-      filter((direction) => direction === Direction.Up),
+      filter(direction => direction === Direction.Up),
       auditTime(300),
     );
   }
 
   get goingDown$(): Observable<Direction> {
     return this.scrollObservable$.pipe(
-      filter((direction) => direction === Direction.Down),
+      filter(direction => direction === Direction.Down),
     );
   }
 

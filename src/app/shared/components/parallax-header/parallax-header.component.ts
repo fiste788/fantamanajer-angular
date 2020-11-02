@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ScrollService } from '@app/services';
-import { ITab } from '@shared/models';
+import { Tab } from '@shared/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,7 +14,7 @@ export class ParallaxHeaderComponent {
   @Input() public subtitle: string;
   @Input() public image: string | null;
   @Input() public backgroundImage: Record<string, string> | string | null;
-  @Input() public tabs: Array<ITab> = [];
+  @Input() public tabs: Array<Tab> = [];
 
   public srcset = '';
   public width = 0;
@@ -26,7 +26,7 @@ export class ParallaxHeaderComponent {
     this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);
   }
 
-  public track(_: number, item: ITab): string {
+  public track(_: number, item: Tab): string {
     return item.link;
   }
 }

@@ -10,7 +10,7 @@ import { map, share, switchMap, take } from 'rxjs/operators';
 export class ThemeService {
 
   public isDark$: Observable<boolean> = this.breakpointObserver.observe('(prefers-color-scheme: dark)')
-    .pipe(map((result) => result.matches));
+    .pipe(map(result => result.matches));
 
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
@@ -25,7 +25,7 @@ export class ThemeService {
     // tslint:disable-next-line: no-null-keyword
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.obs = this.isDark$.pipe(
-      switchMap((dark) => this.setTheme(dark)),
+      switchMap(dark => this.setTheme(dark)),
       share(),
     );
     this.connect();
@@ -45,7 +45,7 @@ export class ThemeService {
 
   private async loadStyle(styleName: string): Promise<void> {
     return new Promise((resolve) => {
-      let linkEl: HTMLElement | null = this.document.getElementById('client-theme');
+      let linkEl = this.document.getElementById('client-theme');
       if (linkEl !== null) {
         this.renderer.setAttribute(linkEl, 'href', styleName);
       } else {

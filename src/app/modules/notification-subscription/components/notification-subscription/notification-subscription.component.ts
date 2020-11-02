@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 
 import { NotificationSubscription, Team } from '@shared/models';
 
-import { INotification, Keys, notificationSubscriptions } from '../../notification-subscription.definition';
+import { Keys, Notification, notificationSubscriptions } from '../../notification-subscription.definition';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,8 +20,8 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
     new EventEmitter<Array<NotificationSubscription>>();
 
-  public map = new Map<INotification, NotificationSubscription>();
-  private keys: Array<INotification>;
+  public map = new Map<Notification, NotificationSubscription>();
+  private keys: Array<Notification>;
 
   public ngOnInit(): void {
     this.load();
@@ -30,7 +30,7 @@ export class NotificationSubscriptionComponent implements OnInit {
   public load(): void {
     this.keys = notificationSubscriptions[this.type];
     this.keys.forEach((element) => {
-      let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
+      let sub = this.subscriptions.find(subscription => subscription.name === element.name);
       if (!sub) {
         sub = new NotificationSubscription();
         sub.type = this.type;
@@ -46,7 +46,7 @@ export class NotificationSubscriptionComponent implements OnInit {
     this.subscriptionsChange.emit(this.subscriptions);
   }
 
-  public track(_: number, item: KeyValue<INotification, NotificationSubscription>): string {
+  public track(_: number, item: KeyValue<Notification, NotificationSubscription>): string {
     return item.key.name; // or item.id
   }
 }

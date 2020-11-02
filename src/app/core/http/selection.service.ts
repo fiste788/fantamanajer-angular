@@ -18,8 +18,8 @@ export class SelectionService {
   public getSelection(id: number): Observable<Selection> {
     return this.http.get<Array<Selection>>(routes.selection(id))
       .pipe(
-        filter((a) => a.length > 0),
-        map((a) => a[0]),
+        filter(a => a.length > 0),
+        map(a => a[0]),
       );
   }
 

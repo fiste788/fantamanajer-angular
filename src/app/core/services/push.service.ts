@@ -44,7 +44,7 @@ export class PushService {
         'Nuova versione dell\'app disponibile',
         'Aggiorna',
       )),
-      switchMap((ref) => ref.onAction()),
+      switchMap(ref => ref.onAction()),
     )
       .subscribe(() => {
         this.window.location.reload();
@@ -73,9 +73,9 @@ export class PushService {
   public subscribeToPush(): void {
     this.isSubscribed()
       .pipe(
-        filter((s) => !s),
+        filter(s => !s),
         mergeMap(() => from(this.requestSubscription())),
-        filter((s) => s),
+        filter(s => s),
       )
       .subscribe(() => {
         this.snackBar.open('Now you are subscribed', undefined, {
@@ -86,7 +86,7 @@ export class PushService {
 
   public unsubscribeFromPush(): void {
     from(this.cancelSubscription())
-      .pipe(filter((r) => r))
+      .pipe(filter(r => r))
       .subscribe(() => {
         this.snackBar.open('Now you are unsubscribed', undefined, {
           duration: 2000,
@@ -97,9 +97,7 @@ export class PushService {
   public isSubscribed(): Observable<boolean> {
     return this.swPush.subscription
       .pipe(
-        // tslint:disable-next-line: no-null-keyword
-        // defaultIfEmpty(null),
-        map((e) => e !== null),
+        map(e => e !== null),
         share(),
       );
   }
@@ -137,10 +135,8 @@ export class PushService {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
 
     // convert bytes to hex string
-    const hashHex = hashArray.map((b) => (`00${b.toString(16)}`).slice(-2))
+    return hashArray.map(b => (`00${b.toString(16)}`).slice(-2))
       .join('');
-
-    return hashHex;
   }
 
   private async requestSubscription(): Promise<boolean> {
@@ -152,7 +148,7 @@ export class PushService {
       if (sub) {
         return this.subscription.add(sub)
           .pipe(
-            map((s) => s !== null),
+            map(() => true),
             catchError(() => {
               void pushSubscription.unsubscribe();
 

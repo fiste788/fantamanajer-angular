@@ -27,6 +27,7 @@ const routes: Routes = [
         path: ':id',
         component: ClubDetailPage,
         data: {
+          // tslint:disable-next-line: no-invalid-template-strings
           breadcrumbs: '${club.name}',
           state: 'club-detail',
         },

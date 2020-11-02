@@ -1,6 +1,6 @@
 import { Matchday, Member, Team } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Selection {
   public id: number;
   public active: boolean;
@@ -10,6 +10,6 @@ export class Selection {
   public new_member_id: number;
   public team: Team;
   public matchday: Matchday;
-  public old_member: Member;
-  public new_member: Member;
+  public old_member: Member | null;
+  public new_member: Member | null;
 }

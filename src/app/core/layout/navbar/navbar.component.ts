@@ -41,11 +41,11 @@ export class NavbarComponent implements OnInit {
         this.refresh();
       });
     this.navStart$ = this.router.events.pipe(
-      filter((evt) => evt instanceof NavigationStart),
+      filter(evt => evt instanceof NavigationStart),
     );
     this.navStart$.pipe(
       mergeMap(() => this.layoutService.isHandset$),
-      filter((r) => r),
+      filter(r => r),
     )
       .subscribe(() => {
         this.layoutService.closeSidebar();

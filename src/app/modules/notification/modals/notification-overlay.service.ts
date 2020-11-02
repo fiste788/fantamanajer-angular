@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { ComponentRef, ElementRef, Injectable, Injector } from '@angular/core';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { ElementRef, Injectable, Injector } from '@angular/core';
 
 import { NotificationListModal } from './notification-list/notification-list.modal';
 import { NotificationOverlayRef } from './notification-overlay-ref';
@@ -45,14 +45,12 @@ export class NotificationOverlayService {
       },
       ]);
 
-    const overlayConfig = new OverlayConfig({
+    return new OverlayConfig({
       hasBackdrop: true,
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.block(),
       width: '599px',
     });
-
-    return overlayConfig;
   }
 
   private createOverlay(origin: ElementRef): OverlayRef {
@@ -67,16 +65,18 @@ export class NotificationOverlayService {
     const injector = this.createInjector(dialogRef);
 
     const containerPortal = new ComponentPortal(NotificationListModal, undefined, injector);
-    const containerRef: ComponentRef<NotificationListModal> = overlayRef.attach(containerPortal);
+    const containerRef = overlayRef.attach(containerPortal);
 
     return containerRef.instance;
   }
 
-  private createInjector(dialogRef: NotificationOverlayRef): PortalInjector {
-    const injectionTokens = new WeakMap();
-
-    injectionTokens.set(NotificationOverlayRef, dialogRef);
-
-    return new PortalInjector(this.injector, injectionTokens);
+  private createInjector(dialogRef: NotificationOverlayRef): Injector {
+    return Injector.create({
+      providers: [{
+        provide: NotificationOverlayRef,
+        useValue: dialogRef,
+      }],
+      parent: this.injector,
+    });
   }
 }

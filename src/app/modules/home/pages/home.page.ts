@@ -7,7 +7,7 @@ import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { Member } from '@shared/models';
 
-interface IBestPlayer {
+interface BestPlayer {
   role: string;
   first: Member;
   others: Array<Member>;
@@ -20,7 +20,7 @@ interface IBestPlayer {
 })
 export class HomePage implements OnInit {
 
-  public bestPlayers$: Observable<Array<IBestPlayer> | undefined>;
+  public bestPlayers$: Observable<Array<BestPlayer> | undefined>;
 
   constructor(
     private readonly memberService: MemberService,
@@ -29,9 +29,9 @@ export class HomePage implements OnInit {
 
   public ngOnInit(): void {
     this.bestPlayers$ = this.memberService.getBest()
-      .pipe(map((role) =>
-        role.filter((a) => a.best_players !== undefined)
-          .map((a) =>
+      .pipe(map(role =>
+        role.filter(a => a.best_players !== undefined)
+          .map(a =>
             ({
               first: a.best_players?.shift() as Member,
               others: a.best_players ?? [],
@@ -45,7 +45,7 @@ export class HomePage implements OnInit {
     return item.id; // or item.id
   }
 
-  public trackByRole(_: number, item: IBestPlayer): string {
+  public trackByRole(_: number, item: BestPlayer): string {
     return item.role; // or item.id
   }
 }

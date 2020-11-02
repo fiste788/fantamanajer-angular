@@ -30,7 +30,7 @@ export class CamelcaseInterceptor implements HttpInterceptor {
   }
 
   public toCamel(s: string): string {
-    return s.replace(/([-_][a-z])/ig, ($1) =>
+    return s.replace(/([-_][a-z])/ig, $1 =>
       $1.toUpperCase()
         .replace('-', '')
         .replace('_', ''));
@@ -38,6 +38,7 @@ export class CamelcaseInterceptor implements HttpInterceptor {
 
   // tslint:disable-next-line: no-any
   public keysToCamel(o: { [k: string]: any }): unknown {
+    // tslint:disable-next-line: strict-type-predicates
     if (o === Object(o) && !Array.isArray(o) && typeof o !== 'function') {
       const n: { [k: string]: unknown } = {};
       Object.keys(o)
@@ -46,8 +47,9 @@ export class CamelcaseInterceptor implements HttpInterceptor {
         });
 
       return n;
-    } else if (Array.isArray(o)) {
-      return o.map((i) =>
+    }
+    if (Array.isArray(o)) {
+      return o.map(i =>
         this.keysToCamel(i));
     }
 

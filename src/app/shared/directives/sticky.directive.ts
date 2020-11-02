@@ -9,7 +9,7 @@ export class StickyDirective implements OnInit {
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2,
-    private readonly el: ElementRef,
+    private readonly el?: ElementRef,
   ) { }
 
   public ngOnInit(): void {

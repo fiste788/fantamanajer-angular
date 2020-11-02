@@ -55,7 +55,7 @@ export class SelectionComponent implements OnInit {
 
     this.members$ = this.memberService.getByTeamId(teamId)
       .pipe(
-        map((data) => this.roleService.groupMembersByRole(data)),
+        map(data => this.roleService.groupMembersByRole(data)),
         tap(() => {
           const id = this.route.snapshot.queryParamMap.get('new_member_id');
           if (id !== null) {
@@ -73,7 +73,7 @@ export class SelectionComponent implements OnInit {
 
   public setupEvents(): void {
     this.role$.pipe(
-      distinctUntilChanged((x, y) => y === undefined || x.id === y.id),
+      distinctUntilChanged((x, y) => x.id === y.id),
       share(),
     )
       .subscribe({
@@ -104,7 +104,7 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  public compareFn(c1: Member, c2: Member): boolean {
+  public compareFn(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
@@ -114,8 +114,8 @@ export class SelectionComponent implements OnInit {
       if (this.selection.id) {
         selection.id = this.selection.id;
       }
-      selection.new_member_id = this.selection.new_member.id;
-      selection.old_member_id = this.selection.old_member.id;
+      selection.new_member_id = this.selection.new_member?.id || 0;
+      selection.old_member_id = this.selection.old_member?.id || 0;
       selection.team_id = this.app.team?.id ?? 0;
       selection.id ? this.selectionService.update(selection) : this.selectionService.create(selection)
         .subscribe((response: Partial<Selection>) => {

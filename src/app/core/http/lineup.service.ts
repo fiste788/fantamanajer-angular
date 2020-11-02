@@ -18,8 +18,9 @@ export class LineupService {
   public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
     const clonedLineup: Lineup = JSON.parse(JSON.stringify(lineup));
     const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
-    const disp = dispositions.filter((value) => value?.member_id !== null);
-    disp.forEach((d) => d.member = null);
+    const disp = dispositions.filter(value => value?.member_id !== null);
+    // tslint:disable-next-line: no-null-keyword
+    disp.forEach(d => d.member = null);
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
     cleanedLineup.dispositions = disp;
     delete cleanedLineup.team;

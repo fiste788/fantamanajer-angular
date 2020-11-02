@@ -40,9 +40,9 @@ export class ScoreDetailPage implements OnInit {
     );
   }
 
-  public getData(score: Score): void {
+  public getData(score?: Score): void {
     if (score !== undefined && score.lineup !== undefined) {
-      const dispositions: Array<Disposition> = score.lineup.dispositions;
+      const dispositions = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;
     }

@@ -1,6 +1,6 @@
 import { Championship, Member, NotificationSubscription, User } from './';
 
-// tslint:disable: variable-name
+// tslint:disable: variable-name naming-convention
 export class Team {
   public id: number;
   public name: string;

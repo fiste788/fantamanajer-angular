@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, V
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@app/http';
-import { IMemberOption, Lineup, Role } from '@shared/models';
+import { Lineup, MemberOption, Role } from '@shared/models';
 
 import { LineupService } from '../lineup.service';
 
@@ -33,7 +33,7 @@ export class LineupDetailComponent implements OnInit {
 
   public loadLineup(): void {
     const lineup = this.lineup ?? ((!this.disabled) ? new Lineup() : undefined);
-    if (lineup !== undefined && lineup.team.members !== undefined) {
+    if (lineup !== undefined && lineup.team.members.length) {
       this.lineupService.loadLineup(lineup);
       if (!this.disabled) {
         this.loadLikely(lineup);
@@ -56,7 +56,7 @@ export class LineupDetailComponent implements OnInit {
 
   public getLineup(): Lineup {
     // tslint:disable-next-line: no-null-keyword
-    this.lineupService.lineup.dispositions.forEach((value) => value.member_id = value.member?.id ?? null);
+    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
 
     return this.lineupService.lineup;
   }
@@ -68,7 +68,7 @@ export class LineupDetailComponent implements OnInit {
     return item; // or item.id
   }
 
-  public trackByCaptain(_: number, item: IMemberOption): number {
+  public trackByCaptain(_: number, item: MemberOption): number {
     return item.member.id; // or item.id
   }
 }

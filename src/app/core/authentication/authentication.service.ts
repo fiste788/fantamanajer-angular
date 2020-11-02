@@ -11,7 +11,7 @@ import { User } from '@shared/models';
 export class AuthenticationService {
   public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
   public userChange$ = this.userSubject.asObservable();
-  public loggedIn$: Observable<boolean> = this.userChange$.pipe(map((u) => u !== undefined));
+  public loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
 
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();
@@ -31,12 +31,12 @@ export class AuthenticationService {
 
   public login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
     return this.userService.login(email, password, rememberMe)
-      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
+      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
   }
 
   public webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
     return this.webauthnService.getPublicKey(email, token)
-      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
+      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
   }
 
   public postLogin(res: { user: User, token: string }, rememberMe?: boolean): Observable<boolean> {
@@ -53,7 +53,7 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
-      return this.userChange$.pipe(map((u) => u !== undefined));
+      return this.userChange$.pipe(map(u => u !== undefined));
     }
 
     return of(false);

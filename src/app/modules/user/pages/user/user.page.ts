@@ -2,7 +2,7 @@ import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 
 import { routerTransition } from '@shared/animations';
-import { ITab } from '@shared/models';
+import { Tab } from '@shared/models';
 
 @Component({
   animations: [
@@ -13,13 +13,13 @@ import { ITab } from '@shared/models';
 })
 export class UserPage {
 
-  public tabs: Array<ITab> = [
+  public tabs: Array<Tab> = [
     { label: 'Profilo', link: 'profile' },
     { label: 'Dispositivi', link: 'devices' },
     { label: 'Attività', link: 'stream' },
   ];
 
-  public track(_: number, item: ITab): string {
+  public track(_: number, item: Tab): string {
     return item.link;
   }
 

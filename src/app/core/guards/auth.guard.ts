@@ -32,6 +32,6 @@ export class AuthGuard implements CanActivate {
   }
 
   public checkAuth(authorities: Array<string>, _: string): boolean {
-    return authorities.some((r) => this.app.user?.roles.includes(r)) ?? false;
+    return authorities.some(r => this.app.user?.roles.includes(r)) ?? false;
   }
 }

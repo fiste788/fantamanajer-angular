@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { IRankingPosition, ScoreService } from '@app/http';
+import { RankingPosition, ScoreService } from '@app/http';
 import { UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations/table-row.animation';
 import { Championship } from '@shared/models';
@@ -14,7 +14,7 @@ import { Championship } from '@shared/models';
   templateUrl: './ranking.page.html',
 })
 export class RankingPage implements OnInit {
-  public ranking$: Observable<Array<IRankingPosition>>;
+  public ranking$: Observable<Array<RankingPosition>>;
   public rankingDisplayedColumns = ['teamName', 'points'];
   public matchdays: Array<number> = [];
 
@@ -31,14 +31,14 @@ export class RankingPage implements OnInit {
     }
   }
 
-  public loadRanking(championship: Championship): Observable<Array<IRankingPosition>> {
+  public loadRanking(championship: Championship): Observable<Array<RankingPosition>> {
     return this.scoreService.getRanking(championship.id)
       .pipe(
-        tap((ranking: Array<IRankingPosition>) => {
+        tap((ranking: Array<RankingPosition>) => {
           if (ranking.length && ranking[0].scores) {
             const matchdays = Object.keys(ranking[0].scores)
               .reverse();
-            this.matchdays = matchdays.map((m) => +m);
+            this.matchdays = matchdays.map(m => +m);
             this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(matchdays);
           }
         }),
