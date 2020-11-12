@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR, NgModelGroup } from '@angular/forms';
+import { ControlContainer, ControlValueAccessor, NgModelGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
 import { Member, MemberOption, Role } from '@shared/models';

@@ -90,9 +90,9 @@ export const routes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(routes, {
-    onSameUrlNavigation: 'reload',
-    relativeLinkResolution: 'legacy'
-}),
+      onSameUrlNavigation: 'reload',
+      relativeLinkResolution: 'legacy',
+    }),
     McBreadcrumbsModule.forRoot(),
   ],
 })
