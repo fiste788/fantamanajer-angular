@@ -55,10 +55,7 @@ export class LineupDetailComponent implements OnInit {
   }
 
   public getLineup(): Lineup {
-    // tslint:disable-next-line: no-null-keyword
-    this.lineupService.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
-
-    return this.lineupService.lineup;
+    return this.lineupService.getLineup();
   }
 
   public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>

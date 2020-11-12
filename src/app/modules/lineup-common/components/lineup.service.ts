@@ -30,7 +30,7 @@ export class LineupService {
     this.lineup = lineup;
     this.membersById = lineup.team.members.reduce((m, v) => m.set(v.id, v), new Map<number, Member>());
     this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
-    this.loadDispositions();
+    this.lineup.dispositions = this.loadDispositions();
     this.loadModules();
     this.captainSelectionChange();
     this.benchOptions = Array.from(this.membersByRole.entries())
@@ -62,6 +62,13 @@ export class LineupService {
     this.captainables = this.getCapitanables();
   }
 
+  public getLineup(): Lineup {
+    // tslint:disable-next-line: no-null-keyword
+    this.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
+
+    return this.lineup;
+  }
+
   private loadModules(): void {
     this.modules = this.lineup.modules.map(mod => new Module(mod, this.roleService.list()));
     const module = this.modules.find(e => e.key === this.lineup.module);
@@ -71,20 +78,23 @@ export class LineupService {
     }
   }
 
-  private loadDispositions(): void {
-    Array(18)
-      .fill(0)
-      .forEach((_, i) => {
-        const pdisp = this.lineup.dispositions.length < i ? this.lineup.dispositions[i] : undefined;
-        const disp = pdisp === undefined ? new Disposition() : pdisp;
-        if (disp.position === 0) {
-          disp.position = i + 1;
-        }
+  private loadDispositions(): Array<Disposition> {
+    const dispositions = this.lineup.dispositions.reduce((p, d) => p.set(d.position - 1, d), new Map<number, Disposition>());
+
+    return Array(18)
+      .fill(new Disposition())
+      .map((disp: Disposition, i) => {
+        disp.position = i;
+
+        return dispositions.get(disp.position) || disp;
+      })
+      .map((disp) => {
         if (disp.member_id !== null) {
           // tslint:disable-next-line: no-null-keyword
           disp.member = this.membersById.get(disp.member_id ?? 0) ?? null;
         }
-        this.lineup.dispositions[i] = disp;
+
+        return disp;
       });
   }
 
@@ -98,15 +108,13 @@ export class LineupService {
 
   private removeBenchwarmer(member: Member): void {
     this.lineup.dispositions
-      .filter(element => element && element.position > 11)
-      .filter(element => element?.member?.id === member.id)
+      .filter(element => element.position > 11)
+      .filter(element => element.member?.id === member.id)
       .forEach((element) => {
-        if (element) {
-          // tslint:disable-next-line: no-null-keyword
-          element.member = null;
-          // tslint:disable-next-line: no-null-keyword
-          element.member_id = null;
-        }
+        // tslint:disable-next-line: no-null-keyword
+        element.member = null;
+        // tslint:disable-next-line: no-null-keyword
+        element.member_id = null;
       });
   }
 
@@ -128,8 +136,8 @@ export class LineupService {
 
   private getRegulars(): Array<Member> {
     return this.lineup.dispositions
-      .filter(disp => disp && disp.position <= 11)
-      .map(disp => disp ? disp.member : null)
+      .filter(disp => disp.position <= 11)
+      .map(disp => disp.member)
       .filter((member): member is Member => member !== null);
   }
 }

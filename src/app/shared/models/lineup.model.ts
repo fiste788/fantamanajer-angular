@@ -19,7 +19,7 @@ export class Lineup {
   public vvcaptain: Member | null;
   public matchday: Matchday;
   public team: Team;
-  public dispositions: Array<Disposition | undefined> = [];
+  public dispositions: Array<Disposition> = [];
   public modified_at: Date | null;
   public created_at: Date;
 }
