@@ -1,14 +1,27 @@
 <mat-sidenav-container>
-  <mat-sidenav #drawer fixedInViewport="true" [opened]="(isOpen | async)"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'">
+  <mat-sidenav
+    #drawer
+    fixedInViewport="true"
+    [opened]="(isOpen$ | async)"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  >
     <app-navbar></app-navbar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar #toolbar [showDrawerButton]="(isHandset$ | async) || false" [state]="(showedToolbar$ | async)">
+    <app-toolbar
+      #toolbar
+      [showDrawerButton]="(isHandset$ | async) || false"
+      [state]="(showedToolbar$ | async)"
+    >
     </app-toolbar>
     <main [@contextChange]="o | state">
       <router-outlet #o="outlet"></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<app-speed-dial #speedDial class="speed-dial" [@closeAnimation]="(showedSpeedDial$ | async)"></app-speed-dial>
+<app-speed-dial
+  #speedDial
+  class="speed-dial"
+  [@closeAnimation]="(showedSpeedDial$ | async)"
+></app-speed-dial>

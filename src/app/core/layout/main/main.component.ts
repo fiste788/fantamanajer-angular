@@ -1,6 +1,16 @@
 import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -32,6 +42,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('toolbar', { read: ElementRef }) public toolbarEl: ElementRef;
 
   public isReady$: Observable<boolean>;
+  public isOpen$: Observable<boolean>;
   public isHandset$: Observable<boolean>;
   public openedSidebar$: Observable<boolean>;
   public showedSpeedDial$: Observable<VisibilityState>;
@@ -68,6 +79,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
+    this.isOpen$ = this.isOpenObservable();
     this.showedSpeedDial$ = combineLatest([this.layoutService.isShowSpeedDial, this.auth.loggedIn$])
       .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
     this.showedToolbar$ = this.layoutService.isShowToolbar;
@@ -123,7 +135,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   public initDrawer(): void {
-
     this.drawer.autoFocus = false;
     this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
       .subscribe(() => {
@@ -132,7 +143,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   }
 
-  get isOpen(): Observable<boolean> {
+  public isOpenObservable(): Observable<boolean> {
     return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$])
       .pipe(
         map(([r, h, o]) =>
