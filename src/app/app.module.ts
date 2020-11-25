@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { LayoutModule } from '@app/layout/layout.module';
-import { MainComponent } from '@app/layout/main/main.component';
 import { environment } from '@env';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { LayoutModule } from './layout/layout.module';
+import { MainComponent } from './layout/main/main.component';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({

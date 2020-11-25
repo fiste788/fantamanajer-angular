@@ -3,11 +3,11 @@
 @import './card';
 @import './table';
 @import './form';
-@import 'app/shared/components/mat-empty-state/mat-empty-state';
-@import 'app/core/layout/layout';
+@import 'app/layout/layout';
 @import 'app/modules/auth/pages/login/login';
 @import 'app/modules/lineup-common/components/lineup-detail/lineup-detail';
 @import 'app/modules/member-common/components/member-selection/member-selection';
+@import 'app/shared/components/mat-empty-state/mat-empty-state';
 @mixin fantamanajer-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);

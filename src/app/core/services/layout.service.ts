@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { VisibilityState } from '@app/layout/main/visibility-state';
+import { VisibilityState } from '@app/enums/visibility-state';
 
 import { ScrollService } from './scroll.service';
 

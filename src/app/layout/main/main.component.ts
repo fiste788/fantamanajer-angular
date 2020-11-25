@@ -18,11 +18,11 @@ import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { VisibilityState } from '@app/enums/visibility-state';
 import { GoogleAnalyticsService, LayoutService, ScrollService } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
-import { VisibilityState } from './visibility-state';
 
 @Component({
   animations: [
