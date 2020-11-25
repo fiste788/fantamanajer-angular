@@ -27,7 +27,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "extractCss": true,
             "assets": [
               "src/.htaccess",
               "src/assets",
@@ -36,23 +35,23 @@
             ],
             "styles": [
               {
-                "input": "src/app/shared/scss/pre-bootstrap.scss",
+                "input": "src/styles/pre-bootstrap.scss",
                 "bundleName": "pre-bootstrap"
               },
               {
-                "input": "src/app/shared/scss/themes/theme.scss",
+                "input": "src/styles/themes/theme.scss",
                 "bundleName": "light-theme",
                 "inject": false
               },
               {
-                "input": "src/app/shared/scss/themes/dark-theme.scss",
+                "input": "src/styles/themes/dark-theme.scss",
                 "bundleName": "dark-theme",
                 "inject": false
               }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/app"
+                "src"
               ]
             },
             "scripts": []
