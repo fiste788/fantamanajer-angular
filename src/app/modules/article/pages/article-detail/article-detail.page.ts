@@ -4,9 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-import { ArticleService } from '@app/http';
+import { ArticleService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { Article } from '@shared/models';
+import { Article } from '@data/types';
 
 @Component({
   styleUrls: ['./article-detail.page.scss'],

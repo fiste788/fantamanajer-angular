@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UtilService } from '@app/services';
-import { Club } from '@shared/models';
+import { Club } from '@data/types';
 
 @Component({
   styleUrls: ['./club-stream.page.scss'],

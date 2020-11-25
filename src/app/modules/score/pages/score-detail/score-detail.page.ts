@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { ScoreService } from '@app/http';
+import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
-import { Disposition, Score, Team } from '@shared/models';
+import { Disposition, Score, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./score-detail.page.scss'],

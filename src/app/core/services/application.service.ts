@@ -5,9 +5,9 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { MatchdayService } from '@app/http';
+import { Championship, Matchday, Team, User } from '@data/types';
+import { MatchdayService } from '@data/services';
 import { environment } from '@env';
-import { Championship, Matchday, Team, User } from '@shared/models';
 
 @Injectable({
   providedIn: 'root',

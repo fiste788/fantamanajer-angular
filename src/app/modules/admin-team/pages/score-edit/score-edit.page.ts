@@ -5,10 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { ScoreService } from '@app/http';
+import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
-import { Score, Team } from '@shared/models';
+import { Score, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./score-edit.page.scss'],

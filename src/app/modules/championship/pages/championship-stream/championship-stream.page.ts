@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UtilService } from '@app/services';
-import { Championship } from '@shared/models';
+import { Championship } from '@data/types';
 
 @Component({
   selector: 'app-championship-stream',

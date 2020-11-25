@@ -2,10 +2,10 @@ import { AnimationEvent } from '@angular/animations';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { NotificationService } from '@app/http';
+import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
-import { Stream } from '@shared/models';
+import { Stream } from '@data/types';
 
 @Component({
   animations: [

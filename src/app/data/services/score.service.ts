@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
-import { Score, Team } from '@shared/models';
 
+import { Score, Team } from '../types';
 import { LineupService } from './lineup.service';
 
 const url = 'scores';

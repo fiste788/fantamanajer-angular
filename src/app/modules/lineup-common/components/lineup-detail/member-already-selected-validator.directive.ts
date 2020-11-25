@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-import { Lineup } from '@shared/models';
+import { Lineup } from '@data/types';
 
 @Directive({
   providers: [{

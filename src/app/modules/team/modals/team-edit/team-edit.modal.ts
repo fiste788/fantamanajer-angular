@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { TeamService } from '@app/http';
+import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations';
-import { NotificationSubscription, Team } from '@shared/models';
+import { NotificationSubscription, Team } from '@data/types';
 
 @Component({
   animations: [createBoxAnimation],

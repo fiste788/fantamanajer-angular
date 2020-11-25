@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService } from '@app/services';
 import { routerTransition } from '@shared/animations';
-import { Tab } from '@shared/models';
+import { Tab } from '@data/types';
 
 @Component({
   animations: [

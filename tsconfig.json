@@ -43,7 +43,10 @@
         "src/app/shared/*"
       ],
       "@env": [
-        "src/environments/environment.ts"
+        "src/environments/environment"
+      ],
+      "@data/*": [
+        "src/app/data/*"
       ]
     }
   },

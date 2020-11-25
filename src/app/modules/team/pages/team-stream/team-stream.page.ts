@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UtilService } from '@app/services';
-import { Team } from '@shared/models';
+import { Team } from '@data/types';
 
 @Component({
   styleUrls: ['./team-stream.page.scss'],

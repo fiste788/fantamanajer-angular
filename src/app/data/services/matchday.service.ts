@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 import { environment } from '@env';
-import { Matchday } from '@shared/models';
+
+import { Matchday } from '../types';
 
 const url = 'matchdays';
 const routes = {

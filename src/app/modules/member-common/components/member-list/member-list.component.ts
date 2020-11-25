@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription } from 'rxjs';
 
 import { tableRowAnimation } from '@shared/animations';
-import { Member } from '@shared/models';
+import { Member } from '@data/types';
 
 const stats = ['sum_present', 'avg_points', 'avg_rating', 'sum_goals', 'sum_goals_against', 'sum_yellow_card', 'sum_red_card'] as const;
 type Stats = typeof stats[number];

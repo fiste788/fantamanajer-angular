@@ -6,10 +6,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
-import { MemberService, TransfertService } from '@app/http';
+import { MemberService, TransfertService } from '@data/services';
 import { UtilService } from '@app/services';
 import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
-import { Member, Team, Transfert } from '@shared/models';
+import { Member, Team, Transfert } from '@data/types';
 
 @Component({
   styleUrls: ['./new-transfert.page.scss'],

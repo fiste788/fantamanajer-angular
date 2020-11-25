@@ -2,7 +2,7 @@ import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/co
 import { ControlContainer, ControlValueAccessor, NgModelGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
-import { Member, MemberOption, Role } from '@shared/models';
+import { Member, MemberOption, Role } from '@data/types';
 
 @Component({
   animations: [lineupDispositionAnimation, createBoxAnimation],

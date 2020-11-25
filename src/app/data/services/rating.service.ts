@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Rating } from '@shared/models';
+import { Rating } from '../types';
 
 const url = 'ratings';
 const routes = {

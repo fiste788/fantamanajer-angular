@@ -8,9 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 
-import { MemberService, RoleService, SelectionService } from '@app/http';
+import { MemberService, RoleService, SelectionService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { Member, Role, Selection, Team } from '@shared/models';
+import { Member, Role, Selection, Team } from '@data/types';
 
 @Component({
   selector: 'app-selection',

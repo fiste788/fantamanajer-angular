@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Transfert } from '@shared/models';
+import { Transfert } from '../types';
 
 const url = 'transferts';
 const routes = {

@@ -2,10 +2,10 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs/operators';
 
-import { PublicKeyCredentialSourceService, WebauthnService } from '@app/http';
+import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations';
-import { PublicKeyCredentialSource } from '@shared/models';
+import { PublicKeyCredentialSource } from '@data/types';
 
 @Component({
   animations: [tableRowAnimation],

@@ -2,7 +2,7 @@ import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 
 import { routerTransition } from '@shared/animations';
-import { Tab } from '@shared/models';
+import { Tab } from '@data/types';
 
 @Component({
   animations: [

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
-import { Club } from '@shared/models';
+import { Club } from '@data/types';
 
 @Component({
   animations: [

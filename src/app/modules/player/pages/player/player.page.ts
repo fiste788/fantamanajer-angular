@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { pluck, tap } from 'rxjs/operators';
 
-import { RatingService } from '@app/http';
+import { RatingService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
-import { Member, Player, Rating } from '@shared/models';
+import { Member, Player, Rating } from '@data/types';
 
 @Component({
   animations: [

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '@shared/models';
+import { User } from '../types';
 
 const url = 'users';
 const routes = {

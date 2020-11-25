@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Member } from '@shared/models';
+import { Member } from '@data/types';
 
 @Component({
   selector: 'app-member-icons',

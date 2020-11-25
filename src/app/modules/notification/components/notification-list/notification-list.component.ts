@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { NotificationService } from '@app/http';
+import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations/create-box.animation';
-import { Stream } from '@shared/models';
+import { Stream } from '@data/types';
 
 import { NotificationListModal } from '../../modals/notification-list/notification-list.modal';
 import { NotificationOverlayService } from '../../modals/notification-overlay.service';

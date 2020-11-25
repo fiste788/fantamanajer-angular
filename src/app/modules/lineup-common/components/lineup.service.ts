@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { RoleService } from '@app/http';
-import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@shared/models';
+import { RoleService } from '@data/services';
+import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@data/types';
 
 @Injectable()
 export class LineupService {

@@ -5,7 +5,7 @@ import { filter, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
-import { Championship, Team } from '@shared/models';
+import { Championship, Team } from '@data/types';
 
 @Component({
   selector: 'app-navbar',

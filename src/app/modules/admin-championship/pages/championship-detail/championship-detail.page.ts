@@ -3,9 +3,9 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
-import { ChampionshipService } from '@app/http';
+import { ChampionshipService } from '@data/services';
 import { UtilService } from '@app/services';
-import { Championship, League } from '@shared/models';
+import { Championship, League } from '@data/types';
 
 @Component({
   styleUrls: ['./championship-detail.page.scss'],

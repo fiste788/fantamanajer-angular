@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ScrollService } from '@app/services';
-import { Tab } from '@shared/models';
+import { Tab } from '@data/types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

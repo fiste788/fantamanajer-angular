@@ -2,8 +2,8 @@ import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
-import { LineupService as LineupHttpService } from '@app/http';
-import { Lineup, MemberOption, Role } from '@shared/models';
+import { LineupService as LineupHttpService } from '@data/services';
+import { Lineup, MemberOption, Role } from '@data/types';
 
 import { LineupService } from '../lineup.service';
 

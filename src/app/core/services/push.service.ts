@@ -6,9 +6,9 @@ import { from, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { NotificationService, PushSubscriptionService } from '@app/http';
+import { NotificationService, PushSubscriptionService } from '@data/services';
 import { environment } from '@env';
-import { PushSubscription, User } from '@shared/models';
+import { PushSubscription, User } from '@data/types';
 
 import { ApplicationService } from './application.service';
 import { WINDOW } from './window.service';

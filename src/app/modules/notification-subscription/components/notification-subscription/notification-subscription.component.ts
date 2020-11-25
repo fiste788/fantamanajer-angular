@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { NotificationSubscription, Team } from '@shared/models';
+import { NotificationSubscription, Team } from '@data/types';
 
 import { Keys, Notification, notificationSubscriptions } from '../../notification-subscription.definition';
 

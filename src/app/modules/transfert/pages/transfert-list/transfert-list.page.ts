@@ -3,10 +3,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 
-import { TransfertService } from '@app/http';
+import { TransfertService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations';
-import { Team, Transfert } from '@shared/models';
+import { Team, Transfert } from '@data/types';
 
 @Component({
   animations: [tableRowAnimation],

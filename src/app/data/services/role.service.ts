@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Member, Role } from '@shared/models';
+import { Member, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {

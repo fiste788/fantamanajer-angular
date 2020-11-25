@@ -3,9 +3,9 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TeamService } from '@app/http';
+import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
-import { Championship, Team, User } from '@shared/models';
+import { Championship, Team, User } from '@data/types';
 
 @Component({
   styleUrls: ['./add-team.page.scss'],

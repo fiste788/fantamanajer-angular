@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Stream } from '@shared/models';
+import { Stream } from '../types';
 
 const url = 'stream';
 const routes = {

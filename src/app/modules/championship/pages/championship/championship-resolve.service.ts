@@ -3,7 +3,7 @@ import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
-import { Championship } from '@shared/models';
+import { Championship } from '@data/types';
 
 @Injectable()
 export class ChampionshipResolver implements Resolve<Championship | undefined> {

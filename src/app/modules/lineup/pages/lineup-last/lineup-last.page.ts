@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
-import { LineupService } from '@app/http';
+import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
-import { Lineup, Team } from '@shared/models';
+import { Lineup, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./lineup-last.page.scss'],

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Championship } from '@shared/models';
+import { Championship } from '../types';
 
 const url = 'championships';
 const routes = {

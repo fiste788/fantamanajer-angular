@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PublicKeyCredentialSource } from '@shared/models';
+import { PublicKeyCredentialSource } from '../types';
 
 const url = 'public-key-credential-sources';
 const routes = {

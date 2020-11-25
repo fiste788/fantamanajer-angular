@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Club } from '@shared/models';
+import { Club } from '../types';
 
 const url = 'clubs';
 const routes = {

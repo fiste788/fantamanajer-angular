@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { WebauthnService } from '@app/http';
+import { WebauthnService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 

@@ -171,6 +171,7 @@
       true,
       [
         "@app",
+        "@data",
         "@modules",
         "@shared",
         "@env",
@@ -182,7 +183,7 @@
       "one-blank-line",
       [
         "lib",
-        "^@app/.+|^@shared/.+|^@modules/.+|^@env",
+        "^@app/.+|^@data/.+|^@shared/.+|^@modules/.+|^@env",
         "user"
       ]
     ]

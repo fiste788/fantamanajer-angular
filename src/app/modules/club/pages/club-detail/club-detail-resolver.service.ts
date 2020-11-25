@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { ClubService } from '@app/http';
-import { Club } from '@shared/models';
+import { ClubService } from '@data/services';
+import { Club } from '@data/types';
 
 @Injectable()
 export class ClubDetailResolver implements Resolve<Club | undefined> {

@@ -4,8 +4,8 @@ import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { UserService, WebauthnService } from '@app/http';
-import { User } from '@shared/models';
+import { UserService, WebauthnService } from '@data/services';
+import { User } from '@data/types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

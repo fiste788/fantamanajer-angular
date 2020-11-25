@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService, LayoutService } from '@app/services';
-import { Team } from '@shared/models';
+import { Team } from '@data/types';
 
 @Component({
   selector: 'app-profile',

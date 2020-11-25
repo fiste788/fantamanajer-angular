@@ -4,7 +4,8 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
 import { NAVIGATOR } from '@app/services/navigator.service';
-import { Notification, Stream } from '@shared/models';
+
+import { Notification, Stream } from '../types';
 
 type MessageCallback = (payload: unknown) => void;
 

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { PlayerService } from '@app/http';
+import { PlayerService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { Player } from '@shared/models';
+import { Player } from '@data/types';
 
 @Injectable()
 export class PlayerResolver implements Resolve<Player | undefined> {

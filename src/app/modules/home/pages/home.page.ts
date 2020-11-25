@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { MemberService } from '@app/http';
+import { MemberService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
-import { Member } from '@shared/models';
+import { Member } from '@data/types';
 
 interface BestPlayer {
   role: string;
@@ -32,11 +32,11 @@ export class HomePage implements OnInit {
       .pipe(map(role =>
         role.filter(a => a.best_players !== undefined)
           .map(a =>
-            ({
-              first: a.best_players?.shift() as Member,
-              others: a.best_players ?? [],
-              role: a.singolar,
-            }),
+          ({
+            first: a.best_players?.shift() as Member,
+            others: a.best_players ?? [],
+            role: a.singolar,
+          }),
           ),
       ));
   }

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
-import { Disposition, Lineup, Member } from '@shared/models';
+
+import { Disposition, Lineup, Member } from '../types';
 
 const url = 'lineups';
 const routes = {

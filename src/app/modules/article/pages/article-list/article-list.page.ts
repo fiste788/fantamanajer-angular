@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ArticleService } from '@app/http';
+import { ArticleService } from '@data/services';
 import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
-import { Article, PagedResponse, Pagination } from '@shared/models';
+import { Article, PagedResponse, Pagination } from '@data/types';
 
 @Component({
   animations: [cardCreationAnimation],

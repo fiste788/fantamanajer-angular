@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { MemberService, RoleService } from '@app/http';
+import { MemberService, RoleService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 import { tableRowAnimation } from '@shared/animations';
-import { Championship, Member, Role } from '@shared/models';
+import { Championship, Member, Role } from '@data/types';
 
 @Component({
   animations: [tableRowAnimation],

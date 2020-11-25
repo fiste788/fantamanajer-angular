@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { MemberService } from '@app/http';
+import { MemberService } from '@data/services';
 import { UtilService } from '@app/services';
-import { Member, Team } from '@shared/models';
+import { Member, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./team-members.page.scss'],

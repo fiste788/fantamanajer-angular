@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { MatTableDataSource } from '@angular/material/table';
 
 import { tableRowAnimation } from '@shared/animations';
-import { Disposition, Lineup } from '@shared/models';
+import { Disposition, Lineup } from '@data/types';
 
 @Component({
   animations: [tableRowAnimation],

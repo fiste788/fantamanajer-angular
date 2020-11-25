@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Player } from '@shared/models';
+import { Player } from '../types';
 
 const url = 'players';
 const routes = {

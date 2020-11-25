@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
-import { ClubService } from '@app/http';
+import { ClubService } from '@data/services';
 import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
-import { Club } from '@shared/models';
+import { Club } from '@data/types';
 
 @Component({
   animations: [cardCreationAnimation],

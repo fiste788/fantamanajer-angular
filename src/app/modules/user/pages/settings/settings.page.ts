@@ -3,10 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
-import { UserService } from '@app/http';
+import { UserService } from '@data/services';
 import { ApplicationService, PushService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
-import { User } from '@shared/models';
+import { User } from '@data/types';
 
 @Component({
   animations: [cardCreationAnimation],

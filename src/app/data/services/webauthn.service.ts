@@ -11,7 +11,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { PublicKeyCredentialSource, User } from '@shared/models';
+import { PublicKeyCredentialSource, User } from '../types';
 
 const url = 'webauthn';
 const routes = {

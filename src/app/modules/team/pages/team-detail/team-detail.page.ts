@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, mergeMap, pluck, tap } from 'rxjs/operators';
 
-import { TeamService } from '@app/http';
+import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
-import { Team } from '@shared/models';
+import { Team } from '@data/types';
 
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 

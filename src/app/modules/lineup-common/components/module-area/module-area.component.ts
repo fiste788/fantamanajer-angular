@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
-import { Area, Member, Module, Role } from '@shared/models';
+import { Area, Member, Module, Role } from '@data/types';
 
 @Component({
   selector: 'app-module-area',
