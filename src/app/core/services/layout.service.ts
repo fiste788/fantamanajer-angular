@@ -21,7 +21,11 @@ export class LayoutService {
     .pipe(distinctUntilChanged());
 
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
+  public isShowSpeedDial$ = this.showSpeedDialSubject.asObservable()
+    .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
+  public isShowToolbar$ = this.showToolbarSubject.asObservable()
+    .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -105,13 +109,5 @@ export class LayoutService {
 
   public setReady(): void {
     this.isReadySubject.next(true);
-  }
-
-  get isShowSpeedDial(): Observable<VisibilityState> {
-    return this.showSpeedDialSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
-  }
-
-  get isShowToolbar(): Observable<VisibilityState> {
-    return this.showToolbarSubject.pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 }

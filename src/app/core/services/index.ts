@@ -1,6 +1,7 @@
 export * from './application.service';
 export * from './google-analytics.service';
 export * from './layout.service';
+export * from './navigator.service';
 export * from './push.service';
 export * from './scroll.service';
 export * from './theme.service';

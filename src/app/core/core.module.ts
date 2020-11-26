@@ -3,11 +3,10 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } fr
 
 import { NotificationModule } from '@modules/notification/notification.module';
 
-import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard } from './guards';
-import { throwIfAlreadyLoaded } from './guards/module-import.guard';
+import { AuthenticationService } from './authentication';
+import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard, throwIfAlreadyLoaded } from './guards';
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
-import { ApplicationService, WINDOW_PROVIDERS } from './services';
-import { NAVIGATOR_PROVIDERS } from './services/navigator.service';
+import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
 export const useFactory = (service: ApplicationService) => () => service.initialize();
 
@@ -42,7 +41,7 @@ export const useFactory = (service: ApplicationService) => () => service.initial
       useClass: ApiPrefixInterceptor,
     },
     {
-      deps: [ApplicationService],
+      deps: [ApplicationService, AuthenticationService],
       multi: true,
       provide: APP_INITIALIZER,
       useFactory,

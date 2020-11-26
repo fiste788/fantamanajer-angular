@@ -80,9 +80,9 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.isOpen$ = this.isOpenObservable();
-    this.showedSpeedDial$ = combineLatest([this.layoutService.isShowSpeedDial, this.auth.loggedIn$])
+    this.showedSpeedDial$ = combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$])
       .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
-    this.showedToolbar$ = this.layoutService.isShowToolbar;
+    this.showedToolbar$ = this.layoutService.isShowToolbar$;
     this.drawer.openedChange.asObservable()
       .subscribe((a) => {
         this.layoutService.openSidebarSubject.next(a);

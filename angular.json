@@ -53,8 +53,7 @@
               "includePaths": [
                 "src"
               ]
-            },
-            "scripts": []
+            }
           },
           "configurations": {
             "production": {
