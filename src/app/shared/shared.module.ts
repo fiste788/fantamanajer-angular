@@ -9,7 +9,13 @@ import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
 import { CaptainPipe, PlaceholderPipe, RangePipe, SrcsetPipe, StatePipe } from '@shared/pipes';
 
-import { BreadcrumbComponent, MatEmptyStateComponent, ParallaxHeaderComponent, PlayerImageComponent, RouterOutletComponent } from './components';
+import {
+  BreadcrumbComponent,
+  MatEmptyStateComponent,
+  ParallaxHeaderComponent,
+  PlayerImageComponent,
+  RouterOutletComponent,
+} from './components';
 import { MaterialModule } from './material.module';
 
 export const breakPointsProvider = {

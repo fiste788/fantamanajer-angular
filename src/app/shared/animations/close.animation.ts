@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { VisibilityState } from '@app/enums/visibility-state';
+import { VisibilityState } from '@app/enums';
 
 export const closeAnimation = trigger('closeAnimation', [
   state(

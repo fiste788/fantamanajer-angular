@@ -3,10 +3,7 @@ import { MatSidenavContent } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { auditTime, distinctUntilChanged, filter, map, pairwise, share, throttleTime } from 'rxjs/operators';
 
-export enum Direction {
-  Up = 'Up',
-  Down = 'Down',
-}
+import { Direction } from '@app/enums';
 
 @Injectable({
   providedIn: 'root',

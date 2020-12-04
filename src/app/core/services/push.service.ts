@@ -74,7 +74,7 @@ export class PushService {
     this.isSubscribed()
       .pipe(
         filter(s => !s),
-        mergeMap(() => from(this.requestSubscription())),
+        mergeMap(() => this.requestSubscription()),
         filter(s => s),
       )
       .subscribe(() => {
@@ -140,10 +140,10 @@ export class PushService {
   }
 
   private async requestSubscription(): Promise<boolean> {
-    const pushSubscription = await this.swPush.requestSubscription({
-      serverPublicKey: environment.vapidPublicKey,
-    });
     if (this.app.user) {
+      const pushSubscription = await this.swPush.requestSubscription({
+        serverPublicKey: environment.vapidPublicKey,
+      });
       const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
       if (sub) {
         return this.subscription.add(sub)

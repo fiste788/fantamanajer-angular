@@ -6,7 +6,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@data/services';
-import { UtilService } from '@app/services/';
+import { UtilService } from '@app/services';
 import { Member, Module, Role, Team } from '@data/types';
 
 @Component({

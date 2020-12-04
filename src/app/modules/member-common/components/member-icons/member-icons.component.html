@@ -6,6 +6,11 @@
     *ngIf="member.likely_lineup?.regular"
     matTooltip="Titolare"
   >verified_user</mat-icon>
+  <span
+    *ngIf="member.likely_lineup?.second_ballot"
+    class="mat-icon number"
+    matTooltip="Ballottaggio {{(member.likely_lineup?.second_ballot || 100) / 100 | percent}}"
+  >{{(member.likely_lineup?.second_ballot || 100) / 100 | percent}}</span>
   <mat-icon
     *ngIf="!member.likely_lineup?.regular"
     matTooltip="Panchina"
@@ -22,6 +27,10 @@
     *ngIf="captain"
     matTooltip="Capitano"
   >copyright</mat-icon>
+  <span
+    class="mat-icon number"
+    [matTooltip]="'Avversario ' + member.likely_lineup?.versus"
+  >{{member.likely_lineup?.versus | uppercase | slice: 0:3}}</span>
 </span>
 <ng-container *ngIf="!circle">
   {{member.player.full_name}}

@@ -27,6 +27,7 @@ export class Member {
     sum_red_card: number,
   };
   public likely_lineup?: {
+    versus: string;
     regular: boolean;
     injured: boolean;
     disqualified: boolean;

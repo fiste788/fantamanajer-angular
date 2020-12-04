@@ -3,7 +3,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { ClubService } from '@data/services';
-import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
+import { cardCreationAnimation } from '@shared/animations';
 import { Club } from '@data/types';
 
 @Component({

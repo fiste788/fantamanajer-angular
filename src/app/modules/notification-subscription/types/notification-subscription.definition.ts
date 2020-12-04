@@ -1,9 +1,5 @@
-export interface Notification {
-  name: string;
-  label: string;
-}
-
-export type Keys = 'email' | 'push';
+import { Keys } from './keys';
+import { Notification } from './notification';
 
 export const notificationSubscriptions: { [K in Keys]: Array<Notification> } = {
   email: [

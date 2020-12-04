@@ -2,7 +2,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { NotificationListModal } from './notification-list/notification-list.modal';
+import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
 
 export class NotificationOverlayRef {
   public componentInstance?: NotificationListModal;

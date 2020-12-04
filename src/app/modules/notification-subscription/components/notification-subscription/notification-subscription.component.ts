@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 
 import { NotificationSubscription, Team } from '@data/types';
 
-import { Keys, Notification, notificationSubscriptions } from '../../notification-subscription.definition';
+import { Keys, Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

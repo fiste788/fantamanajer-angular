@@ -18,9 +18,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "indexTransform": "src/index-html-transform.ts",
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -28,7 +27,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/.htaccess",
+              {
+                "glob": ".htaccess",
+                "input": "src/assets",
+                "output": "./"
+              },
               "src/assets",
               "src/assets/site.webmanifest",
               "src/favicon.ico"

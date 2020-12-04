@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ArticleService } from '@data/services';
-import { cardCreationAnimation } from '@shared/animations/card-creation.animation';
+import { cardCreationAnimation } from '@shared/animations';
 import { Article, PagedResponse, Pagination } from '@data/types';
 
 @Component({

@@ -2,7 +2,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ElementRef, Injectable, Injector } from '@angular/core';
 
-import { NotificationListModal } from './notification-list/notification-list.modal';
+import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
 import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { animate, sequence, state, style, transition, trigger } from '@angular/animations';
 
-import { VisibilityState } from '@app/enums/visibility-state';
+import { VisibilityState } from '@app/enums';
 
 export const scrollUpAnimation = trigger('scrollUpAnimation', [
   state(

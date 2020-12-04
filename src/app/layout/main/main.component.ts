@@ -18,7 +18,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { VisibilityState } from '@app/enums/visibility-state';
+import { VisibilityState } from '@app/enums';
 import { GoogleAnalyticsService, LayoutService, ScrollService } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
