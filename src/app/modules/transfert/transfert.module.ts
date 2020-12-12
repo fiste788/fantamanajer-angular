@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SelectionModule } from '@modules/selection/selection.module';
@@ -11,7 +10,6 @@ import { TransfertRoutingModule } from './transfert-routing.module';
     TransfertRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     TransfertRoutingModule,
     SelectionModule,

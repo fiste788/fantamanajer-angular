@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { ConfirmationDialogModule } from '@modules/confirmation-dialog/confirmation-dialog.module';
@@ -13,7 +12,6 @@ import { AdminTeamRoutingModule } from './admin-team-routing.module';
     AdminTeamRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     AdminTeamRoutingModule,
     MemberCommonModule,

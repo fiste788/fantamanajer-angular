@@ -14,5 +14,5 @@
   </button>
   <app-breadcrumb></app-breadcrumb>
   <span class="spacer"></span>
-  <app-notification-list *ngIf="loggedIn$ | async"></app-notification-list>
+  <app-notification *ngIf="loggedIn$ | async"></app-notification>
 </mat-toolbar>

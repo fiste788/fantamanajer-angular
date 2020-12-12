@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { LineupCommonModule } from '@modules/lineup-common/lineup-common.module';
@@ -12,7 +11,6 @@ import { LineupRoutingModule } from './lineup-routing.module';
     LineupRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     LineupCommonModule,
     LineupRoutingModule,

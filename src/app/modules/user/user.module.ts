@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { StreamModule } from '@modules/stream/stream.module';
@@ -11,7 +10,6 @@ import { UserRoutingModule } from './user-routing.module';
     UserRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     UserRoutingModule,
     StreamModule,

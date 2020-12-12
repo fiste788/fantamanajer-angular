@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
@@ -11,7 +10,6 @@ import { MemberRoutingModule } from './member-routing.module';
     MemberRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     MemberCommonModule,
     MemberRoutingModule,

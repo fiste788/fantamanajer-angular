@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
@@ -20,7 +19,6 @@ import { ModuleAreaComponent } from './components/module-area/module-area.compon
     ModuleAreaComponent,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     MemberCommonModule,
   ],

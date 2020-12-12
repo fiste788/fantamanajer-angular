@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
@@ -19,7 +18,6 @@ import { MemberSelectionComponent } from './components/member-selection/member-s
     MemberIconsComponent,
   ],
   imports: [
-    CommonModule,
     SharedModule,
   ],
 })

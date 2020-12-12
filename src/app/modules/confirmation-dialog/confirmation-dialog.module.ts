@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -11,7 +10,6 @@ import { ConfirmationDialogModal } from './modals/confirmation-dialog.modal';
     ConfirmationDialogModal,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     MatDialogModule,
   ],

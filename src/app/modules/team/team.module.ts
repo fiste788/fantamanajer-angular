@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ngfModule } from 'angular-file';
@@ -18,7 +17,6 @@ import { TeamRoutingModule } from './team-routing.module';
     TeamRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     TeamRoutingModule,
     MemberCommonModule,

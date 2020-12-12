@@ -1,7 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatBadgeModule } from '@angular/material/badge';
+import { ComponentFactory, ComponentFactoryResolver, NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -18,11 +16,15 @@ import { NotificationOverlayService } from './services/notification-overlay.serv
     NotificationListComponent,
   ],
   imports: [
-    CommonModule,
     SharedModule,
-    MatBadgeModule,
     OverlayModule,
   ],
   providers: [NotificationOverlayService],
 })
-export class NotificationModule { }
+export class NotificationModule {
+  constructor(private readonly componentFactoryResolver: ComponentFactoryResolver) { }
+
+  public resolveComponent(): ComponentFactory<NotificationListComponent> {
+    return this.componentFactoryResolver.resolveComponentFactory(NotificationListComponent);
+  }
+}

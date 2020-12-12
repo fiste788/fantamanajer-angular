@@ -1,8 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { NotificationModule } from '@modules/notification/notification.module';
-
 import { AuthenticationService } from './authentication';
 import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard, throwIfAlreadyLoaded } from './guards';
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
@@ -11,12 +9,9 @@ import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './ser
 export const useFactory = (service: ApplicationService) => () => service.initialize();
 
 @NgModule({
-  exports: [
-    NotificationModule,
-  ],
+  exports: [],
   imports: [
     HttpClientModule,
-    NotificationModule,
   ],
   providers: [
     AuthGuard,

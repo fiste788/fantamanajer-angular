@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { DispositionModule } from '@modules/disposition/disposition.module';
@@ -11,7 +10,6 @@ import { ScoreRoutingModule } from './score-routing.module';
     ScoreRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     ScoreRoutingModule,
     DispositionModule,

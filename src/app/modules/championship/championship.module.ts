@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { StreamModule } from '@modules/stream/stream.module';
@@ -12,7 +11,6 @@ import { ChampionshipResolver } from './pages/championship/championship-resolve.
     ChampionshipRoutingModule.components,
   ],
   imports: [
-    CommonModule,
     SharedModule,
     ChampionshipRoutingModule,
     StreamModule,
