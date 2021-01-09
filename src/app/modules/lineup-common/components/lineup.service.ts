@@ -7,7 +7,7 @@ import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@data/t
 export class LineupService {
   public lineup: Lineup;
 
-  public benchOptions: Map<Role, Array<MemberOption>>;
+  public benchOptions: Map<Role, Array<MemberOption>> = new Map();
   public membersById: Map<number, Member>;
   public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
     ['C', 'captain_id'], ['VC', 'vcaptain_id'], ['VVC', 'vvcaptain_id'],
@@ -81,12 +81,12 @@ export class LineupService {
   private loadDispositions(): Array<Disposition> {
     const dispositions = this.lineup.dispositions.reduce((p, d) => p.set(d.position - 1, d), new Map<number, Disposition>());
 
-    return Array(18)
+    return Array<Disposition>(18)
       .fill(new Disposition())
       .map((disp: Disposition, i) => {
-        disp.position = i;
+        disp.position = i + 1;
 
-        return dispositions.get(disp.position) || disp;
+        return dispositions.get(i) || { ...disp };
       })
       .map((disp) => {
         if (disp.member_id !== null) {

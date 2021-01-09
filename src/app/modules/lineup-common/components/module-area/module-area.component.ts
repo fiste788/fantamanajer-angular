@@ -22,16 +22,26 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.moduleChange();
+    // this.moduleChange$.subscribe(() => this.moduleChange());
   }
 
-  public ngOnChanges(_: SimpleChanges): void {
-    this.moduleChange();
+  public ngOnChanges(changes: SimpleChanges): void {
+    const change = changes.module;
+    if (!change.isFirstChange() && change.previousValue !== change.currentValue) {
+      this.moduleChange();
+    }
   }
 
   public moduleChange(): void {
-    this.module.areas.forEach(area => (
-      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }))
-    ));
+    this.module.areas.forEach((area) => {
+      for (let i = area.fromIndex; i < (area.fromIndex + area.toIndex); i++) {
+        if (this.dispositions[i].member?.role_id !== area.role.id) {
+          // tslint:disable-next-line: no-null-keyword
+          this.dispositions[i].member = null;
+        }
+      }
+      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }));
+    });
   }
 
   public trackByArea(_: number, item: Area): number {
