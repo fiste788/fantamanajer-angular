@@ -10,7 +10,7 @@ const routes: Routes = [
     path: ':id',
     component: PlayerPage,
     data: {
-      // tslint:disable-next-line: no-invalid-template-strings
+      // eslint-disable-next-line no-template-curly-in-string
       breadcrumbs: '${player.full_name}',
       state: 'player-detail',
     },

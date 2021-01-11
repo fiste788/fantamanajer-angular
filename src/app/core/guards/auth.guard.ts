@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.loggedIn()) {
       const authorities = next.data.authorities;
-      if (!authorities || authorities.length === 0) {
+      if (authorities !== undefined || authorities.length === 0) {
         return true;
       }
 

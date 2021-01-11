@@ -64,7 +64,7 @@ export class PushService {
       this.notificationService.broadcast(message.notification.title, '');
     });
     this.swPush.notificationClicks.subscribe((click) => {
-      if (click.notification.data.url) {
+      if (click.notification.data.url !== undefined) {
         void this.router.navigateByUrl(click.notification.data.url);
       }
     });
@@ -74,7 +74,7 @@ export class PushService {
     this.isSubscribed()
       .pipe(
         filter(s => !s),
-        mergeMap(() => this.requestSubscription()),
+        mergeMap(async () => this.requestSubscription()),
         filter(s => s),
       )
       .subscribe(() => {
@@ -173,7 +173,7 @@ export class PushService {
       return this.subscription.delete(sub)
         .pipe(
           map(() => {
-            pushSubscription
+            void pushSubscription
               .unsubscribe()
               .then()
               .catch();

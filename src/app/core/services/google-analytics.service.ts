@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import { environment } from '@env';
 
-declare var gtag: Gtag.Gtag;
+declare let gtag: Gtag.Gtag;
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class GoogleAnalyticsService {
   ) { }
 
   public load(): void {
-    // tslint:disable-next-line: strict-type-predicates
+    // eslint-disable-next-line
     if (environment.gaCode !== undefined) {
       const script = this.document.createElement('script');
       script.async = true;
@@ -31,6 +31,7 @@ export class GoogleAnalyticsService {
       )
         .subscribe((e) => {
           gtag('config', environment.gaCode ?? '', {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             page_path: e.urlAfterRedirects,
           });
         });

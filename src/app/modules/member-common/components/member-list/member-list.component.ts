@@ -24,7 +24,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   @Input() public multipleSelection = false;
   @Input() public elevation = 1;
 
-  @Output() public readonly selection = new SelectionModel<Member>(this.multipleSelection, [], true);
+  @Output() public readonly selection: SelectionModel<Member>;
 
   @ViewChild(MatSort) public sort: MatSort;
 
@@ -45,7 +45,9 @@ export class MemberListComponent implements OnInit, OnDestroy {
   public footer: { [column: string]: number } = {};
   private subscription: Subscription;
 
-  constructor(private readonly changeRef: ChangeDetectorRef) { }
+  constructor(private readonly changeRef: ChangeDetectorRef) {
+    this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);
+  }
 
   public ngOnInit(): void {
     this.fixColumns();
@@ -65,7 +67,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
     this.subscription = this.members.subscribe((data) => {
       this.dataSource = new MatTableDataSource<Member>(data);
       if (data.length) {
-        this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+        this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
         this.calcSummary(data);
         this.changeRef.detectChanges();
         this.dataSource.sort = this.sort;

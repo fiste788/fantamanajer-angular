@@ -27,7 +27,7 @@ export class ArticleDetailPage implements OnInit {
 
   public ngOnInit(): void {
     const id = this.route.snapshot.params.id;
-    this.article$ = this.route.snapshot.params.id ? this.load(+id) : this.new();
+    this.article$ = this.route.snapshot.params.id !== undefined ? this.load(+id) : this.new();
   }
 
   public load(id: number): Observable<Article> {
@@ -43,8 +43,8 @@ export class ArticleDetailPage implements OnInit {
 
   public save(article: Article): void {
     if (this.articleForm.valid === true) {
-      const observable = article.id ? this.articleService.update(article) : this.articleService.create(article);
-      observable.subscribe((a: Partial<Article>) => {
+      const obs: Observable<Partial<Article>> = article.id ? this.articleService.update(article) : this.articleService.create(article);
+      obs.subscribe((a: Partial<Article>) => {
         this.snackBar.open('Articolo salvato correttamente', undefined, {
           duration: 3000,
         });

@@ -16,7 +16,7 @@ import { Member, Module, Role, Team } from '@data/types';
 export class EditMembersPage implements OnInit {
   @ViewChild(NgForm) public membersForm: NgForm;
 
-  public roles = this.roleService.list();
+  public roles: Map<number, Role>;
   public module: Module;
   public controlsByRole$: Observable<boolean>;
   public team: Team;
@@ -30,6 +30,7 @@ export class EditMembersPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
   ) {
+    this.roles = this.roleService.list();
     const key = Array.from(this.roles.values())
       .map(r => r.count)
       .join('-');

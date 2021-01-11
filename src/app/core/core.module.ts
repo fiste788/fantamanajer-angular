@@ -6,7 +6,7 @@ import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard, throwIfA
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
-export const useFactory = (service: ApplicationService) => () => service.initialize();
+export const useFactory = (service: ApplicationService) => async () => service.initialize();
 
 @NgModule({
   exports: [],
@@ -44,13 +44,13 @@ export const useFactory = (service: ApplicationService) => () => service.initial
   ],
 })
 export class CoreModule {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    throwIfAlreadyLoaded(parentModule, CoreModule.name);
+  }
+
   public static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
     };
-  }
-
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    throwIfAlreadyLoaded(parentModule, CoreModule.name);
   }
 }

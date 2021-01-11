@@ -25,7 +25,7 @@ const routes: Routes = [
         path: ':team_id',
         component: TeamDetailPage,
         data: {
-          // tslint:disable-next-line: no-invalid-template-strings
+          // eslint-disable-next-line no-template-curly-in-string
           breadcrumbs: '${team.name}',
           state: 'team-detail',
         },
@@ -41,7 +41,7 @@ const routes: Routes = [
           {
             path: 'articles',
             data: { state: 'team-articles' },
-            loadChildren: () => import('@modules/article/article.module')
+            loadChildren: async () => import('@modules/article/article.module')
               .then(m => m.ArticleModule),
           },
           {
@@ -58,26 +58,26 @@ const routes: Routes = [
           {
             path: 'scores',
             data: { state: 'team-scores' },
-            loadChildren: () => import('@modules/score/score.module')
+            loadChildren: async () => import('@modules/score/score.module')
               .then(m => m.ScoreModule),
           },
           {
             path: 'lineup',
             data: { state: 'team-lineup' },
-            loadChildren: () => import('@modules/lineup/lineup.module')
+            loadChildren: async () => import('@modules/lineup/lineup.module')
               .then(m => m.LineupModule),
           },
           {
             path: 'transferts',
             data: { state: 'team-transfert' },
-            loadChildren: () => import('@modules/transfert/transfert.module')
+            loadChildren: async () => import('@modules/transfert/transfert.module')
               .then(m => m.TransfertModule),
           },
           {
             path: 'admin',
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' },
-            loadChildren: () => import('@modules/admin-team/admin-team.module')
+            loadChildren: async () => import('@modules/admin-team/admin-team.module')
               .then(m => m.AdminTeamModule),
           },
         ],

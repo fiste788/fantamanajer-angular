@@ -39,7 +39,7 @@ export class TransfertListPage implements OnInit {
         .subscribe((data) => {
           this.dataSource = new MatTableDataSource<Transfert>(data);
           if (data.length) {
-            this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+            this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
             this.ref.detectChanges();
             this.dataSource.sort = this.sort;
           }

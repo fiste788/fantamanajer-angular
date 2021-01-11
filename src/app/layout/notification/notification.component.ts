@@ -36,7 +36,7 @@ export class NotificationComponent implements OnInit {
 
   public async open(el: EventTarget | null): Promise<void> {
     const module = await import('@modules/notification/notification.module')
-      .then(m => this.compiler.compileModuleAsync(m.NotificationModule));
+      .then(async m => this.compiler.compileModuleAsync(m.NotificationModule));
 
     const elementModuleRef = module.create(this.injector);
     const moduleInstance = elementModuleRef.instance;

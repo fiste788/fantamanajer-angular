@@ -1,4 +1,13 @@
-import { animate, animateChild, AnimationStateMetadata, AnimationTransitionMetadata, query, sequence, style, transition } from '@angular/animations';
+import {
+  animate,
+  animateChild,
+  AnimationStateMetadata,
+  AnimationTransitionMetadata,
+  query,
+  sequence,
+  style,
+  transition,
+} from '@angular/animations';
 
 export const routerTransition: Array<AnimationStateMetadata | AnimationTransitionMetadata> = [
   // Used when switching between different app contexts.

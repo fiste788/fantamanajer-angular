@@ -1,6 +1,6 @@
 import { Club, Player, Rating, Role, Season, Team } from './';
 
-// tslint:disable: variable-name naming-convention
+/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export class Member {
   public id: number;
   public code_gazzetta: number;
@@ -18,13 +18,13 @@ export class Member {
   public photo_url: string | null;
   public free?: boolean;
   public stats?: {
-    avg_points: number,
-    avg_rating: number,
-    sum_goals: number,
-    sum_goals_against: number,
-    sum_present: number,
-    sum_yellow_card: number,
-    sum_red_card: number,
+    avg_points: number;
+    avg_rating: number;
+    sum_goals: number;
+    sum_goals_against: number;
+    sum_present: number;
+    sum_yellow_card: number;
+    sum_red_card: number;
   };
   public likely_lineup?: {
     versus: string;

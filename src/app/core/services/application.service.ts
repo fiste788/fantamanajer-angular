@@ -37,7 +37,7 @@ export class ApplicationService {
 
   set team(team: Team | undefined) {
     if (team) {
-      // tslint:disable-next-line: strict-type-predicates
+      // eslint-disable-next-line
       if (this.selectedTeam && team.championship === undefined) {
         team.championship = this.selectedTeam?.championship;
       }

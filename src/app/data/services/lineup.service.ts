@@ -16,11 +16,14 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
+
+  constructor(private readonly http: HttpClient) { }
+
   public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
     const clonedLineup: Lineup = JSON.parse(JSON.stringify(lineup));
     const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
     const disp = dispositions.filter(value => value?.member_id !== null);
-    // tslint:disable-next-line: no-null-keyword
+    // eslint-disable-next-line no-null/no-null
     disp.forEach(d => d.member = null);
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
     cleanedLineup.dispositions = disp;
@@ -29,8 +32,6 @@ export class LineupService {
 
     return cleanedLineup;
   }
-
-  constructor(private readonly http: HttpClient) { }
 
   public getLineup(teamId: number): Observable<Lineup> {
     return this.http.get<Lineup>(routes.lineup(teamId));

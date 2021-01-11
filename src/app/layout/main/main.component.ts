@@ -136,6 +136,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   public initDrawer(): void {
     this.drawer.autoFocus = false;
+    // eslint-disable-next-line no-underscore-dangle
     this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
       .subscribe(() => {
         this.layoutService.setReady();

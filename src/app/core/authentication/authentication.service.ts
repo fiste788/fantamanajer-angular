@@ -10,20 +10,22 @@ import { User } from '@data/types';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
-  public userChange$ = this.userSubject.asObservable();
-  public loggedIn$: Observable<boolean> = this.userChange$.pipe(map(u => u !== undefined));
+  public userChange$: Observable<User | undefined>;
+  public loggedIn$: Observable<boolean>;
 
   private token?: string;
   private readonly jwtHelper = new JwtHelperService();
-  private readonly TOKEN_ITEM_NAME = 'token';
-  private readonly ADMIN_ROLE = 'ROLE_ADMIN';
-  private readonly USER_ROLE = 'ROLE_USER';
+  private readonly tokenItemName = 'token';
+  private readonly adminRole = 'ROLE_ADMIN';
+  private readonly userRole = 'ROLE_USER';
 
   constructor(
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
   ) {
-    this.token = localStorage.getItem(this.TOKEN_ITEM_NAME) ?? sessionStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
+    this.userChange$ = this.userSubject.asObservable();
+    this.loggedIn$ = this.userChange$.pipe(map(u => u !== undefined));
+    this.token = localStorage.getItem(this.tokenItemName) ?? sessionStorage.getItem(this.tokenItemName) ?? undefined;
     if (this.token && !this.loggedIn()) {
       this.logout();
     }
@@ -39,16 +41,16 @@ export class AuthenticationService {
       .pipe(switchMap(res => this.postLogin(res, rememberMe)));
   }
 
-  public postLogin(res: { user: User, token: string }, rememberMe?: boolean): Observable<boolean> {
+  public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
       this.token = res.token;
       const user = res.user;
       user.roles = this.getRoles(user);
       if (this.token) {
         if (rememberMe) {
-          localStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+          localStorage.setItem(this.tokenItemName, this.token);
         } else {
-          sessionStorage.setItem(this.TOKEN_ITEM_NAME, this.token);
+          sessionStorage.setItem(this.tokenItemName, this.token);
         }
       }
       this.userSubject.next(user);
@@ -69,7 +71,7 @@ export class AuthenticationService {
       .subscribe();
     this.token = undefined;
     this.userSubject.next(undefined);
-    localStorage.removeItem(this.TOKEN_ITEM_NAME);
+    localStorage.removeItem(this.tokenItemName);
   }
 
   public loggedIn(): boolean {
@@ -86,9 +88,9 @@ export class AuthenticationService {
   }
 
   private getRoles(user: User): Array<string> {
-    const roles = [this.USER_ROLE];
+    const roles = [this.userRole];
     if (user.admin) {
-      roles.push(this.ADMIN_ROLE);
+      roles.push(this.adminRole);
     }
 
     return roles;

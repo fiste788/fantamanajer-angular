@@ -18,7 +18,7 @@ export class PushSubscriptionService {
     return this.http.post(routes.add, subscription);
   }
 
-  public delete(endpoint: string): Observable<{}> {
-    return this.http.delete(`${routes.add}/${encodeURIComponent(endpoint)}`);
+  public delete(endpoint: string): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(`${routes.add}/${encodeURIComponent(endpoint)}`);
   }
 }

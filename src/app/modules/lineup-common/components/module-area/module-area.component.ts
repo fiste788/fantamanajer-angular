@@ -15,10 +15,10 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() public wrap = false;
   @Input() public captain?: Member;
   @Input() public membersByRole: Map<Role, Array<Member>>;
-  @Input() public dispositions: Array<{ member: Member | null, position?: number }>;
+  @Input() public dispositions: Array<{ member: Member | null; position?: number }>;
 
-  @Output() public readonly selectionChange: EventEmitter<{ role: Role, member: Member | null }> =
-    new EventEmitter<{ role: Role, member: Member | null }>();
+  @Output() public readonly selectionChange: EventEmitter<{ role: Role; member: Member | null }> =
+    new EventEmitter<{ role: Role; member: Member | null }>();
 
   public ngOnInit(): void {
     this.moduleChange();
@@ -34,9 +34,9 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   public moduleChange(): void {
     this.module.areas.forEach((area) => {
-      for (let i = area.fromIndex; i < (area.fromIndex + area.toIndex); i++) {
+      for (let i = area.fromIndex; i < (area.fromIndex + area.toIndex); i += 1) {
         if (this.dispositions[i].member?.role_id !== area.role.id) {
-          // tslint:disable-next-line: no-null-keyword
+          // eslint-disable-next-line no-null/no-null
           this.dispositions[i].member = null;
         }
       }

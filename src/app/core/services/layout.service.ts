@@ -12,26 +12,29 @@ import { ScrollService } from './scroll.service';
 })
 export class LayoutService {
 
-  public isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(map(result => result.matches));
+  public isHandset$: Observable<boolean>;
   public openSidebarSubject = new BehaviorSubject<boolean>(false);
-  public openedSidebar$ = this.openSidebarSubject.asObservable();
+  public openedSidebar$: Observable<boolean>;
   public isReadySubject = new BehaviorSubject<boolean>(false);
-  public isReady$ = this.isReadySubject.asObservable()
-    .pipe(distinctUntilChanged());
+  public isReady$: Observable<boolean>;
+  public isShowSpeedDial$: Observable<VisibilityState>;
+  public isShowToolbar$: Observable<VisibilityState>;
 
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
-  public isShowSpeedDial$ = this.showSpeedDialSubject.asObservable()
-    .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
-  public isShowToolbar$ = this.showToolbarSubject.asObservable()
-    .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   private subscriptions: Array<Subscription> = [];
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
     private readonly scrollService: ScrollService,
   ) {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
+    this.openedSidebar$ = this.openSidebarSubject.asObservable();
+    this.isReady$ = this.isReadySubject.asObservable().pipe(distinctUntilChanged());
+    this.isShowSpeedDial$ = this.showSpeedDialSubject.asObservable()
+      .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    this.isShowToolbar$ = this.showToolbarSubject.asObservable()
+      .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
   }
 
   public connect(): void {

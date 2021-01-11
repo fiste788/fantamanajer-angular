@@ -18,6 +18,7 @@ export * from './player.model';
 export * from './pubic-key-credential-source.model';
 export * from './push-subscription.model';
 export * from './rating.model';
+export * from './ranking-position.model';
 export * from './role.model';
 export * from './score.model';
 export * from './season.model';

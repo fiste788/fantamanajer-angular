@@ -3,7 +3,7 @@ import { Matchday } from './matchday.model';
 import { Member } from './member.model';
 import { Team } from './team.model';
 
-// tslint:disable: variable-name naming-convention
+/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export class Lineup {
   public id: number;
   public module: string;

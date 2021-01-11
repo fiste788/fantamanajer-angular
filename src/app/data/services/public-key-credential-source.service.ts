@@ -19,7 +19,7 @@ export class PublicKeyCredentialSourceService {
     return this.http.get<PublicKeyCredentialSource[]>(routes.index(userId));
   }
 
-  public delete(userId: number, id: string): Observable<{}> {
-    return this.http.delete(routes.delete(userId, id));
+  public delete(userId: number, id: string): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(routes.delete(userId, id));
   }
 }

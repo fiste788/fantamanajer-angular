@@ -1,6 +1,6 @@
 import { Matchday, Member, Team } from './';
 
-// tslint:disable: variable-name naming-convention
+/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export class Selection {
   public id: number;
   public active: boolean;

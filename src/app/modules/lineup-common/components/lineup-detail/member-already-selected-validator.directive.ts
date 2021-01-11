@@ -31,15 +31,15 @@ export class MemberAlreadySelectedValidator implements Validator {
 
             return { duplicate: true };
           }
-          // tslint:disable-next-line: no-null-keyword
+          // eslint-disable-next-line no-null/no-null
           c.controls?.member?.setErrors(null);
 
-          // tslint:disable-next-line: no-null-keyword
+          // eslint-disable-next-line no-null/no-null
           return null;
         });
     }
 
-    // tslint:disable-next-line: no-null-keyword
+    // eslint-disable-next-line no-null/no-null
     return null;
   }
 }

@@ -10,14 +10,14 @@ class Options {
   public wrapperSelector: string;
   public wrapper?: HTMLElement;
   public relativeToWrapper: boolean;
-  public round ?= true;
-  public vertical ?= true;
-  public horizontal ?= false;
+  public round?= true;
+  public vertical?= true;
+  public horizontal?= false;
   public percentage: number;
   public min?: number;
   public max?: number;
-  public zindex ?= 1;
-  public callback?: (position: { x: number, y: number }) => void;
+  public zindex?= 1;
+  public callback?: (position: { x: number; y: number }) => void;
 }
 
 interface Block {
@@ -55,14 +55,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private screenX = 0;
   private screenY = 0;
 
-  private readonly loop = this.window.requestAnimationFrame ??
-    this.window.webkitRequestAnimationFrame ??
-    ((callback: () => void) => {
-      setTimeout(callback, 1000 / 60);
-    });
+  private readonly loop: (callback: FrameRequestCallback) => number;
 
   // check what cancelAnimation method to use
-  private readonly clearLoop = this.window.cancelAnimationFrame ?? clearTimeout;
+  private readonly clearLoop: (handle: number) => void;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -71,6 +67,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     private readonly el: ElementRef<HTMLElement>,
     private readonly ngZone: NgZone,
   ) {
+    this.loop = this.window.requestAnimationFrame.bind(this) ??
+      this.window.webkitRequestAnimationFrame.bind(this) ??
+      ((callback: () => void) => {
+        setTimeout(callback, 1000 / 60);
+      });
+    this.clearLoop = this.window.cancelAnimationFrame.bind(this) ?? clearTimeout;
     this.options.speed = this.speed;
     this.options.center = this.center;
     this.options.percentage = this.percentage;
@@ -96,10 +98,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
           // this.supportsPassive = true;
         },
       });
-      // tslint:disable-next-line: no-any
-      (this.window as any).addEventListener('testPassive', undefined, opts);
-      // tslint:disable-next-line: no-any
-      (this.window as any).removeEventListener('testPassive', undefined, opts);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.window.addEventListener('testPassive', () => { }, opts);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.window.removeEventListener('testPassive', () => { }, opts);
     } catch (e) {
       return;
     }
@@ -124,7 +126,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public init(): void {
-    // tslint:disable-next-line: strict-type-predicates
+    // eslint-disable-next-line
     if (this.block !== undefined) {
       this.el.nativeElement.style.cssText = this.block.style;
     }
@@ -185,7 +187,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  public getPos(dataPercentage: number): { x: number, y: number } {
+  public getPos(dataPercentage: number): { x: number; y: number } {
     // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
     // ensures elements are positioned based on HTML layout.
     //
@@ -258,7 +260,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
-  public updatePosition(percentageX: number, percentageY: number, speed: number): { x: number, y: number } {
+  public updatePosition(percentageX: number, percentageY: number, speed: number): { x: number; y: number } {
     const valueX = (speed * ((1 - percentageX) * 100));
     const valueY = (speed * ((1 - percentageY) * 100));
 
@@ -338,7 +340,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
     // Move that element
     // (Set the new translation and append initial inline transforms.)
-    const translate = `translate3d(${this.options.horizontal ? positionX : 0}px,${this.options.vertical ? positionY : 0}px,${this.options.zindex}px) ${this.block.transform}`;
+    const x = this.options.horizontal ? positionX : 0;
+    const y = this.options.vertical ? positionY : 0;
+    const translate = `translate3d(${x}px,${y}px,${this.options.zindex}px) ${this.block.transform}`;
     this.renderer.setStyle(this.el.nativeElement, 'transform', translate);
 
     if (this.options.callback) {

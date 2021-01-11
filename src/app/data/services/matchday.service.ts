@@ -23,8 +23,9 @@ export class MatchdayService {
   }
 
   public getCurrentMatchday(): Observable<Matchday> {
-    return this.httpWithoutIntercept.get<{ success: boolean, data: Matchday }>(environment.apiEndpoint + routes.current, {
+    return this.httpWithoutIntercept.get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
       headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         Accept: '*/*',
       },
       withCredentials: false,

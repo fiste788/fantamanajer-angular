@@ -20,7 +20,7 @@ describe('EmailNotificationSubscriptionComponent', () => {
   });
 
   it('should create', () => {
-    void void expect(component)
+    void expect(component)
       .toBeTruthy();
   });
 });

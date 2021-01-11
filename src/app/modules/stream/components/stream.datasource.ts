@@ -9,8 +9,8 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   private readonly length = 0;
   private readonly pageSize = 10;
   private readonly fetchedPages = new Set<number>();
-  private cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
-  private readonly dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
+  private cachedData: Array<StreamActivity | undefined>;
+  private readonly dataStream: BehaviorSubject<Array<StreamActivity | undefined>>;
   private readonly subscription = new Subscription();
 
   constructor(
@@ -19,6 +19,8 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     private readonly id: number,
   ) {
     super();
+    this.cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
+    this.dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
     this.fetchPage(1);
   }
 
@@ -26,7 +28,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.subscription.add(collectionViewer.viewChange.subscribe((range) => {
       const startPage = this.getPageForIndex(range.start);
       const endPage = this.getPageForIndex(range.end);
-      for (let i = startPage; i <= endPage; i++) {
+      for (let i = startPage; i <= endPage; i += 1) {
         this.fetchPage(i + 1);
       }
     }));

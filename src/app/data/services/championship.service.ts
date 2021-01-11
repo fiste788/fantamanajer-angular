@@ -15,8 +15,8 @@ export class ChampionshipService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public update(championship: Championship): Observable<{}> {
-    return this.http.put(routes.championship(championship.id), championship);
+  public update(championship: Championship): Observable<Pick<Championship, 'id'>> {
+    return this.http.put<Pick<Championship, 'id'>>(routes.championship(championship.id), championship);
   }
 
   public create(championship: Championship): Observable<Championship> {

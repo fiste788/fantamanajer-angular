@@ -17,6 +17,15 @@ export class TeamEditModal {
   public team: Team;
   public file: File;
 
+  constructor(
+    public app: ApplicationService,
+    private readonly teamService: TeamService,
+    private readonly dialogRef: MatDialogRef<TeamEditModal>,
+    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
+  ) {
+    this.team = data.team;
+  }
+
   public static objectToPostParams(
     team: Team,
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
@@ -37,22 +46,13 @@ export class TeamEditModal {
     });
   }
 
-  constructor(
-    public app: ApplicationService,
-    private readonly teamService: TeamService,
-    private readonly dialogRef: MatDialogRef<TeamEditModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
-  ) {
-    this.team = data.team;
-  }
-
   public cancel(): void {
     this.dialogRef.close();
   }
 
   public save(): void {
     const fd = new FormData();
-    // tslint:disable-next-line: strict-type-predicates
+    // eslint-disable-next-line
     if (this.file !== undefined) {
       fd.set('photo', this.file);
     }

@@ -39,15 +39,15 @@ export class ArticleService {
     return this.http.get<Article>(routes.article(id));
   }
 
-  public update(article: Article): Observable<{}> {
-    return this.http.put(routes.article(article.id), article);
+  public update(article: Article): Observable<Pick<Article, 'id'>> {
+    return this.http.put<Pick<Article, 'id'>>(routes.article(article.id), article);
   }
 
   public create(article: Article): Observable<Partial<Article>> {
     return this.http.post(routes.articles, article);
   }
 
-  public delete(id: number): Observable<{}> {
-    return this.http.delete(routes.article(id));
+  public delete(id: number): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(routes.article(id));
   }
 }

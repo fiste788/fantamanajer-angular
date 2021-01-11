@@ -1,6 +1,6 @@
 import { Championship, Member, NotificationSubscription, User } from './';
 
-// tslint:disable: variable-name naming-convention
+/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export class Team {
   public id: number;
   public name: string;

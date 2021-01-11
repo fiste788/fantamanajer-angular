@@ -23,8 +23,8 @@ export class SelectionService {
       );
   }
 
-  public update(selection: Selection): Observable<{}> {
-    return this.http.put(`${routes.selection(selection.team_id)}/${selection.id}`, selection);
+  public update(selection: Selection): Observable<Pick<Selection, 'id'>> {
+    return this.http.put<Pick<Selection, 'id'>>(`${routes.selection(selection.team_id)}/${selection.id}`, selection);
   }
 
   public create(selection: Selection): Observable<Partial<Selection>> {

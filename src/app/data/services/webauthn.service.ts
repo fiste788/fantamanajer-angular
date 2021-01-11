@@ -24,8 +24,8 @@ export class WebauthnService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{ user: User, token: string }> {
-    return this.http.post<{ user: User, token: string }>(routes.login, credential);
+  public login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{ user: User; token: string }> {
+    return this.http.post<{ user: User; token: string }>(routes.login, credential);
   }
 
   public register(credential: PublicKeyCredentialWithAttestationJSON): Observable<PublicKeyCredentialSource> {
@@ -50,7 +50,7 @@ export class WebauthnService {
       );
   }
 
-  public getPublicKey(email: string, publicKey?: CredentialRequestOptionsJSON): Observable<{ user: User, token: string }> {
+  public getPublicKey(email: string, publicKey?: CredentialRequestOptionsJSON): Observable<{ user: User; token: string }> {
     const token = publicKey ? of(publicKey) : this.get(email);
 
     return token.pipe(

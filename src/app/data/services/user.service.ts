@@ -18,18 +18,18 @@ export class UserService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public login(email: string, password: string, rememberMe = false): Observable<{ user: User, token: string }> {
+  public login(email: string, password: string, rememberMe = false): Observable<{ user: User; token: string }> {
     const body = {
       email,
       password,
       rememberMe,
     };
 
-    return this.http.post<{ user: User, token: string }>(routes.login, body);
+    return this.http.post<{ user: User; token: string }>(routes.login, body);
   }
 
-  public logout(): Observable<{}> {
-    return this.http.get(routes.logout);
+  public logout(): Observable<Record<string, never>> {
+    return this.http.get<Record<string, never>>(routes.logout);
   }
 
   public update(user: User): Observable<User> {

@@ -9,8 +9,7 @@ import { map, share, switchMap, take } from 'rxjs/operators';
 })
 export class ThemeService {
 
-  public isDark$: Observable<boolean> = this.breakpointObserver.observe('(prefers-color-scheme: dark)')
-    .pipe(map(result => result.matches));
+  public isDark$: Observable<boolean>;
 
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
@@ -21,11 +20,12 @@ export class ThemeService {
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
   ) {
+    this.isDark$ = this.breakpointObserver.observe('(prefers-color-scheme: dark)').pipe(map(result => result.matches));
     this.head = document.head;
-    // tslint:disable-next-line: no-null-keyword
+    // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.obs = this.isDark$.pipe(
-      switchMap(dark => this.setTheme(dark)),
+      switchMap(async dark => this.setTheme(dark)),
       share(),
     );
     this.connect();

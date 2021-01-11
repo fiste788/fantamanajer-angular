@@ -63,7 +63,7 @@ export class LineupService {
   }
 
   public getLineup(): Lineup {
-    // tslint:disable-next-line: no-null-keyword
+    // eslint-disable-next-line no-null/no-null
     this.lineup.dispositions.forEach(value => value.member_id = value.member?.id ?? null);
 
     return this.lineup;
@@ -90,7 +90,7 @@ export class LineupService {
       })
       .map((disp) => {
         if (disp.member_id !== null) {
-          // tslint:disable-next-line: no-null-keyword
+          // eslint-disable-next-line no-null/no-null
           disp.member = this.membersById.get(disp.member_id ?? 0) ?? null;
         }
 
@@ -111,9 +111,9 @@ export class LineupService {
       .filter(element => element.position > 11)
       .filter(element => element.member?.id === member.id)
       .forEach((element) => {
-        // tslint:disable-next-line: no-null-keyword
+        // eslint-disable-next-line no-null/no-null
         element.member = null;
-        // tslint:disable-next-line: no-null-keyword
+        // eslint-disable-next-line no-null/no-null
         element.member_id = null;
       });
   }

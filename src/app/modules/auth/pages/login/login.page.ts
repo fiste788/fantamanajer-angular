@@ -17,14 +17,14 @@ import { cardCreationAnimation } from '@shared/animations';
   templateUrl: './login.page.html',
 })
 export class LoginPage {
+  @ViewChild('stepper') private readonly stepper: MatHorizontalStepper;
   public loginData: {
-    email?: string,
-    password?: string,
-    remember_me: boolean,
-  } = { remember_me: true };
+    email?: string;
+    password?: string;
+    rememberMe: boolean;
+  } = { rememberMe: true };
   public error = '';
   public token$: Observable<CredentialRequestOptionsJSON>;
-  @ViewChild('stepper') private readonly stepper: MatHorizontalStepper;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class LoginPage {
 
   public login(): void {
     if (this.loginData.email && this.loginData.password) {
-      this.authService.login(this.loginData.email, this.loginData.password, this.loginData.remember_me)
+      this.authService.login(this.loginData.email, this.loginData.password, this.loginData.rememberMe)
         .subscribe((result) => {
           this.postLogin(result);
         });
@@ -46,7 +46,7 @@ export class LoginPage {
 
   public tokenLogin(t: CredentialRequestOptionsJSON): void {
     if (this.loginData.email) {
-      this.authService.webauthnLogin(this.loginData.email, this.loginData.remember_me, t)
+      this.authService.webauthnLogin(this.loginData.email, this.loginData.rememberMe, t)
         .subscribe((result) => {
           this.postLogin(result);
         });
@@ -67,7 +67,7 @@ export class LoginPage {
   public postLogin(result: boolean): void {
     if (result) {
       const url =
-        this.route.snapshot.queryParams.returnUrl ||
+        this.route.snapshot.queryParams.returnUrl ??
         `/championships/${this.app.championship?.id}`;
       void this.router.navigate([url]);
     } else {

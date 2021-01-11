@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformBrowser } from '@angular/common';
 import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 
@@ -35,13 +36,13 @@ export const navigatorFactory = (browserNavigatorRef: BrowserNavigatorRef, platf
 
 const browserNavigatorProvider: ClassProvider = {
   provide: NavigatorRef,
-  // tslint:disable-next-line: object-literal-sort-keys
+  // eslint-disable-next-line
   useClass: BrowserNavigatorRef,
 };
 
 const navigatorProvider: FactoryProvider = {
   provide: NAVIGATOR,
-  // tslint:disable-next-line: object-literal-sort-keys
+  // eslint-disable-next-line
   useFactory: navigatorFactory,
   deps: [NavigatorRef, PLATFORM_ID],
 };

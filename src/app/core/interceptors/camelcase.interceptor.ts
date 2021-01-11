@@ -15,7 +15,7 @@ export class CamelcaseInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
       .pipe(
-        map((event: HttpEvent<{}>) => {
+        map((event: HttpEvent<Record<string, unknown>>) => {
           if (event instanceof HttpResponse) {
             if (event.body !== null) {
               return event.clone({
@@ -36,10 +36,10 @@ export class CamelcaseInterceptor implements HttpInterceptor {
         .replace('_', ''));
   }
 
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public keysToCamel(o: { [k: string]: any }): unknown {
-    // tslint:disable-next-line: strict-type-predicates
-    if (o === Object(o) && !Array.isArray(o) && typeof o !== 'function') {
+    // eslint-disable-next-line
+    if (o === Object(o) && !Array.isArray(o)) {
       const n: { [k: string]: unknown } = {};
       Object.keys(o)
         .forEach((k) => {

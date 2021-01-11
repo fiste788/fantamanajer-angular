@@ -13,7 +13,7 @@ export class Module {
       const mod = key.split('-')
         .map(c => +c);
       this.areas = Array.from(roles.entries())
-        // tslint:disable-next-line: no-unused
+        // eslint-disable-next-line
         .reduce((array, [_, role], index) => {
           array.push({
             fromIndex: this.getIndex(array),

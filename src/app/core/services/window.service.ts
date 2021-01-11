@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformBrowser } from '@angular/common';
 import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 
@@ -5,8 +6,11 @@ declare global {
   interface Window {
     addEventListener(
       type: 'beforeinstallprompt',
-      // tslint:disable-next-line: no-any
-      listener: (this: Window, ev: BeforeInstallPromptEvent) => any, options?: boolean | AddEventListenerOptions): void;
+      listener: (this: Window, ev: BeforeInstallPromptEvent) => void, options?: boolean | AddEventListenerOptions): void;
+
+    addEventListener(
+      type: 'testPassive',
+      listener: (this: Window, ev: Event) => void, options?: boolean | AddEventListenerOptions): void;
   }
 }
 
@@ -37,13 +41,13 @@ export const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: ob
 
 const browserWindowProvider: ClassProvider = {
   provide: WindowRef,
-  // tslint:disable-next-line: object-literal-sort-keys
+  // eslint-disable-next-line
   useClass: BrowserWindowRef,
 };
 
 const windowProvider: FactoryProvider = {
   provide: WINDOW,
-  // tslint:disable-next-line: object-literal-sort-keys
+  // eslint-disable-next-line
   deps: [WindowRef, PLATFORM_ID],
   useFactory: windowFactory,
 };

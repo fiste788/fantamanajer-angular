@@ -117,24 +117,25 @@ export class SelectionComponent implements OnInit {
       selection.new_member_id = this.selection.new_member?.id || 0;
       selection.old_member_id = this.selection.old_member?.id || 0;
       selection.team_id = this.app.team?.id ?? 0;
-      selection.id ? this.selectionService.update(selection) : this.selectionService.create(selection)
-        .subscribe((response: Partial<Selection>) => {
-          this.snackBar.open('Selezione salvata correttamente', undefined, {
-            duration: 3000,
-          });
-          if (response.id) {
-            this.selection.id = response.id;
-          }
+      const obs: Observable<Partial<Selection>> = selection.id ? this.selectionService.update(selection) :
+        this.selectionService.create(selection);
+      obs.subscribe((response: Partial<Selection>) => {
+        this.snackBar.open('Selezione salvata correttamente', undefined, {
+          duration: 3000,
+        });
+        if (response.id) {
+          this.selection.id = response.id;
+        }
+      },
+        (err) => {
+          UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
         },
-          (err) => {
-            UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
-          },
-        );
+      );
     }
   }
 
   public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>) =>
-    a.key.id < b.key.id ? b.key.id : a.key.id
+    a.key.id < b.key.id ? b.key.id : a.key.id;
 
   public isDisabled(role: Role): boolean {
     return this.selection.new_member !== null &&
