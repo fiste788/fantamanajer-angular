@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { PlayerService } from '@data/services';
@@ -10,7 +10,7 @@ import { Player } from '@data/types';
 export class PlayerResolver implements Resolve<Player | undefined> {
   constructor(private readonly cs: PlayerService, private readonly app: ApplicationService) { }
 
-  public resolve(route: ActivatedRouteSnapshot, _: RouterStateSnapshot): Observable<Player> | undefined {
+  public resolve(route: ActivatedRouteSnapshot): Observable<Player> | undefined {
     const playerId = route.paramMap.get('id');
     if (playerId !== null) {
       const id = +playerId;

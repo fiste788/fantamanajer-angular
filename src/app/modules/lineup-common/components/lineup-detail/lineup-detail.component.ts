@@ -58,8 +58,8 @@ export class LineupDetailComponent implements OnInit {
     return this.lineupService.getLineup();
   }
 
-  public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>) =>
-    (a.key < b.key) ? b.key : a.key;
+  public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>): number =>
+    (a.key < b.key) ? b.key : a.key
 
   public trackByBench(_: number, item: number): number {
     return item; // or item.id

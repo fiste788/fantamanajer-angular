@@ -7,10 +7,6 @@ declare global {
     addEventListener(
       type: 'beforeinstallprompt',
       listener: (this: Window, ev: BeforeInstallPromptEvent) => void, options?: boolean | AddEventListenerOptions): void;
-
-    addEventListener(
-      type: 'testPassive',
-      listener: (this: Window, ev: Event) => void, options?: boolean | AddEventListenerOptions): void;
   }
 }
 

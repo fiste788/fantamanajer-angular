@@ -47,7 +47,7 @@ export class ApplicationService {
         this.seasonStarted = false;
         this.seasonEnded = true;
       } else {
-        this.matchday = this.matchday;
+        this.recalcSeason(this.matchday);
       }
     }
   }
@@ -58,6 +58,10 @@ export class ApplicationService {
 
   set matchday(matchday: Matchday) {
     this.selectedMatchday = matchday;
+    this.recalcSeason(matchday);
+  }
+
+  private recalcSeason(matchday: Matchday): void {
     this.seasonEnded = matchday.number > environment.matchdaysCount;
     this.seasonStarted = matchday.number > 0;
   }

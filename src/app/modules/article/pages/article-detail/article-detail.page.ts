@@ -26,8 +26,8 @@ export class ArticleDetailPage implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    const id = this.route.snapshot.params.id;
-    this.article$ = this.route.snapshot.params.id !== undefined ? this.load(+id) : this.new();
+    const id = this.route.snapshot.params.id as string | undefined;
+    this.article$ = id !== undefined ? this.load(+id) : this.new();
   }
 
   public load(id: number): Observable<Article> {

@@ -10,10 +10,11 @@ export class UtilService {
 
   public static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
     if (err.status === 422) {
-      const errors = err.error.data.errors;
+      const error = err.error as { data: { errors: { [key: string]: { [key: string]: unknown } } } };
+      const errors = error.data.errors;
       Object.keys(errors)
         .forEach((key) => {
-          if (form.controls.hasOwnProperty(key)) {
+          if (Object.keys(form.controls).includes(key)) {
             (form.controls as {
               [key: string]: AbstractControl;
             })[key].setErrors(errors[key]);
@@ -35,8 +36,8 @@ export class UtilService {
   public static getSnapshotData<T>(route: ActivatedRoute, param: string): T | undefined {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
-      if (current.snapshot.data.hasOwnProperty(param)) {
-        return current.snapshot.data[param];
+      if (current.snapshot.data[param] !== undefined) {
+        return current.snapshot.data[param] as T;
       }
       current = current.parent;
     }
@@ -47,7 +48,7 @@ export class UtilService {
   public static getData<T>(route: ActivatedRoute, param: string): Observable<T> | undefined {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
-      if (current.snapshot.data.hasOwnProperty(param)) {
+      if (current.snapshot.data[param] !== undefined) {
         return current.data.pipe(pluck(param));
       }
       current = current.parent;

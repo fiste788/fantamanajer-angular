@@ -67,8 +67,8 @@ export class LoginPage {
   public postLogin(result: boolean): void {
     if (result) {
       const url =
-        this.route.snapshot.queryParams.returnUrl ??
-        `/championships/${this.app.championship?.id}`;
+        (this.route.snapshot.queryParams.returnUrl as string | undefined) ??
+        `/championships/${this.app.championship?.id ?? 0}`;
       void this.router.navigate([url]);
     } else {
       this.error = 'Username or password invalid';

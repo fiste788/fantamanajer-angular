@@ -6,7 +6,7 @@ import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard, throwIfA
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
-export const useFactory = (service: ApplicationService) => async () => service.initialize();
+export const useFactory = (service: ApplicationService) => async (): Promise<void> => service.initialize();
 
 @NgModule({
   exports: [],

@@ -36,6 +36,7 @@ interface Block {
   selector: '[appRellax]',
 })
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
+
   @HostBinding('style.will-change') public will = 'transform';
   // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   @Input() public speed = -3;
@@ -51,7 +52,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private pause = true;
   private subscription: Subscription;
   private loopId = 0;
-  // private supportsPassive = false;
+  private readonly supportsPassive = true;
   private screenX = 0;
   private screenY = 0;
 
@@ -81,30 +82,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.testPassive();
-
     const w = this.document.querySelector(this.wrapper);
     if (w !== null) {
       this.options.wrapper = w as HTMLElement;
     }
 
     this.clamp(this.options.speed, -10, 10);
-  }
-
-  public testPassive(): void {
-    try {
-      const opts = Object.defineProperty({}, 'passive', {
-        get: (): void => {
-          // this.supportsPassive = true;
-        },
-      });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.window.addEventListener('testPassive', () => { }, opts);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.window.removeEventListener('testPassive', () => { }, opts);
-    } catch (e) {
-      return;
-    }
   }
 
   public ngAfterViewInit(): void {
@@ -286,19 +269,18 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       this.animate();
 
       // loop again
+      this.loopId = this.loop(this.update.bind(this));
+    } else {
+      this.loopId = 0;
 
+      // Don't animate until we get a position updating event
+      window.addEventListener('resize', this.deferredUpdate.bind(this));
+      window.addEventListener('orientationchange', this.deferredUpdate.bind(this));
+      (this.options.wrapper ? this.options.wrapper : window).addEventListener('scroll',
+        this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
+      (this.options.wrapper ? this.options.wrapper : document).addEventListener('touchmove',
+        this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
     }
-    // else {
-    //   this.loopId = 0;
-
-    //   // Don't animate until we get a position updating event
-    //   window.addEventListener('resize', this.deferredUpdate.bind(this));
-    //   window.addEventListener('orientationchange', this.deferredUpdate.bind(this));
-    //   (this.options.wrapper ? this.options.wrapper : window).addEventListener('scroll',
-    //     this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
-    //   (this.options.wrapper ? this.options.wrapper : document).addEventListener('touchmove',
-    //     this.deferredUpdate.bind(this), this.supportsPassive ? { passive: true } : false);
-    // }
     this.loopId = this.loop(this.update.bind(this));
   }
 
@@ -342,7 +324,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     // (Set the new translation and append initial inline transforms.)
     const x = this.options.horizontal ? positionX : 0;
     const y = this.options.vertical ? positionY : 0;
-    const translate = `translate3d(${x}px,${y}px,${this.options.zindex}px) ${this.block.transform}`;
+    const translate = `translate3d(${x}px,${y}px,${this.options.zindex ?? 0}px) ${this.block.transform}`;
     this.renderer.setStyle(this.el.nativeElement, 'transform', translate);
 
     if (this.options.callback) {

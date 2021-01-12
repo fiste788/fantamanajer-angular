@@ -14,7 +14,7 @@ export class StickyDirective implements OnInit {
 
   public ngOnInit(): void {
     if (this.el !== undefined) {
-      const height = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary')?.clientHeight;
+      const height = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary')?.clientHeight ?? 0;
       this.renderer.addClass(this.el.nativeElement, 'sticky');
       this.renderer.setStyle(this.el.nativeElement, 'top', `${height}px`);
     }

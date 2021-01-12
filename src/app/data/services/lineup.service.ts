@@ -20,7 +20,7 @@ export class LineupService {
   constructor(private readonly http: HttpClient) { }
 
   public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
-    const clonedLineup: Lineup = JSON.parse(JSON.stringify(lineup));
+    const clonedLineup = JSON.parse(JSON.stringify(lineup)) as Lineup;
     const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
     const disp = dispositions.filter(value => value?.member_id !== null);
     // eslint-disable-next-line no-null/no-null

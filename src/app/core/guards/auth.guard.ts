@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.loggedIn()) {
-      const authorities = next.data.authorities;
-      if (authorities !== undefined || authorities.length === 0) {
+      const authorities = next.data.authorities as Array<string> | undefined;
+      if (authorities === undefined || authorities.length === 0) {
         return true;
       }
 
@@ -31,6 +31,7 @@ export class AuthGuard implements CanActivate {
 
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public checkAuth(authorities: Array<string>, _: string): boolean {
     return authorities.some(r => this.app.user?.roles.includes(r)) ?? false;
   }

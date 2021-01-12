@@ -26,6 +26,6 @@ export class ClubDetailPage implements OnInit {
   constructor(private readonly route: ActivatedRoute) { }
 
   public ngOnInit(): void {
-    this.club$ = this.route.data.pipe(pluck('club'));
+    this.club$ = this.route.data.pipe<Club>(pluck('club'));
   }
 }

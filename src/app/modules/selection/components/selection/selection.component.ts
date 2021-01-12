@@ -134,8 +134,8 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>) =>
-    a.key.id < b.key.id ? b.key.id : a.key.id;
+  public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number =>
+    a.key.id < b.key.id ? b.key.id : a.key.id
 
   public isDisabled(role: Role): boolean {
     return this.selection.new_member !== null &&

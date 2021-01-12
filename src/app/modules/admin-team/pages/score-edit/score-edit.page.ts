@@ -39,7 +39,7 @@ export class ScoreEditPage implements OnInit {
   }
 
   public getScore(event: MatSelectChange): void {
-    this.selectedScore = event.value;
+    this.selectedScore = event.value as Score;
     this.score$ = this.scoreService.getScore(this.selectedScore.id, true);
   }
 

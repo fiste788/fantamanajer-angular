@@ -21,7 +21,7 @@ export class ScoreService {
   constructor(private readonly http: HttpClient) { }
 
   public static cleanScore(score: Score): RecursivePartial<Score> {
-    const clonedScore: Score = JSON.parse(JSON.stringify(score));
+    const clonedScore = JSON.parse(JSON.stringify(score)) as Score;
     const cleanedScore: RecursivePartial<Score> = clonedScore;
     if (clonedScore.lineup) {
       cleanedScore.lineup = LineupService.cleanLineup(clonedScore.lineup);

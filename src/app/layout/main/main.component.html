@@ -10,7 +10,6 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
-      #toolbar
       [showDrawerButton]="(isHandset$ | async) || false"
       [state]="(showedToolbar$ | async)"
     >

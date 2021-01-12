@@ -60,12 +60,12 @@ export class TeamDetailPage implements OnInit {
   }
 
   public openDialog(team: Team): void {
-    this.dialog.open(TeamEditModal, {
+    this.dialog.open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
       data: { team },
     })
       .afterClosed()
       .pipe(
-        filter(t => t),
+        filter(t => t === true),
         mergeMap(() => this.teamService.getTeam(team.id)),
       )
       .subscribe((t: Team) => {

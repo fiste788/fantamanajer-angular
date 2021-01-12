@@ -28,7 +28,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
       .pipe(
         map((event: HttpEvent<{ data: Record<string, unknown>; success: boolean }>) => {
           if (event instanceof HttpResponse && event.body !== null) {
-            if (!req.params.has('page') || !event.body.hasOwnProperty('pagination')) {
+            if (!req.params.has('page') || !Object.keys(event.body).includes('pagination')) {
               return event.clone({
                 body: event.body.data,
               });

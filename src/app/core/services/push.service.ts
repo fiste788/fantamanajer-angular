@@ -64,8 +64,9 @@ export class PushService {
       this.notificationService.broadcast(message.notification.title, '');
     });
     this.swPush.notificationClicks.subscribe((click) => {
-      if (click.notification.data.url !== undefined) {
-        void this.router.navigateByUrl(click.notification.data.url);
+      const data = click.notification.data as { url?: string };
+      if (data.url !== undefined) {
+        void this.router.navigateByUrl(data.url);
       }
     });
   }

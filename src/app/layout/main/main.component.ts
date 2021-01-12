@@ -5,7 +5,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Inject,
   NgZone,
   OnInit,
@@ -39,7 +38,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav, { static: true }) public drawer: MatSidenav;
   @ViewChild(MatSidenavContent) public container: MatSidenavContent;
   @ViewChild(SpeedDialComponent) public speedDial: SpeedDialComponent;
-  @ViewChild('toolbar', { read: ElementRef }) public toolbarEl: ElementRef;
 
   public isReady$: Observable<boolean>;
   public isOpen$: Observable<boolean>;
@@ -101,37 +99,16 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   public setupScrollAnimation(): void {
-    this.layoutService.connectScrollAnimation(
-      () => {
-        this.up();
-      },
-      () => {
-        this.down();
-      },
-      this.toolbarEl.nativeElement.firstChild.clientHeight);
+    this.layoutService.connectScrollAnimation(this.up.bind(this), this.up.bind(this), this.getToolbarHeight());
   }
 
   public up(): void {
-    const toolbar = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary');
-    const height = toolbar !== null ? toolbar.clientHeight : 0;
-    this.document.querySelectorAll('.sticky')
-      .forEach((e: Element) => {
-        if (e instanceof HTMLElement) {
-          e.style.top = `${height}px`;
-        }
-      });
-    this.changeRef.detectChanges();
+    this.updateSticky(this.getToolbarHeight());
   }
 
   public down(): void {
     this.speedDial.openSpeeddial = false;
-    this.document.querySelectorAll('.sticky')
-      .forEach((e: Element) => {
-        if (e instanceof HTMLElement) {
-          e.style.top = '0';
-        }
-      });
-    this.changeRef.detectChanges();
+    this.updateSticky(0);
   }
 
   public initDrawer(): void {
@@ -151,5 +128,20 @@ export class MainComponent implements OnInit, AfterViewInit {
           o || (!h && r)),
         distinctUntilChanged(),
       );
+  }
+
+  private updateSticky(offset: number): void {
+    this.document.querySelectorAll('.sticky')
+      .forEach((e: Element) => {
+        if (e instanceof HTMLElement) {
+          e.style.top = `${offset}px`;
+        }
+      });
+    this.changeRef.detectChanges();
+  }
+
+  private getToolbarHeight(): number {
+    const toolbar = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary');
+    return toolbar?.clientHeight ?? 0;
   }
 }

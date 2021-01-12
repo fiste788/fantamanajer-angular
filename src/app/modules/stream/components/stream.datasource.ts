@@ -68,7 +68,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   private addPlaceholder(): void {
     this.cachedData = [
       ...this.cachedData,
-      ...Array(this.pageSize)
+      ...Array<undefined>(this.pageSize)
         .fill(undefined),
     ];
   }

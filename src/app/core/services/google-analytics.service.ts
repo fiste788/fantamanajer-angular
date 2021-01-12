@@ -19,7 +19,7 @@ export class GoogleAnalyticsService {
 
   public load(): void {
     // eslint-disable-next-line
-    if (environment.gaCode !== undefined) {
+    if (environment.gaCode !== '') {
       const script = this.document.createElement('script');
       script.async = true;
       script.defer = true;

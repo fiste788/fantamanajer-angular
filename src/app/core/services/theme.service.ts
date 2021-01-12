@@ -49,7 +49,7 @@ export class ThemeService {
       if (linkEl !== null) {
         this.renderer.setAttribute(linkEl, 'href', styleName);
       } else {
-        linkEl = this.renderer.createElement('link');
+        linkEl = this.renderer.createElement('link') as HTMLLinkElement;
         this.renderer.setAttribute(linkEl, 'rel', 'stylesheet');
         this.renderer.setAttribute(linkEl, 'id', 'client-theme');
         this.renderer.setAttribute(linkEl, 'type', 'text/css');

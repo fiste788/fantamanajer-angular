@@ -7,7 +7,7 @@ import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@data/t
 export class LineupService {
   public lineup: Lineup;
 
-  public benchOptions: Map<Role, Array<MemberOption>> = new Map();
+  public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
   public membersById: Map<number, Member>;
   public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
     ['C', 'captain_id'], ['VC', 'vcaptain_id'], ['VVC', 'vvcaptain_id'],

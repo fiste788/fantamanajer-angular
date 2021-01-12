@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
-import { Lineup } from '@data/types';
+import { Lineup, Member } from '@data/types';
 
 @Directive({
   providers: [{
@@ -20,13 +20,17 @@ export class MemberAlreadySelectedValidator implements Validator {
       const ids = Object.values(disp.controls)
         .filter((v): v is FormGroup => v instanceof FormGroup)
         .filter(v => v.controls)
-        .map((v: FormGroup) => v.controls.member?.value?.id);
+        .map((v: FormGroup) => {
+          const control = v.controls.member?.value as Member | undefined;
+          return control?.id;
+        });
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
 
       Object.values(disp.controls)
         .filter((c): c is FormGroup => c instanceof FormGroup)
         .map((c) => {
-          if (dup.includes(c.controls?.member?.value?.id)) {
+          const member = (c.controls?.member?.value as Member | undefined);
+          if (member !== undefined && dup.includes(member.id)) {
             c.controls?.member?.setErrors({ duplicate: true });
 
             return { duplicate: true };

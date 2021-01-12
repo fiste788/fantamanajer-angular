@@ -35,14 +35,15 @@ export class MemberSelectionComponent implements ControlValueAccessor {
 
   @HostBinding('@lineupDisposition') public lineupDisposition = '';
 
-  public onChange = (_: Member | null) => undefined;
-  public onTouched = () => undefined;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onChange = (_: Member | null): void => undefined;
+  public onTouched = (): void => undefined;
 
   get val(): Member | null {
     return this.member;
   }
 
-  set val(val) {
+  set val(val: Member | null) {
     this.member = val;
     this.onChange(val);
     this.onTouched();

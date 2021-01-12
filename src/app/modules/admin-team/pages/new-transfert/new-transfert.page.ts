@@ -67,13 +67,13 @@ export class NewTransfertPage implements OnInit {
   public submit(): void {
     if (this.transfertForm.valid === true) {
       if (this.transfert.new_member?.teams.length) {
-        const dialogRef = this.dialog.open(ConfirmationDialogModal, {
+        const dialogRef = this.dialog.open<ConfirmationDialogModal, { text: string }, boolean>(ConfirmationDialogModal, {
           data: {
             text: `Il giocatore appartiene alla squadra ${this.transfert.new_member.teams[0].name}. Vuoi effettuare lo scambio?`,
           },
         });
         dialogRef.afterClosed()
-          .pipe(filter(r => r))
+          .pipe(filter(r => r === true))
           .subscribe(() => {
             this.save();
           });

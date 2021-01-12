@@ -18,9 +18,10 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       .pipe(
         catchError((err: unknown) => {
           if (err instanceof HttpErrorResponse) {
+            const error = err.error as { data: { message: string, errors: { [key: string]: { [key: string]: unknown } } } };
             let message = '';
             try {
-              message = err.error.data.message;
+              message = error.data.message;
             } catch (e) {
               message = err.message;
             }
