@@ -20,7 +20,7 @@ export class ArticleListPage implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly articleService: ArticleService,
     private readonly changeRef: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();
@@ -29,33 +29,27 @@ export class ArticleListPage implements OnInit {
   public loadData(page = 1): void {
     this.page = page;
     this.isLoading = true;
-    this.articleService.getArticles(page)
-      .subscribe(
-        (data: PagedResponse<Array<Article>>) => {
-          this.isLoading = false;
-          this.pagination = data.pagination;
-          this.articles = this.articles.concat(data.data);
-          this.changeRef.detectChanges();
-        },
-      );
-
+    this.articleService.getArticles(page).subscribe((data: PagedResponse<Array<Article>>) => {
+      this.isLoading = false;
+      this.pagination = data.pagination;
+      this.articles = this.articles.concat(data.data);
+      this.changeRef.detectChanges();
+    });
   }
 
   public onScrollDown(): void {
     if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
       this.loadData(this.pagination.current_page + 1);
     }
-
   }
 
   public delete(id: number): void {
-    this.articleService.delete(id)
-      .subscribe(() => {
-        this.snackBar.open('Article deleted', undefined, {
-          duration: 3000,
-        });
-        this.articles.filter(article => article.id !== id);
+    this.articleService.delete(id).subscribe(() => {
+      this.snackBar.open('Article deleted', undefined, {
+        duration: 3000,
       });
+      this.articles.filter((article) => article.id !== id);
+    });
   }
 
   public track(_: number, item: Article): number {

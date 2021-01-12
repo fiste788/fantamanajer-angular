@@ -6,10 +6,7 @@ import { ApplicationService } from '@app/services';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-
-  constructor(
-    private readonly app: ApplicationService,
-  ) { }
+  constructor(private readonly app: ApplicationService) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return this.app.user?.admin || false;

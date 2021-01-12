@@ -12,10 +12,7 @@ import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.ser
 import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
-  declarations: [
-    TeamEditModal,
-    TeamRoutingModule.components,
-  ],
+  declarations: [TeamEditModal, TeamRoutingModule.components],
   imports: [
     SharedModule,
     TeamRoutingModule,
@@ -25,8 +22,6 @@ import { TeamRoutingModule } from './team-routing.module';
     StreamModule,
     ngfModule,
   ],
-  providers: [
-    TeamDetailResolver,
-  ],
+  providers: [TeamDetailResolver],
 })
-export class TeamModule { }
+export class TeamModule {}

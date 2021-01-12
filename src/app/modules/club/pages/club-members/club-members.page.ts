@@ -18,7 +18,7 @@ export class ClubMembersPage implements OnInit {
   constructor(
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     const club = UtilService.getSnapshotData<Club>(this.route, 'club');

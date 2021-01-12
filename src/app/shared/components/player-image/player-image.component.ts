@@ -9,8 +9,6 @@ import { Member } from '@data/types';
   templateUrl: './player-image.component.html',
 })
 export class PlayerImageComponent {
-
   @Input() public member?: Member;
   @Input() public inCard = false;
-
 }

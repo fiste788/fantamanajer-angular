@@ -1,5 +1,12 @@
 import { KeyValue } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -31,8 +38,7 @@ export class MemberFreePage implements OnInit, AfterViewInit {
     private readonly route: ActivatedRoute,
     private readonly roleService: RoleService,
     public app: ApplicationService,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.roles = this.roleService.list();
@@ -51,15 +57,15 @@ export class MemberFreePage implements OnInit, AfterViewInit {
     this.members$ = undefined;
     this.changeRef.detectChanges();
     if (championship) {
-      this.members$ = this.memberService.getFree(championship.id, role?.id)
-        .pipe(tap(() => {
+      this.members$ = this.memberService.getFree(championship.id, role?.id).pipe(
+        tap(() => {
           if (this.memberList) {
-            this.selectedMember$ = this.memberList.selection.changed.asObservable()
-              .pipe(
-                map(m => m.source.selected[0]),
-              );
+            this.selectedMember$ = this.memberList.selection.changed
+              .asObservable()
+              .pipe(map((m) => m.source.selected[0]));
           }
-        }));
+        }),
+      );
     }
   }
 

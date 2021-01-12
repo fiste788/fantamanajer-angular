@@ -6,12 +6,13 @@ describe('MemberFreePage', () => {
   let component: MemberFreePage;
   let fixture: ComponentFixture<MemberFreePage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [MemberFreePage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [MemberFreePage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MemberFreePage);
@@ -20,7 +21,6 @@ describe('MemberFreePage', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -6,12 +6,13 @@ describe('EventListComponent', () => {
   let component: StreamComponent;
   let fixture: ComponentFixture<StreamComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [StreamComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [StreamComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StreamComponent);
@@ -20,7 +21,6 @@ describe('EventListComponent', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

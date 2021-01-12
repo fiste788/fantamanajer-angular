@@ -25,7 +25,7 @@ export class TransfertListPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly ref: ChangeDetectorRef,
     public app: ApplicationService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();
@@ -35,23 +35,26 @@ export class TransfertListPage implements OnInit {
     this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (this.teamId) {
       // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
-      this.transfertService.getTransfert(this.teamId)
-        .subscribe((data) => {
-          this.dataSource = new MatTableDataSource<Transfert>(data);
-          if (data.length) {
-            this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-            this.ref.detectChanges();
-            this.dataSource.sort = this.sort;
-          }
-        });
+      this.transfertService.getTransfert(this.teamId).subscribe((data) => {
+        this.dataSource = new MatTableDataSource<Transfert>(data);
+        if (data.length) {
+          this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
+          this.ref.detectChanges();
+          this.dataSource.sort = this.sort;
+        }
+      });
     }
   }
 
   public sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
-      case 'old_member': value = data.old_member.player.full_name; break;
-      case 'new_member': value = data.new_member.player.full_name; break;
+      case 'old_member':
+        value = data.old_member.player.full_name;
+        break;
+      case 'new_member':
+        value = data.new_member.player.full_name;
+        break;
       default:
     }
 

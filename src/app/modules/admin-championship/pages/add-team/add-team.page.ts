@@ -20,7 +20,8 @@ export class AddTeamPage implements OnInit {
     private readonly teamService: TeamService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
-    private readonly route: ActivatedRoute) { }
+    private readonly route: ActivatedRoute,
+  ) {}
 
   public ngOnInit(): void {
     const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
@@ -31,18 +32,17 @@ export class AddTeamPage implements OnInit {
   }
 
   public save(): void {
-    this.teamService.save(this.team)
-      .subscribe((response) => {
+    this.teamService.save(this.team).subscribe(
+      (response) => {
         this.team.id = response.id;
         this.snackBar.open('Modifiche salvate', undefined, {
           duration: 3000,
         });
         void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
       },
-        (err) => {
-          UtilService.getUnprocessableEntityErrors(this.teamForm, err);
-        },
-      );
+      (err) => {
+        UtilService.getUnprocessableEntityErrors(this.teamForm, err);
+      },
+    );
   }
-
 }

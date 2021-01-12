@@ -6,12 +6,13 @@ describe('ParallaxHeaderComponent', () => {
   let component: ParallaxHeaderComponent;
   let fixture: ComponentFixture<ParallaxHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ParallaxHeaderComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ParallaxHeaderComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParallaxHeaderComponent);
@@ -20,7 +21,6 @@ describe('ParallaxHeaderComponent', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -6,12 +6,13 @@ describe('MemberSelectionComponent', () => {
   let component: MemberSelectionComponent;
   let fixture: ComponentFixture<MemberSelectionComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [MemberSelectionComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [MemberSelectionComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MemberSelectionComponent);
@@ -20,7 +21,6 @@ describe('MemberSelectionComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

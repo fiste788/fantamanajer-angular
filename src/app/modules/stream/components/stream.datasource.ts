@@ -24,14 +24,18 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.fetchPage(1);
   }
 
-  public connect(collectionViewer: CollectionViewer): Observable<Array<StreamActivity | undefined>> {
-    this.subscription.add(collectionViewer.viewChange.subscribe((range) => {
-      const startPage = this.getPageForIndex(range.start);
-      const endPage = this.getPageForIndex(range.end);
-      for (let i = startPage; i <= endPage; i += 1) {
-        this.fetchPage(i + 1);
-      }
-    }));
+  public connect(
+    collectionViewer: CollectionViewer,
+  ): Observable<Array<StreamActivity | undefined>> {
+    this.subscription.add(
+      collectionViewer.viewChange.subscribe((range) => {
+        const startPage = this.getPageForIndex(range.start);
+        const endPage = this.getPageForIndex(range.end);
+        for (let i = startPage; i <= endPage; i += 1) {
+          this.fetchPage(i + 1);
+        }
+      }),
+    );
 
     return this.dataStream;
   }
@@ -54,22 +58,16 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
       this.dataStream.next(this.cachedData);
     }
 
-    this.streamService.get(this.name, this.id, page)
-      .subscribe((data: Stream) => {
-        this.cachedData = this.cachedData.filter(it => it !== undefined)
-          .concat(data.results);
-        if (this.cachedData.length === 0) {
-          this.isEmpty = true;
-        }
-        this.dataStream.next(this.cachedData);
-      });
+    this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
+      this.cachedData = this.cachedData.filter((it) => it !== undefined).concat(data.results);
+      if (this.cachedData.length === 0) {
+        this.isEmpty = true;
+      }
+      this.dataStream.next(this.cachedData);
+    });
   }
 
   private addPlaceholder(): void {
-    this.cachedData = [
-      ...this.cachedData,
-      ...Array<undefined>(this.pageSize)
-        .fill(undefined),
-    ];
+    this.cachedData = [...this.cachedData, ...Array<undefined>(this.pageSize).fill(undefined)];
   }
 }

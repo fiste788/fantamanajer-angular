@@ -18,11 +18,7 @@ export class ClubListPage implements OnInit, OnDestroy {
   public exit = false;
   public id: number;
 
-  constructor(
-    private readonly clubService: ClubService,
-    private readonly router: Router,
-  ) {
-  }
+  constructor(private readonly clubService: ClubService, private readonly router: Router) {}
 
   public ngOnInit(): void {
     this.clubs$ = this.clubService.getClubs();

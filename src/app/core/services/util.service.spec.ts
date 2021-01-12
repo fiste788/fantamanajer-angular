@@ -10,7 +10,6 @@ describe('UtilService', () => {
   });
 
   it('should be created', inject([UtilService], (service: UtilService) => {
-    void expect(service)
-      .toBeTruthy();
+    void expect(service).toBeTruthy();
   }));
 });

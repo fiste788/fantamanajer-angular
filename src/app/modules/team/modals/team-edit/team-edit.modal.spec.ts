@@ -6,12 +6,13 @@ describe('TeamEditModal', () => {
   let component: TeamEditModal;
   let fixture: ComponentFixture<TeamEditModal>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [TeamEditModal],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [TeamEditModal],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TeamEditModal);
@@ -20,7 +21,6 @@ describe('TeamEditModal', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

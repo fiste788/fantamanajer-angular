@@ -7,8 +7,6 @@ import { NotificationSubscriptionComponent } from './components/notification-sub
 @NgModule({
   declarations: [NotificationSubscriptionComponent],
   exports: [NotificationSubscriptionComponent],
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
 })
-export class NotificationSubscriptionModule { }
+export class NotificationSubscriptionModule {}

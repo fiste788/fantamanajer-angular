@@ -2,26 +2,30 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 
 export const createBoxAnimation = trigger('createBox', [
   transition(':enter', [
-    query(':scope>img, .mat-icon, .img-container',
-      style({ opacity: 0, transform: 'scale(0.4)' }),
-      { optional: true },
-    ),
-    query(':scope>img, .mat-icon, .img-container',
+    query(':scope>img, .mat-icon, .img-container', style({ opacity: 0, transform: 'scale(0.4)' }), {
+      optional: true,
+    }),
+    query(
+      ':scope>img, .mat-icon, .img-container',
       stagger(40, [
-        animate('450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        animate(
+          '450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ transform: 'scale(1)', opacity: 1 }),
         ),
-      ]), { optional: true },
-    )]
-    ,
-  ),
+      ]),
+      { optional: true },
+    ),
+  ]),
   transition(':leave', [
-    query(':scope>img, .mat-icon, .img-container',
+    query(
+      ':scope>img, .mat-icon, .img-container',
       stagger(40, [
-        animate('400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        animate(
+          '400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ transform: 'scale(0.4)', opacity: 0 }),
         ),
-      ]), { optional: true },
-    )],
-  )],
-);
+      ]),
+      { optional: true },
+    ),
+  ]),
+]);

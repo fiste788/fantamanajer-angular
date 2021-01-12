@@ -8,11 +8,7 @@ import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/a
 import { Club } from '@data/types';
 
 @Component({
-  animations: [
-    enterDetailAnimation,
-    tabTransition,
-    trigger('contextChange', routerTransition),
-  ],
+  animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],
   styleUrls: ['./club-detail.page.scss'],
   templateUrl: './club-detail.page.html',
 })
@@ -23,7 +19,7 @@ export class ClubDetailPage implements OnInit {
     { label: 'Attività', link: 'stream' },
   ];
 
-  constructor(private readonly route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.club$ = this.route.data.pipe<Club>(pluck('club'));

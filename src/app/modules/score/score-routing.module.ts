@@ -42,8 +42,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class ScoreRoutingModule {
-  public static components = [
-    RankingPage,
-    ScoreDetailPage,
-  ];
+  public static components = [RankingPage, ScoreDetailPage];
 }

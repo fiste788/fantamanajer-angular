@@ -8,7 +8,7 @@ import { Player } from '@data/types';
 
 @Injectable()
 export class PlayerResolver implements Resolve<Player | undefined> {
-  constructor(private readonly cs: PlayerService, private readonly app: ApplicationService) { }
+  constructor(private readonly cs: PlayerService, private readonly app: ApplicationService) {}
 
   public resolve(route: ActivatedRouteSnapshot): Observable<Player> | undefined {
     const playerId = route.paramMap.get('id');
@@ -19,6 +19,5 @@ export class PlayerResolver implements Resolve<Player | undefined> {
     }
 
     return undefined;
-
   }
 }

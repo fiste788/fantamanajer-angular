@@ -6,12 +6,14 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
     trigger('createBox', [
       transition(':enter', [
         style({ opacity: 0, transform: 'scale(0.4)' }),
-        animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        animate(
+          '350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ transform: 'scale(1)', opacity: 1 }),
         ),
       ]),
       transition(':leave', [
-        animate('350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+        animate(
+          '350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
           style({ transform: 'scale(0.4)', opacity: 0 }),
         ),
       ]),

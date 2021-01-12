@@ -1,5 +1,12 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@data/services';
@@ -25,14 +32,14 @@ export class LineupDetailComponent implements OnInit {
     readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
     private readonly cd: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadLineup();
   }
 
   public loadLineup(): void {
-    const lineup = this.lineup ?? ((!this.disabled) ? new Lineup() : undefined);
+    const lineup = this.lineup ?? (!this.disabled ? new Lineup() : undefined);
     if (lineup !== undefined && lineup.team.members.length) {
       this.lineupService.loadLineup(lineup);
       if (!this.disabled) {
@@ -42,16 +49,15 @@ export class LineupDetailComponent implements OnInit {
   }
 
   public loadLikely(lineup: Lineup): void {
-    this.lineupHttpService.getLikelyLineup(lineup)
-      .subscribe((members) => {
-        members.forEach((member) => {
-          const m = this.lineupService.membersById.get(member.id);
-          if (m) {
-            m.likely_lineup = member.likely_lineup;
-          }
-        });
-        this.cd.detectChanges();
+    this.lineupHttpService.getLikelyLineup(lineup).subscribe((members) => {
+      members.forEach((member) => {
+        const m = this.lineupService.membersById.get(member.id);
+        if (m) {
+          m.likely_lineup = member.likely_lineup;
+        }
       });
+      this.cd.detectChanges();
+    });
   }
 
   public getLineup(): Lineup {
@@ -59,7 +65,7 @@ export class LineupDetailComponent implements OnInit {
   }
 
   public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>): number =>
-    (a.key < b.key) ? b.key : a.key
+    a.key < b.key ? b.key : a.key;
 
   public trackByBench(_: number, item: number): number {
     return item; // or item.id

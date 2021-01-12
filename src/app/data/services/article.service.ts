@@ -14,8 +14,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
@@ -29,10 +28,16 @@ export class ArticleService {
     return this.http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
-  public getArticlesByChampionship(championshipId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
+  public getArticlesByChampionship(
+    championshipId: number,
+    page = 1,
+  ): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(routes.championshipArticles(championshipId), { params });
+    return this.http.get<PagedResponse<Array<Article>>>(
+      routes.championshipArticles(championshipId),
+      { params },
+    );
   }
 
   public getArticle(id: number): Observable<Article> {

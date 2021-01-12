@@ -11,8 +11,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class RatingService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getRatings(memberId: number): Observable<Array<Rating>> {
     return this.http.get<Array<Rating>>(routes.rating(memberId));

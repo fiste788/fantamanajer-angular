@@ -29,7 +29,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class MemberRoutingModule {
-  public static components = [
-    MemberFreePage,
-  ];
+  public static components = [MemberFreePage];
 }

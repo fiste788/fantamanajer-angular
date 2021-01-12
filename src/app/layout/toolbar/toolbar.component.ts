@@ -21,7 +21,7 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loggedIn$ = this.auth.loggedIn$;
@@ -30,5 +30,4 @@ export class ToolbarComponent implements OnInit {
   public clickNav(): void {
     this.layoutService.toggleSidebar();
   }
-
 }

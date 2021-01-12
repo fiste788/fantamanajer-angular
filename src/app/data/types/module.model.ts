@@ -10,8 +10,7 @@ export class Module {
     if (key) {
       this.key = key;
       this.label = key.substring(key.indexOf('-') + 1);
-      const mod = key.split('-')
-        .map(c => +c);
+      const mod = key.split('-').map((c) => +c);
       this.areas = Array.from(roles.entries())
         // eslint-disable-next-line
         .reduce((array, [_, role], index) => {

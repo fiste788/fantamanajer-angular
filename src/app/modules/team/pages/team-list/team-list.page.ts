@@ -20,7 +20,7 @@ export class TeamListPage implements OnInit {
     private readonly router: Router,
     private readonly teamService: TeamService,
     private readonly route: ActivatedRoute,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();

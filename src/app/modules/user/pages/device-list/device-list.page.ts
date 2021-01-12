@@ -14,7 +14,6 @@ import { PublicKeyCredentialSource } from '@data/types';
   templateUrl: './device-list.page.html',
 })
 export class DeviceListPage implements OnInit {
-
   public dataSource: MatTableDataSource<PublicKeyCredentialSource>;
   public displayedColumns = ['name', 'created_at', 'counter', 'actions'];
 
@@ -23,7 +22,7 @@ export class DeviceListPage implements OnInit {
     private readonly pbcsService: PublicKeyCredentialSourceService,
     private readonly ref: ChangeDetectorRef,
     public app: ApplicationService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();
@@ -31,19 +30,19 @@ export class DeviceListPage implements OnInit {
 
   public loadData(): void {
     if (this.app.user) {
-      this.pbcsService.index(this.app.user.id)
-        .subscribe((data) => {
-          this.dataSource = new MatTableDataSource<PublicKeyCredentialSource>(data);
-          if (data.length) {
-            this.ref.detectChanges();
-          }
-        });
+      this.pbcsService.index(this.app.user.id).subscribe((data) => {
+        this.dataSource = new MatTableDataSource<PublicKeyCredentialSource>(data);
+        if (data.length) {
+          this.ref.detectChanges();
+        }
+      });
     }
   }
 
   public register(): void {
-    this.webauthnService.createPublicKey()
-      .pipe(filter(p => p !== undefined))
+    this.webauthnService
+      .createPublicKey()
+      .pipe(filter((p) => p !== undefined))
       .subscribe(() => {
         this.loadData();
       });
@@ -51,10 +50,9 @@ export class DeviceListPage implements OnInit {
 
   public unregister(publicKey: PublicKeyCredentialSource): void {
     if (this.app.user) {
-      this.pbcsService.delete(this.app.user.id, publicKey.id)
-        .subscribe(() => {
-          this.loadData();
-        });
+      this.pbcsService.delete(this.app.user.id, publicKey.id).subscribe(() => {
+        this.loadData();
+      });
     }
   }
 }

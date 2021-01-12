@@ -12,7 +12,7 @@ import { Championship } from '@data/types';
 export class ChampionshipStreamPage implements OnInit {
   public id: number;
 
-  constructor(private readonly route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id ?? 0;

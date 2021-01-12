@@ -6,12 +6,13 @@ describe('ScoreDetailPage', () => {
   let component: ScoreDetailPage;
   let fixture: ComponentFixture<ScoreDetailPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ScoreDetailPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ScoreDetailPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScoreDetailPage);
@@ -20,7 +21,6 @@ describe('ScoreDetailPage', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -39,8 +39,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class ArticleRoutingModule {
-  public static components = [
-    ArticleListPage,
-    ArticleDetailPage,
-  ];
+  public static components = [ArticleListPage, ArticleDetailPage];
 }

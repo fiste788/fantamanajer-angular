@@ -4,7 +4,6 @@
  *
  */
 interface BeforeInstallPromptEvent extends Event {
-
   /**
    * Returns an array of DOMString items containing the platforms on which the event was dispatched.
    * This is provided for user agents that want to present a choice of versions to the user such as,
@@ -26,5 +25,4 @@ interface BeforeInstallPromptEvent extends Event {
    * This method returns a Promise.
    */
   prompt(): Promise<void>;
-
 }

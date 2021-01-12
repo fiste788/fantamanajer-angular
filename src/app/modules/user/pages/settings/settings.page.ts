@@ -27,7 +27,7 @@ export class SettingsPage implements OnInit {
     private readonly app: ApplicationService,
     private readonly userService: UserService,
     private readonly pushService: PushService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     if (this.app.user) {
@@ -39,16 +39,12 @@ export class SettingsPage implements OnInit {
 
   public save(): void {
     if (this.user?.password === this.repeatPassword) {
-      this.user$ = this.userService.update(this.user)
-        .pipe(share());
-      this.user$.pipe(
-        tap(() => this.app.user = this.user),
-      )
-        .subscribe(() => {
-          this.snackBar.open('Modifiche salvate', undefined, {
-            duration: 3000,
-          });
+      this.user$ = this.userService.update(this.user).pipe(share());
+      this.user$.pipe(tap(() => (this.app.user = this.user))).subscribe(() => {
+        this.snackBar.open('Modifiche salvate', undefined, {
+          duration: 3000,
         });
+      });
     }
   }
 

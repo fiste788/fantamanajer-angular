@@ -6,8 +6,8 @@ import { TeamService } from '@data/services';
 import { Team } from '@data/types';
 
 @Injectable()
-export class TeamDetailResolver implements Resolve<Team | undefined>  {
-  constructor(private readonly ts: TeamService) { }
+export class TeamDetailResolver implements Resolve<Team | undefined> {
+  constructor(private readonly ts: TeamService) {}
 
   public resolve(route: ActivatedRouteSnapshot): Observable<Team> | undefined {
     const teamId = route.paramMap.get('team_id');

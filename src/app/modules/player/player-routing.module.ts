@@ -25,7 +25,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class PlayerRoutingModule {
-  public static components = [
-    PlayerPage,
-  ];
+  public static components = [PlayerPage];
 }

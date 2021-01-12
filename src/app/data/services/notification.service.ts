@@ -22,11 +22,10 @@ export class NotificationService {
   constructor(
     @Inject(NAVIGATOR) private readonly navigator: Navigator,
     private readonly http: HttpClient,
-  ) { }
+  ) {}
 
   public getNotifications(teamId: number): Observable<Stream> {
-    const seen = this.http.get<Stream>(routes.notifications(teamId))
-      .pipe(share());
+    const seen = this.http.get<Stream>(routes.notifications(teamId)).pipe(share());
     seen.subscribe((res) => {
       this.seen.emit(res);
     });
@@ -35,12 +34,13 @@ export class NotificationService {
   }
 
   public getNotificationCount(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`)
-      .pipe(tap((s) => {
+    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`).pipe(
+      tap((s) => {
         if (this.navigator.setAppBadge) {
           this.navigator.setAppBadge(s.unseen);
         }
-      }));
+      }),
+    );
   }
 
   public broadcast(title: string, uri: string, severity?: number): void {
@@ -50,5 +50,4 @@ export class NotificationService {
   public subscribe(callback: MessageCallback): Subscription {
     return this.notifications.subscribe(callback);
   }
-
 }

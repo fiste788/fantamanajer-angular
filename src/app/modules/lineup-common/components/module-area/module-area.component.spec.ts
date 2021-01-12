@@ -6,12 +6,13 @@ describe('ModuleAreaComponent', () => {
   let component: ModuleAreaComponent;
   let fixture: ComponentFixture<ModuleAreaComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ModuleAreaComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ModuleAreaComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ModuleAreaComponent);
@@ -20,7 +21,6 @@ describe('ModuleAreaComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

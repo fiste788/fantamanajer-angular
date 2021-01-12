@@ -11,7 +11,6 @@ import { ScrollService } from './scroll.service';
   providedIn: 'root',
 })
 export class LayoutService {
-
   public isHandset$: Observable<boolean>;
   public openSidebarSubject = new BehaviorSubject<boolean>(false);
   public openedSidebar$: Observable<boolean>;
@@ -28,13 +27,17 @@ export class LayoutService {
     private readonly breakpointObserver: BreakpointObserver,
     private readonly scrollService: ScrollService,
   ) {
-    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
+    this.isHandset$ = this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(map((result) => result.matches));
     this.openedSidebar$ = this.openSidebarSubject.asObservable();
     this.isReady$ = this.isReadySubject.asObservable().pipe(distinctUntilChanged());
-    this.isShowSpeedDial$ = this.showSpeedDialSubject.asObservable()
-      .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
-    this.isShowToolbar$ = this.showToolbarSubject.asObservable()
-      .pipe(map(s => s ? VisibilityState.Visible : VisibilityState.Hidden));
+    this.isShowSpeedDial$ = this.showSpeedDialSubject
+      .asObservable()
+      .pipe(map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)));
+    this.isShowToolbar$ = this.showToolbarSubject
+      .asObservable()
+      .pipe(map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)));
   }
 
   public connect(): void {
@@ -48,7 +51,11 @@ export class LayoutService {
     });
   }
 
-  public connectScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0): void {
+  public connectScrollAnimation(
+    upCallback: () => void,
+    downCallback: () => void,
+    offset = 0,
+  ): void {
     this.isHandset$.subscribe((isHandset) => {
       if (isHandset) {
         if (!this.subscriptions.length) {
@@ -63,21 +70,29 @@ export class LayoutService {
     });
   }
 
-  public applyScrollAnimation(upCallback: () => void, downCallback: () => void, offset = 0): Array<Subscription> {
+  public applyScrollAnimation(
+    upCallback: () => void,
+    downCallback: () => void,
+    offset = 0,
+  ): Array<Subscription> {
     this.scrollService.connectScrollAnimation(offset);
     const subs: Array<Subscription> = [];
 
-    subs.push(this.scrollService.goingUp$.subscribe(() => {
-      this.showSpeedDial();
-      this.showToolbar();
-      upCallback();
-    }));
+    subs.push(
+      this.scrollService.goingUp$.subscribe(() => {
+        this.showSpeedDial();
+        this.showToolbar();
+        upCallback();
+      }),
+    );
 
-    subs.push(this.scrollService.goingDown$.subscribe(() => {
-      this.hideSpeedDial();
-      this.hideToolbar();
-      downCallback();
-    }));
+    subs.push(
+      this.scrollService.goingDown$.subscribe(() => {
+        this.hideSpeedDial();
+        this.hideToolbar();
+        downCallback();
+      }),
+    );
 
     return subs;
   }

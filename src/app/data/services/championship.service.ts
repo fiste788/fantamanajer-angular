@@ -12,11 +12,13 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ChampionshipService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public update(championship: Championship): Observable<Pick<Championship, 'id'>> {
-    return this.http.put<Pick<Championship, 'id'>>(routes.championship(championship.id), championship);
+    return this.http.put<Pick<Championship, 'id'>>(
+      routes.championship(championship.id),
+      championship,
+    );
   }
 
   public create(championship: Championship): Observable<Championship> {

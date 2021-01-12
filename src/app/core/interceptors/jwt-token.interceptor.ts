@@ -7,13 +7,9 @@ import { environment } from '@env';
 
 @Injectable()
 export class JWTTokenInterceptor implements HttpInterceptor {
+  constructor(private readonly auth: AuthenticationService) {}
 
-  constructor(private readonly auth: AuthenticationService) { }
-
-  public intercept(
-    req: HttpRequest<unknown>,
-    next: HttpHandler,
-  ): Observable<HttpEvent<unknown>> {
+  public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.url.startsWith(environment.apiEndpoint) || !req.url.startsWith('http')) {
       const token = this.auth.getToken();
 
@@ -22,12 +18,13 @@ export class JWTTokenInterceptor implements HttpInterceptor {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
 
-      return next.handle(req.clone({
-        headers,
-      }));
+      return next.handle(
+        req.clone({
+          headers,
+        }),
+      );
     }
 
     return next.handle(req);
-
   }
 }

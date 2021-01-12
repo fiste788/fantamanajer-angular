@@ -21,8 +21,7 @@ export class RankingPage implements OnInit {
   constructor(
     private readonly scoreService: ScoreService,
     private readonly route: ActivatedRoute,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
@@ -32,17 +31,15 @@ export class RankingPage implements OnInit {
   }
 
   public loadRanking(championship: Championship): Observable<Array<RankingPosition>> {
-    return this.scoreService.getRanking(championship.id)
-      .pipe(
-        tap((ranking: Array<RankingPosition>) => {
-          if (ranking.length && ranking[0].scores) {
-            const matchdays = Object.keys(ranking[0].scores)
-              .reverse();
-            this.matchdays = matchdays.map(m => +m);
-            this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(matchdays);
-          }
-        }),
-      );
+    return this.scoreService.getRanking(championship.id).pipe(
+      tap((ranking: Array<RankingPosition>) => {
+        if (ranking.length && ranking[0].scores) {
+          const matchdays = Object.keys(ranking[0].scores).reverse();
+          this.matchdays = matchdays.map((m) => +m);
+          this.rankingDisplayedColumns = this.rankingDisplayedColumns.concat(matchdays);
+        }
+      }),
+    );
   }
 
   public track(_: number, item: number): number {

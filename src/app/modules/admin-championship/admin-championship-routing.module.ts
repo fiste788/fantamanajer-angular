@@ -58,9 +58,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class AdminChampionshipRoutingModule {
-  public static components = [
-    HomePage,
-    AddTeamPage,
-    ChampionshipDetailPage,
-  ];
+  public static components = [HomePage, AddTeamPage, ChampionshipDetailPage];
 }

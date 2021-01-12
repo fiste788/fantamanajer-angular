@@ -8,9 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 import { AdminTeamRoutingModule } from './admin-team-routing.module';
 
 @NgModule({
-  declarations: [
-    AdminTeamRoutingModule.components,
-  ],
+  declarations: [AdminTeamRoutingModule.components],
   imports: [
     SharedModule,
     AdminTeamRoutingModule,
@@ -19,4 +17,4 @@ import { AdminTeamRoutingModule } from './admin-team-routing.module';
     ConfirmationDialogModule,
   ],
 })
-export class AdminTeamModule { }
+export class AdminTeamModule {}

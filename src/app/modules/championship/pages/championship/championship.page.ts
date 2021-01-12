@@ -6,16 +6,13 @@ import { routerTransition } from '@shared/animations';
 import { Tab } from '@data/types';
 
 @Component({
-  animations: [
-    trigger('contextChange', routerTransition),
-  ],
+  animations: [trigger('contextChange', routerTransition)],
   templateUrl: './championship.page.html',
 })
 export class ChampionshipPage implements OnInit {
   public tabs: Array<Tab>;
 
-  constructor(private readonly app: ApplicationService) {
-  }
+  constructor(private readonly app: ApplicationService) {}
 
   public ngOnInit(): void {
     this.loadTab();
@@ -37,5 +34,4 @@ export class ChampionshipPage implements OnInit {
   public track(_: number, item: Tab): string {
     return item.link;
   }
-
 }

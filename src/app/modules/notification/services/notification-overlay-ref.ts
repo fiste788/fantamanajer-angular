@@ -10,14 +10,15 @@ export class NotificationOverlayRef {
   private readonly beforeCloseVar = new Subject<undefined>();
   private readonly afterClosedVar = new Subject<undefined>();
 
-  constructor(private readonly overlayRef: OverlayRef) { }
+  constructor(private readonly overlayRef: OverlayRef) {}
 
   public close(): void {
     // Listen for animation 'start' events
-    this.componentInstance?.animationStateChanged.pipe(
-      filter(event => event.phaseName === 'start'),
-      take(1),
-    )
+    this.componentInstance?.animationStateChanged
+      .pipe(
+        filter((event) => event.phaseName === 'start'),
+        take(1),
+      )
       .subscribe(() => {
         this.beforeCloseVar.next();
         this.beforeCloseVar.complete();
@@ -25,10 +26,11 @@ export class NotificationOverlayRef {
       });
 
     // Listen for animation 'done' events
-    this.componentInstance?.animationStateChanged.pipe(
-      filter(event => event.phaseName === 'done' && event.toState === 'leave'),
-      take(1),
-    )
+    this.componentInstance?.animationStateChanged
+      .pipe(
+        filter((event) => event.phaseName === 'done' && event.toState === 'leave'),
+        take(1),
+      )
       .subscribe(() => {
         this.overlayRef.dispose();
         this.afterClosedVar.next();
@@ -50,5 +52,4 @@ export class NotificationOverlayRef {
   public beforeClose(): Observable<void> {
     return this.beforeCloseVar.asObservable();
   }
-
 }

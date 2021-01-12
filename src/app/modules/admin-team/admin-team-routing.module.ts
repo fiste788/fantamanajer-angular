@@ -55,10 +55,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class AdminTeamRoutingModule {
-  public static components = [
-    HomePage,
-    EditMembersPage,
-    NewTransfertPage,
-    ScoreEditPage,
-  ];
+  public static components = [HomePage, EditMembersPage, NewTransfertPage, ScoreEditPage];
 }

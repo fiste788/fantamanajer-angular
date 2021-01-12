@@ -24,11 +24,7 @@ import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/ani
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
-  animations: [
-    trigger('contextChange', routerTransition),
-    scrollUpAnimation,
-    closeAnimation,
-  ],
+  animations: [trigger('contextChange', routerTransition), scrollUpAnimation, closeAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
   styleUrls: ['./main.component.scss'],
@@ -56,10 +52,12 @@ export class MainComponent implements OnInit, AfterViewInit {
     private readonly changeRef: ChangeDetectorRef,
     private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.iconRegistry.addSvgIconSet(this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'));
+    this.iconRegistry.addSvgIconSet(
+      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
+    );
     this.setupEvents();
   }
 
@@ -78,28 +76,33 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.isOpen$ = this.isOpenObservable();
-    this.showedSpeedDial$ = combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$])
-      .pipe(map(([v, u]) => u ? v : VisibilityState.Hidden));
+    this.showedSpeedDial$ = combineLatest([
+      this.layoutService.isShowSpeedDial$,
+      this.auth.loggedIn$,
+    ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
-    this.drawer.openedChange.asObservable()
-      .subscribe((a) => {
-        this.layoutService.openSidebarSubject.next(a);
-      });
-    this.isReady$.pipe(
-      filter(e => e),
-      tap(() => {
-        this.layoutService.showSpeedDial();
-        setTimeout(() => this.document.querySelector('.pre-bootstrap')
-          ?.remove(), 500);
-      }),
-    )
+    this.drawer.openedChange.asObservable().subscribe((a) => {
+      this.layoutService.openSidebarSubject.next(a);
+    });
+    this.isReady$
+      .pipe(
+        filter((e) => e),
+        tap(() => {
+          this.layoutService.showSpeedDial();
+          setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
+        }),
+      )
       .subscribe(() => {
         this.gaService.load();
       });
   }
 
   public setupScrollAnimation(): void {
-    this.layoutService.connectScrollAnimation(this.up.bind(this), this.up.bind(this), this.getToolbarHeight());
+    this.layoutService.connectScrollAnimation(
+      this.up.bind(this),
+      this.up.bind(this),
+      this.getToolbarHeight(),
+    );
   }
 
   public up(): void {
@@ -114,29 +117,24 @@ export class MainComponent implements OnInit, AfterViewInit {
   public initDrawer(): void {
     this.drawer.autoFocus = false;
     // eslint-disable-next-line no-underscore-dangle
-    this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd))
-      .subscribe(() => {
-        this.layoutService.setReady();
-      });
-
+    this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
+      this.layoutService.setReady();
+    });
   }
 
   public isOpenObservable(): Observable<boolean> {
-    return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$])
-      .pipe(
-        map(([r, h, o]) =>
-          o || (!h && r)),
-        distinctUntilChanged(),
-      );
+    return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$]).pipe(
+      map(([r, h, o]) => o || (!h && r)),
+      distinctUntilChanged(),
+    );
   }
 
   private updateSticky(offset: number): void {
-    this.document.querySelectorAll('.sticky')
-      .forEach((e: Element) => {
-        if (e instanceof HTMLElement) {
-          e.style.top = `${offset}px`;
-        }
-      });
+    this.document.querySelectorAll('.sticky').forEach((e: Element) => {
+      if (e instanceof HTMLElement) {
+        e.style.top = `${offset}px`;
+      }
+    });
     this.changeRef.detectChanges();
   }
 

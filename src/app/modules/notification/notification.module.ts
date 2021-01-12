@@ -8,21 +8,13 @@ import { NotificationListModal } from './modals/notification-list/notification-l
 import { NotificationOverlayService } from './services/notification-overlay.service';
 
 @NgModule({
-  declarations: [
-    NotificationListComponent,
-    NotificationListModal,
-  ],
-  exports: [
-    NotificationListComponent,
-  ],
-  imports: [
-    SharedModule,
-    OverlayModule,
-  ],
+  declarations: [NotificationListComponent, NotificationListModal],
+  exports: [NotificationListComponent],
+  imports: [SharedModule, OverlayModule],
   providers: [NotificationOverlayService],
 })
 export class NotificationModule {
-  constructor(private readonly componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private readonly componentFactoryResolver: ComponentFactoryResolver) {}
 
   public resolveComponent(): ComponentFactory<NotificationListComponent> {
     return this.componentFactoryResolver.resolveComponentFactory(NotificationListComponent);

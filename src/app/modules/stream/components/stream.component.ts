@@ -1,5 +1,13 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import { StreamService } from '@data/services';
 import { listItemAnimation } from '@shared/animations';
@@ -22,7 +30,7 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   public ds: StreamDataSource;
   public width: number;
 
-  constructor(private readonly streamService: StreamService) { }
+  constructor(private readonly streamService: StreamService) {}
 
   public ngOnInit(): void {
     this.ds = new StreamDataSource(this.streamService, this.context, this.id);

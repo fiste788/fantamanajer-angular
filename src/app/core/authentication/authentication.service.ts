@@ -9,7 +9,9 @@ import { User } from '@data/types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
+  public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(
+    undefined,
+  );
   public userChange$: Observable<User | undefined>;
   public loggedIn$: Observable<boolean>;
 
@@ -24,21 +26,30 @@ export class AuthenticationService {
     private readonly webauthnService: WebauthnService,
   ) {
     this.userChange$ = this.userSubject.asObservable();
-    this.loggedIn$ = this.userChange$.pipe(map(u => u !== undefined));
-    this.token = localStorage.getItem(this.tokenItemName) ?? sessionStorage.getItem(this.tokenItemName) ?? undefined;
+    this.loggedIn$ = this.userChange$.pipe(map((u) => u !== undefined));
+    this.token =
+      localStorage.getItem(this.tokenItemName) ??
+      sessionStorage.getItem(this.tokenItemName) ??
+      undefined;
     if (this.token && !this.loggedIn()) {
       this.logout();
     }
   }
 
   public login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
-    return this.userService.login(email, password, rememberMe)
-      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
+    return this.userService
+      .login(email, password, rememberMe)
+      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
   }
 
-  public webauthnLogin(email: string, rememberMe?: boolean, token?: CredentialRequestOptionsJSON): Observable<boolean> {
-    return this.webauthnService.getPublicKey(email, token)
-      .pipe(switchMap(res => this.postLogin(res, rememberMe)));
+  public webauthnLogin(
+    email: string,
+    rememberMe?: boolean,
+    token?: CredentialRequestOptionsJSON,
+  ): Observable<boolean> {
+    return this.webauthnService
+      .getPublicKey(email, token)
+      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
   }
 
   public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
@@ -55,11 +66,10 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
-      return this.userChange$.pipe(map(u => u !== undefined));
+      return this.userChange$.pipe(map((u) => u !== undefined));
     }
 
     return of(false);
-
   }
 
   public getToken(): string | undefined {
@@ -67,8 +77,7 @@ export class AuthenticationService {
   }
 
   public logout(): void {
-    this.userService.logout()
-      .subscribe();
+    this.userService.logout().subscribe();
     this.token = undefined;
     this.userSubject.next(undefined);
     localStorage.removeItem(this.tokenItemName);
@@ -79,12 +88,11 @@ export class AuthenticationService {
   }
 
   public getCurrentUser(): Observable<User> {
-    return this.userService.getCurrent()
-      .pipe(
-        tap((user) => {
-          this.userSubject.next(user);
-        }),
-      );
+    return this.userService.getCurrent().pipe(
+      tap((user) => {
+        this.userSubject.next(user);
+      }),
+    );
   }
 
   private getRoles(user: User): Array<string> {

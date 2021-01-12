@@ -12,19 +12,20 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getSelection(id: number): Observable<Selection> {
-    return this.http.get<Array<Selection>>(routes.selection(id))
-      .pipe(
-        filter(a => a.length > 0),
-        map(a => a[0]),
-      );
+    return this.http.get<Array<Selection>>(routes.selection(id)).pipe(
+      filter((a) => a.length > 0),
+      map((a) => a[0]),
+    );
   }
 
   public update(selection: Selection): Observable<Pick<Selection, 'id'>> {
-    return this.http.put<Pick<Selection, 'id'>>(`${routes.selection(selection.team_id)}/${selection.id}`, selection);
+    return this.http.put<Pick<Selection, 'id'>>(
+      `${routes.selection(selection.team_id)}/${selection.id}`,
+      selection,
+    );
   }
 
   public create(selection: Selection): Observable<Partial<Selection>> {

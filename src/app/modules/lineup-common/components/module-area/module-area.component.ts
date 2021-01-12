@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { Area, Member, Module, Role } from '@data/types';
@@ -17,8 +25,10 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() public membersByRole: Map<Role, Array<Member>>;
   @Input() public dispositions: Array<{ member: Member | null; position?: number }>;
 
-  @Output() public readonly selectionChange: EventEmitter<{ role: Role; member: Member | null }> =
-    new EventEmitter<{ role: Role; member: Member | null }>();
+  @Output() public readonly selectionChange: EventEmitter<{
+    role: Role;
+    member: Member | null;
+  }> = new EventEmitter<{ role: Role; member: Member | null }>();
 
   public ngOnInit(): void {
     this.moduleChange();
@@ -34,13 +44,16 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   public moduleChange(): void {
     this.module.areas.forEach((area) => {
-      for (let i = area.fromIndex; i < (area.fromIndex + area.toIndex); i += 1) {
+      for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
         if (this.dispositions[i].member?.role_id !== area.role.id) {
           // eslint-disable-next-line no-null/no-null
           this.dispositions[i].member = null;
         }
       }
-      area.options = (this.membersByRole.get(area.role) ?? []).map(member => ({ member, disabled: this.isRegular(member) }));
+      area.options = (this.membersByRole.get(area.role) ?? []).map((member) => ({
+        member,
+        disabled: this.isRegular(member),
+      }));
     });
   }
 
@@ -59,14 +72,14 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   private isRegular(member: Member): boolean {
     return this.dispositions
-      .filter(element => element.position && element.position <= 11 && element.member !== null)
-      .map(element => element.member?.id)
+      .filter((element) => element.position && element.position <= 11 && element.member !== null)
+      .map((element) => element.member?.id)
       .includes(member.id);
   }
 
   private reloadRegularState(roleId?: number): void {
-    this.module.areas.filter(a => roleId === undefined || a.role.id === roleId)
-      .forEach(v => v.options.map(o => o.disabled = this.isRegular(o.member)));
+    this.module.areas
+      .filter((a) => roleId === undefined || a.role.id === roleId)
+      .forEach((v) => v.options.map((o) => (o.disabled = this.isRegular(o.member))));
   }
-
 }

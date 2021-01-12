@@ -10,7 +10,6 @@ describe('AdminGuard', () => {
   });
 
   it('should ...', inject([AdminGuard], (guard: AdminGuard) => {
-    void expect(guard)
-      .toBeTruthy();
+    void expect(guard).toBeTruthy();
   }));
 });

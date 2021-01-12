@@ -7,8 +7,7 @@ import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable()
 export class NotificationOverlayService {
-
-  constructor(private readonly overlay: Overlay, private readonly injector: Injector) { }
+  constructor(private readonly overlay: Overlay, private readonly injector: Injector) {}
 
   public open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)
@@ -21,28 +20,28 @@ export class NotificationOverlayService {
 
     dialogRef.componentInstance = overlayComponent;
 
-    overlayRef.backdropClick()
-      .subscribe(() => {
-        dialogRef.close();
-      });
+    overlayRef.backdropClick().subscribe(() => {
+      dialogRef.close();
+    });
 
     return dialogRef;
   }
 
   private getOverlayConfig(origin: ElementRef): OverlayConfig {
-
-    const positionStrategy = this.overlay.position()
+    const positionStrategy = this.overlay
+      .position()
       .flexibleConnectedTo(origin)
       .withFlexibleDimensions(true)
       .withPush(true)
       .withViewportMargin(16)
       .withGrowAfterOpen(true)
-      .withPositions([{
-        originX: 'end',
-        originY: 'bottom',
-        overlayX: 'end',
-        overlayY: 'top',
-      },
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
       ]);
 
     return new OverlayConfig({
@@ -61,7 +60,10 @@ export class NotificationOverlayService {
     return this.overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(overlayRef: OverlayRef, dialogRef: NotificationOverlayRef): NotificationListModal {
+  private attachDialogContainer(
+    overlayRef: OverlayRef,
+    dialogRef: NotificationOverlayRef,
+  ): NotificationListModal {
     const injector = this.createInjector(dialogRef);
 
     const containerPortal = new ComponentPortal(NotificationListModal, undefined, injector);
@@ -72,10 +74,12 @@ export class NotificationOverlayService {
 
   private createInjector(dialogRef: NotificationOverlayRef): Injector {
     return Injector.create({
-      providers: [{
-        provide: NotificationOverlayRef,
-        useValue: dialogRef,
-      }],
+      providers: [
+        {
+          provide: NotificationOverlayRef,
+          useValue: dialogRef,
+        },
+      ],
       parent: this.injector,
     });
   }

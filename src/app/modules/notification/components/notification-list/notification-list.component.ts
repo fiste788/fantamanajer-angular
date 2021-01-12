@@ -14,11 +14,9 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
 export class NotificationListComponent {
   @ViewChild(NotificationListModal) public overlay: NotificationListModal;
 
-  constructor(
-    private readonly overlayService: NotificationOverlayService,
-  ) { }
+  constructor(private readonly overlayService: NotificationOverlayService) {}
 
   public open(el: EventTarget | null): void {
-    this.overlayService.open(el as unknown as ElementRef);
+    this.overlayService.open((el as unknown) as ElementRef);
   }
 }

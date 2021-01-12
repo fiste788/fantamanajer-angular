@@ -12,8 +12,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class PublicKeyCredentialSourceService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public index(userId: number): Observable<PublicKeyCredentialSource[]> {
     return this.http.get<PublicKeyCredentialSource[]>(routes.index(userId));

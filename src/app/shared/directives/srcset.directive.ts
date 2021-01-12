@@ -10,7 +10,7 @@ export class SrcsetDirective implements OnInit, OnChanges {
   constructor(
     private readonly renderer: Renderer2,
     private readonly el: ElementRef<HTMLImageElement>,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.init();
@@ -37,14 +37,17 @@ export class SrcsetDirective implements OnInit, OnChanges {
     const keys = Object.keys(set);
     keys.forEach((key) => {
       srcset.push(`${set[key]} ${key}`);
-
     });
     const lastKey = keys.pop();
     if (lastKey) {
       const src = set[lastKey];
       const width = +lastKey.substring(0, lastKey.indexOf('w'));
       if (this.el.nativeElement.sizes === '') {
-        this.renderer.setStyle(this.el.nativeElement, 'sizes', `(max-width:${width}px) 100vw, ${width}px`);
+        this.renderer.setStyle(
+          this.el.nativeElement,
+          'sizes',
+          `(max-width:${width}px) 100vw, ${width}px`,
+        );
       }
       this.renderer.setAttribute(this.el.nativeElement, 'src', src);
       this.renderer.setAttribute(this.el.nativeElement, 'srcset', srcset.join(','));

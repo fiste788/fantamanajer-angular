@@ -40,8 +40,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class AuthRoutingModule {
-  public static components = [
-    LoginPage,
-    LogoutPage,
-  ];
+  public static components = [LoginPage, LogoutPage];
 }

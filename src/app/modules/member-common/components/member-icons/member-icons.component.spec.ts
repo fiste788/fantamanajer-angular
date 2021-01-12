@@ -6,12 +6,13 @@ describe('MemberOptionComponent', () => {
   let component: MemberIconsComponent;
   let fixture: ComponentFixture<MemberIconsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [MemberIconsComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [MemberIconsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MemberIconsComponent);
@@ -20,7 +21,6 @@ describe('MemberOptionComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -7,8 +7,6 @@ import { SelectionComponent } from './components/selection/selection.component';
 @NgModule({
   declarations: [SelectionComponent],
   exports: [SelectionComponent],
-  imports: [
-    SharedModule,
-  ],
+  imports: [SharedModule],
 })
-export class SelectionModule { }
+export class SelectionModule {}

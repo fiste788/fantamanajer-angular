@@ -8,17 +8,8 @@ import { ClubRoutingModule } from './club-routing.module';
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
 
 @NgModule({
-  declarations: [
-    ClubRoutingModule.components,
-  ],
-  imports: [
-    SharedModule,
-    ClubRoutingModule,
-    MemberCommonModule,
-    StreamModule,
-  ],
-  providers: [
-    ClubDetailResolver,
-  ],
+  declarations: [ClubRoutingModule.components],
+  imports: [SharedModule, ClubRoutingModule, MemberCommonModule, StreamModule],
+  providers: [ClubDetailResolver],
 })
-export class ClubModule { }
+export class ClubModule {}

@@ -22,7 +22,7 @@ export class NotificationComponent implements OnInit {
     private readonly app: ApplicationService,
     private readonly compiler: Compiler,
     private readonly injector: Injector,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     if (this.app.team) {
@@ -35,14 +35,19 @@ export class NotificationComponent implements OnInit {
   }
 
   public async open(el: EventTarget | null): Promise<void> {
-    const module = await import('@modules/notification/notification.module')
-      .then(async m => this.compiler.compileModuleAsync(m.NotificationModule));
+    const module = await import('@modules/notification/notification.module').then(async (m) =>
+      this.compiler.compileModuleAsync(m.NotificationModule),
+    );
 
     const elementModuleRef = module.create(this.injector);
     const moduleInstance = elementModuleRef.instance;
 
     const componentFactory = moduleInstance.resolveComponent();
-    const ref = this.container.createComponent(componentFactory, undefined, elementModuleRef.injector);
+    const ref = this.container.createComponent(
+      componentFactory,
+      undefined,
+      elementModuleRef.injector,
+    );
     ref.instance.open(el);
     this.notificationService.seen.subscribe();
   }

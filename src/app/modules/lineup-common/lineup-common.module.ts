@@ -8,19 +8,8 @@ import { MemberAlreadySelectedValidator } from './components/lineup-detail/membe
 import { ModuleAreaComponent } from './components/module-area/module-area.component';
 
 @NgModule({
-  declarations: [
-    LineupDetailComponent,
-    MemberAlreadySelectedValidator,
-    ModuleAreaComponent,
-  ],
-  exports: [
-    LineupDetailComponent,
-    MemberAlreadySelectedValidator,
-    ModuleAreaComponent,
-  ],
-  imports: [
-    SharedModule,
-    MemberCommonModule,
-  ],
+  declarations: [LineupDetailComponent, MemberAlreadySelectedValidator, ModuleAreaComponent],
+  exports: [LineupDetailComponent, MemberAlreadySelectedValidator, ModuleAreaComponent],
+  imports: [SharedModule, MemberCommonModule],
 })
-export class LineupCommonModule { }
+export class LineupCommonModule {}

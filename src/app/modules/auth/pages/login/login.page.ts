@@ -32,12 +32,12 @@ export class LoginPage {
     private readonly authService: AuthenticationService,
     private readonly webauthnService: WebauthnService,
     private readonly app: ApplicationService,
-  ) {
-  }
+  ) {}
 
   public login(): void {
     if (this.loginData.email && this.loginData.password) {
-      this.authService.login(this.loginData.email, this.loginData.password, this.loginData.rememberMe)
+      this.authService
+        .login(this.loginData.email, this.loginData.password, this.loginData.rememberMe)
         .subscribe((result) => {
           this.postLogin(result);
         });
@@ -46,7 +46,8 @@ export class LoginPage {
 
   public tokenLogin(t: CredentialRequestOptionsJSON): void {
     if (this.loginData.email) {
-      this.authService.webauthnLogin(this.loginData.email, this.loginData.rememberMe, t)
+      this.authService
+        .webauthnLogin(this.loginData.email, this.loginData.rememberMe, t)
         .subscribe((result) => {
           this.postLogin(result);
         });
@@ -55,8 +56,7 @@ export class LoginPage {
 
   public checkToken(): void {
     if (this.loginData.email) {
-      this.token$ = this.webauthnService.get(this.loginData.email)
-        .pipe(share());
+      this.token$ = this.webauthnService.get(this.loginData.email).pipe(share());
       this.token$.subscribe((t) => {
         this.tokenLogin(t);
         this.stepper.next();

@@ -20,7 +20,7 @@ export class ChampionshipDetailPage implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private readonly championshipService: ChampionshipService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     const c = UtilService.getSnapshotData<Championship>(this.route, 'championship');
@@ -33,20 +33,19 @@ export class ChampionshipDetailPage implements OnInit {
   }
 
   public save(): void {
-    this.championshipService.save(this.championship)
-      .subscribe(() => {
+    this.championshipService.save(this.championship).subscribe(
+      () => {
         this.snackBar.open('Modifiche salvate', undefined, {
           duration: 3000,
         });
       },
-        (err) => {
-          UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
-        },
-      );
+      (err) => {
+        UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
+      },
+    );
   }
 
   public formatLabel(value: number): string {
     return `${value}%`;
   }
-
 }

@@ -15,10 +15,13 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  constructor(private readonly http: HttpClient) {}
 
-  constructor(private readonly http: HttpClient) { }
-
-  public login(email: string, password: string, rememberMe = false): Observable<{ user: User; token: string }> {
+  public login(
+    email: string,
+    password: string,
+    rememberMe = false,
+  ): Observable<{ user: User; token: string }> {
     const body = {
       email,
       password,
@@ -35,8 +38,7 @@ export class UserService {
   public update(user: User): Observable<User> {
     user.teams = undefined;
 
-    return this.http.put(routes.update(user.id), user)
-      .pipe(map(() => user));
+    return this.http.put(routes.update(user.id), user).pipe(map(() => user));
   }
 
   public getCurrent(): Observable<User> {

@@ -9,8 +9,7 @@ describe('DeviceListPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeviceListPage],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -20,7 +19,6 @@ describe('DeviceListPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

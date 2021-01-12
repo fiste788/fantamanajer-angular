@@ -6,12 +6,13 @@ describe('ClubStreamPage', () => {
   let component: ClubStreamPage;
   let fixture: ComponentFixture<ClubStreamPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ClubStreamPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ClubStreamPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ClubStreamPage);
@@ -20,7 +21,6 @@ describe('ClubStreamPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -39,13 +39,11 @@ export class PushService {
   }
 
   public checkForUpdates(): void {
-    this.swUpdate.available.pipe(
-      map(() => this.snackBar.open(
-        'Nuova versione dell\'app disponibile',
-        'Aggiorna',
-      )),
-      switchMap(ref => ref.onAction()),
-    )
+    this.swUpdate.available
+      .pipe(
+        map(() => this.snackBar.open("Nuova versione dell'app disponibile", 'Aggiorna')),
+        switchMap((ref) => ref.onAction()),
+      )
       .subscribe(() => {
         this.window.location.reload();
       });
@@ -74,9 +72,9 @@ export class PushService {
   public subscribeToPush(): void {
     this.isSubscribed()
       .pipe(
-        filter(s => !s),
+        filter((s) => !s),
         mergeMap(async () => this.requestSubscription()),
-        filter(s => s),
+        filter((s) => s),
       )
       .subscribe(() => {
         this.snackBar.open('Now you are subscribed', undefined, {
@@ -87,7 +85,7 @@ export class PushService {
 
   public unsubscribeFromPush(): void {
     from(this.cancelSubscription())
-      .pipe(filter(r => r))
+      .pipe(filter((r) => r))
       .subscribe(() => {
         this.snackBar.open('Now you are unsubscribed', undefined, {
           duration: 2000,
@@ -96,18 +94,20 @@ export class PushService {
   }
 
   public isSubscribed(): Observable<boolean> {
-    return this.swPush.subscription
-      .pipe(
-        map(e => e !== null),
-        share(),
-      );
+    return this.swPush.subscription.pipe(
+      map((e) => e !== null),
+      share(),
+    );
   }
 
   public isEnabled(): boolean {
     return this.swPush.isEnabled;
   }
 
-  public async convertNativeSubscription(pushSubscription: PushSubscriptionJSON, userId: number): Promise<PushSubscription | undefined> {
+  public async convertNativeSubscription(
+    pushSubscription: PushSubscriptionJSON,
+    userId: number,
+  ): Promise<PushSubscription | undefined> {
     if (pushSubscription.endpoint && pushSubscription.keys) {
       const psm = new PushSubscription();
       psm.id = await this.sha256(pushSubscription.endpoint);
@@ -136,8 +136,7 @@ export class PushService {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
 
     // convert bytes to hex string
-    return hashArray.map(b => (`00${b.toString(16)}`).slice(-2))
-      .join('');
+    return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');
   }
 
   private async requestSubscription(): Promise<boolean> {
@@ -147,7 +146,8 @@ export class PushService {
       });
       const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
       if (sub) {
-        return this.subscription.add(sub)
+        return this.subscription
+          .add(sub)
           .pipe(
             map(() => true),
             catchError(() => {
@@ -165,23 +165,21 @@ export class PushService {
 
   private async cancelSubscription(): Promise<boolean> {
     // Get active subscription
-    const pushSubscription = await this.swPush.subscription.pipe(take(1))
-      .toPromise();
+    const pushSubscription = await this.swPush.subscription.pipe(take(1)).toPromise();
     if (pushSubscription !== null) {
       // Delete the subscription from the backend
       const sub = await this.sha256(pushSubscription.endpoint);
 
-      return this.subscription.delete(sub)
+      return this.subscription
+        .delete(sub)
         .pipe(
           map(() => {
-            void pushSubscription
-              .unsubscribe()
-              .then()
-              .catch();
+            void pushSubscription.unsubscribe().then().catch();
 
             return true;
           }),
-          catchError(() => of(false)))
+          catchError(() => of(false)),
+        )
         .toPromise();
     }
 

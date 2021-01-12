@@ -6,12 +6,13 @@ describe('AddLineupShortcutPage', () => {
   let component: AddLineupShortcutPage;
   let fixture: ComponentFixture<AddLineupShortcutPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [AddLineupShortcutPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [AddLineupShortcutPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddLineupShortcutPage);
@@ -20,7 +21,6 @@ describe('AddLineupShortcutPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

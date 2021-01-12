@@ -6,12 +6,13 @@ describe('MatEmptyStateComponent', () => {
   let component: MatEmptyStateComponent;
   let fixture: ComponentFixture<MatEmptyStateComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [MatEmptyStateComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [MatEmptyStateComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MatEmptyStateComponent);
@@ -20,7 +21,6 @@ describe('MatEmptyStateComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -9,13 +9,9 @@ import { Team } from '@data/types';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
-
   public photo?: string;
 
-  constructor(
-    public app: ApplicationService,
-    private readonly layoutService: LayoutService,
-  ) { }
+  constructor(public app: ApplicationService, private readonly layoutService: LayoutService) {}
 
   public ngOnInit(): void {
     this.loadPhoto(this.app.team);

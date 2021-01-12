@@ -10,7 +10,6 @@ describe('TeamService', () => {
   });
 
   it('should be created', inject([TeamService], (service: TeamService) => {
-    void expect(service)
-      .toBeTruthy();
+    void expect(service).toBeTruthy();
   }));
 });

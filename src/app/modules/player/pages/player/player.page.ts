@@ -10,10 +10,7 @@ import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { Member, Player, Rating } from '@data/types';
 
 @Component({
-  animations: [
-    tableRowAnimation,
-    enterDetailAnimation,
-  ],
+  animations: [tableRowAnimation, enterDetailAnimation],
   styleUrls: ['./player.page.scss'],
   templateUrl: './player.page.html',
 })
@@ -42,7 +39,7 @@ export class PlayerPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
     public app: ApplicationService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.load();
@@ -54,7 +51,8 @@ export class PlayerPage implements OnInit {
       tap((player: Player) => {
         this.selectedMember = player.members[0];
         this.seasonChange();
-      }));
+      }),
+    );
   }
 
   public seasonChange(): void {

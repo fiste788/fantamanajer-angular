@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
-import { auditTime, distinctUntilChanged, filter, map, pairwise, share, throttleTime } from 'rxjs/operators';
+import {
+  auditTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  pairwise,
+  share,
+  throttleTime,
+} from 'rxjs/operators';
 
 import { Direction } from '@app/enums';
 
@@ -17,30 +25,27 @@ export class ScrollService {
   }
 
   public connectScrollAnimation(offset = 0): void {
-    this.scrollObservable$ = this.container.elementScrolled()
-      .pipe(
-        throttleTime(15),
-        map(() => this.container.measureScrollOffset('top')),
-        filter(y => y > offset),
-        pairwise(),
-        filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
-        map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
-        distinctUntilChanged(),
-        share(),
-      );
+    this.scrollObservable$ = this.container.elementScrolled().pipe(
+      throttleTime(15),
+      map(() => this.container.measureScrollOffset('top')),
+      filter((y) => y > offset),
+      pairwise(),
+      filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
+      map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
+      distinctUntilChanged(),
+      share(),
+    );
   }
 
   get goingUp$(): Observable<Direction> {
     return this.scrollObservable$.pipe(
-      filter(direction => direction === Direction.Up),
+      filter((direction) => direction === Direction.Up),
       auditTime(300),
     );
   }
 
   get goingDown$(): Observable<Direction> {
-    return this.scrollObservable$.pipe(
-      filter(direction => direction === Direction.Down),
-    );
+    return this.scrollObservable$.pipe(filter((direction) => direction === Direction.Down));
   }
 
   public scrollTo(x = 0, y = 0): void {

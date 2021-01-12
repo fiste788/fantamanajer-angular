@@ -49,17 +49,19 @@ export class LineupLastPage implements OnDestroy {
         message = 'Formazione caricata';
         obs = this.lineupService.create(lineup);
       }
-      this.subscription = obs.subscribe((response) => {
-        if (response.id) {
-          lineup.id = response.id;
-        }
-        this.snackBar.open(message, undefined, {
-          duration: 3000,
-        });
-      },
+      this.subscription = obs.subscribe(
+        (response) => {
+          if (response.id) {
+            lineup.id = response.id;
+          }
+          this.snackBar.open(message, undefined, {
+            duration: 3000,
+          });
+        },
         (err) => {
           UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
-        });
+        },
+      );
     } else {
       this.snackBar.open('Si sono verificati errori di validazione', undefined, {
         duration: 3000,

@@ -12,8 +12,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class TransfertService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getTransfert(id: number): Observable<Array<Transfert>> {
     return this.http.get<Array<Transfert>>(routes.transferts(id));
@@ -22,5 +21,4 @@ export class TransfertService {
   public create(transfert: Partial<Transfert>): Observable<Partial<Transfert>> {
     return this.http.post<Transfert>(routes.create, transfert);
   }
-
 }

@@ -2,17 +2,22 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { AuthenticationService } from './authentication';
-import { AdminGuard, AuthGuard, ChampionshipAdminGuard, NotLoggedGuard, throwIfAlreadyLoaded } from './guards';
+import {
+  AdminGuard,
+  AuthGuard,
+  ChampionshipAdminGuard,
+  NotLoggedGuard,
+  throwIfAlreadyLoaded,
+} from './guards';
 import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
-export const useFactory = (service: ApplicationService) => async (): Promise<void> => service.initialize();
+export const useFactory = (service: ApplicationService) => async (): Promise<void> =>
+  service.initialize();
 
 @NgModule({
   exports: [],
-  imports: [
-    HttpClientModule,
-  ],
+  imports: [HttpClientModule],
   providers: [
     AuthGuard,
     AdminGuard,

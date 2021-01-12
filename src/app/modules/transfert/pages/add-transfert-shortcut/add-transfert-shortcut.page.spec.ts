@@ -6,12 +6,13 @@ describe('AddTransfertShortcutPage', () => {
   let component: AddTransfertShortcutPage;
   let fixture: ComponentFixture<AddTransfertShortcutPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [AddTransfertShortcutPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [AddTransfertShortcutPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddTransfertShortcutPage);
@@ -20,7 +21,6 @@ describe('AddTransfertShortcutPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -77,4 +77,4 @@ export const breakPointsProvider = {
     LazyLoadImageModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

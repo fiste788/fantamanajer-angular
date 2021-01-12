@@ -28,7 +28,7 @@ export class ScoreEditPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly scoreService: ScoreService,
     private readonly snackBar: MatSnackBar,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     const t = UtilService.getSnapshotData<Team>(this.route, 'team');
@@ -45,15 +45,16 @@ export class ScoreEditPage implements OnInit {
 
   public save(score: Score): void {
     score.lineup = this.lineupDetail.getLineup();
-    this.scoreService.update(score)
-      .subscribe(() => {
+    this.scoreService.update(score).subscribe(
+      () => {
         this.snackBar.open('Punteggio modificato', undefined, {
           duration: 3000,
         });
       },
-        (err) => {
-          UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
-        });
+      (err) => {
+        UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
+      },
+    );
   }
 
   public track(_: number, item: Score): number {

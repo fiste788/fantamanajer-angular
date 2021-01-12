@@ -11,10 +11,9 @@ import { Team } from '@data/types';
 export class TeamStreamPage implements OnInit {
   public id: number;
 
-  constructor(private readonly route: ActivatedRoute) { }
+  constructor(private readonly route: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
   }
-
 }

@@ -13,10 +13,7 @@ import { Team } from '@data/types';
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
-  animations: [
-    enterDetailAnimation,
-    trigger('contextChange', routerTransition),
-  ],
+  animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
 })
@@ -31,14 +28,15 @@ export class TeamDetailPage implements OnInit {
     private readonly teamService: TeamService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.team$ = this.route.data.pipe(
       pluck('team'),
       tap((team: Team) => {
         this.loadTabs(team);
-      }));
+      }),
+    );
   }
 
   public loadTabs(team: Team): void {
@@ -60,12 +58,13 @@ export class TeamDetailPage implements OnInit {
   }
 
   public openDialog(team: Team): void {
-    this.dialog.open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
-      data: { team },
-    })
+    this.dialog
+      .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
+        data: { team },
+      })
       .afterClosed()
       .pipe(
-        filter(t => t === true),
+        filter((t) => t === true),
         mergeMap(() => this.teamService.getTeam(team.id)),
       )
       .subscribe((t: Team) => {

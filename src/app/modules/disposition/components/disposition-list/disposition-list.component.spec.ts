@@ -6,12 +6,13 @@ describe('DispositionListComponent', () => {
   let component: DispositionListComponent;
   let fixture: ComponentFixture<DispositionListComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [DispositionListComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [DispositionListComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DispositionListComponent);
@@ -20,7 +21,6 @@ describe('DispositionListComponent', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

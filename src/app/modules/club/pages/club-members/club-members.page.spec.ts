@@ -6,12 +6,13 @@ describe('ClubMembersPage', () => {
   let component: ClubMembersPage;
   let fixture: ComponentFixture<ClubMembersPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ClubMembersPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ClubMembersPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ClubMembersPage);
@@ -20,7 +21,6 @@ describe('ClubMembersPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

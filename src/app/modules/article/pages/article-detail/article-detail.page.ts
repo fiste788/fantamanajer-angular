@@ -23,7 +23,7 @@ export class ArticleDetailPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly articleService: ArticleService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     const id = this.route.snapshot.params.id as string | undefined;
@@ -43,7 +43,9 @@ export class ArticleDetailPage implements OnInit {
 
   public save(article: Article): void {
     if (this.articleForm.valid === true) {
-      const obs: Observable<Partial<Article>> = article.id ? this.articleService.update(article) : this.articleService.create(article);
+      const obs: Observable<Partial<Article>> = article.id
+        ? this.articleService.update(article)
+        : this.articleService.create(article);
       obs.subscribe((a: Partial<Article>) => {
         this.snackBar.open('Articolo salvato correttamente', undefined, {
           duration: 3000,

@@ -61,10 +61,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class ClubRoutingModule {
-  public static components = [
-    ClubListPage,
-    ClubDetailPage,
-    ClubMembersPage,
-    ClubStreamPage,
-  ];
+  public static components = [ClubListPage, ClubDetailPage, ClubMembersPage, ClubStreamPage];
 }

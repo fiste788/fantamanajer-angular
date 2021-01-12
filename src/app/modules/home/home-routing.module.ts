@@ -7,7 +7,8 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomePage, data: {
+    component: HomePage,
+    data: {
       state: 'home',
     },
   },
@@ -18,7 +19,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class HomeRoutingModule {
-  public static components = [
-    HomePage,
-  ];
+  public static components = [HomePage];
 }

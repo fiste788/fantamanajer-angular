@@ -6,12 +6,13 @@ describe('TeamStreamPage', () => {
   let component: TeamStreamPage;
   let fixture: ComponentFixture<TeamStreamPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [TeamStreamPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [TeamStreamPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TeamStreamPage);
@@ -20,7 +21,6 @@ describe('TeamStreamPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

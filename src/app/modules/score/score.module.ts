@@ -6,13 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ScoreRoutingModule } from './score-routing.module';
 
 @NgModule({
-  declarations: [
-    ScoreRoutingModule.components,
-  ],
-  imports: [
-    SharedModule,
-    ScoreRoutingModule,
-    DispositionModule,
-  ],
+  declarations: [ScoreRoutingModule.components],
+  imports: [SharedModule, ScoreRoutingModule, DispositionModule],
 })
-export class ScoreModule { }
+export class ScoreModule {}

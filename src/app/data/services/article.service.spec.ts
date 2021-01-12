@@ -10,7 +10,6 @@ describe('ArticleService', () => {
   });
 
   it('should ...', inject([ArticleService], (service: ArticleService) => {
-    void expect(service)
-      .toBeTruthy();
+    void expect(service).toBeTruthy();
   }));
 });

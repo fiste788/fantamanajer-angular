@@ -6,12 +6,13 @@ describe('TransfertListPage', () => {
   let component: TransfertListPage;
   let fixture: ComponentFixture<TransfertListPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [TransfertListPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [TransfertListPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TransfertListPage);
@@ -20,7 +21,6 @@ describe('TransfertListPage', () => {
   });
 
   it('should be created', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

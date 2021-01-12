@@ -6,12 +6,13 @@ describe('PlayerImageComponent', () => {
   let component: PlayerImageComponent;
   let fixture: ComponentFixture<PlayerImageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [PlayerImageComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [PlayerImageComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PlayerImageComponent);
@@ -20,7 +21,6 @@ describe('PlayerImageComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

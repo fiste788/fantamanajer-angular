@@ -16,20 +16,19 @@ const routes = {
 export class MatchdayService {
   private readonly httpWithoutIntercept: HttpClient;
 
-  constructor(
-    httpback: HttpBackend,
-  ) {
+  constructor(httpback: HttpBackend) {
     this.httpWithoutIntercept = new HttpClient(httpback);
   }
 
   public getCurrentMatchday(): Observable<Matchday> {
-    return this.httpWithoutIntercept.get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: '*/*',
-      },
-      withCredentials: false,
-    })
+    return this.httpWithoutIntercept
+      .get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
+        headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Accept: '*/*',
+        },
+        withCredentials: false,
+      })
       .pipe(pluck('data'));
   }
 }

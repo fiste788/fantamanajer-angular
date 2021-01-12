@@ -1,5 +1,10 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, NgModelGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NgModelGroup,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
 import { Member, MemberOption, Role } from '@data/types';
@@ -31,7 +36,8 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() public height = 100;
   @Input() public captain = false;
 
-  @Output() public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
+  @Output()
+  public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
   @HostBinding('@lineupDisposition') public lineupDisposition = '';
 
@@ -73,5 +79,4 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   public compareFn(t1: Member, t2: Member): boolean {
     return t1?.id === t2?.id;
   }
-
 }

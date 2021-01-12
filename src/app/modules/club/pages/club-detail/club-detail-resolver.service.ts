@@ -7,7 +7,7 @@ import { Club } from '@data/types';
 
 @Injectable()
 export class ClubDetailResolver implements Resolve<Club | undefined> {
-  constructor(private readonly cs: ClubService) { }
+  constructor(private readonly cs: ClubService) {}
 
   public resolve(route: ActivatedRouteSnapshot): Observable<Club> | undefined {
     const clubId = route.paramMap.get('id');

@@ -12,8 +12,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getPlayers(): Observable<Array<Player>> {
     return this.http.get<Array<Player>>(routes.players);

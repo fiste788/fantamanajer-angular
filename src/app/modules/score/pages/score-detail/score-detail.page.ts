@@ -19,7 +19,7 @@ export class ScoreDetailPage implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly scoreService: ScoreService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();

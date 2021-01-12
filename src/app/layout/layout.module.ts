@@ -32,4 +32,4 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     EcoFabSpeedDialModule,
   ],
 })
-export class LayoutModule { }
+export class LayoutModule {}

@@ -34,7 +34,7 @@ export class TeamEditModal {
     team[fieldName].forEach((element: NotificationSubscription, i) => {
       if (element.enabled) {
         Object.keys(element)
-          .filter((f): f is keyof NotificationSubscription => f !== 'id' as const)
+          .filter((f): f is keyof NotificationSubscription => f !== ('id' as const))
           .forEach((field) => {
             let value = element[field];
             if (field === 'enabled') {
@@ -59,9 +59,8 @@ export class TeamEditModal {
     fd.set('name', this.team.name);
     TeamEditModal.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
     TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
-    this.teamService.upload(this.team.id, fd)
-      .subscribe(() => {
-        this.dialogRef.close(true);
-      });
+    this.teamService.upload(this.team.id, fd).subscribe(() => {
+      this.dialogRef.close(true);
+    });
   }
 }

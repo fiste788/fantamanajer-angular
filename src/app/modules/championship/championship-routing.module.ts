@@ -28,26 +28,24 @@ const routes: Routes = [
       {
         path: 'articles',
         data: { state: 'articles' },
-        loadChildren: async () => import('@modules/article/article.module')
-          .then(m => m.ArticleModule),
+        loadChildren: async () =>
+          import('@modules/article/article.module').then((m) => m.ArticleModule),
       },
       {
         path: 'teams',
         data: { state: 'teams' },
-        loadChildren: async () => import('@modules/team/team.module')
-          .then(m => m.TeamModule),
+        loadChildren: async () => import('@modules/team/team.module').then((m) => m.TeamModule),
       },
       {
         path: 'members',
         data: { state: 'members' },
-        loadChildren: async () => import('@modules/member/member.module')
-          .then(m => m.MemberModule),
+        loadChildren: async () =>
+          import('@modules/member/member.module').then((m) => m.MemberModule),
       },
       {
         path: 'ranking',
         data: { state: 'ranking' },
-        loadChildren: async () => import('@modules/score/score.module')
-          .then(m => m.ScoreModule),
+        loadChildren: async () => import('@modules/score/score.module').then((m) => m.ScoreModule),
       },
       {
         path: 'stream',
@@ -58,8 +56,10 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [AdminGuard],
         data: { state: 'championship-admin' },
-        loadChildren: async () => import('@modules/admin-championship/admin-championship.module')
-          .then(m => m.AdminChampionshipModule),
+        loadChildren: async () =>
+          import('@modules/admin-championship/admin-championship.module').then(
+            (m) => m.AdminChampionshipModule,
+          ),
       },
     ],
   },
@@ -70,8 +70,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class ChampionshipRoutingModule {
-  public static components = [
-    ChampionshipPage,
-    ChampionshipStreamPage,
-  ];
+  public static components = [ChampionshipPage, ChampionshipStreamPage];
 }

@@ -16,8 +16,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class MemberService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
     let params = new HttpParams();
@@ -30,14 +29,12 @@ export class MemberService {
     }
 
     return this.http.get<Array<Member>>(murl, { params });
-
   }
 
   public getAllFree(championshipId: number): Observable<{ [id: number]: Array<Member> }> {
     const params = new HttpParams().set('stats', '0');
 
     return this.http.get<{ [id: number]: Array<Member> }>(routes.free(championshipId), { params });
-
   }
 
   public getBest(): Observable<Array<Role>> {

@@ -7,18 +7,8 @@ import { MemberListComponent } from './components/member-list/member-list.compon
 import { MemberSelectionComponent } from './components/member-selection/member-selection.component';
 
 @NgModule({
-  declarations: [
-    MemberSelectionComponent,
-    MemberListComponent,
-    MemberIconsComponent,
-  ],
-  exports: [
-    MemberSelectionComponent,
-    MemberListComponent,
-    MemberIconsComponent,
-  ],
-  imports: [
-    SharedModule,
-  ],
+  declarations: [MemberSelectionComponent, MemberListComponent, MemberIconsComponent],
+  exports: [MemberSelectionComponent, MemberListComponent, MemberIconsComponent],
+  imports: [SharedModule],
 })
-export class MemberCommonModule { }
+export class MemberCommonModule {}

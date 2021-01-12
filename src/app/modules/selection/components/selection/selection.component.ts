@@ -24,7 +24,9 @@ export class SelectionComponent implements OnInit {
   public selection: Selection = new Selection();
   public members$: Observable<Map<Role, Array<Member>>>;
   public newMembers$?: Observable<Array<Member>>;
-  public newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(undefined);
+  public newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(
+    undefined,
+  );
   private readonly role$: Subject<Role> = new Subject<Role>();
 
   constructor(
@@ -35,8 +37,7 @@ export class SelectionComponent implements OnInit {
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     const teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
@@ -47,35 +48,34 @@ export class SelectionComponent implements OnInit {
   }
 
   public loadData(teamId: number): void {
-    this.selectionService.getSelection(teamId)
-      .subscribe((selection) => {
-        this.selection = selection;
-        this.playerChange();
-      });
+    this.selectionService.getSelection(teamId).subscribe((selection) => {
+      this.selection = selection;
+      this.playerChange();
+    });
 
-    this.members$ = this.memberService.getByTeamId(teamId)
-      .pipe(
-        map(data => this.roleService.groupMembersByRole(data)),
-        tap(() => {
-          const id = this.route.snapshot.queryParamMap.get('new_member_id');
-          if (id !== null) {
-            this.memberService.getById(+id)
-              .subscribe((member) => {
-                this.role$.next(this.roleService.getById(member.role_id));
-                this.newPlayerRole$.next(this.roleService.getById(member.role_id));
-                this.selection.new_member = member;
-                this.selection.new_member_id = member.id;
-                this.changeRef.detectChanges();
-              });
-          }
-        }));
+    this.members$ = this.memberService.getByTeamId(teamId).pipe(
+      map((data) => this.roleService.groupMembersByRole(data)),
+      tap(() => {
+        const id = this.route.snapshot.queryParamMap.get('new_member_id');
+        if (id !== null) {
+          this.memberService.getById(+id).subscribe((member) => {
+            this.role$.next(this.roleService.getById(member.role_id));
+            this.newPlayerRole$.next(this.roleService.getById(member.role_id));
+            this.selection.new_member = member;
+            this.selection.new_member_id = member.id;
+            this.changeRef.detectChanges();
+          });
+        }
+      }),
+    );
   }
 
   public setupEvents(): void {
-    this.role$.pipe(
-      distinctUntilChanged((x, y) => x.id === y.id),
-      share(),
-    )
+    this.role$
+      .pipe(
+        distinctUntilChanged((x, y) => x.id === y.id),
+        share(),
+      )
       .subscribe({
         next: this.loadMembers.bind(this),
       });
@@ -85,7 +85,8 @@ export class SelectionComponent implements OnInit {
     if (role) {
       this.newMember.disabled = true;
       if (this.app.championship) {
-        this.newMembers$ = this.memberService.getFree(this.app.championship.id, role.id, false)
+        this.newMembers$ = this.memberService
+          .getFree(this.app.championship.id, role.id, false)
           .pipe(
             map((members) => {
               this.changeRef.detectChanges();
@@ -117,16 +118,18 @@ export class SelectionComponent implements OnInit {
       selection.new_member_id = this.selection.new_member?.id || 0;
       selection.old_member_id = this.selection.old_member?.id || 0;
       selection.team_id = this.app.team?.id ?? 0;
-      const obs: Observable<Partial<Selection>> = selection.id ? this.selectionService.update(selection) :
-        this.selectionService.create(selection);
-      obs.subscribe((response: Partial<Selection>) => {
-        this.snackBar.open('Selezione salvata correttamente', undefined, {
-          duration: 3000,
-        });
-        if (response.id) {
-          this.selection.id = response.id;
-        }
-      },
+      const obs: Observable<Partial<Selection>> = selection.id
+        ? this.selectionService.update(selection)
+        : this.selectionService.create(selection);
+      obs.subscribe(
+        (response: Partial<Selection>) => {
+          this.snackBar.open('Selezione salvata correttamente', undefined, {
+            duration: 3000,
+          });
+          if (response.id) {
+            this.selection.id = response.id;
+          }
+        },
         (err) => {
           UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
         },
@@ -135,11 +138,13 @@ export class SelectionComponent implements OnInit {
   }
 
   public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number =>
-    a.key.id < b.key.id ? b.key.id : a.key.id
+    a.key.id < b.key.id ? b.key.id : a.key.id;
 
   public isDisabled(role: Role): boolean {
-    return this.selection.new_member !== null &&
-      role !== this.roleService.getById(this.selection.new_member.role_id);
+    return (
+      this.selection.new_member !== null &&
+      role !== this.roleService.getById(this.selection.new_member.role_id)
+    );
   }
 
   public reset(): void {

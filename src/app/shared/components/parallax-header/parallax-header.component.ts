@@ -19,8 +19,7 @@ export class ParallaxHeaderComponent {
   public srcset = '';
   public width = 0;
 
-  constructor(private readonly scrollService: ScrollService) {
-  }
+  constructor(private readonly scrollService: ScrollService) {}
 
   public initialScroll(event: Event): void {
     this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);

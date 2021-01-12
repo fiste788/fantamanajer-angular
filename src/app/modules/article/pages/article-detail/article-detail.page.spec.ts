@@ -6,12 +6,13 @@ describe('ArticleDetailPage', () => {
   let component: ArticleDetailPage;
   let fixture: ComponentFixture<ArticleDetailPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ArticleDetailPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ArticleDetailPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ArticleDetailPage);
@@ -20,7 +21,6 @@ describe('ArticleDetailPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

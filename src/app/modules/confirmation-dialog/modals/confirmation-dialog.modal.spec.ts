@@ -6,12 +6,13 @@ describe('ConfirmationDialogModal', () => {
   let component: ConfirmationDialogModal;
   let fixture: ComponentFixture<ConfirmationDialogModal>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [ConfirmationDialogModal],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ConfirmationDialogModal],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmationDialogModal);
@@ -20,7 +21,6 @@ describe('ConfirmationDialogModal', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -6,11 +6,7 @@ import { AuthenticationService } from '@app/authentication';
 
 @Injectable()
 export class NotLoggedGuard implements CanActivate {
-
-  constructor(
-    private readonly auth: AuthenticationService,
-    private readonly router: Router,
-  ) { }
+  constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.auth.loggedIn()) {
@@ -19,6 +15,5 @@ export class NotLoggedGuard implements CanActivate {
     void this.router.navigate(['/home']);
 
     return false;
-
   }
 }

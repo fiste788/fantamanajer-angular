@@ -1,5 +1,12 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import { NotificationSubscription, Team } from '@data/types';
 
@@ -17,8 +24,9 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Input() public subscriptions: Array<NotificationSubscription>;
   @Input() public team: Team;
 
-  @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
-    new EventEmitter<Array<NotificationSubscription>>();
+  @Output() public readonly subscriptionsChange: EventEmitter<
+    Array<NotificationSubscription>
+  > = new EventEmitter<Array<NotificationSubscription>>();
 
   public map = new Map<Notification, NotificationSubscription>();
   private keys: Array<Notification>;
@@ -30,7 +38,7 @@ export class NotificationSubscriptionComponent implements OnInit {
   public load(): void {
     this.keys = notificationSubscriptions[this.type];
     this.keys.forEach((element) => {
-      let sub = this.subscriptions.find(subscription => subscription.name === element.name);
+      let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
       if (!sub) {
         sub = new NotificationSubscription();
         sub.type = this.type;

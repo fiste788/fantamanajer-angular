@@ -7,16 +7,11 @@ import { ApplicationService } from '@app/services';
   template: '',
 })
 export class AddTransfertShortcutPage implements OnInit {
-
-  constructor(
-    private readonly router: Router,
-    private readonly app: ApplicationService,
-  ) { }
+  constructor(private readonly router: Router, private readonly app: ApplicationService) {}
 
   public ngOnInit(): void {
     if (this.app.team) {
       void this.router.navigate(['teams', this.app.team.id, 'transfert']);
     }
   }
-
 }

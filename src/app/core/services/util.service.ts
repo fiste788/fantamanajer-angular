@@ -7,27 +7,29 @@ import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UtilService {
-
-  public static getUnprocessableEntityErrors(form: NgForm | FormArray, err: HttpErrorResponse): void {
+  public static getUnprocessableEntityErrors(
+    form: NgForm | FormArray,
+    err: HttpErrorResponse,
+  ): void {
     if (err.status === 422) {
-      const error = err.error as { data: { errors: { [key: string]: { [key: string]: unknown } } } };
+      const error = err.error as {
+        data: { errors: { [key: string]: { [key: string]: unknown } } };
+      };
       const errors = error.data.errors;
-      Object.keys(errors)
-        .forEach((key) => {
-          if (Object.keys(form.controls).includes(key)) {
-            (form.controls as {
-              [key: string]: AbstractControl;
-            })[key].setErrors(errors[key]);
-          }
-        });
+      Object.keys(errors).forEach((key) => {
+        if (Object.keys(form.controls).includes(key)) {
+          (form.controls as {
+            [key: string]: AbstractControl;
+          })[key].setErrors(errors[key]);
+        }
+      });
     }
   }
 
   public static getError(field: NgModel): string {
     const errors: Array<string> = [];
     if (field.errors !== null) {
-      Object.values<string>(field.errors)
-        .forEach(err => errors.push(err));
+      Object.values<string>(field.errors).forEach((err) => errors.push(err));
     }
 
     return errors.join(' - ');

@@ -14,8 +14,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class TeamService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getTeams(championshipId: number): Observable<Array<Team>> {
     return this.http.get<Array<Team>>(routes.teams(championshipId));
@@ -26,8 +25,7 @@ export class TeamService {
   }
 
   public update(team: Team): Observable<Pick<Team, 'id'>> {
-    return this.http.put(routes.team(team.id), team)
-      .pipe(map(() => team));
+    return this.http.put(routes.team(team.id), team).pipe(map(() => team));
   }
 
   public upload(id: number, formData: FormData): Observable<Pick<Team, 'id'>> {
@@ -51,6 +49,5 @@ export class TeamService {
     }
 
     return this.create(team);
-
   }
 }

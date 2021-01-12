@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformBrowser } from '@angular/common';
-import { ClassProvider, FactoryProvider, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
+import {
+  ClassProvider,
+  FactoryProvider,
+  Injectable,
+  InjectionToken,
+  PLATFORM_ID,
+} from '@angular/core';
 
 declare global {
   export interface Navigator {
@@ -12,7 +18,6 @@ declare global {
 export const NAVIGATOR = new InjectionToken('NavigatorToken');
 
 export abstract class NavigatorRef {
-
   get nativeNavigator(): Navigator | object {
     throw new Error('Not implemented.');
   }
@@ -20,13 +25,15 @@ export abstract class NavigatorRef {
 
 @Injectable()
 export class BrowserNavigatorRef extends NavigatorRef {
-
   get nativeNavigator(): Navigator | object {
     return navigator;
   }
 }
 
-export const navigatorFactory = (browserNavigatorRef: BrowserNavigatorRef, platformId: object): Navigator | object => {
+export const navigatorFactory = (
+  browserNavigatorRef: BrowserNavigatorRef,
+  platformId: object,
+): Navigator | object => {
   if (isPlatformBrowser(platformId)) {
     return browserNavigatorRef.nativeNavigator;
   }
@@ -47,7 +54,4 @@ const navigatorProvider: FactoryProvider = {
   deps: [NavigatorRef, PLATFORM_ID],
 };
 
-export const NAVIGATOR_PROVIDERS = [
-  browserNavigatorProvider,
-  navigatorProvider,
-];
+export const NAVIGATOR_PROVIDERS = [browserNavigatorProvider, navigatorProvider];

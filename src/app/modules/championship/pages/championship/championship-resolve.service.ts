@@ -7,7 +7,7 @@ import { Championship } from '@data/types';
 
 @Injectable()
 export class ChampionshipResolver implements Resolve<Championship | undefined> {
-  constructor(private readonly app: ApplicationService) { }
+  constructor(private readonly app: ApplicationService) {}
 
   public resolve(): Observable<Championship> | Championship | undefined {
     return this.app.championship;

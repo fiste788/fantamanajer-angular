@@ -8,10 +8,7 @@ import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 import { Stream } from '@data/types';
 
 @Component({
-  animations: [
-    openOverlayAnimation,
-    listItemAnimation,
-  ],
+  animations: [openOverlayAnimation, listItemAnimation],
   selector: 'app-notification-overlay',
   styleUrls: ['./notification-list.modal.scss'],
   templateUrl: './notification-list.modal.html',
@@ -24,7 +21,7 @@ export class NotificationListModal implements OnInit {
   constructor(
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     if (this.app.team) {

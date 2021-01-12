@@ -6,12 +6,13 @@ describe('EmailNotificationSubscriptionComponent', () => {
   let component: NotificationSubscriptionComponent;
   let fixture: ComponentFixture<NotificationSubscriptionComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [NotificationSubscriptionComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [NotificationSubscriptionComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationSubscriptionComponent);
@@ -20,7 +21,6 @@ describe('EmailNotificationSubscriptionComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

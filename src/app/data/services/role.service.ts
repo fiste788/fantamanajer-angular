@@ -15,7 +15,7 @@ export class RoleService {
     return data.reduce((map: Map<Role, Array<Member>>, item) => {
       const role = this.roles.get(item.role_id);
       if (role) {
-        map.set(role, ([...map.get(role) ?? [], item]));
+        map.set(role, [...(map.get(role) ?? []), item]);
       }
 
       return map;
@@ -32,7 +32,7 @@ export class RoleService {
 
   public totalMembers(): number {
     let total = 0;
-    this.roles.forEach(r => total += r.count);
+    this.roles.forEach((r) => (total += r.count));
 
     return total;
   }

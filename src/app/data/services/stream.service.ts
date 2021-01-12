@@ -15,8 +15,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class StreamService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getByChampionship(championshipsId: number, page = 1): Observable<Stream> {
     return this.http.get<Stream>(routes.championships(championshipsId), {
@@ -50,7 +49,11 @@ export class StreamService {
     });
   }
 
-  public get(context: 'teams' | 'users' | 'clubs' | 'championships', id: number, page = 1): Observable<Stream> {
+  public get(
+    context: 'teams' | 'users' | 'clubs' | 'championships',
+    id: number,
+    page = 1,
+  ): Observable<Stream> {
     return this.http.get<Stream>(routes.get(context, id), {
       params: {
         page: [`${page}`],

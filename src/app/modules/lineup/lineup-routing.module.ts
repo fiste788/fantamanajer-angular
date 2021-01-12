@@ -32,8 +32,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class LineupRoutingModule {
-  public static components = [
-    LineupLastPage,
-    AddLineupShortcutPage,
-  ];
+  public static components = [LineupLastPage, AddLineupShortcutPage];
 }

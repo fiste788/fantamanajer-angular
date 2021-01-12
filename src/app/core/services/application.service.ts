@@ -13,7 +13,6 @@ import { environment } from '@env';
   providedIn: 'root',
 })
 export class ApplicationService {
-
   public seasonEnded: boolean;
   public seasonStarted: boolean;
   public selectedMatchday: Matchday;
@@ -29,7 +28,7 @@ export class ApplicationService {
     private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
     private readonly injector: Injector,
-  ) { }
+  ) {}
 
   get team(): Team | undefined {
     return this.selectedTeam;
@@ -74,9 +73,11 @@ export class ApplicationService {
     }
 
     return forkJoin(obs)
-      .pipe(map(() => {
-        this.connectObservables();
-      }))
+      .pipe(
+        map(() => {
+          this.connectObservables();
+        }),
+      )
       .toPromise()
       .catch((e) => {
         this.writeError(e);
@@ -95,28 +96,27 @@ export class ApplicationService {
   private writeError(e: Error): void {
     const el = this.document.querySelector('.error');
     if (el !== null) {
-      el.textContent = 'Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare';
+      el.textContent =
+        "Si è verificato un errore nel caricamento dell'app. Ricarica la pagina per riprovare";
     }
     throw e;
   }
 
   private loadCurrentUser(): Observable<User> {
-    return this.authService.getCurrentUser()
-      .pipe(
-        tap((u) => {
-          this.setUser(u);
-        }),
-      );
+    return this.authService.getCurrentUser().pipe(
+      tap((u) => {
+        this.setUser(u);
+      }),
+    );
   }
 
   private loadCurrentMatchday(): Observable<Matchday> {
-    return this.matchdayService.getCurrentMatchday()
-      .pipe(
-        tap((m) => {
-          this.currentMatchday = m;
-          this.matchday = m;
-        }),
-      );
+    return this.matchdayService.getCurrentMatchday().pipe(
+      tap((m) => {
+        this.currentMatchday = m;
+        this.matchday = m;
+      }),
+    );
   }
 
   private setUser(user?: User): void {
@@ -127,16 +127,14 @@ export class ApplicationService {
       this.teams = undefined;
       this.selectedTeam = undefined;
       this.matchday = this.currentMatchday;
-      void this.getRouter()
-        .navigate(['/']);
+      void this.getRouter().navigate(['/']);
     }
   }
 
   private setTeam(team?: Team): void {
     this.team = team;
     if (team) {
-      void this.getRouter()
-        .navigateByUrl(`/teams/${team.id}`);
+      void this.getRouter().navigateByUrl(`/teams/${team.id}`);
     }
   }
 

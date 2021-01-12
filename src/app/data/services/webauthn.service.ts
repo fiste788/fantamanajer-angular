@@ -21,14 +21,17 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class WebauthnService {
+  constructor(private readonly http: HttpClient) {}
 
-  constructor(private readonly http: HttpClient) { }
-
-  public login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{ user: User; token: string }> {
+  public login(
+    credential: PublicKeyCredentialWithAssertionJSON,
+  ): Observable<{ user: User; token: string }> {
     return this.http.post<{ user: User; token: string }>(routes.login, credential);
   }
 
-  public register(credential: PublicKeyCredentialWithAttestationJSON): Observable<PublicKeyCredentialSource> {
+  public register(
+    credential: PublicKeyCredentialWithAttestationJSON,
+  ): Observable<PublicKeyCredentialSource> {
     return this.http.post<PublicKeyCredentialSource>(routes.register, credential);
   }
 
@@ -43,19 +46,21 @@ export class WebauthnService {
   }
 
   public createPublicKey(): Observable<PublicKeyCredentialSource | undefined> {
-    return this.create()
-      .pipe(
-        mergeMap(create),
-        mergeMap(data => this.register(data)),
-      );
+    return this.create().pipe(
+      mergeMap(create),
+      mergeMap((data) => this.register(data)),
+    );
   }
 
-  public getPublicKey(email: string, publicKey?: CredentialRequestOptionsJSON): Observable<{ user: User; token: string }> {
+  public getPublicKey(
+    email: string,
+    publicKey?: CredentialRequestOptionsJSON,
+  ): Observable<{ user: User; token: string }> {
     const token = publicKey ? of(publicKey) : this.get(email);
 
     return token.pipe(
       mergeMap(get),
-      mergeMap(data => this.login(data)),
+      mergeMap((data) => this.login(data)),
     );
   }
 }

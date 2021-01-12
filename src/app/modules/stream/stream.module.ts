@@ -7,16 +7,8 @@ import { SharedModule } from '@shared/shared.module';
 import { StreamComponent } from './components/stream.component';
 
 @NgModule({
-  declarations: [
-    StreamComponent,
-  ],
-  exports: [
-    StreamComponent,
-  ],
-  imports: [
-    SharedModule,
-    ScrollingModule,
-    ContentLoaderModule,
-  ],
+  declarations: [StreamComponent],
+  exports: [StreamComponent],
+  imports: [SharedModule, ScrollingModule, ContentLoaderModule],
 })
-export class StreamModule { }
+export class StreamModule {}

@@ -10,7 +10,5 @@ import { ApplicationService } from '@app/services';
 export class SpeedDialComponent {
   public openSpeeddial = false;
 
-  constructor(
-    public app: ApplicationService,
-  ) { }
+  constructor(public app: ApplicationService) {}
 }

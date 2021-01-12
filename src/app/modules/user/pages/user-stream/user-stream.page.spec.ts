@@ -6,12 +6,13 @@ describe('UserStreamPage', () => {
   let component: UserStreamPage;
   let fixture: ComponentFixture<UserStreamPage>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [UserStreamPage],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [UserStreamPage],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserStreamPage);
@@ -20,7 +21,6 @@ describe('UserStreamPage', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

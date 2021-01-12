@@ -31,10 +31,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class UserRoutingModule {
-  public static components = [
-    UserPage,
-    DeviceListPage,
-    SettingsPage,
-    UserStreamPage,
-  ];
+  public static components = [UserPage, DeviceListPage, SettingsPage, UserStreamPage];
 }

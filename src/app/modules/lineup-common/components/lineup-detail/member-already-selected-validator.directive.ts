@@ -4,11 +4,13 @@ import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/
 import { Lineup, Member } from '@data/types';
 
 @Directive({
-  providers: [{
-    multi: true,
-    provide: NG_VALIDATORS,
-    useExisting: MemberAlreadySelectedValidator,
-  }],
+  providers: [
+    {
+      multi: true,
+      provide: NG_VALIDATORS,
+      useExisting: MemberAlreadySelectedValidator,
+    },
+  ],
   selector: '[appMemberAlreadySelected]',
 })
 export class MemberAlreadySelectedValidator implements Validator {
@@ -19,7 +21,7 @@ export class MemberAlreadySelectedValidator implements Validator {
     if (disp !== undefined) {
       const ids = Object.values(disp.controls)
         .filter((v): v is FormGroup => v instanceof FormGroup)
-        .filter(v => v.controls)
+        .filter((v) => v.controls)
         .map((v: FormGroup) => {
           const control = v.controls.member?.value as Member | undefined;
           return control?.id;
@@ -29,7 +31,7 @@ export class MemberAlreadySelectedValidator implements Validator {
       Object.values(disp.controls)
         .filter((c): c is FormGroup => c instanceof FormGroup)
         .map((c) => {
-          const member = (c.controls?.member?.value as Member | undefined);
+          const member = c.controls?.member?.value as Member | undefined;
           if (member !== undefined && dup.includes(member.id)) {
             c.controls?.member?.setErrors({ duplicate: true });
 

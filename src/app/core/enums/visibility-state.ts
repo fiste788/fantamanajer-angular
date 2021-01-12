@@ -1,4 +1,4 @@
 export enum VisibilityState {
-    Visible = 'visible',
-    Hidden = 'hidden',
+  Visible = 'visible',
+  Hidden = 'hidden',
 }

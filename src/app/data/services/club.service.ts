@@ -12,8 +12,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ClubService {
-
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   public getClubs(): Observable<Array<Club>> {
     return this.http.get<Array<Club>>(routes.clubs);

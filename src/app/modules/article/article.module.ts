@@ -5,12 +5,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ArticleRoutingModule } from './article-routing.module';
 
 @NgModule({
-  declarations: [
-    ArticleRoutingModule.components,
-  ],
-  imports: [
-    SharedModule,
-    ArticleRoutingModule,
-  ],
+  declarations: [ArticleRoutingModule.components],
+  imports: [SharedModule, ArticleRoutingModule],
 })
-export class ArticleModule { }
+export class ArticleModule {}

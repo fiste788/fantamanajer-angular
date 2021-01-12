@@ -21,8 +21,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
 })
 export class TransfertRoutingModule {
-  public static components = [
-    TransfertListPage,
-    AddTransfertShortcutPage,
-  ];
+  public static components = [TransfertListPage, AddTransfertShortcutPage];
 }

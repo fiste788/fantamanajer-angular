@@ -6,12 +6,13 @@ describe('SpeedDialComponent', () => {
   let component: SpeedDialComponent;
   let fixture: ComponentFixture<SpeedDialComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
-      declarations: [SpeedDialComponent],
-    })
-      .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [SpeedDialComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SpeedDialComponent);
@@ -20,7 +21,6 @@ describe('SpeedDialComponent', () => {
   });
 
   it('should create', () => {
-    void expect(component)
-      .toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

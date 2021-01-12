@@ -9,12 +9,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmationDialogModal implements OnInit {
   public text = 'Sei sicuro?';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { text?: string }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { text?: string }) {}
 
   public ngOnInit(): void {
     if (this.data.text) {
       this.text = this.data.text;
     }
   }
-
 }

@@ -7,6 +7,4 @@ import { cardCreationAnimation } from '@shared/animations';
   styleUrls: ['./home.page.scss'],
   templateUrl: './home.page.html',
 })
-export class HomePage {
-
-}
+export class HomePage {}
