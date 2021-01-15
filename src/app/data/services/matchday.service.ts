@@ -1,4 +1,4 @@
-import { HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
@@ -21,14 +21,25 @@ export class MatchdayService {
   }
 
   public getCurrentMatchday(): Observable<Matchday> {
+    class HackyHttpHeaders extends HttpHeaders {
+      has(name: string): boolean {
+        // Pretend the `Accept` header is set, so `HttpClient` will not try to set the default value.
+        return name.toLowerCase() === 'accept' ? true : super.has(name);
+      }
+    }
     return this.httpWithoutIntercept
       .get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
-        headers: {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          Accept: '*/*',
-        },
         withCredentials: false,
+        headers: new HackyHttpHeaders(),
       })
       .pipe(pluck('data'));
+    /*return from(
+      fetch(environment.apiEndpoint + routes.current).then(async (res) => res.json()),
+    ).pipe<Matchday>(pluck('data'));*/
+    /*return this.httpWithoutIntercept
+      .get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
+        withCredentials: false,
+      })
+      .pipe(pluck('data'));*/
   }
 }

@@ -2,6 +2,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { AuthenticationService } from './authentication';
+import { ErrorHandlerModule } from './errors/error-handler.module';
 import {
   AdminGuard,
   AuthGuard,
@@ -9,7 +10,7 @@ import {
   NotLoggedGuard,
   throwIfAlreadyLoaded,
 } from './guards';
-import { ApiPrefixInterceptor, ErrorHandlerInterceptor, JWTTokenInterceptor } from './interceptors';
+import { ApiPrefixInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
 export const useFactory = (service: ApplicationService) => async (): Promise<void> =>
@@ -17,7 +18,7 @@ export const useFactory = (service: ApplicationService) => async (): Promise<voi
 
 @NgModule({
   exports: [],
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, ErrorHandlerModule],
   providers: [
     AuthGuard,
     AdminGuard,
@@ -29,11 +30,6 @@ export const useFactory = (service: ApplicationService) => async (): Promise<voi
       multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,
-    },
-    {
-      multi: true,
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
     },
     {
       multi: true,
