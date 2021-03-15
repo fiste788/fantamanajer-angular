@@ -7,6 +7,8 @@ import { TransfertService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
 import { tableRowAnimation } from '@shared/animations';
 import { Team, Transfert } from '@data/types';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   animations: [tableRowAnimation],
@@ -17,7 +19,7 @@ export class TransfertListPage implements OnInit {
   @ViewChild(MatSort) public sort: MatSort;
 
   public teamId?: number;
-  public dataSource: MatTableDataSource<Transfert>;
+  public dataSource$: Observable<MatTableDataSource<Transfert>>;
   public displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
   constructor(
@@ -35,14 +37,17 @@ export class TransfertListPage implements OnInit {
     this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
     if (this.teamId) {
       // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
-      this.transfertService.getTransfert(this.teamId).subscribe((data) => {
-        this.dataSource = new MatTableDataSource<Transfert>(data);
-        if (data.length) {
-          this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-          this.ref.detectChanges();
-          this.dataSource.sort = this.sort;
-        }
-      });
+      this.dataSource$ = this.transfertService.getTransfert(this.teamId).pipe(
+        map((data) => {
+          const ds = new MatTableDataSource<Transfert>(data);
+          if (data.length) {
+            ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
+            this.ref.detectChanges();
+            ds.sort = this.sort;
+          }
+          return ds;
+        }),
+      );
     }
   }
 

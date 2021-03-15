@@ -7,8 +7,8 @@ import { NotificationListModal } from '../modals/notification-list/notification-
 export class NotificationOverlayRef {
   public componentInstance?: NotificationListModal;
 
-  private readonly beforeCloseVar = new Subject<undefined>();
-  private readonly afterClosedVar = new Subject<undefined>();
+  private readonly beforeCloseVar = new Subject<void>();
+  private readonly afterClosedVar = new Subject<void>();
 
   constructor(private readonly overlayRef: OverlayRef) {}
 

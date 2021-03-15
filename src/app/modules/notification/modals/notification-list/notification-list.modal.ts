@@ -1,11 +1,12 @@
 import { AnimationEvent } from '@angular/animations';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 import { Stream } from '@data/types';
+import { tap } from 'rxjs/operators';
 
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],
@@ -14,6 +15,8 @@ import { Stream } from '@data/types';
   templateUrl: './notification-list.modal.html',
 })
 export class NotificationListModal implements OnInit {
+  @Output() readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
+
   public stream$: Observable<Stream>;
   public animationState: 'void' | 'enter' | 'leave' = 'enter';
   public animationStateChanged = new EventEmitter<AnimationEvent>();
@@ -25,7 +28,11 @@ export class NotificationListModal implements OnInit {
 
   public ngOnInit(): void {
     if (this.app.team) {
-      this.stream$ = this.notificationService.getNotifications(this.app.team.id);
+      this.stream$ = this.notificationService.getNotifications(this.app.team.id).pipe(
+        tap((res) => {
+          this.seen.emit(res);
+        }),
+      );
     }
   }
 

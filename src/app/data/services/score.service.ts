@@ -17,8 +17,6 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
-  constructor(private readonly http: HttpClient) {}
-
   public static cleanScore(score: Score): RecursivePartial<Score> {
     const clonedScore = JSON.parse(JSON.stringify(score)) as Score;
     const cleanedScore: RecursivePartial<Score> = clonedScore;
@@ -31,6 +29,8 @@ export class ScoreService {
 
     return cleanedScore;
   }
+
+  constructor(private readonly http: HttpClient) {}
 
   public getRanking(championshipId: number): Observable<Array<RankingPosition>> {
     return this.http.get<Array<RankingPosition>>(routes.ranking(championshipId));

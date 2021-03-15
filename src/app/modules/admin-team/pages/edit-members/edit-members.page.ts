@@ -88,7 +88,7 @@ export class EditMembersPage implements OnInit {
           duration: 3000,
         });
       },
-      (err) => {
+      (err: unknown) => {
         UtilService.getUnprocessableEntityErrors(this.membersForm, err);
       },
     );

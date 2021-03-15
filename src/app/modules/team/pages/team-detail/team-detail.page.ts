@@ -1,8 +1,8 @@
 import { trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, mergeMap, pluck, tap } from 'rxjs/operators';
 
 import { TeamService } from '@data/services';
@@ -17,10 +17,12 @@ import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
 })
-export class TeamDetailPage implements OnInit {
+export class TeamDetailPage implements OnInit, OnDestroy {
   @HostBinding('@enterDetailAnimation') public e = '';
   public team$: Observable<Team>;
   public tabs: Array<{ label: string; link: string }> = [];
+
+  private readonly subscriptions = new Subscription();
 
   constructor(
     public app: ApplicationService,
@@ -58,18 +60,24 @@ export class TeamDetailPage implements OnInit {
   }
 
   public openDialog(team: Team): void {
-    this.dialog
-      .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
-        data: { team },
-      })
-      .afterClosed()
-      .pipe(
-        filter((t) => t === true),
-        mergeMap(() => this.teamService.getTeam(team.id)),
-      )
-      .subscribe((t: Team) => {
-        this.app.teamChange$.next(t);
-        this.changeRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.dialog
+        .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
+          data: { team },
+        })
+        .afterClosed()
+        .pipe(
+          filter((t) => t === true),
+          mergeMap(() => this.teamService.getTeam(team.id)),
+        )
+        .subscribe((t: Team) => {
+          this.app.teamChange$.next(t);
+          this.changeRef.detectChanges();
+        }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

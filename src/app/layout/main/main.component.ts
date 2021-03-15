@@ -7,13 +7,14 @@ import {
   Component,
   Inject,
   NgZone,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { DomSanitizer } from '@angular/platform-browser';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -30,7 +31,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   styleUrls: ['./main.component.scss'],
   templateUrl: './main.component.html',
 })
-export class MainComponent implements OnInit, AfterViewInit {
+export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSidenav, { static: true }) public drawer: MatSidenav;
   @ViewChild(MatSidenavContent) public container: MatSidenavContent;
   @ViewChild(SpeedDialComponent) public speedDial: SpeedDialComponent;
@@ -41,6 +42,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   public openedSidebar$: Observable<boolean>;
   public showedSpeedDial$: Observable<VisibilityState>;
   public showedToolbar$: Observable<VisibilityState>;
+
+  private readonly subscriptions = new Subscription();
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -62,7 +65,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.layoutService.connect();
+    this.subscriptions.add(this.layoutService.connect().subscribe());
     this.scrollService.connect(this.container);
     this.ngZone.runOutsideAngular(() => {
       this.setupScrollAnimation();
@@ -81,20 +84,24 @@ export class MainComponent implements OnInit, AfterViewInit {
       this.auth.loggedIn$,
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
-    this.drawer.openedChange.asObservable().subscribe((a) => {
-      this.layoutService.openSidebarSubject.next(a);
-    });
-    this.isReady$
-      .pipe(
-        filter((e) => e),
-        tap(() => {
-          this.layoutService.showSpeedDial();
-          setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
+    this.subscriptions.add(
+      this.drawer.openedChange.asObservable().subscribe((a) => {
+        this.layoutService.openSidebarSubject.next(a);
+      }),
+    );
+    this.subscriptions.add(
+      this.isReady$
+        .pipe(
+          filter((e) => e),
+          tap(() => {
+            this.layoutService.showSpeedDial();
+            setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
+          }),
+        )
+        .subscribe(() => {
+          this.gaService.load();
         }),
-      )
-      .subscribe(() => {
-        this.gaService.load();
-      });
+    );
   }
 
   public setupScrollAnimation(): void {
@@ -117,9 +124,11 @@ export class MainComponent implements OnInit, AfterViewInit {
   public initDrawer(): void {
     this.drawer.autoFocus = false;
     // eslint-disable-next-line no-underscore-dangle
-    this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
-      this.layoutService.setReady();
-    });
+    this.subscriptions.add(
+      this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
+        this.layoutService.setReady();
+      }),
+    );
   }
 
   public isOpenObservable(): Observable<boolean> {
@@ -127,6 +136,10 @@ export class MainComponent implements OnInit, AfterViewInit {
       map(([r, h, o]) => o || (!h && r)),
       distinctUntilChanged(),
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   private updateSticky(offset: number): void {

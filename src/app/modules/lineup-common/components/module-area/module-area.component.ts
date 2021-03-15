@@ -5,11 +5,25 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
+  SimpleChange,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import { Area, Member, Module, Role } from '@data/types';
+import { Subject } from 'rxjs';
+
+export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
+  [Key in keyof Props]?: SimpleChange;
+};
+
+type MarkFunctionPropertyNames<Component> = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [Key in keyof Component]: Component[Key] extends Function | Subject<unknown> ? never : Key;
+};
+
+type ExcludeFunctionPropertyNames<T> = MarkFunctionPropertyNames<T>[keyof T];
+
+type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
 
 @Component({
   selector: 'app-module-area',
@@ -35,9 +49,9 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     // this.moduleChange$.subscribe(() => this.moduleChange());
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: NgChanges<ModuleAreaComponent>): void {
     const change = changes.module;
-    if (!change.isFirstChange() && change.previousValue !== change.currentValue) {
+    if (!change?.isFirstChange() && change?.previousValue !== change?.currentValue) {
       this.moduleChange();
     }
   }

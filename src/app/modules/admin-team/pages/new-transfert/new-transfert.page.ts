@@ -98,7 +98,7 @@ export class NewTransfertPage implements OnInit {
           duration: 3000,
         });
       },
-      (err) => {
+      (err: unknown) => {
         UtilService.getUnprocessableEntityErrors(this.transfertForm, err);
       },
     );

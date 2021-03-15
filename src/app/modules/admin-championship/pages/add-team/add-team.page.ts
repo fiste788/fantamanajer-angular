@@ -40,7 +40,7 @@ export class AddTeamPage implements OnInit {
         });
         void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
       },
-      (err) => {
+      (err: unknown) => {
         UtilService.getUnprocessableEntityErrors(this.teamForm, err);
       },
     );

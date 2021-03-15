@@ -58,7 +58,7 @@ export class LineupLastPage implements OnDestroy {
             duration: 3000,
           });
         },
-        (err) => {
+        (err: unknown) => {
           UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
         },
       );

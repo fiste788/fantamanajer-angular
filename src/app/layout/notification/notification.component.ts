@@ -30,10 +30,6 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  public seen(): void {
-    this.stream$ = this.notificationService.seen;
-  }
-
   public async open(el: EventTarget | null): Promise<void> {
     const module = await import('@modules/notification/notification.module').then(async (m) =>
       this.compiler.compileModuleAsync(m.NotificationModule),
@@ -49,6 +45,5 @@ export class NotificationComponent implements OnInit {
       elementModuleRef.injector,
     );
     ref.instance.open(el);
-    this.notificationService.seen.subscribe();
   }
 }

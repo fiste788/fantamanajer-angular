@@ -1,30 +1,24 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations';
 import { NotificationSubscription, Team } from '@data/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   animations: [createBoxAnimation],
   styleUrls: ['./team-edit.modal.scss'],
   templateUrl: './team-edit.modal.html',
 })
-export class TeamEditModal {
+export class TeamEditModal implements OnDestroy {
   public validComboDrag = false;
   public invalidComboDrag = false;
   public team: Team;
   public file: File;
 
-  constructor(
-    public app: ApplicationService,
-    private readonly teamService: TeamService,
-    private readonly dialogRef: MatDialogRef<TeamEditModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
-  ) {
-    this.team = data.team;
-  }
+  private readonly subscriptions = new Subscription();
 
   public static objectToPostParams(
     team: Team,
@@ -46,6 +40,15 @@ export class TeamEditModal {
     });
   }
 
+  constructor(
+    public app: ApplicationService,
+    private readonly teamService: TeamService,
+    private readonly dialogRef: MatDialogRef<TeamEditModal>,
+    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
+  ) {
+    this.team = data.team;
+  }
+
   public cancel(): void {
     this.dialogRef.close();
   }
@@ -59,8 +62,14 @@ export class TeamEditModal {
     fd.set('name', this.team.name);
     TeamEditModal.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
     TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
-    this.teamService.upload(this.team.id, fd).subscribe(() => {
-      this.dialogRef.close(true);
-    });
+    this.subscriptions.add(
+      this.teamService.upload(this.team.id, fd).subscribe(() => {
+        this.dialogRef.close(true);
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

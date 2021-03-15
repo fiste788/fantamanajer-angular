@@ -23,7 +23,7 @@ export class MemberAlreadySelectedValidator implements Validator {
         .filter((v): v is FormGroup => v instanceof FormGroup)
         .filter((v) => v.controls)
         .map((v: FormGroup) => {
-          const control = v.controls.member?.value as Member | undefined;
+          const control = v.controls.member?.value as Member | undefined | null;
           return control?.id;
         });
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
@@ -31,8 +31,8 @@ export class MemberAlreadySelectedValidator implements Validator {
       Object.values(disp.controls)
         .filter((c): c is FormGroup => c instanceof FormGroup)
         .map((c) => {
-          const member = c.controls?.member?.value as Member | undefined;
-          if (member !== undefined && dup.includes(member.id)) {
+          const member = c.controls?.member?.value as Member | undefined | null;
+          if (member && dup.includes(member.id)) {
             c.controls?.member?.setErrors({ duplicate: true });
 
             return { duplicate: true };

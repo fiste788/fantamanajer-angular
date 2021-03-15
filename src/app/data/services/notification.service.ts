@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
@@ -17,7 +17,6 @@ const routes = {
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   public notifications: Subject<Notification> = new Subject<Notification>();
-  public seen: EventEmitter<Stream> = new EventEmitter<Stream>();
 
   constructor(
     @Inject(NAVIGATOR) private readonly navigator: Navigator,
@@ -25,12 +24,7 @@ export class NotificationService {
   ) {}
 
   public getNotifications(teamId: number): Observable<Stream> {
-    const seen = this.http.get<Stream>(routes.notifications(teamId)).pipe(share());
-    seen.subscribe((res) => {
-      this.seen.emit(res);
-    });
-
-    return seen;
+    return this.http.get<Stream>(routes.notifications(teamId)).pipe(share());
   }
 
   public getNotificationCount(teamId: number): Observable<Stream> {

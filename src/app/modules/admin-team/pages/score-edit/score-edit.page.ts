@@ -51,7 +51,7 @@ export class ScoreEditPage implements OnInit {
           duration: 3000,
         });
       },
-      (err) => {
+      (err: unknown) => {
         UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
       },
     );

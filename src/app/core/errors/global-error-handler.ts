@@ -17,6 +17,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         const ref = this.snackbar.open(
           error.message || 'Undefined client error',
           'Ricarica pagina',
+          { duration: 5000 },
         );
         ref.onAction().subscribe(() => this.window.location.reload());
       });

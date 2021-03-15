@@ -58,13 +58,15 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
       this.dataStream.next(this.cachedData);
     }
 
-    this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
-      this.cachedData = this.cachedData.filter((it) => it !== undefined).concat(data.results);
-      if (this.cachedData.length === 0) {
-        this.isEmpty = true;
-      }
-      this.dataStream.next(this.cachedData);
-    });
+    this.subscription.add(
+      this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
+        this.cachedData = this.cachedData.filter((it) => it !== undefined).concat(data.results);
+        if (this.cachedData.length === 0) {
+          this.isEmpty = true;
+        }
+        this.dataStream.next(this.cachedData);
+      }),
+    );
   }
 
   private addPlaceholder(): void {

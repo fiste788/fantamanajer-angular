@@ -9,7 +9,7 @@ import {
   PublicKeyCredentialWithAttestationJSON,
 } from '@github/webauthn-json';
 import { Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { catchError, filter, mergeMap } from 'rxjs/operators';
 
 import { PublicKeyCredentialSource, User } from '../types';
 
@@ -59,7 +59,10 @@ export class WebauthnService {
     const token = publicKey ? of(publicKey) : this.get(email);
 
     return token.pipe(
+      filter((t) => t.publicKey !== null),
       mergeMap(get),
+      catchError(() => of(undefined)),
+      filter((data): data is PublicKeyCredentialWithAssertionJSON => data !== undefined),
       mergeMap((data) => this.login(data)),
     );
   }

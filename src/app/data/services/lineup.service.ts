@@ -16,8 +16,6 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
-  constructor(private readonly http: HttpClient) {}
-
   public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
     const clonedLineup = JSON.parse(JSON.stringify(lineup)) as Lineup;
     const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
@@ -31,6 +29,8 @@ export class LineupService {
 
     return cleanedLineup;
   }
+
+  constructor(private readonly http: HttpClient) {}
 
   public getLineup(teamId: number): Observable<Lineup> {
     return this.http.get<Lineup>(routes.lineup(teamId));

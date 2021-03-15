@@ -7,8 +7,9 @@
     <mat-form-field floatLabel="never">
       <mat-label>Ruolo</mat-label>
       <mat-select
-        #roleSelect
         placeholder="Seleziona il ruolo"
+        (selectionChange)="roleChange($event.value)"
+        [(ngModel)]="role"
       >
         <mat-option
           *ngFor="let role of (roles | keyvalue); trackBy: track"

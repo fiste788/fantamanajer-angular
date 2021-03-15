@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 
@@ -40,34 +40,38 @@ export class LayoutService {
       .pipe(map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)));
   }
 
-  public connect(): void {
-    this.isHandset$.subscribe((e) => {
-      this.openSidebarSubject.next(!e);
-      this.showSpeedDialSubject.next(this.showSpeedDialSubject.value || e);
-      this.showToolbarSubject.next(true);
-      if (e) {
-        this.setReady();
-      }
-    });
+  public connect(): Observable<boolean> {
+    return this.isHandset$.pipe(
+      tap((e) => {
+        this.openSidebarSubject.next(!e);
+        this.showSpeedDialSubject.next(this.showSpeedDialSubject.value || e);
+        this.showToolbarSubject.next(true);
+        if (e) {
+          this.setReady();
+        }
+      }),
+    );
   }
 
   public connectScrollAnimation(
     upCallback: () => void,
     downCallback: () => void,
     offset = 0,
-  ): void {
-    this.isHandset$.subscribe((isHandset) => {
-      if (isHandset) {
-        if (!this.subscriptions.length) {
-          this.subscriptions = this.applyScrollAnimation(upCallback, downCallback, offset);
+  ): Observable<boolean> {
+    return this.isHandset$.pipe(
+      tap((isHandset) => {
+        if (isHandset) {
+          if (!this.subscriptions.length) {
+            this.subscriptions = this.applyScrollAnimation(upCallback, downCallback, offset);
+          }
+        } else if (this.subscriptions.length) {
+          this.subscriptions.forEach((sub) => {
+            sub.unsubscribe();
+          });
+          this.subscriptions = [];
         }
-      } else if (this.subscriptions.length) {
-        this.subscriptions.forEach((sub) => {
-          sub.unsubscribe();
-        });
-        this.subscriptions = [];
-      }
-    });
+      }),
+    );
   }
 
   public applyScrollAnimation(

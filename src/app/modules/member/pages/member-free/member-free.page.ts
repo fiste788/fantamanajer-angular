@@ -1,13 +1,5 @@
 import { KeyValue } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -23,14 +15,14 @@ import { Championship, Member, Role } from '@data/types';
   styleUrls: ['./member-free.page.scss'],
   templateUrl: './member-free.page.html',
 })
-export class MemberFreePage implements OnInit, AfterViewInit {
+export class MemberFreePage implements OnInit {
   @HostBinding('@tableRowAnimation') public tableRowAnimation = '';
   @ViewChild(MemberListComponent) public memberList?: MemberListComponent;
-  @ViewChild(MatSelect) public roleSelect: MatSelect;
 
   public members$?: Observable<Array<Member>>;
   public roles: Map<number, Role>;
   public selectedMember$: Observable<Member | undefined>;
+  public role: Role | undefined;
 
   constructor(
     private readonly changeRef: ChangeDetectorRef,
@@ -42,14 +34,7 @@ export class MemberFreePage implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     this.roles = this.roleService.list();
-  }
-
-  public ngAfterViewInit(): void {
-    this.roleSelect.selectionChange.subscribe((change: MatSelectChange) => {
-      this.roleChange(change.value);
-    });
-    this.roleSelect.value = this.roles.get(1);
-    this.roleChange(this.roles.get(1));
+    this.roleChange(this.roles.get(0));
   }
 
   public roleChange(role?: Role): void {

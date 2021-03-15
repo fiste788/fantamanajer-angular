@@ -28,6 +28,7 @@ export const useFactory = (service: ApplicationService) => async (): Promise<voi
     NAVIGATOR_PROVIDERS,
     {
       multi: true,
+      deps: [AuthenticationService],
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,
     },
@@ -45,13 +46,13 @@ export const useFactory = (service: ApplicationService) => async (): Promise<voi
   ],
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    throwIfAlreadyLoaded(parentModule, CoreModule.name);
-  }
-
   public static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
     };
+  }
+
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    throwIfAlreadyLoaded(parentModule, CoreModule.name);
   }
 }

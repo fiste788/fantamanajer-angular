@@ -1,6 +1,6 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
 import { UserService } from '@data/services';
@@ -13,7 +13,7 @@ import { User } from '@data/types';
   styleUrls: ['./settings.page.scss'],
   templateUrl: './settings.page.html',
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage implements OnInit, OnDestroy {
   @HostBinding('@cardCreationAnimation') public a = '';
 
   public user$: Observable<User>;
@@ -21,6 +21,8 @@ export class SettingsPage implements OnInit {
   public repeatPassword: string;
   public push$: Observable<boolean>;
   public enabled: boolean;
+
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -40,11 +42,13 @@ export class SettingsPage implements OnInit {
   public save(): void {
     if (this.user?.password === this.repeatPassword) {
       this.user$ = this.userService.update(this.user).pipe(share());
-      this.user$.pipe(tap(() => (this.app.user = this.user))).subscribe(() => {
-        this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000,
-        });
-      });
+      this.subscriptions.add(
+        this.user$.pipe(tap(() => (this.app.user = this.user))).subscribe(() => {
+          this.snackBar.open('Modifiche salvate', undefined, {
+            duration: 3000,
+          });
+        }),
+      );
     }
   }
 
@@ -54,5 +58,9 @@ export class SettingsPage implements OnInit {
     } else {
       this.pushService.unsubscribeFromPush();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

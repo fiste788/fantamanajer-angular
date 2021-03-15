@@ -7,11 +7,8 @@ import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UtilService {
-  public static getUnprocessableEntityErrors(
-    form: NgForm | FormArray,
-    err: HttpErrorResponse,
-  ): void {
-    if (err.status === 422) {
+  public static getUnprocessableEntityErrors(form: NgForm | FormArray, err: unknown): void {
+    if (err instanceof HttpErrorResponse && err.status === 422) {
       const error = err.error as {
         data: { errors: { [key: string]: { [key: string]: unknown } } };
       };

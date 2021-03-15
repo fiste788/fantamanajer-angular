@@ -60,11 +60,6 @@ export class ApplicationService {
     this.recalcSeason(matchday);
   }
 
-  private recalcSeason(matchday: Matchday): void {
-    this.seasonEnded = matchday.number > environment.matchdaysCount;
-    this.seasonStarted = matchday.number > 0;
-  }
-
   public async initialize(): Promise<void> {
     const obs: Array<Observable<unknown>> = [];
     obs.push(this.loadCurrentMatchday());
@@ -82,6 +77,11 @@ export class ApplicationService {
       .catch((e) => {
         this.writeError(e);
       });
+  }
+
+  private recalcSeason(matchday: Matchday): void {
+    this.seasonEnded = matchday.number > environment.matchdaysCount;
+    this.seasonStarted = matchday.number > 0;
   }
 
   private connectObservables(): void {

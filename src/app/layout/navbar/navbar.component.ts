@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -12,12 +12,14 @@ import { Championship, Team } from '@data/types';
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   public deferredPrompt?: BeforeInstallPromptEvent;
   public loggedIn: boolean;
   public team?: Team;
   public championship?: Championship;
   public navStart$: Observable<Event>;
+
+  private readonly subscriptions = new Subscription();
 
   constructor(
     private readonly layoutService: LayoutService,
@@ -33,21 +35,27 @@ export class NavbarComponent implements OnInit {
   }
 
   public init(): void {
-    this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
-      this.deferredPrompt = e;
-    });
-    combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
-      this.refresh();
-    });
+    this.subscriptions.add(
+      this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
+        this.deferredPrompt = e;
+      }),
+    );
+    this.subscriptions.add(
+      combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
+        this.refresh();
+      }),
+    );
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
-    this.navStart$
-      .pipe(
-        mergeMap(() => this.layoutService.isHandset$),
-        filter((r) => r),
-      )
-      .subscribe(() => {
-        this.layoutService.closeSidebar();
-      });
+    this.subscriptions.add(
+      this.navStart$
+        .pipe(
+          mergeMap(() => this.layoutService.isHandset$),
+          filter((r) => r),
+        )
+        .subscribe(() => {
+          this.layoutService.closeSidebar();
+        }),
+    );
   }
 
   public refresh(): void {
@@ -67,5 +75,9 @@ export class NavbarComponent implements OnInit {
     }
 
     return false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

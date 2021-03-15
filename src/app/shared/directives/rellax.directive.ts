@@ -62,9 +62,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private pause = true;
   private subscription: Subscription;
   private loopId = 0;
-  private readonly supportsPassive = true;
+  // private readonly supportsPassive = true;
   private screenX = 0;
   private screenY = 0;
+  private du: () => void;
 
   private readonly loop: (callback: FrameRequestCallback) => number;
 
@@ -285,15 +286,15 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   // Remove event listeners and loop again
   public deferredUpdate(): void {
-    this.window.removeEventListener('resize', this.deferredUpdate.bind(this));
-    this.window.removeEventListener('orientationchange', this.deferredUpdate.bind(this));
+    this.window.removeEventListener('resize', this.du);
+    this.window.removeEventListener('orientationchange', this.du);
     (this.options.wrapper ? this.options.wrapper : this.window).removeEventListener(
       'scroll',
-      this.deferredUpdate.bind(this),
+      this.du,
     );
     (this.options.wrapper ? this.options.wrapper : this.document).removeEventListener(
       'touchmove',
-      this.deferredUpdate.bind(this),
+      this.du,
     );
 
     // loop again
@@ -309,21 +310,19 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.loopId = 0;
 
+      this.du = this.deferredUpdate.bind(this);
       // Don't animate until we get a position updating event
-      window.addEventListener('resize', this.deferredUpdate.bind(this));
-      window.addEventListener('orientationchange', this.deferredUpdate.bind(this));
-      (this.options.wrapper ? this.options.wrapper : window).addEventListener(
-        'scroll',
-        this.deferredUpdate.bind(this),
-        this.supportsPassive ? { passive: true } : false,
-      );
+      window.addEventListener('resize', this.du);
+      window.addEventListener('orientationchange', this.du);
+      (this.options.wrapper ? this.options.wrapper : window).addEventListener('scroll', this.du, {
+        passive: true,
+      });
       (this.options.wrapper ? this.options.wrapper : document).addEventListener(
         'touchmove',
-        this.deferredUpdate.bind(this),
-        this.supportsPassive ? { passive: true } : false,
+        this.du,
+        { passive: true },
       );
     }
-    this.loopId = this.loop(this.update.bind(this));
   }
 
   public animate(): void {
