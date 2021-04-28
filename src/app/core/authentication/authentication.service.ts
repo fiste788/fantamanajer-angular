@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { finalize, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
@@ -32,6 +32,7 @@ export class AuthenticationService {
       sessionStorage.getItem(this.tokenItemName) ??
       undefined;
     if (this.token && !this.loggedIn()) {
+      // eslint-disable-next-line rxjs/no-ignored-subscription
       this.logout().subscribe();
     }
   }
@@ -78,6 +79,7 @@ export class AuthenticationService {
 
   public logout(): Observable<Record<string, never>> {
     return this.userService.logout().pipe(
+      first(),
       finalize(() => {
         this.token = undefined;
         this.userSubject.next(undefined);

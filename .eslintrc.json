@@ -65,7 +65,6 @@
         "@angular-eslint/no-queries-metadata-property": "error",
         "@angular-eslint/prefer-output-readonly": "error",
         "@angular-eslint/use-component-view-encapsulation": "error",
-        "@angular-eslint/use-pipe-decorator": "error",
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/ban-ts-comment": "error",
         "@typescript-eslint/consistent-type-definitions": "error",
@@ -152,10 +151,6 @@
           }
         ],
         "default-case": "error",
-        //"import/no-default-export": "error",
-        //"import/no-extraneous-dependencies": "error",
-        //"import/no-unassigned-import": "error",
-        //"import/order": "error",
         "max-lines": [
           "error",
           400
