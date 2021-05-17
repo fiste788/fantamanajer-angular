@@ -17,6 +17,6 @@ export class NotificationListComponent {
   constructor(private readonly overlayService: NotificationOverlayService) {}
 
   public open(el: EventTarget | null): void {
-    this.overlayService.open((el as unknown) as ElementRef);
+    this.overlayService.open(el as unknown as ElementRef);
   }
 }

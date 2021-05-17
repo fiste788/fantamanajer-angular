@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import './core';
 @import './card';
@@ -14,7 +15,7 @@
 
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
-  @include angular-material-theme($theme);
+  @include mat.all-component-themes($theme);
   @include fantamanajer-core($theme);
   @include fantamanajer-form-theme($theme);
   @include fantamanajer-card-theme($theme);

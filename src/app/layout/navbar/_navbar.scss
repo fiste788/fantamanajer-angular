@@ -1,19 +1,20 @@
+@use '~@angular/material' as mat;
 @mixin navbar-theme($theme) {
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);
 
   .mat-list-item .mat-icon {
-    color: mat-color($foreground, 'icon');
+    color: mat.get-color-from-palette($foreground, 'icon');
   }
 
   .mat-list-item.active,
   .mat-list-item.active:active,
   .mat-list-item.active:hover {
-    background-color: mat-color($primary, 0.12) !important;
-    color: mat-color($primary) !important;
+    background-color: mat.get-color-from-palette($primary, 0.12) !important;
+    color: mat.get-color-from-palette($primary) !important;
 
     .mat-icon {
-      color: mat-color($primary, 'darker') !important;
+      color: mat.get-color-from-palette($primary, 'darker') !important;
     }
   }
 }

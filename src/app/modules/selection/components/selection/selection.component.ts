@@ -27,7 +27,7 @@ export class SelectionComponent implements OnInit, OnDestroy {
   public newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(
     undefined,
   );
-  private readonly role$: Subject<Role> = new Subject<Role>();
+  private readonly role$: Subject<Role | undefined> = new Subject<Role | undefined>();
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -79,7 +79,7 @@ export class SelectionComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.role$
         .pipe(
-          distinctUntilChanged((x, y) => x.id === y.id),
+          distinctUntilChanged((x, y) => x?.id === y?.id),
           share(),
         )
         .subscribe({

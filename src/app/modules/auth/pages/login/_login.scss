@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin login-theme($theme) {
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);
@@ -5,7 +6,7 @@
   app-login {
     .mat-card-title,
     .mat-icon {
-      color: mat-color($foreground, 'icon');
+      color: mat.get-color-from-palette($foreground, 'icon');
     }
 
     .mat-horizontal-stepper-header-container {

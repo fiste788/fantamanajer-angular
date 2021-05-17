@@ -1,8 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { Championship, Matchday, Team, User } from '@data/types';
@@ -60,23 +60,23 @@ export class ApplicationService {
     this.recalcSeason(matchday);
   }
 
-  public async initialize(): Promise<void> {
+  public initialize(): Observable<unknown> {
     const obs: Array<Observable<unknown>> = [];
     obs.push(this.loadCurrentMatchday());
     if (this.authService.loggedIn()) {
       obs.push(this.loadCurrentUser());
     }
 
-    return forkJoin(obs)
-      .pipe(
-        map(() => {
-          this.connectObservables();
-        }),
-      )
-      .toPromise()
-      .catch((e) => {
-        this.writeError(e);
-      });
+    return forkJoin(obs).pipe(
+      map(() => {
+        this.connectObservables();
+      }),
+      catchError((e: unknown) => {
+        this.writeError(e as Error);
+
+        return of(false);
+      }),
+    );
   }
 
   private recalcSeason(matchday: Matchday): void {

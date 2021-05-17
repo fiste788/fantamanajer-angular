@@ -2,7 +2,7 @@ import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { from, Observable, of } from 'rxjs';
+import { firstValueFrom, from, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -15,7 +15,8 @@ import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  public readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> = new EventEmitter<BeforeInstallPromptEvent>();
+  public readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> =
+    new EventEmitter<BeforeInstallPromptEvent>();
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
@@ -146,17 +147,16 @@ export class PushService {
       });
       const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
       if (sub) {
-        return this.subscription
-          .add(sub)
-          .pipe(
+        return firstValueFrom(
+          this.subscription.add(sub).pipe(
             map(() => true),
             catchError(() => {
               void pushSubscription.unsubscribe();
 
               return of(false);
             }),
-          )
-          .toPromise();
+          ),
+        );
       }
     }
 
@@ -165,22 +165,21 @@ export class PushService {
 
   private async cancelSubscription(): Promise<boolean> {
     // Get active subscription
-    const pushSubscription = await this.swPush.subscription.pipe(take(1)).toPromise();
-    if (pushSubscription !== null) {
+    const pushSubscription = await firstValueFrom(this.swPush.subscription.pipe(take(1)));
+    if (pushSubscription) {
       // Delete the subscription from the backend
       const sub = await this.sha256(pushSubscription.endpoint);
 
-      return this.subscription
-        .delete(sub)
-        .pipe(
+      return firstValueFrom(
+        this.subscription.delete(sub).pipe(
           map(() => {
             void pushSubscription.unsubscribe().then().catch();
 
             return true;
           }),
           catchError(() => of(false)),
-        )
-        .toPromise();
+        ),
+      );
     }
 
     return true;

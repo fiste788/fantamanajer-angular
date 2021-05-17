@@ -27,9 +27,9 @@
           fxLayout="row"
           fxLayoutAlign="start center"
         >
-          <mat-icon *ngIf="regular && row.consideration == 0">arrow_back</mat-icon>
-          <mat-icon *ngIf="!regular && row.consideration == 1">arrow_forward</mat-icon>
-          <mat-icon *ngIf="row.consideration == 2">copyright</mat-icon>
+          <mat-icon *ngIf="regular && row.consideration === 0">arrow_back</mat-icon>
+          <mat-icon *ngIf="!regular && row.consideration === 1">arrow_forward</mat-icon>
+          <mat-icon *ngIf="row.consideration === 2">copyright</mat-icon>
 
           <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.full_name}}</a>
           <span *ngIf="lineup">&nbsp;{{row.member.id | captain: lineup}}</span>

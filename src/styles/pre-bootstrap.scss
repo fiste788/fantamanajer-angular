@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 body,
@@ -9,7 +10,7 @@ html {
 }
 
 .pre-bootstrap {
-  background-color: map-get($mat-light-theme-background, 'card');
+  background-color: map-get(mat.$light-theme-background-palette, 'card');
   position: absolute;
   top: 0;
   z-index: 1;
@@ -17,7 +18,7 @@ html {
   align-items: center;
   display: flex;
   flex-direction: column;
-  color: map-get($mat-light-theme-foreground, 'text');
+  color: map-get(mat.$light-theme-foreground-palette, 'text');
   place-content: center;
   justify-content: center;
   height: 100vh;
@@ -75,8 +76,8 @@ html {
 }
 @media(prefers-color-scheme: dark) {
   .pre-bootstrap {
-    background-color: map-get($mat-dark-theme-background, 'background');
-    color: map-get($mat-dark-theme-foreground, 'text');
+    background-color: map-get(mat.$dark-theme-background-palette, 'background');
+    color: map-get(mat.$dark-theme-foreground-palette, 'text');
   }
 
   .error,

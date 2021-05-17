@@ -15,7 +15,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -97,19 +97,16 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
             this.layoutService.showSpeedDial();
             setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
           }),
+          switchMap(() => this.gaService.load()),
         )
-        .subscribe(() => {
-          this.gaService.load();
-        }),
+        .subscribe(),
     );
   }
 
   public setupScrollAnimation(): void {
-    this.layoutService.connectScrollAnimation(
-      this.up.bind(this),
-      this.up.bind(this),
-      this.getToolbarHeight(),
-    );
+    this.layoutService
+      .connectScrollAnimation(this.up.bind(this), this.up.bind(this), this.getToolbarHeight())
+      .subscribe();
   }
 
   public up(): void {

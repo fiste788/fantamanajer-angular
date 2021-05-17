@@ -58,6 +58,6 @@
   <mat-hint *ngIf="member?.stats">
     <span>Ø P.ti: {{member?.stats?.avg_points | number: '1.1-1'}}</span> -
     <span>Ø Voti: {{member?.stats?.avg_rating | number: '1.1-1'}}</span> -
-    <span>Σ Gol: {{member?.role_id != 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against}}</span>
+    <span>Σ Gol: {{member?.role_id !== 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against}}</span>
   </mat-hint>
 </mat-form-field>

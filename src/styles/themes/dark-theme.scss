@@ -1,12 +1,13 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '../partials/fantamanajer-theme';
-@include mat-core();
+@include mat.core();
 
-$primary: mat-palette($mat-cyan, A200, A100, A400);
-$accent: mat-palette($mat-pink, A200);
-$warn: mat-palette($mat-red);
+$primary: mat.define-palette(mat.$cyan-palette, A200, A100, A400);
+$accent: mat.define-palette(mat.$pink-palette, A200);
+$warn: mat.define-palette(mat.$red-palette);
 
-$theme: mat-dark-theme($primary, $accent, $warn);
+$theme: mat.define-dark-theme($primary, $accent, $warn);
 $foreground: map-get($theme, foreground);
 $background: map-get($theme, background);
 @include fantamanajer-theme($theme);
@@ -22,8 +23,8 @@ img[srcset^='//via.placeholder.com'] {
 }
 
 img[src~='.svg'] {
-  $app-background: mat-color($background, 'background');
-  $badge-color: mat-color($foreground, 'disabled-text');
+  $app-background: mat.get-color-from-palette($background, 'background');
+  $badge-color: mat.get-color-from-palette($foreground, 'disabled-text');
   @if (type-of($badge-color) == color and type-of($app-background) == color) {
     $badge-opacity: opacity($badge-color);
     background-color: mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
@@ -35,5 +36,5 @@ img[src~='.svg'] {
 }
 
 a {
-  color: mat-color($primary);
+  color: mat.get-color-from-palette($primary);
 }

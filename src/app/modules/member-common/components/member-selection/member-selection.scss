@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/flex-layout/mq';
 @mixin member-selection-theme($theme) {
   $foreground: map-get($theme, foreground);
@@ -5,12 +6,12 @@
 
   .photo-container {
     > .img-container {
-      border-color: mat-color($background,'card');
+      border-color: mat.get-color-from-palette($background,'card');
     }
   }
 
   .circle .mat-icon {
-    background-color: mat-color($background, 'card');
+    background-color: mat.get-color-from-palette($background, 'card');
   }
 
   app-member-selection .mat-form-field-infix {

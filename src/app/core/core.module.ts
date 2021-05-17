@@ -1,5 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { AuthenticationService } from './authentication';
 import { ErrorHandlerModule } from './errors/error-handler.module';
@@ -13,7 +14,7 @@ import {
 import { ApiPrefixInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
-export const useFactory = (service: ApplicationService) => async (): Promise<void> =>
+export const useFactory = (service: ApplicationService): Observable<unknown> =>
   service.initialize();
 
 @NgModule({

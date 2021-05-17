@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { environment } from '@env';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 declare let gtag: Gtag.Gtag;
 
@@ -17,7 +17,7 @@ export class GoogleAnalyticsService {
     private readonly router: Router,
   ) {}
 
-  public load(): Observable<NavigationEnd> | undefined {
+  public load(): Observable<boolean> {
     // eslint-disable-next-line
     if (environment.gaCode !== '') {
       const script = this.document.createElement('script');
@@ -28,15 +28,17 @@ export class GoogleAnalyticsService {
 
       return this.router.events.pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        tap((e) => {
+        map((e) => {
           gtag('config', environment.gaCode ?? '', {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             page_path: e.urlAfterRedirects,
           });
+
+          return true;
         }),
       );
     }
 
-    return undefined;
+    return of(false);
   }
 }

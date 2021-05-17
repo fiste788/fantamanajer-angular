@@ -1,9 +1,10 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '~@angular/flex-layout/mq';
 
 .circle .mat-icon {
   position: absolute;
-  @include mat-elevation(4);
+  @include mat.elevation(4);
   padding: 2px;
   border-radius: 50%;
   cursor: help;

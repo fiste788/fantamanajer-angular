@@ -1,8 +1,9 @@
+@use '~@angular/material' as mat;
 @mixin lineup-detail-theme($theme) {
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);
 
   .role-container h5 {
-    color: mat-color($foreground, 'secondary-text');
+    color: mat.get-color-from-palette($foreground, 'secondary-text');
   }
 }

@@ -18,15 +18,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "indexTransform": "index-html-transform.ts",
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               {
                 "glob": ".htaccess",
@@ -57,7 +55,13 @@
               "includePaths": [
                 "src"
               ]
-            }
+            },
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -112,13 +116,14 @@
                   "with": "src/environments/environment.stage.ts"
                 }
               ]
-            }
-          }
+            },
+            "development": {}
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "fantamanajer-angular:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
@@ -127,8 +132,12 @@
             },
             "stage": {
               "browserTarget": "fantamanajer-angular:build:stage"
+            },
+            "development": {
+              "browserTarget": "fantamanajer-angular:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -168,7 +177,8 @@
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
             "devServerTarget": "fantamanajer-angular:serve"
-          }
+          },
+          "configurations": {}
         }
       }
     }

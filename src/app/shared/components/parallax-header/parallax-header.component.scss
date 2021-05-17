@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '~@angular/flex-layout/mq';
 
@@ -5,7 +6,7 @@
   //max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-  @include mat-elevation(2);
+  @include mat.elevation(2);
 
   img {
     display: block;
@@ -49,7 +50,7 @@
   .parallax-header-img {
     //height: 300px;
     max-height: unset;
-    @include mat-elevation(0);
+    @include mat.elevation(0);
 
     img {
       //position: absolute;
@@ -74,7 +75,7 @@
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     max-height: 85vh;
-    @include mat-elevation(2);
+    @include mat.elevation(2);
   }
 
   .parallax-header-title {

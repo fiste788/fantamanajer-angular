@@ -33,7 +33,7 @@
   </mat-card>
 </div>
 <app-mat-empty-state
-  *ngIf="articles.length == 0 && !isLoading"
+  *ngIf="articles.length === 0 && !isLoading"
   label="Nessuna conferenza stampa ancora rilasciata"
   description="Sii il primo"
   icon="message"

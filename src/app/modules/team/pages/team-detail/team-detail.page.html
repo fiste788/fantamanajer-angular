@@ -7,7 +7,7 @@
       [subtitle]="team.user.name + ' ' + team.user.surname"
     >
       <div
-        *ngIf="team.user.id == app.user?.id && !app.seasonEnded"
+        *ngIf="team.user.id === app.user?.id && !app.seasonEnded"
         parallax-header-right
       >
         <button

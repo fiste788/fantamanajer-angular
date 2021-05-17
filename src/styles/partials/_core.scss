@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @mixin fantamanajer-core($theme) {
   $primary: map-get($theme, primary);
@@ -19,16 +20,16 @@
   }
 
   .mat-text-accent {
-    color: mat-color($accent);
+    color: mat.get-color-from-palette($accent);
   }
 
   .mat-text-primary {
-    color: mat-color($primary);
+    color: mat.get-color-from-palette($primary);
   }
 
   ::selection {
-    background: mat-color($accent);
-    color: mat-color($accent, default-contrast);
+    background: mat.get-color-from-palette($accent);
+    color: mat.get-color-from-palette($accent, default-contrast);
   }
 
   .sticky {
@@ -62,7 +63,7 @@
     width: .75rem;
     height: 1rem;
     display: inline-block;
-    @include mat-elevation(1);
+    @include mat.elevation(1);
   }
 
   .yellow_card {

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '~@angular/flex-layout/mq';
 
@@ -9,7 +10,7 @@
   z-index: 1;
   display: flex;
   border-radius: 50%;
-  @include mat-elevation(6);
+  @include mat.elevation(6);
 }
 
 .mat-fab {
@@ -19,7 +20,7 @@
   :host {
     left: 212px;
     right: unset !important;
-    @include mat-elevation(2);
+    @include mat.elevation(2);
   }
 }
 @keyframes createBox {

@@ -15,9 +15,11 @@ export class UtilService {
       const errors = error.data.errors;
       Object.keys(errors).forEach((key) => {
         if (Object.keys(form.controls).includes(key)) {
-          (form.controls as {
-            [key: string]: AbstractControl;
-          })[key].setErrors(errors[key]);
+          (
+            form.controls as {
+              [key: string]: AbstractControl;
+            }
+          )[key].setErrors(errors[key]);
         }
       });
     }
