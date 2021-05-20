@@ -13,7 +13,7 @@ import { Championship, Team } from '@data/types';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  public deferredPrompt?: BeforeInstallPromptEvent;
+  public deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
   public loggedIn: boolean;
   public team?: Team;
   public championship?: Championship;
@@ -35,11 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   public init(): void {
-    this.subscriptions.add(
-      this.push.beforeInstall.subscribe((e: BeforeInstallPromptEvent) => {
-        this.deferredPrompt = e;
-      }),
-    );
+    this.deferredPrompt$ = this.push.beforeInstall.asObservable();
     this.subscriptions.add(
       combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
         this.refresh();
@@ -64,17 +60,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.championship = this.app.championship;
   }
 
-  public install(): boolean {
-    if (this.deferredPrompt) {
-      // Show the prompt
-      void this.deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      void this.deferredPrompt.userChoice.then(() => {
-        this.deferredPrompt = undefined;
-      });
-    }
-
-    return false;
+  public install(event: BeforeInstallPromptEvent): void {
+    void event.prompt();
+    void event.userChoice.then(() => {
+      this.deferredPrompt$ = undefined;
+    });
   }
 
   ngOnDestroy(): void {

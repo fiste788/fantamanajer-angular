@@ -3,6 +3,8 @@ import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { AuthenticationService } from '@app/authentication';
 import { Championship, Matchday, Team, User } from '@data/types';
@@ -28,7 +30,13 @@ export class ApplicationService {
     private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
     private readonly injector: Injector,
-  ) {}
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer,
+  ) {
+    this.iconRegistry.addSvgIconSet(
+      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
+    );
+  }
 
   get team(): Team | undefined {
     return this.selectedTeam;
@@ -68,9 +76,7 @@ export class ApplicationService {
     }
 
     return forkJoin(obs).pipe(
-      map(() => {
-        this.connectObservables();
-      }),
+      tap(() => this.connectObservables()),
       catchError((e: unknown) => {
         this.writeError(e as Error);
 

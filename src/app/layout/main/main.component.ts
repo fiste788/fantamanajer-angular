@@ -11,9 +11,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { DomSanitizer } from '@angular/platform-browser';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -53,14 +51,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
-    private readonly iconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer,
   ) {}
 
   public ngOnInit(): void {
-    this.iconRegistry.addSvgIconSet(
-      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
-    );
     this.setupEvents();
   }
 
@@ -119,8 +112,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public initDrawer(): void {
-    this.drawer.autoFocus = false;
-    // eslint-disable-next-line no-underscore-dangle
     this.subscriptions.add(
       this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
         this.layoutService.setReady();

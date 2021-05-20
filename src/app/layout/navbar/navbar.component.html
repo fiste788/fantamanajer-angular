@@ -1,10 +1,10 @@
 <app-profile></app-profile>
 <mat-nav-list>
   <a
-    *ngIf="deferredPrompt"
+    *ngIf="deferredPrompt$ | async as prompt"
     mat-list-item
     href=""
-    (click)="install()"
+    (click)="install(prompt)"
   >
     <mat-icon matListIcon>get_app</mat-icon>Installa l'app
   </a>
