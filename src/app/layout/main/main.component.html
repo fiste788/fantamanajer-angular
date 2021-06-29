@@ -6,6 +6,7 @@
     [opened]="(isOpen$ | async)"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    (openedChange)="open($event)"
   >
     <app-navbar></app-navbar>
   </mat-sidenav>

@@ -49,14 +49,18 @@
     ></app-notification-subscription>
   </div>
 </div>
-<div mat-dialog-actions>
+<div
+  mat-dialog-actions
+  align="end"
+>
   <button
     mat-button
-    (click)="save()"
-  >SALVA</button>
-  <button
-    mat-button
-    (click)="cancel()"
+    [mat-dialog-close]="undefined"
     tabindex="-1"
   >ANNULLA</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    (click)="save()"
+  >SALVA</button>
 </div>

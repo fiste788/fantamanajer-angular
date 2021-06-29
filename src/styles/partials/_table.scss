@@ -32,15 +32,11 @@
       }
     }
 
-    .mat-row > .mat-table-sticky {
-      border-right: 0 none;
+    .mat-table-sticky-border-elem-right {
+      border-left: 1px solid mat.get-color-from-palette($foreground, divider);
     }
 
-    .mat-row > .mat-table-sticky:first-of-type {
-      border-right: 1px solid mat.get-color-from-palette($foreground, divider);
-    }
-
-    .mat-row > .mat-table-sticky ~ .mat-table-sticky {
+    .mat-table-sticky-border-elem-left {
       border-right: 1px solid mat.get-color-from-palette($foreground, divider);
     }
   }

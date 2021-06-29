@@ -1,11 +1,9 @@
-import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
-
-import { environment } from '@env';
 
 import { Matchday } from '../types';
+import { noAuthIt } from '@app/interceptors';
 
 const url = 'matchdays';
 const routes = {
@@ -14,11 +12,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class MatchdayService {
-  private readonly httpWithoutIntercept: HttpClient;
-
-  constructor(httpback: HttpBackend) {
-    this.httpWithoutIntercept = new HttpClient(httpback);
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public getCurrentMatchday(): Observable<Matchday> {
     class HackyHttpHeaders extends HttpHeaders {
@@ -27,19 +21,10 @@ export class MatchdayService {
         return name.toLowerCase() === 'accept' ? true : super.has(name);
       }
     }
-    return this.httpWithoutIntercept
-      .get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
-        withCredentials: false,
-        headers: new HackyHttpHeaders(),
-      })
-      .pipe(pluck('data'));
-    /*return from(
-      fetch(environment.apiEndpoint + routes.current).then(async (res) => res.json()),
-    ).pipe<Matchday>(pluck('data'));*/
-    /*return this.httpWithoutIntercept
-      .get<{ success: boolean; data: Matchday }>(environment.apiEndpoint + routes.current, {
-        withCredentials: false,
-      })
-      .pipe(pluck('data'));*/
+    return this.http.get<Matchday>(routes.current, {
+      context: noAuthIt(),
+      withCredentials: false,
+      headers: new HackyHttpHeaders(),
+    });
   }
 }

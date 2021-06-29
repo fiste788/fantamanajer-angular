@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   public init(): void {
-    this.deferredPrompt$ = this.push.beforeInstall.asObservable();
+    this.deferredPrompt$ = this.push.beforeInstall$;
     this.subscriptions.add(
       combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
         this.refresh();

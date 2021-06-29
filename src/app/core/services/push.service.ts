@@ -1,9 +1,9 @@
-import { EventEmitter, Inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { firstValueFrom, from, Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
+import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, share, switchMap, take, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@data/services';
@@ -15,8 +15,7 @@ import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  public readonly beforeInstall: EventEmitter<BeforeInstallPromptEvent> =
-    new EventEmitter<BeforeInstallPromptEvent>();
+  public readonly beforeInstall$: Observable<BeforeInstallPromptEvent>;
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
@@ -29,12 +28,17 @@ export class PushService {
     private readonly swUpdate: SwUpdate,
     private readonly router: Router,
   ) {
-    this.window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      this.beforeInstall.emit(e);
-    });
+    this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
+      this.window,
+      'beforeinstallprompt',
+    ).pipe(
+      tap((e) => {
+        //this.window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+      }),
+    );
     this.checkForUpdates();
     this.auth.userChange$.subscribe(this.initializeUser.bind(this));
   }

@@ -17,17 +17,13 @@ import { Direction } from '@app/enums';
   providedIn: 'root',
 })
 export class ScrollService {
-  private scrollObservable$: Observable<Direction>;
-  private container: MatSidenavContent;
-
-  public connect(container: MatSidenavContent): void {
-    this.container = container;
-  }
-
-  public connectScrollAnimation(offset = 0): void {
-    this.scrollObservable$ = this.container.elementScrolled().pipe(
+  public connectScrollAnimation(
+    container: MatSidenavContent,
+    offset = 0,
+  ): { up: Observable<Direction>; down: Observable<Direction> } {
+    const scrollObservable$ = container.elementScrolled().pipe(
       throttleTime(15),
-      map(() => this.container.measureScrollOffset('top')),
+      map(() => container.measureScrollOffset('top')),
       filter((y) => y > offset),
       pairwise(),
       filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
@@ -35,20 +31,21 @@ export class ScrollService {
       distinctUntilChanged(),
       share(),
     );
+
+    return {
+      up: this.getGoingUp(scrollObservable$),
+      down: this.getGoingDown(scrollObservable$),
+    };
   }
 
-  get goingUp$(): Observable<Direction> {
-    return this.scrollObservable$.pipe(
+  private getGoingUp(scrollObservable$: Observable<Direction>): Observable<Direction> {
+    return scrollObservable$.pipe(
       filter((direction) => direction === Direction.Up),
       auditTime(300),
     );
   }
 
-  get goingDown$(): Observable<Direction> {
-    return this.scrollObservable$.pipe(filter((direction) => direction === Direction.Down));
-  }
-
-  public scrollTo(x = 0, y = 0): void {
-    this.container.scrollTo({ top: y, left: x });
+  private getGoingDown(scrollObservable$: Observable<Direction>): Observable<Direction> {
+    return scrollObservable$.pipe(filter((direction) => direction === Direction.Down));
   }
 }

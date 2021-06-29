@@ -6,6 +6,7 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { VisibilityState } from '@app/enums/visibility-state';
 
 import { ScrollService } from './scroll.service';
+import { MatSidenavContent } from '@angular/material/sidenav';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class LayoutService {
 
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
-  private subscriptions: Array<Subscription> = [];
+  private readonly subscriptions: Array<Subscription> = [];
+  private readonly scrollSubscription = new Map<MatSidenavContent, Array<Subscription>>();
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
@@ -40,7 +42,7 @@ export class LayoutService {
       .pipe(map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)));
   }
 
-  public connect(): Observable<boolean> {
+  public init(): Observable<boolean> {
     return this.isHandset$.pipe(
       tap((e) => {
         this.openSidebarSubject.next(!e);
@@ -54,44 +56,60 @@ export class LayoutService {
   }
 
   public connectScrollAnimation(
+    container: MatSidenavContent,
     upCallback: () => void,
     downCallback: () => void,
     offset = 0,
-  ): Observable<boolean> {
-    return this.isHandset$.pipe(
-      tap((isHandset) => {
-        if (isHandset) {
-          if (!this.subscriptions.length) {
-            this.subscriptions = this.applyScrollAnimation(upCallback, downCallback, offset);
-          }
-        } else if (this.subscriptions.length) {
-          this.subscriptions.forEach((sub) => {
-            sub.unsubscribe();
-          });
-          this.subscriptions = [];
-        }
-      }),
+  ): void {
+    this.subscriptions.push(
+      this.isHandset$
+        .pipe(
+          tap((isHandset) => {
+            const subscriptions = this.scrollSubscription.get(container);
+            if (isHandset) {
+              if (!subscriptions?.length) {
+                this.scrollSubscription.set(
+                  container,
+                  this.applyScrollAnimation(container, upCallback, downCallback, offset),
+                );
+              }
+            } else if (subscriptions?.length) {
+              subscriptions.forEach((sub) => {
+                sub.unsubscribe();
+              });
+              this.scrollSubscription.delete(container);
+            } else {
+              this.scrollSubscription.set(container, []);
+            }
+          }),
+        )
+        .subscribe(),
     );
   }
 
+  public disconnectScrollAnimation(container: MatSidenavContent): void {
+    this.scrollSubscription.get(container)?.forEach((sub) => {
+      sub.unsubscribe();
+    });
+    this.scrollSubscription.delete(container);
+  }
+
   public applyScrollAnimation(
+    container: MatSidenavContent,
     upCallback: () => void,
     downCallback: () => void,
     offset = 0,
   ): Array<Subscription> {
-    this.scrollService.connectScrollAnimation(offset);
+    const obs = this.scrollService.connectScrollAnimation(container, offset);
     const subs: Array<Subscription> = [];
 
     subs.push(
-      this.scrollService.goingUp$.subscribe(() => {
+      obs.up.subscribe(() => {
         this.showSpeedDial();
         this.showToolbar();
         upCallback();
       }),
-    );
-
-    subs.push(
-      this.scrollService.goingDown$.subscribe(() => {
+      obs.down.subscribe(() => {
         this.hideSpeedDial();
         this.hideToolbar();
         downCallback();
@@ -99,6 +117,11 @@ export class LayoutService {
     );
 
     return subs;
+  }
+
+  public scrollTo(x = 0, y = 0, container?: MatSidenavContent): void {
+    const containers: Array<MatSidenavContent> = [...this.scrollSubscription.keys()];
+    (container || containers.shift())?.scrollTo({ top: y, left: x });
   }
 
   public openSidebar(): void {

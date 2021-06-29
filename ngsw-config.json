@@ -11,10 +11,10 @@
           "/index.html",
           "/assets/site.webmanifest",
           "/*.css",
-          "/common-*.js",
-          "/main-*.js",
-          "/runtime-*.js",
-          "/polyfills-*.js"
+          "/common.*.js",
+          "/main.*.js",
+          "/runtime.*.js",
+          "/polyfills.*.js"
         ]
       }
     },
@@ -30,6 +30,16 @@
         "urls": [
           "https://fonts.googleapis.com/**",
           "https://fonts.gstatic.com/**"
+        ]
+      }
+    },
+    {
+      "name": "modules",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "files": [
+          "/(!common.)|(!main.)*.js"
         ]
       }
     },

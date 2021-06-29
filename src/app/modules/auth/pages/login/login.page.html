@@ -24,13 +24,13 @@
               <mat-label>Email</mat-label>
               <input
                 #username="ngModel"
-                autofocus
                 required
                 name="email"
                 type="email"
                 placeholder="Email"
                 autocomplete="username"
                 matInput
+                cdkFocusInitial
                 [(ngModel)]="loginData.email"
               >
               <mat-error *ngIf="username.errors?.email">

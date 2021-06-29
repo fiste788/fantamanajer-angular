@@ -17,7 +17,7 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { GoogleAnalyticsService, LayoutService, ScrollService } from '@app/services';
+import { GoogleAnalyticsService, LayoutService } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
@@ -45,7 +45,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly scrollService: ScrollService,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -58,11 +57,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.subscriptions.add(this.layoutService.connect().subscribe());
-    this.scrollService.connect(this.container);
-    this.ngZone.runOutsideAngular(() => {
-      this.setupScrollAnimation();
-    });
+    this.subscriptions.add(this.layoutService.init().subscribe());
+    this.setupScrollAnimation(this.container);
     this.initDrawer();
     this.changeRef.detectChanges();
   }
@@ -78,11 +74,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
     this.subscriptions.add(
-      this.drawer.openedChange.asObservable().subscribe((a) => {
-        this.layoutService.openSidebarSubject.next(a);
-      }),
-    );
-    this.subscriptions.add(
       this.isReady$
         .pipe(
           filter((e) => e),
@@ -96,10 +87,19 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  public setupScrollAnimation(): void {
-    this.layoutService
-      .connectScrollAnimation(this.up.bind(this), this.up.bind(this), this.getToolbarHeight())
-      .subscribe();
+  public open(open: boolean): void {
+    this.layoutService.openSidebarSubject.next(open);
+  }
+
+  public setupScrollAnimation(container: MatSidenavContent): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.layoutService.connectScrollAnimation(
+        container,
+        this.up.bind(this),
+        this.up.bind(this),
+        this.getToolbarHeight(),
+      );
+    });
   }
 
   public up(): void {

@@ -76,7 +76,8 @@
   }
 
   app-main:not(:empty) + .pre-bootstrap {
-    animation: leave-animation .5s forwards;
+    background-color: transparent;
+    animation: leave-animation .2s ease-in-out forwards;
   }
   @keyframes leave-animation {
     0% {
@@ -85,7 +86,7 @@
 
     100% {
       opacity: 0;
-      z-index: -1;
+      transform: scale(0);
       display: none !important;
     }
   }

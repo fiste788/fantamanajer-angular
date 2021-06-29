@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ScrollService } from '@app/services';
+import { LayoutService } from '@app/services';
 import { Tab } from '@data/types';
 
 @Component({
@@ -19,10 +19,10 @@ export class ParallaxHeaderComponent {
   public srcset = '';
   public width = 0;
 
-  constructor(private readonly scrollService: ScrollService) {}
+  constructor(private readonly layoutService: LayoutService) {}
 
   public initialScroll(event: Event): void {
-    this.scrollService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300);
+    this.layoutService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300, undefined);
   }
 
   public track(_: number, item: Tab): string {

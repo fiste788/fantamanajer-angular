@@ -17,7 +17,11 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
     const ct = 'Content-Type';
     let headers = req.headers;
-    headers = headers.set('Accept', 'application/json');
+
+    if (!headers.has('Accept')) {
+      headers = headers.set('Accept', 'application/json');
+    }
+
     if (!req.headers.has(ct) && req.method !== 'DELETE') {
       headers = headers.set(ct, 'application/json');
     } else if (headers.get(ct) === 'multipart/form-data') {

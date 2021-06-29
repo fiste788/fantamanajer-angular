@@ -18,6 +18,7 @@
         <th
           *matHeaderCellDef
           mat-header-cell
+          appSticky
         ></th>
         <td
           *matCellDef="let row;"
@@ -44,6 +45,7 @@
           *matHeaderCellDef
           mat-header-cell
           mat-sort-header
+          appSticky
         > Giocatore </th>
         <td
           *matCellDef="let row;"
@@ -284,7 +286,7 @@
       </ng-container>
 
       <tr
-        *matHeaderRowDef="displayedColumns; sticky: true"
+        *matHeaderRowDef="displayedColumns"
         mat-header-row
       ></tr>
       <tr

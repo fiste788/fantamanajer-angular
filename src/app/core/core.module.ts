@@ -14,7 +14,7 @@ import {
 import { ApiPrefixInterceptor, JWTTokenInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
-export const useFactory = (service: ApplicationService): Observable<unknown> =>
+export const useFactory = (service: ApplicationService) => (): Observable<unknown> =>
   service.initialize();
 
 @NgModule({

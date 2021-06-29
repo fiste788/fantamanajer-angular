@@ -49,10 +49,6 @@ export class TeamEditModal implements OnDestroy {
     this.team = data.team;
   }
 
-  public cancel(): void {
-    this.dialogRef.close();
-  }
-
   public save(): void {
     const fd = new FormData();
     // eslint-disable-next-line

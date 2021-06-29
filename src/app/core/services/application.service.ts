@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -91,12 +91,8 @@ export class ApplicationService {
   }
 
   private connectObservables(): void {
-    this.teamChange$.subscribe((t) => {
-      this.setTeam(t);
-    });
-    this.authService.userChange$.subscribe((u) => {
-      this.setUser(u);
-    });
+    this.teamChange$.subscribe((t) => this.setTeam(t));
+    this.authService.userChange$.subscribe((u) => this.setUser(u));
   }
 
   private writeError(e: Error): void {

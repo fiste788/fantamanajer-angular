@@ -33,6 +33,10 @@ h5 {
 .flex-container {
   margin: 0 1rem;
 }
+
+button {
+  margin: 1rem auto;
+}
 @include layout-bp(gt-xs) {
   .mat-form-field {
     min-width: 10rem;

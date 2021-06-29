@@ -21,7 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       catchError((err: unknown) => {
         if (err instanceof HttpErrorResponse) {
           const error = err.error as ErrorResponse;
-          const message = error.data.message || err.message;
+          const message = error.data?.message || err.message;
           this.snackbar.open(message, 'CLOSE', {
             duration: 5000,
           });

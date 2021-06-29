@@ -24,7 +24,7 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
-    "target": "es2015",
+    "target": "es2017",
     "typeRoots": [
       "node_modules/@types"
     ],
