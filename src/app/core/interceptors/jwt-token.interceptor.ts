@@ -9,7 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AuthenticationService } from '@app/authentication';
+import { AuthenticationStorageService } from '@app/authentication/authentication-storage.service';
 
 const NO_AUTH_IT = new HttpContextToken<boolean>(() => false);
 
@@ -19,13 +19,13 @@ export function noAuthIt(): HttpContext {
 
 @Injectable()
 export class JWTTokenInterceptor implements HttpInterceptor {
-  constructor(private readonly auth: AuthenticationService) {}
+  constructor(private readonly auth: AuthenticationStorageService) {}
 
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.context.get(NO_AUTH_IT)) {
       return next.handle(req);
     }
-    const token = this.auth.getToken();
+    const token = this.auth.token;
 
     let headers = req.headers;
     if (token) {

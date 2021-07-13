@@ -1,46 +1,48 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, share, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, share, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   public isDark$: Observable<boolean>;
+  public themeChanged$: Observable<void>;
 
+  private readonly isDarkSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
-  private readonly obs: Observable<void>;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
   ) {
-    this.isDark$ = this.breakpointObserver
+    this.breakpointObserver
       .observe('(prefers-color-scheme: dark)')
-      .pipe(map((result) => result.matches));
+      .pipe(map((result) => result.matches))
+      .subscribe(this.isDarkSubject$);
     this.head = document.head;
     // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
-    this.obs = this.isDark$.pipe(
-      switchMap(async (dark) => this.setTheme(dark)),
+    this.isDark$ = this.isDarkSubject$.asObservable();
+    this.themeChanged$ = this.isDark$.pipe(
+      switchMap(async (dark) => this.setThemeCss(dark)),
       share(),
     );
-    this.connect();
   }
 
-  public load(): Observable<void> {
-    return this.obs.pipe(take(1));
+  connect(): Subscription {
+    return this.themeChanged$.subscribe();
   }
 
-  public connect(): void {
-    this.obs.subscribe();
+  setTheme(dark: boolean): void {
+    this.isDarkSubject$.next(dark);
   }
 
-  public async setTheme(isDark: boolean): Promise<void> {
+  private async setThemeCss(isDark: boolean): Promise<void> {
     return this.loadStyle(`${isDark ? 'dark' : 'light'}-theme.css`);
   }
 

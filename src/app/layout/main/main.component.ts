@@ -17,7 +17,7 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { GoogleAnalyticsService, LayoutService } from '@app/services';
+import { GoogleAnalyticsService, LayoutService, ThemeService } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
@@ -47,6 +47,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
+    private readonly themeService: ThemeService,
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
@@ -64,6 +65,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public setupEvents(): void {
+    this.themeService.connect();
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;

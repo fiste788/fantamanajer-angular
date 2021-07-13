@@ -6,6 +6,7 @@ import { finalize, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
+import { AuthenticationStorageService } from './authentication-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,23 +16,18 @@ export class AuthenticationService {
   public userChange$: Observable<User | undefined>;
   public loggedIn$: Observable<boolean>;
 
-  private token?: string;
   private readonly jwtHelper = new JwtHelperService();
-  private readonly tokenItemName = 'token';
   private readonly adminRole = 'ROLE_ADMIN';
   private readonly userRole = 'ROLE_USER';
 
   constructor(
+    private readonly authenticationStorageService: AuthenticationStorageService,
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
   ) {
     this.userChange$ = this.userSubject.asObservable();
     this.loggedIn$ = this.userChange$.pipe(map((u) => u !== undefined));
-    this.token =
-      localStorage.getItem(this.tokenItemName) ??
-      sessionStorage.getItem(this.tokenItemName) ??
-      undefined;
-    if (this.token && !this.loggedIn()) {
+    if (this.authenticationStorageService.token && !this.loggedIn()) {
       // eslint-disable-next-line rxjs/no-ignored-subscription
       this.logout().subscribe();
     }
@@ -55,15 +51,10 @@ export class AuthenticationService {
 
   public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
-      this.token = res.token;
       const user = res.user;
       user.roles = this.getRoles(user);
-      if (this.token) {
-        if (rememberMe) {
-          localStorage.setItem(this.tokenItemName, this.token);
-        } else {
-          sessionStorage.setItem(this.tokenItemName, this.token);
-        }
+      if (res.token) {
+        this.authenticationStorageService.setToken(res.token, rememberMe || false);
       }
       this.userSubject.next(user);
 
@@ -72,24 +63,18 @@ export class AuthenticationService {
 
     return of(false);
   }
-
-  public getToken(): string | undefined {
-    return this.token;
-  }
-
   public logout(): Observable<Record<string, never>> {
     return this.userService.logout().pipe(
       first(),
       finalize(() => {
-        this.token = undefined;
+        this.authenticationStorageService.deleteToken();
         this.userSubject.next(undefined);
-        localStorage.removeItem(this.tokenItemName);
       }),
     );
   }
 
   public loggedIn(): boolean {
-    return !this.jwtHelper.isTokenExpired(this.token);
+    return !this.jwtHelper.isTokenExpired(this.authenticationStorageService.token);
   }
 
   public getCurrentUser(): Observable<User> {

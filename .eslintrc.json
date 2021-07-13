@@ -229,7 +229,7 @@
         "@angular-eslint/template/cyclomatic-complexity": [
           "error",
           {
-            "maxComplexity": 6
+            "maxComplexity": 7
           }
         ],
         "@angular-eslint/template/no-call-expression": "error"

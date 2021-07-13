@@ -2,7 +2,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AuthenticationService } from './authentication';
+import { AuthenticationStorageService } from './authentication';
 import { ErrorHandlerModule } from './errors/error-handler.module';
 import {
   AdminGuard,
@@ -29,7 +29,7 @@ export const useFactory = (service: ApplicationService) => (): Observable<unknow
     NAVIGATOR_PROVIDERS,
     {
       multi: true,
-      deps: [AuthenticationService],
+      deps: [AuthenticationStorageService],
       provide: HTTP_INTERCEPTORS,
       useClass: JWTTokenInterceptor,
     },
@@ -39,7 +39,7 @@ export const useFactory = (service: ApplicationService) => (): Observable<unknow
       useClass: ApiPrefixInterceptor,
     },
     {
-      deps: [ApplicationService, AuthenticationService],
+      deps: [ApplicationService, AuthenticationStorageService],
       multi: true,
       provide: APP_INITIALIZER,
       useFactory,
