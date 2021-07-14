@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
 import { Championship, Team, User } from '@data/types';
+import { catchError, firstValueFrom, map, of } from 'rxjs';
 
 @Component({
   styleUrls: ['./add-team.page.scss'],
@@ -31,18 +32,21 @@ export class AddTeamPage implements OnInit {
     }
   }
 
-  public save(): void {
-    this.teamService.save(this.team).subscribe(
-      (response) => {
-        this.team.id = response.id;
-        this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000,
-        });
-        void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
-      },
-      (err: unknown) => {
-        UtilService.getUnprocessableEntityErrors(this.teamForm, err);
-      },
+  public async save(): Promise<void> {
+    return firstValueFrom(
+      this.teamService.save(this.team).pipe(
+        map((response) => {
+          this.team.id = response.id;
+          this.snackBar.open('Modifiche salvate', undefined, {
+            duration: 3000,
+          });
+          void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
+        }),
+        catchError((err: unknown) => {
+          UtilService.getUnprocessableEntityErrors(this.teamForm, err);
+          return of();
+        }),
+      ),
     );
   }
 }

@@ -10,7 +10,6 @@ import { NotificationService, PushSubscriptionService } from '@data/services';
 import { environment } from '@env';
 import { PushSubscription, User } from '@data/types';
 
-import { ApplicationService } from './application.service';
 import { WINDOW } from './window.service';
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +22,6 @@ export class PushService {
     private readonly swPush: SwPush,
     private readonly snackBar: MatSnackBar,
     private readonly notificationService: NotificationService,
-    private readonly app: ApplicationService,
     private readonly auth: AuthenticationService,
     private readonly swUpdate: SwUpdate,
     private readonly router: Router,
@@ -56,7 +54,7 @@ export class PushService {
 
   public initializeUser(user?: User): void {
     if (user && environment.production) {
-      this.subscribeToPush();
+      this.subscribeToPush(user);
       this.showMessages();
     }
   }
@@ -74,11 +72,11 @@ export class PushService {
     });
   }
 
-  public subscribeToPush(): void {
+  public subscribeToPush(user: User): void {
     this.isSubscribed()
       .pipe(
         filter((s) => !s),
-        mergeMap(async () => this.requestSubscription()),
+        mergeMap(async () => this.requestSubscription(user)),
         filter((s) => s),
       )
       .subscribe(() => {
@@ -144,24 +142,22 @@ export class PushService {
     return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');
   }
 
-  private async requestSubscription(): Promise<boolean> {
-    if (this.app.user) {
-      const pushSubscription = await this.swPush.requestSubscription({
-        serverPublicKey: environment.vapidPublicKey,
-      });
-      const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), this.app.user.id);
-      if (sub) {
-        return firstValueFrom(
-          this.subscription.add(sub).pipe(
-            map(() => true),
-            catchError(() => {
-              void pushSubscription.unsubscribe();
+  private async requestSubscription(user: User): Promise<boolean> {
+    const pushSubscription = await this.swPush.requestSubscription({
+      serverPublicKey: environment.vapidPublicKey,
+    });
+    const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), user.id);
+    if (sub) {
+      return firstValueFrom(
+        this.subscription.add(sub).pipe(
+          map(() => true),
+          catchError(() => {
+            void pushSubscription.unsubscribe();
 
-              return of(false);
-            }),
-          ),
-        );
-      }
+            return of(false);
+          }),
+        ),
+      );
     }
 
     return false;

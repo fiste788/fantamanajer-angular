@@ -20,7 +20,6 @@ export class ApplicationService {
   public selectedMatchday: Matchday;
   public championship?: Championship;
   public teamChange$ = new BehaviorSubject<Team | undefined>(undefined);
-  public user?: User;
   public teams?: Array<Team>;
   private selectedTeam?: Team;
   private currentMatchday: Matchday;
@@ -80,7 +79,7 @@ export class ApplicationService {
       catchError((e: unknown) => {
         this.writeError(e as Error);
 
-        return of(false);
+        return of();
       }),
     );
   }
@@ -122,7 +121,6 @@ export class ApplicationService {
   }
 
   private setUser(user?: User): void {
-    this.user = user;
     if (user) {
       this.loadTeams(user.teams);
     } else {

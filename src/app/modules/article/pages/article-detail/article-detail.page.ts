@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { ArticleService } from '@data/services';
 import { ApplicationService } from '@app/services';
@@ -41,17 +41,23 @@ export class ArticleDetailPage implements OnInit {
     return of(article);
   }
 
-  public save(article: Article): void {
+  public async save(article: Article): Promise<void> {
     if (this.articleForm.valid === true) {
-      const obs: Observable<Partial<Article>> = article.id
+      const save: Observable<Partial<Article>> = article.id
         ? this.articleService.update(article)
         : this.articleService.create(article);
-      obs.subscribe((a: Partial<Article>) => {
-        this.snackBar.open('Articolo salvato correttamente', undefined, {
-          duration: 3000,
-        });
-        void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id ?? article.id}`);
-      });
+      return firstValueFrom(
+        save.pipe(
+          map((a: Partial<Article>) => {
+            this.snackBar.open('Articolo salvato correttamente', undefined, {
+              duration: 3000,
+            });
+            void this.router.navigateByUrl(
+              `/teams/${article.team_id}/articles#${a.id ?? article.id}`,
+            );
+          }),
+        ),
+      );
     }
   }
 }

@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
+import { AuthenticationService } from '@app/authentication';
 
 @Injectable()
 export class ChampionshipAdminGuard implements CanActivate {
-  constructor(private readonly app: ApplicationService) {}
+  constructor(
+    private readonly auth: AuthenticationService,
+    private readonly app: ApplicationService,
+  ) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return this.app.user?.admin || this.app.team?.admin || false;
+    return combineLatest([this.auth.userChange$, this.app.teamChange$]).pipe(
+      map(([user, team]) => user?.admin || team?.admin || false),
+    );
   }
 }

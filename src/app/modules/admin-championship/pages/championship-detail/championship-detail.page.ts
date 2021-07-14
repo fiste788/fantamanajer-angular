@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChampionshipService } from '@data/services';
 import { UtilService } from '@app/services';
 import { Championship, League } from '@data/types';
+import { catchError, firstValueFrom, map, of } from 'rxjs';
 
 @Component({
   styleUrls: ['./championship-detail.page.scss'],
@@ -32,16 +33,19 @@ export class ChampionshipDetailPage implements OnInit {
     }
   }
 
-  public save(): void {
-    this.championshipService.save(this.championship).subscribe(
-      () => {
-        this.snackBar.open('Modifiche salvate', undefined, {
-          duration: 3000,
-        });
-      },
-      (err: unknown) => {
-        UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
-      },
+  public async save(): Promise<void> {
+    return firstValueFrom(
+      this.championshipService.save(this.championship).pipe(
+        map(() => {
+          this.snackBar.open('Modifiche salvate', undefined, {
+            duration: 3000,
+          });
+        }),
+        catchError((err: unknown) => {
+          UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
+          return of();
+        }),
+      ),
     );
   }
 

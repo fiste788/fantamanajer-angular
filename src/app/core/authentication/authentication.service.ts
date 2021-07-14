@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, first, map, switchMap, tap } from 'rxjs/operators';
+import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
@@ -14,6 +14,7 @@ export class AuthenticationService {
     undefined,
   );
   public userChange$: Observable<User | undefined>;
+  public userChangeLogged$: Observable<User>;
   public loggedIn$: Observable<boolean>;
 
   private readonly jwtHelper = new JwtHelperService();
@@ -26,6 +27,9 @@ export class AuthenticationService {
     private readonly webauthnService: WebauthnService,
   ) {
     this.userChange$ = this.userSubject.asObservable();
+    this.userChangeLogged$ = this.userChange$.pipe(
+      filter((user): user is User => user !== undefined),
+    );
     this.loggedIn$ = this.userChange$.pipe(map((u) => u !== undefined));
     if (this.authenticationStorageService.token && !this.loggedIn()) {
       // eslint-disable-next-line rxjs/no-ignored-subscription

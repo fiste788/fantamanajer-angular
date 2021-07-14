@@ -11,6 +11,7 @@ import { ControlContainer, NgForm } from '@angular/forms';
 
 import { LineupService as LineupHttpService } from '@data/services';
 import { Lineup, MemberOption, Role } from '@data/types';
+import { firstValueFrom, map } from 'rxjs';
 
 import { LineupService } from '../lineup.service';
 
@@ -34,30 +35,34 @@ export class LineupDetailComponent implements OnInit {
     private readonly cd: ChangeDetectorRef,
   ) {}
 
-  public ngOnInit(): void {
-    this.loadLineup();
+  public async ngOnInit(): Promise<void> {
+    return this.loadLineup();
   }
 
-  public loadLineup(): void {
+  public async loadLineup(): Promise<void> {
     const lineup = this.lineup ?? (!this.disabled ? new Lineup() : undefined);
     if (lineup !== undefined && lineup.team.members.length) {
       this.lineupService.loadLineup(lineup);
       if (!this.disabled) {
-        this.loadLikely(lineup);
+        return this.loadLikely(lineup);
       }
     }
   }
 
-  public loadLikely(lineup: Lineup): void {
-    this.lineupHttpService.getLikelyLineup(lineup).subscribe((members) => {
-      members.forEach((member) => {
-        const m = this.lineupService.membersById.get(member.id);
-        if (m) {
-          m.likely_lineup = member.likely_lineup;
-        }
-      });
-      this.cd.detectChanges();
-    });
+  public async loadLikely(lineup: Lineup): Promise<void> {
+    return firstValueFrom(
+      this.lineupHttpService.getLikelyLineup(lineup).pipe(
+        map((members) => {
+          members.forEach((member) => {
+            const m = this.lineupService.membersById.get(member.id);
+            if (m) {
+              m.likely_lineup = member.likely_lineup;
+            }
+          });
+          this.cd.detectChanges();
+        }),
+      ),
+    );
   }
 
   public getLineup(): Lineup {

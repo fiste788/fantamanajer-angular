@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -80,17 +80,20 @@ export class EditMembersPage implements OnInit {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public save(): void {
+  public async save(): Promise<void> {
     this.team.members = this.members.map((m) => m.member);
-    this.teamService.update(this.team).subscribe(
-      () => {
-        this.snackBar.open('Giocatori modificati', undefined, {
-          duration: 3000,
-        });
-      },
-      (err: unknown) => {
-        UtilService.getUnprocessableEntityErrors(this.membersForm, err);
-      },
+    return firstValueFrom(
+      this.teamService.update(this.team).pipe(
+        map(() => {
+          this.snackBar.open('Giocatori modificati', undefined, {
+            duration: 3000,
+          });
+        }),
+        catchError((err: unknown) => {
+          UtilService.getUnprocessableEntityErrors(this.membersForm, err);
+          return of();
+        }),
+      ),
     );
   }
 }

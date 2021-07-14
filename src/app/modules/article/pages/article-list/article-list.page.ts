@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArticleService } from '@data/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { Article, PagedResponse, Pagination } from '@data/types';
+import { firstValueFrom, map } from 'rxjs';
 
 @Component({
   animations: [cardCreationAnimation],
@@ -43,13 +44,17 @@ export class ArticleListPage implements OnInit {
     }
   }
 
-  public delete(id: number): void {
-    this.articleService.delete(id).subscribe(() => {
-      this.snackBar.open('Article deleted', undefined, {
-        duration: 3000,
-      });
-      this.articles.filter((article) => article.id !== id);
-    });
+  public async delete(id: number): Promise<void> {
+    return firstValueFrom(
+      this.articleService.delete(id).pipe(
+        map(() => {
+          this.snackBar.open('Article deleted', undefined, {
+            duration: 3000,
+          });
+          this.articles.filter((article) => article.id !== id);
+        }),
+      ),
+    );
   }
 
   public track(_: number, item: Article): number {

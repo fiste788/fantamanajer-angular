@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -43,17 +43,20 @@ export class ScoreEditPage implements OnInit {
     this.score$ = this.scoreService.getScore(this.selectedScore.id, true);
   }
 
-  public save(score: Score): void {
+  public async save(score: Score): Promise<void> {
     score.lineup = this.lineupDetail.getLineup();
-    this.scoreService.update(score).subscribe(
-      () => {
-        this.snackBar.open('Punteggio modificato', undefined, {
-          duration: 3000,
-        });
-      },
-      (err: unknown) => {
-        UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
-      },
+    return firstValueFrom(
+      this.scoreService.update(score).pipe(
+        map(() => {
+          this.snackBar.open('Punteggio modificato', undefined, {
+            duration: 3000,
+          });
+        }),
+        catchError((err: unknown) => {
+          UtilService.getUnprocessableEntityErrors(this.scoreForm, err);
+          return of();
+        }),
+      ),
     );
   }
 

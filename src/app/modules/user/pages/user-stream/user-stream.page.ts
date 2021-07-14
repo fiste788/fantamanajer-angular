@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/authentication';
 
-import { ApplicationService } from '@app/services';
+import { User } from '@data/types';
+import { filter, Observable, pluck } from 'rxjs';
 
 @Component({
   styleUrls: ['./user-stream.page.scss'],
   templateUrl: './user-stream.page.html',
 })
 export class UserStreamPage implements OnInit {
-  public id: number;
+  public id$: Observable<number>;
 
-  constructor(private readonly app: ApplicationService) {}
+  constructor(private readonly auth: AuthenticationService) {}
 
   public ngOnInit(): void {
-    this.id = this.app.user?.id ?? 0;
+    this.id$ = this.auth.userChange$.pipe(
+      filter((user): user is User => user != undefined),
+      pluck('id'),
+    );
   }
 }

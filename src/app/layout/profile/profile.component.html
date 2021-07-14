@@ -1,5 +1,5 @@
 <mat-toolbar
-  *ngIf="app.user"
+  *ngIf="auth.userChange$ | async"
   color="primary"
   [style.background-image]="photo !== undefined ? 'url(' + (photo || '') + ')' : ''"
   [class.has-image]="photo"

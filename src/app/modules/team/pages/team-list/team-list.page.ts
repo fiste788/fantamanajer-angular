@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 
 import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -12,11 +12,9 @@ import { Championship, Team } from '@data/types';
   styleUrls: ['./team-list.page.scss'],
   templateUrl: './team-list.page.html',
 })
-export class TeamListPage implements OnInit, OnDestroy {
+export class TeamListPage implements OnInit {
   public teams$?: Observable<Array<Team>>;
   public exit = false;
-
-  private readonly subscriptions = new Subscription();
 
   constructor(
     private readonly router: Router,
@@ -24,9 +22,9 @@ export class TeamListPage implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.loadData();
-    this.attachEvents();
+    return this.attachEvents();
   }
 
   public loadData(): void {
@@ -36,22 +34,20 @@ export class TeamListPage implements OnInit, OnDestroy {
     }
   }
 
-  public attachEvents(): void {
-    this.subscriptions.add(
-      this.router.events.subscribe((evt) => {
-        if (evt instanceof NavigationStart) {
-          this.exit = true;
-          this.teams$ = undefined;
-        }
-      }),
+  public async attachEvents(): Promise<void> {
+    return firstValueFrom(
+      this.router.events.pipe(
+        map((evt) => {
+          if (evt instanceof NavigationStart) {
+            this.exit = true;
+            this.teams$ = undefined;
+          }
+        }),
+      ),
     );
   }
 
   public track(_: number, item: Team): number {
     return item.id;
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

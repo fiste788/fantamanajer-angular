@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/authentication';
 
 import { ApplicationService, LayoutService } from '@app/services';
 import { Team } from '@data/types';
@@ -11,7 +12,11 @@ import { Team } from '@data/types';
 export class ProfileComponent implements OnInit {
   public photo?: string;
 
-  constructor(public app: ApplicationService, private readonly layoutService: LayoutService) {}
+  constructor(
+    public app: ApplicationService,
+    public readonly auth: AuthenticationService,
+    private readonly layoutService: LayoutService,
+  ) {}
 
   public ngOnInit(): void {
     this.loadPhoto(this.app.team);
