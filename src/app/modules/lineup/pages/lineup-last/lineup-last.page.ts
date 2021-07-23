@@ -1,8 +1,8 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, switchMap, tap } from 'rxjs';
 
 import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
@@ -13,7 +13,7 @@ import { Lineup, Team } from '@data/types';
   styleUrls: ['./lineup-last.page.scss'],
   templateUrl: './lineup-last.page.html',
 })
-export class LineupLastPage implements OnDestroy {
+export class LineupLastPage implements OnDestroy, OnInit {
   @ViewChild(NgForm) public lineupForm: NgForm;
   @ViewChild(LineupDetailComponent) public lineupDetail: LineupDetailComponent;
 
@@ -27,10 +27,18 @@ export class LineupLastPage implements OnDestroy {
     private readonly lineupService: LineupService,
     private readonly route: ActivatedRoute,
     public app: ApplicationService,
-  ) {
-    this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
-    this.editMode = this.app.team?.id === this.teamId;
-    this.lineup$ = this.lineupService.getLineup(this.teamId);
+  ) {}
+
+  public async ngOnInit(): Promise<void> {
+    const team = UtilService.getData<Team>(this.route, 'team');
+    if (team) {
+      this.lineup$ = team.pipe(
+        tap((team) => (this.teamId = team.id)),
+        switchMap(() => this.app.teamChange$),
+        tap((currentTeam) => (this.editMode = currentTeam?.id === this.teamId)),
+        switchMap(() => this.lineupService.getLineup(this.teamId)),
+      );
+    }
   }
 
   public ngOnDestroy(): void {

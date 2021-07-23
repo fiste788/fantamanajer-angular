@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WINDOW } from '@app/services';
+import { firstValueFrom, tap } from 'rxjs';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -19,7 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
           'Ricarica pagina',
           { duration: 5000 },
         );
-        ref.onAction().subscribe(() => this.window.location.reload());
+        void firstValueFrom(ref.onAction().pipe(tap(() => this.window.location.reload())));
       });
 
       console.error('Error from global error handler', error);

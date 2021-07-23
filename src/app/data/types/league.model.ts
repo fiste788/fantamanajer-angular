@@ -1,4 +1,4 @@
-export class League {
-  public id: number;
-  public name: string;
+export interface League {
+  id: number;
+  name: string;
 }

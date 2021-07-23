@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AtLeast, RecursivePartial } from '@app/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -24,7 +25,7 @@ export class TeamService {
     return this.http.get<Team>(routes.team(id));
   }
 
-  public update(team: Team): Observable<Pick<Team, 'id'>> {
+  public update(team: AtLeast<Team, 'id'>): Observable<Pick<Team, 'id'>> {
     return this.http.put(routes.team(team.id), team).pipe(map(() => team));
   }
 
@@ -39,15 +40,7 @@ export class TeamService {
     });
   }
 
-  public create(team: Team): Observable<Team> {
+  public create(team: RecursivePartial<Team>): Observable<Team> {
     return this.http.post<Team>(routes.create, team);
-  }
-
-  public save(team: Team): Observable<Pick<Team, 'id'>> {
-    if (team.id) {
-      return this.update(team);
-    }
-
-    return this.create(team);
   }
 }

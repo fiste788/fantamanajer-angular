@@ -19,7 +19,7 @@ export class NewTransfertPage implements OnInit {
   @ViewChild(MatSelect) public newMember: MatSelect;
   @ViewChild(NgForm) public transfertForm: NgForm;
 
-  public transfert: Partial<Transfert> = new Transfert();
+  public transfert: Partial<Transfert> = {};
   public team: Team;
   public newMembers: Array<Member>;
 

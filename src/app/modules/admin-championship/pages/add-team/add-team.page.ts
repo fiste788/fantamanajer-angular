@@ -5,8 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
-import { Championship, Team, User } from '@data/types';
-import { catchError, firstValueFrom, map, of } from 'rxjs';
+import { Championship, Team } from '@data/types';
+import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
+import { AtLeast, RecursivePartial } from '@app/types';
 
 @Component({
   styleUrls: ['./add-team.page.scss'],
@@ -15,7 +16,8 @@ import { catchError, firstValueFrom, map, of } from 'rxjs';
 export class AddTeamPage implements OnInit {
   @ViewChild(NgForm) public teamForm: NgForm;
 
-  public team = new Team();
+  public team$: Observable<Partial<Team>>;
+  public email: string;
 
   constructor(
     private readonly teamService: TeamService,
@@ -25,22 +27,22 @@ export class AddTeamPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
-    if (championship) {
-      this.team.championship_id = championship.id;
-      this.team.user = new User();
-    }
+    const championship = UtilService.getData<Championship>(this.route, 'championship');
+    this.team$ = championship ? championship.pipe(map((t) => ({ championship_id: t.id }))) : of({});
   }
 
-  public async save(): Promise<void> {
+  public async save(team: RecursivePartial<Team>): Promise<void> {
+    team.user = { email: this.email };
+    const save: Observable<AtLeast<Team, 'id'>> = team.id
+      ? this.teamService.update(team as AtLeast<Team, 'id'>)
+      : this.teamService.create(team);
     return firstValueFrom(
-      this.teamService.save(this.team).pipe(
+      save.pipe(
         map((response) => {
-          this.team.id = response.id;
           this.snackBar.open('Modifiche salvate', undefined, {
             duration: 3000,
           });
-          void this.router.navigateByUrl(`/teams/${this.team.id}/admin/members`);
+          void this.router.navigateByUrl(`/teams/${response.id}/admin/members`);
         }),
         catchError((err: unknown) => {
           UtilService.getUnprocessableEntityErrors(this.teamForm, err);

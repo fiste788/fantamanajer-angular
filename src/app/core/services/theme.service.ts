@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -11,7 +11,6 @@ export class ThemeService {
   public isDark$: Observable<boolean>;
   public themeChanged$: Observable<void>;
 
-  private readonly isDarkSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
 
@@ -20,14 +19,12 @@ export class ThemeService {
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
   ) {
-    this.breakpointObserver
-      .observe('(prefers-color-scheme: dark)')
-      .pipe(map((result) => result.matches))
-      .subscribe(this.isDarkSubject$);
     this.head = document.head;
     // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
-    this.isDark$ = this.isDarkSubject$.asObservable();
+    this.isDark$ = this.breakpointObserver
+      .observe('(prefers-color-scheme: dark)')
+      .pipe(map((result) => result.matches));
     this.themeChanged$ = this.isDark$.pipe(
       switchMap(async (dark) => this.setThemeCss(dark)),
       share(),
@@ -36,10 +33,6 @@ export class ThemeService {
 
   connect(): Subscription {
     return this.themeChanged$.subscribe();
-  }
-
-  setTheme(dark: boolean): void {
-    this.isDarkSubject$.next(dark);
   }
 
   private async setThemeCss(isDark: boolean): Promise<void> {

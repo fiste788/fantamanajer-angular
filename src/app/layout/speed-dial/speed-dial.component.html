@@ -15,12 +15,12 @@
 
   <eco-fab-speed-dial-actions>
     <a
-      *ngIf="!app.seasonEnded && app.championship?.started && app.team"
+      *appSeasonActive
       mat-mini-fab
       class="mat-accent"
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
-      [routerLink]="['teams', app.team?.id, 'lineup','current']"
+      [routerLink]="['teams', (app.teamChange$ | async)?.id, 'lineup','current']"
     >
       <mat-icon svgIcon="soccer_field"></mat-icon>
     </a>
@@ -34,12 +34,12 @@
       <mat-icon>message</mat-icon>
     </a>
     <a
-      *ngIf="!app.seasonEnded && app.championship?.started && app.team"
+      *appSeasonActive
       mat-mini-fab
       class="mat-accent"
       matTooltip="Nuovo trasferimento"
       matTooltipPosition="left"
-      [routerLink]="['teams', app.team?.id, 'transferts']"
+      [routerLink]="['teams', (app.teamChange$ | async)?.id, 'transferts']"
     >
       <mat-icon>swap_vert</mat-icon>
     </a>

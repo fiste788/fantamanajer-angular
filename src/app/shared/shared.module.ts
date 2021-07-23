@@ -6,7 +6,12 @@ import { RouterModule } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 
-import { RellaxDirective, SrcsetDirective, StickyDirective } from '@shared/directives';
+import {
+  RellaxDirective,
+  SeasonActiveDirective,
+  SrcsetDirective,
+  StickyDirective,
+} from '@shared/directives';
 import { CaptainPipe, PlaceholderPipe, RangePipe, SrcsetPipe, StatePipe } from '@shared/pipes';
 
 import {
@@ -27,6 +32,7 @@ export const breakPointsProvider = {
 @NgModule({
   declarations: [
     RellaxDirective,
+    SeasonActiveDirective,
     SrcsetDirective,
     StickyDirective,
 
@@ -52,6 +58,7 @@ export const breakPointsProvider = {
     LazyLoadImageModule,
 
     RellaxDirective,
+    SeasonActiveDirective,
     SrcsetDirective,
     StickyDirective,
 

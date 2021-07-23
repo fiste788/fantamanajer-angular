@@ -45,7 +45,7 @@ export class TeamDetailPage implements OnInit {
 
   public loadTabs(team: Team, user?: User): void {
     this.tabs = [{ label: 'Giocatori', link: 'players' }];
-    if (this.app.championship?.started) {
+    if (team.championship?.started) {
       if (!this.app.seasonEnded) {
         this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
       }
@@ -72,7 +72,7 @@ export class TeamDetailPage implements OnInit {
           filter((t) => t === true),
           mergeMap(() => this.teamService.getTeam(team.id)),
           map((t: Team) => {
-            this.app.teamChange$.next(t);
+            this.app.team$.next(t);
             this.changeRef.detectChanges();
             // return true;
           }),

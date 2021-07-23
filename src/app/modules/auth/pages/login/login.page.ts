@@ -3,13 +3,14 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { catchError, map, share } from 'rxjs/operators';
+import { catchError, filter, map, share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { WebauthnService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { cardCreationAnimation } from '@shared/animations';
 import { NgForm } from '@angular/forms';
+import { Team } from '@data/types';
 
 @Component({
   animations: [cardCreationAnimation],
@@ -82,15 +83,25 @@ export class LoginPage {
 
   public async postLogin(result: boolean): Promise<boolean> {
     if (result) {
-      const url =
-        (this.route.snapshot.queryParams.returnUrl as string | undefined) ??
-        `/championships/${this.app.championship?.id ?? 0}`;
-      return this.router.navigate([url]);
+      return firstValueFrom(
+        this.app.teamChange$.pipe(
+          filter((t): t is Team => t !== undefined),
+          map((t) => this.getUrl(t)),
+          map(async (url) => this.router.navigateByUrl(url)),
+        ),
+      );
     } else {
       const password = this.form.controls['password'];
       password.setErrors({ msg: 'Authentication failed' });
       this.cd.detectChanges();
       return false;
     }
+  }
+
+  private getUrl(team: Team): string {
+    return (
+      (this.route.snapshot.queryParams.returnUrl as string | undefined) ??
+      `/championships/${team.championship?.id ?? 0}`
+    );
   }
 }

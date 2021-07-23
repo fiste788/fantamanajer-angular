@@ -93,7 +93,7 @@ export class LineupService {
     );
 
     return Array<Disposition>(18)
-      .fill(new Disposition())
+      .fill({} as Disposition)
       .map((disp: Disposition, i) => {
         disp.position = i + 1;
 

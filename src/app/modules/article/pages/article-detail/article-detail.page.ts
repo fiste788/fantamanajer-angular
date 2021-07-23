@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom, map, Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 
 import { ArticleService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { Article } from '@data/types';
+import { AtLeast } from '@app/types';
 
 @Component({
   styleUrls: ['./article-detail.page.scss'],
@@ -15,7 +16,7 @@ import { Article } from '@data/types';
 export class ArticleDetailPage implements OnInit {
   @ViewChild(NgForm) public articleForm: NgForm;
 
-  public article$: Observable<Article>;
+  public article$: Observable<AtLeast<Article, 'team_id'>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -34,27 +35,26 @@ export class ArticleDetailPage implements OnInit {
     return this.articleService.getArticle(id);
   }
 
-  public new(): Observable<Article> {
-    const article = new Article();
-    article.team_id = this.app.team?.id ?? 0;
-
-    return of(article);
+  public new(): Observable<Pick<Article, 'team_id'>> {
+    return this.app.teamChange$.pipe(
+      map((t) => ({
+        team_id: t?.id ?? 0,
+      })),
+    );
   }
 
-  public async save(article: Article): Promise<void> {
+  public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
     if (this.articleForm.valid === true) {
-      const save: Observable<Partial<Article>> = article.id
-        ? this.articleService.update(article)
+      const save: Observable<AtLeast<Article, 'id'>> = article.id
+        ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
       return firstValueFrom(
         save.pipe(
-          map((a: Partial<Article>) => {
+          map((a: AtLeast<Article, 'id'>) => {
             this.snackBar.open('Articolo salvato correttamente', undefined, {
               duration: 3000,
             });
-            void this.router.navigateByUrl(
-              `/teams/${article.team_id}/articles#${a.id ?? article.id}`,
-            );
+            void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
           }),
         ),
       );

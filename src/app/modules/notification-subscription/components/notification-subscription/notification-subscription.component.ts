@@ -8,9 +8,9 @@ import {
   Output,
 } from '@angular/core';
 
-import { NotificationSubscription, Team } from '@data/types';
+import { Keys, NotificationSubscription, Team } from '@data/types';
 
-import { Keys, Notification, notificationSubscriptions } from '../../types';
+import { Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,10 +39,12 @@ export class NotificationSubscriptionComponent implements OnInit {
     this.keys.forEach((element) => {
       let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
       if (!sub) {
-        sub = new NotificationSubscription();
-        sub.type = this.type;
-        sub.name = element.name;
-        sub.team_id = this.team.id;
+        sub = {
+          enabled: false,
+          type: this.type,
+          name: element.name,
+          team_id: this.team.id,
+        };
         this.subscriptions.push(sub);
       }
       this.map.set(element, sub);

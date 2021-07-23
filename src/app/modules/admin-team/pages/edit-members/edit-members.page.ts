@@ -55,7 +55,7 @@ export class EditMembersPage implements OnInit {
         if (this.team.members.length < this.roleService.totalMembers()) {
           const missing = new Array<Member>(
             this.roleService.totalMembers() - this.team.members.length,
-          ).fill(new Member());
+          ).fill({} as Member);
           this.team.members = [...this.team.members, ...missing];
         }
         this.members = this.team.members.map((member) => ({ member }));

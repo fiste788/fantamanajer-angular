@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, mergeMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
@@ -14,8 +14,8 @@ import { Championship, Team } from '@data/types';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   public deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
-  public loggedIn: boolean;
-  public team?: Team;
+  public loggedIn$: Observable<boolean>;
+  public teamChange$: Observable<Team | undefined>;
   public championship?: Championship;
   public navStart$: Observable<Event>;
 
@@ -31,16 +31,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.init();
-    this.refresh();
   }
 
   public init(): void {
+    this.loggedIn$ = this.auth.loggedIn$;
+    this.teamChange$ = this.app.teamChange$.pipe(tap((t) => (this.championship = t?.championship)));
     this.deferredPrompt$ = this.push.beforeInstall$;
-    this.subscriptions.add(
-      combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
-        this.refresh();
-      }),
-    );
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
     this.subscriptions.add(
       this.navStart$
@@ -52,12 +48,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.layoutService.closeSidebar();
         }),
     );
-  }
-
-  public refresh(): void {
-    this.loggedIn = this.auth.loggedIn();
-    this.team = this.app.team;
-    this.championship = this.app.championship;
   }
 
   public install(event: BeforeInstallPromptEvent): void {

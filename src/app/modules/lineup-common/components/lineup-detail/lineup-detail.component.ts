@@ -40,7 +40,7 @@ export class LineupDetailComponent implements OnInit {
   }
 
   public async loadLineup(): Promise<void> {
-    const lineup = this.lineup ?? (!this.disabled ? new Lineup() : undefined);
+    const lineup = this.lineup ?? (!this.disabled ? ({} as Lineup) : undefined);
     if (lineup !== undefined && lineup.team.members.length) {
       this.lineupService.loadLineup(lineup);
       if (!this.disabled) {

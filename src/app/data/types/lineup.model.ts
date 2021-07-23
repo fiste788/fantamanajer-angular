@@ -4,22 +4,22 @@ import { Member } from './member.model';
 import { Team } from './team.model';
 
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
-export class Lineup {
-  public id: number;
-  public module: string;
-  public modules: Array<string>;
-  public jolly: boolean;
-  public captain_id: number | null;
-  public vcaptain_id: number | null;
-  public vvcaptain_id: number | null;
-  public matchday_id: number;
-  public team_id: number;
-  public captain: Member | null;
-  public vcaptain: Member | null;
-  public vvcaptain: Member | null;
-  public matchday: Matchday;
-  public team: Team;
-  public dispositions: Array<Disposition> = [];
-  public modified_at: Date | null;
-  public created_at: Date;
+export interface Lineup {
+  id: number;
+  module: string;
+  modules: Array<string>;
+  jolly: boolean;
+  captain_id: number | null;
+  vcaptain_id: number | null;
+  vvcaptain_id: number | null;
+  matchday_id: number;
+  team_id: number;
+  captain: Member | null;
+  vcaptain: Member | null;
+  vvcaptain: Member | null;
+  matchday: Matchday;
+  team: Team;
+  dispositions: Array<Disposition>;
+  modified_at: Date | null;
+  created_at: Date;
 }

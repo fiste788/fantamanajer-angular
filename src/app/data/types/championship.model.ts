@@ -1,19 +1,19 @@
 import { League, Season, Team } from './';
 
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
-export class Championship {
-  public id: number;
-  public started: boolean;
-  public captain: boolean;
-  public captain_missed_lineup: boolean;
-  public points_missed_lineup: number;
-  public minute_lineup: number;
-  public number_selections: number;
-  public number_transferts: number;
-  public jolly: boolean;
-  public season_id: number;
-  public league_id: number;
-  public teams: Array<Team>;
-  public league: League;
-  public season: Season;
+export interface Championship {
+  id: number;
+  started: boolean;
+  captain: boolean;
+  captain_missed_lineup: boolean;
+  points_missed_lineup: number;
+  minute_lineup: number;
+  number_selections: number;
+  number_transferts: number;
+  jolly: boolean;
+  season_id: number;
+  league_id: number;
+  teams: Array<Team>;
+  league: League;
+  season: Season;
 }

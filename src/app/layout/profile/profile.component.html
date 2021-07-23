@@ -1,8 +1,8 @@
 <mat-toolbar
-  *ngIf="auth.userChange$ | async"
+  *ngIf="app.teamChange$ | async as team"
   color="primary"
-  [style.background-image]="photo !== undefined ? 'url(' + (photo || '') + ')' : ''"
-  [class.has-image]="photo"
+  [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
+  [class.has-image]="(photo$ | async)"
 >
   <mat-toolbar-row>
     <span></span>
@@ -13,29 +13,29 @@
     fxLayoutAlign="end none"
   >
     <mat-form-field
-      *ngIf="app.teams?.length"
+      *ngIf="(auth.userChangeLogged$ | async)?.teams as teams"
       appearance="standard"
     >
       <mat-select
         panelClass="teams-panel"
         role="listbox"
         aria-label="Squadra selezionata"
-        [ngModel]="app.team"
+        [ngModel]="team"
         [compareWith]="compareFn"
         (ngModelChange)="change($event)"
       >
-        <mat-select-trigger *ngIf="app.team">
-          <h3>{{app.team?.name}}</h3>
+        <mat-select-trigger *ngIf="team">
+          <h3>{{team.name}}</h3>
         </mat-select-trigger>
         <mat-option
-          *ngFor="let team of app.teams; trackBy: track"
+          *ngFor="let team of teams; trackBy: track"
           [value]="team"
         >
           {{team.name}}<br />
-          <small>{{team.championship?.season?.name}}</small>
+          <small>{{team.championship.season.name}}</small>
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <span>{{app.team?.championship?.season?.name}}</span>
+    <span>{{team.championship.season.name}}</span>
   </mat-toolbar-row>
 </mat-toolbar>

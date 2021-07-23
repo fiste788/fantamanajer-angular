@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 import { PlayerService } from '@data/services';
 import { ApplicationService } from '@app/services';
@@ -15,7 +15,9 @@ export class PlayerResolver implements Resolve<Player | undefined> {
     if (playerId !== null) {
       const id = +playerId;
 
-      return this.cs.getPlayer(id, this.app.championship ? this.app.championship.id : undefined);
+      return this.app.teamChange$.pipe(
+        switchMap((t) => this.cs.getPlayer(id, t?.championship?.id)),
+      );
     }
 
     return undefined;

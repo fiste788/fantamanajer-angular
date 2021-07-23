@@ -1,15 +1,15 @@
 import { User } from './';
 
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
-export class PushSubscription {
-  public id: string;
-  public endpoint: string;
-  public public_key: string;
-  public auth_token: string;
-  public content_encoding: string | null;
-  public created_at: Date;
-  public modified_at: Date | null;
-  public expires_at?: Date;
-  public user_id: number;
-  public user: User;
+export interface PushSubscription {
+  id: string;
+  endpoint: string;
+  public_key: string;
+  auth_token: string;
+  content_encoding: string | null;
+  created_at: Date;
+  modified_at: Date | null;
+  expires_at?: Date;
+  user_id: number;
+  user: User;
 }

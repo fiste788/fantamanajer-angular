@@ -16,18 +16,18 @@
     <mat-icon matListIcon>home</mat-icon>Home
   </a>
   <a
-    *ngIf="loggedIn"
+    *ngIf="teamChange$ | async as team"
     mat-list-item
     routerLinkActive="active"
-    [routerLink]="['teams', team?.id]"
+    [routerLink]="['teams', team.id]"
   >
     <mat-icon
       svgIcon="team"
       matListIcon
-    ></mat-icon>{{team?.name}}
+    ></mat-icon>{{team.name}}
   </a>
   <a
-    *ngIf="loggedIn"
+    *ngIf="championship"
     mat-list-item
     routerLinkActive="active"
     [routerLink]="['championships', championship?.id]"
@@ -43,7 +43,7 @@
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>
-  <ng-container *ngIf="loggedIn; else notLogged">
+  <ng-container *ngIf="loggedIn$ | async; else notLogged">
     <a
       mat-list-item
       routerLinkActive="active"

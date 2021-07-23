@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApplicationService } from '@app/services';
 import { routerTransition } from '@shared/animations';
-import { Tab, User } from '@data/types';
+import { Tab, Team, User } from '@data/types';
 import { AuthenticationService } from '@app/authentication';
-import { firstValueFrom, map } from 'rxjs';
+import { combineLatest, firstValueFrom, map } from 'rxjs';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],
@@ -20,10 +20,14 @@ export class ChampionshipPage implements OnInit {
   ) {}
 
   public async ngOnInit(): Promise<void> {
-    return firstValueFrom(this.auth.userChange$.pipe(map((user) => this.loadTab(user))));
+    return firstValueFrom(
+      combineLatest([this.auth.userChange$, this.app.teamChange$]).pipe(
+        map(([user, team]) => this.loadTab(user, team)),
+      ),
+    );
   }
 
-  public loadTab(user?: User): void {
+  public loadTab(user?: User, team?: Team): void {
     this.tabs = [
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },
@@ -31,7 +35,7 @@ export class ChampionshipPage implements OnInit {
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
     ];
-    if (user?.admin || this.app.team?.admin) {
+    if (user?.admin || team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }

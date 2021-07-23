@@ -110,18 +110,19 @@ export class PushService {
   public async convertNativeSubscription(
     pushSubscription: PushSubscriptionJSON,
     userId: number,
-  ): Promise<PushSubscription | undefined> {
+  ): Promise<Partial<PushSubscription> | undefined> {
     if (pushSubscription.endpoint && pushSubscription.keys) {
-      const psm = new PushSubscription();
-      psm.id = await this.sha256(pushSubscription.endpoint);
-      psm.endpoint = pushSubscription.endpoint;
-      psm.public_key = pushSubscription.keys.p256dh;
-      psm.auth_token = pushSubscription.keys.auth;
-      psm.content_encoding = (PushManager.supportedContentEncodings ?? ['aesgcm'])[0];
       const e = pushSubscription.expirationTime;
-      psm.expires_at = e !== null && e !== undefined ? new Date(e) : undefined;
-      psm.user_id = userId;
+      const psm: Partial<PushSubscription> = {
+        id: await this.sha256(pushSubscription.endpoint),
+        endpoint: pushSubscription.endpoint,
+        public_key: pushSubscription.keys.p256dh,
+        auth_token: pushSubscription.keys.auth,
+        content_encoding: (PushManager.supportedContentEncodings ?? ['aesgcm'])[0],
 
+        expires_at: e !== null && e !== undefined ? new Date(e) : undefined,
+        user_id: userId,
+      };
       return psm;
     }
 

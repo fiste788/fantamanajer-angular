@@ -5,8 +5,16 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import { MemberService, RoleService, SelectionService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
@@ -21,7 +29,7 @@ export class SelectionComponent implements OnInit, OnDestroy {
   @ViewChild('newMember') public newMember: MatSelect;
   @ViewChild(NgForm) public selectionForm: NgForm;
 
-  public selection: Selection = new Selection();
+  public selection: Selection;
   public members$: Observable<Map<Role, Array<Member>>>;
   public newMembers$?: Observable<Array<Member>>;
   public newPlayerRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(
@@ -91,18 +99,16 @@ export class SelectionComponent implements OnInit, OnDestroy {
   public loadMembers(role?: Role): void {
     if (role) {
       this.newMember.disabled = true;
-      if (this.app.championship) {
-        this.newMembers$ = this.memberService
-          .getFree(this.app.championship.id, role.id, false)
-          .pipe(
-            map((members) => {
-              this.changeRef.detectChanges();
-              this.newMember.disabled = false;
+      this.newMembers$ = this.app.teamChange$.pipe(
+        filter((t): t is Team => t !== undefined),
+        switchMap((t) => this.memberService.getFree(t.championship.id, role.id, false)),
+        map((members) => {
+          this.changeRef.detectChanges();
+          this.newMember.disabled = false;
 
-              return members;
-            }),
-          );
-      }
+          return members;
+        }),
+      );
     }
   }
 
@@ -116,32 +122,33 @@ export class SelectionComponent implements OnInit, OnDestroy {
     return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
-  public save(): void {
+  public async save(): Promise<void> {
     if (this.selectionForm.valid === true) {
-      const selection = new Selection();
+      const selection = {} as Selection;
       if (this.selection.id) {
         selection.id = this.selection.id;
       }
       selection.new_member_id = this.selection.new_member?.id || 0;
       selection.old_member_id = this.selection.old_member?.id || 0;
-      selection.team_id = this.app.team?.id ?? 0;
-      const obs: Observable<Partial<Selection>> = selection.id
-        ? this.selectionService.update(selection)
-        : this.selectionService.create(selection);
-      this.subscriptions.add(
-        obs.subscribe(
-          (response: Partial<Selection>) => {
-            this.snackBar.open('Selezione salvata correttamente', undefined, {
-              duration: 3000,
-            });
-            if (response.id) {
-              this.selection.id = response.id;
-            }
-          },
-          (err: unknown) => {
-            UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
-          },
+      this.app.teamChange$.pipe(
+        tap((t) => (selection.team_id = t?.id ?? 0)),
+        switchMap(() =>
+          selection.id
+            ? this.selectionService.update(selection)
+            : this.selectionService.create(selection),
         ),
+        tap((res: Partial<Selection>) => {
+          this.snackBar.open('Selezione salvata correttamente', undefined, {
+            duration: 3000,
+          });
+          if (res.id) {
+            this.selection.id = res.id;
+          }
+        }),
+        catchError((err) => {
+          UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
+          return of();
+        }),
       );
     }
   }
@@ -157,7 +164,7 @@ export class SelectionComponent implements OnInit, OnDestroy {
   }
 
   public reset(): void {
-    this.selection = new Selection();
+    this.selection = {} as Selection;
     this.role$.next(undefined);
     this.newPlayerRole$.next(undefined);
   }

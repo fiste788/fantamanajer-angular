@@ -1,10 +1,10 @@
 import { Compiler, Component, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { filter, Observable, switchMap } from 'rxjs';
 
 import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations';
-import { Stream } from '@data/types';
+import { Stream, Team } from '@data/types';
 
 @Component({
   animations: [createBoxAnimation],
@@ -25,9 +25,10 @@ export class NotificationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    if (this.app.team) {
-      this.stream$ = this.notificationService.getNotificationCount(this.app.team.id);
-    }
+    this.stream$ = this.app.teamChange$.pipe(
+      filter((t): t is Team => t !== undefined),
+      switchMap((t) => this.notificationService.getNotificationCount(t.id)),
+    );
   }
 
   public async open(el: EventTarget | null): Promise<void> {

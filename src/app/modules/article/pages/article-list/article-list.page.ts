@@ -24,23 +24,27 @@ export class ArticleListPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.loadData();
+    void this.loadData();
   }
 
-  public loadData(page = 1): void {
+  public async loadData(page = 1): Promise<void> {
     this.page = page;
     this.isLoading = true;
-    this.articleService.getArticles(page).subscribe((data: PagedResponse<Array<Article>>) => {
-      this.isLoading = false;
-      this.pagination = data.pagination;
-      this.articles = this.articles.concat(data.data);
-      this.changeRef.detectChanges();
-    });
+    return firstValueFrom(
+      this.articleService.getArticles(page).pipe(
+        map((data: PagedResponse<Array<Article>>) => {
+          this.isLoading = false;
+          this.pagination = data.pagination;
+          this.articles = this.articles.concat(data.data);
+          this.changeRef.detectChanges();
+        }),
+      ),
+    );
   }
 
   public onScrollDown(): void {
     if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
-      this.loadData(this.pagination.current_page + 1);
+      void this.loadData(this.pagination.current_page + 1);
     }
   }
 

@@ -82,6 +82,7 @@ export const routes: Routes = [
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
       relativeLinkResolution: 'legacy',
+      enableTracing: true,
     }),
     McBreadcrumbsModule.forRoot(),
   ],
