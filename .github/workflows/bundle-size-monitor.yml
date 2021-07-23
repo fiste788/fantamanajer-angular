@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v2.3.0
         with:
-          node-version: '14.x'
+          node-version: '16.x'
       - name: Verify build
         run: |
-          npm install
+          npm install --force
           npm run build
         env:
           RELATIVE_CI_KEY: ${{ secrets.RELATIVE_CI_KEY }}
