@@ -58,6 +58,7 @@
     "@angular/cli": "^12.1.2",
     "@angular/compiler-cli": "^12.1.2",
     "@angular/language-service": "~12.1.2",
+    "@relative-ci/agent": "^2.0.0",
     "@types/brotli-webpack-plugin": "^1.1.2",
     "@types/gtag.js": "0.0.7",
     "@types/jasmine": "3.8.1",
