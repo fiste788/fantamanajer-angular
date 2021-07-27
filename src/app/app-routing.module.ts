@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
+import { NgxBreadcrumbsModule } from 'ngx-breadcrumbs/dist/ngx-breadcrumbs';
 
 import { AuthGuard } from '@app/guards';
 
@@ -82,9 +82,8 @@ export const routes: Routes = [
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
       relativeLinkResolution: 'legacy',
-      enableTracing: true,
     }),
-    McBreadcrumbsModule.forRoot(),
+    NgxBreadcrumbsModule,
   ],
 })
 export class AppRoutingModule {}
