@@ -1,5 +1,5 @@
-var BrotliPlugin = require('brotli-webpack-plugin');
-var RelativeCiAgentWebpackPlugin = require('@relative-ci/agent');
+const BrotliPlugin = require('brotli-webpack-plugin');
+const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent');
 
 module.exports = {
   plugins: [
