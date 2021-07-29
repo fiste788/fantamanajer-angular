@@ -22,7 +22,7 @@
           "options": {
             "indexTransform": "index-html-transform.ts",
             "customWebpackConfig": {
-              "path": "./webpack.config.ts"
+              "path": "./webpack.config.js"
             },
             "outputPath": "dist/fantamanajer-angular",
             "index": "src/index.html",
