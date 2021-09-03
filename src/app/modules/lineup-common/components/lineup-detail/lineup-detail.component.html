@@ -1,34 +1,16 @@
-<ng-container *ngIf="lineup">
-  <div
-    class="header"
-    fxLayout="row"
-    fxLayout.xs="column"
-    fxLayoutAlign="space-between center"
-    fxLayoutAlign.xs="left left"
+<div
+  *ngIf="lineup"
+  @cardCreationAnimation
+>
+  <app-lineup-options
+    [lineup]="lineup"
+    [disabled]="disabled"
   >
-    <mat-form-field class="module">
-      <mat-label>Modulo</mat-label>
-      <mat-select
-        name="module"
-        placeholder="Modulo"
-        [disabled]="disabled"
-        [(ngModel)]="lineupService.selectedModule"
-        (selectionChange)="lineupService.moduleChange()"
-      >
-        <mat-option
-          *ngFor="let m of lineupService.modules"
-          [value]="m"
-        >{{m.label}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div *ngIf="lineup.modified_at">Data aggiornamento: {{lineup.modified_at | date: 'dd/MM HH:mm'}}</div>
-    <mat-checkbox
-      name="jolly"
-      [disabled]="disabled"
-      [attr.value]="true"
-      [(ngModel)]="lineup.jolly"
-    >Jolly</mat-checkbox>
-  </div>
+    <ng-content
+      buttons
+      select="[buttons]"
+    ></ng-content>
+  </app-lineup-options>
   <ng-container *ngIf="lineupService.selectedModule">
     <div ngModelGroup="dispositions">
       <app-module-area
@@ -40,62 +22,44 @@
       ></app-module-area>
     </div>
   </ng-container>
-  <fieldset>
-    <h5>Capitani</h5>
-    <div
-      fxLayout="row"
-      fxLayout.xs="column"
-      fxLayoutAlign="space-evenly start"
-    >
-      <mat-form-field
-        *ngFor="let captain of (lineupService.captains | keyvalue)"
-        appearance="standard"
-      >
-        <mat-label>{{captain.key}}</mat-label>
-        <mat-select
-          [disabled]="disabled"
-          [placeholder]="captain.key"
-          [name]="captain.key"
-          [(ngModel)]="lineup[captain.value]"
-          (selectionChange)="lineupService.captainSelectionChange()"
-        >
-          <mat-option
-            *ngFor="let c of lineupService.captainables; trackBy: trackByCaptain"
-            [disabled]="c.disabled"
-            [value]="c.member.id"
-          >{{c.member.player.full_name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </fieldset>
-  <fieldset class="benchwarmers">
-    <h5>Panchinari</h5>
-    <div
-      fxLayout="column"
-      fxLayout.gt-sm="row wrap"
-      fxLayoutAlign="space-around"
-      ngModelGroup="dispositions"
-    >
-      <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
-        <div [ngModelGroup]="bench + ''">
-          <app-member-selection
-            name="member"
-            class="benchwarmer"
-            fxLayout="row"
-            fxLayout.gt-sm="column"
-            fxLayoutAlign="start center"
-            [memberMap]="lineupService.benchOptions"
-            [disabled]="disabled"
-            [placeholder]="'Panchinaro ' + (bench - 10)"
-            [width]="320"
-            [height]="450"
-            [(member)]="lineup.dispositions[bench].member"
-            (memberChange)="lineupService.benchwarmerSelectionChange($event)"
+  <div
+    *ngIf="lineup.dispositions?.length"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="space-evenly start"
+  >
+    <fieldset class="benchwarmers">
+      <mat-card>
+        <mat-card-title>Panchinari</mat-card-title>
+        <mat-card-content>
+
+          <div
+            fxLayout="column"
+            fxLayout.gt-sm="row wrap"
+            fxLayoutAlign="space-around"
+            ngModelGroup="dispositions"
           >
-          </app-member-selection>
-        </div>
-      </ng-container>
-    </div>
-  </fieldset>
-</ng-container>
+            <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
+              <div [ngModelGroup]="bench + ''">
+                <app-member-selection
+                  name="member"
+                  class="benchwarmer"
+                  fxLayout="row"
+                  fxLayoutAlign="start center"
+                  [memberMap]="lineupService.benchOptions"
+                  [disabled]="disabled"
+                  [placeholder]="'Panchinaro ' + (bench - 10)"
+                  [width]="320"
+                  [height]="450"
+                  [(member)]="lineupWithDisposition.dispositions[bench].member"
+                  (memberChange)="lineupService.benchwarmerSelectionChange($event)"
+                >
+                </app-member-selection>
+              </div>
+            </ng-container>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </fieldset>
+  </div>
+  <div>

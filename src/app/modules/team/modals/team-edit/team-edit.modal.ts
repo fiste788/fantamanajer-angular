@@ -58,6 +58,7 @@ export class TeamEditModal {
     TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
     return firstValueFrom(
       this.teamService.upload(this.team.id, fd).pipe(map(() => this.dialogRef.close(true))),
+      { defaultValue: undefined },
     );
   }
 }

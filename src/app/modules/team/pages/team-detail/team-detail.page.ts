@@ -35,17 +35,17 @@ export class TeamDetailPage implements OnInit {
   public ngOnInit(): void {
     this.team$ = this.route.data.pipe(
       map((data) => data.team as Team),
-      combineLatestWith(this.auth.userChange$),
-      map(([team, user]) => {
-        this.loadTabs(team, user);
+      combineLatestWith(this.auth.userChange$, this.app.teamChange$),
+      map(([team, user, selectedTeam]) => {
+        this.loadTabs(team, user, selectedTeam);
         return team;
       }),
     );
   }
 
-  public loadTabs(team: Team, user?: User): void {
+  public loadTabs(team: Team, user?: User, selectedTeam?: Team): void {
     this.tabs = [{ label: 'Giocatori', link: 'players' }];
-    if (team.championship?.started) {
+    if (selectedTeam?.championship?.started) {
       if (!this.app.seasonEnded) {
         this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
       }

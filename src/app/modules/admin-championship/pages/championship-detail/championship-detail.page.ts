@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChampionshipService } from '@data/services';
 import { UtilService } from '@app/services';
 import { Championship, League } from '@data/types';
-import { catchError, firstValueFrom, map, Observable, of, pluck } from 'rxjs';
+import { catchError, defaultIfEmpty, firstValueFrom, map, Observable, of } from 'rxjs';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { cardCreationAnimation } from '@shared/animations';
 
@@ -28,9 +28,10 @@ export class ChampionshipDetailPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const championship = UtilService.getData<Championship>(this.route, 'championship');
-    this.league$ = championship ? championship.pipe(pluck('league')) : of({});
-    this.championship$ = championship ?? of({});
+    this.championship$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      defaultIfEmpty({}),
+    );
+    this.league$ = this.championship$.pipe(map((c) => c.league || {}));
   }
 
   public async save(
@@ -53,6 +54,7 @@ export class ChampionshipDetailPage implements OnInit {
           return of();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 

@@ -27,8 +27,9 @@ export class AddTeamPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const championship = UtilService.getData<Championship>(this.route, 'championship');
-    this.team$ = championship ? championship.pipe(map((t) => ({ championship_id: t.id }))) : of({});
+    this.team$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      map((t) => ({ championship_id: t.id })),
+    );
   }
 
   public async save(team: RecursivePartial<Team>): Promise<void> {
@@ -49,6 +50,7 @@ export class AddTeamPage implements OnInit {
           return of();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 }

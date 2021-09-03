@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -19,7 +19,7 @@ export class EditMembersPage implements OnInit {
   public roles: Map<number, Role>;
   public module: Module;
   public controlsByRole$: Observable<boolean>;
-  public team: Team;
+  public team$: Observable<Team>;
   public members: Array<{ member: Member }>;
   public membersByRole: Map<Role, Array<Member>>;
 
@@ -38,11 +38,11 @@ export class EditMembersPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    const t = UtilService.getSnapshotData<Team>(this.route, 'team');
-    if (t) {
-      this.team = t;
-      this.loadMembers(this.team);
-    }
+    this.team$ = UtilService.getData<Team>(this.route, 'team').pipe(
+      tap((team) => {
+        this.loadMembers(team);
+      }),
+    );
   }
 
   public loadMembers(team: Team): void {
@@ -51,16 +51,16 @@ export class EditMembersPage implements OnInit {
       this.memberService.getAllFree(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
-        this.team.members = teamMembers.slice(0, this.roleService.totalMembers());
-        if (this.team.members.length < this.roleService.totalMembers()) {
+        team.members = teamMembers.slice(0, this.roleService.totalMembers());
+        if (team.members.length < this.roleService.totalMembers()) {
           const missing = new Array<Member>(
-            this.roleService.totalMembers() - this.team.members.length,
+            this.roleService.totalMembers() - team.members.length,
           ).fill({} as Member);
-          this.team.members = [...this.team.members, ...missing];
+          team.members = [...team.members, ...missing];
         }
-        this.members = this.team.members.map((member) => ({ member }));
+        this.members = team.members.map((member) => ({ member }));
         this.membersByRole = Array.from(this.roles.values()).reduce((m, c) => {
-          const members = this.team.members
+          const members = team.members
             .filter((entry) => entry.role_id === c.id)
             .concat(allMembers[c.id]);
 
@@ -80,10 +80,10 @@ export class EditMembersPage implements OnInit {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public async save(): Promise<void> {
-    this.team.members = this.members.map((m) => m.member);
+  public async save(team: Team): Promise<void> {
+    team.members = this.members.map((m) => m.member);
     return firstValueFrom(
-      this.teamService.update(this.team).pipe(
+      this.teamService.update(team).pipe(
         map(() => {
           this.snackBar.open('Giocatori modificati', undefined, {
             duration: 3000,
@@ -94,6 +94,7 @@ export class EditMembersPage implements OnInit {
           return of();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 }

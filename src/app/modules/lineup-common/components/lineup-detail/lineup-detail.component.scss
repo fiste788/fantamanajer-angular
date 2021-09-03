@@ -36,6 +36,10 @@ mat-select {
 .flex-container {
   margin: 0 1rem;
 }
+
+fieldset {
+  width: 100%;
+}
 @include layout-bp(gt-md) {
   .mat-form-field {
     width: unset;

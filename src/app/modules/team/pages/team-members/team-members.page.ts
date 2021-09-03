@@ -20,7 +20,7 @@ export class TeamMembersPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.members$ = UtilService.getData<Team>(this.route, 'team')?.pipe(
+    this.members$ = UtilService.getData<Team>(this.route, 'team').pipe(
       switchMap((team) => this.memberService.getByTeamId(team.id)),
     );
   }

@@ -5,19 +5,23 @@
       #lineupForm="ngForm"
       [appMemberAlreadySelected]="lineup"
       class="flex-container"
-      (ngSubmit)="save()"
+      (ngSubmit)="save(lineup)"
     >
       <app-lineup-detail
         #lineupDetail
         [lineup]="lineup"
         [disabled]="!editMode"
-      ></app-lineup-detail>
-      <button
-        *ngIf="editMode"
-        type="submit"
-        color="accent"
-        mat-raised-button
-      >Salva</button>
+        [benchs]="benchs"
+      >
+        <button
+          *ngIf="editMode"
+          buttons
+          mat-button
+          align="end"
+          type="submit"
+          color="accent"
+        >Salva</button>
+      </app-lineup-detail>
     </form>
     <ng-template #notSet>
       <h3 class="subheading-1">Formazione non settata</h3>

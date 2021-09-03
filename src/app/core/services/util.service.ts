@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -46,15 +46,15 @@ export class UtilService {
     return undefined;
   }
 
-  public static getData<T>(route: ActivatedRoute, param: string): Observable<T> | undefined {
+  public static getData<T>(route: ActivatedRoute, param: string): Observable<T> {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
       if (current.snapshot.data[param] !== undefined) {
-        return current.data.pipe(pluck(param));
+        return current.data.pipe<T>(pluck(param));
       }
       current = current.parent;
     }
 
-    return undefined;
+    return of();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { filter, mergeMap, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService, PushService } from '@app/services';
@@ -38,21 +38,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.teamChange$ = this.app.teamChange$.pipe(tap((t) => (this.championship = t?.championship)));
     this.deferredPrompt$ = this.push.beforeInstall$;
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
+    this.subscriptions.add(this.push.initialize().subscribe());
     this.subscriptions.add(
       this.navStart$
         .pipe(
           mergeMap(() => this.layoutService.isHandset$),
           filter((r) => r),
+          map(() => this.layoutService.closeSidebar()),
         )
-        .subscribe(() => {
-          this.layoutService.closeSidebar();
-        }),
+        .subscribe(),
     );
   }
 
-  public install(event: BeforeInstallPromptEvent): void {
+  public async install(event: BeforeInstallPromptEvent): Promise<void> {
     void event.prompt();
-    void event.userChoice.then(() => {
+    return event.userChoice.then(() => {
       this.deferredPrompt$ = undefined;
     });
   }

@@ -1,26 +1,26 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, switchMap, tap } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
 
 import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 import { Lineup, Team } from '@data/types';
+import { AtLeast } from '@app/types';
+import { environment } from '@env';
 
 @Component({
   styleUrls: ['./lineup-last.page.scss'],
   templateUrl: './lineup-last.page.html',
 })
-export class LineupLastPage implements OnDestroy, OnInit {
+export class LineupLastPage implements OnInit {
   @ViewChild(NgForm) public lineupForm: NgForm;
-  @ViewChild(LineupDetailComponent) public lineupDetail: LineupDetailComponent;
 
-  public lineup$: Observable<Lineup>;
+  public lineup$: Observable<AtLeast<Lineup, 'team' | 'modules'>>;
   public editMode = false;
   public teamId: number;
-  private subscription?: Subscription;
+  public benchs: number;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -29,46 +29,40 @@ export class LineupLastPage implements OnDestroy, OnInit {
     public app: ApplicationService,
   ) {}
 
-  public async ngOnInit(): Promise<void> {
-    const team = UtilService.getData<Team>(this.route, 'team');
-    if (team) {
-      this.lineup$ = team.pipe(
-        tap((team) => (this.teamId = team.id)),
-        switchMap(() => this.app.teamChange$),
-        tap((currentTeam) => (this.editMode = currentTeam?.id === this.teamId)),
-        switchMap(() => this.lineupService.getLineup(this.teamId)),
-      );
-    }
+  public ngOnInit(): void {
+    this.lineup$ = UtilService.getData<Team>(this.route, 'team').pipe(
+      tap((team) => (this.teamId = team.id)),
+      switchMap(() => this.app.teamChange$),
+      tap(
+        (currentTeam) =>
+          (this.benchs = currentTeam
+            ? currentTeam.championship.number_benchwarmers
+            : environment.benchwarmersCount),
+      ),
+      tap((currentTeam) => (this.editMode = currentTeam?.id === this.teamId)),
+      switchMap(() => this.lineupService.getLineup(this.teamId)),
+    );
   }
 
-  public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  public save(): void {
-    if (this.lineupForm.valid === true) {
-      const lineup = this.lineupDetail.getLineup();
-      let obs: Observable<Partial<Lineup>>;
-      let message: string;
-      if (lineup.id) {
-        message = 'Formazione aggiornata';
-        obs = this.lineupService.update(lineup);
-      } else {
-        message = 'Formazione caricata';
-        obs = this.lineupService.create(lineup);
-      }
-      this.subscription = obs.subscribe(
-        (response) => {
-          if (response.id) {
+  public async save(lineup: AtLeast<Lineup, 'team'>): Promise<void> {
+    if (this.lineupForm.valid) {
+      const save: Observable<AtLeast<Lineup, 'id'>> = lineup.id
+        ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
+        : this.lineupService.create(lineup);
+      return firstValueFrom(
+        save.pipe(
+          map((response: AtLeast<Lineup, 'id'>) => {
             lineup.id = response.id;
-          }
-          this.snackBar.open(message, undefined, {
-            duration: 3000,
-          });
-        },
-        (err: unknown) => {
-          UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
-        },
+            this.snackBar.open('Formazione salvata correttamente', undefined, {
+              duration: 3000,
+            });
+          }),
+          catchError((err: unknown) => {
+            UtilService.getUnprocessableEntityErrors(this.lineupForm, err);
+            return of();
+          }),
+        ),
+        { defaultValue: undefined },
       );
     } else {
       this.snackBar.open('Si sono verificati errori di validazione', undefined, {

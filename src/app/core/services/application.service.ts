@@ -33,8 +33,8 @@ export class ApplicationService {
       this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
     );
     this.teamChange$ = this.team$.asObservable().pipe(distinctUntilChanged());
-    this.teamChange$.pipe(tap((t) => this.setTeam(t))).subscribe();
-    this.authService.userChange$
+    void this.teamChange$.pipe(tap((t) => this.setTeam(t))).subscribe();
+    void this.authService.userChange$
       .pipe(
         map((u) => u?.teams),
         tap((teams) => this.team$.next(teams?.length ? teams[0] : undefined)),
@@ -73,10 +73,10 @@ export class ApplicationService {
   }
 
   private writeError(e: Error): void {
-    const el = this.document.querySelector('.error');
+    const el = this.document.querySelector('#error');
     if (el !== null) {
-      el.textContent =
-        "Si è verificato un errore nel caricamento dell'app. Ricarica la pagina per riprovare";
+      el.innerHTML =
+        '<h3 class="error">Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare</h3>';
     }
     throw e;
   }

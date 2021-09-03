@@ -8,6 +8,8 @@ export interface Championship {
   captain_missed_lineup: boolean;
   points_missed_lineup: number;
   minute_lineup: number;
+  number_substitutions: number;
+  number_benchwarmers: number;
   number_selections: number;
   number_transferts: number;
   jolly: boolean;

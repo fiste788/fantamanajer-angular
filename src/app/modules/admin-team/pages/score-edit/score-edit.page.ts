@@ -8,7 +8,7 @@ import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
 import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
-import { Score, Team } from '@data/types';
+import { Lineup, Score, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./score-edit.page.scss'],
@@ -44,7 +44,7 @@ export class ScoreEditPage implements OnInit {
   }
 
   public async save(score: Score): Promise<void> {
-    score.lineup = this.lineupDetail.getLineup();
+    score.lineup = this.lineupDetail.getLineup() as Lineup;
     return firstValueFrom(
       this.scoreService.update(score).pipe(
         map(() => {
@@ -57,6 +57,7 @@ export class ScoreEditPage implements OnInit {
           return of();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 

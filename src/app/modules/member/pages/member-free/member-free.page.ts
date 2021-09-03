@@ -2,7 +2,7 @@ import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { MemberService, RoleService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
@@ -38,20 +38,18 @@ export class MemberFreePage implements OnInit {
   }
 
   public roleChange(role?: Role): void {
-    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
     this.members$ = undefined;
     this.changeRef.detectChanges();
-    if (championship) {
-      this.members$ = this.memberService.getFree(championship.id, role?.id).pipe(
-        tap(() => {
-          if (this.memberList) {
-            this.selectedMember$ = this.memberList.selection.changed
-              .asObservable()
-              .pipe(map((m) => m.source.selected[0]));
-          }
-        }),
-      );
-    }
+    this.members$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      switchMap((c) => this.memberService.getFree(c.id, role?.id)),
+      tap(() => {
+        if (this.memberList) {
+          this.selectedMember$ = this.memberList.selection.changed
+            .asObservable()
+            .pipe(map((m) => m.source.selected[0]));
+        }
+      }),
+    );
   }
 
   public track(_: number, item: KeyValue<number, Role>): number {

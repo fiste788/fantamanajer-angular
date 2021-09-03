@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
+import { firstValueFrom, from, fromEvent, merge, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -37,63 +37,40 @@ export class PushService {
         // Stash the event so it can be triggered later.
       }),
     );
-    this.checkForUpdates();
-    this.auth.userChange$.subscribe(this.initializeUser.bind(this));
   }
 
-  public checkForUpdates(): void {
-    this.swUpdate.available
-      .pipe(
-        map(() => this.snackBar.open("Nuova versione dell'app disponibile", 'Aggiorna')),
-        switchMap((ref) => ref.onAction()),
-      )
-      .subscribe(() => {
-        this.window.location.reload();
-      });
+  public initialize(): Observable<void> {
+    return merge(
+      this.checkForUpdates(),
+      this.auth.userChange$.pipe(
+        filter((user): user is User => user !== undefined && environment.production),
+        switchMap((user) => this.initializeUser(user)),
+      ),
+    );
   }
 
-  public initializeUser(user?: User): void {
-    if (user && environment.production) {
-      this.subscribeToPush(user);
-      this.showMessages();
-    }
-  }
-
-  public showMessages(): void {
-    this.swPush.messages.subscribe((obj) => {
-      const message = obj as { notification: Notification };
-      this.notificationService.broadcast(message.notification.title, '');
-    });
-    this.swPush.notificationClicks.subscribe((click) => {
-      const data = click.notification.data as { url?: string };
-      if (data.url !== undefined) {
-        void this.router.navigateByUrl(data.url);
-      }
-    });
-  }
-
-  public subscribeToPush(user: User): void {
-    this.isSubscribed()
-      .pipe(
-        filter((s) => !s),
-        mergeMap(async () => this.requestSubscription(user)),
-        filter((s) => s),
-      )
-      .subscribe(() => {
+  public subscribeToPush(user: User): Observable<void> {
+    return this.isSubscribed().pipe(
+      filter((s) => !s),
+      mergeMap(async () => this.requestSubscription(user)),
+      filter((s) => s),
+      map(() => {
         this.snackBar.open('Now you are subscribed', undefined, {
           duration: 2000,
         });
-      });
+      }),
+    );
   }
 
-  public unsubscribeFromPush(): void {
-    from(this.cancelSubscription())
-      .pipe(filter((r) => r))
-      .subscribe(() => {
+  public unsubscribeFromPush(): Observable<void> {
+    return from(this.cancelSubscription()).pipe(
+      filter((r) => r),
+      map(() => {
         this.snackBar.open('Now you are unsubscribed', undefined, {
           duration: 2000,
         });
-      });
+      }),
+    );
   }
 
   public isSubscribed(): Observable<boolean> {
@@ -141,6 +118,37 @@ export class PushService {
 
     // convert bytes to hex string
     return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');
+  }
+
+  private checkForUpdates(): Observable<void> {
+    return this.swUpdate.available.pipe(
+      map(() => this.snackBar.open("Nuova versione dell'app disponibile", 'Aggiorna')),
+      switchMap((ref) => ref.onAction()),
+      map(() => this.window.location.reload()),
+    );
+  }
+
+  private initializeUser(user: User): Observable<void> {
+    return merge(this.subscribeToPush(user), this.showMessages());
+  }
+
+  private showMessages(): Observable<void> {
+    return merge(
+      this.swPush.messages.pipe(
+        map((obj) => {
+          const message = obj as { notification: Notification };
+          this.notificationService.broadcast(message.notification.title, '');
+        }),
+      ),
+      this.swPush.notificationClicks.pipe(
+        map((click) => {
+          const data = click.notification.data as { url?: string };
+          if (data.url !== undefined) {
+            void this.router.navigateByUrl(data.url);
+          }
+        }),
+      ),
+    );
   }
 
   private async requestSubscription(user: User): Promise<boolean> {

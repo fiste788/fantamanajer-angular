@@ -44,7 +44,7 @@ export class ArticleDetailPage implements OnInit {
   }
 
   public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
-    if (this.articleForm.valid === true) {
+    if (this.articleForm.valid) {
       const save: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
@@ -57,6 +57,7 @@ export class ArticleDetailPage implements OnInit {
             void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
           }),
         ),
+        { defaultValue: undefined },
       );
     }
   }

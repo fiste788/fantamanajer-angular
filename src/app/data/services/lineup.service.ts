@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 
 import { Disposition, Lineup, Member } from '../types';
+import { AtLeast } from '@app/types';
 
 const url = 'lineups';
 const routes = {
@@ -16,7 +17,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
-  public static cleanLineup(lineup: Lineup): RecursivePartial<Lineup> {
+  public static cleanLineup(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
     const clonedLineup = JSON.parse(JSON.stringify(lineup)) as Lineup;
     const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
     const disp = dispositions.filter((value) => value?.member_id !== null);
@@ -32,25 +33,27 @@ export class LineupService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getLineup(teamId: number): Observable<Lineup> {
-    return this.http.get<Lineup>(routes.lineup(teamId));
+  public getLineup(teamId: number): Observable<AtLeast<Lineup, 'team' | 'modules'>> {
+    return this.http.get<AtLeast<Lineup, 'team' | 'modules'>>(routes.lineup(teamId));
   }
 
-  public update(lineup: Lineup): Observable<Partial<Lineup>> {
-    return this.http.put(
-      routes.update(lineup.team_id, lineup.id),
+  public update(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
+    return this.http.put<Pick<Lineup, 'id'>>(
+      routes.update(lineup.team.id, lineup.id),
       LineupService.cleanLineup(lineup),
     );
   }
 
-  public create(lineup: Lineup): Observable<Pick<Lineup, 'id'>> {
+  public create(lineup: AtLeast<Lineup, 'team'>): Observable<AtLeast<Lineup, 'id'>> {
     return this.http.post<Lineup>(
-      routes.lineups(lineup.team_id),
+      routes.lineups(lineup.team.id),
       LineupService.cleanLineup(lineup),
     );
   }
 
-  public getLikelyLineup(lineup: Lineup): Observable<Array<Member>> {
-    return this.http.get<Array<Member>>(routes.likely(lineup.team_id));
+  public getLikelyLineup(
+    lineup: AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>,
+  ): Observable<Array<Member>> {
+    return this.http.get<Array<Member>>(routes.likely(lineup.team.id));
   }
 }

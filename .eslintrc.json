@@ -227,9 +227,9 @@
         "@angular-eslint/template/no-autofocus": 2,
         "@angular-eslint/template/no-distracting-elements": 2,
         "@angular-eslint/template/cyclomatic-complexity": [
-          "error",
+          "warn",
           {
-            "maxComplexity": 7
+            "maxComplexity": 9
           }
         ],
         "@angular-eslint/template/no-call-expression": "error"

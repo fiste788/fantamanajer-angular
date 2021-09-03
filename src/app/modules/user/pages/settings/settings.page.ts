@@ -47,15 +47,14 @@ export class SettingsPage implements OnInit {
             });
           }),
         ),
+        { defaultValue: undefined },
       );
     }
   }
 
-  public togglePush(user: User, checked: boolean): void {
-    if (checked) {
-      this.pushService.subscribeToPush(user);
-    } else {
-      this.pushService.unsubscribeFromPush();
-    }
+  public async togglePush(user: User, checked: boolean): Promise<void> {
+    return firstValueFrom(
+      checked ? this.pushService.subscribeToPush(user) : this.pushService.unsubscribeFromPush(),
+    );
   }
 }

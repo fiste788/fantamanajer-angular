@@ -1,8 +1,9 @@
 <form
+  *ngIf="team$ | async as team"
   #transfertForm="ngForm"
   fxLayout="column"
   fxLayoutAlign="start start"
-  (ngSubmit)="submit()"
+  (ngSubmit)="submit(team)"
 >
   <mat-form-field>
     <mat-select
@@ -11,10 +12,10 @@
       placeholder="Vecchio giocatore"
       [compareWith]="compareFn"
       [(ngModel)]="transfert.old_member"
-      (selectionChange)="playerChange()"
+      (selectionChange)="playerChange(team, $event.value)"
     >
       <mat-option
-        *ngFor="let member of team.members; trackBy: track"
+        *ngFor="let member of oldMembers$ | async; trackBy: track"
         [value]="member"
       >{{ member.player.full_name}}</mat-option>
     </mat-select>
@@ -29,7 +30,7 @@
       [(ngModel)]="transfert.new_member"
     >
       <mat-option
-        *ngFor="let member of newMembers; trackBy: track"
+        *ngFor="let member of newMembers$ | async; trackBy: track"
         [value]="member"
       >{{ member.player.full_name }}</mat-option>
     </mat-select>

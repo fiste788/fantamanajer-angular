@@ -1,26 +1,28 @@
-<form
-  *ngIf="(controlsByRole$ | async); else loading"
-  #lineupForm="ngForm"
-  (ngSubmit)="save()"
->
-  <div ngModelGroup="members">
-    <app-module-area
-      [module]="module"
-      [wrap]="true"
-      [membersByRole]="membersByRole"
-      [dispositions]="members"
-    >
-    </app-module-area>
-  </div>
-  <button
-    color="accent"
-    type="submit"
-    mat-raised-button
-  >SALVA</button>
-</form>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-spinner>
-</ng-template>
+<ng-container *ngIf="team$ | async as team">
+  <form
+    *ngIf="(controlsByRole$ | async); else loading"
+    #lineupForm="ngForm"
+    (ngSubmit)="save(team)"
+  >
+    <div ngModelGroup="members">
+      <app-module-area
+        [module]="module"
+        [wrap]="true"
+        [membersByRole]="membersByRole"
+        [dispositions]="members"
+      >
+      </app-module-area>
+    </div>
+    <button
+      color="accent"
+      type="submit"
+      mat-raised-button
+    >SALVA</button>
+  </form>
+  <ng-template #loading>
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+    ></mat-progress-spinner>
+  </ng-template>
+</ng-container>

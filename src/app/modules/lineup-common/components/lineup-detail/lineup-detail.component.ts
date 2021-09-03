@@ -8,9 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { AtLeast } from '@app/types';
 
 import { LineupService as LineupHttpService } from '@data/services';
-import { Lineup, MemberOption, Role } from '@data/types';
+import { Lineup, Role } from '@data/types';
+import { environment } from '@env';
+import { cardCreationAnimation } from '@shared/animations';
 import { firstValueFrom, map } from 'rxjs';
 
 import { LineupService } from '../lineup.service';
@@ -22,10 +25,12 @@ import { LineupService } from '../lineup.service';
   styleUrls: ['./lineup-detail.component.scss'],
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  animations: [cardCreationAnimation],
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() public lineup?: Lineup;
+  @Input() public lineup?: AtLeast<Lineup, 'team' | 'modules'>;
   @Input() public disabled = false;
+  @Input() public benchs = environment.benchwarmersCount;
 
   @ViewChild(NgForm) public lineupForm: NgForm;
 
@@ -40,16 +45,18 @@ export class LineupDetailComponent implements OnInit {
   }
 
   public async loadLineup(): Promise<void> {
-    const lineup = this.lineup ?? (!this.disabled ? ({} as Lineup) : undefined);
-    if (lineup !== undefined && lineup.team.members.length) {
-      this.lineupService.loadLineup(lineup);
+    if (this.lineup !== undefined && this.lineup.team?.members.length) {
+      const lineup = this.lineupService.loadLineup(this.lineup, this.benchs);
       if (!this.disabled) {
         return this.loadLikely(lineup);
       }
     }
+    return undefined;
   }
 
-  public async loadLikely(lineup: Lineup): Promise<void> {
+  public async loadLikely(
+    lineup: AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>,
+  ): Promise<void> {
     return firstValueFrom(
       this.lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
@@ -62,10 +69,11 @@ export class LineupDetailComponent implements OnInit {
           this.cd.detectChanges();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 
-  public getLineup(): Lineup {
+  public getLineup(): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
     return this.lineupService.getLineup();
   }
 
@@ -76,7 +84,7 @@ export class LineupDetailComponent implements OnInit {
     return item; // or item.id
   }
 
-  public trackByCaptain(_: number, item: MemberOption): number {
-    return item.member.id; // or item.id
+  public get lineupWithDisposition(): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
+    return this.lineup as AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>;
   }
 }

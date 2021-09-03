@@ -7,6 +7,7 @@ export const environment = {
   apiEndpoint: '/api',
   gaCode: '',
   matchdaysCount: 38,
+  benchwarmersCount: 7,
   production: false,
   vapidPublicKey:
     'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw',
