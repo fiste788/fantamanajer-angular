@@ -8,10 +8,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
-import { AtLeast } from '@app/types';
 
 import { LineupService as LineupHttpService } from '@data/services';
-import { Lineup, Role } from '@data/types';
+import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
 import { cardCreationAnimation } from '@shared/animations';
 import { firstValueFrom, map } from 'rxjs';
@@ -28,7 +27,7 @@ import { LineupService } from '../lineup.service';
   animations: [cardCreationAnimation],
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() public lineup?: AtLeast<Lineup, 'team' | 'modules'>;
+  @Input() public lineup?: EmptyLineup;
   @Input() public disabled = false;
   @Input() public benchs = environment.benchwarmersCount;
 
@@ -54,9 +53,7 @@ export class LineupDetailComponent implements OnInit {
     return undefined;
   }
 
-  public async loadLikely(
-    lineup: AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>,
-  ): Promise<void> {
+  public async loadLikely(lineup: EmptyLineup): Promise<void> {
     return firstValueFrom(
       this.lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
@@ -73,7 +70,7 @@ export class LineupDetailComponent implements OnInit {
     );
   }
 
-  public getLineup(): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
+  public getLineup(): EmptyLineup {
     return this.lineupService.getLineup();
   }
 
@@ -82,9 +79,5 @@ export class LineupDetailComponent implements OnInit {
 
   public trackByBench(_: number, item: number): number {
     return item; // or item.id
-  }
-
-  public get lineupWithDisposition(): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
-    return this.lineup as AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>;
   }
 }

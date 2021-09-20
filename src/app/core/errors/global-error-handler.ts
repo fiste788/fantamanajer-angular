@@ -20,10 +20,14 @@ export class GlobalErrorHandler implements ErrorHandler {
           'Ricarica pagina',
           { duration: 5000 },
         );
-        void firstValueFrom(ref.onAction().pipe(tap(() => this.window.location.reload())));
+        void firstValueFrom(ref.onAction().pipe(tap(() => this.window.location.reload())), {
+          defaultValue: undefined,
+        });
       });
 
       console.error('Error from global error handler', error);
+
+      return undefined;
     }
   }
 }

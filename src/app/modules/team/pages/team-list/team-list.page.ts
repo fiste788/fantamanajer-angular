@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
 import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -28,10 +28,9 @@ export class TeamListPage implements OnInit {
   }
 
   public loadData(): void {
-    const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
-    if (id) {
-      this.teams$ = this.teamService.getTeams(id);
-    }
+    this.teams$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      switchMap((c) => this.teamService.getTeams(c.id)),
+    );
   }
 
   public async attachEvents(): Promise<void> {

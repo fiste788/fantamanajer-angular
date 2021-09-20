@@ -6,6 +6,7 @@ import { RecursivePartial } from '@app/types/recursive-partial.type';
 
 import { Disposition, Lineup, Member } from '../types';
 import { AtLeast } from '@app/types';
+import { EmptyLineup } from '@data/types/empty-lineup.model';
 
 const url = 'lineups';
 const routes = {
@@ -33,8 +34,8 @@ export class LineupService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getLineup(teamId: number): Observable<AtLeast<Lineup, 'team' | 'modules'>> {
-    return this.http.get<AtLeast<Lineup, 'team' | 'modules'>>(routes.lineup(teamId));
+  public getLineup(teamId: number): Observable<EmptyLineup> {
+    return this.http.get<EmptyLineup>(routes.lineup(teamId));
   }
 
   public update(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
@@ -51,9 +52,7 @@ export class LineupService {
     );
   }
 
-  public getLikelyLineup(
-    lineup: AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>,
-  ): Observable<Array<Member>> {
+  public getLikelyLineup(lineup: EmptyLineup): Observable<Array<Member>> {
     return this.http.get<Array<Member>>(routes.likely(lineup.team.id));
   }
 }

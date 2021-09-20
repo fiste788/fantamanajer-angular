@@ -22,51 +22,57 @@
         class="flex-container"
         (ngSubmit)="save(score)"
       >
-        <mat-form-field>
-          <mat-label>Punteggio</mat-label>
-          <input
-            name="points"
-            type="number"
-            matInput
-            step="0.5"
-            required
-            placeholder="Punteggio"
-            [(ngModel)]="score.points"
-          >
-        </mat-form-field>
-        <mat-slide-toggle
-          name="penality"
-          [(ngModel)]="penality"
-        >Penalità</mat-slide-toggle>
-        <div *ngIf="penality">
+        <mat-card>
           <mat-form-field>
-            <mat-label>Penalità</mat-label>
+            <mat-label>Punteggio</mat-label>
             <input
-              name="penality_points"
+              name="points"
               type="number"
               matInput
               step="0.5"
-              placeholder="Penalità"
-              [(ngModel)]="score.penality_points"
+              required
+              placeholder="Punteggio"
+              [(ngModel)]="score.points"
             >
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Motivazione penalità</mat-label>
-            <input
-              name="penality"
-              matInput
-              placeholder="Motivazione penalità"
-              [(ngModel)]="score.penality"
-            >
-          </mat-form-field>
-        </div>
+          <mat-slide-toggle
+            name="penality"
+            [(ngModel)]="penality"
+          >Penalità</mat-slide-toggle>
+          <div *ngIf="penality">
+            <mat-form-field>
+              <mat-label>Penalità</mat-label>
+              <input
+                name="penality_points"
+                type="number"
+                matInput
+                step="0.5"
+                placeholder="Penalità"
+                [(ngModel)]="score.penality_points"
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Motivazione penalità</mat-label>
+              <input
+                name="penality"
+                matInput
+                placeholder="Motivazione penalità"
+                [(ngModel)]="score.penality"
+              >
+            </mat-form-field>
+          </div>
+        </mat-card>
         <h4>Formazione</h4>
-        <app-lineup-detail [lineup]="score.lineup"></app-lineup-detail>
-        <button
-          color="accent"
-          mat-raised-button
-          type="submit"
-        >Salva</button>
+        <app-lineup-detail
+          [lineup]="score.lineup"
+          [benchs]="9"
+        >
+          <button
+            color="accent"
+            mat-raised-button
+            type="submit"
+          >Salva</button>
+        </app-lineup-detail>
       </form>
     </div>
   </div>

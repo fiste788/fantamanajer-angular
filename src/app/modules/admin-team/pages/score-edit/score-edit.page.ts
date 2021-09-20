@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
 
 import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -31,11 +31,10 @@ export class ScoreEditPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const t = UtilService.getSnapshotData<Team>(this.route, 'team');
-    if (t) {
-      this.team = t;
-      this.scores$ = this.scoreService.getScoresByTeam(this.team.id);
-    }
+    this.scores$ = UtilService.getData<Team>(this.route, 'team').pipe(
+      tap((t) => (this.team = t)),
+      switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
+    );
   }
 
   public getScore(event: MatSelectChange): void {

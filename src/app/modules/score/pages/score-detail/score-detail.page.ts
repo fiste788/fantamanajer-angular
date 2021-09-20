@@ -41,7 +41,7 @@ export class ScoreDetailPage implements OnInit {
   }
 
   public getData(score?: Score): void {
-    if (score !== undefined && score.lineup !== undefined) {
+    if (score?.lineup) {
       const dispositions = score.lineup.dispositions;
       this.regular = dispositions.splice(0, 11);
       this.notRegular = dispositions;

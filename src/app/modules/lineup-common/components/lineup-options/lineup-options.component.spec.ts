@@ -8,9 +8,8 @@ describe('LineupOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LineupOptionsComponent ]
-    })
-    .compileComponents();
+      declarations: [LineupOptionsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -20,6 +19,6 @@ describe('LineupOptionsComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

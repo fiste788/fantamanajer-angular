@@ -17,7 +17,14 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { GoogleAnalyticsService, LayoutService, ThemeService } from '@app/services';
+import {
+  ApplicationService,
+  GoogleAnalyticsService,
+  LayoutService,
+  PushService,
+  PwaService,
+  ThemeService,
+} from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
@@ -45,6 +52,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    private readonly app: ApplicationService,
+    private readonly pwa: PwaService,
+    private readonly push: PushService,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly themeService: ThemeService,
@@ -54,6 +64,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
+    this.app.initialize();
+    this.subscriptions.add(this.pwa.initialize().subscribe());
+    this.subscriptions.add(this.push.initialize().subscribe());
     this.setupEvents();
   }
 
@@ -75,17 +88,17 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.auth.loggedIn$,
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
-    this.subscriptions.add(
-      this.isReady$
-        .pipe(
-          filter((e) => e),
-          tap(() => {
-            this.layoutService.showSpeedDial();
-            setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
-          }),
-          switchMap(() => this.gaService.load()),
-        )
-        .subscribe(),
+    this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
+  }
+
+  public preBootstrapExitAnimation(): Observable<boolean> {
+    return this.isReady$.pipe(
+      filter((e) => e),
+      tap(() => {
+        this.layoutService.showSpeedDial();
+        setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
+      }),
+      switchMap(() => this.gaService.load()),
     );
   }
 

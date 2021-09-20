@@ -13,8 +13,8 @@ import { AuthenticationStorageService } from '@app/authentication/authentication
 
 const NO_AUTH_IT = new HttpContextToken<boolean>(() => false);
 
-export function noAuthIt(): HttpContext {
-  return new HttpContext().set(NO_AUTH_IT, true);
+export function noAuthIt(context?: HttpContext): HttpContext {
+  return (context || new HttpContext()).set(NO_AUTH_IT, true);
 }
 
 @Injectable()

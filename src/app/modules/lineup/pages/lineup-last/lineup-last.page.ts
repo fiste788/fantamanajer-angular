@@ -6,7 +6,7 @@ import { catchError, firstValueFrom, map, Observable, of, switchMap, tap } from 
 
 import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { Lineup, Team } from '@data/types';
+import { EmptyLineup, Lineup, Team } from '@data/types';
 import { AtLeast } from '@app/types';
 import { environment } from '@env';
 
@@ -17,7 +17,7 @@ import { environment } from '@env';
 export class LineupLastPage implements OnInit {
   @ViewChild(NgForm) public lineupForm: NgForm;
 
-  public lineup$: Observable<AtLeast<Lineup, 'team' | 'modules'>>;
+  public lineup$: Observable<EmptyLineup>;
   public editMode = false;
   public teamId: number;
   public benchs: number;
@@ -44,8 +44,10 @@ export class LineupLastPage implements OnInit {
     );
   }
 
-  public async save(lineup: AtLeast<Lineup, 'team'>): Promise<void> {
+  public async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm.valid) {
+      // eslint-disable-next-line no-null/no-null
+      lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
       const save: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.lineupService.create(lineup);

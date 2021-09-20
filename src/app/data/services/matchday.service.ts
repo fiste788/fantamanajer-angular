@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Matchday } from '../types';
-import { noAuthIt } from '@app/interceptors';
+import { noAuthIt, noHeadersIt } from '@app/interceptors';
 
 const url = 'matchdays';
 const routes = {
@@ -22,7 +22,7 @@ export class MatchdayService {
       }
     }
     return this.http.get<Matchday>(routes.current, {
-      context: noAuthIt(),
+      context: noHeadersIt(noAuthIt()),
       withCredentials: false,
       headers: new HackyHttpHeaders(),
     });

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, tap } from 'rxjs/operators';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -17,8 +17,7 @@ export class ApplicationService {
   public seasonEnded: boolean;
   public seasonStarted: boolean;
   public selectedMatchday: Matchday;
-  // public championship?: Championship;
-  public team$ = new BehaviorSubject<Team | undefined>(undefined);
+  public team$: BehaviorSubject<Team | undefined>;
   public teamChange$: Observable<Team | undefined>;
   private currentMatchday?: Matchday;
 
@@ -32,14 +31,8 @@ export class ApplicationService {
     this.iconRegistry.addSvgIconSet(
       this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
     );
+    this.team$ = new BehaviorSubject<Team | undefined>(undefined);
     this.teamChange$ = this.team$.asObservable().pipe(distinctUntilChanged());
-    void this.teamChange$.pipe(tap((t) => this.setTeam(t))).subscribe();
-    void this.authService.userChange$
-      .pipe(
-        map((u) => u?.teams),
-        tap((teams) => this.team$.next(teams?.length ? teams[0] : undefined)),
-      )
-      .subscribe();
   }
 
   get matchday(): Matchday {
@@ -51,7 +44,7 @@ export class ApplicationService {
     this.recalcSeason(matchday);
   }
 
-  public initialize(): Observable<unknown> {
+  public bootstrap(): Observable<unknown> {
     const obs: Array<Observable<unknown>> = [];
     obs.push(this.loadCurrentMatchday());
     if (this.authService.loggedIn()) {
@@ -65,6 +58,13 @@ export class ApplicationService {
         return of();
       }),
     );
+  }
+
+  public initialize(): void {
+    void this.teamChange$.pipe(tap((t) => this.setTeam(t))).subscribe();
+    void this.authService.userChange$
+      .pipe(tap((u) => this.team$.next(u?.teams?.length ? u?.teams[0] : undefined)))
+      .subscribe();
   }
 
   private recalcSeason(matchday: Matchday): void {

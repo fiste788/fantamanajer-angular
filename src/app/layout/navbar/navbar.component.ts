@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService, LayoutService, PushService } from '@app/services';
+import { ApplicationService, LayoutService, PwaService } from '@app/services';
 import { Championship, Team } from '@data/types';
 
 @Component({
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
-    private readonly push: PushService,
+    private readonly pwa: PwaService,
     private readonly app: ApplicationService,
     private readonly router: Router,
   ) {}
@@ -36,9 +36,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public init(): void {
     this.loggedIn$ = this.auth.loggedIn$;
     this.teamChange$ = this.app.teamChange$.pipe(tap((t) => (this.championship = t?.championship)));
-    this.deferredPrompt$ = this.push.beforeInstall$;
+    this.deferredPrompt$ = this.pwa.beforeInstall$;
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
-    this.subscriptions.add(this.push.initialize().subscribe());
     this.subscriptions.add(
       this.navStart$
         .pipe(

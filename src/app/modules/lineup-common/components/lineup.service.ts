@@ -1,13 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { AtLeast } from '@app/types';
 
 import { RoleService } from '@data/services';
-import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@data/types';
+import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
 import { environment } from '@env';
 
 @Injectable()
 export class LineupService {
-  public lineup: AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>;
+  public lineup: EmptyLineup;
 
   public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
   public membersById: Map<number, Member>;
@@ -26,9 +25,9 @@ export class LineupService {
   constructor(private readonly roleService: RoleService) {}
 
   public loadLineup(
-    lineup: AtLeast<Lineup, 'team' | 'modules'>,
+    lineup: EmptyLineup,
     benchs: number = environment.benchwarmersCount,
-  ): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
+  ): EmptyLineup {
     lineup.team_id = lineup.team_id || lineup.team.id;
     this.benchs = Array(benchs)
       .fill(benchs)
@@ -39,8 +38,8 @@ export class LineupService {
       new Map<number, Member>(),
     );
     this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
-    lineup.dispositions = this.loadDispositions(lineup);
-    this.lineup = lineup as AtLeast<Lineup, 'team' | 'modules' | 'dispositions'>;
+    this.lineup = lineup;
+    this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
     this.captainSelectionChange();
     this.benchOptions = Array.from(this.membersByRole.entries()).reduce(
@@ -79,7 +78,7 @@ export class LineupService {
     this.captainables = this.getCapitanables();
   }
 
-  public getLineup(): AtLeast<Lineup, 'team' | 'modules' | 'dispositions'> {
+  public getLineup(): EmptyLineup {
     // eslint-disable-next-line no-null/no-null
     this.lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
 
@@ -89,14 +88,12 @@ export class LineupService {
   private loadModules(): void {
     this.modules = this.lineup.modules.map((mod) => new Module(mod, this.roleService.list()));
     const module = this.modules.find((e) => e.key === this.lineup.module);
-    if (module) {
-      this.selectedModule = module;
-      this.moduleChange();
-    }
+    this.selectedModule = module ?? this.modules[0];
+    this.moduleChange();
   }
 
-  private loadDispositions(lineup: AtLeast<Lineup, 'team' | 'modules'>): Array<Disposition> {
-    const dispositions = (lineup.dispositions || []).reduce(
+  private loadDispositions(lineup: EmptyLineup): Array<Disposition> {
+    const dispositions = lineup.dispositions.reduce(
       (p, d) => p.set(d.position - 1, d),
       new Map<number, Disposition>(),
     );
@@ -160,6 +157,6 @@ export class LineupService {
     return this.lineup.dispositions
       .filter((disp) => disp.position <= 11)
       .map((disp) => disp.member)
-      .filter((member): member is Member => member !== null);
+      .filter((member): member is Member => member !== null && member !== undefined);
   }
 }

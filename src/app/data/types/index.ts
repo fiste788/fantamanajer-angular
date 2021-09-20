@@ -4,6 +4,7 @@ export * from './championship.model';
 export * from './club.model';
 export * from './disposition.model';
 export * from './email-subscription.model';
+export * from './empty-lineup.model';
 export * from './errors';
 export * from './league.model';
 export * from './lineup.model';

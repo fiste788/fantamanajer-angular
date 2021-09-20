@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -24,10 +24,9 @@ export class RankingPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const championship = UtilService.getSnapshotData<Championship>(this.route, 'championship');
-    if (championship) {
-      this.ranking$ = this.loadRanking(championship);
-    }
+    this.ranking$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      switchMap((championship) => this.loadRanking(championship)),
+    );
   }
 
   public loadRanking(championship: Championship): Observable<Array<RankingPosition>> {

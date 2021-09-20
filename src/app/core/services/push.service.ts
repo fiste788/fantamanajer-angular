@@ -1,51 +1,30 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { SwPush, SwUpdate } from '@angular/service-worker';
-import { firstValueFrom, from, fromEvent, merge, Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, share, switchMap, take, tap } from 'rxjs/operators';
+import { SwPush } from '@angular/service-worker';
+import { firstValueFrom, from, merge, Observable, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@data/services';
 import { environment } from '@env';
 import { PushSubscription, User } from '@data/types';
 
-import { WINDOW } from './window.service';
-
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  public readonly beforeInstall$: Observable<BeforeInstallPromptEvent>;
-
   constructor(
-    @Inject(WINDOW) private readonly window: Window,
     private readonly subscription: PushSubscriptionService,
     private readonly swPush: SwPush,
     private readonly snackBar: MatSnackBar,
     private readonly notificationService: NotificationService,
     private readonly auth: AuthenticationService,
-    private readonly swUpdate: SwUpdate,
     private readonly router: Router,
-  ) {
-    this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
-      this.window,
-      'beforeinstallprompt',
-    ).pipe(
-      tap((e) => {
-        //this.window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-      }),
-    );
-  }
+  ) {}
 
   public initialize(): Observable<void> {
-    return merge(
-      this.checkForUpdates(),
-      this.auth.userChange$.pipe(
-        filter((user): user is User => user !== undefined && environment.production),
-        switchMap((user) => this.initializeUser(user)),
-      ),
+    return this.auth.userChange$.pipe(
+      filter((user): user is User => user !== undefined && environment.production),
+      switchMap((user) => this.initializeUser(user)),
     );
   }
 
@@ -120,16 +99,8 @@ export class PushService {
     return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');
   }
 
-  private checkForUpdates(): Observable<void> {
-    return this.swUpdate.available.pipe(
-      map(() => this.snackBar.open("Nuova versione dell'app disponibile", 'Aggiorna')),
-      switchMap((ref) => ref.onAction()),
-      map(() => this.window.location.reload()),
-    );
-  }
-
   private initializeUser(user: User): Observable<void> {
-    return merge(this.subscribeToPush(user), this.showMessages());
+    return merge(this.subscribeToPush(user).pipe(catchError(() => of())), this.showMessages());
   }
 
   private showMessages(): Observable<void> {
