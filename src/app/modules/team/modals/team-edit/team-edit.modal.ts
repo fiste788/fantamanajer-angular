@@ -5,7 +5,7 @@ import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations';
 import { NotificationSubscription, Team } from '@data/types';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, tap } from 'rxjs';
 
 @Component({
   animations: [createBoxAnimation],
@@ -57,7 +57,10 @@ export class TeamEditModal {
     TeamEditModal.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
     TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
     return firstValueFrom(
-      this.teamService.upload(this.team.id, fd).pipe(map(() => this.dialogRef.close(true))),
+      this.teamService.upload(this.team.id, fd).pipe(
+        tap((t) => (this.team.photo_url = t.photo_url)),
+        map(() => this.dialogRef.close(true)),
+      ),
       { defaultValue: undefined },
     );
   }

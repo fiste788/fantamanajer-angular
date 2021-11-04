@@ -39,6 +39,6 @@
     description="Goditi l'estate e tieniti pronto per la prossima stagione"
     icon="wb_sunny"
     [rounded]="true"
-    [label]="app.matchday.season.name + ' conclusa'"
+    [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
   ></app-mat-empty-state>
 </ng-template>

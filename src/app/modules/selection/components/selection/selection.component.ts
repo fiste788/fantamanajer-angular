@@ -32,13 +32,13 @@ export class SelectionComponent implements OnInit {
   public data$: Observable<{ selection: Selection; members: Map<Role, Member[]> }>;
   public newMembers$?: Observable<Array<Member>>;
   public newMemberDisabled: boolean;
-  public readonly newMemberRole$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
+  public readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
     Role | undefined
   >(undefined);
-  private readonly role$: BehaviorSubject<Role | undefined> = new BehaviorSubject<Role | undefined>(
-    undefined,
-  );
-  private readonly roleChange$: Observable<Role | undefined>;
+  private readonly roleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
+    Role | undefined
+  >(undefined);
+  private readonly role$: Observable<Role | undefined>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -49,7 +49,7 @@ export class SelectionComponent implements OnInit {
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
   ) {
-    this.roleChange$ = this.role$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+    this.role$ = this.roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
   }
 
   public ngOnInit(): void {
@@ -71,8 +71,8 @@ export class SelectionComponent implements OnInit {
           if (selection.old_member?.role_id !== newMember.role_id) {
             selection.old_member = null;
           }
-          this.newMemberRole$.next(this.roleService.getById(newMember.role_id));
-          this.role$.next(this.roleService.getById(newMember.role_id));
+          this.newMemberRoleSubject$.next(this.roleService.getById(newMember.role_id));
+          this.roleSubject$.next(this.roleService.getById(newMember.role_id));
           selection.new_member = newMember;
           selection.new_member_id = newMember.id;
           this.changeRef.detectChanges();
@@ -85,7 +85,7 @@ export class SelectionComponent implements OnInit {
   }
 
   public setupEvents(): void {
-    this.newMembers$ = this.roleChange$.pipe(
+    this.newMembers$ = this.role$.pipe(
       tap((r) => {
         console.log(r);
       }),
@@ -94,7 +94,7 @@ export class SelectionComponent implements OnInit {
         this.newMemberDisabled = true;
         console.log(r);
       }),
-      combineLatestWith(this.app.teamChange$.pipe(filter((t): t is Team => t !== undefined))),
+      combineLatestWith(this.app.requireTeam$),
       switchMap(([role, team]) => this.memberService.getFree(team.championship.id, role.id, false)),
       tap(() => {
         this.changeRef.detectChanges();
@@ -119,13 +119,13 @@ export class SelectionComponent implements OnInit {
 
   public oldMemberChange(member: Member | null): void {
     if (member) {
-      this.role$.next(this.roleService.getById(member.role_id));
+      this.roleSubject$.next(this.roleService.getById(member.role_id));
     }
   }
 
   public newMemberChange(member: Member | null): void {
     if (member) {
-      this.newMemberRole$.next(this.roleService.getById(member.role_id));
+      this.newMemberRoleSubject$.next(this.roleService.getById(member.role_id));
     }
   }
 
@@ -136,11 +136,11 @@ export class SelectionComponent implements OnInit {
   public async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm.valid) {
       return firstValueFrom(
-        this.app.teamChange$.pipe(
+        this.app.requireTeam$.pipe(
           map((t) => {
             delete selection.id;
             delete selection.team;
-            selection.team_id = t?.id ?? 0;
+            selection.team_id = t.id;
             selection.old_member_id = selection.old_member?.id || 0;
             selection.new_member_id = selection.new_member?.id || 0;
             return selection as AtLeast<Selection, 'team_id'>;
@@ -169,8 +169,8 @@ export class SelectionComponent implements OnInit {
     a.key.id < b.key.id ? b.key.id : a.key.id;
 
   public reset(): void {
-    this.role$.next(undefined);
-    this.newMemberRole$.next(undefined);
+    this.roleSubject$.next(undefined);
+    this.newMemberRoleSubject$.next(undefined);
   }
 
   public track(_: number, item: KeyValue<Role, Array<Member>>): number {

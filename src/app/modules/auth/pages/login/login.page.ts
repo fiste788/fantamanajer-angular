@@ -3,7 +3,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { catchError, filter, map, share } from 'rxjs/operators';
+import { catchError, map, share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { WebauthnService } from '@data/services';
@@ -84,8 +84,7 @@ export class LoginPage {
   public async postLogin(result: boolean): Promise<boolean> {
     if (result) {
       return firstValueFrom(
-        this.app.teamChange$.pipe(
-          filter((t): t is Team => t !== undefined),
+        this.app.requireTeam$.pipe(
           map((t) => this.getUrl(t)),
           map(async (url) => this.router.navigateByUrl(url)),
         ),

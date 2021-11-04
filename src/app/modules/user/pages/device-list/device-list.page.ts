@@ -32,7 +32,7 @@ export class DeviceListPage implements OnInit {
   }
 
   public loadData(): void {
-    this.dataSource$ = combineLatest([this.auth.userChangeLogged$, this.refresh$]).pipe(
+    this.dataSource$ = combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
       switchMap(([user]) =>
         this.pbcsService
           .index(user.id)
@@ -52,7 +52,7 @@ export class DeviceListPage implements OnInit {
 
   public async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
     return firstValueFrom(
-      this.auth.userChangeLogged$.pipe(
+      this.auth.requireUser$.pipe(
         switchMap((user) =>
           this.pbcsService.delete(user.id, publicKey.id).pipe(map(() => this.refresh$.next(true))),
         ),

@@ -14,7 +14,7 @@
           <a
             *ngIf="selectedMember.free"
             mat-button
-            [routerLink]="'/teams/' + (app.teamChange$ | async)?.id + '/transferts'"
+            [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}"
           >
             Acquista

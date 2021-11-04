@@ -16,7 +16,7 @@ export class SeasonActiveDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.app.teamChange$.pipe(map((t) => t !== undefined)).subscribe((t) => {
+      this.app.team$.pipe(map((t) => t !== undefined)).subscribe((t) => {
         if (t && this.app.seasonStarted && !this.app.seasonEnded) {
           this.viewContainer.createEmbeddedView(this.templateRef);
         } else {

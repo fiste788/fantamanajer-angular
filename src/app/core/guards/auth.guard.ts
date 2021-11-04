@@ -27,8 +27,8 @@ export class AuthGuard implements CanActivate {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public checkAuth(authorities: Array<string>, _: string): Observable<boolean> {
-    return this.auth.userChange$.pipe(
-      map((user) => authorities.some((r) => user?.roles.includes(r)) ?? false),
+    return this.auth.requireUser$.pipe(
+      map((user) => authorities.some((r) => user.roles.includes(r)) ?? false),
     );
   }
 }

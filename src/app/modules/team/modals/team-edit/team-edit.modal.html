@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{data.team.name}}</h1>
 <div mat-dialog-content>
-  <div *ngIf="app.matchday.number <= 34">
+  <div *ngIf="((app.matchday$ | async)?.number || 0) <= 38">
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>
       <input

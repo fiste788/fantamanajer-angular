@@ -1,5 +1,5 @@
 <mat-toolbar
-  *ngIf="app.teamChange$ | async as team"
+  *ngIf="app.team$ | async as team"
   color="primary"
   [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
   [class.has-image]="(photo$ | async)"
@@ -13,7 +13,7 @@
     fxLayoutAlign="end none"
   >
     <mat-form-field
-      *ngIf="(auth.userChangeLogged$ | async)?.teams as teams"
+      *ngIf="(auth.user$ | async)?.teams as teams"
       appearance="standard"
     >
       <mat-select

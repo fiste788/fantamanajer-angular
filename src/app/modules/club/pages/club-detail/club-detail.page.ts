@@ -2,10 +2,10 @@ import { trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
 
 import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
 import { Club } from '@data/types';
+import { UtilService } from '@app/services';
 
 @Component({
   animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],
@@ -22,6 +22,6 @@ export class ClubDetailPage implements OnInit {
   constructor(private readonly route: ActivatedRoute) {}
 
   public ngOnInit(): void {
-    this.club$ = this.route.data.pipe<Club>(pluck('club'));
+    this.club$ = UtilService.getData(this.route, 'club');
   }
 }

@@ -38,15 +38,17 @@
     *ngIf="tabs.length"
     mat-tab-nav-bar
   >
-    <a
-      *ngFor="let tab of tabs; trackBy: track"
-      #rla="routerLinkActive"
-      mat-tab-link
-      routerLinkActive
-      [active]="rla.isActive"
-      [routerLink]="tab.link"
-    >
-      {{tab.label}}
-    </a>
+    <ng-container *ngFor="let tab of tabs; trackBy: track">
+      <a
+        *ngIf="!tab.hidden"
+        #rla="routerLinkActive"
+        mat-tab-link
+        routerLinkActive
+        [active]="rla.isActive"
+        [routerLink]="tab.link"
+      >
+        {{tab.label}}
+      </a>
+    </ng-container>
   </nav>
 </div>

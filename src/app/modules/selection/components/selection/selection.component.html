@@ -27,7 +27,7 @@
           <mat-optgroup
             *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
             [label]="role.key.plural"
-            [disabled]="(newMemberRole$ | async) && role.key.id !== (newMemberRole$ | async)?.id"
+            [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
           >
             <mat-option
               *ngFor="let member of role.value"

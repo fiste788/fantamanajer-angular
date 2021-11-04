@@ -22,8 +22,8 @@ export class PushService {
   ) {}
 
   public initialize(): Observable<void> {
-    return this.auth.userChange$.pipe(
-      filter((user): user is User => user !== undefined && environment.production),
+    return this.auth.requireUser$.pipe(
+      filter(() => environment.production),
       switchMap((user) => this.initializeUser(user)),
     );
   }

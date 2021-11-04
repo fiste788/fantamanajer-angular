@@ -36,9 +36,9 @@ export class ArticleDetailPage implements OnInit {
   }
 
   public new(): Observable<Pick<Article, 'team_id'>> {
-    return this.app.teamChange$.pipe(
+    return this.app.requireTeam$.pipe(
       map((t) => ({
-        team_id: t?.id ?? 0,
+        team_id: t.id,
       })),
     );
   }

@@ -13,8 +13,8 @@ export class AuthenticationService {
   public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(
     undefined,
   );
-  public userChange$: Observable<User | undefined>;
-  public userChangeLogged$: Observable<User>;
+  public user$: Observable<User | undefined>;
+  public requireUser$: Observable<User>;
   public loggedIn$: Observable<boolean>;
 
   private readonly jwtHelper = new JwtHelperService();
@@ -26,11 +26,9 @@ export class AuthenticationService {
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
   ) {
-    this.userChange$ = this.userSubject.asObservable();
-    this.userChangeLogged$ = this.userChange$.pipe(
-      filter((user): user is User => user !== undefined),
-    );
-    this.loggedIn$ = this.userChange$.pipe(map((u) => u !== undefined));
+    this.user$ = this.userSubject.asObservable();
+    this.requireUser$ = this.user$.pipe(filter((user): user is User => user !== undefined));
+    this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
     if (this.authenticationStorageService.token && !this.loggedIn()) {
       // eslint-disable-next-line rxjs/no-ignored-subscription
       this.logout().subscribe();
@@ -62,7 +60,7 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
-      return this.userChange$.pipe(map((u) => u !== undefined));
+      return this.user$.pipe(map((u) => u !== undefined));
     }
 
     return of(false);

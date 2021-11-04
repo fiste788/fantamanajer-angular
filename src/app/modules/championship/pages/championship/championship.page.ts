@@ -21,7 +21,7 @@ export class ChampionshipPage implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     return firstValueFrom(
-      combineLatest([this.auth.userChange$, this.app.teamChange$]).pipe(
+      combineLatest([this.auth.user$, this.app.team$]).pipe(
         map(([user, team]) => this.loadTab(user, team)),
       ),
     );

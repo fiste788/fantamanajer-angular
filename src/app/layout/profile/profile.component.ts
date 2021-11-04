@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   }
 
   public change(team: Team): void {
-    this.app.team$.next(team);
+    this.app.teamSubject$.next(team);
     void this.router.navigateByUrl(`/teams/${team.id}`);
     this.layoutService.closeSidebar();
   }
@@ -40,8 +40,8 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadPhoto(): Observable<string | undefined> {
-    return this.app.teamChange$.pipe(
-      map((team) => (team?.photo_url ? team.photo_url['240w'] : undefined)),
+    return this.app.requireTeam$.pipe(
+      map((team) => (team.photo_url ? team.photo_url['240w'] : undefined)),
     );
   }
 }

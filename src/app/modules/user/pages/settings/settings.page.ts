@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable } from 'rxjs';
-import { filter, map, share } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 import { UserService } from '@data/services';
 import { PushService } from '@app/services';
@@ -30,7 +30,7 @@ export class SettingsPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.user$ = this.auth.userChange$.pipe(filter((user): user is User => user !== undefined));
+    this.user$ = this.auth.requireUser$;
     this.enabled = this.pushService.isEnabled();
     this.push$ = this.pushService.isSubscribed();
   }

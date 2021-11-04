@@ -9,6 +9,6 @@ export class AdminGuard implements CanActivate {
   constructor(private readonly auth: AuthenticationService) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return this.auth.userChange$.pipe(map((user) => user?.admin || false));
+    return this.auth.requireUser$.pipe(map((user) => user.admin));
   }
 }

@@ -8,7 +8,6 @@ import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
 import { EmptyLineup, Lineup, Team } from '@data/types';
 import { AtLeast } from '@app/types';
-import { environment } from '@env';
 
 @Component({
   styleUrls: ['./lineup-last.page.scss'],
@@ -32,14 +31,9 @@ export class LineupLastPage implements OnInit {
   public ngOnInit(): void {
     this.lineup$ = UtilService.getData<Team>(this.route, 'team').pipe(
       tap((team) => (this.teamId = team.id)),
-      switchMap(() => this.app.teamChange$),
-      tap(
-        (currentTeam) =>
-          (this.benchs = currentTeam
-            ? currentTeam.championship.number_benchwarmers
-            : environment.benchwarmersCount),
-      ),
-      tap((currentTeam) => (this.editMode = currentTeam?.id === this.teamId)),
+      switchMap(() => this.app.requireTeam$),
+      tap((currentTeam) => (this.benchs = currentTeam.championship.number_benchwarmers)),
+      tap((currentTeam) => (this.editMode = currentTeam.id === this.teamId)),
       switchMap(() => this.lineupService.getLineup(this.teamId)),
     );
   }

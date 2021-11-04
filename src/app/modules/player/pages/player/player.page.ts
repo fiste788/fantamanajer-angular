@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { RatingService } from '@data/services';
-import { ApplicationService } from '@app/services';
+import { ApplicationService, UtilService } from '@app/services';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { Member, Player, Rating } from '@data/types';
 
@@ -46,8 +46,7 @@ export class PlayerPage implements OnInit {
   }
 
   public load(): void {
-    this.player$ = this.route.data.pipe(
-      pluck('player'),
+    this.player$ = UtilService.getData<Player>(this.route, 'player').pipe(
       tap((player: Player) => {
         this.selectedMember = player.members[0];
         this.seasonChange();

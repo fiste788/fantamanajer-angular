@@ -1,6 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 
@@ -9,7 +11,7 @@ import { map, share, switchMap } from 'rxjs/operators';
 })
 export class ThemeService {
   public isDark$: Observable<boolean>;
-  public themeChanged$: Observable<void>;
+  public theme$: Observable<void>;
 
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
@@ -18,21 +20,26 @@ export class ThemeService {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer,
   ) {
+    this.iconRegistry.addSvgIconSet(
+      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
+    );
     this.head = document.head;
     // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.isDark$ = this.breakpointObserver
       .observe('(prefers-color-scheme: dark)')
       .pipe(map((result) => result.matches));
-    this.themeChanged$ = this.isDark$.pipe(
+    this.theme$ = this.isDark$.pipe(
       switchMap(async (dark) => this.setThemeCss(dark)),
       share(),
     );
   }
 
   connect(): Subscription {
-    return this.themeChanged$.subscribe();
+    return this.theme$.subscribe();
   }
 
   private async setThemeCss(isDark: boolean): Promise<void> {

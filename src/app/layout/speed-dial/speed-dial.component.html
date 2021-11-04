@@ -20,7 +20,7 @@
       class="mat-accent"
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
-      [routerLink]="['teams', (app.teamChange$ | async)?.id, 'lineup','current']"
+      [routerLink]="['teams', (app.team$ | async)?.id, 'lineup','current']"
     >
       <mat-icon svgIcon="soccer_field"></mat-icon>
     </a>
@@ -39,7 +39,7 @@
       class="mat-accent"
       matTooltip="Nuovo trasferimento"
       matTooltipPosition="left"
-      [routerLink]="['teams', (app.teamChange$ | async)?.id, 'transferts']"
+      [routerLink]="['teams', (app.team$ | async)?.id, 'transferts']"
     >
       <mat-icon>swap_vert</mat-icon>
     </a>

@@ -29,7 +29,7 @@
         <a
           matTooltip="Acquista"
           mat-button
-          [routerLink]="'/teams/' + (app.teamChange$ | async)?.id + '/transferts'"
+          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
           [queryParams]="{new_member_id: member?.id}"
         >
           <mat-icon>add_shopping_cart</mat-icon>
@@ -38,7 +38,7 @@
     </ng-container>
   </div>
   <app-member-list
-    *ngIf="members$ && (app.teamChange$ | async) as team"
+    *ngIf="members$ && (app.team$ | async) as team"
     [members]="members$"
     [isSelectable]="team.championship?.started && !app.seasonEnded || false"
     [elevation]="0"

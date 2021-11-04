@@ -29,10 +29,10 @@ export class TeamService {
     return this.http.put(routes.team(team.id), team).pipe(map(() => team));
   }
 
-  public upload(id: number, formData: FormData): Observable<Pick<Team, 'id'>> {
+  public upload(id: number, formData: FormData): Observable<Pick<Team, 'photo_url'>> {
     formData.set('_method', 'PUT');
 
-    return this.http.post<Pick<Team, 'id'>>(routes.team(id), formData, {
+    return this.http.post<Pick<Team, 'photo_url'>>(routes.team(id), formData, {
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'multipart/form-data',

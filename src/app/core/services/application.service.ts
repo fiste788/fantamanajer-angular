@@ -1,14 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, distinctUntilChanged, tap } from 'rxjs/operators';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import { BehaviorSubject, forkJoin, interval, Observable, of, Subject } from 'rxjs';
+import { catchError, distinctUntilChanged, filter, share, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { Matchday, Team } from '@data/types';
 import { MatchdayService } from '@data/services';
-import { environment } from '@env';
 
 @Injectable({
   providedIn: 'root',
@@ -16,37 +13,26 @@ import { environment } from '@env';
 export class ApplicationService {
   public seasonEnded: boolean;
   public seasonStarted: boolean;
-  public selectedMatchday: Matchday;
-  public team$: BehaviorSubject<Team | undefined>;
-  public teamChange$: Observable<Team | undefined>;
-  private currentMatchday?: Matchday;
+  public readonly teamSubject$: BehaviorSubject<Team | undefined>;
+  public readonly team$: Observable<Team | undefined>;
+  public readonly requireTeam$: Observable<Team>;
+  public readonly matchday$: Observable<Matchday>;
+  private readonly matchdaySubject$: Subject<Matchday | undefined>;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
-    private readonly iconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer,
   ) {
-    this.iconRegistry.addSvgIconSet(
-      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
-    );
-    this.team$ = new BehaviorSubject<Team | undefined>(undefined);
-    this.teamChange$ = this.team$.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get matchday(): Matchday {
-    return this.selectedMatchday;
-  }
-
-  set matchday(matchday: Matchday) {
-    this.selectedMatchday = matchday;
-    this.recalcSeason(matchday);
+    this.teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
+    this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
+    this.requireTeam$ = this.team$.pipe(filter((t): t is Team => t !== undefined));
+    this.matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
+    this.matchday$ = this.matchdaySubject$.pipe(filter((m): m is Matchday => m !== undefined)); //.pipe(distinctUntilChanged());
   }
 
   public bootstrap(): Observable<unknown> {
-    const obs: Array<Observable<unknown>> = [];
-    obs.push(this.loadCurrentMatchday());
+    const obs: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
     if (this.authService.loggedIn()) {
       obs.push(this.authService.getCurrentUser());
     }
@@ -60,16 +46,33 @@ export class ApplicationService {
     );
   }
 
+  public loadCurrentMatchday(): Observable<Matchday> {
+    return this.matchdayService.getCurrentMatchday().pipe(
+      tap((m) => {
+        this.recalcSeason(m);
+        this.matchdaySubject$.next(m);
+      }),
+    );
+  }
+
   public initialize(): void {
-    void this.teamChange$.pipe(tap((t) => this.setTeam(t))).subscribe();
-    void this.authService.userChange$
-      .pipe(tap((u) => this.team$.next(u?.teams?.length ? u?.teams[0] : undefined)))
+    void forkJoin([this.team$, this.matchday$])
+      .pipe(tap(([teamSubject, matchday]) => this.setTeam(matchday, teamSubject)))
       .subscribe();
+    void this.authService.user$
+      .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u?.teams[0] : undefined)))
+      .subscribe();
+    void interval(5 * 60 * 1000)
+      .pipe(
+        switchMap(() => this.loadCurrentMatchday()),
+        share(),
+      )
+      .subscribe(this.matchdaySubject$);
   }
 
   private recalcSeason(matchday: Matchday): void {
-    this.seasonEnded = matchday.number > environment.matchdaysCount;
-    this.seasonStarted = matchday.number >= 0;
+    this.seasonStarted = matchday.season.started;
+    this.seasonEnded = matchday.season.ended;
   }
 
   private writeError(e: Error): void {
@@ -81,25 +84,12 @@ export class ApplicationService {
     throw e;
   }
 
-  private loadCurrentMatchday(): Observable<Matchday> {
-    return this.matchdayService.getCurrentMatchday().pipe(
-      tap((m) => {
-        this.currentMatchday = m;
-        this.matchday = m;
-      }),
-    );
-  }
-
-  private setTeam(team?: Team): void {
-    if (team) {
-      if (team.championship.season_id !== this.matchday.season_id) {
-        this.seasonStarted = false;
-        this.seasonEnded = true;
-      } else {
-        this.recalcSeason(this.matchday);
-      }
-    } else if (this.currentMatchday) {
-      this.matchday = this.currentMatchday;
+  private setTeam(matchday: Matchday, teamSubject?: Team): void {
+    if (teamSubject?.championship.season_id !== matchday.season_id) {
+      this.seasonStarted = false;
+      this.seasonEnded = true;
+    } else {
+      this.recalcSeason(matchday);
     }
   }
 }

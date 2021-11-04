@@ -3,9 +3,8 @@ import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
-import { combineLatestWith, filter, map, mergeMap } from 'rxjs/operators';
+import { combineLatestWith, filter, map } from 'rxjs/operators';
 
-import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { Tab, Team, User } from '@data/types';
@@ -27,7 +26,6 @@ export class TeamDetailPage implements OnInit {
     public app: ApplicationService,
     public auth: AuthenticationService,
     private readonly route: ActivatedRoute,
-    private readonly teamService: TeamService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {}
@@ -35,30 +33,36 @@ export class TeamDetailPage implements OnInit {
   public ngOnInit(): void {
     this.team$ = this.route.data.pipe(
       map((data) => data.team as Team),
-      combineLatestWith(this.auth.userChange$, this.app.teamChange$),
+      combineLatestWith(this.auth.user$, this.app.requireTeam$),
       map(([team, user, selectedTeam]) => {
-        this.loadTabs(team, user, selectedTeam);
+        this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);
         return team;
       }),
     );
   }
 
-  public loadTabs(team: Team, user?: User, selectedTeam?: Team): void {
-    this.tabs = [{ label: 'Giocatori', link: 'players' }];
-    if (selectedTeam?.championship?.started) {
-      if (!this.app.seasonEnded) {
-        this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
-      }
-      this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
-      if (!this.app.seasonEnded) {
-        this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
-      }
-    }
-    this.tabs.push({ label: 'Articoli', link: 'articles' });
-    this.tabs.push({ label: 'Attività', link: 'stream' });
-    if (user?.admin || team.admin) {
-      this.tabs.push({ label: 'Admin', link: 'admin' });
-    }
+  public loadTabs(team: Team, started: boolean, ended: boolean, user?: User): void {
+    this.tabs = [
+      { label: 'Giocatori', link: 'players' },
+      {
+        label: 'Formazione',
+        link: 'lineup/current',
+        hidden: ended || !started,
+      },
+      {
+        label: 'Ultima giornata',
+        link: 'scores/last',
+        hidden: !started,
+      },
+      {
+        label: 'Trasferimenti',
+        link: 'transferts',
+        hidden: ended || !started,
+      },
+      { label: 'Articoli', link: 'articles' },
+      { label: 'Attività', link: 'stream' },
+      { label: 'Admin', link: 'admin', hidden: user?.admin || team.admin },
+    ];
   }
 
   public async openDialog(team: Team): Promise<void> {
@@ -70,11 +74,9 @@ export class TeamDetailPage implements OnInit {
         .afterClosed()
         .pipe(
           filter((t) => t === true),
-          mergeMap(() => this.teamService.getTeam(team.id)),
-          map((t: Team) => {
-            this.app.team$.next(t);
+          map(() => {
+            this.app.teamSubject$.next(team);
             this.changeRef.detectChanges();
-            // return true;
           }),
         ),
       { defaultValue: undefined },

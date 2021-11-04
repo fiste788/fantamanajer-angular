@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
-import { Stream, Team } from '@data/types';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { Stream } from '@data/types';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],
@@ -27,8 +27,7 @@ export class NotificationListModal implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.stream$ = this.app.teamChange$.pipe(
-      filter((t): t is Team => t !== undefined),
+    this.stream$ = this.app.requireTeam$.pipe(
       switchMap((t) => this.notificationService.getNotifications(t.id)),
       tap((res) => {
         this.seen.emit(res);

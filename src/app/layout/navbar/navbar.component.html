@@ -1,5 +1,9 @@
 <app-profile></app-profile>
 <mat-nav-list>
+  <h3
+    *ngIf="matchday$ | async as matchday"
+    mat-subheader
+  >Giornata {{matchday.number}}</h3>
   <a
     *ngIf="deferredPrompt$ | async as prompt"
     mat-list-item
@@ -16,7 +20,7 @@
     <mat-icon matListIcon>home</mat-icon>Home
   </a>
   <a
-    *ngIf="teamChange$ | async as team"
+    *ngIf="team$ | async as team"
     mat-list-item
     routerLinkActive="active"
     [routerLink]="['teams', team.id]"
@@ -27,12 +31,12 @@
     ></mat-icon>{{team.name}}
   </a>
   <a
-    *ngIf="championship"
+    *ngIf="championship$ | async as championship"
     mat-list-item
     routerLinkActive="active"
-    [routerLink]="['championships', championship?.id]"
+    [routerLink]="['championships', championship.id]"
   >
-    <mat-icon matListIcon>emoji_events</mat-icon>{{championship?.league?.name}}
+    <mat-icon matListIcon>emoji_events</mat-icon>{{championship.league?.name}}
   </a>
   <a
     mat-list-item
