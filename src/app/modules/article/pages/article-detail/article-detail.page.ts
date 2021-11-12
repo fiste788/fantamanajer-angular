@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,8 +13,8 @@ import { AtLeast } from '@app/types';
   styleUrls: ['./article-detail.page.scss'],
   templateUrl: './article-detail.page.html',
 })
-export class ArticleDetailPage implements OnInit {
-  @ViewChild(NgForm) public articleForm: NgForm;
+export class ArticleDetailPage {
+  @ViewChild(NgForm) public articleForm?: NgForm;
 
   public article$: Observable<AtLeast<Article, 'team_id'>>;
 
@@ -24,9 +24,7 @@ export class ArticleDetailPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly articleService: ArticleService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     const id = this.route.snapshot.params.id as string | undefined;
     this.article$ = id !== undefined ? this.load(+id) : this.new();
   }
@@ -44,7 +42,7 @@ export class ArticleDetailPage implements OnInit {
   }
 
   public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
-    if (this.articleForm.valid) {
+    if (this.articleForm?.valid) {
       const save: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);

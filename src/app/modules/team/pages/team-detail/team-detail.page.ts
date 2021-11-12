@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { AuthenticationService } from '@app/authentication';
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
 })
-export class TeamDetailPage implements OnInit {
+export class TeamDetailPage {
   @HostBinding('@enterDetailAnimation') public e = '';
   public team$: Observable<Team>;
   public tabs: Array<Tab> = [];
@@ -28,9 +28,7 @@ export class TeamDetailPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.team$ = this.route.data.pipe(
       map((data) => data.team as Team),
       combineLatestWith(this.auth.user$, this.app.requireTeam$),

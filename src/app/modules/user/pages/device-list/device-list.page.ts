@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, map, switchMap } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { AuthenticationService } from '@app/authentication';
   styleUrls: ['./device-list.page.scss'],
   templateUrl: './device-list.page.html',
 })
-export class DeviceListPage implements OnInit {
+export class DeviceListPage {
   public dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;
   public refresh$: BehaviorSubject<true>;
   public displayedColumns = ['name', 'created_at', 'counter', 'actions'];
@@ -25,14 +25,11 @@ export class DeviceListPage implements OnInit {
     private readonly auth: AuthenticationService,
   ) {
     this.refresh$ = new BehaviorSubject(true);
+    this.dataSource$ = this.getDataSource();
   }
 
-  public ngOnInit(): void {
-    this.loadData();
-  }
-
-  public loadData(): void {
-    this.dataSource$ = combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
+  public getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
+    return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
       switchMap(([user]) =>
         this.pbcsService
           .index(user.id)

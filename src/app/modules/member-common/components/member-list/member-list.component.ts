@@ -34,7 +34,7 @@ type Stats = typeof stats[number];
   templateUrl: './member-list.component.html',
 })
 export class MemberListComponent implements OnInit {
-  @Input() public members: Observable<Array<Member>>;
+  @Input() public members!: Observable<Array<Member>>;
   @Input() public hideClub = false;
   @Input() public isSelectable = false;
   @Input() public multipleSelection = false;
@@ -42,7 +42,7 @@ export class MemberListComponent implements OnInit {
 
   @Output() public readonly selection: SelectionModel<Member>;
 
-  @ViewChild(MatSort) public sort: MatSort;
+  @ViewChild(MatSort) public sort?: MatSort;
 
   public dataSource$?: Observable<MatTableDataSource<Member>>;
   public displayedColumns = [
@@ -86,7 +86,9 @@ export class MemberListComponent implements OnInit {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.calcSummary(ds.data);
           this.changeRef.detectChanges();
-          ds.sort = this.sort;
+          if (this.sort) {
+            ds.sort = this.sort;
+          }
         } else {
           this.changeRef.detectChanges();
         }

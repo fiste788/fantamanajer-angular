@@ -1,14 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormArray, NgForm, NgModel } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { ActivatedRoute, Data } from '@angular/router';
+import { EMPTY, Observable, of, OperatorFunction } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UtilService {
-  public static getUnprocessableEntityErrors(form: NgForm | FormArray, err: unknown): void {
-    if (err instanceof HttpErrorResponse && err.status === 422) {
+  public static getUnprocessableEntityErrors(
+    err: unknown,
+    form?: NgForm | FormArray,
+  ): Observable<never> {
+    if (err instanceof HttpErrorResponse && err.status === 422 && form) {
       const error = err.error as {
         data: { errors: { [key: string]: { [key: string]: unknown } } };
       };
@@ -23,6 +26,7 @@ export class UtilService {
         }
       });
     }
+    return EMPTY;
   }
 
   public static getError(field: NgModel): string {
@@ -50,7 +54,7 @@ export class UtilService {
     let current: ActivatedRoute | null = route;
     while (current !== null) {
       if (current.snapshot.data[param] !== undefined) {
-        return current.data.pipe<T>(pluck(param));
+        return current.data.pipe<T>(pluck<Data>(param) as OperatorFunction<Data, T>);
       }
       current = current.parent;
     }

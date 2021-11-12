@@ -32,12 +32,12 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class ModuleAreaComponent implements OnInit, OnChanges {
-  @Input() public module: Module;
+  @Input() public module!: Module;
   @Input() public disabled = false;
   @Input() public wrap = false;
   @Input() public captain?: Member;
-  @Input() public membersByRole: Map<Role, Array<Member>>;
-  @Input() public dispositions: Array<{ member: Member | null; position?: number }>;
+  @Input() public membersByRole?: Map<Role, Array<Member>>;
+  @Input() public dispositions!: Array<{ member: Member | null; position?: number }>;
 
   @Output() public readonly selectionChange: EventEmitter<{
     role: Role;
@@ -64,7 +64,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
           this.dispositions[i].member = null;
         }
       }
-      area.options = (this.membersByRole.get(area.role) ?? []).map((member) => ({
+      area.options = (this.membersByRole?.get(area.role) ?? []).map((member) => ({
         member,
         disabled: this.isRegular(member),
       }));

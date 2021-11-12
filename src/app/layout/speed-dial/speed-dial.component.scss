@@ -1,6 +1,6 @@
-@use '~@angular/material' as mat;
-@import '~@angular/material/theming';
-@import '~@angular/flex-layout/mq';
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@import '@angular/flex-layout/mq';
 
 :host {
   animation: createBox .25s;

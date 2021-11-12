@@ -19,16 +19,16 @@ import { Notification, notificationSubscriptions } from '../../types';
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {
-  @Input() public type: Keys;
-  @Input() public label: string;
-  @Input() public subscriptions: Array<NotificationSubscription>;
-  @Input() public team: Team;
+  @Input() public type!: Keys;
+  @Input() public label!: string;
+  @Input() public subscriptions!: Array<NotificationSubscription>;
+  @Input() public team!: Team;
 
   @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
     new EventEmitter<Array<NotificationSubscription>>();
 
   public map = new Map<Notification, NotificationSubscription>();
-  private keys: Array<Notification>;
+  private keys?: Array<Notification>;
 
   public ngOnInit(): void {
     this.load();

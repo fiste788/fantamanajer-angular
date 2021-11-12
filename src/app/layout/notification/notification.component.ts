@@ -1,10 +1,11 @@
-import { Compiler, Component, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Compiler, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 
 import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
 import { createBoxAnimation } from '@shared/animations';
 import { Stream } from '@data/types';
+import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
 
 @Component({
   animations: [createBoxAnimation],
@@ -12,8 +13,8 @@ import { Stream } from '@data/types';
   styleUrls: ['./notification.component.scss'],
   templateUrl: './notification.component.html',
 })
-export class NotificationComponent implements OnInit {
-  @ViewChild('container', { read: ViewContainerRef }) public container: ViewContainerRef;
+export class NotificationComponent {
+  @ViewChild('container', { read: ViewContainerRef }) public container?: ViewContainerRef;
 
   public stream$: Observable<Stream>;
 
@@ -22,28 +23,25 @@ export class NotificationComponent implements OnInit {
     private readonly app: ApplicationService,
     private readonly compiler: Compiler,
     private readonly injector: Injector,
-  ) {}
+  ) {
+    this.stream$ = this.loadStream();
+  }
 
-  public ngOnInit(): void {
-    this.stream$ = this.app.requireTeam$.pipe(
+  public loadStream(): Observable<Stream> {
+    return this.app.requireTeam$.pipe(
       switchMap((t) => this.notificationService.getNotificationCount(t.id)),
     );
   }
 
   public async open(el: EventTarget | null): Promise<void> {
-    const module = await import('@modules/notification/notification.module').then(async (m) =>
-      this.compiler.compileModuleAsync(m.NotificationModule),
-    );
+    if (this.container) {
+      const m = await import('@modules/notification/notification.module');
+      const mf = await this.compiler.compileModuleAsync(m.NotificationModule);
 
-    const elementModuleRef = module.create(this.injector);
-    const moduleInstance = elementModuleRef.instance;
-
-    const componentFactory = moduleInstance.resolveComponent();
-    const ref = this.container.createComponent(
-      componentFactory,
-      undefined,
-      elementModuleRef.injector,
-    );
-    ref.instance.open(el);
+      const ref = this.container.createComponent(NotificationListComponent, {
+        ngModuleRef: mf.create(this.injector),
+      });
+      ref.instance.open(el);
+    }
   }
 }

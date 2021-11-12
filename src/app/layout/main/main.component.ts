@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -37,9 +37,9 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MatSidenav, { static: true }) public drawer: MatSidenav;
-  @ViewChild(MatSidenavContent) public container: MatSidenavContent;
-  @ViewChild(SpeedDialComponent) public speedDial: SpeedDialComponent;
+  @ViewChild(MatSidenav, { static: true }) public drawer?: MatSidenav;
+  @ViewChild(MatSidenavContent) public container?: MatSidenavContent;
+  @ViewChild(SpeedDialComponent) public speedDial?: SpeedDialComponent;
 
   public isReady$: Observable<boolean>;
   public isOpen$: Observable<boolean>;
@@ -61,24 +61,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
-  ) {}
-
-  public ngOnInit(): void {
-    this.app.initialize();
-    this.subscriptions.add(this.pwa.initialize().subscribe());
-    this.subscriptions.add(this.push.initialize().subscribe());
-    this.setupEvents();
-  }
-
-  public ngAfterViewInit(): void {
-    this.subscriptions.add(this.layoutService.init().subscribe());
-    this.setupScrollAnimation(this.container);
-    this.initDrawer();
-    this.changeRef.detectChanges();
-  }
-
-  public setupEvents(): void {
-    this.themeService.connect();
+  ) {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
@@ -88,7 +71,23 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.auth.loggedIn$,
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
+  }
+
+  public ngOnInit(): void {
+    this.app.initialize();
+    this.subscriptions.add(this.themeService.connect());
+    this.subscriptions.add(this.pwa.initialize().subscribe());
+    this.subscriptions.add(this.push.initialize().subscribe());
     this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
+  }
+
+  public ngAfterViewInit(): void {
+    this.subscriptions.add(this.layoutService.init().subscribe());
+    this.subscriptions.add(this.initDrawer().subscribe());
+    if (this.container) {
+      this.setupScrollAnimation(this.container);
+    }
+    this.changeRef.detectChanges();
   }
 
   public preBootstrapExitAnimation(): Observable<boolean> {
@@ -122,16 +121,19 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public down(): void {
-    this.speedDial.openSpeeddial = false;
+    if (this.speedDial) {
+      this.speedDial.openSpeeddial = false;
+    }
     this.updateSticky(0);
   }
 
-  public initDrawer(): void {
-    this.subscriptions.add(
-      this.drawer.openedStart.pipe(mergeMap(() => this.drawer._animationEnd)).subscribe(() => {
-        this.layoutService.setReady();
-      }),
-    );
+  public initDrawer(): Observable<void> {
+    return this.drawer
+      ? this.drawer.openedStart.pipe(
+          mergeMap(() => this.drawer?._animationEnd ?? EMPTY),
+          map(() => this.layoutService.setReady()),
+        )
+      : EMPTY;
   }
 
   public isOpenObservable(): Observable<boolean> {

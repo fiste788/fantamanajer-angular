@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { AuthenticationService } from '@app/authentication';
   styleUrls: ['./settings.page.scss'],
   templateUrl: './settings.page.html',
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage {
   @HostBinding('@cardCreationAnimation') public a = '';
 
   public user$: Observable<User>;
@@ -27,10 +27,9 @@ export class SettingsPage implements OnInit {
     private readonly auth: AuthenticationService,
     private readonly userService: UserService,
     private readonly pushService: PushService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.user$ = this.auth.requireUser$;
+    this.repeatPassword = '';
     this.enabled = this.pushService.isEnabled();
     this.push$ = this.pushService.isSubscribed();
   }

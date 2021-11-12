@@ -16,7 +16,7 @@ export class TeamEditModal {
   public validComboDrag = false;
   public invalidComboDrag = false;
   public team: Team;
-  public file: File;
+  public file!: File;
 
   public static objectToPostParams(
     team: Team,

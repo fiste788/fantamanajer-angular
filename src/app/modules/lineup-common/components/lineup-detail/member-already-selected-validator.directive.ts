@@ -14,7 +14,7 @@ import { Lineup, Member } from '@data/types';
   selector: '[appMemberAlreadySelected]',
 })
 export class MemberAlreadySelectedValidator implements Validator {
-  @Input('appMemberAlreadySelected') public lineup: Partial<Lineup>;
+  @Input('appMemberAlreadySelected') public lineup!: Partial<Lineup>;
 
   public validate(formGroup: FormGroup): ValidationErrors | null {
     const disp = formGroup.controls.dispositions as FormGroup | undefined;

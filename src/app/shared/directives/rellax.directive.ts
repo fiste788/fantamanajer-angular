@@ -15,20 +15,20 @@ import { fromEvent, Subscription } from 'rxjs';
 
 import { WINDOW } from '@app/services';
 
-class Options {
-  public speed: number;
-  public center: boolean;
-  public wrapperSelector: string;
-  public wrapper?: HTMLElement;
-  public relativeToWrapper: boolean;
-  public round? = true;
-  public vertical? = true;
-  public horizontal? = false;
-  public percentage: number;
-  public min?: number;
-  public max?: number;
-  public zindex? = 1;
-  public callback?: (position: { x: number; y: number }) => void;
+interface Options {
+  speed: number;
+  center: boolean;
+  wrapperSelector: string;
+  wrapper?: HTMLElement;
+  relativeToWrapper: boolean;
+  round: boolean;
+  vertical: boolean;
+  horizontal: boolean;
+  percentage: number;
+  min?: number;
+  max?: number;
+  zindex?: number;
+  callback?: (position: { x: number; y: number }) => void;
 }
 
 interface Block {
@@ -55,21 +55,19 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @Input() public relativeToWrapper = false;
   @Input() public wrapper = '.mat-drawer-content';
 
-  private readonly options: Options = new Options();
-  private block: Block;
+  private options: Options;
+  private block?: Block;
   private posY = 0;
   private posX = 0;
   private pause = true;
-  private subscription: Subscription;
+  private subscription?: Subscription;
   private loopId = 0;
   // private readonly supportsPassive = true;
   private screenX = 0;
   private screenY = 0;
-  private du: () => void;
+  private du?: () => void;
 
   private readonly loop: (callback: FrameRequestCallback) => number;
-
-  // check what cancelAnimation method to use
   private readonly clearLoop: (handle: number) => void;
 
   constructor(
@@ -79,18 +77,23 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     private readonly el: ElementRef<HTMLElement>,
     private readonly ngZone: NgZone,
   ) {
+    //this.du = () => {};
     this.loop =
       this.window.requestAnimationFrame.bind(this) ??
-      this.window.webkitRequestAnimationFrame.bind(this) ??
       ((callback: () => void) => {
         setTimeout(callback, 1000 / 60);
       });
     this.clearLoop = this.window.cancelAnimationFrame.bind(this) ?? clearTimeout;
-    this.options.speed = this.speed;
-    this.options.center = this.center;
-    this.options.percentage = this.percentage;
-    this.options.relativeToWrapper = this.relativeToWrapper;
-    this.options.wrapperSelector = this.wrapper;
+    this.options = {
+      round: true,
+      vertical: true,
+      horizontal: true,
+      speed: this.speed,
+      center: this.center,
+      percentage: this.percentage,
+      relativeToWrapper: this.relativeToWrapper,
+      wrapperSelector: this.wrapper,
+    };
   }
 
   public ngOnInit(): void {
@@ -191,20 +194,20 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     //
     // If the element has the percentage attribute, the posY and posX needs to be
     // the current scroll position's value, so that the elements are still positioned based on HTML layout
-    let wrapperPosY = this.options.wrapper
-      ? this.options.wrapper.scrollTop
-      : this.window.pageYOffset ||
-        this.document.documentElement.scrollTop ||
-        this.document.body.scrollTop;
-    const wrapperPosX = this.options.wrapper
-      ? this.options.wrapper.scrollLeft
-      : this.window.pageXOffset ||
-        this.document.documentElement.scrollLeft ||
-        this.document.body.scrollLeft;
+    let wrapperPosY =
+      this.options.wrapper?.scrollTop ||
+      this.window.scrollY ||
+      this.document.documentElement.scrollTop ||
+      this.document.body.scrollTop;
+    const wrapperPosX =
+      this.options.wrapper?.scrollLeft ||
+      this.window.scrollX ||
+      this.document.documentElement.scrollLeft ||
+      this.document.body.scrollLeft;
     // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
     if (this.options.relativeToWrapper) {
       const scrollPosY =
-        this.window.pageYOffset ||
+        this.window.scrollY ||
         this.document.documentElement.scrollTop ||
         this.document.body.scrollTop;
       wrapperPosY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
@@ -240,29 +243,19 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   public setPosition(): boolean {
     const oldY = this.posY;
     const oldX = this.posX;
+    const df = this.document.documentElement ?? this.document.body.parentNode ?? this.document.body;
 
-    this.posY = this.options.wrapper
-      ? this.options.wrapper.scrollTop
-      : (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body)
-          .scrollTop || this.window.pageYOffset;
-    this.posX = this.options.wrapper
-      ? this.options.wrapper.scrollLeft
-      : (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body)
-          .scrollLeft || this.window.pageXOffset;
+    this.posY = this.options.wrapper?.scrollTop ?? df.scrollTop ?? this.window.scrollY;
+    this.posX = this.options.wrapper?.scrollLeft ?? df.scrollLeft ?? this.window.scrollX;
     // If option relativeToWrapper is true, use relative wrapper value instead.
     if (this.options.relativeToWrapper) {
-      const scrollPosY =
-        (this.document.documentElement ?? this.document.body.parentNode ?? this.document.body)
-          .scrollTop || this.window.pageYOffset;
-      this.posY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
+      this.posY = (df.scrollTop || this.window.scrollY) - (this.options.wrapper?.offsetTop ?? 0);
     }
     if (oldY !== this.posY && this.options.vertical) {
-      // scroll changed, return true
       return true;
     }
 
     if (oldX !== this.posX && this.options.horizontal) {
-      // scroll changed, return true
       return true;
     }
 
@@ -286,17 +279,18 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   // Remove event listeners and loop again
   public deferredUpdate(): void {
-    this.window.removeEventListener('resize', this.du);
-    this.window.removeEventListener('orientationchange', this.du);
-    (this.options.wrapper ? this.options.wrapper : this.window).removeEventListener(
-      'scroll',
-      this.du,
-    );
-    (this.options.wrapper ? this.options.wrapper : this.document).removeEventListener(
-      'touchmove',
-      this.du,
-    );
-
+    if (this.du) {
+      this.window.removeEventListener('resize', this.du);
+      this.window.removeEventListener('orientationchange', this.du);
+      (this.options.wrapper ? this.options.wrapper : this.window).removeEventListener(
+        'scroll',
+        this.du,
+      );
+      (this.options.wrapper ? this.options.wrapper : this.document).removeEventListener(
+        'touchmove',
+        this.du,
+      );
+    }
     // loop again
     this.loopId = this.loop(this.update.bind(this));
   }
@@ -326,53 +320,55 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public animate(): void {
-    const percentageY =
-      (this.posY - this.block.top + this.screenY) / (this.block.height + this.screenY);
-    const percentageX =
-      (this.posX - this.block.left + this.screenX) / (this.block.width + this.screenX);
+    if (this.block) {
+      const percentageY =
+        (this.posY - this.block.top + this.screenY) / (this.block.height + this.screenY);
+      const percentageX =
+        (this.posX - this.block.left + this.screenX) / (this.block.width + this.screenX);
 
-    // Subtracting initialize value, so element stays in same spot as HTML
-    const positions = this.updatePosition(percentageX, percentageY, this.block.speed); // - this.block.base;
-    let positionY = positions.y - this.block.baseY;
-    let positionX = positions.x - this.block.baseX;
-    // The next two "if" blocks go like this:
-    // Check if a limit is defined (first "min", then "max");
-    // Check if we need to change the Y or the X
-    // (Currently working only if just one of the axes is enabled)
-    // Then, check if the new position is inside the allowed limit
-    // If so, use new position. If not, set position to limit.
+      // Subtracting initialize value, so element stays in same spot as HTML
+      const positions = this.updatePosition(percentageX, percentageY, this.block.speed); // - this.block.base;
+      let positionY = positions.y - this.block.baseY;
+      let positionX = positions.x - this.block.baseX;
+      // The next two "if" blocks go like this:
+      // Check if a limit is defined (first "min", then "max");
+      // Check if we need to change the Y or the X
+      // (Currently working only if just one of the axes is enabled)
+      // Then, check if the new position is inside the allowed limit
+      // If so, use new position. If not, set position to limit.
 
-    // Check if a min limit is defined
-    if (this.options.min) {
-      if (this.options.vertical && !this.options.horizontal) {
-        positionY = positionY <= this.options.min ? this.options.min : positionY;
+      // Check if a min limit is defined
+      if (this.options.min) {
+        if (this.options.vertical && !this.options.horizontal) {
+          positionY = positionY <= this.options.min ? this.options.min : positionY;
+        }
+        if (this.options.horizontal && !this.options.vertical) {
+          positionX = positionX <= this.options.min ? this.options.min : positionX;
+        }
       }
-      if (this.options.horizontal && !this.options.vertical) {
-        positionX = positionX <= this.options.min ? this.options.min : positionX;
-      }
-    }
 
-    // Check if a max limit is defined
-    if (this.options.max) {
-      if (this.options.vertical && !this.options.horizontal) {
-        positionY = positionY >= this.options.max ? this.options.max : positionY;
+      // Check if a max limit is defined
+      if (this.options.max) {
+        if (this.options.vertical && !this.options.horizontal) {
+          positionY = positionY >= this.options.max ? this.options.max : positionY;
+        }
+        if (this.options.horizontal && !this.options.vertical) {
+          positionX = positionX >= this.options.max ? this.options.max : positionX;
+        }
       }
-      if (this.options.horizontal && !this.options.vertical) {
-        positionX = positionX >= this.options.max ? this.options.max : positionX;
+
+      // Move that element
+      // (Set the new translation and append initial inline transforms.)
+      const x = this.options.horizontal ? positionX : 0;
+      const y = this.options.vertical ? positionY : 0;
+      const translate = `translate3d(${x}px,${y}px,${this.options.zindex ?? 0}px) ${
+        this.block.transform
+      }`;
+      this.renderer.setStyle(this.el.nativeElement, 'transform', translate);
+
+      if (this.options.callback) {
+        this.options.callback(positions);
       }
-    }
-
-    // Move that element
-    // (Set the new translation and append initial inline transforms.)
-    const x = this.options.horizontal ? positionX : 0;
-    const y = this.options.vertical ? positionY : 0;
-    const translate = `translate3d(${x}px,${y}px,${this.options.zindex ?? 0}px) ${
-      this.block.transform
-    }`;
-    this.renderer.setStyle(this.el.nativeElement, 'transform', translate);
-
-    if (this.options.callback) {
-      this.options.callback(positions);
     }
   }
 
@@ -391,6 +387,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnDestroy(): void {
     this.destroy();
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

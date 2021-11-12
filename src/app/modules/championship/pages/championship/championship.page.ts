@@ -12,7 +12,7 @@ import { combineLatest, firstValueFrom, map } from 'rxjs';
   templateUrl: './championship.page.html',
 })
 export class ChampionshipPage implements OnInit {
-  public tabs: Array<Tab>;
+  public tabs: Array<Tab> = [];
 
   constructor(
     private readonly auth: AuthenticationService,

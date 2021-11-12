@@ -10,9 +10,8 @@ import { map, share, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ThemeService {
-  public isDark$: Observable<boolean>;
-  public theme$: Observable<void>;
-
+  private readonly isDark$: Observable<boolean>;
+  private readonly theme$: Observable<void>;
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
 

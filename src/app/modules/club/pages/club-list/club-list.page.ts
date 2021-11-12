@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
@@ -12,15 +12,12 @@ import { Club } from '@data/types';
   styleUrls: ['./club-list.page.scss'],
   templateUrl: './club-list.page.html',
 })
-export class ClubListPage implements OnInit, OnDestroy {
+export class ClubListPage implements OnDestroy {
   public clubs$?: Observable<Array<Club>>;
   public subscription: Subscription;
   public exit = false;
-  public id: number;
 
-  constructor(private readonly clubService: ClubService, private readonly router: Router) {}
-
-  public ngOnInit(): void {
+  constructor(private readonly clubService: ClubService, private readonly router: Router) {
     this.clubs$ = this.clubService.getClubs();
     this.subscription = this.exitSubscription();
   }

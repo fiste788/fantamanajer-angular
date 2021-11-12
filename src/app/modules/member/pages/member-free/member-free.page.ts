@@ -2,7 +2,7 @@ import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { MemberService, RoleService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
@@ -21,7 +21,7 @@ export class MemberFreePage implements OnInit {
 
   public members$?: Observable<Array<Member>>;
   public roles: Map<number, Role>;
-  public selectedMember$: Observable<Member | undefined>;
+  public selectedMember$?: Observable<Member | undefined>;
   public role: Role | undefined;
 
   constructor(
@@ -30,10 +30,11 @@ export class MemberFreePage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly roleService: RoleService,
     public app: ApplicationService,
-  ) {}
+  ) {
+    this.roles = this.roleService.list();
+  }
 
   public ngOnInit(): void {
-    this.roles = this.roleService.list();
     this.roleChange(this.roles.get(0));
   }
 
@@ -42,14 +43,13 @@ export class MemberFreePage implements OnInit {
     this.changeRef.detectChanges();
     this.members$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
       switchMap((c) => this.memberService.getFree(c.id, role?.id)),
-      tap(() => {
-        if (this.memberList) {
-          this.selectedMember$ = this.memberList.selection.changed
-            .asObservable()
-            .pipe(map((m) => m.source.selected[0]));
-        }
-      }),
     );
+
+    if (this.memberList) {
+      this.selectedMember$ = this.memberList.selection.changed.pipe(
+        map((m) => m.source.selected[0]),
+      );
+    }
   }
 
   public track(_: number, item: KeyValue<number, Role>): number {

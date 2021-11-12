@@ -17,7 +17,7 @@
         (selectionChange)="lineupService.moduleChange()"
       >
         <mat-option
-          *ngFor="let m of lineupService.modules"
+          *ngFor="let m of lineupService.modules; trackBy: trackByModules"
           [value]="m"
         >{{m.label}}</mat-option>
       </mat-select>
@@ -41,7 +41,7 @@
       <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <mat-form-field
-          *ngFor="let captain of (lineupService.captains | keyvalue)"
+          *ngFor="let captain of (lineupService.captains | keyvalue); trackBy: trackByCaptainField"
           appearance="standard"
         >
           <mat-label>{{captain.key}}</mat-label>

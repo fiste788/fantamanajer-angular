@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { firstValueFrom, forkJoin, Observable } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { UtilService } from '@app/services';
@@ -13,15 +13,15 @@ import { Member, Module, Role, Team } from '@data/types';
   styleUrls: ['./edit-members.page.scss'],
   templateUrl: './edit-members.page.html',
 })
-export class EditMembersPage implements OnInit {
-  @ViewChild(NgForm) public membersForm: NgForm;
+export class EditMembersPage {
+  @ViewChild(NgForm) public membersForm?: NgForm;
 
   public roles: Map<number, Role>;
   public module: Module;
   public controlsByRole$: Observable<boolean>;
   public team$: Observable<Team>;
-  public members: Array<{ member: Member }>;
-  public membersByRole: Map<Role, Array<Member>>;
+  public members!: Array<{ member: Member }>;
+  public membersByRole!: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService,
@@ -35,18 +35,12 @@ export class EditMembersPage implements OnInit {
       .map((r) => r.count)
       .join('-');
     this.module = new Module(key, this.roles);
+    this.team$ = UtilService.getData<Team>(this.route, 'team');
+    this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
   }
 
-  public ngOnInit(): void {
-    this.team$ = UtilService.getData<Team>(this.route, 'team').pipe(
-      tap((team) => {
-        this.loadMembers(team);
-      }),
-    );
-  }
-
-  public loadMembers(team: Team): void {
-    this.controlsByRole$ = forkJoin([
+  public loadMembers(team: Team): Observable<boolean> {
+    return forkJoin([
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id),
     ]).pipe(
@@ -89,10 +83,9 @@ export class EditMembersPage implements OnInit {
             duration: 3000,
           });
         }),
-        catchError((err: unknown) => {
-          UtilService.getUnprocessableEntityErrors(this.membersForm, err);
-          return of();
-        }),
+        catchError((err: unknown) =>
+          UtilService.getUnprocessableEntityErrors(err, this.membersForm),
+        ),
       ),
       { defaultValue: undefined },
     );

@@ -82,8 +82,10 @@ export const routes: Routes = [
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
       relativeLinkResolution: 'legacy',
+      enableTracing: true,
     }),
-    NgxBreadcrumbsModule,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    NgxBreadcrumbsModule.forRoot(),
   ],
 })
 export class AppRoutingModule {}

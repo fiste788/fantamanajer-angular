@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -26,12 +26,12 @@ import { AtLeast } from '@app/types';
   styleUrls: ['./selection.component.scss'],
   templateUrl: './selection.component.html',
 })
-export class SelectionComponent implements OnInit {
-  @ViewChild(NgForm) public selectionForm: NgForm;
+export class SelectionComponent {
+  @ViewChild(NgForm) public selectionForm?: NgForm;
 
   public data$: Observable<{ selection: Selection; members: Map<Role, Member[]> }>;
   public newMembers$?: Observable<Array<Member>>;
-  public newMemberDisabled: boolean;
+  public newMemberDisabled = false;
   public readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
     Role | undefined
   >(undefined);
@@ -50,17 +50,20 @@ export class SelectionComponent implements OnInit {
     private readonly route: ActivatedRoute,
   ) {
     this.role$ = this.roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+    this.data$ = this.loadData();
   }
 
-  public ngOnInit(): void {
-    this.data$ = UtilService.getData<Team>(this.route, 'team').pipe(
+  public loadData(): Observable<{ selection: Selection; members: Map<Role, Member[]> }> {
+    return UtilService.getData<Team>(this.route, 'team').pipe(
       filter((team): team is Team => team !== undefined),
-      switchMap((team) => this.loadData(team)),
+      switchMap((team) => this.loadTeamData(team)),
       tap(() => this.setupEvents()),
     );
   }
 
-  public loadData(team: Team): Observable<{ selection: Selection; members: Map<Role, Member[]> }> {
+  public loadTeamData(
+    team: Team,
+  ): Observable<{ selection: Selection; members: Map<Role, Member[]> }> {
     return forkJoin({
       members: this.getTeamMembers(team),
       selection: this.selectionService.getLastOrNewSelection(team.id),
@@ -134,7 +137,7 @@ export class SelectionComponent implements OnInit {
   }
 
   public async save(selection: Partial<Selection>): Promise<void> {
-    if (this.selectionForm.valid) {
+    if (this.selectionForm?.valid) {
       return firstValueFrom(
         this.app.requireTeam$.pipe(
           map((t) => {
@@ -154,11 +157,9 @@ export class SelectionComponent implements OnInit {
               selection.id = res.id;
             }
           }),
-          catchError((err: unknown) => {
-            UtilService.getUnprocessableEntityErrors(this.selectionForm, err);
-            this.changeRef.detectChanges();
-            return of();
-          }),
+          catchError((err: unknown) =>
+            UtilService.getUnprocessableEntityErrors(err, this.selectionForm),
+          ),
         ),
         { defaultValue: undefined },
       );

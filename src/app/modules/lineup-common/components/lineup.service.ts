@@ -6,21 +6,21 @@ import { environment } from '@env';
 
 @Injectable()
 export class LineupService {
-  public lineup: EmptyLineup;
+  public lineup!: EmptyLineup;
 
   public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
-  public membersById: Map<number, Member>;
+  public membersById?: Map<number, Member>;
   public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
     ['C', 'captain_id'],
     ['VC', 'vcaptain_id'],
     ['VVC', 'vvcaptain_id'],
   ]);
-  public modules: Array<Module>;
-  public selectedModule: Module;
-  public benchs: Array<number>;
-  public captainables: Array<MemberOption>;
+  public modules?: Array<Module>;
+  public selectedModule?: Module;
+  public benchs?: Array<number>;
+  public captainables?: Array<MemberOption>;
+  public membersByRole?: Map<Role, Array<Member>>;
   public selectionChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
-  public membersByRole: Map<Role, Array<Member>>;
 
   constructor(private readonly roleService: RoleService) {}
 
@@ -56,7 +56,7 @@ export class LineupService {
   }
 
   public moduleChange(): void {
-    this.lineup.module = this.selectedModule.key;
+    this.lineup.module = this.selectedModule?.key;
   }
 
   public memberSelectionChange(role: Role, member?: Member | null): void {
@@ -98,7 +98,7 @@ export class LineupService {
       new Map<number, Disposition>(),
     );
 
-    return Array<Disposition>(11 + this.benchs.length)
+    return Array<Disposition>(11 + (this.benchs?.length ?? environment.benchwarmersCount))
       .fill({} as Disposition)
       .map((disp: Disposition, i) => {
         disp.position = i + 1;
@@ -108,7 +108,7 @@ export class LineupService {
       .map((disp) => {
         if (disp.member_id !== null) {
           // eslint-disable-next-line no-null/no-null
-          disp.member = this.membersById.get(disp.member_id ?? 0) ?? null;
+          disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
         }
 
         return disp;

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,20 +9,20 @@ import { MemberService, TransfertService } from '@data/services';
 import { UtilService } from '@app/services';
 import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
 import { Member, Team, Transfert } from '@data/types';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Component({
   styleUrls: ['./new-transfert.page.scss'],
   templateUrl: './new-transfert.page.html',
 })
-export class NewTransfertPage implements OnInit {
-  @ViewChild(NgForm) public transfertForm: NgForm;
+export class NewTransfertPage {
+  @ViewChild(NgForm) public transfertForm?: NgForm;
 
   public transfert: Partial<Transfert> = {};
   public team$: Observable<Team>;
   public oldMembers$: Observable<Array<Member>>;
-  public newMemberDisabled: boolean;
-  public newMembers$: Observable<Array<Member>>;
+  public newMemberDisabled = false;
+  public newMembers$?: Observable<Array<Member>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -31,9 +31,7 @@ export class NewTransfertPage implements OnInit {
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.team$ = UtilService.getData<Team>(this.route, 'team');
     this.oldMembers$ = this.loadMembers(this.team$);
   }
@@ -59,7 +57,7 @@ export class NewTransfertPage implements OnInit {
   }
 
   public async submit(team: Team): Promise<void> {
-    if (this.transfertForm.valid) {
+    if (this.transfertForm?.valid) {
       this.transfert.team_id = team.id;
       return firstValueFrom(this.checkMember(), { defaultValue: undefined });
     }
@@ -95,10 +93,9 @@ export class NewTransfertPage implements OnInit {
           duration: 3000,
         });
       }),
-      catchError((err: unknown) => {
-        UtilService.getUnprocessableEntityErrors(this.transfertForm, err);
-        return of();
-      }),
+      catchError((err: unknown) =>
+        UtilService.getUnprocessableEntityErrors(err, this.transfertForm),
+      ),
     );
   }
 

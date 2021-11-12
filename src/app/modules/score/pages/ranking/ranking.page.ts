@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -13,23 +13,22 @@ import { Championship, RankingPosition } from '@data/types';
   styleUrls: ['./ranking.page.scss'],
   templateUrl: './ranking.page.html',
 })
-export class RankingPage implements OnInit {
+export class RankingPage {
   public ranking$: Observable<Array<RankingPosition>>;
   public rankingDisplayedColumns = ['teamName', 'points'];
   public matchdays: Array<number> = [];
 
-  constructor(
-    private readonly scoreService: ScoreService,
-    private readonly route: ActivatedRoute,
-  ) {}
+  constructor(private readonly scoreService: ScoreService, private readonly route: ActivatedRoute) {
+    this.ranking$ = this.loadRanking();
+  }
 
-  public ngOnInit(): void {
-    this.ranking$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
-      switchMap((championship) => this.loadRanking(championship)),
+  public loadRanking(): Observable<Array<RankingPosition>> {
+    return UtilService.getData<Championship>(this.route, 'championship').pipe(
+      switchMap((championship) => this.getRanking(championship)),
     );
   }
 
-  public loadRanking(championship: Championship): Observable<Array<RankingPosition>> {
+  public getRanking(championship: Championship): Observable<Array<RankingPosition>> {
     return this.scoreService.getRanking(championship.id).pipe(
       tap((ranking: Array<RankingPosition>) => {
         if (ranking.length && ranking[0].scores) {

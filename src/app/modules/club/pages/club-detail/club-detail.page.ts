@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -12,16 +12,14 @@ import { UtilService } from '@app/services';
   styleUrls: ['./club-detail.page.scss'],
   templateUrl: './club-detail.page.html',
 })
-export class ClubDetailPage implements OnInit {
+export class ClubDetailPage {
   public club$: Observable<Club>;
   public tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' },
   ];
 
-  constructor(private readonly route: ActivatedRoute) {}
-
-  public ngOnInit(): void {
+  constructor(private readonly route: ActivatedRoute) {
     this.club$ = UtilService.getData(this.route, 'club');
   }
 }

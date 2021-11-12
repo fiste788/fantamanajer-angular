@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthenticationService } from '@app/authentication';
 
 import { Observable, pluck } from 'rxjs';
@@ -7,12 +7,10 @@ import { Observable, pluck } from 'rxjs';
   styleUrls: ['./user-stream.page.scss'],
   templateUrl: './user-stream.page.html',
 })
-export class UserStreamPage implements OnInit {
+export class UserStreamPage {
   public id$: Observable<number>;
 
-  constructor(private readonly auth: AuthenticationService) {}
-
-  public ngOnInit(): void {
+  constructor(private readonly auth: AuthenticationService) {
     this.id$ = this.auth.requireUser$.pipe(pluck('id'));
   }
 }

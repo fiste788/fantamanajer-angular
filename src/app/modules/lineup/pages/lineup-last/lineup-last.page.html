@@ -1,10 +1,10 @@
 <div *ngIf="!app.seasonEnded; else seasonEnded">
   <div *ngIf="(lineup$ | async) as lineup; else loading">
     <form
-      *ngIf="lineup.module || lineup.team.id === teamId; else notSet"
+      *ngIf="lineup.module; else notSet"
       #lineupForm="ngForm"
-      [appMemberAlreadySelected]="lineup"
       class="flex-container"
+      [appMemberAlreadySelected]="lineup"
       (ngSubmit)="save(lineup)"
     >
       <app-lineup-detail

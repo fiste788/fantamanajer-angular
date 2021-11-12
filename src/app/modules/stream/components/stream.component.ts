@@ -22,13 +22,13 @@ import { StreamDataSource } from './stream.datasource';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() public context: 'teams' | 'users' | 'clubs' | 'championships';
-  @Input() public id: number;
+  @Input() public context!: 'teams' | 'users' | 'clubs' | 'championships';
+  @Input() public id!: number;
 
-  @ViewChild(CdkVirtualScrollViewport) public viewport: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport) public viewport?: CdkVirtualScrollViewport;
 
-  public ds: StreamDataSource;
-  public width: number;
+  public ds!: StreamDataSource;
+  public width!: number;
 
   constructor(private readonly streamService: StreamService) {}
 
@@ -37,7 +37,9 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.width = this.viewport.elementRef.nativeElement.clientWidth;
+    if (this.viewport) {
+      this.width = this.viewport.elementRef.nativeElement.clientWidth;
+    }
   }
 
   public ngOnDestroy(): void {

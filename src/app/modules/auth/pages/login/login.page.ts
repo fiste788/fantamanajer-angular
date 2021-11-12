@@ -19,14 +19,14 @@ import { Team } from '@data/types';
   templateUrl: './login.page.html',
 })
 export class LoginPage {
-  @ViewChild('stepper') private readonly stepper: MatStepper;
-  @ViewChild('f') private readonly form: NgForm;
+  @ViewChild('stepper') private readonly stepper?: MatStepper;
+  @ViewChild('f') private readonly form?: NgForm;
   public loginData: {
     email?: string;
     password?: string;
     rememberMe: boolean;
   } = { rememberMe: true };
-  public token$: Observable<CredentialRequestOptionsJSON>;
+  public token$?: Observable<CredentialRequestOptionsJSON>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -72,7 +72,7 @@ export class LoginPage {
         this.token$.pipe(
           map((t) => {
             void this.tokenLogin(t);
-            this.stepper.next();
+            this.stepper?.next();
           }),
           //takeUntil(this.authService.loggedIn$),
         ),
@@ -89,12 +89,14 @@ export class LoginPage {
           map(async (url) => this.router.navigateByUrl(url)),
         ),
       );
-    } else {
+    } else if (this.form) {
       const password = this.form.controls['password'];
       password.setErrors({ msg: 'Authentication failed' });
       this.cd.detectChanges();
       return false;
     }
+
+    return false;
   }
 
   private getUrl(team: Team): string {

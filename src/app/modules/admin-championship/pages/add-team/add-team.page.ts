@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,28 +6,30 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
 import { Championship, Team } from '@data/types';
-import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable } from 'rxjs';
 import { AtLeast, RecursivePartial } from '@app/types';
 
 @Component({
   styleUrls: ['./add-team.page.scss'],
   templateUrl: './add-team.page.html',
 })
-export class AddTeamPage implements OnInit {
-  @ViewChild(NgForm) public teamForm: NgForm;
+export class AddTeamPage {
+  @ViewChild(NgForm) public teamForm?: NgForm;
 
   public team$: Observable<Partial<Team>>;
-  public email: string;
+  public email = '';
 
   constructor(
     private readonly teamService: TeamService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-  ) {}
+  ) {
+    this.team$ = this.loadData();
+  }
 
-  public ngOnInit(): void {
-    this.team$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+  public loadData(): Observable<{ championship_id: number }> {
+    return UtilService.getData<Championship>(this.route, 'championship').pipe(
       map((t) => ({ championship_id: t.id })),
     );
   }
@@ -45,10 +47,7 @@ export class AddTeamPage implements OnInit {
           });
           void this.router.navigateByUrl(`/teams/${response.id}/admin/members`);
         }),
-        catchError((err: unknown) => {
-          UtilService.getUnprocessableEntityErrors(this.teamForm, err);
-          return of();
-        }),
+        catchError((err: unknown) => UtilService.getUnprocessableEntityErrors(err, this.teamForm)),
       ),
       { defaultValue: undefined },
     );

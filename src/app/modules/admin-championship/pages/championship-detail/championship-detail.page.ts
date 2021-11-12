@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChampionshipService } from '@data/services';
 import { UtilService } from '@app/services';
 import { Championship, League } from '@data/types';
-import { catchError, defaultIfEmpty, firstValueFrom, map, Observable, of } from 'rxjs';
+import { catchError, defaultIfEmpty, firstValueFrom, map, Observable } from 'rxjs';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { cardCreationAnimation } from '@shared/animations';
 
@@ -15,8 +15,8 @@ import { cardCreationAnimation } from '@shared/animations';
   templateUrl: './championship-detail.page.html',
   animations: [cardCreationAnimation],
 })
-export class ChampionshipDetailPage implements OnInit {
-  @ViewChild(NgForm) public championshipForm: NgForm;
+export class ChampionshipDetailPage {
+  @ViewChild(NgForm) public championshipForm?: NgForm;
 
   public championship$: Observable<Partial<Championship>>;
   public league$: Observable<Partial<League>>;
@@ -25,9 +25,7 @@ export class ChampionshipDetailPage implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private readonly championshipService: ChampionshipService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.championship$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
       defaultIfEmpty({}),
     );
@@ -49,10 +47,9 @@ export class ChampionshipDetailPage implements OnInit {
             duration: 3000,
           });
         }),
-        catchError((err: unknown) => {
-          UtilService.getUnprocessableEntityErrors(this.championshipForm, err);
-          return of();
-        }),
+        catchError((err: unknown) =>
+          UtilService.getUnprocessableEntityErrors(err, this.championshipForm),
+        ),
       ),
       { defaultValue: undefined },
     );

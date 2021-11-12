@@ -6,8 +6,7 @@
         #matchday
         name="score"
         placeholder="Giornata"
-        [(ngModel)]="selectedScore"
-        (selectionChange)="getScore($event)"
+        (selectionChange)="getScore($event.value)"
       >
         <mat-option
           *ngFor="let score of scores; trackBy: track"
@@ -15,7 +14,7 @@
         >{{score.matchday.number}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="selectedScore">
+    <div *ngIf="matchday.value">
       <form
         *ngIf="(score$ | async) as score; else loading"
         #scoreForm="ngForm"

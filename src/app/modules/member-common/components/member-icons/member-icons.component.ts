@@ -8,7 +8,7 @@ import { Member } from '@data/types';
   templateUrl: './member-icons.component.html',
 })
 export class MemberIconsComponent {
-  @Input() public member: Member;
+  @Input() public member!: Member;
   @Input() public circle = false;
   @Input() public captain = false;
 }

@@ -213,7 +213,7 @@
         "*.html"
       ],
       "extends": [
-        "plugin:@angular-eslint/template/recommended"
+        "plugin:@angular-eslint/template/all"
       ],
       "rules": {
         "@angular-eslint/template/accessibility-alt-text": 2,
@@ -226,6 +226,7 @@
         "@angular-eslint/template/mouse-events-have-key-events": 2,
         "@angular-eslint/template/no-autofocus": 2,
         "@angular-eslint/template/no-distracting-elements": 2,
+        "@angular-eslint/template/use-track-by-function": "warn",
         "@angular-eslint/template/cyclomatic-complexity": [
           "warn",
           {

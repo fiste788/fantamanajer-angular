@@ -1,5 +1,8 @@
 <ng-container *ngIf="(player$ | async) as player;">
-  <div @enterDetailAnimation>
+  <div
+    @enterDetailAnimation
+    *ngIf="(selectedMember$ | async) as selectedMember;"
+  >
     <div class="animation-container">
       <app-parallax-header
         [title]="player.full_name"
@@ -23,8 +26,8 @@
             <mat-label>Stagione</mat-label>
             <mat-select
               placeholder="Stagione"
-              [(ngModel)]="selectedMember"
-              (selectionChange)="seasonChange()"
+              [ngModel]="selectedMember"
+              (selectionChange)="selectedMember$.next($event.value)"
             >
               <mat-option
                 *ngFor="let member of player.members; trackBy: track"
@@ -47,6 +50,7 @@
       #table
       mat-table
       matSort
+      [trackBy]="trackRating"
       [dataSource]="ratings"
     >
       <ng-container matColumnDef="matchday">

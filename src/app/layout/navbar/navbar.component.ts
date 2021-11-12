@@ -28,19 +28,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private readonly pwa: PwaService,
     private readonly app: ApplicationService,
     private readonly router: Router,
-  ) {}
-
-  public ngOnInit(): void {
-    this.init();
-  }
-
-  public init(): void {
+  ) {
     this.loggedIn$ = this.auth.loggedIn$;
     this.matchday$ = this.app.matchday$;
     this.team$ = this.app.team$;
     this.championship$ = this.app.requireTeam$.pipe(map((t) => t.championship));
     this.deferredPrompt$ = this.pwa.beforeInstall$;
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
+  }
+
+  public ngOnInit(): void {
+    this.init();
+  }
+
+  public init(): void {
     this.subscriptions.add(
       this.navStart$
         .pipe(

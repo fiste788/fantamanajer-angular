@@ -31,7 +31,7 @@ export class LineupDetailComponent implements OnInit {
   @Input() public disabled = false;
   @Input() public benchs = environment.benchwarmersCount;
 
-  @ViewChild(NgForm) public lineupForm: NgForm;
+  @ViewChild(NgForm) public lineupForm?: NgForm;
 
   constructor(
     readonly lineupService: LineupService,
@@ -58,7 +58,7 @@ export class LineupDetailComponent implements OnInit {
       this.lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
           members.forEach((member) => {
-            const m = this.lineupService.membersById.get(member.id);
+            const m = this.lineupService.membersById?.get(member.id);
             if (m) {
               m.likely_lineup = member.likely_lineup;
             }

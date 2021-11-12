@@ -10,10 +10,10 @@ import { Tab } from '@data/types';
   templateUrl: './parallax-header.component.html',
 })
 export class ParallaxHeaderComponent {
-  @Input() public title: string;
-  @Input() public subtitle: string;
-  @Input() public image: string | null;
-  @Input() public backgroundImage: Record<string, string> | string | null;
+  @Input() public title = '';
+  @Input() public subtitle = '';
+  @Input() public image?: string | null;
+  @Input() public backgroundImage?: Record<string, string> | string | null;
   @Input() public tabs: Array<Tab> = [];
 
   public srcset = '';

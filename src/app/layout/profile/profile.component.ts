@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/authentication';
 
@@ -11,7 +11,7 @@ import { map, Observable } from 'rxjs';
   styleUrls: ['./profile.component.scss'],
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   public photo$: Observable<string | undefined>;
 
   constructor(
@@ -19,9 +19,7 @@ export class ProfileComponent implements OnInit {
     private readonly router: Router,
     public readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.photo$ = this.loadPhoto();
   }
 

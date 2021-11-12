@@ -30,7 +30,7 @@
             [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
           >
             <mat-option
-              *ngFor="let member of role.value"
+              *ngFor="let member of role.value; trackBy: trackMember"
               [value]="member"
             >{{ member.player.full_name }}</mat-option>
           </mat-optgroup>

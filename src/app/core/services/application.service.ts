@@ -11,8 +11,8 @@ import { MatchdayService } from '@data/services';
   providedIn: 'root',
 })
 export class ApplicationService {
-  public seasonEnded: boolean;
-  public seasonStarted: boolean;
+  public seasonEnded = false;
+  public seasonStarted = true;
   public readonly teamSubject$: BehaviorSubject<Team | undefined>;
   public readonly team$: Observable<Team | undefined>;
   public readonly requireTeam$: Observable<Team>;

@@ -25,10 +25,10 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   templateUrl: './mat-empty-state.component.html',
 })
 export class MatEmptyStateComponent {
-  @Input() public label: string;
-  @Input() public description: string;
-  @Input() public icon: string;
-  @Input() public rounded: boolean;
+  @Input() public label!: string;
+  @Input() public description!: string;
+  @Input() public icon!: string;
+  @Input() public rounded = true;
   @Input() public size = 492;
 
   @HostBinding('@createBox') public createBox = true;

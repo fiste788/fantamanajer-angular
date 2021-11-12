@@ -1,7 +1,7 @@
 import { ApplicationRef, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, fromEvent, interval, merge, Observable } from 'rxjs';
+import { concat, fromEvent, interval, Observable } from 'rxjs';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
@@ -32,10 +32,13 @@ export class PwaService {
   }
 
   public initialize(): Observable<void> {
-    return merge(this.checkForUpdates(), this.promptUpdate());
+    return this.checkForUpdates().pipe(
+      filter((u) => u),
+      switchMap(() => this.promptUpdate()),
+    );
   }
 
-  private checkForUpdates(): Observable<void> {
+  private checkForUpdates(): Observable<boolean> {
     const appIsStable$ = this.appRef.isStable.pipe(first((isStable) => isStable));
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
@@ -47,11 +50,12 @@ export class PwaService {
   }
 
   private promptUpdate(): Observable<void> {
-    return this.swUpdate.available.pipe(
-      map(() => this.snackBar.open("Nuova versione dell'app disponibile", 'Aggiorna')),
-      switchMap((ref) => ref.onAction()),
-      switchMap(async () => this.swUpdate.activateUpdate()),
-      map(() => this.window.location.reload()),
-    );
+    return this.snackBar
+      .open("Nuova versione dell'app disponibile", 'Aggiorna')
+      .onAction()
+      .pipe(
+        switchMap(async () => this.swUpdate.activateUpdate()),
+        map(() => this.window.location.reload()),
+      );
   }
 }

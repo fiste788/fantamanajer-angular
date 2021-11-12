@@ -13,7 +13,7 @@ import { firstValueFrom, map } from 'rxjs';
 })
 export class ArticleListPage implements OnInit {
   public articles: Array<Article> = [];
-  public pagination: Pagination;
+  public pagination?: Pagination;
   public isLoading = false;
   private page = 1;
 
@@ -43,7 +43,7 @@ export class ArticleListPage implements OnInit {
   }
 
   public onScrollDown(): void {
-    if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
+    if (this.pagination?.has_next_page && this.page < this.pagination.current_page + 1) {
       void this.loadData(this.pagination.current_page + 1);
     }
   }

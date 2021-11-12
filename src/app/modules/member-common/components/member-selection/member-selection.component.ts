@@ -8,6 +8,7 @@ import {
 
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
 import { Member, MemberOption, Role } from '@data/types';
+import { KeyValue } from '@angular/common';
 
 @Component({
   animations: [lineupDispositionAnimation, createBoxAnimation],
@@ -24,13 +25,13 @@ import { Member, MemberOption, Role } from '@data/types';
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() public member: Member | null;
-  @Input() public name: string;
+  @Input() public member!: Member | null;
+  @Input() public name!: string;
   @Input() public disabled = false;
   @Input() public required = false;
-  @Input() public placeholder: string;
+  @Input() public placeholder = '';
   @Input() public memberList: Array<MemberOption> = [];
-  @Input() public memberMap: Map<Role, Array<MemberOption>>;
+  @Input() public memberMap?: Map<Role, Array<MemberOption>>;
   @Input() public size = 100;
   @Input() public width = 100;
   @Input() public height = 100;
@@ -74,6 +75,10 @@ export class MemberSelectionComponent implements ControlValueAccessor {
 
   public track(_: number, option: MemberOption): number {
     return option.member.id;
+  }
+
+  public trackMember(_: number, option: KeyValue<Role, MemberOption[]>): number {
+    return option.key.id;
   }
 
   public compareFn(t1: Member, t2: Member): boolean {
