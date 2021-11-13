@@ -2,12 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { TeamService } from '@data/services';
-import { UtilService } from '@app/services';
-import { Championship, Team } from '@data/types';
 import { catchError, firstValueFrom, map, Observable } from 'rxjs';
+
+import { UtilService } from '@app/services';
 import { AtLeast, RecursivePartial } from '@app/types';
+import { TeamService } from '@data/services';
+import { Championship, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./add-team.page.scss'],

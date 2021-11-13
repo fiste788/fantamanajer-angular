@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '@app/authentication';
-
 import { Observable, pluck } from 'rxjs';
+
+import { AuthenticationService } from '@app/authentication';
 
 @Component({
   styleUrls: ['./user-stream.page.scss'],

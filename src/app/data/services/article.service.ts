@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AtLeast } from '@app/types';
 import { Observable } from 'rxjs';
+
+import { AtLeast } from '@app/types';
 
 import { Article, PagedResponse } from '../types';
 

@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, map, Observable } from 'rxjs';
 
-import { ArticleService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { Article } from '@data/types';
 import { AtLeast } from '@app/types';
+import { ArticleService } from '@data/services';
+import { Article } from '@data/types';
 
 @Component({
   styleUrls: ['./article-detail.page.scss'],

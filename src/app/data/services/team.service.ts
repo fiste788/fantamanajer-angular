@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AtLeast, RecursivePartial } from '@app/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { AtLeast, RecursivePartial } from '@app/types';
 
 import { Team } from '../types';
 

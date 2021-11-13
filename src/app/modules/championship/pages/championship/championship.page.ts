@@ -1,11 +1,11 @@
 import { trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-
-import { ApplicationService } from '@app/services';
-import { routerTransition } from '@shared/animations';
-import { Tab, Team, User } from '@data/types';
-import { AuthenticationService } from '@app/authentication';
 import { combineLatest, firstValueFrom, map } from 'rxjs';
+
+import { AuthenticationService } from '@app/authentication';
+import { ApplicationService } from '@app/services';
+import { Tab, Team, User } from '@data/types';
+import { routerTransition } from '@shared/animations';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],

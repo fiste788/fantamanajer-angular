@@ -12,8 +12,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable, tap } from 'rxjs';
 
-import { tableRowAnimation } from '@shared/animations';
 import { Member } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 const stats = [
   'sum_present',

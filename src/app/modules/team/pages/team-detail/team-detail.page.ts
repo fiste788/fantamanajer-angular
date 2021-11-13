@@ -5,12 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { combineLatestWith, filter, map } from 'rxjs/operators';
 
+import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
-import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { Tab, Team, User } from '@data/types';
+import { enterDetailAnimation, routerTransition } from '@shared/animations';
 
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
-import { AuthenticationService } from '@app/authentication';
 
 @Component({
   animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],

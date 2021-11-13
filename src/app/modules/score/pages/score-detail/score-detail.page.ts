@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
-import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
+import { ScoreService } from '@data/services';
 import { Disposition, Score, Team } from '@data/types';
 
 @Component({

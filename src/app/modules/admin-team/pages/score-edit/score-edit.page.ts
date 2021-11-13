@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
-import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
+import { ScoreService } from '@data/services';
 import { Lineup, Score, Team } from '@data/types';
+import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 
 @Component({
   styleUrls: ['./score-edit.page.scss'],
@@ -29,7 +29,7 @@ export class ScoreEditPage {
     this.scores$ = this.loadData();
   }
 
-  public loadData(): Observable<Score[]> {
+  public loadData(): Observable<Array<Score>> {
     return UtilService.getData<Team>(this.route, 'team').pipe(
       switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
     );

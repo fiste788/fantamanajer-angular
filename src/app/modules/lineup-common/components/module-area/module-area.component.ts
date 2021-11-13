@@ -8,9 +8,9 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 import { Area, Member, Module, Role } from '@data/types';
-import { Subject } from 'rxjs';
 
 export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
   [Key in keyof Props]?: SimpleChange;

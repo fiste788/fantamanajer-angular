@@ -1,11 +1,11 @@
 import { Compiler, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 
-import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { createBoxAnimation } from '@shared/animations';
+import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
 import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
+import { createBoxAnimation } from '@shared/animations';
 
 @Component({
   animations: [createBoxAnimation],

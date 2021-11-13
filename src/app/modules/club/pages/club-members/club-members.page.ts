@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 
-import { MemberService } from '@data/services';
 import { UtilService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
+import { MemberService } from '@data/services';
 import { Club, Member } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],

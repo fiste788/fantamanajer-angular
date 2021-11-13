@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { firstValueFrom, map } from 'rxjs';
 
 import { ArticleService } from '@data/services';
-import { cardCreationAnimation } from '@shared/animations';
 import { Article, PagedResponse, Pagination } from '@data/types';
-import { firstValueFrom, map } from 'rxjs';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],

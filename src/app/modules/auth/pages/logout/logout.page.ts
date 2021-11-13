@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { firstValueFrom, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-logout',

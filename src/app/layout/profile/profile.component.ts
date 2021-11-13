@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@app/authentication';
+import { map, Observable } from 'rxjs';
 
+import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, LayoutService } from '@app/services';
 import { Team } from '@data/types';
-import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',

@@ -9,17 +9,17 @@
     >
       <app-lineup-detail
         #lineupDetail
-        [lineup]="lineup"
-        [disabled]="!editMode"
         [benchs]="benchs"
+        [disabled]="!editMode"
+        [lineup]="lineup"
       >
         <button
           *ngIf="editMode"
-          buttons
           mat-button
           align="end"
-          type="submit"
+          buttons
           color="accent"
+          type="submit"
         >Salva</button>
       </app-lineup-detail>
     </form>
@@ -38,7 +38,7 @@
   <app-mat-empty-state
     description="Goditi l'estate e tieniti pronto per la prossima stagione"
     icon="wb_sunny"
-    [rounded]="true"
     [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
+    [rounded]="true"
   ></app-mat-empty-state>
 </ng-template>

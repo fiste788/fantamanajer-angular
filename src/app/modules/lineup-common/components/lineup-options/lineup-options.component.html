@@ -30,8 +30,8 @@
     </mat-form-field>
     <mat-checkbox
       name="jolly"
-      [disabled]="disabled"
       [attr.value]="true"
+      [disabled]="disabled"
       [(ngModel)]="lineup.jolly"
     >Jolly</mat-checkbox>
     <mat-error *ngIf="module.errors?.JollyAlreadyUsed">
@@ -47,8 +47,8 @@
           <mat-label>{{captain.key}}</mat-label>
           <mat-select
             [disabled]="disabled"
-            [placeholder]="captain.key"
             [name]="captain.key"
+            [placeholder]="captain.key"
             [(ngModel)]="lineup[captain.value]"
             (selectionChange)="lineupService.captainSelectionChange()"
           >

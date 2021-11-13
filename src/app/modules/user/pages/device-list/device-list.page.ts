@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
-import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
-import { tableRowAnimation } from '@shared/animations';
-import { PublicKeyCredentialSource } from '@data/types';
-import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
+import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
+import { PublicKeyCredentialSource } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],

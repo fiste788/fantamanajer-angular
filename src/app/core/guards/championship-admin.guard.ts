@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { combineLatest, map, Observable } from 'rxjs';
 
-import { ApplicationService } from '@app/services';
 import { AuthenticationService } from '@app/authentication';
+import { ApplicationService } from '@app/services';
 
 @Injectable()
 export class ChampionshipAdminGuard implements CanActivate {

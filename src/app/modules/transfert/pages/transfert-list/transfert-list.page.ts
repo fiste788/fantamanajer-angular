@@ -2,13 +2,13 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-
-import { TransfertService } from '@data/services';
-import { ApplicationService, UtilService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
-import { Team, Transfert } from '@data/types';
-import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { ApplicationService, UtilService } from '@app/services';
+import { TransfertService } from '@data/services';
+import { Team, Transfert } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],

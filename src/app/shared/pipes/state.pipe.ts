@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
 import { RouterOutlet } from '@angular/router';
 
 @Pipe({

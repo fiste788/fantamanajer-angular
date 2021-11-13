@@ -4,8 +4,8 @@ import { BehaviorSubject, forkJoin, interval, Observable, of, Subject } from 'rx
 import { catchError, distinctUntilChanged, filter, share, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { Matchday, Team } from '@data/types';
 import { MatchdayService } from '@data/services';
+import { Matchday, Team } from '@data/types';
 
 @Injectable({
   providedIn: 'root',

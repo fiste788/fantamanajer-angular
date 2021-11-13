@@ -1,8 +1,8 @@
 import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 
-import { routerTransition } from '@shared/animations';
 import { Tab } from '@data/types';
+import { routerTransition } from '@shared/animations';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],

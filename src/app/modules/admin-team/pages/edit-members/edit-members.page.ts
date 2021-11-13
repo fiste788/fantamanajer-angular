@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, forkJoin, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { MemberService, RoleService, TeamService } from '@data/services';
 import { UtilService } from '@app/services';
+import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
 
 @Component({

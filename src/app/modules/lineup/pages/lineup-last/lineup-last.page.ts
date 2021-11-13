@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { LineupService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { EmptyLineup, Lineup, Team } from '@data/types';
 import { AtLeast } from '@app/types';
+import { LineupService } from '@data/services';
+import { EmptyLineup, Lineup, Team } from '@data/types';
 import { environment } from '@env';
 
 @Component({

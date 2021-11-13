@@ -3,13 +3,13 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
-import { MemberService, TransfertService } from '@data/services';
 import { UtilService } from '@app/services';
-import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
+import { MemberService, TransfertService } from '@data/services';
 import { Member, Team, Transfert } from '@data/types';
-import { firstValueFrom, Observable } from 'rxjs';
+import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
 
 @Component({
   styleUrls: ['./new-transfert.page.scss'],

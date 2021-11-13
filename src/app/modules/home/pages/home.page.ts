@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { MemberService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { cardCreationAnimation } from '@shared/animations';
+import { MemberService } from '@data/services';
 import { Member } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 interface BestPlayer {
   role: string;
@@ -25,7 +25,7 @@ export class HomePage {
     this.bestPlayers$ = this.loadBestPlayers();
   }
 
-  public loadBestPlayers(): Observable<BestPlayer[]> {
+  public loadBestPlayers(): Observable<Array<BestPlayer>> {
     return this.memberService.getBest().pipe(
       map((role) =>
         role

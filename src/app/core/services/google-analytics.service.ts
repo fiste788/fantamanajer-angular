@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { environment } from '@env';
-import { Observable, of } from 'rxjs';
 
 declare let gtag: Gtag.Gtag;
 

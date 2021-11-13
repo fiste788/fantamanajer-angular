@@ -1,15 +1,15 @@
 <div class="table-container">
   <div
-    class="mat-table-header"
     fxLayout="row"
+    class="mat-table-header"
   >
     <span class="mat-table-title">Seleziona per acquistarlo</span>
     <mat-form-field floatLabel="never">
       <mat-label>Ruolo</mat-label>
       <mat-select
         placeholder="Seleziona il ruolo"
-        (selectionChange)="roleChange($event.value)"
         [(ngModel)]="role"
+        (selectionChange)="roleChange($event.value)"
       >
         <mat-option
           *ngFor="let role of (roles | keyvalue); trackBy: track"
@@ -22,15 +22,15 @@
     <ng-container *ngIf="(selectedMember$ | async) as member">
       <div
         *ngIf="member !== undefined"
-        class="mat-table-header-selected"
         fxLayout="row"
+        class="mat-table-header-selected"
       >
         <span class="mat-table-title">Selezionato {{member?.player?.full_name}}</span>
         <a
-          matTooltip="Acquista"
           mat-button
-          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
+          matTooltip="Acquista"
           [queryParams]="{new_member_id: member?.id}"
+          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
         >
           <mat-icon>add_shopping_cart</mat-icon>
         </a>
@@ -39,8 +39,8 @@
   </div>
   <app-member-list
     *ngIf="members$ && (app.team$ | async) as team"
-    [members]="members$"
-    [isSelectable]="team.championship?.started && !app.seasonEnded || false"
     [elevation]="0"
+    [isSelectable]="team.championship?.started && !app.seasonEnded || false"
+    [members]="members$"
   ></app-member-list>
 </div>

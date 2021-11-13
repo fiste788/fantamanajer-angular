@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AtLeast } from '@app/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { AtLeast } from '@app/types';
 
 import { Selection } from '../types';
 

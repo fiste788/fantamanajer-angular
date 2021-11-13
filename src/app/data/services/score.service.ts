@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 
 import { RankingPosition, Score } from '../types';
+
 import { LineupService } from './lineup.service';
 
 const url = 'scores';

@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { TeamService } from '@data/services';
-import { ApplicationService } from '@app/services';
-import { createBoxAnimation } from '@shared/animations';
-import { NotificationSubscription, Team } from '@data/types';
 import { firstValueFrom, map, tap } from 'rxjs';
+
+import { ApplicationService } from '@app/services';
+import { TeamService } from '@data/services';
+import { NotificationSubscription, Team } from '@data/types';
+import { createBoxAnimation } from '@shared/animations';
 
 @Component({
   animations: [createBoxAnimation],

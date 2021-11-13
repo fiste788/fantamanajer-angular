@@ -2,12 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-
-import { ChampionshipService } from '@data/services';
-import { UtilService } from '@app/services';
-import { Championship, League } from '@data/types';
 import { catchError, defaultIfEmpty, firstValueFrom, map, Observable } from 'rxjs';
+
+import { UtilService } from '@app/services';
 import { AtLeast, RecursivePartial } from '@app/types';
+import { ChampionshipService } from '@data/services';
+import { Championship, League } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({

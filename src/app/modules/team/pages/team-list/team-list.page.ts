@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
-import { cardCreationAnimation } from '@shared/animations';
+import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],

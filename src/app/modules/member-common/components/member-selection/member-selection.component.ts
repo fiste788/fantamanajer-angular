@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import {
   ControlContainer,
@@ -6,9 +7,8 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
-import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
 import { Member, MemberOption, Role } from '@data/types';
-import { KeyValue } from '@angular/common';
+import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
 
 @Component({
   animations: [lineupDispositionAnimation, createBoxAnimation],
@@ -77,7 +77,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     return option.member.id;
   }
 
-  public trackMember(_: number, option: KeyValue<Role, MemberOption[]>): number {
+  public trackMember(_: number, option: KeyValue<Role, Array<MemberOption>>): number {
     return option.key.id;
   }
 

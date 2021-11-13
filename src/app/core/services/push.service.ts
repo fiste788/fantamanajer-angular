@@ -7,8 +7,8 @@ import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@data/services';
-import { environment } from '@env';
 import { PushSubscription, User } from '@data/types';
+import { environment } from '@env';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {

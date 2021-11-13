@@ -4,6 +4,7 @@ import { ElementRef, Injectable, Injector } from '@angular/core';
 import { firstValueFrom, tap } from 'rxjs';
 
 import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
+
 import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable()

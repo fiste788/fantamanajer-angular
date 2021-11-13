@@ -6,6 +6,7 @@ import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
+
 import { AuthenticationStorageService } from './authentication-storage.service';
 
 @Injectable({ providedIn: 'root' })

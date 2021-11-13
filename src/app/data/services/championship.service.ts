@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AtLeast, RecursivePartial } from '@app/types';
 import { Observable } from 'rxjs';
+
+import { AtLeast, RecursivePartial } from '@app/types';
 
 import { Championship } from '../types';
 

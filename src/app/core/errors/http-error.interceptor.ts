@@ -7,10 +7,11 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ErrorResponse } from '@data/types';
-import { environment } from '@env';
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { ErrorResponse } from '@data/types';
+import { environment } from '@env';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {

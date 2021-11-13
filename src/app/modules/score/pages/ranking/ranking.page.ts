@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { ScoreService } from '@data/services';
 import { UtilService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
+import { ScoreService } from '@data/services';
 import { Championship, RankingPosition } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],

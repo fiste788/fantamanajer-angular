@@ -1,4 +1,5 @@
 import { Keys } from '@data/types';
+
 import { Notification } from './notification';
 
 export const notificationSubscriptions: { [K in Keys]: Array<Notification> } = {

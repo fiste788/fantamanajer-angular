@@ -1,6 +1,8 @@
 import { KeyValue } from '@angular/common';
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+
 import { Lineup, MemberOption, Module } from '@data/types';
+
 import { LineupService } from '../lineup.service';
 
 @Component({

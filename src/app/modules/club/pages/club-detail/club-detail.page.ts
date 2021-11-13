@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
-import { Club } from '@data/types';
 import { UtilService } from '@app/services';
+import { Club } from '@data/types';
+import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
 
 @Component({
   animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],

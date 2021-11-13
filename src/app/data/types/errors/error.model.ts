@@ -8,5 +8,5 @@ export interface Error {
   file?: string;
   line?: number;
   exception?: Exception;
-  trace?: Trace[];
+  trace?: Array<Trace>;
 }

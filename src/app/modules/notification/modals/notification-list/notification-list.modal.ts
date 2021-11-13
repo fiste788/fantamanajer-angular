@@ -1,12 +1,12 @@
 import { AnimationEvent } from '@angular/animations';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { NotificationService } from '@data/services';
-import { ApplicationService } from '@app/services';
-import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
-import { Stream } from '@data/types';
 import { switchMap, tap } from 'rxjs/operators';
+
+import { ApplicationService } from '@app/services';
+import { NotificationService } from '@data/services';
+import { Stream } from '@data/types';
+import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],

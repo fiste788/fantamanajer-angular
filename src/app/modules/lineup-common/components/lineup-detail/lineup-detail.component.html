@@ -3,8 +3,8 @@
   @cardCreationAnimation
 >
   <app-lineup-options
-    [lineup]="lineup"
     [disabled]="disabled"
+    [lineup]="lineup"
   >
     <ng-content
       buttons
@@ -14,10 +14,10 @@
   <ng-container *ngIf="lineupService.selectedModule">
     <div ngModelGroup="dispositions">
       <app-module-area
-        [module]="lineupService.selectedModule"
-        [membersByRole]="lineupService.membersByRole"
-        [dispositions]="lineupService.lineup.dispositions"
         [disabled]="disabled"
+        [dispositions]="lineupService.lineup.dispositions"
+        [membersByRole]="lineupService.membersByRole"
+        [module]="lineupService.selectedModule"
         (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
       ></app-module-area>
     </div>
@@ -42,15 +42,15 @@
             <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
               <div [ngModelGroup]="bench + ''">
                 <app-member-selection
-                  name="member"
-                  class="benchwarmer"
                   fxLayout="row"
                   fxLayoutAlign="start center"
-                  [memberMap]="lineupService.benchOptions"
+                  class="benchwarmer"
+                  name="member"
                   [disabled]="disabled"
+                  [height]="450"
+                  [memberMap]="lineupService.benchOptions"
                   [placeholder]="'Panchinaro ' + (bench - 10)"
                   [width]="320"
-                  [height]="450"
                   [(member)]="lineup.dispositions[bench].member"
                   (memberChange)="lineupService.benchwarmerSelectionChange($event)"
                 >
@@ -62,4 +62,4 @@
       </mat-card>
     </fieldset>
   </div>
-  <div>
+</div>

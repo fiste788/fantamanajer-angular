@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
-import { firstValueFrom, switchMap } from 'rxjs';
 
 @Component({
   template: '',

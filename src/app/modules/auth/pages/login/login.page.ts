@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
@@ -6,11 +7,10 @@ import { firstValueFrom, Observable, of } from 'rxjs';
 import { catchError, map, share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { WebauthnService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { cardCreationAnimation } from '@shared/animations';
-import { NgForm } from '@angular/forms';
+import { WebauthnService } from '@data/services';
 import { Team } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],

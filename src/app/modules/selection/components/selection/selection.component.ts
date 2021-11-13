@@ -3,7 +3,6 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-
 import { BehaviorSubject, firstValueFrom, forkJoin, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -16,10 +15,10 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { MemberService, RoleService, SelectionService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { Member, Role, Selection, Team } from '@data/types';
 import { AtLeast } from '@app/types';
+import { MemberService, RoleService, SelectionService } from '@data/services';
+import { Member, Role, Selection, Team } from '@data/types';
 
 @Component({
   selector: 'app-selection',
@@ -29,7 +28,7 @@ import { AtLeast } from '@app/types';
 export class SelectionComponent {
   @ViewChild(NgForm) public selectionForm?: NgForm;
 
-  public data$: Observable<{ selection: Selection; members: Map<Role, Member[]> }>;
+  public data$: Observable<{ selection: Selection; members: Map<Role, Array<Member>> }>;
   public newMembers$?: Observable<Array<Member>>;
   public newMemberDisabled = false;
   public readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
@@ -53,7 +52,7 @@ export class SelectionComponent {
     this.data$ = this.loadData();
   }
 
-  public loadData(): Observable<{ selection: Selection; members: Map<Role, Member[]> }> {
+  public loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
     return UtilService.getData<Team>(this.route, 'team').pipe(
       filter((team): team is Team => team !== undefined),
       switchMap((team) => this.loadTeamData(team)),
@@ -63,7 +62,7 @@ export class SelectionComponent {
 
   public loadTeamData(
     team: Team,
-  ): Observable<{ selection: Selection; members: Map<Role, Member[]> }> {
+  ): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
     return forkJoin({
       members: this.getTeamMembers(team),
       selection: this.selectionService.getLastOrNewSelection(team.id),
@@ -106,7 +105,7 @@ export class SelectionComponent {
     );
   }
 
-  public getTeamMembers(team: Team): Observable<Map<Role, Member[]>> {
+  public getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
     return this.memberService
       .getByTeamId(team.id)
       .pipe(map((data) => this.roleService.groupMembersByRole(data)));

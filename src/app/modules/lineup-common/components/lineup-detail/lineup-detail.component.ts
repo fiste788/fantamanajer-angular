@@ -8,12 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { firstValueFrom, map } from 'rxjs';
 
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
 import { cardCreationAnimation } from '@shared/animations';
-import { firstValueFrom, map } from 'rxjs';
 
 import { LineupService } from '../lineup.service';
 

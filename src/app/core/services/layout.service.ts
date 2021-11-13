@@ -1,12 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
+import { MatSidenavContent } from '@angular/material/sidenav';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 
 import { ScrollService } from './scroll.service';
-import { MatSidenavContent } from '@angular/material/sidenav';
 
 @Injectable({
   providedIn: 'root',

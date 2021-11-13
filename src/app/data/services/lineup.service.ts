@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { AtLeast } from '@app/types';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
+import { EmptyLineup } from '@data/types/empty-lineup.model';
 
 import { Disposition, Lineup, Member } from '../types';
-import { AtLeast } from '@app/types';
-import { EmptyLineup } from '@data/types/empty-lineup.model';
 
 const url = 'lineups';
 const routes = {
@@ -20,7 +20,7 @@ const routes = {
 export class LineupService {
   public static cleanLineup(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
     const clonedLineup = JSON.parse(JSON.stringify(lineup)) as Lineup;
-    const dispositions: RecursivePartial<Disposition>[] = clonedLineup.dispositions;
+    const dispositions: Array<RecursivePartial<Disposition>> = clonedLineup.dispositions;
     const disp = dispositions.filter((value) => value?.member_id !== null);
     // eslint-disable-next-line no-null/no-null
     disp.forEach((d) => (d.member = null));

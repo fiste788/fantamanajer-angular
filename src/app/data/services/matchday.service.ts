@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Matchday } from '../types';
 import { noAuthIt, noHeadersIt } from '@app/interceptors';
+
+import { Matchday } from '../types';
 
 const url = 'matchdays';
 const routes = {

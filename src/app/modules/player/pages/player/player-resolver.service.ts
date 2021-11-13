@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { first, Observable, switchMap } from 'rxjs';
 
-import { PlayerService } from '@data/services';
 import { ApplicationService } from '@app/services';
+import { PlayerService } from '@data/services';
 import { Player } from '@data/types';
 
 @Injectable()

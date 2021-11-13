@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
 
-import { RatingService } from '@data/services';
 import { ApplicationService, UtilService } from '@app/services';
-import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
+import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
+import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
@@ -48,7 +48,7 @@ export class PlayerPage {
     this.ratings$ = this.getRatings();
   }
 
-  public getRatings(): Observable<Rating[]> {
+  public getRatings(): Observable<Array<Rating>> {
     return combineLatest([this.firstMember$, this.selectedMember$]).pipe(
       map(([first, selected]) => selected ?? first),
       distinctUntilChanged(),
