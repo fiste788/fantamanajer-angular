@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { noAuthIt, noHeadersIt } from '@app/interceptors';
+
 import { Matchday } from '../types';
-import { noAuthIt } from '@app/interceptors';
 
 const url = 'matchdays';
 const routes = {
@@ -16,13 +17,13 @@ export class MatchdayService {
 
   public getCurrentMatchday(): Observable<Matchday> {
     class HackyHttpHeaders extends HttpHeaders {
-      has(name: string): boolean {
+      override has(name: string): boolean {
         // Pretend the `Accept` header is set, so `HttpClient` will not try to set the default value.
         return name.toLowerCase() === 'accept' ? true : super.has(name);
       }
     }
     return this.http.get<Matchday>(routes.current, {
-      context: noAuthIt(),
+      context: noHeadersIt(noAuthIt()),
       withCredentials: false,
       headers: new HackyHttpHeaders(),
     });

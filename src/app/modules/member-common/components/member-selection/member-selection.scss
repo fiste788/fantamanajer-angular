@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@import '~@angular/flex-layout/mq';
+@use '@angular/material' as mat;
+@import '@angular/flex-layout/mq';
 @mixin member-selection-theme($theme) {
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);

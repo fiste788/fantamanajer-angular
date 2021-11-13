@@ -1,20 +1,22 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-logout',
   template: '',
 })
-export class LogoutPage implements OnDestroy {
-  private readonly subscriptions = new Subscription();
+export class LogoutPage implements OnInit {
+  constructor(
+    private readonly authService: AuthenticationService,
+    private readonly router: Router,
+  ) {}
 
-  constructor(private readonly authService: AuthenticationService) {
-    this.subscriptions.add(this.authService.logout().subscribe());
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  async ngOnInit(): Promise<boolean> {
+    return firstValueFrom(
+      this.authService.logout().pipe(switchMap(async () => this.router.navigate(['/']))),
+    );
   }
 }

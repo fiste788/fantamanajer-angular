@@ -1,10 +1,12 @@
 <form
+  *ngIf="team$ | async as team"
   #teamForm="ngForm"
   fxLayout="column"
   fxLayoutAlign="start start"
-  (ngSubmit)="save()"
+  (ngSubmit)="save(team)"
 >
   <mat-form-field>
+    <mat-label>Nome squadra</mat-label>
     <input
       name="name"
       matInput
@@ -14,13 +16,14 @@
     >
   </mat-form-field>
   <mat-form-field>
+    <mat-label>Email</mat-label>
     <input
       name="email"
       type="email"
       matInput
       required
       placeholder="Utente"
-      [(ngModel)]="team.user.email"
+      [(ngModel)]="email"
     >
   </mat-form-field>
   <mat-slide-toggle

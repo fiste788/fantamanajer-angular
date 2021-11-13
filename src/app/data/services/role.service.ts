@@ -5,10 +5,13 @@ import { Member, Role } from '../types';
 @Injectable({ providedIn: 'root' })
 export class RoleService {
   private readonly roles: Map<number, Role> = new Map<number, Role>([
-    [1, new Role(1, 'Portiere', 3, 'P', 'Portieri')],
-    [2, new Role(2, 'Difensore', 8, 'D', 'Difensori')],
-    [3, new Role(3, 'Centrocampista', 8, 'C', 'Centrocampisti')],
-    [4, new Role(4, 'Attaccante', 6, 'A', 'Attaccanti')],
+    [1, { id: 1, singolar: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' }],
+    [2, { id: 2, singolar: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' }],
+    [
+      3,
+      { id: 3, singolar: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
+    ],
+    [4, { id: 4, singolar: 'Attaccante', count: 6, abbreviation: 'A', plural: 'Attaccanti' }],
   ]);
 
   public groupMembersByRole(data: Array<Member>): Map<Role, Array<Member>> {

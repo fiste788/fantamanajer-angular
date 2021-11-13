@@ -25,7 +25,7 @@ export abstract class NavigatorRef {
 
 @Injectable()
 export class BrowserNavigatorRef extends NavigatorRef {
-  get nativeNavigator(): Navigator | object {
+  override get nativeNavigator(): Navigator | object {
     return navigator;
   }
 }

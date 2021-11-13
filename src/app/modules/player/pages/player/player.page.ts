@@ -1,25 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
 
+import { ApplicationService, UtilService } from '@app/services';
 import { RatingService } from '@data/services';
-import { ApplicationService } from '@app/services';
-import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { Member, Player, Rating } from '@data/types';
+import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
   styleUrls: ['./player.page.scss'],
   templateUrl: './player.page.html',
 })
-export class PlayerPage implements OnInit {
-  @ViewChild(MatSort) public sort: MatSort;
-
+export class PlayerPage {
   public player$: Observable<Player>;
   public ratings$: Observable<Array<Rating>>;
-  public selectedMember: Member;
+  public firstMember$: Observable<Member>;
+  public selectedMember$: BehaviorSubject<Member | undefined>;
   public displayedColumns = [
     'matchday',
     'rating',
@@ -39,27 +37,30 @@ export class PlayerPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
     public app: ApplicationService,
-  ) {}
+  ) {
+    this.player$ = UtilService.getData<Player>(this.route, 'player');
+    this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
+    this.firstMember$ = this.player$.pipe(
+      map((p) => p.members[0]),
+      tap((member) => this.selectedMember$?.next(member)),
+    );
 
-  public ngOnInit(): void {
-    this.load();
+    this.ratings$ = this.getRatings();
   }
 
-  public load(): void {
-    this.player$ = this.route.data.pipe(
-      pluck('player'),
-      tap((player: Player) => {
-        this.selectedMember = player.members[0];
-        this.seasonChange();
-      }),
+  public getRatings(): Observable<Array<Rating>> {
+    return combineLatest([this.firstMember$, this.selectedMember$]).pipe(
+      map(([first, selected]) => selected ?? first),
+      distinctUntilChanged(),
+      switchMap((member) => this.ratingService.getRatings(member.id)),
     );
   }
 
-  public seasonChange(): void {
-    this.ratings$ = this.ratingService.getRatings(this.selectedMember.id);
+  public track(_: number, item: Member): number {
+    return item.id;
   }
 
-  public track(_: number, item: Member): number {
+  public trackRating(_: number, item: Rating): number {
     return item.id;
   }
 }

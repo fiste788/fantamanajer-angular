@@ -1,17 +1,17 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Observable, Subscription } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  public isDark$: Observable<boolean>;
-  public themeChanged$: Observable<void>;
-
-  private readonly isDarkSubject$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly isDark$: Observable<boolean>;
+  private readonly theme$: Observable<void>;
   private readonly renderer: Renderer2;
   private readonly head: HTMLHeadElement;
 
@@ -19,27 +19,26 @@ export class ThemeService {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer,
   ) {
-    this.breakpointObserver
-      .observe('(prefers-color-scheme: dark)')
-      .pipe(map((result) => result.matches))
-      .subscribe(this.isDarkSubject$);
+    this.iconRegistry.addSvgIconSet(
+      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
+    );
     this.head = document.head;
     // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
-    this.isDark$ = this.isDarkSubject$.asObservable();
-    this.themeChanged$ = this.isDark$.pipe(
+    this.isDark$ = this.breakpointObserver
+      .observe('(prefers-color-scheme: dark)')
+      .pipe(map((result) => result.matches));
+    this.theme$ = this.isDark$.pipe(
       switchMap(async (dark) => this.setThemeCss(dark)),
       share(),
     );
   }
 
   connect(): Subscription {
-    return this.themeChanged$.subscribe();
-  }
-
-  setTheme(dark: boolean): void {
-    this.isDarkSubject$.next(dark);
+    return this.theme$.subscribe();
   }
 
   private async setThemeCss(isDark: boolean): Promise<void> {

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { tableRowAnimation } from '@shared/animations';
 import { Disposition, Lineup } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
@@ -13,11 +13,11 @@ import { Disposition, Lineup } from '@data/types';
 })
 export class DispositionListComponent implements OnInit {
   @Input() public lineup?: Lineup;
-  @Input() public dispositions: Array<Disposition>;
-  @Input() public caption: string;
+  @Input() public dispositions?: Array<Disposition>;
+  @Input() public caption = '';
   @Input() public regular = false;
 
-  public dataSource: MatTableDataSource<Disposition>;
+  public dataSource!: MatTableDataSource<Disposition>;
   public displayedColumns = [
     'player',
     'role',

@@ -8,9 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { firstValueFrom, map } from 'rxjs';
 
 import { LineupService as LineupHttpService } from '@data/services';
-import { Lineup, MemberOption, Role } from '@data/types';
+import { EmptyLineup, Role } from '@data/types';
+import { environment } from '@env';
+import { cardCreationAnimation } from '@shared/animations';
 
 import { LineupService } from '../lineup.service';
 
@@ -21,12 +24,14 @@ import { LineupService } from '../lineup.service';
   styleUrls: ['./lineup-detail.component.scss'],
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  animations: [cardCreationAnimation],
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() public lineup?: Lineup;
+  @Input() public lineup?: EmptyLineup;
   @Input() public disabled = false;
+  @Input() public benchs = environment.benchwarmersCount;
 
-  @ViewChild(NgForm) public lineupForm: NgForm;
+  @ViewChild(NgForm) public lineupForm?: NgForm;
 
   constructor(
     readonly lineupService: LineupService,
@@ -34,33 +39,38 @@ export class LineupDetailComponent implements OnInit {
     private readonly cd: ChangeDetectorRef,
   ) {}
 
-  public ngOnInit(): void {
-    this.loadLineup();
+  public async ngOnInit(): Promise<void> {
+    return this.loadLineup();
   }
 
-  public loadLineup(): void {
-    const lineup = this.lineup ?? (!this.disabled ? new Lineup() : undefined);
-    if (lineup !== undefined && lineup.team.members.length) {
-      this.lineupService.loadLineup(lineup);
+  public async loadLineup(): Promise<void> {
+    if (this.lineup !== undefined && this.lineup.team?.members.length) {
+      const lineup = this.lineupService.loadLineup(this.lineup, this.benchs);
       if (!this.disabled) {
-        this.loadLikely(lineup);
+        return this.loadLikely(lineup);
       }
     }
+    return undefined;
   }
 
-  public loadLikely(lineup: Lineup): void {
-    this.lineupHttpService.getLikelyLineup(lineup).subscribe((members) => {
-      members.forEach((member) => {
-        const m = this.lineupService.membersById.get(member.id);
-        if (m) {
-          m.likely_lineup = member.likely_lineup;
-        }
-      });
-      this.cd.detectChanges();
-    });
+  public async loadLikely(lineup: EmptyLineup): Promise<void> {
+    return firstValueFrom(
+      this.lineupHttpService.getLikelyLineup(lineup).pipe(
+        map((members) => {
+          members.forEach((member) => {
+            const m = this.lineupService.membersById?.get(member.id);
+            if (m) {
+              m.likely_lineup = member.likely_lineup;
+            }
+          });
+          this.cd.detectChanges();
+        }),
+      ),
+      { defaultValue: undefined },
+    );
   }
 
-  public getLineup(): Lineup {
+  public getLineup(): EmptyLineup {
     return this.lineupService.getLineup();
   }
 
@@ -69,9 +79,5 @@ export class LineupDetailComponent implements OnInit {
 
   public trackByBench(_: number, item: number): number {
     return item; // or item.id
-  }
-
-  public trackByCaptain(_: number, item: MemberOption): number {
-    return item.member.id; // or item.id
   }
 }

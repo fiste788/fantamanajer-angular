@@ -1,39 +1,45 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 import { RoleService } from '@data/services';
-import { Disposition, Lineup, Member, MemberOption, Module, Role } from '@data/types';
+import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
+import { environment } from '@env';
 
 @Injectable()
 export class LineupService {
-  public lineup: Lineup;
+  public lineup!: EmptyLineup;
 
   public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
-  public membersById: Map<number, Member>;
+  public membersById?: Map<number, Member>;
   public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
     ['C', 'captain_id'],
     ['VC', 'vcaptain_id'],
     ['VVC', 'vvcaptain_id'],
   ]);
-  public modules: Array<Module>;
-  public selectedModule: Module;
-  public benchs: Array<number> = Array(7)
-    .fill(7)
-    .map((_, i) => i + 11);
-  public captainables: Array<MemberOption>;
+  public modules?: Array<Module>;
+  public selectedModule?: Module;
+  public benchs?: Array<number>;
+  public captainables?: Array<MemberOption>;
+  public membersByRole?: Map<Role, Array<Member>>;
   public selectionChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
-  public membersByRole: Map<Role, Array<Member>>;
 
   constructor(private readonly roleService: RoleService) {}
 
-  public loadLineup(lineup: Lineup): void {
+  public loadLineup(
+    lineup: EmptyLineup,
+    benchs: number = environment.benchwarmersCount,
+  ): EmptyLineup {
     lineup.team_id = lineup.team_id || lineup.team.id;
-    this.lineup = lineup;
+    this.benchs = Array(benchs)
+      .fill(benchs)
+      .map((_, i) => i + 11);
+
     this.membersById = lineup.team.members.reduce(
       (m, v) => m.set(v.id, v),
       new Map<number, Member>(),
     );
     this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
-    this.lineup.dispositions = this.loadDispositions();
+    this.lineup = lineup;
+    this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
     this.captainSelectionChange();
     this.benchOptions = Array.from(this.membersByRole.entries()).reduce(
@@ -45,10 +51,12 @@ export class LineupService {
       new Map<Role, Array<MemberOption>>(),
     );
     this.reloadBenchwarmerState();
+
+    return this.lineup;
   }
 
   public moduleChange(): void {
-    this.lineup.module = this.selectedModule.key;
+    this.lineup.module = this.selectedModule?.key;
   }
 
   public memberSelectionChange(role: Role, member?: Member | null): void {
@@ -56,7 +64,7 @@ export class LineupService {
     if (['P', 'D'].includes(role.abbreviation)) {
       this.captainSelectionChange();
     }
-    if (member !== undefined && member !== null) {
+    if (member) {
       this.removeBenchwarmer(member);
     }
     this.selectionChange.emit(member);
@@ -70,7 +78,7 @@ export class LineupService {
     this.captainables = this.getCapitanables();
   }
 
-  public getLineup(): Lineup {
+  public getLineup(): EmptyLineup {
     // eslint-disable-next-line no-null/no-null
     this.lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
 
@@ -80,20 +88,18 @@ export class LineupService {
   private loadModules(): void {
     this.modules = this.lineup.modules.map((mod) => new Module(mod, this.roleService.list()));
     const module = this.modules.find((e) => e.key === this.lineup.module);
-    if (module) {
-      this.selectedModule = module;
-      this.moduleChange();
-    }
+    this.selectedModule = module ?? this.modules[0];
+    this.moduleChange();
   }
 
-  private loadDispositions(): Array<Disposition> {
-    const dispositions = this.lineup.dispositions.reduce(
+  private loadDispositions(lineup: EmptyLineup): Array<Disposition> {
+    const dispositions = lineup.dispositions.reduce(
       (p, d) => p.set(d.position - 1, d),
       new Map<number, Disposition>(),
     );
 
-    return Array<Disposition>(18)
-      .fill(new Disposition())
+    return Array<Disposition>(11 + (this.benchs?.length ?? environment.benchwarmersCount))
+      .fill({} as Disposition)
       .map((disp: Disposition, i) => {
         disp.position = i + 1;
 
@@ -102,7 +108,7 @@ export class LineupService {
       .map((disp) => {
         if (disp.member_id !== null) {
           // eslint-disable-next-line no-null/no-null
-          disp.member = this.membersById.get(disp.member_id ?? 0) ?? null;
+          disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
         }
 
         return disp;
@@ -151,6 +157,6 @@ export class LineupService {
     return this.lineup.dispositions
       .filter((disp) => disp.position <= 11)
       .map((disp) => disp.member)
-      .filter((member): member is Member => member !== null);
+      .filter((member): member is Member => member !== null && member !== undefined);
   }
 }

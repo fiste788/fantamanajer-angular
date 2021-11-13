@@ -1,22 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { TeamService } from '@data/services';
 import { UtilService } from '@app/services';
-import { cardCreationAnimation } from '@shared/animations';
+import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
   styleUrls: ['./team-list.page.scss'],
   templateUrl: './team-list.page.html',
 })
-export class TeamListPage implements OnInit, OnDestroy {
+export class TeamListPage implements OnInit {
   public teams$?: Observable<Array<Team>>;
   public exit = false;
-
-  private readonly subscriptions = new Subscription();
 
   constructor(
     private readonly router: Router,
@@ -24,34 +22,31 @@ export class TeamListPage implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
   ) {}
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.loadData();
-    this.attachEvents();
+    return this.attachEvents();
   }
 
   public loadData(): void {
-    const id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id;
-    if (id) {
-      this.teams$ = this.teamService.getTeams(id);
-    }
+    this.teams$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+      switchMap((c) => this.teamService.getTeams(c.id)),
+    );
   }
 
-  public attachEvents(): void {
-    this.subscriptions.add(
-      this.router.events.subscribe((evt) => {
-        if (evt instanceof NavigationStart) {
-          this.exit = true;
-          this.teams$ = undefined;
-        }
-      }),
+  public async attachEvents(): Promise<void> {
+    return firstValueFrom(
+      this.router.events.pipe(
+        map((evt) => {
+          if (evt instanceof NavigationStart) {
+            this.exit = true;
+            this.teams$ = undefined;
+          }
+        }),
+      ),
     );
   }
 
   public track(_: number, item: Team): number {
     return item.id;
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

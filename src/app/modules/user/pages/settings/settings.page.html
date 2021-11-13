@@ -1,6 +1,6 @@
 <div class="flex-container">
   <form
-    *ngIf="user"
+    *ngIf="user$ | async as user"
     ngForm
   >
     <mat-card>
@@ -57,7 +57,7 @@
         name="active_push"
         [disabled]="!enabled"
         [checked]="(push$ | async)"
-        (change)="togglePush($event.checked)"
+        (change)="togglePush(user, $event.checked)"
       >
         Ricevi notifiche push
       </mat-slide-toggle>
@@ -65,7 +65,7 @@
         <button
           color="accent"
           mat-raised-button
-          (click)="save()"
+          (click)="save(user)"
         >
           Salva
         </button>

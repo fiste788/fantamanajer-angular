@@ -1,4 +1,4 @@
 <app-stream
   context="users"
-  [id]="id"
+  [id]="(id$ | async) || 0"
 ></app-stream>

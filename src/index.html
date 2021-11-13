@@ -3,52 +3,174 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
   <title>FantaManajer</title>
   <base href="/">
 
-  <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="//www.googletagmanager.com" crossorigin>
-  <link rel="preload" href="/api/matchdays/current" crossorigin as="fetch">
-  <link rel="preload" href="//fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" as="style">
-  <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons&display=swap">
-  
-  <link rel="manifest" href="/assets/site.webmanifest">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/icon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-180x180.png">
-  <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <link
+    rel="preconnect"
+    href="//fonts.gstatic.com"
+    crossorigin
+  >
+  <link
+    rel="preconnect"
+    href="//www.googletagmanager.com"
+    crossorigin
+  >
+  <link
+    rel="preload"
+    href="/api/matchdays/current"
+    crossorigin
+    as="fetch"
+  >
+  <link
+    rel="preload"
+    href="//fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+    as="style"
+  >
+  <link
+    rel="stylesheet"
+    href="//fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link
+    rel="stylesheet"
+    href="//fonts.googleapis.com/icon?family=Material+Icons&display=swap"
+  >
 
-  <meta name="theme-color" content="#00bcd4">
-  <meta name="color-scheme" content="light dark">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="msapplication-config" content="/assets/browserconfig.xml">
-  <meta name="msapplication-TileImage" content="/assets/icons/fantamanajer.png">
-  <meta name="msapplication-starturl" content="https://fantamanajer.it">
-  <meta name="msapplication-tooltip" content="FantaManajer: l'app per gestire al meglio la tua lega del fantacalcio">
-  <meta http-equiv="origin-trial"
-    content="AiawSk+s0HvcwuD/ACtjF3LZDAtKL6j7b3qRnalm9H8fkhyMMFzYnTEvw1GXvOR8UfFy4eT5D9QoeZasQjEOFgUAAABjeyJvcmlnaW4iOiJodHRwczovL2ZhbnRhbWFuYWplci5pdDo0NDMiLCJmZWF0dXJlIjoiQmFkZ2luZyIsImV4cGlyeSI6MTU1MzUxNzE4MiwiaXNTdWJkb21haW4iOnRydWV9">
+  <link
+    rel="manifest"
+    href="/assets/site.webmanifest"
+  >
+  <link
+    rel="shortcut icon"
+    href="/favicon.ico"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/assets/icons/icon-32x32.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/assets/icons/icon-16x16.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/assets/icons/icon-180x180.png"
+  >
+  <link
+    rel="mask-icon"
+    href="/assets/icons/safari-pinned-tab.svg"
+    color="#5bbad5"
+  >
 
-  <meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
-  <meta name="description" content="FantaManajer: l'app per gestire al meglio la tua lega del fantacalcio">
-  <meta name="author" content="Stefano Sonzogni">
-  <meta name="keywords" content="fantamanajer,alzano sopra,fantacalcio">
+  <meta
+    name="theme-color"
+    content="#00bcd4"
+  >
+  <meta
+    name="color-scheme"
+    content="light dark"
+  >
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  >
+  <meta
+    name="msapplication-config"
+    content="/assets/browserconfig.xml"
+  >
+  <meta
+    name="msapplication-TileImage"
+    content="/assets/icons/fantamanajer.png"
+  >
+  <meta
+    name="msapplication-starturl"
+    content="https://fantamanajer.it"
+  >
+  <meta
+    name="msapplication-tooltip"
+    content="FantaManajer: l'app per gestire al meglio la tua lega del fantacalcio"
+  >
+  <meta
+    http-equiv="origin-trial"
+    content="AiawSk+s0HvcwuD/ACtjF3LZDAtKL6j7b3qRnalm9H8fkhyMMFzYnTEvw1GXvOR8UfFy4eT5D9QoeZasQjEOFgUAAABjeyJvcmlnaW4iOiJodHRwczovL2ZhbnRhbWFuYWplci5pdDo0NDMiLCJmZWF0dXJlIjoiQmFkZ2luZyIsImV4cGlyeSI6MTU1MzUxNzE4MiwiaXNTdWJkb21haW4iOnRydWV9"
+  >
 
-  <meta property="og:image:width" content="207">
-  <meta property="og:image:height" content="207">
-  <meta property="og:title" content="FantaManajer">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fantamanajer.it">
-  <meta property="og:image" content="https://fantamanajer.it/assets/icons/icon-180x180.png">
-  <meta property="og:description" content="L'app per gestire al meglio la tua lega del fantacalcio">
-  <meta property="og:site_name" content="FantaManajer">
-  <meta property="fb:admins" content="sonzogni.stefano">
-  <meta name="fb:page_id" content="351655380347">
-  <meta name="google-signin-client_id"
-    content="852085834364-e70140tqjo75h5ht2ustt490hjhgkruv.apps.googleusercontent.com">
+  <meta
+    name="verify-v1"
+    content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8="
+  />
+  <meta
+    name="description"
+    content="FantaManajer: l'app per gestire al meglio la tua lega del fantacalcio"
+  >
+  <meta
+    name="author"
+    content="Stefano Sonzogni"
+  >
+  <meta
+    name="keywords"
+    content="fantamanajer,alzano sopra,fantacalcio"
+  >
+
+  <meta
+    property="og:image:width"
+    content="207"
+  >
+  <meta
+    property="og:image:height"
+    content="207"
+  >
+  <meta
+    property="og:title"
+    content="FantaManajer"
+  >
+  <meta
+    property="og:type"
+    content="website"
+  >
+  <meta
+    property="og:url"
+    content="https://fantamanajer.it"
+  >
+  <meta
+    property="og:image"
+    content="https://fantamanajer.it/assets/icons/icon-180x180.png"
+  >
+  <meta
+    property="og:description"
+    content="L'app per gestire al meglio la tua lega del fantacalcio"
+  >
+  <meta
+    property="og:site_name"
+    content="FantaManajer"
+  >
+  <meta
+    property="fb:admins"
+    content="sonzogni.stefano"
+  >
+  <meta
+    name="fb:page_id"
+    content="351655380347"
+  >
+  <meta
+    name="google-signin-client_id"
+    content="852085834364-e70140tqjo75h5ht2ustt490hjhgkruv.apps.googleusercontent.com"
+  >
   <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.head.insertAdjacentHTML('beforeend', '<link id="client-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '-theme.css">');
@@ -63,7 +185,10 @@
 <body>
   <app-main></app-main>
   <div class="pre-bootstrap">
-    <img alt="FantaManajer" src="/assets/icons/icon-192x192.png">
+    <img
+      alt="FantaManajer"
+      src="/assets/icons/icon-192x192.png"
+    >
     <div>
       <h1>FantaManajer</h1>
       <noscript>
@@ -71,7 +196,7 @@
           Scusa, ma l'app non è disponibile senza javascript
         </h3>
       </noscript>
-      <h3 class="error"></h3>
+      <div id="error"></div>
     </div>
   </div>
 </body>

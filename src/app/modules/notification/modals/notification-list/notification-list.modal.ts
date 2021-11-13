@@ -1,12 +1,12 @@
 import { AnimationEvent } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
-import { NotificationService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
+import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
-import { tap } from 'rxjs/operators';
+import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],
@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./notification-list.modal.scss'],
   templateUrl: './notification-list.modal.html',
 })
-export class NotificationListModal implements OnInit {
+export class NotificationListModal {
   @Output() readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
 
   public stream$: Observable<Stream>;
@@ -24,16 +24,17 @@ export class NotificationListModal implements OnInit {
   constructor(
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
-  ) {}
+  ) {
+    this.stream$ = this.loadData();
+  }
 
-  public ngOnInit(): void {
-    if (this.app.team) {
-      this.stream$ = this.notificationService.getNotifications(this.app.team.id).pipe(
-        tap((res) => {
-          this.seen.emit(res);
-        }),
-      );
-    }
+  public loadData(): Observable<Stream> {
+    return this.app.requireTeam$.pipe(
+      switchMap((t) => this.notificationService.getNotifications(t.id)),
+      tap((res) => {
+        this.seen.emit(res);
+      }),
+    );
   }
 
   public onAnimationStart(event: AnimationEvent): void {

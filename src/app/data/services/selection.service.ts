@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
+import { AtLeast } from '@app/types';
 
 import { Selection } from '../types';
 
@@ -14,10 +16,13 @@ const routes = {
 export class SelectionService {
   constructor(private readonly http: HttpClient) {}
 
-  public getSelection(id: number): Observable<Selection> {
-    return this.http.get<Array<Selection>>(routes.selection(id)).pipe(
-      filter((a) => a.length > 0),
-      map((a) => a[0]),
+  public getSelections(id: number): Observable<Array<Selection>> {
+    return this.http.get<Array<Selection>>(routes.selection(id));
+  }
+
+  public getLastOrNewSelection(id: number): Observable<Selection> {
+    return this.getSelections(id).pipe(
+      map((a) => (a.length ? a[a.length - 1] : ({} as Selection))),
     );
   }
 
@@ -28,7 +33,7 @@ export class SelectionService {
     );
   }
 
-  public create(selection: Selection): Observable<Partial<Selection>> {
+  public create(selection: AtLeast<Selection, 'team_id'>): Observable<AtLeast<Selection, 'id'>> {
     return this.http.post<Selection>(routes.selection(selection.team_id), selection);
   }
 }

@@ -29,7 +29,7 @@
   >copyright</mat-icon>
   <span
     class="mat-icon number"
-    [matTooltip]="'Avversario ' + member.likely_lineup?.versus"
+    [matTooltip]="'Avversario ' + member.likely_lineup?.versus | titlecase"
   >{{member.likely_lineup?.versus | uppercase | slice: 0:3}}</span>
 </span>
 <ng-container *ngIf="!circle">

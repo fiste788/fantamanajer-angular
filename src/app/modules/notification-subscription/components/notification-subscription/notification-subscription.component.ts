@@ -8,9 +8,9 @@ import {
   Output,
 } from '@angular/core';
 
-import { NotificationSubscription, Team } from '@data/types';
+import { Keys, NotificationSubscription, Team } from '@data/types';
 
-import { Keys, Notification, notificationSubscriptions } from '../../types';
+import { Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,16 +19,16 @@ import { Keys, Notification, notificationSubscriptions } from '../../types';
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {
-  @Input() public type: Keys;
-  @Input() public label: string;
-  @Input() public subscriptions: Array<NotificationSubscription>;
-  @Input() public team: Team;
+  @Input() public type!: Keys;
+  @Input() public label!: string;
+  @Input() public subscriptions!: Array<NotificationSubscription>;
+  @Input() public team!: Team;
 
   @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
     new EventEmitter<Array<NotificationSubscription>>();
 
   public map = new Map<Notification, NotificationSubscription>();
-  private keys: Array<Notification>;
+  private keys?: Array<Notification>;
 
   public ngOnInit(): void {
     this.load();
@@ -39,10 +39,12 @@ export class NotificationSubscriptionComponent implements OnInit {
     this.keys.forEach((element) => {
       let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
       if (!sub) {
-        sub = new NotificationSubscription();
-        sub.type = this.type;
-        sub.name = element.name;
-        sub.team_id = this.team.id;
+        sub = {
+          enabled: false,
+          type: this.type,
+          name: element.name,
+          team_id: this.team.id,
+        };
         this.subscriptions.push(sub);
       }
       this.map.set(element, sub);

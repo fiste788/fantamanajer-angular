@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UtilService } from '@app/services';
@@ -8,12 +8,10 @@ import { Team } from '@data/types';
   styleUrls: ['./team-stream.page.scss'],
   templateUrl: './team-stream.page.html',
 })
-export class TeamStreamPage implements OnInit {
+export class TeamStreamPage {
   public id: number;
 
-  constructor(private readonly route: ActivatedRoute) {}
-
-  public ngOnInit(): void {
+  constructor(private readonly route: ActivatedRoute) {
     this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
   }
 }

@@ -8,9 +8,9 @@
   svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
   possibile cambiare il giocatore selezionato 2 volte.</p>
 <form
-  *ngIf="(members$ | async) as members;"
+  *ngIf="(data$ | async) as data; else loading"
   #selectionForm="ngForm"
-  (ngSubmit)="save()"
+  (ngSubmit)="save(data.selection)"
 >
   <div class="row">
     <mat-form-field>
@@ -20,30 +20,33 @@
         placeholder="Vecchio giocatore"
         required
         [compareWith]="compareFn"
-        [(ngModel)]="selection.old_member"
-        (selectionChange)="playerChange()"
+        [(ngModel)]="data.selection.old_member"
+        (selectionChange)="oldMemberChange($event.value)"
       >
-        <mat-optgroup
-          *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
-          [label]="role.key.plural"
-          [disabled]="newPlayerRole$.value && role.key !== newPlayerRole$.value"
-        >
-          <mat-option
-            *ngFor="let member of role.value"
-            [value]="member"
-          >{{ member.player.full_name }}</mat-option>
-        </mat-optgroup>
+        <ng-container *ngIf="data.members as members;">
+          <mat-optgroup
+            *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
+            [label]="role.key.plural"
+            [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
+          >
+            <mat-option
+              *ngFor="let member of role.value; trackBy: trackMember"
+              [value]="member"
+            >{{ member.player.full_name }}</mat-option>
+          </mat-optgroup>
+        </ng-container>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Nuovo giocatore</mat-label>
       <mat-select
-        #newMember
+        #newMember="ngModel"
         name="new_member"
         required
         placeholder="Nuovo giocatore"
         [compareWith]="compareFn"
-        [(ngModel)]="selection.new_member"
+        [disabled]="newMemberDisabled"
+        [(ngModel)]="data.selection.new_member"
       >
         <mat-option
           *ngFor="let member of (newMembers$ | async); trackBy: trackMember"
@@ -52,6 +55,9 @@
           {{ member.player.full_name }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="newMember.errors?.TeamReachedMaximum">
+        {{newMember.errors?.TeamReachedMaximum}}
+      </mat-error>
     </mat-form-field>
   </div>
   <div class="row center">
@@ -68,3 +74,9 @@
     >SVUOTA</button>
   </div>
 </form>
+<ng-template #loading>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-spinner>
+</ng-template>

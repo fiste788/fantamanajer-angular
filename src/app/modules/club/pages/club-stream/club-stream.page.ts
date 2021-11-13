@@ -12,9 +12,6 @@ export class ClubStreamPage {
   public id: number;
 
   constructor(private readonly route: ActivatedRoute) {
-    const club = UtilService.getSnapshotData<Club>(this.route, 'club');
-    if (club) {
-      this.id = club.id;
-    }
+    this.id = UtilService.getSnapshotData<Club>(this.route, 'club')?.id ?? 0;
   }
 }

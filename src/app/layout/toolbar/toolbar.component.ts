@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -12,18 +12,16 @@ import { scrollUpAnimation } from '@shared/animations';
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
 })
-export class ToolbarComponent implements OnInit {
-  @Input() public state: VisibilityState | null;
-  @Input() public showDrawerButton: boolean;
+export class ToolbarComponent {
+  @Input() public state!: VisibilityState | null;
+  @Input() public showDrawerButton = false;
 
   public loggedIn$: Observable<boolean>;
 
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.loggedIn$ = this.auth.loggedIn$;
   }
 

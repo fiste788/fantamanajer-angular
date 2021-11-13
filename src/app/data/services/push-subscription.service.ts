@@ -13,7 +13,7 @@ const routes = {
 export class PushSubscriptionService {
   constructor(private readonly http: HttpClient) {}
 
-  public add(subscription: PushSubscription): Observable<Partial<PushSubscription>> {
+  public add(subscription: Partial<PushSubscription>): Observable<Partial<PushSubscription>> {
     return this.http.post(routes.add, subscription);
   }
 

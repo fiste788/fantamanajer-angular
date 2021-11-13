@@ -78,6 +78,7 @@
               ],
               "outputHashing": "all",
               "serviceWorker": true,
+              "sourceMap": true,
               "ngswConfigPath": "ngsw-config.json",
               "fileReplacements": [
                 {
@@ -177,6 +178,11 @@
   },
   "defaultProject": "fantamanajer-angular",
   "cli": {
-    "analytics": "2c669fec-8a87-4f51-b703-4509caf7aa22"
+    "analytics": "2c669fec-8a87-4f51-b703-4509caf7aa22",
+    "cache": {
+      "enabled": true,
+      "path": ".angular/cache",
+      "environment": "all"
+    }
   }
 }

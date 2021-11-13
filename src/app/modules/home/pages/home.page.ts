@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { MemberService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { cardCreationAnimation } from '@shared/animations';
+import { MemberService } from '@data/services';
 import { Member } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 interface BestPlayer {
   role: string;
@@ -18,13 +18,15 @@ interface BestPlayer {
   styleUrls: ['./home.page.scss'],
   templateUrl: './home.page.html',
 })
-export class HomePage implements OnInit {
+export class HomePage {
   public bestPlayers$: Observable<Array<BestPlayer> | undefined>;
 
-  constructor(private readonly memberService: MemberService, public app: ApplicationService) {}
+  constructor(private readonly memberService: MemberService, public app: ApplicationService) {
+    this.bestPlayers$ = this.loadBestPlayers();
+  }
 
-  public ngOnInit(): void {
-    this.bestPlayers$ = this.memberService.getBest().pipe(
+  public loadBestPlayers(): Observable<Array<BestPlayer>> {
+    return this.memberService.getBest().pipe(
       map((role) =>
         role
           .filter((a) => a.best_players !== undefined)

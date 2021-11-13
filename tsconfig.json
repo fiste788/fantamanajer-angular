@@ -6,7 +6,7 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -16,12 +16,14 @@
     "importHelpers": true,
     "module": "es2020",
     "moduleResolution": "node",
+    "noImplicitOverride": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "es2017",
@@ -56,6 +58,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "disableTypeScriptVersionCheck": true
+    "disableTypeScriptVersionCheck": true,
+    "enableI18nLegacyMessageIdFormat": false
   }
 }

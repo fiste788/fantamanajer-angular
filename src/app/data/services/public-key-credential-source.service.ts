@@ -14,8 +14,8 @@ const routes = {
 export class PublicKeyCredentialSourceService {
   constructor(private readonly http: HttpClient) {}
 
-  public index(userId: number): Observable<PublicKeyCredentialSource[]> {
-    return this.http.get<PublicKeyCredentialSource[]>(routes.index(userId));
+  public index(userId: number): Observable<Array<PublicKeyCredentialSource>> {
+    return this.http.get<Array<PublicKeyCredentialSource>>(routes.index(userId));
   }
 
   public delete(userId: number, id: string): Observable<Record<string, never>> {

@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { firstValueFrom, map } from 'rxjs';
 
 import { ArticleService } from '@data/services';
-import { cardCreationAnimation } from '@shared/animations';
 import { Article, PagedResponse, Pagination } from '@data/types';
+import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
@@ -12,7 +13,7 @@ import { Article, PagedResponse, Pagination } from '@data/types';
 })
 export class ArticleListPage implements OnInit {
   public articles: Array<Article> = [];
-  public pagination: Pagination;
+  public pagination?: Pagination;
   public isLoading = false;
   private page = 1;
 
@@ -23,33 +24,41 @@ export class ArticleListPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.loadData();
+    void this.loadData();
   }
 
-  public loadData(page = 1): void {
+  public async loadData(page = 1): Promise<void> {
     this.page = page;
     this.isLoading = true;
-    this.articleService.getArticles(page).subscribe((data: PagedResponse<Array<Article>>) => {
-      this.isLoading = false;
-      this.pagination = data.pagination;
-      this.articles = this.articles.concat(data.data);
-      this.changeRef.detectChanges();
-    });
+    return firstValueFrom(
+      this.articleService.getArticles(page).pipe(
+        map((data: PagedResponse<Array<Article>>) => {
+          this.isLoading = false;
+          this.pagination = data.pagination;
+          this.articles = this.articles.concat(data.data);
+          this.changeRef.detectChanges();
+        }),
+      ),
+    );
   }
 
   public onScrollDown(): void {
-    if (this.pagination.has_next_page && this.page < this.pagination.current_page + 1) {
-      this.loadData(this.pagination.current_page + 1);
+    if (this.pagination?.has_next_page && this.page < this.pagination.current_page + 1) {
+      void this.loadData(this.pagination.current_page + 1);
     }
   }
 
-  public delete(id: number): void {
-    this.articleService.delete(id).subscribe(() => {
-      this.snackBar.open('Article deleted', undefined, {
-        duration: 3000,
-      });
-      this.articles.filter((article) => article.id !== id);
-    });
+  public async delete(id: number): Promise<void> {
+    return firstValueFrom(
+      this.articleService.delete(id).pipe(
+        map(() => {
+          this.snackBar.open('Article deleted', undefined, {
+            duration: 3000,
+          });
+          this.articles.filter((article) => article.id !== id);
+        }),
+      ),
+    );
   }
 
   public track(_: number, item: Article): number {

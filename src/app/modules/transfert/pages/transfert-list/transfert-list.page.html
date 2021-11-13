@@ -88,4 +88,4 @@
     mode="indeterminate"
   ></mat-progress-spinner>
 </ng-template>
-<app-selection *ngIf="app.team?.id === teamId && !app.seasonEnded"></app-selection>
+<app-selection *appSeasonActive></app-selection>

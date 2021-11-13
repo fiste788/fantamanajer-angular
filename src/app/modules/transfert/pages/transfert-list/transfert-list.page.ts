@@ -1,22 +1,22 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-
-import { TransfertService } from '@data/services';
-import { ApplicationService, UtilService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
-import { Team, Transfert } from '@data/types';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { ApplicationService, UtilService } from '@app/services';
+import { TransfertService } from '@data/services';
+import { Team, Transfert } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
   styleUrls: ['./transfert-list.page.scss'],
   templateUrl: './transfert-list.page.html',
 })
-export class TransfertListPage implements OnInit {
-  @ViewChild(MatSort) public sort: MatSort;
+export class TransfertListPage {
+  @ViewChild(MatSort) public sort?: MatSort;
 
   public teamId?: number;
   public dataSource$: Observable<MatTableDataSource<Transfert>>;
@@ -27,28 +27,25 @@ export class TransfertListPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly ref: ChangeDetectorRef,
     public app: ApplicationService,
-  ) {}
-
-  public ngOnInit(): void {
-    this.loadData();
+  ) {
+    this.dataSource$ = this.loadData();
   }
 
-  public loadData(): void {
-    this.teamId = UtilService.getSnapshotData<Team>(this.route, 'team')?.id;
-    if (this.teamId) {
-      // this.dataSource._updateChangeSubscription = () => this.dataSource.sort = this.sort;
-      this.dataSource$ = this.transfertService.getTransfert(this.teamId).pipe(
-        map((data) => {
-          const ds = new MatTableDataSource<Transfert>(data);
-          if (data.length) {
-            ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-            this.ref.detectChanges();
+  public loadData(): Observable<MatTableDataSource<Transfert>> {
+    return UtilService.getData<Team>(this.route, 'team').pipe(
+      switchMap((team) => this.transfertService.getTransfert(team.id)),
+      map((data) => {
+        const ds = new MatTableDataSource<Transfert>(data);
+        if (data.length) {
+          ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
+          this.ref.detectChanges();
+          if (this.sort) {
             ds.sort = this.sort;
           }
-          return ds;
-        }),
-      );
-    }
+        }
+        return ds;
+      }),
+    );
   }
 
   public sortingDataAccessor(data: Transfert, sortHeaderId: string): string {

@@ -9,9 +9,9 @@
       [title]="area.role.plural"
     >{{area.role.plural | uppercase}}</h5>
     <div
-      class="area"
       fxLayout="column"
       fxLayoutAlign="space-around"
+      class="area"
       [fxLayout.gt-sm]="'row' + wrap ? ' wrap' : ''"
     >
       <ng-container
@@ -19,18 +19,18 @@
         [ngModelGroup]="i + ''"
       >
         <app-member-selection
-          name="member"
           fxLayout="row"
           fxLayout.gt-sm="column"
           fxLayoutAlign="start center"
           class="regular"
-          [disabled]="disabled"
+          name="member"
           [captain]="dispositions[i].member?.id === captain?.id"
-          [required]="true"
+          [disabled]="disabled"
+          [height]="450"
           [memberList]="area.options"
           [placeholder]="area.role.singolar"
+          [required]="true"
           [width]="320"
-          [height]="450"
           [(member)]="dispositions[i].member"
           (memberChange)="memberSelectionChange(area.role, $event)"
         >

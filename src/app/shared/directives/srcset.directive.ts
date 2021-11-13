@@ -4,8 +4,8 @@ import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2 } from '@ang
   selector: '[appSrcset]',
 })
 export class SrcsetDirective implements OnInit, OnChanges {
-  @Input() public appSrcset: Record<string, string> | string | null;
-  @Input() public placeholder: string;
+  @Input() public appSrcset?: Record<string, string> | string | null;
+  @Input() public placeholder = '';
 
   constructor(
     private readonly renderer: Renderer2,
@@ -21,7 +21,7 @@ export class SrcsetDirective implements OnInit, OnChanges {
   }
 
   public init(): void {
-    if (this.appSrcset !== null) {
+    if (this.appSrcset !== null && this.appSrcset !== undefined) {
       if (typeof this.appSrcset !== 'string') {
         this.processRecord(this.appSrcset);
       } else {

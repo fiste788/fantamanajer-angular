@@ -1,7 +1,13 @@
 import { animate, query, sequence, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { IBreadcrumb } from 'ngx-breadcrumbs/dist/ngx-breadcrumbs';
+import { IBreadcrumb, NgxBreadcrumbsService } from 'ngx-breadcrumbs/dist/ngx-breadcrumbs';
 import { Subscription } from 'rxjs';
 
 export const breadcrumbTransition = trigger('breadcrumbTransition', [
@@ -46,8 +52,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   public subscriptions = new Array<Subscription>();
 
   constructor(
-    //private readonly bs: McBreadcrumbsService,
-    private readonly ts: Title, //private readonly cd: ChangeDetectorRef,
+    private readonly bs: NgxBreadcrumbsService,
+    private readonly ts: Title,
+    private readonly cd: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
@@ -55,9 +62,8 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   }
 
   public loadBreadcrumb(): void {
-    this.subscriptions
-      .push
-      /*this.bs.crumbs$.subscribe((x) => {
+    this.subscriptions.push(
+      this.bs.crumbs$.subscribe((x) => {
         if (x.length === 0) {
           const def: IBreadcrumb = { text: 'FantaManajer', path: '/' };
           x.push(def);
@@ -73,8 +79,8 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         this.crumbs = x;
         this.cd.detectChanges();
         this.setTitle(x);
-      }),*/
-      ();
+      }),
+    );
   }
 
   public setTitle(x: Array<IBreadcrumb>): void {

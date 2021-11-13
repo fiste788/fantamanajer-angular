@@ -1,21 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 
-import { ArticleService } from '@data/services';
 import { ApplicationService } from '@app/services';
+import { AtLeast } from '@app/types';
+import { ArticleService } from '@data/services';
 import { Article } from '@data/types';
 
 @Component({
   styleUrls: ['./article-detail.page.scss'],
   templateUrl: './article-detail.page.html',
 })
-export class ArticleDetailPage implements OnInit {
-  @ViewChild(NgForm) public articleForm: NgForm;
+export class ArticleDetailPage {
+  @ViewChild(NgForm) public articleForm?: NgForm;
 
-  public article$: Observable<Article>;
+  public article$: Observable<AtLeast<Article, 'team_id'>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -23,9 +24,7 @@ export class ArticleDetailPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly articleService: ArticleService,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     const id = this.route.snapshot.params.id as string | undefined;
     this.article$ = id !== undefined ? this.load(+id) : this.new();
   }
@@ -34,24 +33,30 @@ export class ArticleDetailPage implements OnInit {
     return this.articleService.getArticle(id);
   }
 
-  public new(): Observable<Article> {
-    const article = new Article();
-    article.team_id = this.app.team?.id ?? 0;
-
-    return of(article);
+  public new(): Observable<Pick<Article, 'team_id'>> {
+    return this.app.requireTeam$.pipe(
+      map((t) => ({
+        team_id: t.id,
+      })),
+    );
   }
 
-  public save(article: Article): void {
-    if (this.articleForm.valid === true) {
-      const obs: Observable<Partial<Article>> = article.id
-        ? this.articleService.update(article)
+  public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
+    if (this.articleForm?.valid) {
+      const save: Observable<AtLeast<Article, 'id'>> = article.id
+        ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
-      obs.subscribe((a: Partial<Article>) => {
-        this.snackBar.open('Articolo salvato correttamente', undefined, {
-          duration: 3000,
-        });
-        void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id ?? article.id}`);
-      });
+      return firstValueFrom(
+        save.pipe(
+          map((a: AtLeast<Article, 'id'>) => {
+            this.snackBar.open('Articolo salvato correttamente', undefined, {
+              duration: 3000,
+            });
+            void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
+          }),
+        ),
+        { defaultValue: undefined },
+      );
     }
   }
 }

@@ -1,8 +1,10 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ElementRef, Injectable, Injector } from '@angular/core';
+import { firstValueFrom, tap } from 'rxjs';
 
 import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
+
 import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable()
@@ -20,9 +22,13 @@ export class NotificationOverlayService {
 
     dialogRef.componentInstance = overlayComponent;
 
-    overlayRef.backdropClick().subscribe(() => {
-      dialogRef.close();
-    });
+    void firstValueFrom(
+      overlayRef.backdropClick().pipe(
+        tap(() => {
+          dialogRef.close();
+        }),
+      ),
+    );
 
     return dialogRef;
   }

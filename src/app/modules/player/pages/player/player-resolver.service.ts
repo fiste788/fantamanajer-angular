@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { PlayerService } from '@data/services';
 import { ApplicationService } from '@app/services';
+import { PlayerService } from '@data/services';
 import { Player } from '@data/types';
 
 @Injectable()
@@ -15,7 +15,10 @@ export class PlayerResolver implements Resolve<Player | undefined> {
     if (playerId !== null) {
       const id = +playerId;
 
-      return this.cs.getPlayer(id, this.app.championship ? this.app.championship.id : undefined);
+      return this.app.team$.pipe(
+        switchMap((t) => this.cs.getPlayer(id, t?.championship?.id)),
+        first(),
+      );
     }
 
     return undefined;

@@ -1,11 +1,13 @@
 import { Team } from './';
 
+export type Keys = 'email' | 'push';
+
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
-export class NotificationSubscription {
-  public id: number;
-  public type: string;
-  public name: string;
-  public enabled: boolean;
-  public team_id: number;
-  public team: Team;
+export interface NotificationSubscription {
+  id?: number;
+  type: Keys;
+  name: string;
+  enabled: boolean;
+  team_id: number;
+  team?: Team;
 }

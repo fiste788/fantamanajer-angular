@@ -1,24 +1,22 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { firstValueFrom, map, tap } from 'rxjs';
 
-import { TeamService } from '@data/services';
 import { ApplicationService } from '@app/services';
-import { createBoxAnimation } from '@shared/animations';
+import { TeamService } from '@data/services';
 import { NotificationSubscription, Team } from '@data/types';
-import { Subscription } from 'rxjs';
+import { createBoxAnimation } from '@shared/animations';
 
 @Component({
   animations: [createBoxAnimation],
   styleUrls: ['./team-edit.modal.scss'],
   templateUrl: './team-edit.modal.html',
 })
-export class TeamEditModal implements OnDestroy {
+export class TeamEditModal {
   public validComboDrag = false;
   public invalidComboDrag = false;
   public team: Team;
-  public file: File;
-
-  private readonly subscriptions = new Subscription();
+  public file!: File;
 
   public static objectToPostParams(
     team: Team,
@@ -49,7 +47,7 @@ export class TeamEditModal implements OnDestroy {
     this.team = data.team;
   }
 
-  public save(): void {
+  public async save(): Promise<void> {
     const fd = new FormData();
     // eslint-disable-next-line
     if (this.file !== undefined) {
@@ -58,14 +56,12 @@ export class TeamEditModal implements OnDestroy {
     fd.set('name', this.team.name);
     TeamEditModal.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
     TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
-    this.subscriptions.add(
-      this.teamService.upload(this.team.id, fd).subscribe(() => {
-        this.dialogRef.close(true);
-      }),
+    return firstValueFrom(
+      this.teamService.upload(this.team.id, fd).pipe(
+        tap((t) => (this.team.photo_url = t.photo_url)),
+        map(() => this.dialogRef.close(true)),
+      ),
+      { defaultValue: undefined },
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

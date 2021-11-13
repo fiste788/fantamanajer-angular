@@ -4,17 +4,16 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
-import { tableRowAnimation } from '@shared/animations';
 import { Member } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 const stats = [
   'sum_present',
@@ -34,8 +33,8 @@ type Stats = typeof stats[number];
   styleUrls: ['./member-list.component.scss'],
   templateUrl: './member-list.component.html',
 })
-export class MemberListComponent implements OnInit, OnDestroy {
-  @Input() public members: Observable<Array<Member>>;
+export class MemberListComponent implements OnInit {
+  @Input() public members!: Observable<Array<Member>>;
   @Input() public hideClub = false;
   @Input() public isSelectable = false;
   @Input() public multipleSelection = false;
@@ -43,9 +42,9 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   @Output() public readonly selection: SelectionModel<Member>;
 
-  @ViewChild(MatSort) public sort: MatSort;
+  @ViewChild(MatSort) public sort?: MatSort;
 
-  public dataSource?: MatTableDataSource<Member>;
+  public dataSource$?: Observable<MatTableDataSource<Member>>;
   public displayedColumns = [
     'player',
     'role',
@@ -60,7 +59,6 @@ export class MemberListComponent implements OnInit, OnDestroy {
     'sum_red_card',
   ];
   public footer: { [column: string]: number } = {};
-  private subscription: Subscription;
 
   constructor(private readonly changeRef: ChangeDetectorRef) {
     this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);
@@ -68,7 +66,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.fixColumns();
-    this.loadMembers();
+    this.dataSource$ = this.dataSourceFromMembers();
   }
 
   public fixColumns(): void {
@@ -80,18 +78,22 @@ export class MemberListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public loadMembers(): void {
-    this.subscription = this.members.subscribe((data) => {
-      this.dataSource = new MatTableDataSource<Member>(data);
-      if (data.length) {
-        this.dataSource.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-        this.calcSummary(data);
-        this.changeRef.detectChanges();
-        this.dataSource.sort = this.sort;
-      } else {
-        this.changeRef.detectChanges();
-      }
-    });
+  public dataSourceFromMembers(): Observable<MatTableDataSource<Member>> {
+    return this.members.pipe(
+      map((data) => new MatTableDataSource<Member>(data)),
+      tap((ds) => {
+        if (ds.data.length) {
+          ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
+          this.calcSummary(ds.data);
+          this.changeRef.detectChanges();
+          if (this.sort) {
+            ds.sort = this.sort;
+          }
+        } else {
+          this.changeRef.detectChanges();
+        }
+      }),
+    );
   }
 
   public calcSummary(data: Array<Member>): void {
@@ -131,12 +133,5 @@ export class MemberListComponent implements OnInit, OnDestroy {
     }
 
     return 0;
-  }
-
-  public ngOnDestroy(): void {
-    if (this.dataSource !== undefined) {
-      this.dataSource.disconnect();
-    }
-    this.subscription.unsubscribe();
   }
 }

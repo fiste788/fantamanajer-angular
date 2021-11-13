@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
-import { MemberService } from '@data/services';
 import { UtilService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
+import { MemberService } from '@data/services';
 import { Club, Member } from '@data/types';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
@@ -21,9 +21,8 @@ export class ClubMembersPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const club = UtilService.getSnapshotData<Club>(this.route, 'club');
-    if (club) {
-      this.members$ = this.memberService.getByClubId(club.id);
-    }
+    this.members$ = UtilService.getData<Club>(this.route, 'club').pipe(
+      switchMap((club) => this.memberService.getByClubId(club.id)),
+    );
   }
 }

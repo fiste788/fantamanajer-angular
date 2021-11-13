@@ -1,14 +1,14 @@
 import { trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { filter, mergeMap, pluck, tap } from 'rxjs/operators';
+import { firstValueFrom, Observable } from 'rxjs';
+import { combineLatestWith, filter, map } from 'rxjs/operators';
 
-import { TeamService } from '@data/services';
+import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
+import { Tab, Team, User } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
-import { Team } from '@data/types';
 
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 
@@ -17,50 +17,54 @@ import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
 })
-export class TeamDetailPage implements OnInit, OnDestroy {
+export class TeamDetailPage {
   @HostBinding('@enterDetailAnimation') public e = '';
   public team$: Observable<Team>;
-  public tabs: Array<{ label: string; link: string }> = [];
-
-  private readonly subscriptions = new Subscription();
+  public tabs: Array<Tab> = [];
 
   constructor(
     public app: ApplicationService,
+    public auth: AuthenticationService,
     private readonly route: ActivatedRoute,
-    private readonly teamService: TeamService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-  ) {}
-
-  public ngOnInit(): void {
+  ) {
     this.team$ = this.route.data.pipe(
-      pluck('team'),
-      tap((team: Team) => {
-        this.loadTabs(team);
+      map((data) => data.team as Team),
+      combineLatestWith(this.auth.user$, this.app.requireTeam$),
+      map(([team, user, selectedTeam]) => {
+        this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);
+        return team;
       }),
     );
   }
 
-  public loadTabs(team: Team): void {
-    this.tabs = [{ label: 'Giocatori', link: 'players' }];
-    if (this.app.championship?.started) {
-      if (!this.app.seasonEnded) {
-        this.tabs.push({ label: 'Formazione', link: 'lineup/current' });
-      }
-      this.tabs.push({ label: 'Ultima giornata', link: 'scores/last' });
-      if (!this.app.seasonEnded) {
-        this.tabs.push({ label: 'Trasferimenti', link: 'transferts' });
-      }
-    }
-    this.tabs.push({ label: 'Articoli', link: 'articles' });
-    this.tabs.push({ label: 'Attività', link: 'stream' });
-    if (this.app.user?.admin || team.admin) {
-      this.tabs.push({ label: 'Admin', link: 'admin' });
-    }
+  public loadTabs(team: Team, started: boolean, ended: boolean, user?: User): void {
+    this.tabs = [
+      { label: 'Giocatori', link: 'players' },
+      {
+        label: 'Formazione',
+        link: 'lineup/current',
+        hidden: ended || !started,
+      },
+      {
+        label: 'Ultima giornata',
+        link: 'scores/last',
+        hidden: !started,
+      },
+      {
+        label: 'Trasferimenti',
+        link: 'transferts',
+        hidden: ended || !started,
+      },
+      { label: 'Articoli', link: 'articles' },
+      { label: 'Attività', link: 'stream' },
+      { label: 'Admin', link: 'admin', hidden: user?.admin || team.admin },
+    ];
   }
 
-  public openDialog(team: Team): void {
-    this.subscriptions.add(
+  public async openDialog(team: Team): Promise<void> {
+    return firstValueFrom(
       this.dialog
         .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
           data: { team },
@@ -68,16 +72,12 @@ export class TeamDetailPage implements OnInit, OnDestroy {
         .afterClosed()
         .pipe(
           filter((t) => t === true),
-          mergeMap(() => this.teamService.getTeam(team.id)),
-        )
-        .subscribe((t: Team) => {
-          this.app.teamChange$.next(t);
-          this.changeRef.detectChanges();
-        }),
+          map(() => {
+            this.app.teamSubject$.next(team);
+            this.changeRef.detectChanges();
+          }),
+        ),
+      { defaultValue: undefined },
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

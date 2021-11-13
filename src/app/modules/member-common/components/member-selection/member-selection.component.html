@@ -41,7 +41,7 @@
     </ng-container>
     <ng-container *ngIf="memberMap">
       <mat-optgroup
-        *ngFor="let role of (memberMap | keyvalue)"
+        *ngFor="let role of (memberMap | keyvalue), trackBy: trackMember"
         [label]="role.key.plural"
       >
         <mat-option

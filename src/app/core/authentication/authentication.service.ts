@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { finalize, first, map, switchMap, tap } from 'rxjs/operators';
+import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
+
 import { AuthenticationStorageService } from './authentication-storage.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +14,8 @@ export class AuthenticationService {
   public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(
     undefined,
   );
-  public userChange$: Observable<User | undefined>;
+  public user$: Observable<User | undefined>;
+  public requireUser$: Observable<User>;
   public loggedIn$: Observable<boolean>;
 
   private readonly jwtHelper = new JwtHelperService();
@@ -25,8 +27,9 @@ export class AuthenticationService {
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
   ) {
-    this.userChange$ = this.userSubject.asObservable();
-    this.loggedIn$ = this.userChange$.pipe(map((u) => u !== undefined));
+    this.user$ = this.userSubject.asObservable();
+    this.requireUser$ = this.user$.pipe(filter((user): user is User => user !== undefined));
+    this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
     if (this.authenticationStorageService.token && !this.loggedIn()) {
       // eslint-disable-next-line rxjs/no-ignored-subscription
       this.logout().subscribe();
@@ -58,7 +61,7 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
-      return this.userChange$.pipe(map((u) => u !== undefined));
+      return this.user$.pipe(map((u) => u !== undefined));
     }
 
     return of(false);

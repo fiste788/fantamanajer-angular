@@ -1,7 +1,7 @@
-export class StreamActivity {
-  public title: string;
-  public time: Date;
-  public humanTime: string;
-  public icon: string;
-  public body: string;
+export interface StreamActivity {
+  title: string;
+  time: Date;
+  humanTime: string;
+  icon: string;
+  body: string;
 }

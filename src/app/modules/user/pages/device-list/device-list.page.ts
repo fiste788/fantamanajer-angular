@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
+import { AuthenticationService } from '@app/authentication';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
-import { ApplicationService } from '@app/services';
-import { tableRowAnimation } from '@shared/animations';
 import { PublicKeyCredentialSource } from '@data/types';
-import { Observable, Subscription } from 'rxjs';
+import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
@@ -14,52 +14,46 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./device-list.page.scss'],
   templateUrl: './device-list.page.html',
 })
-export class DeviceListPage implements OnInit, OnDestroy {
+export class DeviceListPage {
   public dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;
+  public refresh$: BehaviorSubject<true>;
   public displayedColumns = ['name', 'created_at', 'counter', 'actions'];
-
-  private readonly subscriptions = new Subscription();
 
   constructor(
     private readonly webauthnService: WebauthnService,
     private readonly pbcsService: PublicKeyCredentialSourceService,
-    public app: ApplicationService,
-  ) {}
-
-  public ngOnInit(): void {
-    this.loadData();
+    private readonly auth: AuthenticationService,
+  ) {
+    this.refresh$ = new BehaviorSubject(true);
+    this.dataSource$ = this.getDataSource();
   }
 
-  public loadData(): void {
-    if (this.app.user) {
-      this.dataSource$ = this.pbcsService
-        .index(this.app.user.id)
-        .pipe(map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data)));
-    }
-  }
-
-  public register(): void {
-    this.subscriptions.add(
-      this.webauthnService
-        .createPublicKey()
-        .pipe(filter((p) => p !== undefined))
-        .subscribe(() => {
-          this.loadData();
-        }),
+  public getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
+    return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
+      switchMap(([user]) =>
+        this.pbcsService
+          .index(user.id)
+          .pipe(map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data))),
+      ),
     );
   }
 
-  public unregister(publicKey: PublicKeyCredentialSource): void {
-    if (this.app.user) {
-      this.subscriptions.add(
-        this.pbcsService.delete(this.app.user.id, publicKey.id).subscribe(() => {
-          this.loadData();
-        }),
-      );
-    }
+  public async register(): Promise<void> {
+    return firstValueFrom(
+      this.webauthnService.createPublicKey().pipe(
+        filter((p) => p !== undefined),
+        map(() => this.refresh$.next(true)),
+      ),
+    );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  public async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
+    return firstValueFrom(
+      this.auth.requireUser$.pipe(
+        switchMap((user) =>
+          this.pbcsService.delete(user.id, publicKey.id).pipe(map(() => this.refresh$.next(true))),
+        ),
+      ),
+    );
   }
 }

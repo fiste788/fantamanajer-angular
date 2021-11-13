@@ -1,8 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 import { createBoxAnimation } from '@shared/animations';
 
-import { NotificationListModal } from '../../modals/notification-list/notification-list.modal';
 import { NotificationOverlayService } from '../../services/notification-overlay.service';
 
 @Component({
@@ -12,8 +11,6 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
   templateUrl: './notification-list.component.html',
 })
 export class NotificationListComponent {
-  @ViewChild(NotificationListModal) public overlay: NotificationListModal;
-
   constructor(private readonly overlayService: NotificationOverlayService) {}
 
   public open(el: EventTarget | null): void {

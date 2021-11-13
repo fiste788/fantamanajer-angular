@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-import { ApplicationService } from '@app/services';
+import { AuthenticationService } from '@app/authentication';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private readonly app: ApplicationService) {}
+  constructor(private readonly auth: AuthenticationService) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return this.app.user?.admin || false;
+    return this.auth.requireUser$.pipe(map((user) => user.admin));
   }
 }

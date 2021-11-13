@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService } from '@app/services';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(
-    private readonly auth: AuthenticationService,
-    private readonly router: Router,
-    private readonly app: ApplicationService,
-  ) {}
+  constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
 
   public canActivate(
     next: ActivatedRouteSnapshot,
@@ -31,7 +26,9 @@ export class AuthGuard implements CanActivate {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public checkAuth(authorities: Array<string>, _: string): boolean {
-    return authorities.some((r) => this.app.user?.roles.includes(r)) ?? false;
+  public checkAuth(authorities: Array<string>, _: string): Observable<boolean> {
+    return this.auth.requireUser$.pipe(
+      map((user) => authorities.some((r) => user.roles.includes(r)) ?? false),
+    );
   }
 }

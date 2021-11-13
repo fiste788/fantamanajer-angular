@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { AtLeast } from '@app/types';
+
 import { Article, PagedResponse } from '../types';
 
 const url = 'articles';
@@ -44,12 +46,12 @@ export class ArticleService {
     return this.http.get<Article>(routes.article(id));
   }
 
-  public update(article: Article): Observable<Pick<Article, 'id'>> {
+  public update(article: AtLeast<Article, 'id'>): Observable<Pick<Article, 'id'>> {
     return this.http.put<Pick<Article, 'id'>>(routes.article(article.id), article);
   }
 
-  public create(article: Article): Observable<Partial<Article>> {
-    return this.http.post(routes.articles, article);
+  public create(article: Partial<Article>): Observable<AtLeast<Article, 'id'>> {
+    return this.http.post<AtLeast<Article, 'id'>>(routes.articles, article);
   }
 
   public delete(id: number): Observable<Record<string, never>> {

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, mergeMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService, LayoutService, PushService } from '@app/services';
-import { Championship, Team } from '@data/types';
+import { ApplicationService, LayoutService, PwaService } from '@app/services';
+import { Championship, Matchday, Team } from '@data/types';
 
 @Component({
   selector: 'app-navbar',
@@ -14,9 +14,10 @@ import { Championship, Team } from '@data/types';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   public deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
-  public loggedIn: boolean;
-  public team?: Team;
-  public championship?: Championship;
+  public loggedIn$: Observable<boolean>;
+  public team$: Observable<Team | undefined>;
+  public matchday$: Observable<Matchday | undefined>;
+  public championship$: Observable<Championship>;
   public navStart$: Observable<Event>;
 
   private readonly subscriptions = new Subscription();
@@ -24,45 +25,37 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
-    private readonly push: PushService,
+    private readonly pwa: PwaService,
     private readonly app: ApplicationService,
     private readonly router: Router,
-  ) {}
+  ) {
+    this.loggedIn$ = this.auth.loggedIn$;
+    this.matchday$ = this.app.matchday$;
+    this.team$ = this.app.team$;
+    this.championship$ = this.app.requireTeam$.pipe(map((t) => t.championship));
+    this.deferredPrompt$ = this.pwa.beforeInstall$;
+    this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
+  }
 
   public ngOnInit(): void {
     this.init();
-    this.refresh();
   }
 
   public init(): void {
-    this.deferredPrompt$ = this.push.beforeInstall$;
-    this.subscriptions.add(
-      combineLatest([this.auth.userChange$, this.app.teamChange$]).subscribe(() => {
-        this.refresh();
-      }),
-    );
-    this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
     this.subscriptions.add(
       this.navStart$
         .pipe(
           mergeMap(() => this.layoutService.isHandset$),
           filter((r) => r),
+          map(() => this.layoutService.closeSidebar()),
         )
-        .subscribe(() => {
-          this.layoutService.closeSidebar();
-        }),
+        .subscribe(),
     );
   }
 
-  public refresh(): void {
-    this.loggedIn = this.auth.loggedIn();
-    this.team = this.app.team;
-    this.championship = this.app.championship;
-  }
-
-  public install(event: BeforeInstallPromptEvent): void {
+  public async install(event: BeforeInstallPromptEvent): Promise<void> {
     void event.prompt();
-    void event.userChoice.then(() => {
+    return event.userChoice.then(() => {
       this.deferredPrompt$ = undefined;
     });
   }
