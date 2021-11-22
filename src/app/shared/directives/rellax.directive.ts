@@ -123,7 +123,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public init(): void {
-    // eslint-disable-next-line
     if (this.block !== undefined) {
       this.el.nativeElement.style.cssText = this.block.style;
     }

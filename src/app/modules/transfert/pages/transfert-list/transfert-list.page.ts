@@ -62,4 +62,8 @@ export class TransfertListPage {
 
     return value ?? '';
   }
+
+  public trackTransfert(_: number, item: Transfert): number {
+    return item.id;
+  }
 }

@@ -34,7 +34,7 @@ export class LineupDetailComponent implements OnInit {
   @ViewChild(NgForm) public lineupForm?: NgForm;
 
   constructor(
-    readonly lineupService: LineupService,
+    public readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
     private readonly cd: ChangeDetectorRef,
   ) {}

@@ -35,7 +35,6 @@ export class TeamService {
 
     return this.http.post<Pick<Team, 'photo_url'>>(routes.team(id), formData, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'multipart/form-data',
       },
     });

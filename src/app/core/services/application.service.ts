@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, interval, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, forkJoin, interval, Observable, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, share, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -41,7 +41,7 @@ export class ApplicationService {
       catchError((e: unknown) => {
         this.writeError(e as Error);
 
-        return of();
+        return EMPTY;
       }),
     );
   }

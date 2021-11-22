@@ -18,7 +18,6 @@ export class GoogleAnalyticsService {
   ) {}
 
   public load(): Observable<boolean> {
-    // eslint-disable-next-line
     if (environment.gaCode !== '') {
       const script = this.document.createElement('script');
       script.async = true;
@@ -30,7 +29,6 @@ export class GoogleAnalyticsService {
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
         map((e) => {
           gtag('config', environment.gaCode ?? '', {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             page_path: e.urlAfterRedirects,
           });
 

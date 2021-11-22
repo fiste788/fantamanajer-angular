@@ -43,4 +43,8 @@ export class RankingPage {
   public track(_: number, item: number): number {
     return item;
   }
+
+  public trackRanking(idx: number): number {
+    return idx;
+  }
 }

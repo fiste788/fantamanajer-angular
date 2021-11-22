@@ -10,18 +10,17 @@ export class Module {
     this.key = key;
     this.label = key.substring(key.indexOf('-') + 1);
     const mod = key.split('-').map((c) => +c);
-    this.areas = Array.from(roles.entries())
-      // eslint-disable-next-line
-      .reduce((array, [_, role], index) => {
-        array.push({
-          fromIndex: this.getIndex(array),
-          options: [],
-          role,
-          toIndex: mod[index],
-        });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    this.areas = Array.from(roles.entries()).reduce((array, [_, role], index) => {
+      array.push({
+        fromIndex: this.getIndex(array),
+        options: [],
+        role,
+        toIndex: mod[index],
+      });
 
-        return array;
-      }, new Array<Area>());
+      return array;
+    }, new Array<Area>());
   }
 
   public getIndex(previous: Array<Area>): number {

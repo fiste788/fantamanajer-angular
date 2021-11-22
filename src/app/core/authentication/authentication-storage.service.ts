@@ -13,7 +13,7 @@ export class AuthenticationStorageService {
     return this._TOKEN;
   }
 
-  setToken(token: string, rememberMe: boolean): void {
+  public setToken(token: string, rememberMe: boolean): void {
     this._TOKEN = token;
     if (rememberMe) {
       localStorage.setItem(this.TOKEN_ITEM_NAME, token);
@@ -22,7 +22,7 @@ export class AuthenticationStorageService {
     }
   }
 
-  deleteToken(): void {
+  public deleteToken(): void {
     this._TOKEN = undefined;
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
     sessionStorage.removeItem(this.TOKEN_ITEM_NAME);

@@ -15,7 +15,7 @@ export class SeasonActiveDirective implements OnInit, OnDestroy {
     private readonly app: ApplicationService,
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscriptions.add(
       this.app.requireTeam$.subscribe(() => {
         if (this.app.seasonStarted && !this.app.seasonEnded) {
@@ -27,7 +27,7 @@ export class SeasonActiveDirective implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }

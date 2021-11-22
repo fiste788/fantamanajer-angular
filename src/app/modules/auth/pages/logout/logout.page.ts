@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { firstValueFrom, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 
@@ -14,9 +13,8 @@ export class LogoutPage implements OnInit {
     private readonly router: Router,
   ) {}
 
-  async ngOnInit(): Promise<boolean> {
-    return firstValueFrom(
-      this.authService.logout().pipe(switchMap(async () => this.router.navigate(['/']))),
-    );
+  public async ngOnInit(): Promise<boolean> {
+    await this.authService.logout();
+    return this.router.navigate(['/']);
   }
 }

@@ -33,4 +33,8 @@ export class DispositionListComponent implements OnInit {
   public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
+
+  public trackDisposition(_: number, item: Disposition): number {
+    return item.id;
+  }
 }

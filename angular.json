@@ -143,17 +143,7 @@
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "karma.conf.js",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "scripts": [],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/assets/site.webmanifest"
-            ]
+            "tsConfig": "tsconfig.spec.json"
           }
         },
         "lint": {

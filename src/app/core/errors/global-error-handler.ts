@@ -13,7 +13,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     private readonly zone: NgZone,
   ) {}
 
-  handleError(error: Error): void {
+  public handleError(error: Error): void {
     if (!(error instanceof HttpErrorResponse)) {
       this.zone.run(() => {
         const ref = this.snackbar.open(

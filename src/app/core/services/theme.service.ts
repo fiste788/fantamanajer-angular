@@ -26,7 +26,6 @@ export class ThemeService {
       this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
     );
     this.head = document.head;
-    // eslint-disable-next-line no-null/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.isDark$ = this.breakpointObserver
       .observe('(prefers-color-scheme: dark)')
@@ -37,7 +36,7 @@ export class ThemeService {
     );
   }
 
-  connect(): Subscription {
+  public connect(): Subscription {
     return this.theme$.subscribe();
   }
 

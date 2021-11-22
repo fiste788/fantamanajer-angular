@@ -31,7 +31,7 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
     "paths": {
@@ -52,6 +52,9 @@
       ]
     }
   },
+  "types": [
+    "gtag.js"
+  ],
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,

@@ -134,4 +134,8 @@ export class MemberListComponent implements OnInit {
 
     return 0;
   }
+
+  public trackMember(_: number, item: Member): number {
+    return item.id;
+  }
 }

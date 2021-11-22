@@ -17,7 +17,7 @@ export class MatchdayService {
 
   public getCurrentMatchday(): Observable<Matchday> {
     class HackyHttpHeaders extends HttpHeaders {
-      override has(name: string): boolean {
+      public override has(name: string): boolean {
         // Pretend the `Accept` header is set, so `HttpClient` will not try to set the default value.
         return name.toLowerCase() === 'accept' ? true : super.has(name);
       }

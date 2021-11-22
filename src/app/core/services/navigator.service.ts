@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { isPlatformBrowser } from '@angular/common';
 import {
   ClassProvider,
@@ -43,13 +42,11 @@ export const navigatorFactory = (
 
 const browserNavigatorProvider: ClassProvider = {
   provide: NavigatorRef,
-  // eslint-disable-next-line
   useClass: BrowserNavigatorRef,
 };
 
 const navigatorProvider: FactoryProvider = {
   provide: NAVIGATOR,
-  // eslint-disable-next-line
   useFactory: navigatorFactory,
   deps: [NavigatorRef, PLATFORM_ID],
 };

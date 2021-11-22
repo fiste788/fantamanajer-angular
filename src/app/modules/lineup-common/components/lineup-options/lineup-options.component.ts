@@ -15,7 +15,7 @@ export class LineupOptionsComponent {
   @Input() public lineup!: Partial<Lineup>;
   @Input() public disabled = false;
 
-  constructor(readonly lineupService: LineupService) {}
+  constructor(public readonly lineupService: LineupService) {}
 
   public trackByCaptain(_: number, item: MemberOption): number {
     return item.member.id; // or item.id

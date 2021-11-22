@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, finalize, first, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
+import { filter, finalize, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
@@ -31,8 +31,7 @@ export class AuthenticationService {
     this.requireUser$ = this.user$.pipe(filter((user): user is User => user !== undefined));
     this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
     if (this.authenticationStorageService.token && !this.loggedIn()) {
-      // eslint-disable-next-line rxjs/no-ignored-subscription
-      this.logout().subscribe();
+      void this.logout();
     }
   }
 
@@ -66,13 +65,14 @@ export class AuthenticationService {
 
     return of(false);
   }
-  public logout(): Observable<Record<string, never>> {
-    return this.userService.logout().pipe(
-      first(),
-      finalize(() => {
-        this.authenticationStorageService.deleteToken();
-        this.userSubject.next(undefined);
-      }),
+  public async logout(): Promise<Record<string, never>> {
+    return firstValueFrom(
+      this.userService.logout().pipe(
+        finalize(() => {
+          this.authenticationStorageService.deleteToken();
+          this.userSubject.next(undefined);
+        }),
+      ),
     );
   }
 

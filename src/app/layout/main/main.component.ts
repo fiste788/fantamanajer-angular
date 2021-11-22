@@ -143,7 +143,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 

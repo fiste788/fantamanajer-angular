@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
-import { firstValueFrom, from, merge, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, from, merge, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -100,7 +100,7 @@ export class PushService {
   }
 
   private initializeUser(user: User): Observable<void> {
-    return merge(this.subscribeToPush(user).pipe(catchError(() => of())), this.showMessages());
+    return merge(this.subscribeToPush(user).pipe(catchError(() => EMPTY)), this.showMessages());
   }
 
   private showMessages(): Observable<void> {
@@ -112,11 +112,11 @@ export class PushService {
         }),
       ),
       this.swPush.notificationClicks.pipe(
-        map((click) => {
-          const data = click.notification.data as { url?: string };
-          if (data.url !== undefined) {
-            void this.router.navigateByUrl(data.url);
-          }
+        map((click) => click.notification.data as { url?: string }),
+        filter((data): data is { url: string } => data.url !== undefined),
+        switchMap(async (data) => this.router.navigateByUrl(data.url)),
+        map(() => {
+          void 0;
         }),
       ),
     );

@@ -48,14 +48,14 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     );
   }
 
-  prefix(req: HttpRequest<unknown>): HttpRequest<unknown> {
+  private prefix(req: HttpRequest<unknown>): HttpRequest<unknown> {
     const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
     return req.clone({
       url,
     });
   }
 
-  headers(req: HttpRequest<unknown>): HttpRequest<unknown> {
+  private headers(req: HttpRequest<unknown>): HttpRequest<unknown> {
     const ct = 'Content-Type';
     let headers = req.headers;
 

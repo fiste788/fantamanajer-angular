@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormArray, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute, Data } from '@angular/router';
-import { EMPTY, Observable, of, OperatorFunction } from 'rxjs';
+import { EMPTY, Observable, OperatorFunction } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -59,6 +59,6 @@ export class UtilService {
       current = current.parent;
     }
 
-    return of();
+    return EMPTY;
   }
 }

@@ -15,7 +15,7 @@ import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
   templateUrl: './notification-list.modal.html',
 })
 export class NotificationListModal {
-  @Output() readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
+  @Output() public readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
 
   public stream$: Observable<Stream>;
   public animationState: 'void' | 'enter' | 'leave' = 'enter';

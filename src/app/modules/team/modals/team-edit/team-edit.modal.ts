@@ -49,7 +49,6 @@ export class TeamEditModal {
 
   public async save(): Promise<void> {
     const fd = new FormData();
-    // eslint-disable-next-line
     if (this.file !== undefined) {
       fd.set('photo', this.file);
     }

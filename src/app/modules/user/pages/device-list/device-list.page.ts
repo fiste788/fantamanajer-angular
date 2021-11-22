@@ -30,11 +30,8 @@ export class DeviceListPage {
 
   public getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
     return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
-      switchMap(([user]) =>
-        this.pbcsService
-          .index(user.id)
-          .pipe(map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data))),
-      ),
+      switchMap(([user]) => this.pbcsService.index(user.id)),
+      map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data)),
     );
   }
 
@@ -50,10 +47,13 @@ export class DeviceListPage {
   public async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
     return firstValueFrom(
       this.auth.requireUser$.pipe(
-        switchMap((user) =>
-          this.pbcsService.delete(user.id, publicKey.id).pipe(map(() => this.refresh$.next(true))),
-        ),
+        switchMap((user) => this.pbcsService.delete(user.id, publicKey.id)),
+        map(() => this.refresh$.next(true)),
       ),
     );
+  }
+
+  public trackDevice(_: number, item: PublicKeyCredentialSource): string {
+    return item.id;
   }
 }
