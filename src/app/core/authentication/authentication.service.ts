@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
 import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { filter, finalize, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
-import { AuthenticationStorageService } from './authentication-storage.service';
+import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -23,14 +23,14 @@ export class AuthenticationService {
   private readonly userRole = 'ROLE_USER';
 
   constructor(
-    private readonly authenticationStorageService: AuthenticationStorageService,
+    private readonly tokenStorageService: TokenStorageService,
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
   ) {
     this.user$ = this.userSubject.asObservable();
     this.requireUser$ = this.user$.pipe(filter((user): user is User => user !== undefined));
     this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
-    if (this.authenticationStorageService.token && !this.loggedIn()) {
+    if (this.tokenStorageService.token && !this.loggedIn()) {
       void this.logout();
     }
   }
@@ -56,7 +56,7 @@ export class AuthenticationService {
       const user = res.user;
       user.roles = this.getRoles(user);
       if (res.token) {
-        this.authenticationStorageService.setToken(res.token, rememberMe || false);
+        this.tokenStorageService.setToken(res.token, rememberMe || false);
       }
       this.userSubject.next(user);
 
@@ -69,7 +69,7 @@ export class AuthenticationService {
     return firstValueFrom(
       this.userService.logout().pipe(
         finalize(() => {
-          this.authenticationStorageService.deleteToken();
+          this.tokenStorageService.deleteToken();
           this.userSubject.next(undefined);
         }),
       ),
@@ -77,7 +77,7 @@ export class AuthenticationService {
   }
 
   public loggedIn(): boolean {
-    return !this.jwtHelper.isTokenExpired(this.authenticationStorageService.token);
+    return !this.jwtHelper.isTokenExpired(this.tokenStorageService.token);
   }
 
   public getCurrentUser(): Observable<User> {

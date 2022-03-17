@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CredentialRequestOptionsJSON } from '@github/webauthn-json';
+import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { catchError, map, share } from 'rxjs/operators';
 

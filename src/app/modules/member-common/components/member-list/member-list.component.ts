@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { map, Observable, tap } from 'rxjs';
 
 import { Member } from '@data/types';
@@ -42,7 +42,8 @@ export class MemberListComponent implements OnInit {
 
   @Output() public readonly selection: SelectionModel<Member>;
 
-  @ViewChild(MatSort) public sort?: MatSort;
+  @ViewChild(MatSort, { static: false }) public sort?: MatSort;
+  @ViewChild(MatTable, { static: true }) public table?: MatTable<Member>;
 
   public dataSource$?: Observable<MatTableDataSource<Member>>;
   public displayedColumns = [
@@ -69,6 +70,12 @@ export class MemberListComponent implements OnInit {
     this.dataSource$ = this.dataSourceFromMembers();
   }
 
+  public setSort(ds: MatTableDataSource<Member>): void {
+    if (this.sort) {
+      ds.sort = this.sort;
+    }
+  }
+
   public fixColumns(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
@@ -85,13 +92,8 @@ export class MemberListComponent implements OnInit {
         if (ds.data.length) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.calcSummary(ds.data);
-          this.changeRef.detectChanges();
-          if (this.sort) {
-            ds.sort = this.sort;
-          }
-        } else {
-          this.changeRef.detectChanges();
         }
+        this.changeRef.detectChanges();
       }),
     );
   }

@@ -1,6 +1,6 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
-import { ContentLoaderModule } from '@netbasal/content-loader';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 
 import { SharedModule } from '@shared/shared.module';
 

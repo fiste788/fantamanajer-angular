@@ -2,16 +2,16 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AuthenticationStorageService } from './authentication';
+import { TokenStorageService } from './authentication';
 import { ErrorHandlerModule } from './errors/error-handler.module';
 import {
   AdminGuard,
   AuthGuard,
   ChampionshipAdminGuard,
-  NotLoggedGuard,
+  NoAuthGuard,
   throwIfAlreadyLoaded,
 } from './guards';
-import { ApiPrefixInterceptor, JWTTokenInterceptor } from './interceptors';
+import { ApiPrefixInterceptor, AuthInterceptor } from './interceptors';
 import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
 export const useFactory = (app: ApplicationService) => (): Observable<unknown> => app.bootstrap();
@@ -22,15 +22,15 @@ export const useFactory = (app: ApplicationService) => (): Observable<unknown> =
   providers: [
     AuthGuard,
     AdminGuard,
-    NotLoggedGuard,
+    NoAuthGuard,
     ChampionshipAdminGuard,
     WINDOW_PROVIDERS,
     NAVIGATOR_PROVIDERS,
     {
       multi: true,
-      deps: [AuthenticationStorageService],
+      deps: [TokenStorageService],
       provide: HTTP_INTERCEPTORS,
-      useClass: JWTTokenInterceptor,
+      useClass: AuthInterceptor,
     },
     {
       multi: true,
@@ -38,7 +38,7 @@ export const useFactory = (app: ApplicationService) => (): Observable<unknown> =
       useClass: ApiPrefixInterceptor,
     },
     {
-      deps: [ApplicationService, AuthenticationStorageService],
+      deps: [ApplicationService, TokenStorageService],
       multi: true,
       provide: APP_INITIALIZER,
       useFactory,

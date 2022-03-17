@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 
 @Injectable()
-export class NotLoggedGuard implements CanActivate {
+export class NoAuthGuard implements CanActivate {
   constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {

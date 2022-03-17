@@ -1,2 +1,2 @@
 export * from './authentication.service';
-export * from './authentication-storage.service';
+export * from './token-storage.service';

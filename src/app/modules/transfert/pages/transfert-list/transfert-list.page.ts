@@ -18,7 +18,7 @@ import { tableRowAnimation } from '@shared/animations';
 export class TransfertListPage {
   @ViewChild(MatSort) public sort?: MatSort;
 
-  public teamId?: number;
+  public team$: Observable<Team>;
   public dataSource$: Observable<MatTableDataSource<Transfert>>;
   public displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
@@ -28,20 +28,18 @@ export class TransfertListPage {
     private readonly ref: ChangeDetectorRef,
     public app: ApplicationService,
   ) {
+    this.team$ = UtilService.getData<Team>(this.route, 'team');
     this.dataSource$ = this.loadData();
   }
 
   public loadData(): Observable<MatTableDataSource<Transfert>> {
-    return UtilService.getData<Team>(this.route, 'team').pipe(
+    return this.team$.pipe(
       switchMap((team) => this.transfertService.getTransfert(team.id)),
       map((data) => {
         const ds = new MatTableDataSource<Transfert>(data);
         if (data.length) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.ref.detectChanges();
-          if (this.sort) {
-            ds.sort = this.sort;
-          }
         }
         return ds;
       }),
@@ -65,5 +63,11 @@ export class TransfertListPage {
 
   public trackTransfert(_: number, item: Transfert): number {
     return item.id;
+  }
+
+  public setSort(ds: MatTableDataSource<Transfert>): void {
+    if (this.sort) {
+      ds.sort = this.sort;
+    }
   }
 }

@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { combineLatest, EMPTY, Observable, Subscription } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -71,13 +71,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.auth.loggedIn$,
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
+    this.app.init();
   }
 
   public ngOnInit(): void {
-    this.app.initialize();
-    this.subscriptions.add(this.themeService.connect());
     this.subscriptions.add(this.pwa.initialize().subscribe());
     this.subscriptions.add(this.push.initialize().subscribe());
+    this.subscriptions.add(this.themeService.connect());
     this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
   }
 
@@ -93,10 +93,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   public preBootstrapExitAnimation(): Observable<boolean> {
     return this.isReady$.pipe(
       filter((e) => e),
-      tap(() => {
-        this.layoutService.showSpeedDial();
-        setTimeout(() => this.document.querySelector('.pre-bootstrap')?.remove(), 500);
-      }),
+      tap(() => this.layoutService.showSpeedDial()),
+      switchMap(() => timer(300)),
+      tap(() => this.document.querySelector('.pre-bootstrap')?.remove()),
       switchMap(() => this.gaService.load()),
     );
   }

@@ -10,6 +10,7 @@
       matSort
       [trackBy]="trackMember"
       [dataSource]="dataSource"
+      (matSortChange)="setSort(dataSource)"
     >
 
       <ng-container

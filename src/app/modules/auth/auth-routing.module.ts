@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard, NotLoggedGuard } from '@app/guards';
+import { AuthGuard, NoAuthGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
 import { LoginPage } from './pages/login/login.page';
@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginPage,
-        canActivate: [NotLoggedGuard],
+        canActivate: [NoAuthGuard],
         data: {
           state: 'login',
         },

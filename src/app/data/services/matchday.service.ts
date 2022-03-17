@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { noErrorIt } from '@app/errors/http-error.interceptor';
 import { noAuthIt, noHeadersIt } from '@app/interceptors';
 
 import { Matchday } from '../types';
@@ -23,7 +24,7 @@ export class MatchdayService {
       }
     }
     return this.http.get<Matchday>(routes.current, {
-      context: noHeadersIt(noAuthIt()),
+      context: noErrorIt(noHeadersIt(noAuthIt())),
       withCredentials: false,
       headers: new HackyHttpHeaders(),
     });

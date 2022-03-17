@@ -2,12 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   create,
-  CredentialCreationOptionsJSON,
-  CredentialRequestOptionsJSON,
   get,
   PublicKeyCredentialWithAssertionJSON,
   PublicKeyCredentialWithAttestationJSON,
 } from '@github/webauthn-json';
+import {
+  CredentialCreationOptionsJSON,
+  CredentialRequestOptionsJSON,
+} from '@github/webauthn-json/dist/types/basic/json';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, mergeMap } from 'rxjs/operators';
 

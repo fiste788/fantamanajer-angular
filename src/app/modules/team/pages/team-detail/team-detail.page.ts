@@ -32,9 +32,9 @@ export class TeamDetailPage {
     this.team$ = this.route.data.pipe(
       map((data) => data.team as Team),
       combineLatestWith(this.auth.user$, this.app.requireTeam$),
-      map(([team, user, selectedTeam]) => {
+      map(([selectedTeam, user, team]) => {
         this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);
-        return team;
+        return selectedTeam;
       }),
     );
   }
@@ -59,7 +59,7 @@ export class TeamDetailPage {
       },
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
-      { label: 'Admin', link: 'admin', hidden: user?.admin || team.admin },
+      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
     ];
   }
 

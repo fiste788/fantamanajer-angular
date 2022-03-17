@@ -10,6 +10,7 @@
       matSort
       [trackBy]="trackTransfert"
       [dataSource]="dataSource"
+      (matSortChange)="setSort(dataSource)"
     >
       <ng-container matColumnDef="old_member">
         <th
@@ -89,4 +90,6 @@
     mode="indeterminate"
   ></mat-progress-spinner>
 </ng-template>
-<app-selection *appSeasonActive></app-selection>
+<ng-container *appSeasonActive>
+  <app-selection *ngIf="(team$ | async) === (app.team$ | async)"></app-selection>
+</ng-container>

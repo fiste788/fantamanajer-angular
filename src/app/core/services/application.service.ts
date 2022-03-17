@@ -55,7 +55,7 @@ export class ApplicationService {
     );
   }
 
-  public initialize(): void {
+  public init(): void {
     void forkJoin([this.team$, this.matchday$])
       .pipe(tap(([teamSubject, matchday]) => this.setTeam(matchday, teamSubject)))
       .subscribe();
