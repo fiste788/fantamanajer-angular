@@ -14,12 +14,12 @@ jobs:
       # Install dependencies
       - run: npm ci
 
-      # Build and output webpack stats to artifacts/webpack-stats.json
+      # Build and output webpack stats to dist/fantamanajer-angular/stats.json
       - run: npm run build --if-present
 
       # Send webpack stats and build information to RelativeCI
       - name: Send webpack stats to RelativeCI
         uses: relative-ci/agent-action@v1.1.0
         with:
-          webpackStatsFile: ./dist/stats.json
+          webpackStatsFile: ./dist/fantamanajer-angular/stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
