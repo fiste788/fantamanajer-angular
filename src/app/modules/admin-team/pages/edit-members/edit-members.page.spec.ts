@@ -6,13 +6,11 @@ describe('EditMembersPage', () => {
   let component: EditMembersPage;
   let fixture: ComponentFixture<EditMembersPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [EditMembersPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [EditMembersPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditMembersPage);

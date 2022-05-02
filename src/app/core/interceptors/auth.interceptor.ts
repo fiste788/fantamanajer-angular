@@ -8,7 +8,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, from, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, EMPTY, Observable, of, switchMap, throwError } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { TokenStorageService } from '@app/authentication/token-storage.service';
@@ -62,6 +62,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handle401(): Observable<never> {
-    return from(this.authService.logout()).pipe(switchMap(() => EMPTY));
+    return of(this.authService.logoutUI()).pipe(switchMap(() => EMPTY));
   }
 }

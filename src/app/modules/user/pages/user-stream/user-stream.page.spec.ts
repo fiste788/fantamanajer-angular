@@ -6,13 +6,11 @@ describe('UserStreamPage', () => {
   let component: UserStreamPage;
   let fixture: ComponentFixture<UserStreamPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [UserStreamPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [UserStreamPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserStreamPage);

@@ -51,8 +51,10 @@ export class LineupLastPage {
         : this.lineupService.create(lineup);
       return firstValueFrom(
         save.pipe(
-          map((response: AtLeast<Lineup, 'id'>) => {
-            lineup.id = response.id;
+          map((response: Partial<Lineup>) => {
+            if (response.id) {
+              lineup.id = response.id;
+            }
             this.snackBar.open('Formazione salvata correttamente', undefined, {
               duration: 3000,
             });

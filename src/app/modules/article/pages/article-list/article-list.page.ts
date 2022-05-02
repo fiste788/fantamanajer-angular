@@ -39,6 +39,7 @@ export class ArticleListPage implements OnInit {
           this.changeRef.detectChanges();
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 
@@ -58,6 +59,7 @@ export class ArticleListPage implements OnInit {
           this.articles.filter((article) => article.id !== id);
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 

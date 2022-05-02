@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { EMPTY, firstValueFrom, from, merge, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
@@ -18,7 +17,6 @@ export class PushService {
     private readonly snackBar: MatSnackBar,
     private readonly notificationService: NotificationService,
     private readonly auth: AuthenticationService,
-    private readonly router: Router,
   ) {}
 
   public initialize(): Observable<void> {
@@ -104,21 +102,11 @@ export class PushService {
   }
 
   private showMessages(): Observable<void> {
-    return merge(
-      this.swPush.messages.pipe(
-        map((obj) => {
-          const message = obj as { notification: Notification };
-          this.notificationService.broadcast(message.notification.title, '');
-        }),
-      ),
-      this.swPush.notificationClicks.pipe(
-        map((click) => click.notification.data as { url?: string }),
-        filter((data): data is { url: string } => data.url !== undefined),
-        switchMap(async (data) => this.router.navigateByUrl(data.url)),
-        map(() => {
-          void 0;
-        }),
-      ),
+    return this.swPush.messages.pipe(
+      map((obj) => {
+        const message = obj as { notification: Notification };
+        this.notificationService.broadcast(message.notification.title, '');
+      }),
     );
   }
 
@@ -137,6 +125,7 @@ export class PushService {
             return of(false);
           }),
         ),
+        { defaultValue: false },
       );
     }
 
@@ -145,7 +134,9 @@ export class PushService {
 
   private async cancelSubscription(): Promise<boolean> {
     // Get active subscription
-    const pushSubscription = await firstValueFrom(this.swPush.subscription.pipe(take(1)));
+    const pushSubscription = await firstValueFrom(this.swPush.subscription.pipe(take(1)), {
+      defaultValue: undefined,
+    });
     if (pushSubscription) {
       // Delete the subscription from the backend
       const sub = await this.sha256(pushSubscription.endpoint);
@@ -159,6 +150,7 @@ export class PushService {
           }),
           catchError(() => of(false)),
         ),
+        { defaultValue: false },
       );
     }
 

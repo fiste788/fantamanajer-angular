@@ -4,6 +4,8 @@
   "lang": "it-IT",
   "description": "Gestisci la tua lega del fantacalcio",
   "categories": "sports",
+  "id": "/",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/assets/icons/maskable-icon.png",

@@ -6,13 +6,11 @@ describe('MemberFreePage', () => {
   let component: MemberFreePage;
   let fixture: ComponentFixture<MemberFreePage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [MemberFreePage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [MemberFreePage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MemberFreePage);

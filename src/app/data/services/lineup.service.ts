@@ -35,7 +35,7 @@ export class LineupService {
   constructor(private readonly http: HttpClient) {}
 
   public getLineup(teamId: number): Observable<EmptyLineup> {
-    return this.http.get<EmptyLineup>(routes.lineup(teamId));
+    return this.http.get<EmptyLineup>(routes.lineup(teamId), { params: { v: '2' } });
   }
 
   public update(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {

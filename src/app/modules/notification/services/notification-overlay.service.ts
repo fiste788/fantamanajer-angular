@@ -28,6 +28,7 @@ export class NotificationOverlayService {
           dialogRef.close();
         }),
       ),
+      { defaultValue: undefined },
     );
 
     return dialogRef;

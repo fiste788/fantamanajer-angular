@@ -52,7 +52,8 @@
             "styles": [
               {
                 "input": "src/styles/pre-bootstrap.scss",
-                "bundleName": "pre-bootstrap"
+                "bundleName": "pre-bootstrap",
+                "inject": true
               },
               {
                 "input": "src/styles/themes/theme.scss",
@@ -75,6 +76,7 @@
           },
           "configurations": {
             "production": {
+              "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -116,7 +118,6 @@
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
               "namedChunks": true
             }
           },

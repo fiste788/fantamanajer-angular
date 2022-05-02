@@ -6,13 +6,11 @@ describe('LineupLastPage', () => {
   let component: LineupLastPage;
   let fixture: ComponentFixture<LineupLastPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [LineupLastPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [LineupLastPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LineupLastPage);

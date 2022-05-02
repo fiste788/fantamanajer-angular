@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { ApplicationService, UtilService } from '@app/services';
@@ -18,6 +18,7 @@ import { tableRowAnimation } from '@shared/animations';
 export class TransfertListPage {
   @ViewChild(MatSort) public sort?: MatSort;
 
+  public isMyTeam$: Observable<boolean>;
   public team$: Observable<Team>;
   public dataSource$: Observable<MatTableDataSource<Transfert>>;
   public displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
@@ -26,9 +27,12 @@ export class TransfertListPage {
     private readonly transfertService: TransfertService,
     private readonly route: ActivatedRoute,
     private readonly ref: ChangeDetectorRef,
-    public app: ApplicationService,
+    app: ApplicationService,
   ) {
     this.team$ = UtilService.getData<Team>(this.route, 'team');
+    this.isMyTeam$ = combineLatest([this.team$, app.requireTeam$]).pipe(
+      map(([cur, my]) => cur.id === my.id),
+    );
     this.dataSource$ = this.loadData();
   }
 

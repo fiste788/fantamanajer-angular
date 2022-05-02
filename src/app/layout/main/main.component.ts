@@ -2,6 +2,7 @@ import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -61,6 +62,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
+    private readonly appRef: ApplicationRef,
   ) {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
@@ -71,10 +73,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.auth.loggedIn$,
     ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
-    this.app.init();
   }
 
   public ngOnInit(): void {
+    this.subscriptions.add(this.app.init(this.appRef));
     this.subscriptions.add(this.pwa.initialize().subscribe());
     this.subscriptions.add(this.push.initialize().subscribe());
     this.subscriptions.add(this.themeService.connect());

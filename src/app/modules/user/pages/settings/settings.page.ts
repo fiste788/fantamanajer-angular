@@ -54,6 +54,7 @@ export class SettingsPage {
   public async togglePush(user: User, checked: boolean): Promise<void> {
     return firstValueFrom(
       checked ? this.pushService.subscribeToPush(user) : this.pushService.unsubscribeFromPush(),
+      { defaultValue: undefined },
     );
   }
 }

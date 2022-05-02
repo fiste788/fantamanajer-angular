@@ -1,7 +1,23 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, EMPTY, forkJoin, interval, Observable, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, filter, share, switchMap, tap } from 'rxjs/operators';
+import { ApplicationRef, Inject, Injectable } from '@angular/core';
+import {
+  BehaviorSubject,
+  EMPTY,
+  forkJoin,
+  Observable,
+  Subject,
+  Subscription,
+  interval,
+} from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  tap,
+  first,
+  switchMap,
+  share,
+} from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { MatchdayService } from '@data/services';
@@ -55,15 +71,32 @@ export class ApplicationService {
     );
   }
 
-  public init(): void {
-    void forkJoin([this.team$, this.matchday$])
-      .pipe(tap(([teamSubject, matchday]) => this.setTeam(matchday, teamSubject)))
-      .subscribe();
-    void this.authService.user$
+  public init(appRef: ApplicationRef): Subscription {
+    const subscriptions = new Subscription();
+    subscriptions.add(this.refreshMatchday(appRef));
+    subscriptions.add(this.refreshUser());
+    subscriptions.add(this.refreshTeam());
+    return subscriptions;
+  }
+
+  private refreshUser(): Subscription {
+    return this.authService.user$
       .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u?.teams[0] : undefined)))
       .subscribe();
-    void interval(5 * 60 * 1000)
+  }
+
+  private refreshTeam(): Subscription {
+    return forkJoin([this.team$, this.matchday$])
+      .pipe(tap(([teamSubject, matchday]) => this.setTeam(matchday, teamSubject)))
+      .subscribe();
+  }
+
+  private refreshMatchday(appRef: ApplicationRef): Subscription {
+    return appRef.isStable
       .pipe(
+        filter((isStable) => isStable),
+        first((stable) => stable),
+        switchMap(() => interval(5 * 60 * 1000)),
         switchMap(() => this.loadCurrentMatchday()),
         share(),
       )

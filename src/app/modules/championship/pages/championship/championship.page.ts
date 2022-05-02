@@ -24,6 +24,7 @@ export class ChampionshipPage implements OnInit {
       combineLatest([this.auth.user$, this.app.team$]).pipe(
         map(([user, team]) => this.loadTab(user, team)),
       ),
+      { defaultValue: undefined },
     );
   }
 

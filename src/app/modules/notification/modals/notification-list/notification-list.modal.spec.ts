@@ -6,13 +6,11 @@ describe('NotificationListModal', () => {
   let component: NotificationListModal;
   let fixture: ComponentFixture<NotificationListModal>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [NotificationListModal],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [NotificationListModal],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationListModal);

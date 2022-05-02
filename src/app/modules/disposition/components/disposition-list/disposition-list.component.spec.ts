@@ -6,13 +6,11 @@ describe('DispositionListComponent', () => {
   let component: DispositionListComponent;
   let fixture: ComponentFixture<DispositionListComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [DispositionListComponent],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [DispositionListComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DispositionListComponent);

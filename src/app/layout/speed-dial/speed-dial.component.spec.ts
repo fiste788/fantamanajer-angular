@@ -6,13 +6,11 @@ describe('SpeedDialComponent', () => {
   let component: SpeedDialComponent;
   let fixture: ComponentFixture<SpeedDialComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [SpeedDialComponent],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [SpeedDialComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SpeedDialComponent);

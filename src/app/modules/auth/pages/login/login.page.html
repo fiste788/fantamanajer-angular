@@ -4,22 +4,21 @@
   fxLayout="column wrap"
   fxLayoutAlign="space-around center"
 >
-  <form
-    #f="ngForm"
-    (ngSubmit)="f.form.valid && login()"
-  >
-    <mat-card>
-      <mat-card-header>
-        <mat-icon>account_circle</mat-icon>
-        <mat-card-title>Login</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-horizontal-stepper
-          #stepper
-          [linear]="true"
-        >
-          <mat-step>
-
+  <mat-card>
+    <mat-card-header>
+      <mat-icon>account_circle</mat-icon>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-horizontal-stepper
+        #stepper
+        [linear]="true"
+      >
+        <mat-step>
+          <form
+            #userForm="ngForm"
+            (ngSubmit)="checkToken()"
+          >
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input
@@ -43,16 +42,27 @@
             </mat-form-field>
             <div fxLayoutAlign="end end">
               <button
-                type="button"
                 color="accent"
                 mat-raised-button
                 [disabled]="username.errors !== null"
-                (click)="checkToken()"
               >Avanti</button>
             </div>
-          </mat-step>
-          <mat-step>
-            <h3>{{loginData.email}}</h3>
+          </form>
+        </mat-step>
+        <mat-step>
+          <form
+            #f="ngForm"
+            (ngSubmit)="f.valid && login()"
+          >
+            <input
+              class="mat-h3"
+              readonly
+              required
+              name="email"
+              type="email"
+              autocomplete="username"
+              [(ngModel)]="loginData.email"
+            >
             <mat-form-field>
               <mat-label>Password</mat-label>
               <input
@@ -77,24 +87,22 @@
             <div
               class="actions"
               fxLayout="row"
-              fxLayoutAlign="end"
+              fxLayoutAlign="space-between"
             >
-              <ng-container *ngIf="(token$ | async) as token;">
-                <button
-                  color="accent"
-                  mat-raised-button
-                  type="button"
-                  (click)="tokenLogin(token)"
-                >Accedi tramite token</button>
-              </ng-container>
+              <button
+                color="accent"
+                mat-raised-button
+                matStepperPrevious
+                (click)="f.reset()"
+              >Cambia account</button>
               <button
                 color="accent"
                 mat-raised-button
               >Accedi</button>
             </div>
-          </mat-step>
-        </mat-horizontal-stepper>
-      </mat-card-content>
-    </mat-card>
-  </form>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card-content>
+  </mat-card>
 </div>

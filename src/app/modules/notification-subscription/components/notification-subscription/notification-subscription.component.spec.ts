@@ -6,13 +6,11 @@ describe('EmailNotificationSubscriptionComponent', () => {
   let component: NotificationSubscriptionComponent;
   let fixture: ComponentFixture<NotificationSubscriptionComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [NotificationSubscriptionComponent],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [NotificationSubscriptionComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationSubscriptionComponent);

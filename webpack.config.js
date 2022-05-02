@@ -10,7 +10,7 @@ module.exports = {
       algorithm: 'brotliCompress',
       test: /\.(js|css|html|svg|txt|eot|otf|ttf|gif)$/,
       threshold: 10240,
-      minRatio: 0.8,
+      minRatio: 0.9,
       deleteOriginalAssets: false,
     }),
     new StatsWriterPlugin.StatsWriterPlugin({

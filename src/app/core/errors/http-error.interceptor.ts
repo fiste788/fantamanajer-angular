@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, throwError } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ErrorResponse } from '@data/types';
@@ -31,14 +31,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
           const error = err.error as ErrorResponse;
           const message = error.data?.message || err.message;
-          if (req.context.get(NO_ERROR_IT)) {
+          if (!req.context.get(NO_ERROR_IT)) {
             this.snackbar.open(message, 'CLOSE', {
               duration: 5000,
             });
           }
           console.error(environment.production ? message : err);
+
+          return EMPTY;
+        } else {
+          throw err;
         }
-        return throwError(() => err);
       }),
     );
   }

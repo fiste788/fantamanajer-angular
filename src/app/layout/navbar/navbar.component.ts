@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public loggedIn$: Observable<boolean>;
   public team$: Observable<Team | undefined>;
   public matchday$: Observable<Matchday | undefined>;
-  public championship$: Observable<Championship>;
+  public championship$: Observable<Championship | undefined>;
   public navStart$: Observable<Event>;
 
   private readonly subscriptions = new Subscription();
@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.loggedIn$ = this.auth.loggedIn$;
     this.matchday$ = this.app.matchday$;
     this.team$ = this.app.team$;
-    this.championship$ = this.app.requireTeam$.pipe(map((t) => t.championship));
+    this.championship$ = this.app.team$.pipe(map((t) => t?.championship));
     this.deferredPrompt$ = this.pwa.beforeInstall$;
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
   }

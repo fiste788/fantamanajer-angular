@@ -6,13 +6,11 @@ describe('NewTransfertPage', () => {
   let component: NewTransfertPage;
   let fixture: ComponentFixture<NewTransfertPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [NewTransfertPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [NewTransfertPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewTransfertPage);

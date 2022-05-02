@@ -6,13 +6,11 @@ describe('ChampionshipPage', () => {
   let component: ChampionshipPage;
   let fixture: ComponentFixture<ChampionshipPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [ChampionshipPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [ChampionshipPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChampionshipPage);

@@ -6,13 +6,11 @@ describe('RouterOutletComponent', () => {
   let component: RouterOutletComponent;
   let fixture: ComponentFixture<RouterOutletComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [RouterOutletComponent],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [RouterOutletComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RouterOutletComponent);

@@ -6,13 +6,11 @@ describe('ChampionshipStreamPage', () => {
   let component: ChampionshipStreamPage;
   let fixture: ComponentFixture<ChampionshipStreamPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [ChampionshipStreamPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [ChampionshipStreamPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChampionshipStreamPage);

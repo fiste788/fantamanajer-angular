@@ -41,6 +41,7 @@ export class DeviceListPage {
         filter((p) => p !== undefined),
         map(() => this.refresh$.next(true)),
       ),
+      { defaultValue: undefined },
     );
   }
 
@@ -50,6 +51,7 @@ export class DeviceListPage {
         switchMap((user) => this.pbcsService.delete(user.id, publicKey.id)),
         map(() => this.refresh$.next(true)),
       ),
+      { defaultValue: undefined },
     );
   }
 

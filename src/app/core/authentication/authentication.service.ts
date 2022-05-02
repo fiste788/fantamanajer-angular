@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
-import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
-import { filter, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, of, catchError, EMPTY } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
@@ -58,6 +58,9 @@ export class AuthenticationService {
       if (res.token) {
         this.tokenStorageService.setToken(res.token, rememberMe || false);
       }
+      if (rememberMe) {
+        localStorage.setItem('user', res.user.email);
+      }
       this.userSubject.next(user);
 
       return this.user$.pipe(map((u) => u !== undefined));
@@ -65,15 +68,21 @@ export class AuthenticationService {
 
     return of(false);
   }
-  public async logout(): Promise<Record<string, never>> {
+
+  public async logout(): Promise<void> {
     return firstValueFrom(
       this.userService.logout().pipe(
-        finalize(() => {
-          this.tokenStorageService.deleteToken();
-          this.userSubject.next(undefined);
-        }),
+        catchError(() => EMPTY),
+        map(() => this.logoutUI()),
       ),
+      { defaultValue: undefined },
     );
+  }
+
+  public logoutUI(): void {
+    localStorage.removeItem('user');
+    this.tokenStorageService.deleteToken();
+    this.userSubject.next(undefined);
   }
 
   public loggedIn(): boolean {
@@ -86,6 +95,27 @@ export class AuthenticationService {
         this.userSubject.next(user);
       }),
     );
+  }
+
+  public async tokenLogin(
+    email: string,
+    rememberMe: boolean,
+    t: CredentialRequestOptionsJSON,
+  ): Promise<boolean> {
+    return firstValueFrom(
+      this.webauthnLogin(email, rememberMe, t).pipe(catchError(() => of(false))),
+      { defaultValue: false },
+    );
+  }
+
+  public tryTokenLogin(email?: string): Observable<boolean> {
+    if (email) {
+      return this.webauthnService
+        .get(email)
+        .pipe(switchMap(async (t) => this.tokenLogin(email, true, t)));
+    }
+
+    return of(false);
   }
 
   private getRoles(user: User): Array<string> {

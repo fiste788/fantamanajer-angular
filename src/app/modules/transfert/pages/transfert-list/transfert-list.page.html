@@ -91,5 +91,5 @@
   ></mat-progress-spinner>
 </ng-template>
 <ng-container *appSeasonActive>
-  <app-selection *ngIf="(team$ | async) === (app.team$ | async)"></app-selection>
+  <app-selection *ngIf="isMyTeam$ | async"></app-selection>
 </ng-container>

@@ -6,13 +6,11 @@ describe('AddLineupShortcutPage', () => {
   let component: AddLineupShortcutPage;
   let fixture: ComponentFixture<AddLineupShortcutPage>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-        declarations: [AddLineupShortcutPage],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [AddLineupShortcutPage],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddLineupShortcutPage);

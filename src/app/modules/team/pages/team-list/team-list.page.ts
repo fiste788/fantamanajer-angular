@@ -43,6 +43,7 @@ export class TeamListPage implements OnInit {
           }
         }),
       ),
+      { defaultValue: undefined },
     );
   }
 
