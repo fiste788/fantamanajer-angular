@@ -1,4 +1,4 @@
-@import '@angular/flex-layout/mq';
+@use '@angular/flex-layout/mq' as mq;
 
 .mat-form-field {
   max-width: 100%;
@@ -39,7 +39,7 @@
 .select-container {
   max-width: 100%;
 }
-@include layout-bp(gt-sm) {
+@include mq.layout-bp(gt-sm) {
   :host {
     overflow: hidden;
     max-width: 180px;

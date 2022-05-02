@@ -56,7 +56,7 @@
                 "inject": true
               },
               {
-                "input": "src/styles/themes/theme.scss",
+                "input": "src/styles/themes/light-theme.scss",
                 "bundleName": "light-theme",
                 "inject": false
               },

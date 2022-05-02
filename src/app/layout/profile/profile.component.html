@@ -3,6 +3,7 @@
   color="primary"
   [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
   [class.has-image]="(photo$ | async)"
+  [class.greyscale-image]="(photo$ | async)"
 >
   <mat-toolbar-row>
     <span></span>

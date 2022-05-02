@@ -1,5 +1,5 @@
-@import '@angular/flex-layout/mq';
-@include layout-bp(gt-md) {
+@use '@angular/flex-layout/mq' as mq;
+@include mq.layout-bp(gt-md) {
   .options {
     position: fixed;
     top: 56px;

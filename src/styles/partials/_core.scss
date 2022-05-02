@@ -1,11 +1,6 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
-@mixin fantamanajer-core($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
-
+@mixin core() {
   body,
   html {
     margin: 0;
@@ -17,19 +12,6 @@
     margin: 0;
     padding: 0;
     border: 0;
-  }
-
-  .mat-text-accent {
-    color: mat.get-color-from-palette($accent);
-  }
-
-  .mat-text-primary {
-    color: mat.get-color-from-palette($primary);
-  }
-
-  ::selection {
-    background: mat.get-color-from-palette($accent);
-    color: mat.get-color-from-palette($accent, default-contrast);
   }
 
   .sticky {
@@ -89,5 +71,31 @@
       transform: scale(0);
       display: none !important;
     }
+  }
+}
+@mixin color($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $foreground: map.get($theme, foreground);
+  $background: map.get($theme, background);
+
+  .mat-text-accent {
+    color: mat.get-color-from-palette($accent);
+  }
+
+  .mat-text-primary {
+    color: mat.get-color-from-palette($primary);
+  }
+
+  ::selection {
+    background: mat.get-color-from-palette($accent);
+    color: mat.get-color-from-palette($accent, default-contrast);
+  }
+}
+@mixin theme($theme) {
+   @include core();
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
   }
 }

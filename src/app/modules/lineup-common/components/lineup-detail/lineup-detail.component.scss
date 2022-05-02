@@ -1,4 +1,4 @@
-@import '@angular/flex-layout/mq';
+@use '@angular/flex-layout/mq' as mq;
 
 .area {
   width: 100%;
@@ -40,7 +40,7 @@ mat-select {
 fieldset {
   width: 100%;
 }
-@include layout-bp(gt-md) {
+@include mq.layout-bp(gt-md) {
   .mat-form-field {
     width: unset;
     min-width: 10rem;

@@ -1,5 +1,5 @@
 @import '@angular/flex-layout/mq';
-@mixin fantamanajer-card-theme($theme) {
+@mixin core() {
   .mat-card {
     margin: 1rem;
   }
@@ -13,4 +13,7 @@
       margin-right: 0;
     }
   }
+}
+@mixin theme($theme) {
+   @include core();
 }

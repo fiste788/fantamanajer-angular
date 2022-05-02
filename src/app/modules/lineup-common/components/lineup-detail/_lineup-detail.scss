@@ -1,0 +1,15 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@mixin color($theme) {
+  $foreground: map.get($theme, foreground);
+
+  .role-container h5 {
+    color: mat.get-color-from-palette($foreground, 'secondary-text');
+  }
+}
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
+  }
+}

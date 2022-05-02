@@ -1,6 +1,6 @@
-@import './navbar/navbar';
-@import './profile/profile';
-@mixin layout-theme($theme) {
-   @include navbar-theme($theme);
-  @include profile-theme($theme);
+@use './navbar/navbar' as navbar;
+@use './profile/profile' as profile;
+@mixin theme($theme) {
+   @include navbar.theme($theme);
+  @include profile.theme($theme);
 }

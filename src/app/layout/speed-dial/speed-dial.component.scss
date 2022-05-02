@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
-@import '@angular/flex-layout/mq';
+@use '@angular/flex-layout/mq' as mq;
 
 :host {
   animation: createBox .25s;
@@ -16,7 +15,7 @@
 .mat-fab {
   box-shadow: 0 0 0 !important;
 }
-@include layout-bp(gt-sm) {
+@include mq.layout-bp(gt-sm) {
   :host {
     left: 212px;
     right: unset !important;

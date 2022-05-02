@@ -1,7 +1,8 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
-@mixin navbar-theme($theme) {
-  $primary: map-get($theme, primary);
-  $foreground: map-get($theme, foreground);
+@mixin color($theme) {
+  $primary: map.get($theme, primary);
+  $foreground: map.get($theme, foreground);
 
   .mat-list-item .mat-icon {
     color: mat.get-color-from-palette($foreground, 'icon');
@@ -16,5 +17,11 @@
     .mat-icon {
       color: mat.get-color-from-palette($primary, 'darker') !important;
     }
+  }
+}
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
   }
 }

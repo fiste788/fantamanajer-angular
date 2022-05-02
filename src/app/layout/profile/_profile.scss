@@ -1,4 +1,4 @@
-@mixin profile-theme($theme) {
+@mixin core() {
   app-profile {
     .mat-form-field-wrapper {
       padding-bottom: 0 !important;
@@ -13,12 +13,7 @@
       border: 0;
     }
   }
-
-  .teams-panel {
-    margin-left: .5rem;
-
-    .mat-option {
-      line-height: 1 !important;
-    }
-  }
+}
+@mixin theme($theme) {
+   @include core();
 }

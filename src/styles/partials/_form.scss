@@ -1,4 +1,4 @@
-@mixin fantamanajer-form-theme($theme) {
+@mixin core() {
   .inherit-color {
     .mat-focused .mat-form-field-label,
     .mat-form-field-label,
@@ -14,4 +14,7 @@
       background-color: currentColor;
     }
   }
+}
+@mixin theme($theme) {
+   @include core();
 }

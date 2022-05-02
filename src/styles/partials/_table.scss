@@ -1,11 +1,6 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
-@mixin table-extended-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-
+@mixin core() {
   .mat-table {
     width: 100%;
     border-radius: 4px;
@@ -13,38 +8,11 @@
     thead > .mat-header-row {
       border-radius: 4px;
     }
-
-    .mat-row:hover .mat-cell {
-      $app-background: mat.get-color-from-palette($background, 'background');
-      $badge-color: mat.get-color-from-palette($background, 'hover');
-
-      // The disabled color usually has some kind of opacity, but because the badge is overlayed
-      // on top of something else, it won't look good if it's opaque. If it is a color *type*,
-      // we convert it into a solid color by taking the opacity from the rgba value and using
-      // the value to determine the percentage of the background to put into foreground when
-      // mixing the colors together.
-      @if (type-of($badge-color) == color and type-of($app-background) == color) {
-        $badge-opacity: opacity($badge-color);
-        background-color: mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
-      }
-      @else {
-        background-color: $badge-color;
-      }
-    }
-
-    .mat-table-sticky-border-elem-right {
-      border-left: 1px solid mat.get-color-from-palette($foreground, divider);
-    }
-
-    .mat-table-sticky-border-elem-left {
-      border-right: 1px solid mat.get-color-from-palette($foreground, divider);
-    }
   }
 
   .table-container {
     overflow-x: auto;
     border-radius: 4px;
-    background-color: mat.get-color-from-palette($background, 'card');
   }
 
   .table-container:not([class*='mat-elevation-z']) {
@@ -53,7 +21,6 @@
 
   .mat-table-header {
     width: 100%;
-    background-color: mat.get-color-from-palette($background, 'card');
     padding: 1.25rem 1.5rem;
     min-height: 4rem;
     text-align: left;
@@ -73,7 +40,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: mat.get-color-from-palette($accent, 50);
     box-sizing: border-box;
     justify-content: space-between;
     animation: slide-down 250ms ease-in;
@@ -111,5 +77,57 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+@mixin color($theme) {
+  $accent: map.get($theme, accent);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  .mat-table {
+    .mat-row:hover .mat-cell {
+      $app-background: mat.get-color-from-palette($background, 'background');
+      $badge-color: mat.get-color-from-palette($background, 'hover');
+
+      // The disabled color usually has some kind of opacity, but because the badge is overlayed
+      // on top of something else, it won't look good if it's opaque. If it is a color *type*,
+      // we convert it into a solid color by taking the opacity from the rgba value and using
+      // the value to determine the percentage of the background to put into foreground when
+      // mixing the colors together.
+      @if (type-of($badge-color) == color and type-of($app-background) == color) {
+        $badge-opacity: opacity($badge-color);
+        background-color: mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
+      }
+      @else {
+        background-color: $badge-color;
+      }
+    }
+
+    .mat-table-sticky-border-elem-right {
+      border-left: 1px solid mat.get-color-from-palette($foreground, divider);
+    }
+
+    .mat-table-sticky-border-elem-left {
+      border-right: 1px solid mat.get-color-from-palette($foreground, divider);
+    }
+  }
+
+  .table-container {
+    background-color: mat.get-color-from-palette($background, 'card');
+  }
+
+  .mat-table-header {
+    background-color: mat.get-color-from-palette($background, 'card');
+  }
+
+  .mat-table-header-selected {
+    background-color: mat.get-color-from-palette($accent, 50);
+  }
+}
+@mixin theme($theme) {
+   @include core();
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
   }
 }
