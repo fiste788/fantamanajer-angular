@@ -1,4 +1,5 @@
-@import '@angular/flex-layout/mq';
+@use '@angular/material' as mat;
+@use '@angular/flex-layout/mq';
 @mixin core() {
   .mat-card {
     margin: 1rem;
@@ -7,13 +8,18 @@
   .mat-card-header-text {
     overflow: hidden;
   }
-  @include layout-bp(gt-md) {
+  @include mq.layout-bp(gt-md) {
     .mat-card {
       margin-left: 0;
       margin-right: 0;
     }
   }
 }
+@mixin color($theme) {}
 @mixin theme($theme) {
    @include core();
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
+  }
 }

@@ -1,7 +1,7 @@
 import { ApplicationRef, Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, fromEvent, interval, Observable } from 'rxjs';
+import { fromEvent, interval, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, first } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
@@ -31,11 +31,15 @@ export class PwaService {
     );
   }
 
-  public initialize(): Observable<void> {
+  public init(): Observable<void> {
     return this.checkForUpdates().pipe(
       filter((u) => u),
       switchMap(() => this.promptUpdate()),
     );
+  }
+
+  public connect(): Subscription {
+    return this.init().subscribe();
   }
 
   private checkForUpdates(): Observable<boolean> {
@@ -44,7 +48,7 @@ export class PwaService {
       first((isStable) => isStable),
     );
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
-    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
+    const everySixHoursOnceAppIsStable$ = appIsStable$.pipe(switchMap(() => everySixHours$));
 
     return everySixHoursOnceAppIsStable$.pipe(
       filter(() => this.swUpdate.isEnabled),

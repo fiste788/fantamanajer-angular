@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
-import { EMPTY, firstValueFrom, from, merge, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, from, merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -19,11 +19,15 @@ export class PushService {
     private readonly auth: AuthenticationService,
   ) {}
 
-  public initialize(): Observable<void> {
+  public init(): Observable<void> {
     return this.auth.requireUser$.pipe(
       filter(() => environment.production),
       switchMap((user) => this.initializeUser(user)),
     );
+  }
+
+  public connect(): Subscription {
+    return this.init().subscribe();
   }
 
   public subscribeToPush(user: User): Observable<void> {

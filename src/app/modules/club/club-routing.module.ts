@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { Club } from '@data/types';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
@@ -27,8 +28,7 @@ const routes: Routes = [
         path: ':id',
         component: ClubDetailPage,
         data: {
-          // eslint-disable-next-line no-template-curly-in-string
-          breadcrumbs: '${club.name}',
+          breadcrumbs: (data: { club: Club }): string => `${data.club.name}`,
           state: 'club-detail',
         },
         resolve: {

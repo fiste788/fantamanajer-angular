@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NgxBreadcrumbsModule } from 'ngx-breadcrumbs/dist/ngx-breadcrumbs';
 
 import { AuthGuard } from '@app/guards';
 
@@ -83,8 +82,6 @@ export const routes: Routes = [
       onSameUrlNavigation: 'reload',
       relativeLinkResolution: 'legacy',
     }),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    NgxBreadcrumbsModule.forRoot(),
   ],
 })
 export class AppRoutingModule {}

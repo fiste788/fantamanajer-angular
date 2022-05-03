@@ -1,14 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, Inject, Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  EMPTY,
-  forkJoin,
-  Observable,
-  Subject,
-  Subscription,
-  interval,
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subject, Subscription, interval } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -56,8 +48,7 @@ export class ApplicationService {
     return forkJoin(obs).pipe(
       catchError((e: unknown) => {
         this.writeError(e as Error);
-
-        return EMPTY;
+        throw e;
       }),
     );
   }
@@ -71,7 +62,7 @@ export class ApplicationService {
     );
   }
 
-  public init(appRef: ApplicationRef): Subscription {
+  public connect(appRef: ApplicationRef): Subscription {
     const subscriptions = new Subscription();
     subscriptions.add(this.refreshMatchday(appRef));
     subscriptions.add(this.refreshUser());

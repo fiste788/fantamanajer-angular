@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ChampionshipAdminGuard } from '@app/guards';
+import { Team } from '@data/types';
 import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
 
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
@@ -25,9 +26,8 @@ const routes: Routes = [
         path: ':team_id',
         component: TeamDetailPage,
         data: {
-          // eslint-disable-next-line no-template-curly-in-string
-          breadcrumbs: '${team.name}',
-          state: 'team-detail',
+          breadcrumbs: (data: { team: Team }): string => `${data.team.name}`,
+          stabreadte: 'team-detail',
         },
         resolve: {
           team: TeamDetailResolver,

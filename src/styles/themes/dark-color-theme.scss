@@ -2,4 +2,4 @@
 @use './dark/variables';
 @use './dark/core';
 @include core.core(variables.$theme);
-@include app.theme(variables.$theme);
+@include app.color(variables.$theme);

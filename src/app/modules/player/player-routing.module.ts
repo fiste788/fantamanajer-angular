@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { Player } from '@data/types';
+
 import { PlayerResolver } from './pages/player/player-resolver.service';
 import { PlayerPage } from './pages/player/player.page';
 
@@ -10,8 +12,7 @@ const routes: Routes = [
     path: ':id',
     component: PlayerPage,
     data: {
-      // eslint-disable-next-line no-template-curly-in-string
-      breadcrumbs: '${player.full_name}',
+      breadcrumbs: (data: { player: Player }): string => `${data.player.full_name}`,
       state: 'player-detail',
     },
     resolve: {

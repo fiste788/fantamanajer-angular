@@ -1,0 +1,36 @@
+@use '@angular/material' as mat;
+@use './material';
+@use './styles';
+@use './card';
+@use './table';
+@use './form';
+@use 'app/layout/layout';
+@use 'app/modules/auth/pages/login/login';
+@use 'app/modules/lineup-common/components/lineup-detail/lineup-detail';
+@use 'app/modules/member-common/components/member-selection/member-selection';
+@use 'app/shared/components/mat-empty-state/mat-empty-state';
+@mixin theme($theme) {
+   @include mat.core();
+  @include material.theme($theme);
+  @include styles.theme($theme);
+  @include form.theme($theme);
+  @include card.theme($theme);
+  @include table.theme($theme);
+  @include layout.theme($theme);
+  @include login.theme($theme);
+  @include member-selection.theme($theme);
+  @include lineup-detail.theme($theme);
+  @include mat-empty-state.theme($theme);
+}
+@mixin color($theme) {
+   @include material.color($theme);
+  @include styles.color($theme);
+  @include form.color($theme);
+  @include card.color($theme);
+  @include table.color($theme);
+  @include layout.color($theme);
+  @include login.color($theme);
+  @include member-selection.color($theme);
+  @include lineup-detail.color($theme);
+  @include mat-empty-state.color($theme);
+}

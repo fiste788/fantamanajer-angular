@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @mixin core() {
   .inherit-color {
     .mat-focused .mat-form-field-label,
@@ -15,6 +16,11 @@
     }
   }
 }
+@mixin color($theme) {}
 @mixin theme($theme) {
    @include core();
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+     @include color($theme);
+  }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdminGuard } from '@app/guards';
+import { Championship } from '@data/types';
 
 import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
@@ -12,8 +13,8 @@ const routes: Routes = [
     path: ':championship_id',
     component: ChampionshipPage,
     data: {
-      // eslint-disable-next-line no-template-curly-in-string
-      breadcrumbs: '${championship.league.name}',
+      breadcrumbs: (data: { championship: Championship }): string =>
+        `${data.championship.league.name}`,
       state: 'championship',
     },
     resolve: {

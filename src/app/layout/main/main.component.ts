@@ -27,6 +27,7 @@ import {
   ThemeService,
 } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
+import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
@@ -56,6 +57,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly app: ApplicationService,
     private readonly pwa: PwaService,
     private readonly push: PushService,
+    private readonly breadcrumb: BreadcrumbService,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly themeService: ThemeService,
@@ -76,9 +78,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.subscriptions.add(this.app.init(this.appRef));
-    this.subscriptions.add(this.pwa.initialize().subscribe());
-    this.subscriptions.add(this.push.initialize().subscribe());
+    this.subscriptions.add(this.app.connect(this.appRef));
+    this.subscriptions.add(this.breadcrumb.connect('FantaManajer'));
+    this.subscriptions.add(this.pwa.connect());
+    this.subscriptions.add(this.push.connect());
     this.subscriptions.add(this.themeService.connect());
     this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
   }

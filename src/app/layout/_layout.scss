@@ -1,5 +1,13 @@
-@use './navbar/navbar' as navbar;
-@use './profile/profile' as profile;
+@use './navbar/navbar';
+@use './profile/profile';
+@mixin core() {
+   @include navbar.core();
+  @include profile.core();
+}
+@mixin color($theme) {
+   @include navbar.color($theme);
+  @include profile.color($theme);
+}
 @mixin theme($theme) {
    @include navbar.theme($theme);
   @include profile.theme($theme);

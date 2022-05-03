@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { VisibilityState } from '@app/enums';
 import { LayoutService } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
 

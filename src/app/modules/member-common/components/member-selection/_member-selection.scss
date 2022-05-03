@@ -1,5 +1,6 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
-@use '@angular/flex-layout/mq' as mq;
+@use '@angular/flex-layout/mq';
 @mixin core() {
   app-member-selection .mat-form-field-infix {
     display: flex !important;
@@ -12,8 +13,8 @@
   }
 }
 @mixin color($theme) {
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
+  $foreground: map.get($theme, foreground);
+  $background: map.get($theme, background);
 
   .photo-container > .img-container {
     border-color: mat.get-color-from-palette($background,'card');
