@@ -13,4 +13,6 @@ import { NotificationOverlayService } from './services/notification-overlay.serv
   imports: [SharedModule, OverlayModule],
   providers: [NotificationOverlayService],
 })
-export class NotificationModule {}
+export class NotificationModule {
+  public static rootComponent = NotificationListComponent;
+}

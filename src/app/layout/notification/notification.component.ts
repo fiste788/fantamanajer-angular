@@ -1,10 +1,18 @@
-import { Compiler, Component, Injector, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  createNgModuleRef,
+  ElementRef,
+  Injector,
+  NgModuleRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
-import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
+import { NotificationModule } from '@modules/notification/notification.module';
 import { createBoxAnimation } from '@shared/animations';
 
 @Component({
@@ -21,7 +29,6 @@ export class NotificationComponent {
   constructor(
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
-    private readonly compiler: Compiler,
     private readonly injector: Injector,
   ) {
     this.stream$ = this.loadStream();
@@ -35,13 +42,18 @@ export class NotificationComponent {
 
   public async open(el: EventTarget | null): Promise<void> {
     if (this.container) {
-      const m = await import('@modules/notification/notification.module');
-      const mf = await this.compiler.compileModuleAsync(m.NotificationModule);
+      const ngModule = await import('@modules/notification/notification.module').then(
+        (m) => m.NotificationModule,
+      );
 
-      const ref = this.container.createComponent(NotificationListComponent, {
-        ngModuleRef: mf.create(this.injector),
+      const ngModuleRef: NgModuleRef<NotificationModule> = createNgModuleRef(
+        ngModule,
+        this.injector,
+      );
+      const componentRef = this.container.createComponent(ngModule.rootComponent, {
+        ngModuleRef,
       });
-      ref.instance.open(el);
+      componentRef.instance.open(new ElementRef(el));
     }
   }
 }

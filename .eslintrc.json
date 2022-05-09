@@ -21,12 +21,13 @@
       "files": [
         "*.ts"
       ],
+      "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "project": [
           "tsconfig.json",
           "e2e/tsconfig.json"
         ],
-        "ecmaVersion": 2015,
+        "ecmaVersion": 2017,
         "createDefaultProgram": true,
         "sourceType": "module"
       },
@@ -45,7 +46,8 @@
       ],
       "plugins": [
         "eslint-plugin-no-null",
-        "eslint-plugin-unicorn"
+        "eslint-plugin-unicorn",
+        "deprecation"
       ],
       "rules": {
         "@angular-eslint/component-class-suffix": [
@@ -186,6 +188,7 @@
           }
         ],
         "default-case": "error",
+        "deprecation/deprecation": "warn",
         "import/order": [
           "error",
           {

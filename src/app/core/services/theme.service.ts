@@ -41,23 +41,50 @@ export class ThemeService {
   }
 
   private async setThemeCss(isDark: boolean): Promise<void> {
-    return this.loadStyle(`${isDark ? 'dark' : 'light'}-theme.css`);
-  }
-
-  private async loadStyle(styleName: string): Promise<void> {
     return new Promise((resolve) => {
-      let linkEl = this.document.getElementById('client-theme');
-      if (linkEl !== null) {
-        this.renderer.setAttribute(linkEl, 'href', styleName);
+      let mainEl = this.document.getElementById('main-theme') as HTMLLinkElement | null;
+      if (mainEl !== null) {
+        const isLoadedDark = mainEl.href.startsWith('dark');
+        let altEl = this.document.getElementById('alternate-theme') as HTMLLinkElement | null;
+        const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
+        if (isLoadedDark !== isDark) {
+          if (altEl !== null) {
+            this.enableAlternate(altEl);
+          } else {
+            altEl = this.createLink(styleName, 'alternate-theme');
+            this.renderer.setProperty(altEl, 'onload', resolve);
+            this.renderer.appendChild(this.head, altEl);
+          }
+        } else {
+          this.disableAlternate(altEl);
+        }
       } else {
-        linkEl = this.renderer.createElement('link') as HTMLLinkElement;
-        this.renderer.setAttribute(linkEl, 'rel', 'stylesheet');
-        this.renderer.setAttribute(linkEl, 'id', 'client-theme');
-        this.renderer.setAttribute(linkEl, 'type', 'text/css');
-        this.renderer.setAttribute(linkEl, 'href', styleName);
-        this.renderer.setProperty(linkEl, 'onload', resolve);
-        this.renderer.appendChild(this.head, linkEl);
+        mainEl = this.createLink(`${isDark ? 'dark' : 'light'}-theme.css`, 'main-theme');
+        this.renderer.setProperty(mainEl, 'onload', resolve);
+        this.renderer.appendChild(this.head, mainEl);
       }
     });
+  }
+
+  private disableAlternate(altEl: HTMLLinkElement | null): void {
+    if (altEl !== null && !altEl.disabled) {
+      this.renderer.setAttribute(altEl, 'disabled', 'disabled');
+    }
+  }
+
+  private enableAlternate(altEl: HTMLLinkElement | null): void {
+    if (altEl !== null && altEl.disabled) {
+      this.renderer.removeAttribute(altEl, 'disabled');
+    }
+  }
+
+  private createLink(href: string, id: string): HTMLLinkElement {
+    const altEl = this.renderer.createElement('link') as HTMLLinkElement;
+    this.renderer.setAttribute(altEl, 'rel', 'stylesheet');
+    this.renderer.setAttribute(altEl, 'type', 'text/css');
+    this.renderer.setAttribute(altEl, 'id', id);
+    this.renderer.setAttribute(altEl, 'href', href);
+
+    return altEl;
   }
 }
