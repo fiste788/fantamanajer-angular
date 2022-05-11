@@ -55,8 +55,8 @@
           {{ member.player.full_name }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="newMember.errors?.TeamReachedMaximum">
-        {{newMember.errors?.TeamReachedMaximum}}
+      <mat-error *ngIf="newMember.errors?.['TeamReachedMaximum']">
+        {{newMember.errors?.['TeamReachedMaximum']}}
       </mat-error>
     </mat-form-field>
   </div>

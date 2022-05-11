@@ -33,6 +33,6 @@ export class ScoreDetailPage {
       ? UtilService.getData<Team>(this.route, 'team').pipe(
           switchMap((team) => this.scoreService.getLastScore(team.id)),
         )
-      : this.scoreService.getScore(+this.route.snapshot.params.id);
+      : this.scoreService.getScore(+this.route.snapshot.params['id']);
   }
 }

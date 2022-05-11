@@ -21,11 +21,11 @@
           [value]="m"
         >{{m.label}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="module.errors?.Expired">
-        {{module.errors?.Expired}}
+      <mat-error *ngIf="module.errors?.['Expired']">
+        {{module.errors?.['Expired']}}
       </mat-error>
-      <mat-error *ngIf="module.errors?.MissingPlayer">
-        {{module.errors?.MissingPlayer}}
+      <mat-error *ngIf="module.errors?.['MissingPlayer']">
+        {{module.errors?.['MissingPlayer']}}
       </mat-error>
     </mat-form-field>
     <mat-checkbox
@@ -34,8 +34,8 @@
       [disabled]="disabled"
       [(ngModel)]="lineup.jolly"
     >Jolly</mat-checkbox>
-    <mat-error *ngIf="module.errors?.JollyAlreadyUsed">
-      {{module.errors?.JollyAlreadyUsed}}
+    <mat-error *ngIf="module.errors?.['JollyAlreadyUsed']">
+      {{module.errors?.['JollyAlreadyUsed']}}
     </mat-error>
     <mat-expansion-panel class="mat-elevation-z0">
       <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>

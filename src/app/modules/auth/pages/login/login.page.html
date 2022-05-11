@@ -32,10 +32,10 @@
                 cdkFocusInitial
                 [(ngModel)]="loginData.email"
               >
-              <mat-error *ngIf="username.errors?.email">
+              <mat-error *ngIf="username.errors?.['email']">
                 Please enter a valid email address
               </mat-error>
-              <mat-error *ngIf="username.errors?.required">
+              <mat-error *ngIf="username.errors?.['required']">
                 Email is
                 <strong>required</strong>
               </mat-error>
@@ -76,7 +76,7 @@
                 [(ngModel)]="loginData.password"
               >
               <mat-error *ngIf="password.errors">
-                {{password.errors.msg}}
+                {{password.errors?.['msg']}}
               </mat-error>
             </mat-form-field>
 

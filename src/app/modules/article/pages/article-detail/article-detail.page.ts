@@ -25,7 +25,7 @@ export class ArticleDetailPage {
     private readonly router: Router,
     private readonly articleService: ArticleService,
   ) {
-    const id = this.route.snapshot.params.id as string | undefined;
+    const id = this.route.snapshot.params['id'] as string | undefined;
     this.article$ = id !== undefined ? this.load(+id) : this.new();
   }
 
@@ -43,11 +43,11 @@ export class ArticleDetailPage {
 
   public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
     if (this.articleForm?.valid) {
-      const save: Observable<AtLeast<Article, 'id'>> = article.id
+      const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
       return firstValueFrom(
-        save.pipe(
+        save$.pipe(
           map((a: AtLeast<Article, 'id'>) => {
             this.snackBar.open('Articolo salvato correttamente', undefined, {
               duration: 3000,

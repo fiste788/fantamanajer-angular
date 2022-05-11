@@ -54,7 +54,7 @@
       </mat-optgroup>
     </ng-container>
   </mat-select>
-  <mat-error *ngIf="memberSelection.errors?.required">Seleziona il giocatore</mat-error>
+  <mat-error *ngIf="memberSelection.errors?.['required']">Seleziona il giocatore</mat-error>
   <mat-hint *ngIf="member?.stats">
     <span>Ø P.ti: {{member?.stats?.avg_points | number: '1.1-1'}}</span> -
     <span>Ø Voti: {{member?.stats?.avg_rating | number: '1.1-1'}}</span> -

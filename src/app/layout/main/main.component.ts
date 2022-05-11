@@ -26,6 +26,7 @@ import {
   PwaService,
   ThemeService,
 } from '@app/services';
+import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
@@ -95,13 +96,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  public preBootstrapExitAnimation(): Observable<boolean> {
+  public preBootstrapExitAnimation(): Observable<void> {
     return this.isReady$.pipe(
       filter((e) => e),
       tap(() => this.layoutService.showSpeedDial()),
       switchMap(() => timer(300)),
       tap(() => this.document.querySelector('.pre-bootstrap')?.remove()),
-      switchMap(() => this.gaService.load()),
+      switchMap(() => this.gaService.init(environment.gaCode)),
     );
   }
 

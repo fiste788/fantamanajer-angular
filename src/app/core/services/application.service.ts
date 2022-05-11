@@ -40,12 +40,12 @@ export class ApplicationService {
   }
 
   public bootstrap(): Observable<unknown> {
-    const obs: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
+    const bootstrap$: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
     if (this.authService.loggedIn()) {
-      obs.push(this.authService.getCurrentUser());
+      bootstrap$.push(this.authService.getCurrentUser());
     }
 
-    return forkJoin(obs).pipe(
+    return forkJoin(bootstrap$).pipe(
       catchError((e: unknown) => {
         this.writeError(e as Error);
         throw e;

@@ -37,11 +37,11 @@ export class ChampionshipDetailPage {
     championship: RecursivePartial<Championship>,
   ): Promise<void> {
     championship.league = league;
-    const save: Observable<AtLeast<Championship, 'id'>> = championship.id
+    const save$: Observable<AtLeast<Championship, 'id'>> = championship.id
       ? this.championshipService.update(championship as AtLeast<Championship, 'id'>)
       : this.championshipService.create(championship);
     return firstValueFrom(
-      save.pipe(
+      save$.pipe(
         map(() => {
           this.snackBar.open('Modifiche salvate', undefined, {
             duration: 3000,

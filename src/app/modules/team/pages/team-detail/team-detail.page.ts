@@ -30,7 +30,7 @@ export class TeamDetailPage {
     private readonly dialog: MatDialog,
   ) {
     this.team$ = this.route.data.pipe(
-      map((data) => data.team as Team),
+      map((data) => data['team'] as Team),
       combineLatestWith(this.auth.user$, this.app.requireTeam$),
       map(([selectedTeam, user, team]) => {
         this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);

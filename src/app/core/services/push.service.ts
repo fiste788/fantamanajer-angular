@@ -74,10 +74,9 @@ export class PushService {
       const psm: Partial<PushSubscription> = {
         id: await this.sha256(pushSubscription.endpoint),
         endpoint: pushSubscription.endpoint,
-        public_key: pushSubscription.keys.p256dh,
-        auth_token: pushSubscription.keys.auth,
+        public_key: pushSubscription.keys['p256dh'],
+        auth_token: pushSubscription.keys['auth'],
         content_encoding: (PushManager.supportedContentEncodings ?? ['aesgcm'])[0],
-
         expires_at: e !== null && e !== undefined ? new Date(e) : undefined,
         user_id: userId,
       };

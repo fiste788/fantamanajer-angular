@@ -36,11 +36,11 @@ export class AddTeamPage {
 
   public async save(team: RecursivePartial<Team>): Promise<void> {
     team.user = { email: this.email };
-    const save: Observable<AtLeast<Team, 'id'>> = team.id
+    const save$: Observable<AtLeast<Team, 'id'>> = team.id
       ? this.teamService.update(team as AtLeast<Team, 'id'>)
       : this.teamService.create(team);
     return firstValueFrom(
-      save.pipe(
+      save$.pipe(
         map((response) => {
           this.snackBar.open('Modifiche salvate', undefined, {
             duration: 3000,

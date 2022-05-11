@@ -46,11 +46,11 @@ export class LineupLastPage {
     if (this.lineupForm?.valid) {
       // eslint-disable-next-line no-null/no-null
       lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
-      const save: Observable<AtLeast<Lineup, 'id'>> = lineup.id
+      const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.lineupService.create(lineup);
       return firstValueFrom(
-        save.pipe(
+        save$.pipe(
           map((response: Partial<Lineup>) => {
             if (response.id) {
               lineup.id = response.id;

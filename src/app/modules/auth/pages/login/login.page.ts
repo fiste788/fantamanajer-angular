@@ -85,7 +85,7 @@ export class LoginPage {
 
   private getUrl(team: Team): string {
     return (
-      (this.route.snapshot.queryParams.returnUrl as string | undefined) ??
+      (this.route.snapshot.queryParams['returnUrl'] as string | undefined) ??
       `/championships/${team.championship?.id ?? 0}`
     );
   }
