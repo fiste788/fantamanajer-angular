@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Championship, RankingPosition } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -15,7 +15,7 @@ import { tableRowAnimation } from '@shared/animations';
 })
 export class RankingPage {
   public ranking$: Observable<Array<RankingPosition>>;
-  public rankingDisplayedColumns = ['teamName', 'points'];
+  public rankingDisplayedColumns = ['team-name', 'points'];
   public matchdays: Array<number> = [];
 
   constructor(private readonly scoreService: ScoreService, private readonly route: ActivatedRoute) {
@@ -23,7 +23,7 @@ export class RankingPage {
   }
 
   public loadRanking(): Observable<Array<RankingPosition>> {
-    return UtilService.getData<Championship>(this.route, 'championship').pipe(
+    return getRouteData<Championship>(this.route, 'championship').pipe(
       switchMap((championship) => this.getRanking(championship)),
     );
   }

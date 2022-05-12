@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, defaultIfEmpty, firstValueFrom, map, Observable } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { ChampionshipService } from '@data/services';
 import { Championship, League } from '@data/types';
@@ -26,7 +26,7 @@ export class ChampionshipDetailPage {
     private readonly route: ActivatedRoute,
     private readonly championshipService: ChampionshipService,
   ) {
-    this.championship$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+    this.championship$ = getRouteData<Championship>(this.route, 'championship').pipe(
       defaultIfEmpty({}),
     );
     this.league$ = this.championship$.pipe(map((c) => c.league || {}));
@@ -47,9 +47,7 @@ export class ChampionshipDetailPage {
             duration: 3000,
           });
         }),
-        catchError((err: unknown) =>
-          UtilService.getUnprocessableEntityErrors(err, this.championshipForm),
-        ),
+        catchError((err: unknown) => getUnprocessableEntityErrors(err, this.championshipForm)),
       ),
       { defaultValue: undefined },
     );

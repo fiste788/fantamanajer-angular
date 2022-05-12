@@ -6,6 +6,7 @@
         [image]="club.photo_url"
         [title]="club.name"
         [tabs]="tabs"
+        (imageLoaded)="scrollTo($event)"
       >
       </app-parallax-header>
     </div>

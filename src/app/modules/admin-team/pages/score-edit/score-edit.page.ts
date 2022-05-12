@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Lineup, Score, Team } from '@data/types';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
@@ -30,7 +30,7 @@ export class ScoreEditPage {
   }
 
   public loadData(): Observable<Array<Score>> {
-    return UtilService.getData<Team>(this.route, 'team').pipe(
+    return getRouteData<Team>(this.route, 'team').pipe(
       switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
     );
   }
@@ -49,9 +49,7 @@ export class ScoreEditPage {
               duration: 3000,
             });
           }),
-          catchError((err: unknown) =>
-            UtilService.getUnprocessableEntityErrors(err, this.scoreForm),
-          ),
+          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.scoreForm)),
         ),
         { defaultValue: undefined },
       );

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, Inject, Injectable } from '@angular/core';
+import { ApplicationRef, APP_INITIALIZER, Inject, Injectable, Provider } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, Subject, Subscription, interval } from 'rxjs';
 import {
   catchError,
@@ -11,7 +11,7 @@ import {
   share,
 } from 'rxjs/operators';
 
-import { AuthenticationService } from '@app/authentication';
+import { AuthenticationService, TokenStorageService } from '@app/authentication';
 import { MatchdayService } from '@data/services';
 import { Matchday, Team } from '@data/types';
 
@@ -117,3 +117,10 @@ export class ApplicationService {
     }
   }
 }
+
+export const appInitializerProvider: Provider = {
+  deps: [ApplicationService, TokenStorageService],
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (app: ApplicationService) => (): Observable<unknown> => app.bootstrap(),
+};

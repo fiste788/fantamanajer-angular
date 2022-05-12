@@ -1,4 +1,5 @@
 <app-stream
+  *ngIf="id$ | async as id"
   context="championships"
   [id]="id"
 ></app-stream>

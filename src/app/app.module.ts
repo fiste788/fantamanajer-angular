@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ServiceWorkerModule } from '@angular/service-worker';
-
-import { environment } from '@env';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { MainComponent } from './layout/components/main/main.component';
 import { LayoutModule } from './layout/layout.module';
-import { MainComponent } from './layout/main/main.component';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   bootstrap: [MainComponent],
@@ -23,16 +19,8 @@ import { SharedModule } from './shared/shared.module';
 
     // core & shared
     CoreModule,
-    SharedModule,
 
     // app
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
     AppRoutingModule,
   ],
 })

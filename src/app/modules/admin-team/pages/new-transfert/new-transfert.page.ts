@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
-import { UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { MemberService, TransfertService } from '@data/services';
 import { Member, Team, Transfert } from '@data/types';
 import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
@@ -32,7 +32,7 @@ export class NewTransfertPage {
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog,
   ) {
-    this.team$ = UtilService.getData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>(this.route, 'team');
     this.oldMembers$ = this.loadMembers(this.team$);
   }
 
@@ -93,9 +93,7 @@ export class NewTransfertPage {
           duration: 3000,
         });
       }),
-      catchError((err: unknown) =>
-        UtilService.getUnprocessableEntityErrors(err, this.transfertForm),
-      ),
+      catchError((err: unknown) => getUnprocessableEntityErrors(err, this.transfertForm)),
     );
   }
 

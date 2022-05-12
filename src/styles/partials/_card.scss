@@ -1,5 +1,5 @@
-@use '@angular/material' as mat;
-@use '@angular/flex-layout/mq';
+@use "@angular/material" as mat;
+@use "@angular/flex-layout/mq";
 @mixin core() {
   .mat-card {
     margin: 1rem;
@@ -15,11 +15,13 @@
     }
   }
 }
-@mixin color($theme) {}
+@mixin color($theme) {
+}
 @mixin theme($theme) {
-   @include core();
+  @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
-     @include color($theme);
+  @if $color-config {
+    @include color($theme);
   }
 }

@@ -4,7 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { ApplicationService, UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { LineupService } from '@data/services';
 import { EmptyLineup, Lineup, Team } from '@data/types';
@@ -31,7 +32,7 @@ export class LineupLastPage {
   }
 
   public loadData(): Observable<EmptyLineup> {
-    const team$ = UtilService.getData<Team>(this.route, 'team');
+    const team$ = getRouteData<Team>(this.route, 'team');
     return combineLatest([team$, this.app.requireTeam$]).pipe(
       map(([team, currentTeam]) => {
         this.benchs = currentTeam.championship.number_benchwarmers;
@@ -59,9 +60,7 @@ export class LineupLastPage {
               duration: 3000,
             });
           }),
-          catchError((err: unknown) =>
-            UtilService.getUnprocessableEntityErrors(err, this.lineupForm),
-          ),
+          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.lineupForm)),
         ),
         { defaultValue: undefined },
       );

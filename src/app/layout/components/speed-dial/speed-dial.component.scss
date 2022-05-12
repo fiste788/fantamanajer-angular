@@ -2,7 +2,7 @@
 @use '@angular/flex-layout/mq';
 
 :host {
-  animation: createBox .25s;
+  animation: create-box .25s;
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
@@ -22,7 +22,7 @@
     @include mat.elevation(2);
   }
 }
-@keyframes createBox {
+@keyframes create-box {
   0% {
     transform: scale(0);
   }

@@ -1,8 +1,9 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { TokenStorageService } from './authentication';
+import { environment } from '@env';
+
 import { ErrorHandlerModule } from './errors/error-handler.module';
 import {
   AdminGuard,
@@ -11,14 +12,22 @@ import {
   NoAuthGuard,
   throwIfAlreadyLoaded,
 } from './guards';
-import { ApiPrefixInterceptor, AuthInterceptor } from './interceptors';
-import { ApplicationService, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
-
-export const useFactory = (app: ApplicationService) => (): Observable<unknown> => app.bootstrap();
+import { apiPrefixInterceptorProvider, authInterceptorProvider } from './interceptors';
+import { appInitializerProvider, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
 @NgModule({
   exports: [],
-  imports: [HttpClientModule, ErrorHandlerModule],
+  imports: [
+    HttpClientModule,
+    ErrorHandlerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+  ],
   providers: [
     AuthGuard,
     AdminGuard,
@@ -26,23 +35,9 @@ export const useFactory = (app: ApplicationService) => (): Observable<unknown> =
     ChampionshipAdminGuard,
     WINDOW_PROVIDERS,
     NAVIGATOR_PROVIDERS,
-    {
-      multi: true,
-      deps: [TokenStorageService],
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-    },
-    {
-      multi: true,
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiPrefixInterceptor,
-    },
-    {
-      deps: [ApplicationService, TokenStorageService],
-      multi: true,
-      provide: APP_INITIALIZER,
-      useFactory,
-    },
+    authInterceptorProvider,
+    apiPrefixInterceptorProvider,
+    appInitializerProvider,
   ],
 })
 export class CoreModule {

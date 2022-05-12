@@ -9,6 +9,7 @@
         [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
         [backgroundImage]="selectedMember.club.background_url"
         [image]="selectedMember.photo_url || player.photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
+        (imageLoaded)="scrollTo($event)"
       >
         <div
           parallax-header-right
@@ -196,7 +197,7 @@
           <span
             matTooltip="Ammonizioni"
             matTooltipPosition="above"
-            class="yellow_card"
+            class="yellow-card"
           ></span>
         </th>
         <td
@@ -216,7 +217,7 @@
           <span
             matTooltip="Espulsioni"
             matTooltipPosition="above"
-            class="red_card"
+            class="red-card"
           ></span>
         </th>
         <td

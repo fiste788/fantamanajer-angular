@@ -1,7 +1,8 @@
-@media (max-width: 600px) {
+@use '@angular/flex-layout/mq';
+@include mq.layout-bp(lt-md) {
   .mat-column-club,
-  .mat-column-redCard,
-  .mat-column-yellowCard {
+  .mat-column-red-card,
+  .mat-column-yellow-card {
     display: none;
   }
 }

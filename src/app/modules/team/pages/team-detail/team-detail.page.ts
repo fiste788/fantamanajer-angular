@@ -9,6 +9,7 @@ import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
+import { LayoutService } from 'src/app/layout/services';
 
 import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 
@@ -26,6 +27,7 @@ export class TeamDetailPage {
     public app: ApplicationService,
     public auth: AuthenticationService,
     private readonly route: ActivatedRoute,
+    private readonly layoutService: LayoutService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {
@@ -79,5 +81,9 @@ export class TeamDetailPage {
         ),
       { defaultValue: undefined },
     );
+  }
+
+  public scrollTo(height: number): void {
+    this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

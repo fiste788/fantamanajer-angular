@@ -6,8 +6,9 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -73,3 +74,9 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     });
   }
 }
+
+export const apiPrefixInterceptorProvider: Provider = {
+  multi: true,
+  provide: HTTP_INTERCEPTORS,
+  useClass: ApiPrefixInterceptor,
+};

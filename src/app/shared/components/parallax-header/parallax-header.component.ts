@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { LayoutService } from '@app/services';
 import { Tab } from '@data/types';
 
 @Component({
@@ -15,14 +14,13 @@ export class ParallaxHeaderComponent {
   @Input() public image?: string | null;
   @Input() public backgroundImage?: Record<string, string> | string | null;
   @Input() public tabs: Array<Tab> = [];
+  @Output() public readonly imageLoaded = new EventEmitter<number>();
 
   public srcset = '';
   public width = 0;
 
-  constructor(private readonly layoutService: LayoutService) {}
-
-  public initialScroll(event: Event): void {
-    this.layoutService.scrollTo(0, (event.target as HTMLElement).clientHeight - 300, undefined);
+  public imageLoad(event: Event): void {
+    this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
   }
 
   public track(_: number, item: Tab): string {

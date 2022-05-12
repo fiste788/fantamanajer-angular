@@ -4,6 +4,7 @@
 .circle .mat-icon {
   position: absolute;
   @include mat.elevation(4);
+
   padding: 2px;
   border-radius: 50%;
   cursor: help;

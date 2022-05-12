@@ -1,26 +1,28 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @mixin core() {
   .inherit-color {
-    .mat-focused .mat-form-field-label,
     .mat-form-field-label,
-    .mat-form-field.mat-focused .mat-select-arrow,
     .mat-select-arrow,
+    .mat-focused .mat-form-field-label,
+    .mat-form-field.mat-focused .mat-select-arrow,
     .mat-select-value {
       color: inherit;
     }
 
-    .mat-focused .mat-form-field-ripple,
     .mat-form-field-ripple,
+    .mat-focused .mat-form-field-ripple,
     .mat-form-field-underline {
-      background-color: currentColor;
+      background-color: currentcolor;
     }
   }
 }
-@mixin color($theme) {}
+@mixin color($theme) {
+}
 @mixin theme($theme) {
-   @include core();
+  @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
-     @include color($theme);
+  @if $color-config {
+    @include color($theme);
   }
 }

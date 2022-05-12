@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
 import { Club, Member } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -21,7 +21,7 @@ export class ClubMembersPage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.members$ = UtilService.getData<Club>(this.route, 'club').pipe(
+    this.members$ = getRouteData<Club>(this.route, 'club').pipe(
       switchMap((club) => this.memberService.getByClubId(club.id)),
     );
   }

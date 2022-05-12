@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
@@ -28,7 +28,7 @@ export class TeamListPage implements OnInit {
   }
 
   public loadData(): void {
-    this.teams$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+    this.teams$ = getRouteData<Championship>(this.route, 'championship').pipe(
       switchMap((c) => this.teamService.getTeams(c.id)),
     );
   }

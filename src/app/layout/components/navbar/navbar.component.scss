@@ -1,0 +1,26 @@
+.mat-list-item .mat-icon {
+  margin-right: 1rem;
+}
+
+mat-list .mat-list-item,
+.mat-nav-list .mat-list-item,
+.mat-selection-list .mat-list-item {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0.25rem 0.5rem;
+  width: calc(100% - 1rem);
+  border-radius: 0.25rem;
+  height: 2.5rem;
+}
+
+.mat-nav-list .mat-list-item .mat-list-item-content {
+  padding: 0 0.25rem;
+}
+
+.mat-subheader {
+  padding: 1rem 1rem 0.25rem;
+}
+
+.mat-nav-list .mat-subheader {
+  height: 2.25rem;
+}

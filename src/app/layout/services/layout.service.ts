@@ -5,8 +5,7 @@ import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
-
-import { ScrollService } from './scroll.service';
+import { ScrollService } from '@app/services';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +21,7 @@ export class LayoutService {
 
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
-  private readonly scrollSubscription = new Map<MatSidenavContent, Subscription>();
+  private readonly scrollSubscription = new Map<MatSidenavContent, Subscription | undefined>();
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
@@ -73,6 +72,8 @@ export class LayoutService {
             }
           } else if (subscriptions) {
             this.disconnectScrollAnimation(container);
+          } else {
+            this.scrollSubscription.set(container, undefined);
           }
         }),
       )

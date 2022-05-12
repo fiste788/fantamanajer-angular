@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @mixin core() {
   app-profile {
     .mat-form-field-wrapper {
@@ -15,11 +15,13 @@
     }
   }
 }
-@mixin color($theme) {}
+@mixin color($theme) {
+}
 @mixin theme($theme) {
-   @include core();
+  @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
-     @include color($theme);
+  @if $color-config {
+    @include color($theme);
   }
 }

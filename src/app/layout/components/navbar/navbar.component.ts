@@ -4,8 +4,10 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService, LayoutService, PwaService } from '@app/services';
+import { ApplicationService, PwaService } from '@app/services';
 import { Championship, Matchday, Team } from '@data/types';
+
+import { LayoutService } from '../../services';
 
 @Component({
   selector: 'app-navbar',

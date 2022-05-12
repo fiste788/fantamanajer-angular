@@ -1,4 +1,4 @@
-@use '@angular/flex-layout/mq';
+@use "@angular/flex-layout/mq";
 
 :host {
   display: block;
@@ -24,6 +24,14 @@
   position: relative;
 }
 
+.mat-empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .mat-empty-state.mat-rounded .mat-empty-state-container {
   padding: 40px;
   position: absolute;
@@ -31,14 +39,6 @@
   right: 0;
   bottom: 0;
   left: 0;
-}
-
-.mat-empty-state-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .mat-empty-state-label {
@@ -57,7 +57,7 @@
   width: 120px;
   min-width: 120px;
   height: 120px;
-  font-size: 120px!important;
+  font-size: 120px !important;
   margin: 0;
 }
 @include mq.layout-bp(gt-xs) {
@@ -65,6 +65,6 @@
     width: 160px;
     min-width: 160px;
     height: 160px;
-    font-size: 160px!important;
+    font-size: 160px !important;
   }
 }

@@ -25,7 +25,7 @@
   }
 
   .tabbed-container {
-    min-height: calc(100vh - 400px);
+    min-height: calc(100vh - 25rem);
   }
 
   .spacer {
@@ -40,20 +40,20 @@
     text-decoration: none;
   }
 
-  .red_card,
-  .yellow_card {
+  .red-card,
+  .yellow-card {
     width: .75rem;
     height: 1rem;
     display: inline-block;
     @include mat.elevation(1);
   }
 
-  .yellow_card {
+  .yellow-card {
     background-color: yellow;
 
   }
 
-  .red_card {
+  .red-card {
     background-color: red;
   }
 
@@ -69,7 +69,7 @@
     100% {
       opacity: 0;
       transform: scale(0);
-      display: none !important;
+      display: none;
     }
   }
 }
@@ -93,9 +93,10 @@
   }
 }
 @mixin theme($theme) {
-   @include core();
+   @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
+  @if $color-config {
      @include color($theme);
   }
 }

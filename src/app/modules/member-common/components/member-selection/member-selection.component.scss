@@ -6,10 +6,6 @@
   flex-grow: 1;
 }
 
-.mat-form-field.ng-invalid .img-container {
-  border-color: #f44336;
-}
-
 .photo-container {
   position: relative;
   text-align: center;
@@ -34,6 +30,10 @@
     }
   }
 
+}
+
+.mat-form-field.ng-invalid .img-container {
+  border-color: #f44336;
 }
 
 .select-container {

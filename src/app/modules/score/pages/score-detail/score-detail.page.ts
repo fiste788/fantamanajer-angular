@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Disposition, Score, Team } from '@data/types';
 
@@ -30,7 +30,7 @@ export class ScoreDetailPage {
 
   public getScore() {
     return this.route.snapshot.url.pop()?.path === 'last'
-      ? UtilService.getData<Team>(this.route, 'team').pipe(
+      ? getRouteData<Team>(this.route, 'team').pipe(
           switchMap((team) => this.scoreService.getLastScore(team.id)),
         )
       : this.scoreService.getScore(+this.route.snapshot.params['id']);

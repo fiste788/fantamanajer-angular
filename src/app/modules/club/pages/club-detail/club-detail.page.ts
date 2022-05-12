@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { Club } from '@data/types';
 import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
+import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],
@@ -19,7 +20,14 @@ export class ClubDetailPage {
     { label: 'Attività', link: 'stream' },
   ];
 
-  constructor(private readonly route: ActivatedRoute) {
-    this.club$ = UtilService.getData(this.route, 'club');
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly layoutService: LayoutService,
+  ) {
+    this.club$ = getRouteData(this.route, 'club');
+  }
+
+  public scrollTo(height: number): void {
+    this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

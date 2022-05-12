@@ -6,8 +6,9 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Provider } from '@angular/core';
 import { catchError, EMPTY, Observable, of, switchMap, throwError } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -65,3 +66,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return of(this.authService.logoutUI()).pipe(switchMap(() => EMPTY));
   }
 }
+
+export const authInterceptorProvider: Provider = {
+  multi: true,
+  deps: [TokenStorageService],
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+};

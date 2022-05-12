@@ -27,7 +27,6 @@
           mat-cell
         >
           <mat-checkbox
-            [checked]="selection.isSelected(row)"
             (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(row) : null"
           >
@@ -243,7 +242,7 @@
           <span
             matTooltip="Ammonizioni"
             matTooltipPosition="above"
-            class="yellow_card"
+            class="yellow-card"
           ></span>
         </th>
         <td
@@ -270,7 +269,7 @@
           <span
             matTooltip="Espulsioni"
             matTooltipPosition="above"
-            class="red_card"
+            class="red-card"
           ></span>
         </th>
         <td

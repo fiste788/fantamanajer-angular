@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { ApplicationService, UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
+import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -29,7 +30,7 @@ export class TransfertListPage {
     private readonly ref: ChangeDetectorRef,
     app: ApplicationService,
   ) {
-    this.team$ = UtilService.getData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>(this.route, 'team');
     this.isMyTeam$ = combineLatest([this.team$, app.requireTeam$]).pipe(
       map(([cur, my]) => cur.id === my.id),
     );

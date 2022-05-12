@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
 
-import { ApplicationService, UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
+import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
+import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
@@ -36,9 +38,10 @@ export class PlayerPage {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
+    private readonly layoutService: LayoutService,
     public app: ApplicationService,
   ) {
-    this.player$ = UtilService.getData<Player>(this.route, 'player');
+    this.player$ = getRouteData<Player>(this.route, 'player');
     this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
     this.firstMember$ = this.player$.pipe(
       map((p) => p.members[0]),
@@ -62,5 +65,9 @@ export class PlayerPage {
 
   public trackRating(_: number, item: Rating): number {
     return item.id;
+  }
+
+  public scrollTo(height: number): void {
+    this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

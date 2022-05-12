@@ -21,7 +21,6 @@ import { VisibilityState } from '@app/enums';
 import {
   ApplicationService,
   GoogleAnalyticsService,
-  LayoutService,
   PushService,
   PwaService,
   ThemeService,
@@ -30,6 +29,7 @@ import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
+import { LayoutService } from '../../services';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({

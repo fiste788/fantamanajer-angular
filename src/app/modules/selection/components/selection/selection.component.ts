@@ -15,7 +15,8 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { ApplicationService, UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { MemberService, RoleService, SelectionService } from '@data/services';
 import { Member, Role, Selection, Team } from '@data/types';
@@ -53,7 +54,7 @@ export class SelectionComponent {
   }
 
   public loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
-    return UtilService.getData<Team>(this.route, 'team').pipe(
+    return getRouteData<Team>(this.route, 'team').pipe(
       filter((team): team is Team => team !== undefined),
       switchMap((team) => this.loadTeamData(team)),
       tap(() => this.setupEvents()),
@@ -156,9 +157,7 @@ export class SelectionComponent {
               selection.id = res.id;
             }
           }),
-          catchError((err: unknown) =>
-            UtilService.getUnprocessableEntityErrors(err, this.selectionForm),
-          ),
+          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.selectionForm)),
         ),
         { defaultValue: undefined },
       );

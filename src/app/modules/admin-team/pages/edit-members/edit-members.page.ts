@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, forkJoin, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { UtilService } from '@app/services';
+import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
 
@@ -35,7 +35,7 @@ export class EditMembersPage {
       .map((r) => r.count)
       .join('-');
     this.module = new Module(key, this.roles);
-    this.team$ = UtilService.getData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>(this.route, 'team');
     this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
   }
 
@@ -83,9 +83,7 @@ export class EditMembersPage {
             duration: 3000,
           });
         }),
-        catchError((err: unknown) =>
-          UtilService.getUnprocessableEntityErrors(err, this.membersForm),
-        ),
+        catchError((err: unknown) => getUnprocessableEntityErrors(err, this.membersForm)),
       ),
       { defaultValue: undefined },
     );

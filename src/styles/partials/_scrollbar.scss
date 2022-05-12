@@ -1,6 +1,6 @@
 /* Variables */
 :root {
-  --scrollbar-size: .375rem;
+  --scrollbar-size: 0.375rem;
   --scrollbar-minlength: 1.5rem;
 
   /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
@@ -8,9 +8,9 @@
 
   /* FF-only accepts auto, thin, none */
   --scrollbar-track-color: transparent;
-  --scrollbar-color: rgba(0, 0, 0, 0.2);
-  --scrollbar-color-hover: rgba(0, 0, 0, 0.3);
-  --scrollbar-color-active: rgb(0, 0, 0);
+  --scrollbar-color: rgb(0 0 0 / 20%);
+  --scrollbar-color-hover: rgb(0 0 0 / 30%);
+  --scrollbar-color-active: rgb(0 0 0);
 }
 
 /* Use .layout-scrollbar-obtrusive to only use overflow if scrollbars don’t overlay */
@@ -33,22 +33,7 @@
 .mat-sidenav-content {
   scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
   overflow-y: overlay !important;
-}
 
-/* Only apply height/width to ::-webkit-scrollbar if is obtrusive */
-
-.layout-scrollbar-obtrusive {
-  .mat-select-panel::-webkit-scrollbar,
-  .mat-sidenav > div::-webkit-scrollbar,
-  .mat-sidenav-content::-webkit-scrollbar {
-    height: var(--scrollbar-size);
-    width: var(--scrollbar-size);
-  }
-}
-
-.mat-select-panel,
-.mat-sidenav > div,
-.mat-sidenav-content {
   &::-webkit-scrollbar-track {
     background-color: var(--scrollbar-track-color);
   }
@@ -65,9 +50,21 @@
       background-color: var(--scrollbar-color-active);
     }
 
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
     &:vertical {
       min-height: var(--scrollbar-minlength);
     }
+  }
+}
+
+/* Only apply height/width to ::-webkit-scrollbar if is obtrusive */
+
+.layout-scrollbar-obtrusive {
+  .mat-select-panel::-webkit-scrollbar,
+  .mat-sidenav > div::-webkit-scrollbar,
+  .mat-sidenav-content::-webkit-scrollbar {
+    height: var(--scrollbar-size);
+    width: var(--scrollbar-size);
   }
 }
 

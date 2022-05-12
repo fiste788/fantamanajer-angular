@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, map } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { Championship } from '@data/types';
 
 @Component({
@@ -10,9 +11,9 @@ import { Championship } from '@data/types';
   templateUrl: './championship-stream.page.html',
 })
 export class ChampionshipStreamPage {
-  public id: number;
+  public id$: Observable<number>;
 
   constructor(private readonly route: ActivatedRoute) {
-    this.id = UtilService.getSnapshotData<Championship>(this.route, 'championship')?.id ?? 0;
+    this.id$ = getRouteData<Championship>(this.route, 'championship').pipe(map((c) => c.id));
   }
 }

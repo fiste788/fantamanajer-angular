@@ -7,12 +7,14 @@ import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 
 import { SharedModule } from '@shared/shared.module';
 
-import { MainComponent } from './main/main.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { NotificationComponent } from './notification/notification.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SpeedDialComponent } from './speed-dial/speed-dial.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import {
+  MainComponent,
+  NavbarComponent,
+  NotificationComponent,
+  ProfileComponent,
+  SpeedDialComponent,
+  ToolbarComponent,
+} from './components';
 
 @NgModule({
   declarations: [

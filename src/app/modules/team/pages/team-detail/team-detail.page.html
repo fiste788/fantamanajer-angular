@@ -5,6 +5,7 @@
       [tabs]="tabs"
       [title]="team.name"
       [subtitle]="team.user.name + ' ' + team.user.surname"
+      (imageLoaded)="scrollTo($event)"
     >
       <div
         *ngIf="team.user.id === (auth.user$ | async)?.id && !app.seasonEnded"

@@ -1,22 +1,24 @@
-@use 'sass:map';
-@use '@angular/material' as mat;
-@mixin core() {}
+@use "sass:map";
+@use "@angular/material" as mat;
+@mixin core() {
+}
 @mixin color($theme) {
   $foreground: map.get($theme, foreground);
   $background: map.get($theme, background);
 
   .mat-empty-state.mat-rounded {
-    background-color: mat.get-color-from-palette($background, 'app-bar');
+    background-color: mat.get-color-from-palette($background, "app-bar");
   }
 
   .mat-empty-state-icon {
-    color: mat.get-color-from-palette($foreground, 'icon');
+    color: mat.get-color-from-palette($foreground, "icon");
   }
 }
 @mixin theme($theme) {
-   @include core();
+  @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
-     @include color($theme);
+  @if $color-config {
+    @include color($theme);
   }
 }

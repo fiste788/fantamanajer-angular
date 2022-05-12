@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { map, Observable } from 'rxjs';
 
-import { UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
 import { Team } from '@data/types';
 
 @Component({
@@ -9,9 +10,9 @@ import { Team } from '@data/types';
   templateUrl: './team-stream.page.html',
 })
 export class TeamStreamPage {
-  public id: number;
+  public id$: Observable<number>;
 
   constructor(private readonly route: ActivatedRoute) {
-    this.id = UtilService.getSnapshotData<Team>(this.route, 'team')?.id ?? 0;
+    this.id$ = getRouteData<Team>(this.route, 'team').pipe(map((team) => team.id));
   }
 }

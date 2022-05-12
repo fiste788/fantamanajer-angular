@@ -10,7 +10,7 @@
 @use 'app/modules/member-common/components/member-selection/member-selection';
 @use 'app/shared/components/mat-empty-state/mat-empty-state';
 @mixin theme($theme) {
-   @include mat.core();
+   @include mat.core;
   @include material.theme($theme);
   @include styles.theme($theme);
   @include form.theme($theme);

@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { ApplicationService, UtilService } from '@app/services';
+import { getRouteData } from '@app/functions';
+import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Championship, Member, Role } from '@data/types';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
@@ -41,7 +42,7 @@ export class MemberFreePage implements OnInit {
   public roleChange(role?: Role): void {
     this.members$ = undefined;
     this.changeRef.detectChanges();
-    this.members$ = UtilService.getData<Championship>(this.route, 'championship').pipe(
+    this.members$ = getRouteData<Championship>(this.route, 'championship').pipe(
       switchMap((c) => this.memberService.getFree(c.id, role?.id)),
     );
 

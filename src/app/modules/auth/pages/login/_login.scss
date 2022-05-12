@@ -23,14 +23,15 @@
   }
 }
 @mixin theme($theme) {
-   @include core();
+  @include core;
+
   $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
-     @include color($theme);
+  @if $color-config  {
+    @include color($theme);
   }
 
   $typography-config: mat.get-typography-config($theme);
-  @if $typography-config != null {
-     @include typography($theme);
+  @if $typography-config  {
+    @include typography($theme);
   }
 }

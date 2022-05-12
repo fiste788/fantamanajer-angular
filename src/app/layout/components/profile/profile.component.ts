@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService, LayoutService } from '@app/services';
+import { ApplicationService } from '@app/services';
 import { Team } from '@data/types';
+
+import { LayoutService } from '../../services';
 
 @Component({
   selector: 'app-profile',
