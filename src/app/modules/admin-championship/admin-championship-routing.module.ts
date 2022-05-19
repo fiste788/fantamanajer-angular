@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { AddTeamPage } from './pages/add-team/add-team.page';
 import { ChampionshipDetailPage } from './pages/championship-detail/championship-detail.page';

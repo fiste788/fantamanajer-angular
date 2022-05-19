@@ -70,6 +70,7 @@ export const breakPointsProvider = {
     MatEmptyStateComponent,
     ParallaxHeaderComponent,
     PlayerImageComponent,
+    RouterOutletComponent,
   ],
   imports: [
     CommonModule,

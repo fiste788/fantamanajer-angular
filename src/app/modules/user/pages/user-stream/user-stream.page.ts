@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, pluck } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 
@@ -11,6 +11,6 @@ export class UserStreamPage {
   public id$: Observable<number>;
 
   constructor(private readonly auth: AuthenticationService) {
-    this.id$ = this.auth.requireUser$.pipe(pluck('id'));
+    this.id$ = this.auth.requireUser$.pipe(map((u) => u.id));
   }
 }

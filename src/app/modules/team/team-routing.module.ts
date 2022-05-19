@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ChampionshipAdminGuard } from '@app/guards';
 import { Team } from '@data/types';
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { TeamDetailPage } from './pages/team-detail/team-detail.page';

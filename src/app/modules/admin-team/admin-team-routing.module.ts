@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { EditMembersPage } from './pages/edit-members/edit-members.page';
 import { HomePage } from './pages/home/home.page';

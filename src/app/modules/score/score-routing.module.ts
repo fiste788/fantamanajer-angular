@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { RankingPage } from './pages/ranking/ranking.page';
 import { ScoreDetailPage } from './pages/score-detail/score-detail.page';

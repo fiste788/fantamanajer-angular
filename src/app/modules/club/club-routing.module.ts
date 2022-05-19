@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { Club } from '@data/types';
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
 import { ClubDetailPage } from './pages/club-detail/club-detail.page';

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard, NoAuthGuard } from '@app/guards';
-import { RouterOutletComponent } from '@shared/components/router-outlet/router-outlet.component';
+import { RouterOutletComponent } from '@shared/components';
 
 import { LoginPage } from './pages/login/login.page';
 import { LogoutPage } from './pages/logout/logout.page';

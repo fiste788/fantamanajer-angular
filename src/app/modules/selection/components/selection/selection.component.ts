@@ -3,10 +3,9 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, firstValueFrom, forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, firstValueFrom, forkJoin, Observable, of } from 'rxjs';
 import {
   catchError,
-  combineLatestWith,
   distinctUntilChanged,
   filter,
   first,
@@ -88,7 +87,7 @@ export class SelectionComponent {
   }
 
   public setupEvents(): void {
-    this.newMembers$ = this.role$.pipe(
+    const newMember$ = this.role$.pipe(
       tap((r) => {
         console.log(r);
       }),
@@ -97,7 +96,8 @@ export class SelectionComponent {
         this.newMemberDisabled = true;
         console.log(r);
       }),
-      combineLatestWith(this.app.requireTeam$),
+    );
+    this.newMembers$ = combineLatest([newMember$, this.app.requireTeam$]).pipe(
       switchMap(([role, team]) => this.memberService.getFree(team.championship.id, role.id, false)),
       tap(() => {
         this.changeRef.detectChanges();
