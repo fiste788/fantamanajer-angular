@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
@@ -12,16 +11,11 @@ import { tableRowAnimation } from '@shared/animations';
   styleUrls: ['./club-members.page.scss'],
   templateUrl: './club-members.page.html',
 })
-export class ClubMembersPage implements OnInit {
-  public members$?: Observable<Array<Member>>;
+export class ClubMembersPage {
+  public members$: Observable<Array<Member>>;
 
-  constructor(
-    private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
-  ) {}
-
-  public ngOnInit(): void {
-    this.members$ = getRouteData<Club>(this.route, 'club').pipe(
+  constructor(private readonly memberService: MemberService) {
+    this.members$ = getRouteData<Club>('club').pipe(
       switchMap((club) => this.memberService.getByClubId(club.id)),
     );
   }

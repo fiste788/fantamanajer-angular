@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -18,12 +17,12 @@ export class RankingPage {
   public rankingDisplayedColumns = ['team-name', 'points'];
   public matchdays: Array<number> = [];
 
-  constructor(private readonly scoreService: ScoreService, private readonly route: ActivatedRoute) {
+  constructor(private readonly scoreService: ScoreService) {
     this.ranking$ = this.loadRanking();
   }
 
   public loadRanking(): Observable<Array<RankingPosition>> {
-    return getRouteData<Championship>(this.route, 'championship').pipe(
+    return getRouteData<Championship>('championship').pipe(
       switchMap((championship) => this.getRanking(championship)),
     );
   }

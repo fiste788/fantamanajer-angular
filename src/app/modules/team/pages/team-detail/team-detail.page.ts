@@ -1,11 +1,11 @@
 import { trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
@@ -26,12 +26,11 @@ export class TeamDetailPage {
   constructor(
     public app: ApplicationService,
     public auth: AuthenticationService,
-    private readonly route: ActivatedRoute,
     private readonly layoutService: LayoutService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {
-    const team$ = this.route.data.pipe(map((data) => data['team'] as Team));
+    const team$ = getRouteData<Team>('team');
     this.team$ = combineLatest([team$, this.auth.user$, this.app.requireTeam$]).pipe(
       map(([selectedTeam, user, team]) => {
         this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);

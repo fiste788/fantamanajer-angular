@@ -30,7 +30,7 @@ export class ScoreDetailPage {
 
   public getScore() {
     return this.route.snapshot.url.pop()?.path === 'last'
-      ? getRouteData<Team>(this.route, 'team').pipe(
+      ? getRouteData<Team>('team').pipe(
           switchMap((team) => this.scoreService.getLastScore(team.id)),
         )
       : this.scoreService.getScore(+this.route.snapshot.params['id']);

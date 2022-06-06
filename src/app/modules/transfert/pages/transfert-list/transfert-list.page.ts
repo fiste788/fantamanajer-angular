@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -26,11 +25,10 @@ export class TransfertListPage {
 
   constructor(
     private readonly transfertService: TransfertService,
-    private readonly route: ActivatedRoute,
     private readonly ref: ChangeDetectorRef,
     app: ApplicationService,
   ) {
-    this.team$ = getRouteData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>('team');
     this.isMyTeam$ = combineLatest([this.team$, app.requireTeam$]).pipe(
       map(([cur, my]) => cur.id === my.id),
     );

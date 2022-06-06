@@ -4,17 +4,9 @@ import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, firstValueFrom, forkJoin, Observable, of } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  first,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { filterNil, getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { MemberService, RoleService, SelectionService } from '@data/services';
@@ -53,8 +45,8 @@ export class SelectionComponent {
   }
 
   public loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
-    return getRouteData<Team>(this.route, 'team').pipe(
-      filter((team): team is Team => team !== undefined),
+    return getRouteData<Team>('team').pipe(
+      filterNil(),
       switchMap((team) => this.loadTeamData(team)),
       tap(() => this.setupEvents()),
     );
@@ -91,7 +83,7 @@ export class SelectionComponent {
       tap((r) => {
         console.log(r);
       }),
-      filter((r): r is Role => r !== undefined),
+      filterNil(),
       tap((r) => {
         this.newMemberDisabled = true;
         console.log(r);

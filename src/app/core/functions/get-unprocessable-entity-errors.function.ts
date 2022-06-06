@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgForm, FormArray, AbstractControl } from '@angular/forms';
+import { NgForm, UntypedFormArray, AbstractControl } from '@angular/forms';
 import { Observable, EMPTY } from 'rxjs';
 
 export function getUnprocessableEntityErrors(
   err: unknown,
-  form?: NgForm | FormArray,
+  form?: NgForm | UntypedFormArray,
 ): Observable<never> {
   if (err instanceof HttpErrorResponse && err.status === 422 && form) {
     const error = err.error as {

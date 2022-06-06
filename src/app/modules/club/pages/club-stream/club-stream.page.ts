@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +12,7 @@ import { Club } from '@data/types';
 export class ClubStreamPage {
   public id$: Observable<number>;
 
-  constructor(private readonly route: ActivatedRoute) {
-    this.id$ = getRouteData<Club>(this.route, 'club').pipe(map((team) => team.id));
+  constructor() {
+    this.id$ = getRouteData<Club>('club').pipe(map((team) => team.id));
   }
 }

@@ -1,6 +1,5 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -28,7 +27,6 @@ export class MemberFreePage implements OnInit {
   constructor(
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
     private readonly roleService: RoleService,
     public app: ApplicationService,
   ) {
@@ -42,7 +40,7 @@ export class MemberFreePage implements OnInit {
   public roleChange(role?: Role): void {
     this.members$ = undefined;
     this.changeRef.detectChanges();
-    this.members$ = getRouteData<Championship>(this.route, 'championship').pipe(
+    this.members$ = getRouteData<Championship>('championship').pipe(
       switchMap((c) => this.memberService.getFree(c.id, role?.id)),
     );
 

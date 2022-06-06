@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { filterNil } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -38,7 +39,7 @@ export class DeviceListPage {
   public async register(): Promise<void> {
     return firstValueFrom(
       this.webauthnService.createPublicKey().pipe(
-        filter((p) => p !== undefined),
+        filterNil(),
         map(() => this.refresh$.next(true)),
       ),
       { defaultValue: undefined },

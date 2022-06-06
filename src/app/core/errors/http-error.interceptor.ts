@@ -6,8 +6,9 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Provider } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -46,3 +47,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     );
   }
 }
+
+export const httpErrorInterceptorProvider: Provider = {
+  multi: true,
+  provide: HTTP_INTERCEPTORS,
+  useClass: HttpErrorInterceptor,
+};

@@ -1,6 +1,5 @@
 import { trigger } from '@angular/animations';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
@@ -20,11 +19,8 @@ export class ClubDetailPage {
     { label: 'Attività', link: 'stream' },
   ];
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly layoutService: LayoutService,
-  ) {
-    this.club$ = getRouteData(this.route, 'club');
+  constructor(private readonly layoutService: LayoutService) {
+    this.club$ = getRouteData('club');
   }
 
   public scrollTo(height: number): void {

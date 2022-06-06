@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
 import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
@@ -21,16 +20,12 @@ export class ScoreEditPage {
   public score$?: Observable<Score>;
   public scores$: Observable<Array<Score>>;
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly scoreService: ScoreService,
-    private readonly snackBar: MatSnackBar,
-  ) {
+  constructor(private readonly scoreService: ScoreService, private readonly snackBar: MatSnackBar) {
     this.scores$ = this.loadData();
   }
 
   public loadData(): Observable<Array<Score>> {
-    return getRouteData<Team>(this.route, 'team').pipe(
+    return getRouteData<Team>('team').pipe(
       switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
     );
   }

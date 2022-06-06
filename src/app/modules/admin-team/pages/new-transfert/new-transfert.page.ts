@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -29,10 +28,9 @@ export class NewTransfertPage {
     private readonly transfertService: TransfertService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog,
   ) {
-    this.team$ = getRouteData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>('team');
     this.oldMembers$ = this.loadMembers(this.team$);
   }
 

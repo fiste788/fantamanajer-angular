@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { catchError, firstValueFrom, map, Observable } from 'rxjs';
 
 import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
@@ -23,15 +23,12 @@ export class AddTeamPage {
     private readonly teamService: TeamService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
   ) {
     this.team$ = this.loadData();
   }
 
   public loadData(): Observable<{ championship_id: number }> {
-    return getRouteData<Championship>(this.route, 'championship').pipe(
-      map((t) => ({ championship_id: t.id })),
-    );
+    return getRouteData<Championship>('championship').pipe(map((t) => ({ championship_id: t.id })));
   }
 
   public async save(team: RecursivePartial<Team>): Promise<void> {

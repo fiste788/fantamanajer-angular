@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
 
@@ -36,12 +35,11 @@ export class PlayerPage {
   ];
 
   constructor(
-    private readonly route: ActivatedRoute,
     private readonly ratingService: RatingService,
     private readonly layoutService: LayoutService,
     public app: ApplicationService,
   ) {
-    this.player$ = getRouteData<Player>(this.route, 'player');
+    this.player$ = getRouteData<Player>('player');
     this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
     this.firstMember$ = this.player$.pipe(
       map((p) => p.members[0]),

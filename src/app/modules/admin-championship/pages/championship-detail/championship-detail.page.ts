@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, defaultIfEmpty, firstValueFrom, map, Observable } from 'rxjs';
 
 import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
@@ -23,12 +22,9 @@ export class ChampionshipDetailPage {
 
   constructor(
     private readonly snackBar: MatSnackBar,
-    private readonly route: ActivatedRoute,
     private readonly championshipService: ChampionshipService,
   ) {
-    this.championship$ = getRouteData<Championship>(this.route, 'championship').pipe(
-      defaultIfEmpty({}),
-    );
+    this.championship$ = getRouteData<Championship>('championship').pipe(defaultIfEmpty({}));
     this.league$ = this.championship$.pipe(map((c) => c.league || {}));
   }
 

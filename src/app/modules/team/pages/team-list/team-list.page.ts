@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
@@ -16,11 +16,7 @@ export class TeamListPage implements OnInit {
   public teams$?: Observable<Array<Team>>;
   public exit = false;
 
-  constructor(
-    private readonly router: Router,
-    private readonly teamService: TeamService,
-    private readonly route: ActivatedRoute,
-  ) {}
+  constructor(private readonly router: Router, private readonly teamService: TeamService) {}
 
   public async ngOnInit(): Promise<void> {
     this.loadData();
@@ -28,7 +24,7 @@ export class TeamListPage implements OnInit {
   }
 
   public loadData(): void {
-    this.teams$ = getRouteData<Championship>(this.route, 'championship').pipe(
+    this.teams$ = getRouteData<Championship>('championship').pipe(
       switchMap((c) => this.teamService.getTeams(c.id)),
     );
   }

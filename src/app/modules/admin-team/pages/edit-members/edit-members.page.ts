@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, forkJoin, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -27,7 +26,6 @@ export class EditMembersPage {
     private readonly roleService: RoleService,
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
   ) {
     this.roles = this.roleService.list();
@@ -35,7 +33,7 @@ export class EditMembersPage {
       .map((r) => r.count)
       .join('-');
     this.module = new Module(key, this.roles);
-    this.team$ = getRouteData<Team>(this.route, 'team');
+    this.team$ = getRouteData<Team>('team');
     this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
   }
 

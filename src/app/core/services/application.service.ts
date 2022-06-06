@@ -12,6 +12,7 @@ import {
 } from 'rxjs/operators';
 
 import { AuthenticationService, TokenStorageService } from '@app/authentication';
+import { filterNil } from '@app/functions';
 import { MatchdayService } from '@data/services';
 import { Matchday, Team } from '@data/types';
 
@@ -34,9 +35,9 @@ export class ApplicationService {
   ) {
     this.teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
     this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
-    this.requireTeam$ = this.team$.pipe(filter((t): t is Team => t !== undefined));
+    this.requireTeam$ = this.team$.pipe(filterNil());
     this.matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
-    this.matchday$ = this.matchdaySubject$.pipe(filter((m): m is Matchday => m !== undefined)); //.pipe(distinctUntilChanged());
+    this.matchday$ = this.matchdaySubject$.pipe(filterNil()); //.pipe(distinctUntilChanged());
   }
 
   public bootstrap(): Observable<unknown> {

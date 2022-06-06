@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
 import { BehaviorSubject, firstValueFrom, Observable, of, catchError, EMPTY } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
+import { filterNil } from '@app/functions';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
@@ -28,7 +29,7 @@ export class AuthenticationService {
     private readonly webauthnService: WebauthnService,
   ) {
     this.user$ = this.userSubject.asObservable();
-    this.requireUser$ = this.user$.pipe(filter((user): user is User => user !== undefined));
+    this.requireUser$ = this.user$.pipe(filterNil());
     this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
     if (this.tokenStorageService.token && !this.loggedIn()) {
       void this.logout();

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Inject, Injectable, NgZone } from '@angular/core';
+import { ErrorHandler, Inject, Injectable, NgZone, Provider } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, tap } from 'rxjs';
 
@@ -32,3 +32,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
   }
 }
+
+export const globalErrorHandlerProvider: Provider = {
+  multi: true,
+  provide: ErrorHandler,
+  useClass: GlobalErrorHandler,
+};

@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
 import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
@@ -25,14 +24,13 @@ export class LineupLastPage {
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly lineupService: LineupService,
-    private readonly route: ActivatedRoute,
     public app: ApplicationService,
   ) {
     this.lineup$ = this.loadData();
   }
 
   public loadData(): Observable<EmptyLineup> {
-    const team$ = getRouteData<Team>(this.route, 'team');
+    const team$ = getRouteData<Team>('team');
     return combineLatest([team$, this.app.requireTeam$]).pipe(
       map(([team, currentTeam]) => {
         this.benchs = currentTeam.championship.number_benchwarmers;
