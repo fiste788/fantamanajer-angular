@@ -34,7 +34,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 }
 
 export const globalErrorHandlerProvider: Provider = {
-  multi: true,
   provide: ErrorHandler,
   useClass: GlobalErrorHandler,
 };

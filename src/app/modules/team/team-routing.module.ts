@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -41,7 +42,7 @@ const routes: Routes = [
           {
             path: 'articles',
             data: { state: 'team-articles' },
-            loadChildren: async () =>
+            loadChildren: () =>
               import('@modules/article/article.module').then((m) => m.ArticleModule),
           },
           {
@@ -58,26 +59,24 @@ const routes: Routes = [
           {
             path: 'scores',
             data: { state: 'team-scores' },
-            loadChildren: async () =>
-              import('@modules/score/score.module').then((m) => m.ScoreModule),
+            loadChildren: () => import('@modules/score/score.module').then((m) => m.ScoreModule),
           },
           {
             path: 'lineup',
             data: { state: 'team-lineup' },
-            loadChildren: async () =>
-              import('@modules/lineup/lineup.module').then((m) => m.LineupModule),
+            loadChildren: () => import('@modules/lineup/lineup.module').then((m) => m.LineupModule),
           },
           {
             path: 'transferts',
             data: { state: 'team-transfert' },
-            loadChildren: async () =>
+            loadChildren: () =>
               import('@modules/transfert/transfert.module').then((m) => m.TransfertModule),
           },
           {
             path: 'admin',
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' },
-            loadChildren: async () =>
+            loadChildren: () =>
               import('@modules/admin-team/admin-team.module').then((m) => m.AdminTeamModule),
           },
         ],

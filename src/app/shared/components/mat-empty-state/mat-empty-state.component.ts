@@ -31,5 +31,5 @@ export class MatEmptyStateComponent {
   @Input() public rounded = true;
   @Input() public size = 492;
 
-  @HostBinding('@createBox') public createBox = true;
+  @HostBinding('@createBox') protected createBox = true;
 }

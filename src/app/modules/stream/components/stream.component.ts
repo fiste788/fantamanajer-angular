@@ -25,10 +25,10 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public context!: 'teams' | 'users' | 'clubs' | 'championships';
   @Input() public id!: number;
 
-  @ViewChild(CdkVirtualScrollViewport) public viewport?: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport) protected viewport?: CdkVirtualScrollViewport;
 
-  public ds!: StreamDataSource;
-  public width!: number;
+  protected ds!: StreamDataSource;
+  protected width!: number;
 
   constructor(private readonly streamService: StreamService) {}
 

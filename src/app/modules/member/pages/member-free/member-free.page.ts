@@ -16,19 +16,19 @@ import { tableRowAnimation } from '@shared/animations';
   templateUrl: './member-free.page.html',
 })
 export class MemberFreePage implements OnInit {
-  @HostBinding('@tableRowAnimation') public tableRowAnimation = '';
-  @ViewChild(MemberListComponent) public memberList?: MemberListComponent;
+  @HostBinding('@tableRowAnimation') protected tableRowAnimation = '';
+  @ViewChild(MemberListComponent) protected memberList?: MemberListComponent;
 
   public members$?: Observable<Array<Member>>;
-  public roles: Map<number, Role>;
   public selectedMember$?: Observable<Member | undefined>;
   public role: Role | undefined;
+  protected readonly roles: Map<number, Role>;
 
   constructor(
+    protected readonly app: ApplicationService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly roleService: RoleService,
-    public app: ApplicationService,
   ) {
     this.roles = this.roleService.list();
   }
@@ -37,7 +37,7 @@ export class MemberFreePage implements OnInit {
     this.roleChange(this.roles.get(0));
   }
 
-  public roleChange(role?: Role): void {
+  protected roleChange(role?: Role): void {
     this.members$ = undefined;
     this.changeRef.detectChanges();
     this.members$ = getRouteData<Championship>('championship').pipe(
@@ -51,7 +51,7 @@ export class MemberFreePage implements OnInit {
     }
   }
 
-  public track(_: number, item: KeyValue<number, Role>): number {
+  protected track(_: number, item: KeyValue<number, Role>): number {
     return item.value.id; // or item.id
   }
 }

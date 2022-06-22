@@ -18,15 +18,15 @@ import { tableRowAnimation } from '@shared/animations';
 export class TransfertListPage {
   @ViewChild(MatSort) public sort?: MatSort;
 
-  public isMyTeam$: Observable<boolean>;
-  public team$: Observable<Team>;
-  public dataSource$: Observable<MatTableDataSource<Transfert>>;
-  public displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
+  protected readonly isMyTeam$: Observable<boolean>;
+  protected readonly team$: Observable<Team>;
+  protected readonly dataSource$: Observable<MatTableDataSource<Transfert>>;
+  protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
   constructor(
+    protected readonly app: ApplicationService,
     private readonly transfertService: TransfertService,
     private readonly ref: ChangeDetectorRef,
-    app: ApplicationService,
   ) {
     this.team$ = getRouteData<Team>('team');
     this.isMyTeam$ = combineLatest([this.team$, app.requireTeam$]).pipe(
@@ -35,7 +35,7 @@ export class TransfertListPage {
     this.dataSource$ = this.loadData();
   }
 
-  public loadData(): Observable<MatTableDataSource<Transfert>> {
+  protected loadData(): Observable<MatTableDataSource<Transfert>> {
     return this.team$.pipe(
       switchMap((team) => this.transfertService.getTransfert(team.id)),
       map((data) => {
@@ -49,7 +49,7 @@ export class TransfertListPage {
     );
   }
 
-  public sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
+  protected sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
       case 'old_member':
@@ -64,11 +64,11 @@ export class TransfertListPage {
     return value ?? '';
   }
 
-  public trackTransfert(_: number, item: Transfert): number {
+  protected trackTransfert(_: number, item: Transfert): number {
     return item.id;
   }
 
-  public setSort(ds: MatTableDataSource<Transfert>): void {
+  protected setSort(ds: MatTableDataSource<Transfert>): void {
     if (this.sort) {
       ds.sort = this.sort;
     }

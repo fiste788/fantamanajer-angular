@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/authentication';
 
 @Component({
-  selector: 'app-logout',
   template: '',
 })
 export class LogoutPage implements OnInit {

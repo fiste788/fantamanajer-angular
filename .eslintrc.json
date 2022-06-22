@@ -22,15 +22,6 @@
         "*.ts"
       ],
       "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
-        ],
-        "ecmaVersion": 2017,
-        "createDefaultProgram": true,
-        "sourceType": "module"
-      },
       "extends": [
         "plugin:rxjs/recommended",
         "plugin:@angular-eslint/recommended",

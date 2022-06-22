@@ -1,6 +1,10 @@
 @use '@angular/material' as mat;
 @use '@angular/flex-layout/mq';
 
+:host-context(.mat-option) .mat-icon {
+  line-height: 24px;
+}
+
 .circle .mat-icon {
   position: absolute;
   @include mat.elevation(4);
@@ -41,10 +45,6 @@
     right: -6px;
     transform-origin: top left;
   }
-}
-
-:host-context(.mat-option) .mat-icon {
-  line-height: 24px;
 }
 @include mq.layout-bp(gt-sm) {
   .circle .mat-icon {

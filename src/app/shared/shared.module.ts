@@ -23,7 +23,6 @@ import {
 import { MaterialModule } from './material.module';
 
 export const breakPointsProvider = {
-  multi: true,
   provide: BREAKPOINTS,
   useValue: DEFAULT_BREAKPOINTS,
 };

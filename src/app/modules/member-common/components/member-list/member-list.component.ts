@@ -42,11 +42,11 @@ export class MemberListComponent implements OnInit {
 
   @Output() public readonly selection: SelectionModel<Member>;
 
-  @ViewChild(MatSort, { static: false }) public sort?: MatSort;
-  @ViewChild(MatTable, { static: true }) public table?: MatTable<Member>;
+  @ViewChild(MatSort, { static: false }) protected sort?: MatSort;
+  @ViewChild(MatTable, { static: true }) protected table?: MatTable<Member>;
 
-  public dataSource$?: Observable<MatTableDataSource<Member>>;
-  public displayedColumns = [
+  protected dataSource$?: Observable<MatTableDataSource<Member>>;
+  protected displayedColumns = [
     'player',
     'role',
     'club',
@@ -59,7 +59,7 @@ export class MemberListComponent implements OnInit {
     'sum_yellow_card',
     'sum_red_card',
   ];
-  public footer: { [column: string]: number } = {};
+  protected footer: { [column: string]: number } = {};
 
   constructor(private readonly changeRef: ChangeDetectorRef) {
     this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);
@@ -70,13 +70,13 @@ export class MemberListComponent implements OnInit {
     this.dataSource$ = this.dataSourceFromMembers();
   }
 
-  public setSort(ds: MatTableDataSource<Member>): void {
+  protected setSort(ds: MatTableDataSource<Member>): void {
     if (this.sort) {
       ds.sort = this.sort;
     }
   }
 
-  public fixColumns(): void {
+  protected fixColumns(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
@@ -85,7 +85,7 @@ export class MemberListComponent implements OnInit {
     }
   }
 
-  public dataSourceFromMembers(): Observable<MatTableDataSource<Member>> {
+  protected dataSourceFromMembers(): Observable<MatTableDataSource<Member>> {
     return this.members.pipe(
       map((data) => new MatTableDataSource<Member>(data)),
       tap((ds) => {
@@ -98,7 +98,7 @@ export class MemberListComponent implements OnInit {
     );
   }
 
-  public calcSummary(data: Array<Member>): void {
+  protected calcSummary(data: Array<Member>): void {
     this.displayedColumns
       .filter((c): c is Stats => c.startsWith('sum') || c.startsWith('avg'))
       .forEach((column) => {
@@ -115,7 +115,7 @@ export class MemberListComponent implements OnInit {
       });
   }
 
-  public sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
+  protected sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
     if (sortHeaderId === 'player' || stats.find((s) => s === sortHeaderId)) {
       let value;
       const id = sortHeaderId as Stats | 'player';
@@ -137,7 +137,7 @@ export class MemberListComponent implements OnInit {
     return 0;
   }
 
-  public trackMember(_: number, item: Member): number {
+  protected trackMember(_: number, item: Member): number {
     return item.id;
   }
 }

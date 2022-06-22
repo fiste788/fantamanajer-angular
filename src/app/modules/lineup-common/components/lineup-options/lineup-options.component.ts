@@ -15,17 +15,17 @@ export class LineupOptionsComponent {
   @Input() public lineup!: Partial<Lineup>;
   @Input() public disabled = false;
 
-  constructor(public readonly lineupService: LineupService) {}
+  constructor(protected readonly lineupService: LineupService) {}
 
-  public trackByCaptain(_: number, item: MemberOption): number {
+  protected trackByCaptain(_: number, item: MemberOption): number {
     return item.member.id; // or item.id
   }
 
-  public trackByModules(_: number, item: Module): string {
+  protected trackByModules(_: number, item: Module): string {
     return item.key; // or item.id
   }
 
-  public trackByCaptainField(
+  protected trackByCaptainField(
     _: number,
     item: KeyValue<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'>,
   ): string {

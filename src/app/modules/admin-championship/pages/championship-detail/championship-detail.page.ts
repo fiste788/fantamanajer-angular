@@ -15,10 +15,10 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
 })
 export class ChampionshipDetailPage {
-  @ViewChild(NgForm) public championshipForm?: NgForm;
+  @ViewChild(NgForm) protected championshipForm?: NgForm;
 
-  public championship$: Observable<Partial<Championship>>;
-  public league$: Observable<Partial<League>>;
+  protected readonly championship$: Observable<Partial<Championship>>;
+  protected readonly league$: Observable<Partial<League>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -28,7 +28,7 @@ export class ChampionshipDetailPage {
     this.league$ = this.championship$.pipe(map((c) => c.league || {}));
   }
 
-  public async save(
+  protected async save(
     league: Partial<League>,
     championship: RecursivePartial<Championship>,
   ): Promise<void> {
@@ -49,7 +49,7 @@ export class ChampionshipDetailPage {
     );
   }
 
-  public formatLabel(value: number): string {
+  protected formatLabel(value: number): string {
     return `${value}%`;
   }
 }

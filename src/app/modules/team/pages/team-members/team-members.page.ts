@@ -11,7 +11,7 @@ import { Member, Team } from '@data/types';
   templateUrl: './team-members.page.html',
 })
 export class TeamMembersPage {
-  public members$: Observable<Array<Member>>;
+  protected readonly members$: Observable<Array<Member>>;
 
   constructor(private readonly memberService: MemberService) {
     this.members$ = getRouteData<Team>('team').pipe(

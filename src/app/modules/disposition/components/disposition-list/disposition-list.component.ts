@@ -17,8 +17,8 @@ export class DispositionListComponent implements OnInit {
   @Input() public caption = '';
   @Input() public regular = false;
 
-  public dataSource!: MatTableDataSource<Disposition>;
-  public displayedColumns = [
+  protected dataSource!: MatTableDataSource<Disposition>;
+  protected readonly displayedColumns = [
     'player',
     'role',
     'club',
@@ -34,7 +34,7 @@ export class DispositionListComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.dispositions);
   }
 
-  public trackDisposition(_: number, item: Disposition): number {
+  protected trackDisposition(_: number, item: Disposition): number {
     return item.id;
   }
 }

@@ -13,12 +13,38 @@ import { createBoxAnimation } from '@shared/animations';
   templateUrl: './team-edit.modal.html',
 })
 export class TeamEditModal {
-  public validComboDrag = false;
-  public invalidComboDrag = false;
-  public team: Team;
-  public file!: File;
+  protected validComboDrag = false;
+  protected invalidComboDrag = false;
+  protected file!: File;
+  protected readonly team: Team;
 
-  public static objectToPostParams(
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data: { team: Team },
+    protected readonly app: ApplicationService,
+    private readonly teamService: TeamService,
+    private readonly dialogRef: MatDialogRef<TeamEditModal>,
+  ) {
+    this.team = data.team;
+  }
+
+  protected async save(): Promise<void> {
+    const fd = new FormData();
+    if (this.file !== undefined) {
+      fd.set('photo', this.file);
+    }
+    fd.set('name', this.team.name);
+    this.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
+    this.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
+    return firstValueFrom(
+      this.teamService.upload(this.team.id, fd).pipe(
+        tap((t) => (this.team.photo_url = t.photo_url)),
+        map(() => this.dialogRef.close(true)),
+      ),
+      { defaultValue: undefined },
+    );
+  }
+
+  private objectToPostParams(
     team: Team,
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
     formData: FormData,
@@ -36,31 +62,5 @@ export class TeamEditModal {
           });
       }
     });
-  }
-
-  constructor(
-    public app: ApplicationService,
-    private readonly teamService: TeamService,
-    private readonly dialogRef: MatDialogRef<TeamEditModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { team: Team },
-  ) {
-    this.team = data.team;
-  }
-
-  public async save(): Promise<void> {
-    const fd = new FormData();
-    if (this.file !== undefined) {
-      fd.set('photo', this.file);
-    }
-    fd.set('name', this.team.name);
-    TeamEditModal.objectToPostParams(this.team, 'email_notification_subscriptions', fd);
-    TeamEditModal.objectToPostParams(this.team, 'push_notification_subscriptions', fd);
-    return firstValueFrom(
-      this.teamService.upload(this.team.id, fd).pipe(
-        tap((t) => (this.team.photo_url = t.photo_url)),
-        map(() => this.dialogRef.close(true)),
-      ),
-      { defaultValue: undefined },
-    );
   }
 }

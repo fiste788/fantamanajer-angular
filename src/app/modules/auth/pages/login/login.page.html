@@ -1,6 +1,6 @@
 <div
   @cardCreationAnimation
-  class="flex-container"
+  class="flex-container login"
   fxLayout="column wrap"
   fxLayoutAlign="space-around center"
 >
@@ -42,6 +42,7 @@
             </mat-form-field>
             <div fxLayoutAlign="end end">
               <button
+                type="submit"
                 color="accent"
                 mat-raised-button
                 [disabled]="username.errors !== null"
@@ -90,12 +91,14 @@
               fxLayoutAlign="space-between"
             >
               <button
+                type="reset"
                 color="accent"
                 mat-raised-button
                 matStepperPrevious
-                (click)="f.reset()"
+                (click)="reset()"
               >Cambia account</button>
               <button
+                type="submit"
                 color="accent"
                 mat-raised-button
               >Accedi</button>

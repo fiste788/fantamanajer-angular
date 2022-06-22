@@ -19,13 +19,13 @@ interface BestPlayer {
   templateUrl: './home.page.html',
 })
 export class HomePage {
-  public bestPlayers$: Observable<Array<BestPlayer> | undefined>;
+  protected readonly bestPlayers$: Observable<Array<BestPlayer> | undefined>;
 
   constructor(private readonly memberService: MemberService, public app: ApplicationService) {
     this.bestPlayers$ = this.loadBestPlayers();
   }
 
-  public loadBestPlayers(): Observable<Array<BestPlayer>> {
+  protected loadBestPlayers(): Observable<Array<BestPlayer>> {
     return this.memberService.getBest().pipe(
       map((role) =>
         role
@@ -39,11 +39,11 @@ export class HomePage {
     );
   }
 
-  public track(_: number, item: Member): number {
+  protected track(_: number, item: Member): number {
     return item.id; // or item.id
   }
 
-  public trackByRole(_: number, item: BestPlayer): string {
+  protected trackByRole(_: number, item: BestPlayer): string {
     return item.role; // or item.id
   }
 }

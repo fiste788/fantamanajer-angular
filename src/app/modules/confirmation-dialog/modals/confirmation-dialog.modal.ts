@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,14 +6,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./confirmation-dialog.modal.scss'],
   templateUrl: './confirmation-dialog.modal.html',
 })
-export class ConfirmationDialogModal implements OnInit {
-  public text = 'Sei sicuro?';
+export class ConfirmationDialogModal {
+  protected text: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { text?: string }) {}
-
-  public ngOnInit(): void {
-    if (this.data.text) {
-      this.text = this.data.text;
-    }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { text?: string }) {
+    this.text = this.data.text ?? 'Sei sicuro?';
   }
 }

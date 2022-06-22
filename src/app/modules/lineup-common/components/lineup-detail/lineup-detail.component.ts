@@ -31,10 +31,10 @@ export class LineupDetailComponent implements OnInit {
   @Input() public disabled = false;
   @Input() public benchs = environment.benchwarmersCount;
 
-  @ViewChild(NgForm) public lineupForm?: NgForm;
+  @ViewChild(NgForm) protected lineupForm?: NgForm;
 
   constructor(
-    public readonly lineupService: LineupService,
+    protected readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
     private readonly cd: ChangeDetectorRef,
   ) {}
@@ -43,7 +43,11 @@ export class LineupDetailComponent implements OnInit {
     return this.loadLineup();
   }
 
-  public async loadLineup(): Promise<void> {
+  public getLineup(): EmptyLineup {
+    return this.lineupService.getLineup();
+  }
+
+  protected async loadLineup(): Promise<void> {
     if (this.lineup !== undefined && this.lineup.team?.members.length) {
       const lineup = this.lineupService.loadLineup(this.lineup, this.benchs);
       if (!this.disabled) {
@@ -53,7 +57,7 @@ export class LineupDetailComponent implements OnInit {
     return undefined;
   }
 
-  public async loadLikely(lineup: EmptyLineup): Promise<void> {
+  protected async loadLikely(lineup: EmptyLineup): Promise<void> {
     return firstValueFrom(
       this.lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
@@ -70,14 +74,11 @@ export class LineupDetailComponent implements OnInit {
     );
   }
 
-  public getLineup(): EmptyLineup {
-    return this.lineupService.getLineup();
+  protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
+    return a.key < b.key ? b.key : a.key;
   }
 
-  public descOrder = (a: KeyValue<number, Role>, b: KeyValue<number, Role>): number =>
-    a.key < b.key ? b.key : a.key;
-
-  public trackByBench(_: number, item: number): number {
+  protected trackByBench(_: number, item: number): number {
     return item; // or item.id
   }
 }

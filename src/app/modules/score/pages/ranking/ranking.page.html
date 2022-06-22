@@ -41,7 +41,7 @@
     </ng-container>
 
     <ng-container
-      *ngFor="let matchday of matchdays; trackBy: track"
+      *ngFor="let matchday of matchdays$ | async; trackBy: track"
       [matColumnDef]="matchday + ''"
     >
       <th
@@ -59,11 +59,11 @@
     </ng-container>
 
     <tr
-      *matHeaderRowDef="rankingDisplayedColumns; sticky: true"
+      *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
       mat-header-row
     ></tr>
     <tr
-      *matRowDef="let row; columns: rankingDisplayedColumns;"
+      *matRowDef="let row; columns: rankingDisplayedColumns$ | async;"
       mat-row
     ></tr>
   </table>

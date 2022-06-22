@@ -12,7 +12,7 @@ import { tableRowAnimation } from '@shared/animations';
   templateUrl: './club-members.page.html',
 })
 export class ClubMembersPage {
-  public members$: Observable<Array<Member>>;
+  protected readonly members$: Observable<Array<Member>>;
 
   constructor(private readonly memberService: MemberService) {
     this.members$ = getRouteData<Club>('club').pipe(

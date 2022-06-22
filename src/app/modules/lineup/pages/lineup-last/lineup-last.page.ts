@@ -17,19 +17,19 @@ import { environment } from '@env';
 export class LineupLastPage {
   @ViewChild(NgForm) public lineupForm?: NgForm;
 
-  public lineup$: Observable<EmptyLineup>;
-  public editMode = false;
-  public benchs = environment.benchwarmersCount;
+  protected readonly lineup$: Observable<EmptyLineup>;
+  protected editMode = false;
+  protected benchs = environment.benchwarmersCount;
 
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly lineupService: LineupService,
-    public app: ApplicationService,
+    protected readonly app: ApplicationService,
   ) {
     this.lineup$ = this.loadData();
   }
 
-  public loadData(): Observable<EmptyLineup> {
+  protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
     return combineLatest([team$, this.app.requireTeam$]).pipe(
       map(([team, currentTeam]) => {
@@ -41,7 +41,7 @@ export class LineupLastPage {
     );
   }
 
-  public async save(lineup: EmptyLineup): Promise<void> {
+  protected async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm?.valid) {
       // eslint-disable-next-line no-null/no-null
       lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));

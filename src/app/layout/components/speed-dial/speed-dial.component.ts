@@ -8,7 +8,11 @@ import { ApplicationService } from '@app/services';
   templateUrl: './speed-dial.component.html',
 })
 export class SpeedDialComponent {
-  public openSpeeddial = false;
+  protected openSpeeddial = false;
 
-  constructor(public app: ApplicationService) {}
+  constructor(protected readonly app: ApplicationService) {}
+
+  public close(): void {
+    this.openSpeeddial = false;
+  }
 }

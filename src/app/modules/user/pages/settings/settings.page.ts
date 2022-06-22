@@ -17,10 +17,10 @@ import { cardCreationAnimation } from '@shared/animations';
 export class SettingsPage {
   @HostBinding('@cardCreationAnimation') public a = '';
 
-  public user$: Observable<User>;
-  public repeatPassword: string;
-  public push$: Observable<boolean>;
-  public enabled: boolean;
+  protected readonly user$: Observable<User>;
+  protected readonly push$: Observable<boolean>;
+  protected readonly enabled: boolean;
+  protected repeatPassword: string;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -34,7 +34,7 @@ export class SettingsPage {
     this.push$ = this.pushService.isSubscribed();
   }
 
-  public async save(user: User): Promise<void> {
+  protected async save(user: User): Promise<void> {
     if (user?.password === this.repeatPassword) {
       return firstValueFrom(
         this.userService.update(user).pipe(
@@ -51,7 +51,7 @@ export class SettingsPage {
     }
   }
 
-  public async togglePush(user: User, checked: boolean): Promise<void> {
+  protected async togglePush(user: User, checked: boolean): Promise<void> {
     return firstValueFrom(
       checked ? this.pushService.subscribeToPush(user) : this.pushService.unsubscribeFromPush(),
       { defaultValue: undefined },

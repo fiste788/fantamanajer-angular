@@ -2,7 +2,7 @@
   <div class="animation-container">
     <app-parallax-header
       [backgroundImage]="team.photo_url"
-      [tabs]="tabs"
+      [tabs]="(tabs$ | async) ?? []"
       [title]="team.name"
       [subtitle]="team.user.name + ' ' + team.user.surname"
       (imageLoaded)="scrollTo($event)"
@@ -12,6 +12,7 @@
         parallax-header-right
       >
         <button
+          type="button"
           mat-icon-button
           aria-label="Settings"
           (click)="openDialog(team)"

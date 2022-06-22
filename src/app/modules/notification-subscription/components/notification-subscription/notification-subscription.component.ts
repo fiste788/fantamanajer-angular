@@ -27,14 +27,14 @@ export class NotificationSubscriptionComponent implements OnInit {
   @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
     new EventEmitter<Array<NotificationSubscription>>();
 
-  public map = new Map<Notification, NotificationSubscription>();
+  protected map = new Map<Notification, NotificationSubscription>();
   private keys?: Array<Notification>;
 
   public ngOnInit(): void {
     this.load();
   }
 
-  public load(): void {
+  protected load(): void {
     this.keys = notificationSubscriptions[this.type];
     this.keys.forEach((element) => {
       let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
@@ -51,11 +51,11 @@ export class NotificationSubscriptionComponent implements OnInit {
     });
   }
 
-  public toggle(): void {
+  protected toggle(): void {
     this.subscriptionsChange.emit(this.subscriptions);
   }
 
-  public track(_: number, item: KeyValue<Notification, NotificationSubscription>): string {
+  protected track(_: number, item: KeyValue<Notification, NotificationSubscription>): string {
     return item.key.name; // or item.id
   }
 }

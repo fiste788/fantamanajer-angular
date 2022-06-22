@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{data.team.name}}</h1>
+<h1 mat-dialog-title>{{team.name}}</h1>
 <div mat-dialog-content>
   <div *ngIf="((app.matchday$ | async)?.number || 0) <= 38">
     <mat-form-field>
@@ -54,11 +54,13 @@
   align="end"
 >
   <button
+    type="reset"
     mat-button
-    [mat-dialog-close]="undefined"
     tabindex="-1"
+    [mat-dialog-close]="undefined"
   >ANNULLA</button>
   <button
+    type="submit"
     mat-button
     cdkFocusInitial
     (click)="save()"

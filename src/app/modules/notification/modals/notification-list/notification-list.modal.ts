@@ -16,10 +16,10 @@ import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 })
 export class NotificationListModal {
   @Output() public readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
+  @Output() public readonly animationStateChanged = new EventEmitter<AnimationEvent>();
 
-  public stream$: Observable<Stream>;
-  public animationState: 'void' | 'enter' | 'leave' = 'enter';
-  public animationStateChanged = new EventEmitter<AnimationEvent>();
+  protected readonly stream$: Observable<Stream>;
+  protected animationState: 'void' | 'enter' | 'leave' = 'enter';
 
   constructor(
     private readonly notificationService: NotificationService,

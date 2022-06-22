@@ -12,9 +12,9 @@ import { cardCreationAnimation } from '@shared/animations';
   templateUrl: './article-list.page.html',
 })
 export class ArticleListPage implements OnInit {
-  public articles: Array<Article> = [];
-  public pagination?: Pagination;
-  public isLoading = false;
+  protected articles: Array<Article> = [];
+  protected pagination?: Pagination;
+  protected isLoading = false;
   private page = 1;
 
   constructor(
@@ -23,11 +23,11 @@ export class ArticleListPage implements OnInit {
     private readonly changeRef: ChangeDetectorRef,
   ) {}
 
-  public ngOnInit(): void {
-    void this.loadData();
+  public async ngOnInit(): Promise<void> {
+    return this.loadData();
   }
 
-  public async loadData(page = 1): Promise<void> {
+  protected async loadData(page = 1): Promise<void> {
     this.page = page;
     this.isLoading = true;
     return firstValueFrom(
@@ -43,13 +43,13 @@ export class ArticleListPage implements OnInit {
     );
   }
 
-  public onScrollDown(): void {
+  protected onScrollDown(): void {
     if (this.pagination?.has_next_page && this.page < this.pagination.current_page + 1) {
       void this.loadData(this.pagination.current_page + 1);
     }
   }
 
-  public async delete(id: number): Promise<void> {
+  protected async delete(id: number): Promise<void> {
     return firstValueFrom(
       this.articleService.delete(id).pipe(
         map(() => {
@@ -63,7 +63,7 @@ export class ArticleListPage implements OnInit {
     );
   }
 
-  public track(_: number, item: Article): number {
+  protected track(_: number, item: Article): number {
     return item.id; // or item.id
   }
 }

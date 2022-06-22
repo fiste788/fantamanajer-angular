@@ -14,12 +14,12 @@ import { LayoutService } from '../../services';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent {
-  public photo$: Observable<string | undefined>;
+  protected readonly photo$: Observable<string | undefined>;
 
   constructor(
-    public app: ApplicationService,
+    protected readonly app: ApplicationService,
+    protected readonly auth: AuthenticationService,
     private readonly router: Router,
-    public readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
   ) {
     this.photo$ = this.loadPhoto();

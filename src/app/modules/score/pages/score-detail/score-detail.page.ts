@@ -1,34 +1,32 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { switchMap, map, shareReplay } from 'rxjs/operators';
 
-import { getRouteData } from '@app/functions';
+import { filterNil, getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
-import { Disposition, Score, Team } from '@data/types';
+import { Disposition, Lineup, Score, Team } from '@data/types';
 
 @Component({
   styleUrls: ['./score-detail.page.scss'],
   templateUrl: './score-detail.page.html',
 })
 export class ScoreDetailPage {
-  public score$: Observable<Score>;
-  public regular: Array<Disposition> = [];
-  public notRegular: Array<Disposition> = [];
+  protected readonly score$: Observable<Score>;
+  protected readonly regular$: Observable<Array<Disposition>>;
+  protected readonly notRegular$: Observable<Array<Disposition>>;
 
   constructor(private readonly route: ActivatedRoute, private readonly scoreService: ScoreService) {
-    this.score$ = this.getScore().pipe(
-      tap((score) => {
-        if (score?.lineup) {
-          const dispositions = score.lineup.dispositions;
-          this.regular = dispositions.splice(0, 11);
-          this.notRegular = dispositions;
-        }
-      }),
+    this.score$ = this.getScore().pipe(shareReplay({ bufferSize: 0, refCount: true }));
+    const lineup$: Observable<Lineup> = this.score$.pipe(
+      map((score) => score.lineup),
+      filterNil(),
     );
+    this.regular$ = lineup$.pipe(map((lineup) => lineup.dispositions.slice(0, 11)));
+    this.notRegular$ = lineup$.pipe(map((lineup) => lineup.dispositions.slice(11)));
   }
 
-  public getScore() {
+  protected getScore(): Observable<Score> {
     return this.route.snapshot.url.pop()?.path === 'last'
       ? getRouteData<Team>('team').pipe(
           switchMap((team) => this.scoreService.getLastScore(team.id)),

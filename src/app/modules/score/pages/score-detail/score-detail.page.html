@@ -1,14 +1,14 @@
 <div *ngIf="(score$ | async) as score; else loading">
   <div *ngIf="score.lineup; else nolineup">
     <app-disposition-list
-      *ngIf="regular.length"
+      *ngIf="regular$ | async as regular"
       [regular]="true"
       [lineup]="score.lineup"
       [dispositions]="regular"
       [caption]="'Punteggio: ' + score.points"
     ></app-disposition-list>
     <app-disposition-list
-      *ngIf="notRegular.length"
+      *ngIf="notRegular$ | async as notRegular"
       caption="Panchinari"
       [dispositions]="notRegular"
     >

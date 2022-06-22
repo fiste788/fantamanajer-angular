@@ -22,9 +22,9 @@ import { createBoxAnimation } from '@shared/animations';
   templateUrl: './notification.component.html',
 })
 export class NotificationComponent {
-  @ViewChild('container', { read: ViewContainerRef }) public container?: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef }) protected container?: ViewContainerRef;
 
-  public stream$: Observable<Stream>;
+  protected readonly stream$: Observable<Stream>;
 
   constructor(
     private readonly notificationService: NotificationService,

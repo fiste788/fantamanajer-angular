@@ -16,14 +16,11 @@ export class ParallaxHeaderComponent {
   @Input() public tabs: Array<Tab> = [];
   @Output() public readonly imageLoaded = new EventEmitter<number>();
 
-  public srcset = '';
-  public width = 0;
-
-  public imageLoad(event: Event): void {
+  protected imageLoad(event: Event): void {
     this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
   }
 
-  public track(_: number, item: Tab): string {
+  protected track(_: number, item: Tab): string {
     return item.link;
   }
 }

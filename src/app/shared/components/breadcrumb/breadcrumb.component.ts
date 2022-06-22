@@ -43,13 +43,13 @@ export const breadcrumbTransition = trigger('breadcrumbTransition', [
   templateUrl: './breadcrumb.component.html',
 })
 export class BreadcrumbComponent {
-  public breadcrumbs$: Observable<Array<Breadcrumb>>;
+  protected breadcrumbs$: Observable<Array<Breadcrumb>>;
 
   constructor(breadcrumbService: BreadcrumbService) {
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
   }
 
-  public track(index: number, crumb: Breadcrumb | null): string {
+  protected track(index: number, crumb: Breadcrumb | null): string {
     return crumb !== null ? crumb.label : `${index}`;
   }
 }

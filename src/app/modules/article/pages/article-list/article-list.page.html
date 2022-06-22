@@ -22,10 +22,12 @@
     </mat-card-content>
     <mat-card-actions fxLayoutAlign="end">
       <a
+        type="button"
         mat-button
         [routerLink]="['/articles',article.id]"
       >EDIT</a>
       <button
+        type="button"
         mat-button
         (click)="delete(article.id)"
       >DELETE</button>

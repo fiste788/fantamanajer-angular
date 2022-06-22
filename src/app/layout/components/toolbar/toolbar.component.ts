@@ -18,7 +18,7 @@ export class ToolbarComponent {
   @Input() public state!: VisibilityState | null;
   @Input() public showDrawerButton = false;
 
-  public loggedIn$: Observable<boolean>;
+  protected readonly loggedIn$: Observable<boolean>;
 
   constructor(
     private readonly layoutService: LayoutService,

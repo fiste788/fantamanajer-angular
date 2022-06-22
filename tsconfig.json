@@ -62,6 +62,12 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "disableTypeScriptVersionCheck": true,
-    "enableI18nLegacyMessageIdFormat": false
+    "enableI18nLegacyMessageIdFormat": false,
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "error",
+        "invalidBananaInBox": "error"
+      }
+    }
   }
 }

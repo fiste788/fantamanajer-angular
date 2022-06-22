@@ -14,9 +14,9 @@ import { Article } from '@data/types';
   templateUrl: './article-detail.page.html',
 })
 export class ArticleDetailPage {
-  @ViewChild(NgForm) public articleForm?: NgForm;
+  @ViewChild(NgForm) protected articleForm?: NgForm;
 
-  public article$: Observable<AtLeast<Article, 'team_id'>>;
+  protected readonly article$: Observable<AtLeast<Article, 'team_id'>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -29,11 +29,11 @@ export class ArticleDetailPage {
     this.article$ = id !== undefined ? this.load(+id) : this.new();
   }
 
-  public load(id: number): Observable<Article> {
+  protected load(id: number): Observable<Article> {
     return this.articleService.getArticle(id);
   }
 
-  public new(): Observable<Pick<Article, 'team_id'>> {
+  protected new(): Observable<Pick<Article, 'team_id'>> {
     return this.app.requireTeam$.pipe(
       map((t) => ({
         team_id: t.id,
@@ -41,7 +41,7 @@ export class ArticleDetailPage {
     );
   }
 
-  public async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
+  protected async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
     if (this.articleForm?.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)

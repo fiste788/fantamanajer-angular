@@ -40,16 +40,16 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MatSidenav, { static: true }) public drawer?: MatSidenav;
-  @ViewChild(MatSidenavContent) public container?: MatSidenavContent;
-  @ViewChild(SpeedDialComponent) public speedDial?: SpeedDialComponent;
+  @ViewChild(MatSidenav, { static: true }) protected drawer?: MatSidenav;
+  @ViewChild(MatSidenavContent) protected container?: MatSidenavContent;
+  @ViewChild(SpeedDialComponent) protected speedDial?: SpeedDialComponent;
 
-  public isReady$: Observable<boolean>;
-  public isOpen$: Observable<boolean>;
-  public isHandset$: Observable<boolean>;
-  public openedSidebar$: Observable<boolean>;
-  public showedSpeedDial$: Observable<VisibilityState>;
-  public showedToolbar$: Observable<VisibilityState>;
+  protected readonly isReady$: Observable<boolean>;
+  protected readonly isOpen$: Observable<boolean>;
+  protected readonly isHandset$: Observable<boolean>;
+  protected readonly openedSidebar$: Observable<boolean>;
+  protected readonly showedSpeedDial$: Observable<VisibilityState>;
+  protected readonly showedToolbar$: Observable<VisibilityState>;
 
   private readonly subscriptions = new Subscription();
 
@@ -96,7 +96,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changeRef.detectChanges();
   }
 
-  public preBootstrapExitAnimation(): Observable<void> {
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  protected preBootstrapExitAnimation(): Observable<void> {
     return this.isReady$.pipe(
       filter((e) => e),
       tap(() => this.layoutService.showSpeedDial()),
@@ -106,11 +110,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  public open(open: boolean): void {
+  protected open(open: boolean): void {
     this.layoutService.openSidebarSubject.next(open);
   }
 
-  public setupScrollAnimation(container: MatSidenavContent): void {
+  protected setupScrollAnimation(container: MatSidenavContent): void {
     this.ngZone.runOutsideAngular(() => {
       this.layoutService.connectScrollAnimation(
         container,
@@ -121,37 +125,30 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public up(): void {
+  protected up(): void {
     this.updateSticky(this.getToolbarHeight());
   }
 
-  public down(): void {
-    if (this.speedDial) {
-      this.speedDial.openSpeeddial = false;
-    }
+  protected down(): void {
+    this.speedDial?.close();
     this.updateSticky(0);
   }
 
-  public initDrawer(): Observable<void> {
-    return this.drawer
-      ? this.drawer.openedStart.pipe(
-          mergeMap(() => this.drawer?._animationEnd ?? EMPTY),
-          map(() => this.layoutService.setReady()),
-        )
-      : EMPTY;
+  protected initDrawer(): Observable<void> {
+    return (
+      this.drawer?.openedStart.pipe(
+        mergeMap(() => this.drawer?._animationEnd ?? EMPTY),
+        map(() => this.layoutService.setReady()),
+      ) ?? EMPTY
+    );
   }
 
-  public isOpenObservable(): Observable<boolean> {
+  protected isOpenObservable(): Observable<boolean> {
     return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$]).pipe(
       map(([r, h, o]) => o || (!h && r)),
       distinctUntilChanged(),
     );
   }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
   private updateSticky(offset: number): void {
     this.document.querySelectorAll('.sticky').forEach((e: Element) => {
       if (e instanceof HTMLElement) {

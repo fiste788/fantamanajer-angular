@@ -11,14 +11,13 @@ import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
-  selector: 'app-device-list',
   styleUrls: ['./device-list.page.scss'],
   templateUrl: './device-list.page.html',
 })
 export class DeviceListPage {
-  public dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;
-  public refresh$: BehaviorSubject<true>;
-  public displayedColumns = ['name', 'created_at', 'counter', 'actions'];
+  protected readonly dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;
+  protected readonly refresh$: BehaviorSubject<true>;
+  protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
 
   constructor(
     private readonly webauthnService: WebauthnService,
@@ -29,14 +28,14 @@ export class DeviceListPage {
     this.dataSource$ = this.getDataSource();
   }
 
-  public getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
+  protected getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
     return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
       switchMap(([user]) => this.pbcsService.index(user.id)),
       map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data)),
     );
   }
 
-  public async register(): Promise<void> {
+  protected async register(): Promise<void> {
     return firstValueFrom(
       this.webauthnService.createPublicKey().pipe(
         filterNil(),
@@ -46,7 +45,7 @@ export class DeviceListPage {
     );
   }
 
-  public async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
+  protected async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
     return firstValueFrom(
       this.auth.requireUser$.pipe(
         switchMap((user) => this.pbcsService.delete(user.id, publicKey.id)),
@@ -56,7 +55,7 @@ export class DeviceListPage {
     );
   }
 
-  public trackDevice(_: number, item: PublicKeyCredentialSource): string {
+  protected trackDevice(_: number, item: PublicKeyCredentialSource): string {
     return item.id;
   }
 }

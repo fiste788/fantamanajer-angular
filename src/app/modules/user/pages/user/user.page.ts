@@ -10,13 +10,13 @@ import { routerTransition } from '@shared/animations';
   templateUrl: './user.page.html',
 })
 export class UserPage {
-  public tabs: Array<Tab> = [
+  protected readonly tabs: Array<Tab> = [
     { label: 'Profilo', link: 'profile' },
     { label: 'Dispositivi', link: 'devices' },
     { label: 'Attività', link: 'stream' },
   ];
 
-  public track(_: number, item: Tab): string {
+  protected track(_: number, item: Tab): string {
     return item.link;
   }
 }

@@ -18,12 +18,12 @@ import { Member, Role, Selection, Team } from '@data/types';
   templateUrl: './selection.component.html',
 })
 export class SelectionComponent {
-  @ViewChild(NgForm) public selectionForm?: NgForm;
+  @ViewChild(NgForm) protected selectionForm?: NgForm;
 
-  public data$: Observable<{ selection: Selection; members: Map<Role, Array<Member>> }>;
-  public newMembers$?: Observable<Array<Member>>;
-  public newMemberDisabled = false;
-  public readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
+  protected readonly data$: Observable<{ selection: Selection; members: Map<Role, Array<Member>> }>;
+  protected newMembers$?: Observable<Array<Member>>;
+  protected newMemberDisabled = false;
+  protected readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
     Role | undefined
   >(undefined);
   private readonly roleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
@@ -44,7 +44,7 @@ export class SelectionComponent {
     this.data$ = this.loadData();
   }
 
-  public loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
+  protected loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
     return getRouteData<Team>('team').pipe(
       filterNil(),
       switchMap((team) => this.loadTeamData(team)),
@@ -52,7 +52,7 @@ export class SelectionComponent {
     );
   }
 
-  public loadTeamData(
+  protected loadTeamData(
     team: Team,
   ): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
     return forkJoin({
@@ -78,7 +78,7 @@ export class SelectionComponent {
     );
   }
 
-  public setupEvents(): void {
+  protected setupEvents(): void {
     const newMember$ = this.role$.pipe(
       tap((r) => {
         console.log(r);
@@ -98,13 +98,13 @@ export class SelectionComponent {
     );
   }
 
-  public getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
+  protected getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
     return this.memberService
       .getByTeamId(team.id)
       .pipe(map((data) => this.roleService.groupMembersByRole(data)));
   }
 
-  public getSelectedMember(): Observable<Member | undefined> {
+  protected getSelectedMember(): Observable<Member | undefined> {
     return this.route.queryParamMap.pipe(
       map((params) => params.get('new_member_id')),
       switchMap((id) => (id ? this.memberService.getById(+id) : of(undefined))),
@@ -112,23 +112,23 @@ export class SelectionComponent {
     );
   }
 
-  public oldMemberChange(member: Member | null): void {
+  protected oldMemberChange(member: Member | null): void {
     if (member) {
       this.roleSubject$.next(this.roleService.getById(member.role_id));
     }
   }
 
-  public newMemberChange(member: Member | null): void {
+  protected newMemberChange(member: Member | null): void {
     if (member) {
       this.newMemberRoleSubject$.next(this.roleService.getById(member.role_id));
     }
   }
 
-  public compareFn(c1: Member | null, c2: Member | null): boolean {
+  protected compareFn(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
-  public async save(selection: Partial<Selection>): Promise<void> {
+  protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm?.valid) {
       return firstValueFrom(
         this.app.requireTeam$.pipe(
@@ -156,19 +156,20 @@ export class SelectionComponent {
     }
   }
 
-  public descOrder = (a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number =>
-    a.key.id < b.key.id ? b.key.id : a.key.id;
+  protected descOrder(a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number {
+    return a.key.id < b.key.id ? b.key.id : a.key.id;
+  }
 
-  public reset(): void {
+  protected reset(): void {
     this.roleSubject$.next(undefined);
     this.newMemberRoleSubject$.next(undefined);
   }
 
-  public track(_: number, item: KeyValue<Role, Array<Member>>): number {
+  protected track(_: number, item: KeyValue<Role, Array<Member>>): number {
     return item.key.id;
   }
 
-  public trackMember(_: number, item: Member): number {
+  protected trackMember(_: number, item: Member): number {
     return item.id;
   }
 }

@@ -13,8 +13,8 @@ import { LayoutService } from 'src/app/layout/services';
   templateUrl: './club-detail.page.html',
 })
 export class ClubDetailPage {
-  public club$: Observable<Club>;
-  public tabs: Array<{ label: string; link: string }> = [
+  protected readonly club$: Observable<Club>;
+  protected readonly tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' },
   ];
@@ -23,7 +23,7 @@ export class ClubDetailPage {
     this.club$ = getRouteData('club');
   }
 
-  public scrollTo(height: number): void {
+  protected scrollTo(height: number): void {
     this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

@@ -17,11 +17,11 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
 export class NewTransfertPage {
   @ViewChild(NgForm) public transfertForm?: NgForm;
 
-  public transfert: Partial<Transfert> = {};
-  public team$: Observable<Team>;
-  public oldMembers$: Observable<Array<Member>>;
-  public newMemberDisabled = false;
-  public newMembers$?: Observable<Array<Member>>;
+  protected readonly transfert: Partial<Transfert> = {};
+  protected readonly team$: Observable<Team>;
+  protected readonly oldMembers$: Observable<Array<Member>>;
+  protected newMemberDisabled = false;
+  protected newMembers$?: Observable<Array<Member>>;
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -34,11 +34,11 @@ export class NewTransfertPage {
     this.oldMembers$ = this.loadMembers(this.team$);
   }
 
-  public loadMembers(team$: Observable<Team>): Observable<Array<Member>> {
+  protected loadMembers(team$: Observable<Team>): Observable<Array<Member>> {
     return team$.pipe(switchMap((t) => this.memberService.getByTeamId(t.id)));
   }
 
-  public playerChange(team: Team, oldMember?: Member): void {
+  protected playerChange(team: Team, oldMember?: Member): void {
     if (oldMember) {
       this.newMemberDisabled = true;
       this.newMembers$ = this.memberService.getNotMine(team.id, oldMember.role_id).pipe(
@@ -50,18 +50,18 @@ export class NewTransfertPage {
     }
   }
 
-  public compareFn(c1: Member | null, c2: Member | null): boolean {
+  protected compareFn(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public async submit(team: Team): Promise<void> {
+  protected async submit(team: Team): Promise<void> {
     if (this.transfertForm?.valid) {
       this.transfert.team_id = team.id;
       return firstValueFrom(this.checkMember(), { defaultValue: undefined });
     }
   }
 
-  public checkMember(): Observable<void> {
+  protected checkMember(): Observable<void> {
     if (this.transfert.new_member?.teams.length) {
       const dialogRef = this.dialog.open<ConfirmationDialogModal, { text: string }, boolean>(
         ConfirmationDialogModal,
@@ -80,7 +80,7 @@ export class NewTransfertPage {
     }
   }
 
-  public save(): Observable<void> {
+  protected save(): Observable<void> {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     // this.transfert.new_member = undefined;
     this.transfert.old_member_id = this.transfert.old_member?.id;
@@ -95,7 +95,7 @@ export class NewTransfertPage {
     );
   }
 
-  public track(_: number, item: Member): number {
+  protected track(_: number, item: Member): number {
     return item.id; // or item.id
   }
 }

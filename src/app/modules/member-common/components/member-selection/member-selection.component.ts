@@ -40,7 +40,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Output()
   public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
-  @HostBinding('@lineupDisposition') public lineupDisposition = '';
+  @HostBinding('@lineupDisposition') protected lineupDisposition = '';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public onChange = (_: Member | null): void => undefined;

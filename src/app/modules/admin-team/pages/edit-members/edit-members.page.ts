@@ -13,14 +13,14 @@ import { Member, Module, Role, Team } from '@data/types';
   templateUrl: './edit-members.page.html',
 })
 export class EditMembersPage {
-  @ViewChild(NgForm) public membersForm?: NgForm;
+  @ViewChild(NgForm) protected membersForm?: NgForm;
 
-  public roles: Map<number, Role>;
-  public module: Module;
-  public controlsByRole$: Observable<boolean>;
-  public team$: Observable<Team>;
-  public members!: Array<{ member: Member }>;
-  public membersByRole!: Map<Role, Array<Member>>;
+  protected readonly roles: Map<number, Role>;
+  protected readonly module: Module;
+  protected readonly controlsByRole$: Observable<boolean>;
+  protected readonly team$: Observable<Team>;
+  protected members!: Array<{ member: Member }>;
+  protected membersByRole!: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService,
@@ -37,7 +37,7 @@ export class EditMembersPage {
     this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
   }
 
-  public loadMembers(team: Team): Observable<boolean> {
+  protected loadMembers(team: Team): Observable<boolean> {
     return forkJoin([
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id),
@@ -64,15 +64,15 @@ export class EditMembersPage {
     );
   }
 
-  public compareTeam(c1: Team | null, c2: Team | null): boolean {
+  protected compareTeam(c1: Team | null, c2: Team | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public compareMember(c1: Member | null, c2: Member | null): boolean {
+  protected compareMember(c1: Member | null, c2: Member | null): boolean {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  public async save(team: Team): Promise<void> {
+  protected async save(team: Team): Promise<void> {
     team.members = this.members.map((m) => m.member);
     return firstValueFrom(
       this.teamService.update(team).pipe(

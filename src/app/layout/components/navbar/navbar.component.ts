@@ -15,12 +15,12 @@ import { LayoutService } from '../../services';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  public deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
-  public loggedIn$: Observable<boolean>;
-  public team$: Observable<Team | undefined>;
-  public matchday$: Observable<Matchday | undefined>;
-  public championship$: Observable<Championship | undefined>;
-  public navStart$: Observable<Event>;
+  protected deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
+  protected readonly loggedIn$: Observable<boolean>;
+  protected readonly team$: Observable<Team | undefined>;
+  protected readonly matchday$: Observable<Matchday | undefined>;
+  protected readonly championship$: Observable<Championship | undefined>;
+  protected readonly navStart$: Observable<Event>;
 
   private readonly subscriptions = new Subscription();
 
@@ -31,11 +31,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private readonly app: ApplicationService,
     private readonly router: Router,
   ) {
+    this.deferredPrompt$ = this.pwa.beforeInstall$;
     this.loggedIn$ = this.auth.loggedIn$;
     this.matchday$ = this.app.matchday$;
     this.team$ = this.app.team$;
     this.championship$ = this.app.team$.pipe(map((t) => t?.championship));
-    this.deferredPrompt$ = this.pwa.beforeInstall$;
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
   }
 

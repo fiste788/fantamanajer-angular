@@ -15,11 +15,11 @@ import { LayoutService } from 'src/app/layout/services';
   templateUrl: './player.page.html',
 })
 export class PlayerPage {
-  public player$: Observable<Player>;
-  public ratings$: Observable<Array<Rating>>;
-  public firstMember$: Observable<Member>;
-  public selectedMember$: BehaviorSubject<Member | undefined>;
-  public displayedColumns = [
+  protected readonly player$: Observable<Player>;
+  protected readonly ratings$: Observable<Array<Rating>>;
+  protected readonly firstMember$: Observable<Member>;
+  protected readonly selectedMember$: BehaviorSubject<Member | undefined>;
+  protected readonly displayedColumns = [
     'matchday',
     'rating',
     'points',
@@ -37,7 +37,7 @@ export class PlayerPage {
   constructor(
     private readonly ratingService: RatingService,
     private readonly layoutService: LayoutService,
-    public app: ApplicationService,
+    protected readonly app: ApplicationService,
   ) {
     this.player$ = getRouteData<Player>('player');
     this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
@@ -49,7 +49,7 @@ export class PlayerPage {
     this.ratings$ = this.getRatings();
   }
 
-  public getRatings(): Observable<Array<Rating>> {
+  protected getRatings(): Observable<Array<Rating>> {
     return combineLatest([this.firstMember$, this.selectedMember$]).pipe(
       map(([first, selected]) => selected ?? first),
       distinctUntilChanged(),
@@ -57,15 +57,15 @@ export class PlayerPage {
     );
   }
 
-  public track(_: number, item: Member): number {
+  protected track(_: number, item: Member): number {
     return item.id;
   }
 
-  public trackRating(_: number, item: Rating): number {
+  protected trackRating(_: number, item: Rating): number {
     return item.id;
   }
 
-  public scrollTo(height: number): void {
+  protected scrollTo(height: number): void {
     this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

@@ -12,14 +12,14 @@ import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
-  selector: 'app-login',
   styleUrls: ['./login.page.scss'],
   templateUrl: './login.page.html',
 })
 export class LoginPage {
-  @ViewChild('stepper') private readonly stepper?: MatStepper;
-  @ViewChild('f') private readonly form?: NgForm;
-  public loginData: {
+  @ViewChild('stepper') protected readonly stepper?: MatStepper;
+  @ViewChild('f') protected readonly form?: NgForm;
+  @ViewChild('userForm') protected readonly userForm?: NgForm;
+  protected loginData: {
     email?: string;
     password?: string;
     rememberMe: boolean;
@@ -33,7 +33,7 @@ export class LoginPage {
     private readonly cd: ChangeDetectorRef,
   ) {}
 
-  public async login(): Promise<boolean> {
+  protected async login(): Promise<boolean> {
     if (this.loginData.email && this.loginData.password) {
       return firstValueFrom(
         this.authService
@@ -48,7 +48,7 @@ export class LoginPage {
     return false;
   }
 
-  public async checkToken(): Promise<boolean> {
+  protected async checkToken(): Promise<boolean> {
     return firstValueFrom(
       this.authService.tryTokenLogin(this.loginData.email).pipe(
         switchMap((res) => {
@@ -64,7 +64,7 @@ export class LoginPage {
     );
   }
 
-  public async postLogin(result: boolean): Promise<boolean> {
+  protected async postLogin(result: boolean): Promise<boolean> {
     if (result) {
       return firstValueFrom(
         this.app.requireTeam$.pipe(
@@ -81,6 +81,12 @@ export class LoginPage {
     }
 
     return false;
+  }
+
+  protected reset(): void {
+    this.form?.reset();
+    this.userForm?.resetForm();
+    this.stepper?.reset();
   }
 
   private getUrl(team: Team): string {

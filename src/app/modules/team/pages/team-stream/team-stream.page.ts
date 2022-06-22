@@ -9,7 +9,7 @@ import { Team } from '@data/types';
   templateUrl: './team-stream.page.html',
 })
 export class TeamStreamPage {
-  public id$: Observable<number>;
+  protected readonly id$: Observable<number>;
 
   constructor() {
     this.id$ = getRouteData<Team>('team').pipe(map((team) => team.id));

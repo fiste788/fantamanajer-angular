@@ -8,7 +8,7 @@ import { AuthenticationService } from '@app/authentication';
   templateUrl: './user-stream.page.html',
 })
 export class UserStreamPage {
-  public id$: Observable<number>;
+  protected readonly id$: Observable<number>;
 
   constructor(private readonly auth: AuthenticationService) {
     this.id$ = this.auth.requireUser$.pipe(map((u) => u.id));

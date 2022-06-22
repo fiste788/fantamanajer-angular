@@ -7,7 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { AuthenticationService } from '@app/authentication';
 import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
-import { Tab, Team, User } from '@data/types';
+import { Tab, Team } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { LayoutService } from 'src/app/layout/services';
 
@@ -19,51 +19,52 @@ import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
   templateUrl: './team-detail.page.html',
 })
 export class TeamDetailPage {
-  @HostBinding('@enterDetailAnimation') public e = '';
-  public team$: Observable<Team>;
-  public tabs: Array<Tab> = [];
+  @HostBinding('@enterDetailAnimation') protected e = '';
+  protected readonly team$: Observable<Team>;
+  protected readonly tabs$: Observable<Array<Tab>>;
 
   constructor(
-    public app: ApplicationService,
-    public auth: AuthenticationService,
+    protected readonly app: ApplicationService,
+    protected readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {
-    const team$ = getRouteData<Team>('team');
-    this.team$ = combineLatest([team$, this.auth.user$, this.app.requireTeam$]).pipe(
+    this.team$ = getRouteData<Team>('team');
+    this.tabs$ = this.loadTabs();
+  }
+
+  public loadTabs(): Observable<Array<Tab>> {
+    return combineLatest([this.team$, this.auth.user$, this.app.requireTeam$]).pipe(
       map(([selectedTeam, user, team]) => {
-        this.loadTabs(team, selectedTeam.championship.started, this.app.seasonEnded, user);
-        return selectedTeam;
+        const started = selectedTeam.championship.started;
+        const ended = this.app.seasonEnded;
+        return [
+          { label: 'Giocatori', link: 'players' },
+          {
+            label: 'Formazione',
+            link: 'lineup/current',
+            hidden: ended || !started,
+          },
+          {
+            label: 'Ultima giornata',
+            link: 'scores/last',
+            hidden: !started,
+          },
+          {
+            label: 'Trasferimenti',
+            link: 'transferts',
+            hidden: ended || !started,
+          },
+          { label: 'Articoli', link: 'articles' },
+          { label: 'Attività', link: 'stream' },
+          { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
+        ];
       }),
     );
   }
 
-  public loadTabs(team: Team, started: boolean, ended: boolean, user?: User): void {
-    this.tabs = [
-      { label: 'Giocatori', link: 'players' },
-      {
-        label: 'Formazione',
-        link: 'lineup/current',
-        hidden: ended || !started,
-      },
-      {
-        label: 'Ultima giornata',
-        link: 'scores/last',
-        hidden: !started,
-      },
-      {
-        label: 'Trasferimenti',
-        link: 'transferts',
-        hidden: ended || !started,
-      },
-      { label: 'Articoli', link: 'articles' },
-      { label: 'Attività', link: 'stream' },
-      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
-    ];
-  }
-
-  public async openDialog(team: Team): Promise<void> {
+  protected async openDialog(team: Team): Promise<void> {
     return firstValueFrom(
       this.dialog
         .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
@@ -81,7 +82,7 @@ export class TeamDetailPage {
     );
   }
 
-  public scrollTo(height: number): void {
+  protected scrollTo(height: number): void {
     this.layoutService.scrollTo(0, height - 300, undefined);
   }
 }

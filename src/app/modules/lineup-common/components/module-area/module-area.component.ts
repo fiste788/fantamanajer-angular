@@ -56,7 +56,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     }
   }
 
-  public moduleChange(): void {
+  protected moduleChange(): void {
     this.module.areas.forEach((area) => {
       for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
         if (this.dispositions[i].member?.role_id !== area.role.id) {
@@ -71,15 +71,15 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     });
   }
 
-  public trackByArea(_: number, item: Area): number {
+  protected trackByArea(_: number, item: Area): number {
     return item.role.id; // or item.id
   }
 
-  public trackByPosition(_: number, item: number): number {
+  protected trackByPosition(_: number, item: number): number {
     return item; // or item.id
   }
 
-  public memberSelectionChange(role: Role, member: Member | null): void {
+  protected memberSelectionChange(role: Role, member: Member | null): void {
     this.reloadRegularState(role.id);
     this.selectionChange.emit({ role, member });
   }

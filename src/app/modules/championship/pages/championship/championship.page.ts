@@ -12,7 +12,7 @@ import { routerTransition } from '@shared/animations';
   templateUrl: './championship.page.html',
 })
 export class ChampionshipPage implements OnInit {
-  public tabs: Array<Tab> = [];
+  protected tabs: Array<Tab> = [];
 
   constructor(
     private readonly auth: AuthenticationService,
@@ -28,7 +28,7 @@ export class ChampionshipPage implements OnInit {
     );
   }
 
-  public loadTab(user?: User, team?: Team): void {
+  protected loadTab(user?: User, team?: Team): void {
     this.tabs = [
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },
@@ -41,7 +41,7 @@ export class ChampionshipPage implements OnInit {
     }
   }
 
-  public track(_: number, item: Tab): string {
+  protected track(_: number, item: Tab): string {
     return item.link;
   }
 }

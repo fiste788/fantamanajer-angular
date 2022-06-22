@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 @mixin core() {
-  app-login {
+  .login {
     .mat-horizontal-stepper-header-container {
       display: none !important;
     }
@@ -15,7 +15,7 @@
   $primary: map.get($theme, primary);
   $foreground: map.get($theme, foreground);
 
-  app-login {
+  .login {
     .mat-card-title,
     .mat-icon {
       color: mat.get-color-from-palette($foreground, 'icon');
@@ -23,15 +23,15 @@
   }
 }
 @mixin theme($theme) {
-  @include core;
+   @include core;
 
   $color-config: mat.get-color-config($theme);
-  @if $color-config  {
-    @include color($theme);
+  @if $color-config {
+     @include color($theme);
   }
 
   $typography-config: mat.get-typography-config($theme);
-  @if $typography-config  {
-    @include typography($theme);
+  @if $typography-config {
+     @include typography($theme);
   }
 }

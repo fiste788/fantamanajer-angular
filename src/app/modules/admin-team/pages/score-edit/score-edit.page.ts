@@ -13,28 +13,28 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
   templateUrl: './score-edit.page.html',
 })
 export class ScoreEditPage {
-  @ViewChild(NgForm) public scoreForm?: NgForm;
-  @ViewChild(LineupDetailComponent) public lineupDetail?: LineupDetailComponent;
+  @ViewChild(NgForm) protected scoreForm?: NgForm;
+  @ViewChild(LineupDetailComponent) protected lineupDetail?: LineupDetailComponent;
 
-  public penality = false;
-  public score$?: Observable<Score>;
-  public scores$: Observable<Array<Score>>;
+  protected penality = false;
+  protected score$?: Observable<Score>;
+  protected readonly scores$: Observable<Array<Score>>;
 
   constructor(private readonly scoreService: ScoreService, private readonly snackBar: MatSnackBar) {
     this.scores$ = this.loadData();
   }
 
-  public loadData(): Observable<Array<Score>> {
+  protected loadData(): Observable<Array<Score>> {
     return getRouteData<Team>('team').pipe(
       switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
     );
   }
 
-  public getScore(score: Score): void {
+  protected getScore(score: Score): void {
     this.score$ = this.scoreService.getScore(score.id, true);
   }
 
-  public async save(score: Score): Promise<void> {
+  protected async save(score: Score): Promise<void> {
     if (this.lineupDetail) {
       score.lineup = this.lineupDetail.getLineup() as Lineup;
       return firstValueFrom(
@@ -51,7 +51,7 @@ export class ScoreEditPage {
     }
   }
 
-  public track(_: number, item: Score): number {
+  protected track(_: number, item: Score): number {
     return item.id; // or item.id
   }
 }

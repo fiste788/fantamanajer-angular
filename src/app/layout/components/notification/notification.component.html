@@ -1,6 +1,7 @@
 <ng-container *ngIf="(stream$ | async) as stream">
   <div @createBox>
     <button
+      type="button"
       aria-label="open"
       mat-icon-button
       (click)="open($event.target)"
