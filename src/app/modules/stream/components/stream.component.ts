@@ -17,7 +17,7 @@ import { StreamDataSource } from './stream.datasource';
 @Component({
   animations: [listItemAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-stream',
+  selector: 'app-stream[context][id]',
   styleUrls: ['./stream.component.scss'],
   templateUrl: './stream.component.html',
 })

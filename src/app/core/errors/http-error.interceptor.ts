@@ -19,7 +19,7 @@ import { environment } from '@env';
 const NO_ERROR_IT = new HttpContextToken<boolean>(() => false);
 
 export function noErrorIt(context?: HttpContext): HttpContext {
-  return (context || new HttpContext()).set(NO_ERROR_IT, true);
+  return (context ?? new HttpContext()).set(NO_ERROR_IT, true);
 }
 
 @Injectable()
@@ -31,18 +31,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       catchError((err: unknown) => {
         if (err instanceof HttpErrorResponse) {
           const error = err.error as ErrorResponse;
-          const message = error.data?.message || err.message;
+          const message = error.data?.message ?? err.message;
           if (!req.context.get(NO_ERROR_IT)) {
             this.snackbar.open(message, 'CLOSE', {
               duration: 5000,
             });
           }
+          // eslint-disable-next-line no-console
           console.error(environment.production ? message : err);
 
           return EMPTY;
-        } else {
-          throw err;
         }
+        throw err;
       }),
     );
   }

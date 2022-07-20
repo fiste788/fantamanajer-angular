@@ -30,10 +30,11 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "prettier",
-        "plugin:prettier/recommended",
+        "angular-strict/typescript",
         "plugin:import/recommended",
-        "plugin:import/typescript"
+        "plugin:import/typescript",
+        "prettier",
+        "plugin:prettier/recommended"
       ],
       "plugins": [
         "eslint-plugin-no-null",
@@ -168,6 +169,9 @@
           "error",
           "1tbs"
         ],
+        "class-methods-use-this": [
+          "off"
+        ],
         "comma-dangle": [
           "error",
           "always-multiline"
@@ -180,6 +184,9 @@
         ],
         "default-case": "error",
         "deprecation/deprecation": "warn",
+        "import/no-cycle": [
+          "off"
+        ],
         "import/order": [
           "error",
           {
@@ -289,7 +296,8 @@
         "*.html"
       ],
       "extends": [
-        "plugin:@angular-eslint/template/all"
+        "plugin:@angular-eslint/template/all",
+        "angular-strict/template"
       ],
       "rules": {
         "@angular-eslint/template/i18n": "off",

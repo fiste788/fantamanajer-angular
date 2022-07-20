@@ -55,9 +55,8 @@ export class LoginPage {
           if (!res) {
             this.stepper?.next();
             return of(false);
-          } else {
-            return this.postLogin(res);
           }
+          return this.postLogin(res);
         }),
       ),
       { defaultValue: false },
@@ -73,9 +72,10 @@ export class LoginPage {
         ),
         { defaultValue: false },
       );
-    } else if (this.form) {
-      const password = this.form.controls['password'];
-      password.setErrors({ msg: 'Authentication failed' });
+    }
+    if (this.form) {
+      const { password } = this.form.controls;
+      password?.setErrors({ msg: 'Authentication failed' });
       this.cd.detectChanges();
       return false;
     }
@@ -92,7 +92,7 @@ export class LoginPage {
   private getUrl(team: Team): string {
     return (
       (this.route.snapshot.queryParams['returnUrl'] as string | undefined) ??
-      `/championships/${team.championship?.id ?? 0}`
+      `/championships/${team.championship.id}`
     );
   }
 }

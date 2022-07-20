@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
 
-import { getRouteData } from '@app/functions';
+import { filterNil, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
@@ -43,7 +43,8 @@ export class PlayerPage {
     this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
     this.firstMember$ = this.player$.pipe(
       map((p) => p.members[0]),
-      tap((member) => this.selectedMember$?.next(member)),
+      filterNil(),
+      tap((member) => this.selectedMember$.next(member)),
     );
 
     this.ratings$ = this.getRatings();

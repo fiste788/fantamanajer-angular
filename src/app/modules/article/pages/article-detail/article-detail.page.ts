@@ -41,22 +41,22 @@ export class ArticleDetailPage {
     );
   }
 
-  protected async save(article: AtLeast<Article, 'team_id'>): Promise<void> {
+  protected async save(article: AtLeast<Article, 'team_id'>): Promise<boolean> {
     if (this.articleForm?.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
       return firstValueFrom(
         save$.pipe(
-          map((a: AtLeast<Article, 'id'>) => {
-            this.snackBar.open('Articolo salvato correttamente', undefined, {
-              duration: 3000,
-            });
-            void this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
+          map(async (a: AtLeast<Article, 'id'>) => {
+            this.snackBar.open('Articolo salvato correttamente');
+            return this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
           }),
         ),
-        { defaultValue: undefined },
+        { defaultValue: false },
       );
     }
+
+    return false;
   }
 }

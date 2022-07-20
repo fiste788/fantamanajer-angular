@@ -54,7 +54,7 @@ export class EditMembersPage {
         this.membersByRole = Array.from(this.roles.values()).reduce((m, c) => {
           const members = team.members
             .filter((entry) => entry.role_id === c.id)
-            .concat(allMembers[c.id]);
+            .concat(allMembers[c.id]!);
 
           return m.set(c, members);
         }, new Map<Role, Array<Member>>());
@@ -77,9 +77,7 @@ export class EditMembersPage {
     return firstValueFrom(
       this.teamService.update(team).pipe(
         map(() => {
-          this.snackBar.open('Giocatori modificati', undefined, {
-            duration: 3000,
-          });
+          this.snackBar.open('Giocatori modificati');
         }),
         catchError((err: unknown) => getUnprocessableEntityErrors(err, this.membersForm)),
       ),

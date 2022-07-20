@@ -7,19 +7,12 @@ export function getUnprocessableEntityErrors(
   form?: NgForm | UntypedFormArray,
 ): Observable<never> {
   if (err instanceof HttpErrorResponse && err.status === 422 && form) {
+    const controls = form.controls as Record<string, AbstractControl>;
     const error = err.error as {
-      data: { errors: { [key: string]: { [key: string]: unknown } } };
+      data: { errors: Record<string, Record<string, unknown>> };
     };
-    const errors = error.data.errors;
-    Object.keys(errors).forEach((key) => {
-      if (Object.keys(form.controls).includes(key)) {
-        (
-          form.controls as {
-            [key: string]: AbstractControl;
-          }
-        )[key].setErrors(errors[key]);
-      }
-    });
+    const { errors } = error.data;
+    Object.entries(errors).forEach(([key, value]) => controls[key]?.setErrors(value));
   }
   return EMPTY;
 }

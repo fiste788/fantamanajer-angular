@@ -76,7 +76,7 @@ export class PushService {
         endpoint: pushSubscription.endpoint,
         public_key: pushSubscription.keys['p256dh'],
         auth_token: pushSubscription.keys['auth'],
-        content_encoding: (PushManager.supportedContentEncodings ?? ['aesgcm'])[0],
+        content_encoding: PushManager.supportedContentEncodings[0] ?? 'aesgcm',
         expires_at: e !== null && e !== undefined ? new Date(e) : undefined,
         user_id: userId,
       };

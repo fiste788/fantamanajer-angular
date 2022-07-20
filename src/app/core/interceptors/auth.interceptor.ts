@@ -17,7 +17,7 @@ import { TokenStorageService } from '@app/authentication/token-storage.service';
 const NO_AUTH_IT = new HttpContextToken<boolean>(() => false);
 
 export function noAuthIt(context?: HttpContext): HttpContext {
-  return (context || new HttpContext()).set(NO_AUTH_IT, true);
+  return (context ?? new HttpContext()).set(NO_AUTH_IT, true);
 }
 
 @Injectable()
@@ -28,18 +28,19 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (req.context.get(NO_AUTH_IT)) {
-      return next.handle(req);
+    let newReq = req;
+    if (newReq.context.get(NO_AUTH_IT)) {
+      return next.handle(newReq);
     }
     const accessToken = this.tokenStorageService.token;
 
     if (accessToken) {
-      req = req.clone({
+      newReq = req.clone({
         setHeaders: { Authorization: `Bearer ${accessToken}` },
       });
     }
 
-    return next.handle(req).pipe((s) => this.handleErrors(s, req.url));
+    return next.handle(newReq).pipe((s) => this.handleErrors(s, newReq.url));
   }
 
   private handleErrors(

@@ -8,18 +8,18 @@ import {
   Output,
 } from '@angular/core';
 
-import { Keys, NotificationSubscription, Team } from '@data/types';
+import { NotificationSubscription, NotificationSubscriptionsKeys, Team } from '@data/types';
 
 import { Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-notification-subscription',
+  selector: 'app-notification-subscription[type][label][subscriptions][team]',
   styleUrls: ['./notification-subscription.component.scss'],
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {
-  @Input() public type!: Keys;
+  @Input() public type!: NotificationSubscriptionsKeys;
   @Input() public label!: string;
   @Input() public subscriptions!: Array<NotificationSubscription>;
   @Input() public team!: Team;

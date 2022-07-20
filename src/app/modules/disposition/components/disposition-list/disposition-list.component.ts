@@ -7,14 +7,14 @@ import { tableRowAnimation } from '@shared/animations';
 @Component({
   animations: [tableRowAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-disposition-list',
+  selector: 'app-disposition-list[caption]',
   styleUrls: ['./disposition-list.component.scss'],
   templateUrl: './disposition-list.component.html',
 })
 export class DispositionListComponent implements OnInit {
+  @Input() public caption!: string;
   @Input() public lineup?: Lineup;
   @Input() public dispositions?: Array<Disposition>;
-  @Input() public caption = '';
   @Input() public regular = false;
 
   protected dataSource!: MatTableDataSource<Disposition>;

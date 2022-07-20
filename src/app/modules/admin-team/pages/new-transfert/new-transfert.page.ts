@@ -59,15 +59,18 @@ export class NewTransfertPage {
       this.transfert.team_id = team.id;
       return firstValueFrom(this.checkMember(), { defaultValue: undefined });
     }
+
+    return undefined;
   }
 
   protected checkMember(): Observable<void> {
-    if (this.transfert.new_member?.teams.length) {
+    const team = this.transfert.new_member?.teams[0];
+    if (team) {
       const dialogRef = this.dialog.open<ConfirmationDialogModal, { text: string }, boolean>(
         ConfirmationDialogModal,
         {
           data: {
-            text: `Il giocatore appartiene alla squadra ${this.transfert.new_member.teams[0].name}. Vuoi effettuare lo scambio?`,
+            text: `Il giocatore appartiene alla squadra ${team.name}. Vuoi effettuare lo scambio?`,
           },
         },
       );
@@ -75,9 +78,8 @@ export class NewTransfertPage {
         filter((r) => r === true),
         switchMap(() => this.save()),
       );
-    } else {
-      return this.save();
     }
+    return this.save();
   }
 
   protected save(): Observable<void> {
@@ -87,9 +89,7 @@ export class NewTransfertPage {
     // this.transfert.old_member = undefined;
     return this.transfertService.create(this.transfert).pipe(
       map(() => {
-        this.snackBar.open('Trasferimento effettuato', undefined, {
-          duration: 3000,
-        });
+        this.snackBar.open('Trasferimento effettuato');
       }),
       catchError((err: unknown) => getUnprocessableEntityErrors(err, this.transfertForm)),
     );

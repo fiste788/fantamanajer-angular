@@ -45,8 +45,8 @@ export class ThemeService {
       let mainEl = this.document.getElementById('main-theme') as HTMLLinkElement | null;
       if (mainEl !== null) {
         const isLoadedDark = mainEl.href.startsWith('dark');
-        let altEl = this.document.getElementById('alternate-theme') as HTMLLinkElement | null;
         const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
+        let altEl = this.document.getElementById('alternate-theme') as HTMLLinkElement | null;
         if (isLoadedDark !== isDark) {
           if (altEl !== null) {
             this.enableAlternate(altEl);
@@ -67,13 +67,13 @@ export class ThemeService {
   }
 
   private disableAlternate(altEl: HTMLLinkElement | null): void {
-    if (altEl !== null && !altEl.disabled) {
+    if (altEl?.disabled === false) {
       this.renderer.setAttribute(altEl, 'disabled', 'disabled');
     }
   }
 
   private enableAlternate(altEl: HTMLLinkElement | null): void {
-    if (altEl !== null && altEl.disabled) {
+    if (altEl?.disabled) {
       this.renderer.removeAttribute(altEl, 'disabled');
     }
   }

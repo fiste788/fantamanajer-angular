@@ -1,4 +1,4 @@
-import { StreamActivity } from './';
+import { StreamActivity } from './stream-activity.model';
 
 export interface Stream {
   duration: string;

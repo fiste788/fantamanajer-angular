@@ -15,6 +15,7 @@ export class AuthenticationService {
   public userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(
     undefined,
   );
+
   public user$: Observable<User | undefined>;
   public requireUser$: Observable<User>;
   public loggedIn$: Observable<boolean>;
@@ -54,10 +55,10 @@ export class AuthenticationService {
 
   public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
-      const user = res.user;
+      const { user } = res;
       user.roles = this.getRoles(user);
       if (res.token) {
-        this.tokenStorageService.setToken(res.token, rememberMe || false);
+        this.tokenStorageService.setToken(res.token, rememberMe ?? false);
       }
       if (rememberMe) {
         localStorage.setItem('user', res.user.email);

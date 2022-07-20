@@ -29,7 +29,7 @@ type Stats = typeof stats[number];
 @Component({
   animations: [tableRowAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-member-list',
+  selector: 'app-member-list[members]',
   styleUrls: ['./member-list.component.scss'],
   templateUrl: './member-list.component.html',
 })
@@ -59,7 +59,8 @@ export class MemberListComponent implements OnInit {
     'sum_yellow_card',
     'sum_red_card',
   ];
-  protected footer: { [column: string]: number } = {};
+
+  protected footer: Record<string, number> = {};
 
   constructor(private readonly changeRef: ChangeDetectorRef) {
     this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);

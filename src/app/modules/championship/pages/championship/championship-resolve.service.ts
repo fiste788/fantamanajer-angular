@@ -11,7 +11,7 @@ export class ChampionshipResolver implements Resolve<Championship> {
 
   public resolve(): Observable<Championship> | Championship {
     return this.app.requireTeam$.pipe(
-      map((t) => t?.championship),
+      map((t) => t.championship),
       first(),
     );
   }

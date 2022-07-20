@@ -26,9 +26,11 @@ export class SelectionComponent {
   protected readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
     Role | undefined
   >(undefined);
+
   private readonly roleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
     Role | undefined
   >(undefined);
+
   private readonly role$: Observable<Role | undefined>;
 
   constructor(
@@ -80,13 +82,9 @@ export class SelectionComponent {
 
   protected setupEvents(): void {
     const newMember$ = this.role$.pipe(
-      tap((r) => {
-        console.log(r);
-      }),
       filterNil(),
-      tap((r) => {
+      tap(() => {
         this.newMemberDisabled = true;
-        console.log(r);
       }),
     );
     this.newMembers$ = combineLatest([newMember$, this.app.requireTeam$]).pipe(
@@ -125,7 +123,7 @@ export class SelectionComponent {
   }
 
   protected compareFn(c1: Member | null, c2: Member | null): boolean {
-    return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
+    return c1?.id === c2?.id;
   }
 
   protected async save(selection: Partial<Selection>): Promise<void> {
@@ -136,15 +134,13 @@ export class SelectionComponent {
             delete selection.id;
             delete selection.team;
             selection.team_id = t.id;
-            selection.old_member_id = selection.old_member?.id || 0;
-            selection.new_member_id = selection.new_member?.id || 0;
+            selection.old_member_id = selection.old_member?.id ?? 0;
+            selection.new_member_id = selection.new_member?.id ?? 0;
             return selection as AtLeast<Selection, 'team_id'>;
           }),
           switchMap((sel) => this.selectionService.create(sel)),
           map((res: Partial<Selection>) => {
-            this.snackBar.open('Selezione salvata correttamente', undefined, {
-              duration: 3000,
-            });
+            this.snackBar.open('Selezione salvata correttamente');
             if (res.id) {
               selection.id = res.id;
             }
@@ -154,6 +150,8 @@ export class SelectionComponent {
         { defaultValue: undefined },
       );
     }
+
+    return undefined;
   }
 
   protected descOrder(a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number {

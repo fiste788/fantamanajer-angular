@@ -54,18 +54,15 @@ export class LineupLastPage {
             if (response.id) {
               lineup.id = response.id;
             }
-            this.snackBar.open('Formazione salvata correttamente', undefined, {
-              duration: 3000,
-            });
+            this.snackBar.open('Formazione salvata correttamente');
           }),
           catchError((err: unknown) => getUnprocessableEntityErrors(err, this.lineupForm)),
         ),
         { defaultValue: undefined },
       );
-    } else {
-      this.snackBar.open('Si sono verificati errori di validazione', undefined, {
-        duration: 3000,
-      });
     }
+    this.snackBar.open('Si sono verificati errori di validazione');
+
+    return undefined;
   }
 }

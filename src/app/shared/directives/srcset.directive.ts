@@ -33,15 +33,12 @@ export class SrcsetDirective implements OnInit, OnChanges {
   }
 
   public processRecord(set: Record<string, string>): void {
-    const srcset: Array<string> = [];
-    const keys = Object.keys(set);
-    keys.forEach((key) => {
-      srcset.push(`${set[key]} ${key}`);
-    });
-    const lastKey = keys.pop();
-    if (lastKey) {
-      const src = set[lastKey];
-      const width = +lastKey.substring(0, lastKey.indexOf('w'));
+    const entries = Object.entries(set);
+    const srcset = entries.map(([k, v]) => `${v} ${k}`);
+    const lastEntry = entries.pop();
+    if (lastEntry) {
+      const [key, src] = lastEntry;
+      const width = +key.substring(0, key.indexOf('w'));
       if (this.el.nativeElement.sizes === '') {
         this.renderer.setStyle(
           this.el.nativeElement,

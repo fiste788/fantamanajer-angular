@@ -40,7 +40,7 @@ export class RankingPage {
   protected loadMatchdays(): Observable<Array<string>> {
     return this.ranking$.pipe(
       filter((ranking) => ranking.length > 0),
-      map((ranking) => ranking[0].scores),
+      map((ranking) => ranking[0]?.scores),
       filterNil(),
       map((scores) => Object.keys(scores).reverse()),
     );

@@ -19,7 +19,7 @@ import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animatio
       useExisting: MemberSelectionComponent,
     },
   ],
-  selector: 'app-member-selection',
+  selector: 'app-member-selection[member][name]',
   styleUrls: ['./member-selection.component.scss'],
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
@@ -81,7 +81,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     return option.key.id;
   }
 
-  public compareFn(t1: Member, t2: Member): boolean {
+  public compareFn(t1: Member | null, t2: Member | null): boolean {
     return t1?.id === t2?.id;
   }
 }

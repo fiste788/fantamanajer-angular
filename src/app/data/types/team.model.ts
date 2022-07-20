@@ -1,5 +1,7 @@
-import { Championship, Member, NotificationSubscription, User } from './';
-
+import { Championship } from './championship.model';
+import { Member } from './member.model';
+import { NotificationSubscription } from './notification-subscription.model';
+import { User } from './user.model';
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface Team {
   id: number;

@@ -12,13 +12,13 @@ import { ScrollService } from '@app/services';
 })
 export class LayoutService {
   public isHandset$: Observable<boolean>;
-  public openSidebarSubject = new BehaviorSubject<boolean>(false);
   public openedSidebar$: Observable<boolean>;
-  public isReadySubject = new BehaviorSubject<boolean>(false);
   public isReady$: Observable<boolean>;
   public isShowSpeedDial$: Observable<VisibilityState>;
   public isShowToolbar$: Observable<VisibilityState>;
 
+  private readonly isReadySubject = new BehaviorSubject<boolean>(false);
+  private readonly openSidebarSubject = new BehaviorSubject<boolean>(false);
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
   private readonly scrollSubscription = new Map<MatSidenavContent, Subscription | undefined>();
@@ -113,7 +113,7 @@ export class LayoutService {
 
   public scrollTo(x = 0, y = 0, container?: MatSidenavContent): void {
     const containers: Array<MatSidenavContent> = [...this.scrollSubscription.keys()];
-    (container || containers.shift())?.scrollTo({ top: y, left: x });
+    (container ?? containers.shift())?.scrollTo({ top: y, left: x });
   }
 
   public openSidebar(): void {
@@ -124,8 +124,8 @@ export class LayoutService {
     this.openSidebarSubject.next(false);
   }
 
-  public toggleSidebar(): void {
-    this.openSidebarSubject.next(!this.openSidebarSubject.value);
+  public toggleSidebar(value?: boolean): void {
+    this.openSidebarSubject.next(value ?? !this.openSidebarSubject.value);
   }
 
   public showSpeedDial(): void {

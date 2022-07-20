@@ -24,6 +24,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "es2020",

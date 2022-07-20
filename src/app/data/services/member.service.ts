@@ -20,21 +20,20 @@ export class MemberService {
 
   public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
     let params = new HttpParams();
-    let murl = routes.free(championshipId);
-    if (roleId) {
-      murl = `${murl}/${roleId}`;
-    }
     if (!stats) {
       params = params.set('stats', '0');
     }
 
-    return this.http.get<Array<Member>>(murl, { params });
+    return this.http.get<Array<Member>>(
+      routes.free(championshipId) + (roleId ? `/${roleId}` : ''),
+      { params },
+    );
   }
 
-  public getAllFree(championshipId: number): Observable<{ [id: number]: Array<Member> }> {
+  public getAllFree(championshipId: number): Observable<Record<number, Array<Member>>> {
     const params = new HttpParams().set('stats', '0');
 
-    return this.http.get<{ [id: number]: Array<Member> }>(routes.free(championshipId), { params });
+    return this.http.get<Record<number, Array<Member>>>(routes.free(championshipId), { params });
   }
 
   public getBest(): Observable<Array<Role>> {

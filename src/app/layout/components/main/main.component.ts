@@ -71,10 +71,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isHandset$ = this.layoutService.isHandset$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.isOpen$ = this.isOpenObservable();
-    this.showedSpeedDial$ = combineLatest([
-      this.layoutService.isShowSpeedDial$,
-      this.auth.loggedIn$,
-    ]).pipe(map(([v, u]) => (u ? v : VisibilityState.Hidden)));
+    this.showedSpeedDial$ = this.isShowedSpeedDial();
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
   }
 
@@ -100,7 +97,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.unsubscribe();
   }
 
-  protected preBootstrapExitAnimation(): Observable<void> {
+  protected open(open: boolean): void {
+    this.layoutService.toggleSidebar(open);
+  }
+
+  private preBootstrapExitAnimation(): Observable<void> {
     return this.isReady$.pipe(
       filter((e) => e),
       tap(() => this.layoutService.showSpeedDial()),
@@ -110,31 +111,27 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  protected open(open: boolean): void {
-    this.layoutService.openSidebarSubject.next(open);
-  }
-
-  protected setupScrollAnimation(container: MatSidenavContent): void {
+  private setupScrollAnimation(container: MatSidenavContent): void {
     this.ngZone.runOutsideAngular(() => {
       this.layoutService.connectScrollAnimation(
         container,
         this.up.bind(this),
-        this.up.bind(this),
+        this.down.bind(this),
         this.getToolbarHeight(),
       );
     });
   }
 
-  protected up(): void {
+  private up(): void {
     this.updateSticky(this.getToolbarHeight());
   }
 
-  protected down(): void {
+  private down(): void {
     this.speedDial?.close();
     this.updateSticky(0);
   }
 
-  protected initDrawer(): Observable<void> {
+  private initDrawer(): Observable<void> {
     return (
       this.drawer?.openedStart.pipe(
         mergeMap(() => this.drawer?._animationEnd ?? EMPTY),
@@ -143,12 +140,19 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  protected isOpenObservable(): Observable<boolean> {
+  private isOpenObservable(): Observable<boolean> {
     return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$]).pipe(
       map(([r, h, o]) => o || (!h && r)),
       distinctUntilChanged(),
     );
   }
+
+  private isShowedSpeedDial(): Observable<VisibilityState> {
+    return combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$]).pipe(
+      map(([v, u]) => (u ? v : VisibilityState.Hidden)),
+    );
+  }
+
   private updateSticky(offset: number): void {
     this.document.querySelectorAll('.sticky').forEach((e: Element) => {
       if (e instanceof HTMLElement) {

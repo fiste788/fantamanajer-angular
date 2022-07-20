@@ -20,14 +20,14 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-mat-empty-state',
+  selector: 'app-mat-empty-state[label][icon]',
   styleUrls: ['./mat-empty-state.component.scss'],
   templateUrl: './mat-empty-state.component.html',
 })
 export class MatEmptyStateComponent {
   @Input() public label!: string;
-  @Input() public description!: string;
   @Input() public icon!: string;
+  @Input() public description?: string;
   @Input() public rounded = true;
   @Input() public size = 492;
 

@@ -31,7 +31,7 @@ export class HomePage {
         role
           .filter((a) => a.best_players !== undefined)
           .map((a) => ({
-            first: a.best_players?.shift() as Member,
+            first: a.best_players!.shift()!,
             others: a.best_players ?? [],
             role: a.singolar,
           })),

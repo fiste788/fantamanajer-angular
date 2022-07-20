@@ -1,11 +1,12 @@
-import { Team } from './';
+import { Team } from './team.model';
 
-export type Keys = 'email' | 'push';
+export const notificationSubscriptionsKeys = ['email', 'push'] as const;
+export type NotificationSubscriptionsKeys = typeof notificationSubscriptionsKeys[number];
 
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface NotificationSubscription {
   id?: number;
-  type: Keys;
+  type: NotificationSubscriptionsKeys;
   name: string;
   enabled: boolean;
   team_id: number;

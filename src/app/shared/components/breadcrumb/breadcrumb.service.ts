@@ -22,7 +22,7 @@ export class BreadcrumbService {
       filter((event) => event instanceof NavigationEnd),
       tap(() => {
         // Construct the breadcrumb hierarchy
-        const root = this.router.routerState.snapshot.root;
+        const { root } = this.router.routerState.snapshot;
         const breadcrumbs: Array<Breadcrumb> = [];
         this.addBreadcrumb(root, [], breadcrumbs);
         const arr = [];

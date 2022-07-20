@@ -20,11 +20,9 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
         { optional: true },
       ),
 
-      query(
-        '.mat-row, .mat-header-row, .mat-footer-row',
-        [style({ opacity: 1, 'background-clip': 'padding-box' })],
-        { optional: true },
-      ),
+      query('.mat-row, .mat-header-row, .mat-footer-row', [style({ opacity: 1 })], {
+        optional: true,
+      }),
     ]),
   ]),
   transition(':leave', [

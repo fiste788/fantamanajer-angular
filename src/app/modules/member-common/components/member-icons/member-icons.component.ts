@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Member } from '@data/types';
 
 @Component({
-  selector: 'app-member-icons',
+  selector: 'app-member-icons[member]',
   styleUrls: ['./member-icons.component.scss'],
   templateUrl: './member-icons.component.html',
 })

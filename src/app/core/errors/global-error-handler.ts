@@ -26,9 +26,8 @@ export class GlobalErrorHandler implements ErrorHandler {
         });
       });
 
+      // eslint-disable-next-line no-console
       console.error('Error from global error handler', error);
-
-      return undefined;
     }
   }
 }

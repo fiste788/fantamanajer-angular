@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
 
   public checkAuth(authorities: Array<string>): Observable<boolean> {
     return this.auth.requireUser$.pipe(
-      map((user) => authorities.some((r) => user.roles.includes(r)) ?? false),
+      map((user) => authorities.some((r) => user.roles.includes(r))),
     );
   }
 }

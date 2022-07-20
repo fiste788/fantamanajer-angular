@@ -40,15 +40,15 @@ export class ScoreEditPage {
       return firstValueFrom(
         this.scoreService.update(score).pipe(
           map(() => {
-            this.snackBar.open('Punteggio modificato', undefined, {
-              duration: 3000,
-            });
+            this.snackBar.open('Punteggio modificato');
           }),
           catchError((err: unknown) => getUnprocessableEntityErrors(err, this.scoreForm)),
         ),
         { defaultValue: undefined },
       );
     }
+
+    return undefined;
   }
 
   protected track(_: number, item: Score): number {

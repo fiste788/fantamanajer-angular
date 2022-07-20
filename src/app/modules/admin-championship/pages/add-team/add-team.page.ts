@@ -39,9 +39,7 @@ export class AddTeamPage {
     return firstValueFrom(
       save$.pipe(
         map(async (response) => {
-          this.snackBar.open('Modifiche salvate', undefined, {
-            duration: 3000,
-          });
+          this.snackBar.open('Modifiche salvate');
           return this.router.navigateByUrl(`/teams/${response.id}/admin/members`);
         }),
         catchError((err: unknown) => getUnprocessableEntityErrors(err, this.teamForm)),

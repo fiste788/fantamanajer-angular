@@ -6,7 +6,7 @@ import { AtLeast } from '@app/types';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { EmptyLineup } from '@data/types/empty-lineup.model';
 
-import { Disposition, Lineup, Member } from '../types';
+import { Lineup, Member } from '../types';
 
 const url = 'lineups';
 const routes = {
@@ -19,9 +19,9 @@ const routes = {
 @Injectable({ providedIn: 'root' })
 export class LineupService {
   public static cleanLineup(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
-    const clonedLineup = JSON.parse(JSON.stringify(lineup)) as Lineup;
-    const dispositions: Array<RecursivePartial<Disposition>> = clonedLineup.dispositions;
-    const disp = dispositions.filter((value) => value?.member_id !== null);
+    const clonedLineup = { ...(lineup as Lineup) };
+    const { dispositions } = clonedLineup;
+    const disp = dispositions.filter((value) => value.member_id !== null);
     // eslint-disable-next-line no-null/no-null
     disp.forEach((d) => (d.member = null));
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;

@@ -1,5 +1,9 @@
-import { Club, Player, Rating, Role, Season, Team } from './';
-
+import { Club } from './club.model';
+import { Player } from './player.model';
+import { Rating } from './rating.model';
+import { Role } from './role.model';
+import { Season } from './season.model';
+import { Team } from './team.model';
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface Member {
   id: number;

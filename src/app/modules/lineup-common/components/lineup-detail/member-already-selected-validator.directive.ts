@@ -39,13 +39,13 @@ export class MemberAlreadySelectedValidator implements Validator {
   public validate(formGroup: FormGroup<ControlsOf<Partial<Lineup>>>): ValidationErrors | null {
     const disp = formGroup.controls.dispositions;
     if (disp) {
-      const ids = disp.controls.map((v) => v.value.member?.value?.id);
+      const ids = disp.controls.map((v) => v.value.member.value?.id);
       const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
 
       disp.controls.map((c) => {
         const member = c.value.member.value;
         if (member && dup.includes(member.id)) {
-          c.value.member?.setErrors({ duplicate: true });
+          c.value.member.setErrors({ duplicate: true });
 
           return { duplicate: true };
         }

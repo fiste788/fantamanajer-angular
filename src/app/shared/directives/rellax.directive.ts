@@ -77,13 +77,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     private readonly el: ElementRef<HTMLElement>,
     private readonly ngZone: NgZone,
   ) {
-    //this.du = () => {};
-    this.loop =
-      this.window.requestAnimationFrame.bind(this) ??
-      ((callback: () => void) => {
-        setTimeout(callback, 1000 / 60);
-      });
-    this.clearLoop = this.window.cancelAnimationFrame.bind(this) ?? clearTimeout;
+    this.loop = this.window.requestAnimationFrame.bind(this);
+    this.clearLoop = this.window.cancelAnimationFrame.bind(this);
     this.options = {
       round: true,
       vertical: true,
@@ -119,7 +114,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public clamp(num: number, min: number, max: number): number {
-    return num <= min ? min : num >= max ? max : num;
+    if (num <= min) {
+      return min;
+    }
+    return num >= max ? max : num;
   }
 
   public init(): void {
@@ -159,12 +157,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     let percentageX = 0.5;
     if (!this.options.center) {
       // apparently parallax equation everyone uses
-      percentageY = dataPercentage
-        ? dataPercentage
-        : (pos.y - blockTop + this.screenY) / (blockHeight + this.screenY);
-      percentageX = dataPercentage
-        ? dataPercentage
-        : (pos.x - blockLeft + this.screenX) / (blockWidth + this.screenX);
+      percentageY =
+        dataPercentage || (pos.y - blockTop + this.screenY) / (blockHeight + this.screenY);
+      percentageX =
+        dataPercentage || (pos.x - blockLeft + this.screenX) / (blockWidth + this.screenX);
     }
 
     const bases = this.updatePosition(percentageX, percentageY, this.options.speed);
@@ -194,15 +190,15 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     // If the element has the percentage attribute, the posY and posX needs to be
     // the current scroll position's value, so that the elements are still positioned based on HTML layout
     let wrapperPosY =
-      this.options.wrapper?.scrollTop ||
-      this.window.scrollY ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop;
+      this.options.wrapper?.scrollTop ??
+      (this.window.scrollY ||
+        this.document.documentElement.scrollTop ||
+        this.document.body.scrollTop);
     const wrapperPosX =
-      this.options.wrapper?.scrollLeft ||
-      this.window.scrollX ||
-      this.document.documentElement.scrollLeft ||
-      this.document.body.scrollLeft;
+      this.options.wrapper?.scrollLeft ??
+      (this.window.scrollX ||
+        this.document.documentElement.scrollLeft ||
+        this.document.body.scrollLeft);
     // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
     if (this.options.relativeToWrapper) {
       const scrollPosY =
@@ -211,10 +207,12 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
         this.document.body.scrollTop;
       wrapperPosY = scrollPosY - (this.options.wrapper?.offsetTop ?? 0);
     }
+    const x = dataPercentage || this.options.center ? wrapperPosY : 0;
+    const y = dataPercentage || this.options.center ? wrapperPosX : 0;
 
     return {
-      x: this.options.vertical ? (dataPercentage || this.options.center ? wrapperPosY : 0) : 0,
-      y: this.options.horizontal ? (dataPercentage || this.options.center ? wrapperPosX : 0) : 0,
+      x: this.options.vertical ? x : 0,
+      y: this.options.horizontal ? y : 0,
     };
   }
 
@@ -225,7 +223,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     const searchResult = /transform\s*:/i.exec(style);
     if (searchResult !== null) {
       // Get the index of the transform
-      const index = searchResult.index;
+      const { index } = searchResult;
 
       // Trim the style to the transform point and get the following semi-colon index
       const trimmedStyle = style.slice(index);
@@ -242,10 +240,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   public setPosition(): boolean {
     const oldY = this.posY;
     const oldX = this.posX;
-    const df = this.document.documentElement ?? this.document.body.parentNode ?? this.document.body;
+    const df = this.document.documentElement;
 
-    this.posY = this.options.wrapper?.scrollTop ?? df.scrollTop ?? this.window.scrollY;
-    this.posX = this.options.wrapper?.scrollLeft ?? df.scrollLeft ?? this.window.scrollX;
+    this.posY = this.options.wrapper?.scrollTop ?? df.scrollTop;
+    this.posX = this.options.wrapper?.scrollLeft ?? df.scrollLeft;
     // If option relativeToWrapper is true, use relative wrapper value instead.
     if (this.options.relativeToWrapper) {
       this.posY = (df.scrollTop || this.window.scrollY) - (this.options.wrapper?.offsetTop ?? 0);

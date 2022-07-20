@@ -7,20 +7,9 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 
-declare global {
-  export interface Navigator {
-    setAppBadge?(count?: number): void;
-    clearAppBadge?(): void;
-  }
-}
+import { NavigatorRef } from './native-navigator.service';
 
 export const NAVIGATOR = new InjectionToken('NavigatorToken');
-
-export abstract class NavigatorRef {
-  get nativeNavigator(): Navigator | object {
-    throw new Error('Not implemented.');
-  }
-}
 
 @Injectable()
 export class BrowserNavigatorRef extends NavigatorRef {
@@ -37,7 +26,7 @@ export const navigatorFactory = (
     return browserNavigatorRef.nativeNavigator;
   }
 
-  return new Object();
+  return {};
 };
 
 const browserNavigatorProvider: ClassProvider = {

@@ -16,7 +16,7 @@ export class PlayerResolver implements Resolve<Player | undefined> {
       const id = +playerId;
 
       return this.app.team$.pipe(
-        switchMap((t) => this.cs.getPlayer(id, t?.championship?.id)),
+        switchMap((t) => this.cs.getPlayer(id, t?.championship.id)),
         first(),
       );
     }

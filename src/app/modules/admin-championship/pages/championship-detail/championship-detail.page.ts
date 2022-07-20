@@ -25,7 +25,7 @@ export class ChampionshipDetailPage {
     private readonly championshipService: ChampionshipService,
   ) {
     this.championship$ = getRouteData<Championship>('championship').pipe(defaultIfEmpty({}));
-    this.league$ = this.championship$.pipe(map((c) => c.league || {}));
+    this.league$ = this.championship$.pipe(map((c) => c.league ?? {}));
   }
 
   protected async save(
@@ -39,9 +39,7 @@ export class ChampionshipDetailPage {
     return firstValueFrom(
       save$.pipe(
         map(() => {
-          this.snackBar.open('Modifiche salvate', undefined, {
-            duration: 3000,
-          });
+          this.snackBar.open('Modifiche salvate');
         }),
         catchError((err: unknown) => getUnprocessableEntityErrors(err, this.championshipForm)),
       ),

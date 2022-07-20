@@ -24,14 +24,14 @@
           fxLayoutAlign="start center"
           class="regular"
           name="member"
-          [captain]="dispositions[i].member?.id === captain?.id"
+          [captain]="dispositions[i]?.member?.id === captain?.id"
           [disabled]="disabled"
           [height]="450"
           [memberList]="area.options"
           [placeholder]="area.role.singolar"
           [required]="true"
           [width]="320"
-          [(member)]="dispositions[i].member"
+          [(member)]="dispositions[i]!.member"
           (memberChange)="memberSelectionChange(area.role, $event)"
         >
         </app-member-selection>

@@ -2,7 +2,7 @@ import { trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, firstValueFrom, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { getRouteData } from '@app/functions';
@@ -11,7 +11,7 @@ import { Tab, Team } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { LayoutService } from 'src/app/layout/services';
 
-import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
+import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
   animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
@@ -37,7 +37,7 @@ export class TeamDetailPage {
   public loadTabs(): Observable<Array<Tab>> {
     return combineLatest([this.team$, this.auth.user$, this.app.requireTeam$]).pipe(
       map(([selectedTeam, user, team]) => {
-        const started = selectedTeam.championship.started;
+        const { started } = selectedTeam.championship;
         const ended = this.app.seasonEnded;
         return [
           { label: 'Giocatori', link: 'players' },
@@ -66,18 +66,20 @@ export class TeamDetailPage {
 
   protected async openDialog(team: Team): Promise<void> {
     return firstValueFrom(
-      this.dialog
-        .open<TeamEditModal, { team: Team }, boolean>(TeamEditModal, {
-          data: { team },
-        })
-        .afterClosed()
-        .pipe(
-          filter((t) => t === true),
-          map(() => {
-            this.app.teamSubject$.next(team);
-            this.changeRef.detectChanges();
-          }),
+      this.app.matchday$.pipe(
+        switchMap((m) =>
+          this.dialog
+            .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
+              data: { team, showChangeTeamName: m.number <= 38 },
+            })
+            .afterClosed(),
         ),
+        filter((t) => t === true),
+        map(() => {
+          this.app.teamSubject$.next(team);
+          this.changeRef.detectChanges();
+        }),
+      ),
       { defaultValue: undefined },
     );
   }

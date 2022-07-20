@@ -7,23 +7,9 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 
-declare global {
-  interface Window {
-    addEventListener(
-      type: 'beforeinstallprompt',
-      listener: (this: Window, ev: BeforeInstallPromptEvent) => void,
-      options?: boolean | AddEventListenerOptions,
-    ): void;
-  }
-}
+import { WindowRef } from './native-window.service';
 
 export const WINDOW = new InjectionToken('WindowToken');
-
-export abstract class WindowRef {
-  get nativeWindow(): Window | object {
-    throw new Error('Not implemented.');
-  }
-}
 
 @Injectable()
 export class BrowserWindowRef extends WindowRef {
@@ -40,7 +26,7 @@ export const windowFactory = (
     return browserWindowRef.nativeWindow;
   }
 
-  return new Object();
+  return {};
 };
 
 const browserWindowProvider: ClassProvider = {

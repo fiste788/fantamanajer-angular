@@ -38,7 +38,7 @@ export class NotificationService {
   }
 
   public broadcast(title: string, uri: string, severity?: number): void {
-    this.notifications.next({ title, url: uri, severity: severity || 0 });
+    this.notifications.next({ title, url: uri, severity: severity ?? 0 });
   }
 
   public subscribe(callback: MessageCallback): Subscription {

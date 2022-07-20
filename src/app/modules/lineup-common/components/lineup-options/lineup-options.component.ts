@@ -6,7 +6,7 @@ import { Lineup, MemberOption, Module } from '@data/types';
 import { LineupService } from '../lineup.service';
 
 @Component({
-  selector: 'app-lineup-options',
+  selector: 'app-lineup-options[lineup]',
   templateUrl: './lineup-options.component.html',
   styleUrls: ['./lineup-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

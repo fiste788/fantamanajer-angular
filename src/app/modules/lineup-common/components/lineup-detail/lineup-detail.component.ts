@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
-import { firstValueFrom, map } from 'rxjs';
+import { finalize, firstValueFrom, map } from 'rxjs';
 
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
@@ -48,7 +48,7 @@ export class LineupDetailComponent implements OnInit {
   }
 
   protected async loadLineup(): Promise<void> {
-    if (this.lineup !== undefined && this.lineup.team?.members.length) {
+    if (this.lineup?.team.members.length) {
       const lineup = this.lineupService.loadLineup(this.lineup, this.benchs);
       if (!this.disabled) {
         return this.loadLikely(lineup);
@@ -67,8 +67,8 @@ export class LineupDetailComponent implements OnInit {
               m.likely_lineup = member.likely_lineup;
             }
           });
-          this.cd.detectChanges();
         }),
+        finalize(() => this.cd.detectChanges()),
       ),
       { defaultValue: undefined },
     );

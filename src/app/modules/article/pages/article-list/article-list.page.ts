@@ -53,9 +53,7 @@ export class ArticleListPage implements OnInit {
     return firstValueFrom(
       this.articleService.delete(id).pipe(
         map(() => {
-          this.snackBar.open('Article deleted', undefined, {
-            duration: 3000,
-          });
+          this.snackBar.open('Article deleted');
           this.articles.filter((article) => article.id !== id);
         }),
       ),

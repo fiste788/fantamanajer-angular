@@ -21,9 +21,7 @@ export class SelectionService {
   }
 
   public getLastOrNewSelection(id: number): Observable<Selection> {
-    return this.getSelections(id).pipe(
-      map((a) => (a.length ? a[a.length - 1] : ({} as Selection))),
-    );
+    return this.getSelections(id).pipe(map((a) => a[a.length - 1] ?? ({} as Selection)));
   }
 
   public update(selection: Selection): Observable<Pick<Selection, 'id'>> {

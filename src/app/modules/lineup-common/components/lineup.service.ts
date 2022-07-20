@@ -15,6 +15,7 @@ export class LineupService {
     ['VC', 'vcaptain_id'],
     ['VVC', 'vvcaptain_id'],
   ]);
+
   public modules?: Array<Module>;
   public selectedModule?: Module;
   public benchs?: Array<number>;
@@ -28,7 +29,7 @@ export class LineupService {
     lineup: EmptyLineup,
     benchs: number = environment.benchwarmersCount,
   ): EmptyLineup {
-    lineup.team_id = lineup.team_id || lineup.team.id;
+    lineup.team_id = lineup.team_id ?? lineup.team.id;
     this.benchs = Array(benchs)
       .fill(benchs)
       .map((_, i) => i + 11);
@@ -103,13 +104,11 @@ export class LineupService {
       .map((disp: Disposition, i) => {
         disp.position = i + 1;
 
-        return dispositions.get(i) || { ...disp };
+        return dispositions.get(i) ?? { ...disp };
       })
       .map((disp) => {
-        if (disp.member_id !== null) {
-          // eslint-disable-next-line no-null/no-null
-          disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
-        }
+        // eslint-disable-next-line no-null/no-null
+        disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
 
         return disp;
       });
@@ -157,6 +156,6 @@ export class LineupService {
     return this.lineup.dispositions
       .filter((disp) => disp.position <= 11)
       .map((disp) => disp.member)
-      .filter((member): member is Member => member !== null && member !== undefined);
+      .filter((member): member is Member => member !== null);
   }
 }

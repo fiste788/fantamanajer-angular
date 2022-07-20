@@ -14,7 +14,7 @@ export class ChampionshipAdminGuard implements CanActivate {
 
   public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return combineLatest([this.auth.user$, this.app.team$]).pipe(
-      map(([user, team]) => user?.admin || team?.admin || false),
+      map(([user, team]) => user?.admin ?? team?.admin ?? false),
     );
   }
 }

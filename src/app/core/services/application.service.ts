@@ -37,7 +37,7 @@ export class ApplicationService {
     this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
     this.requireTeam$ = this.team$.pipe(filterNil());
     this.matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
-    this.matchday$ = this.matchdaySubject$.pipe(filterNil()); //.pipe(distinctUntilChanged());
+    this.matchday$ = this.matchdaySubject$.pipe(filterNil()); // .pipe(distinctUntilChanged());
   }
 
   public bootstrap(): Observable<unknown> {
@@ -73,7 +73,7 @@ export class ApplicationService {
 
   private refreshUser(): Subscription {
     return this.authService.user$
-      .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u?.teams[0] : undefined)))
+      .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
       .subscribe();
   }
 

@@ -34,9 +34,6 @@ export class RoleService {
   }
 
   public totalMembers(): number {
-    let total = 0;
-    this.roles.forEach((r) => (total += r.count));
-
-    return total;
+    return Array.from(this.roles.values()).reduce((acc, c) => acc + c.count, 0);
   }
 }

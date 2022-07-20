@@ -16,7 +16,7 @@ export class Module {
         fromIndex: this.getIndex(array),
         options: [],
         role,
-        toIndex: mod[index],
+        toIndex: mod[index] ?? 0,
       });
 
       return array;

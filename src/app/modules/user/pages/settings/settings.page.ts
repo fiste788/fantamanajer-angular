@@ -35,20 +35,20 @@ export class SettingsPage {
   }
 
   protected async save(user: User): Promise<void> {
-    if (user?.password === this.repeatPassword) {
+    if (user.password === this.repeatPassword) {
       return firstValueFrom(
         this.userService.update(user).pipe(
           share(),
           map((res) => {
             this.auth.userSubject.next(res);
-            this.snackBar.open('Modifiche salvate', undefined, {
-              duration: 3000,
-            });
+            this.snackBar.open('Modifiche salvate');
           }),
         ),
         { defaultValue: undefined },
       );
     }
+
+    return undefined;
   }
 
   protected async togglePush(user: User, checked: boolean): Promise<void> {

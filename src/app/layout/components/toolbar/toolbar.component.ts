@@ -10,7 +10,7 @@ import { LayoutService } from '../../services';
 @Component({
   animations: [scrollUpAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-toolbar',
+  selector: 'app-toolbar[state]',
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
 })

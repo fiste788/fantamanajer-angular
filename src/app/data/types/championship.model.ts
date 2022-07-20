@@ -1,5 +1,6 @@
-import { League, Season, Team } from './';
-
+import { League } from './league.model';
+import { Season } from './season.model';
+import { Team } from './team.model';
 /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface Championship {
   id: number;
