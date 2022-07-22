@@ -10,7 +10,7 @@ import {
   CredentialCreationOptionsJSON,
   CredentialRequestOptionsJSON,
 } from '@github/webauthn-json/dist/types/basic/json';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
@@ -65,8 +65,7 @@ export class WebauthnService {
     return token.pipe(
       filterNil(),
       mergeMap(get),
-      catchError(() => of(undefined)),
-      filterNil(),
+      catchError(() => EMPTY),
       mergeMap((data) => this.login(data)),
     );
   }

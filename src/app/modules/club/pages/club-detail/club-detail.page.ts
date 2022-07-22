@@ -24,6 +24,6 @@ export class ClubDetailPage {
   }
 
   protected scrollTo(height: number): void {
-    this.layoutService.scrollTo(0, height - 300, undefined);
+    this.layoutService.scrollTo(0, height - 300);
   }
 }
