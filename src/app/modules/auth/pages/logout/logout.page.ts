@@ -14,6 +14,7 @@ export class LogoutPage implements OnInit {
 
   public async ngOnInit(): Promise<boolean> {
     await this.authService.logout();
+
     return this.router.navigate(['/']);
   }
 }

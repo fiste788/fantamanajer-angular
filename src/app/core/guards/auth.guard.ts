@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const user = localStorage.getItem('user') ?? undefined;
+
     return this.auth.tryTokenLogin(user).pipe(
       tap((res) => {
         if (!res) {

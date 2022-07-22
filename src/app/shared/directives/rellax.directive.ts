@@ -66,6 +66,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private screenX = 0;
   private screenY = 0;
   private du?: () => void;
+  private handler?: () => void;
 
   private readonly loop: (callback: FrameRequestCallback) => number;
   private readonly clearLoop: (handle: number) => void;
@@ -117,6 +118,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     if (num <= min) {
       return min;
     }
+
     return num >= max ? max : num;
   }
 
@@ -135,7 +137,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
     // If paused, unpause and set listener for window resizing events
     if (this.pause) {
-      this.window.addEventListener('resize', this.init.bind(this));
+      this.handler = this.init.bind(this);
+      this.window.addEventListener('resize', this.handler);
       this.pause = false;
       // Start the loop
       this.update();
@@ -279,14 +282,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     if (this.du) {
       this.window.removeEventListener('resize', this.du);
       this.window.removeEventListener('orientationchange', this.du);
-      (this.options.wrapper ? this.options.wrapper : this.window).removeEventListener(
-        'scroll',
-        this.du,
-      );
-      (this.options.wrapper ? this.options.wrapper : this.document).removeEventListener(
-        'touchmove',
-        this.du,
-      );
+      (this.options.wrapper ?? this.window).removeEventListener('scroll', this.du);
+      (this.options.wrapper ?? this.document).removeEventListener('touchmove', this.du);
     }
     // loop again
     this.loopId = this.loop(this.update.bind(this));
@@ -305,14 +302,10 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       // Don't animate until we get a position updating event
       window.addEventListener('resize', this.du);
       window.addEventListener('orientationchange', this.du);
-      (this.options.wrapper ? this.options.wrapper : window).addEventListener('scroll', this.du, {
+      (this.options.wrapper ?? window).addEventListener('scroll', this.du, {
         passive: true,
       });
-      (this.options.wrapper ? this.options.wrapper : document).addEventListener(
-        'touchmove',
-        this.du,
-        { passive: true },
-      );
+      (this.options.wrapper ?? document).addEventListener('touchmove', this.du, { passive: true });
     }
   }
 
@@ -370,10 +363,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public destroy(): void {
-    if (!this.pause) {
-      this.window.removeEventListener('resize', () => {
-        this.init();
-      });
+    if (!this.pause && this.handler) {
+      this.window.removeEventListener('resize', this.handler);
       this.pause = true;
     }
 

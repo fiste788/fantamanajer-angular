@@ -36,10 +36,12 @@ export class AddTeamPage {
     const save$: Observable<AtLeast<Team, 'id'>> = team.id
       ? this.teamService.update(team as AtLeast<Team, 'id'>)
       : this.teamService.create(team);
+
     return firstValueFrom(
       save$.pipe(
         map(async (response) => {
           this.snackBar.open('Modifiche salvate');
+
           return this.router.navigateByUrl(`/teams/${response.id}/admin/members`);
         }),
         catchError((err: unknown) => getUnprocessableEntityErrors(err, this.teamForm)),

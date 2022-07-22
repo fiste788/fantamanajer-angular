@@ -51,10 +51,12 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: unknown) => {
         // try to avoid errors on logout
         // therefore we check the url path of '/auth/'
-        if (error instanceof HttpErrorResponse) {
-          if (error.status === 401 && !urlPath.includes('/auth/')) {
-            return this.handle401();
-          }
+        if (
+          error instanceof HttpErrorResponse &&
+          error.status === 401 &&
+          !urlPath.includes('/auth/')
+        ) {
+          return this.handle401();
         }
 
         // rethrow error

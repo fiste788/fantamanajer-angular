@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { groupBy } from '@app/functions';
+
 import { Member, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
@@ -14,15 +16,8 @@ export class RoleService {
     [4, { id: 4, singolar: 'Attaccante', count: 6, abbreviation: 'A', plural: 'Attaccanti' }],
   ]);
 
-  public groupMembersByRole(data: Array<Member>): Map<Role, Array<Member>> {
-    return data.reduce((map: Map<Role, Array<Member>>, item) => {
-      const role = this.roles.get(item.role_id);
-      if (role) {
-        map.set(role, [...(map.get(role) ?? []), item]);
-      }
-
-      return map;
-    }, new Map());
+  public groupMembersByRole(members: Array<Member>): Map<Role, Array<Member>> {
+    return groupBy(members, ({ role }) => role);
   }
 
   public getById(id: number): Role | undefined {
@@ -34,6 +29,6 @@ export class RoleService {
   }
 
   public totalMembers(): number {
-    return Array.from(this.roles.values()).reduce((acc, c) => acc + c.count, 0);
+    return [...this.roles.values()].reduce((acc, c) => acc + c.count, 0);
   }
 }

@@ -164,6 +164,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getToolbarHeight(): number {
     const toolbar = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary');
+
     return toolbar?.clientHeight ?? 0;
   }
 }

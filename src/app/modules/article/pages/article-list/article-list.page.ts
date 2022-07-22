@@ -30,12 +30,13 @@ export class ArticleListPage implements OnInit {
   protected async loadData(page = 1): Promise<void> {
     this.page = page;
     this.isLoading = true;
+
     return firstValueFrom(
       this.articleService.getArticles(page).pipe(
         map((data: PagedResponse<Array<Article>>) => {
           this.isLoading = false;
           this.pagination = data.pagination;
-          this.articles = this.articles.concat(data.data);
+          this.articles = [...this.articles, ...data.data];
           this.changeRef.detectChanges();
         }),
       ),

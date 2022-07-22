@@ -45,6 +45,7 @@ export class LoginPage {
         { defaultValue: false },
       );
     }
+
     return false;
   }
 
@@ -54,8 +55,10 @@ export class LoginPage {
         switchMap((res) => {
           if (!res) {
             this.stepper?.next();
+
             return of(false);
           }
+
           return this.postLogin(res);
         }),
       ),
@@ -77,6 +80,7 @@ export class LoginPage {
       const { password } = this.form.controls;
       password?.setErrors({ msg: 'Authentication failed' });
       this.cd.detectChanges();
+
       return false;
     }
 

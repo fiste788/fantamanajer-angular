@@ -57,6 +57,7 @@ export class NewTransfertPage {
   protected async submit(team: Team): Promise<void> {
     if (this.transfertForm?.valid) {
       this.transfert.team_id = team.id;
+
       return firstValueFrom(this.checkMember(), { defaultValue: undefined });
     }
 
@@ -74,11 +75,13 @@ export class NewTransfertPage {
           },
         },
       );
+
       return dialogRef.afterClosed().pipe(
         filter((r) => r === true),
         switchMap(() => this.save()),
       );
     }
+
     return this.save();
   }
 
@@ -86,6 +89,7 @@ export class NewTransfertPage {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     // this.transfert.new_member = undefined;
     this.transfert.old_member_id = this.transfert.old_member?.id;
+
     // this.transfert.old_member = undefined;
     return this.transfertService.create(this.transfert).pipe(
       map(() => {

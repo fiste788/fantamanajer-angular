@@ -40,21 +40,19 @@ export class MemberAlreadySelectedValidator implements Validator {
     const disp = formGroup.controls.dispositions;
     if (disp) {
       const ids = disp.controls.map((v) => v.value.member.value?.id);
-      const dup = ids.filter((item, index) => ids.indexOf(item) !== index);
+      const dup = new Set(ids.filter((item, index) => ids.indexOf(item) !== index));
 
-      disp.controls.map((c) => {
+      return disp.controls.map((c) => {
         const member = c.value.member.value;
-        if (member && dup.includes(member.id)) {
-          c.value.member.setErrors({ duplicate: true });
+        // eslint-disable-next-line unicorn/no-null
+        const errors = member && dup.has(member.id) ? { duplicate: true } : null;
+        c.value.member.setErrors(errors);
 
-          return { duplicate: true };
-        }
-        c.value.member.setErrors(null);
-
-        return null;
+        return errors;
       });
     }
 
+    // eslint-disable-next-line unicorn/no-null
     return null;
   }
 }

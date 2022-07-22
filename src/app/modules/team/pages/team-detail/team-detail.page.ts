@@ -39,6 +39,7 @@ export class TeamDetailPage {
       map(([selectedTeam, user, team]) => {
         const { started } = selectedTeam.championship;
         const ended = this.app.seasonEnded;
+
         return [
           { label: 'Giocatori', link: 'players' },
           {
@@ -85,6 +86,6 @@ export class TeamDetailPage {
   }
 
   protected scrollTo(height: number): void {
-    this.layoutService.scrollTo(0, height - 300, undefined);
+    this.layoutService.scrollTo(0, height - 300);
   }
 }

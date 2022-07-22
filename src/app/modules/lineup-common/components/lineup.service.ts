@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
+import { flatGroupBy } from '@app/functions';
 import { RoleService } from '@data/services';
 import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
 import { environment } from '@env';
@@ -30,20 +31,17 @@ export class LineupService {
     benchs: number = environment.benchwarmersCount,
   ): EmptyLineup {
     lineup.team_id = lineup.team_id ?? lineup.team.id;
-    this.benchs = Array(benchs)
+    this.benchs = Array.from({ length: benchs })
       .fill(benchs)
       .map((_, i) => i + 11);
 
-    this.membersById = lineup.team.members.reduce(
-      (m, v) => m.set(v.id, v),
-      new Map<number, Member>(),
-    );
+    this.membersById = flatGroupBy(lineup.team.members, ({ id }) => id);
     this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
     this.lineup = lineup;
     this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
     this.captainSelectionChange();
-    this.benchOptions = Array.from(this.membersByRole.entries()).reduce(
+    this.benchOptions = [...this.membersByRole.entries()].reduce(
       (m, [k, v]) =>
         m.set(
           k,
@@ -80,7 +78,6 @@ export class LineupService {
   }
 
   public getLineup(): EmptyLineup {
-    // eslint-disable-next-line no-null/no-null
     this.lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
 
     return this.lineup;
@@ -94,31 +91,28 @@ export class LineupService {
   }
 
   private loadDispositions(lineup: EmptyLineup): Array<Disposition> {
-    const dispositions = lineup.dispositions.reduce(
-      (p, d) => p.set(d.position - 1, d),
-      new Map<number, Disposition>(),
-    );
+    const dispositions = flatGroupBy(lineup.dispositions, ({ position }) => position - 1);
+    const length = 11 + (this.benchs?.length ?? environment.benchwarmersCount);
 
-    return Array<Disposition>(11 + (this.benchs?.length ?? environment.benchwarmersCount))
-      .fill({} as Disposition)
-      .map((disp: Disposition, i) => {
-        disp.position = i + 1;
+    return Array.from<Disposition>({
+      length,
+    }).map((_, i) => {
+      const disp = dispositions.get(i) ?? this.createEmptyDisposition(i);
+      disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
 
-        return dispositions.get(i) ?? { ...disp };
-      })
-      .map((disp) => {
-        // eslint-disable-next-line no-null/no-null
-        disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
+      return disp;
+    });
+  }
 
-        return disp;
-      });
+  private createEmptyDisposition(position: number): Disposition {
+    return {
+      position: position + 1,
+    } as Disposition;
   }
 
   private reloadBenchwarmerState(): void {
-    this.benchOptions.forEach((v) => {
-      v.forEach((o) => {
-        o.disabled = this.isRegular(o.member);
-      });
+    [...this.benchOptions.values()].flat().forEach((o) => {
+      o.disabled = this.isRegular(o.member);
     });
   }
 
@@ -127,9 +121,7 @@ export class LineupService {
       .filter((element) => element.position > 11)
       .filter((element) => element.member?.id === member.id)
       .forEach((element) => {
-        // eslint-disable-next-line no-null/no-null
         element.member = null;
-        // eslint-disable-next-line no-null/no-null
         element.member_id = null;
       });
   }

@@ -46,10 +46,12 @@ export class ArticleDetailPage {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);
+
       return firstValueFrom(
         save$.pipe(
           map(async (a: AtLeast<Article, 'id'>) => {
             this.snackBar.open('Articolo salvato correttamente');
+
             return this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
           }),
         ),

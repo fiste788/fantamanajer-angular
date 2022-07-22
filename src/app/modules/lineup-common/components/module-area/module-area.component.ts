@@ -61,7 +61,6 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
       for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
         const disp = this.dispositions[i];
         if (disp && disp.member?.role_id !== area.role.id) {
-          // eslint-disable-next-line no-null/no-null
           disp.member = null;
         }
       }

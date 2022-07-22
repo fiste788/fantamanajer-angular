@@ -24,6 +24,7 @@ export class MatchdayService {
         return name.toLowerCase() === 'accept' ? true : super.has(name);
       }
     }
+
     return this.http.get<Matchday>(routes.current, {
       context: noErrorIt(noHeadersIt(noAuthIt())),
       withCredentials: false,

@@ -1,6 +1,6 @@
 import {
   Component,
-  createNgModuleRef,
+  createNgModule,
   ElementRef,
   Injector,
   NgModuleRef,
@@ -46,10 +46,7 @@ export class NotificationComponent {
         (m) => m.NotificationModule,
       );
 
-      const ngModuleRef: NgModuleRef<NotificationModule> = createNgModuleRef(
-        ngModule,
-        this.injector,
-      );
+      const ngModuleRef: NgModuleRef<NotificationModule> = createNgModule(ngModule, this.injector);
       const componentRef = this.container.createComponent(ngModule.rootComponent, {
         ngModuleRef,
       });

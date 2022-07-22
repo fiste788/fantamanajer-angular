@@ -80,6 +80,7 @@ export class PushService {
         expires_at: e !== null && e !== undefined ? new Date(e) : undefined,
         user_id: userId,
       };
+
       return psm;
     }
 
@@ -94,7 +95,7 @@ export class PushService {
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
 
     // convert ArrayBuffer to Array
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashArray = [...new Uint8Array(hashBuffer)];
 
     // convert bytes to hex string
     return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');

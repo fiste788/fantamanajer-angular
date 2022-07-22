@@ -40,7 +40,7 @@
   <app-member-list
     *ngIf="members$ && (app.team$ | async) as team"
     [elevation]="0"
-    [isSelectable]="team.championship?.started && !app.seasonEnded || false"
+    [isSelectable]="team.championship.started && !app.seasonEnded || false"
     [members]="members$"
   ></app-member-list>
 </div>

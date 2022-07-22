@@ -37,6 +37,7 @@ export class ScoreEditPage {
   protected async save(score: Score): Promise<void> {
     if (this.lineupDetail) {
       score.lineup = this.lineupDetail.getLineup() as Lineup;
+
       return firstValueFrom(
         this.scoreService.update(score).pipe(
           map(() => {

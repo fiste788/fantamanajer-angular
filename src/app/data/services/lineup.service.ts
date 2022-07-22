@@ -22,7 +22,6 @@ export class LineupService {
     const clonedLineup = { ...(lineup as Lineup) };
     const { dispositions } = clonedLineup;
     const disp = dispositions.filter((value) => value.member_id !== null);
-    // eslint-disable-next-line no-null/no-null
     disp.forEach((d) => (d.member = null));
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
     cleanedLineup.dispositions = disp;

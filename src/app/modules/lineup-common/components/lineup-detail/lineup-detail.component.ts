@@ -54,6 +54,7 @@ export class LineupDetailComponent implements OnInit {
         return this.loadLikely(lineup);
       }
     }
+
     return undefined;
   }
 

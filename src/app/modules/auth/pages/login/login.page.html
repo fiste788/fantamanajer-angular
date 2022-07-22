@@ -77,7 +77,7 @@
                 [(ngModel)]="loginData.password"
               >
               <mat-error *ngIf="password.errors">
-                {{password.errors?.['msg']}}
+                {{password.errors['msg']}}
               </mat-error>
             </mat-form-field>
 

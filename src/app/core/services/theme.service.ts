@@ -26,6 +26,7 @@ export class ThemeService {
       this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
     );
     this.head = document.head;
+    // eslint-disable-next-line unicorn/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.isDark$ = this.breakpointObserver
       .observe('(prefers-color-scheme: dark)')
@@ -42,11 +43,11 @@ export class ThemeService {
 
   private async setThemeCss(isDark: boolean): Promise<void> {
     return new Promise((resolve) => {
-      let mainEl = this.document.getElementById('main-theme') as HTMLLinkElement | null;
+      let mainEl = this.document.querySelector<HTMLLinkElement>('#main-theme');
       if (mainEl !== null) {
         const isLoadedDark = mainEl.href.startsWith('dark');
         const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
-        let altEl = this.document.getElementById('alternate-theme') as HTMLLinkElement | null;
+        let altEl = this.document.querySelector<HTMLLinkElement>('alternate-theme');
         if (isLoadedDark !== isDark) {
           if (altEl !== null) {
             this.enableAlternate(altEl);

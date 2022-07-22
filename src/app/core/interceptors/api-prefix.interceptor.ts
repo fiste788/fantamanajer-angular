@@ -54,6 +54,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
 
   private prefix(req: HttpRequest<unknown>): HttpRequest<unknown> {
     const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
+
     return req.clone({
       url,
     });
@@ -62,16 +63,18 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   private headers(req: HttpRequest<unknown>): HttpRequest<unknown> {
     const ct = 'Content-Type';
     let { headers } = req;
+    const { method } = req;
 
     if (!headers.has('Accept')) {
       headers = headers.set('Accept', 'application/json');
     }
 
-    if (!req.headers.has(ct) && req.method !== 'DELETE') {
+    if (!headers.has(ct) && method !== 'DELETE') {
       headers = headers.set(ct, 'application/json');
     } else if (headers.get(ct) === 'multipart/form-data') {
       headers = headers.delete(ct);
     }
+
     return req.clone({
       headers,
     });

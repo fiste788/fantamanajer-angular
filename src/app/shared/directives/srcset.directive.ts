@@ -38,7 +38,7 @@ export class SrcsetDirective implements OnInit, OnChanges {
     const lastEntry = entries.pop();
     if (lastEntry) {
       const [key, src] = lastEntry;
-      const width = +key.substring(0, key.indexOf('w'));
+      const width = +key.slice(0, Math.max(0, key.indexOf('w')));
       if (this.el.nativeElement.sizes === '') {
         this.renderer.setStyle(
           this.el.nativeElement,

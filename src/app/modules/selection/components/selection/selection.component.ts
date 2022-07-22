@@ -75,6 +75,7 @@ export class SelectionComponent {
         }
         this.oldMemberChange(selection.old_member);
         this.newMemberChange(selection.new_member);
+
         return { selection, members };
       }),
     );
@@ -105,7 +106,7 @@ export class SelectionComponent {
   protected getSelectedMember(): Observable<Member | undefined> {
     return this.route.queryParamMap.pipe(
       map((params) => params.get('new_member_id')),
-      switchMap((id) => (id ? this.memberService.getById(+id) : of(undefined))),
+      switchMap((id) => (id ? this.memberService.getById(+id) : of())),
       first(),
     );
   }
@@ -136,6 +137,7 @@ export class SelectionComponent {
             selection.team_id = t.id;
             selection.old_member_id = selection.old_member?.id ?? 0;
             selection.new_member_id = selection.new_member?.id ?? 0;
+
             return selection as AtLeast<Selection, 'team_id'>;
           }),
           switchMap((sel) => this.selectionService.create(sel)),
@@ -159,8 +161,9 @@ export class SelectionComponent {
   }
 
   protected reset(): void {
-    this.roleSubject$.next(undefined);
-    this.newMemberRoleSubject$.next(undefined);
+    const role = undefined;
+    this.roleSubject$.next(role);
+    this.newMemberRoleSubject$.next(role);
   }
 
   protected track(_: number, item: KeyValue<Role, Array<Member>>): number {

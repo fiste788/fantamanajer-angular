@@ -25,6 +25,7 @@ export class RankingPage {
     this.rankingDisplayedColumns$ = matchdays$.pipe(
       map((c) => {
         c.unshift(...this.rankingDisplayedColumns);
+
         return c;
       }),
     );

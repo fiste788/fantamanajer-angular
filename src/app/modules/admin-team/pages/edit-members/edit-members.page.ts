@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, forkJoin, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteData, getUnprocessableEntityErrors, groupBy } from '@app/functions';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
 
@@ -29,9 +29,7 @@ export class EditMembersPage {
     private readonly snackBar: MatSnackBar,
   ) {
     this.roles = this.roleService.list();
-    const key = Array.from(this.roles.values())
-      .map((r) => r.count)
-      .join('-');
+    const key = [...this.roles.values()].map((r) => r.count).join('-');
     this.module = new Module(key, this.roles);
     this.team$ = getRouteData<Team>('team');
     this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
@@ -45,16 +43,17 @@ export class EditMembersPage {
       map(([teamMembers, allMembers]) => {
         team.members = teamMembers.slice(0, this.roleService.totalMembers());
         if (team.members.length < this.roleService.totalMembers()) {
-          const missing = new Array<Member>(
-            this.roleService.totalMembers() - team.members.length,
-          ).fill({} as Member);
+          const missing = Array.from<Member>({
+            length: this.roleService.totalMembers() - team.members.length,
+          }).fill({} as Member);
           team.members = [...team.members, ...missing];
         }
         this.members = team.members.map((member) => ({ member }));
-        this.membersByRole = Array.from(this.roles.values()).reduce((m, c) => {
-          const members = team.members
-            .filter((entry) => entry.role_id === c.id)
-            .concat(allMembers[c.id]!);
+        this.membersByRole = [...this.roles.values()].reduce((m, c) => {
+          const members = [
+            ...team.members.filter((entry) => entry.role_id === c.id),
+            ...allMembers[c.id]!,
+          ];
 
           return m.set(c, members);
         }, new Map<Role, Array<Member>>());
@@ -74,6 +73,7 @@ export class EditMembersPage {
 
   protected async save(team: Team): Promise<void> {
     team.members = this.members.map((m) => m.member);
+
     return firstValueFrom(
       this.teamService.update(team).pipe(
         map(() => {

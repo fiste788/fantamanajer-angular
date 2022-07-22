@@ -2,16 +2,15 @@ import { Area } from './area.model';
 import { Role } from './role.model';
 
 export class Module {
-  public key: string;
   public label: string;
   public areas: Array<Area>;
 
-  constructor(key: string, roles: Map<number, Role>) {
-    this.key = key;
-    this.label = key.substring(key.indexOf('-') + 1);
+  constructor(public key: string, roles: Map<number, Role>) {
+    this.label = key.slice(Math.max(0, key.indexOf('-') + 1));
     const mod = key.split('-').map((c) => +c);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    this.areas = Array.from(roles.entries()).reduce((array, [_, role], index) => {
+
+    // eslint-disable-next-line unicorn/no-array-reduce
+    this.areas = [...roles.values()].reduce((array, role, index) => {
       array.push({
         fromIndex: this.getIndex(array),
         options: [],

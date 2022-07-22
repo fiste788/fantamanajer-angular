@@ -17,6 +17,7 @@ export class GoogleAnalyticsService {
     private readonly rendererFactory: RendererFactory2,
     private readonly router: Router,
   ) {
+    // eslint-disable-next-line unicorn/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
   }
 

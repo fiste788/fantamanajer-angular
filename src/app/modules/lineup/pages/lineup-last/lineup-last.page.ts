@@ -31,10 +31,12 @@ export class LineupLastPage {
 
   protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
+
     return combineLatest([team$, this.app.requireTeam$]).pipe(
       map(([team, currentTeam]) => {
         this.benchs = currentTeam.championship.number_benchwarmers;
         this.editMode = currentTeam.id === team.id;
+
         return team;
       }),
       switchMap((team) => this.lineupService.getLineup(team.id)),
@@ -43,11 +45,11 @@ export class LineupLastPage {
 
   protected async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm?.valid) {
-      // eslint-disable-next-line no-null/no-null
       lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.lineupService.create(lineup);
+
       return firstValueFrom(
         save$.pipe(
           map((response: Partial<Lineup>) => {

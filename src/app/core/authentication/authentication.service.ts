@@ -55,13 +55,13 @@ export class AuthenticationService {
 
   public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
     if (res.token) {
-      const { user } = res;
+      const { user, token } = res;
       user.roles = this.getRoles(user);
-      if (res.token) {
-        this.tokenStorageService.setToken(res.token, rememberMe ?? false);
+      if (token) {
+        this.tokenStorageService.setToken(token, rememberMe ?? false);
       }
       if (rememberMe) {
-        localStorage.setItem('user', res.user.email);
+        localStorage.setItem('user', user.email);
       }
       this.userSubject.next(user);
 
@@ -82,9 +82,10 @@ export class AuthenticationService {
   }
 
   public logoutUI(): void {
+    const user = undefined;
     localStorage.removeItem('user');
     this.tokenStorageService.deleteToken();
-    this.userSubject.next(undefined);
+    this.userSubject.next(user);
   }
 
   public loggedIn(): boolean {

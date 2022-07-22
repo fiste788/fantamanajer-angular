@@ -40,10 +40,11 @@ export class TransfertListPage {
       switchMap((team) => this.transfertService.getTransfert(team.id)),
       map((data) => {
         const ds = new MatTableDataSource<Transfert>(data);
-        if (data.length) {
+        if (data.length > 0) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.ref.detectChanges();
         }
+
         return ds;
       }),
     );

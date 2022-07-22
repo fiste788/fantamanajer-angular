@@ -36,6 +36,7 @@ export class ChampionshipDetailPage {
     const save$: Observable<AtLeast<Championship, 'id'>> = championship.id
       ? this.championshipService.update(championship as AtLeast<Championship, 'id'>)
       : this.championshipService.create(championship);
+
     return firstValueFrom(
       save$.pipe(
         map(() => {

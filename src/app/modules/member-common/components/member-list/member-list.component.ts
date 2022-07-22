@@ -90,7 +90,7 @@ export class MemberListComponent implements OnInit {
     return this.members.pipe(
       map((data) => new MatTableDataSource<Member>(data)),
       tap((ds) => {
-        if (ds.data.length) {
+        if (ds.data.length > 0) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.calcSummary(ds.data);
         }
@@ -117,7 +117,8 @@ export class MemberListComponent implements OnInit {
   }
 
   protected sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
-    if (sortHeaderId === 'player' || stats.find((s) => s === sortHeaderId)) {
+    // eslint-disable-next-line unicorn/prefer-includes
+    if (sortHeaderId === 'player' || stats.some((s) => s === sortHeaderId)) {
       let value;
       const id = sortHeaderId as Stats | 'player';
       switch (id) {
@@ -132,7 +133,7 @@ export class MemberListComponent implements OnInit {
         return value;
       }
 
-      return isNaN(+value) ? value : +value;
+      return Number.isNaN(+value) ? value : +value;
     }
 
     return 0;

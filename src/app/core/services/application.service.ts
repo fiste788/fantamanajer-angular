@@ -68,6 +68,7 @@ export class ApplicationService {
     subscriptions.add(this.refreshMatchday(appRef));
     subscriptions.add(this.refreshUser());
     subscriptions.add(this.refreshTeam());
+
     return subscriptions;
   }
 
