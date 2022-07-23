@@ -39,10 +39,10 @@ export class TeamEditModal {
       fd.set('photo', this.file);
     }
     fd.set('name', this.team.name);
-    notificationSubscriptionsKeys
+    for (const it of notificationSubscriptionsKeys
       .map((key) => `${key}_notification_subscriptions` as const)
-      .flatMap((field) => this.objectToPostParams(this.team, field))
-      .forEach((it) => fd.append(it.name, it.value));
+      .flatMap((field) => this.objectToPostParams(this.team, field)))
+      fd.append(it.name, it.value);
 
     return firstValueFrom(
       this.teamService.upload(this.team.id, fd).pipe(

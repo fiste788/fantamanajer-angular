@@ -12,7 +12,7 @@ export function getUnprocessableEntityErrors(
       data: { errors: Record<string, Record<string, unknown>> };
     };
     const { errors } = error.data;
-    Object.entries(errors).forEach(([key, value]) => controls[key]?.setErrors(value));
+    for (const [key, value] of Object.entries(errors)) controls[key]?.setErrors(value);
   }
 
   return EMPTY;

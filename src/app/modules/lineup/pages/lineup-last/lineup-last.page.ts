@@ -45,7 +45,7 @@ export class LineupLastPage {
 
   protected async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm?.valid) {
-      lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
+      for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.lineupService.create(lineup);

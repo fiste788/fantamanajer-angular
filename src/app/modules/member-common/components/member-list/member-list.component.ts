@@ -100,20 +100,21 @@ export class MemberListComponent implements OnInit {
   }
 
   protected calcSummary(data: Array<Member>): void {
-    this.displayedColumns
-      .filter((c): c is Stats => c.startsWith('sum') || c.startsWith('avg'))
-      .forEach((column) => {
-        this.footer[column] = 0;
-        const rows = data.filter((row) => row.stats && row.stats[column] > 0);
-        data.forEach((row) => {
-          if (row.stats) {
-            this.footer[column] += row.stats[column];
-          }
-        });
-        if (column.startsWith('avg')) {
-          this.footer[column] /= rows.length;
+    const statsRow = this.displayedColumns.filter(
+      (c): c is Stats => c.startsWith('sum') || c.startsWith('avg'),
+    );
+    for (const column of statsRow) {
+      this.footer[column] = 0;
+      const rows = data.filter((row) => row.stats && row.stats[column] > 0);
+      for (const row of data) {
+        if (row.stats) {
+          this.footer[column] += row.stats[column];
         }
-      });
+      }
+      if (column.startsWith('avg')) {
+        this.footer[column] /= rows.length;
+      }
+    }
   }
 
   protected sortingDataAccessor(data: Member, sortHeaderId: string): string | number {

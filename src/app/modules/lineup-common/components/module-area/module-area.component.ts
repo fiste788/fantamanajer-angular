@@ -57,7 +57,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   }
 
   protected moduleChange(): void {
-    this.module.areas.forEach((area) => {
+    for (const area of this.module.areas) {
       for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
         const disp = this.dispositions[i];
         if (disp && disp.member?.role_id !== area.role.id) {
@@ -68,7 +68,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
         member,
         disabled: this.isRegular(member),
       }));
-    });
+    }
   }
 
   protected trackByArea(_: number, item: Area): number {
@@ -92,8 +92,7 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   }
 
   private reloadRegularState(roleId?: number): void {
-    this.module.areas
-      .filter((a) => roleId === undefined || a.role.id === roleId)
-      .forEach((v) => v.options.map((o) => (o.disabled = this.isRegular(o.member))));
+    for (const v of this.module.areas.filter((a) => roleId === undefined || a.role.id === roleId))
+      v.options.map((o) => (o.disabled = this.isRegular(o.member)));
   }
 }

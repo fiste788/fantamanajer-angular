@@ -22,7 +22,7 @@ export class LineupService {
     const clonedLineup = { ...(lineup as Lineup) };
     const { dispositions } = clonedLineup;
     const disp = dispositions.filter((value) => value.member_id !== null);
-    disp.forEach((d) => (d.member = null));
+    for (const d of disp) d.member = null;
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
     cleanedLineup.dispositions = disp;
     delete cleanedLineup.team;

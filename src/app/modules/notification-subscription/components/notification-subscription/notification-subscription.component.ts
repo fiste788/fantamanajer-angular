@@ -36,7 +36,7 @@ export class NotificationSubscriptionComponent implements OnInit {
 
   protected load(): void {
     this.keys = notificationSubscriptions[this.type];
-    this.keys.forEach((element) => {
+    for (const element of this.keys) {
       let sub = this.subscriptions.find((subscription) => subscription.name === element.name);
       if (!sub) {
         sub = {
@@ -48,7 +48,7 @@ export class NotificationSubscriptionComponent implements OnInit {
         this.subscriptions.push(sub);
       }
       this.map.set(element, sub);
-    });
+    }
   }
 
   protected toggle(): void {

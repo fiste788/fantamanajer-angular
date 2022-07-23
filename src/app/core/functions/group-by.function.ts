@@ -1,6 +1,6 @@
 export function groupBy<T, K>(list: Array<T>, getKey: (item: T) => K): Map<K, Array<T>> {
   const map = new Map<K, Array<T>>();
-  list.forEach((item) => {
+  for (const item of list) {
     const key = getKey(item);
     const collection = map.get(key);
     if (!collection) {
@@ -8,7 +8,7 @@ export function groupBy<T, K>(list: Array<T>, getKey: (item: T) => K): Map<K, Ar
     } else {
       collection.push(item);
     }
-  });
+  }
 
   return map;
 }

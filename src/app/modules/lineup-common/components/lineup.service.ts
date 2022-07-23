@@ -78,7 +78,7 @@ export class LineupService {
   }
 
   public getLineup(): EmptyLineup {
-    this.lineup.dispositions.forEach((value) => (value.member_id = value.member?.id ?? null));
+    for (const value of this.lineup.dispositions) value.member_id = value.member?.id ?? null;
 
     return this.lineup;
   }
@@ -111,19 +111,19 @@ export class LineupService {
   }
 
   private reloadBenchwarmerState(): void {
-    [...this.benchOptions.values()].flat().forEach((o) => {
+    for (const o of [...this.benchOptions.values()].flat()) {
       o.disabled = this.isRegular(o.member);
-    });
+    }
   }
 
   private removeBenchwarmer(member: Member): void {
-    this.lineup.dispositions
-      .filter((element) => element.position > 11)
-      .filter((element) => element.member?.id === member.id)
-      .forEach((element) => {
-        element.member = null;
-        element.member_id = null;
-      });
+    const dispositions = this.lineup.dispositions.filter(
+      (element) => element.position > 11 && element.member?.id === member.id,
+    );
+    for (const element of dispositions) {
+      element.member = null;
+      element.member_id = null;
+    }
   }
 
   private isRegular(member: Member): boolean {

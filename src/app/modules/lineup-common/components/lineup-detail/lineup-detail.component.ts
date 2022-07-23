@@ -62,12 +62,12 @@ export class LineupDetailComponent implements OnInit {
     return firstValueFrom(
       this.lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
-          members.forEach((member) => {
+          for (const member of members) {
             const m = this.lineupService.membersById?.get(member.id);
             if (m) {
               m.likely_lineup = member.likely_lineup;
             }
-          });
+          }
         }),
         finalize(() => this.cd.detectChanges()),
       ),
