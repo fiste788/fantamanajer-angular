@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { groupBy } from '@app/functions';
 
-import { Member, Role } from '../types';
+import { Member, Module, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
@@ -17,11 +17,11 @@ export class RoleService {
   ]);
 
   public groupMembersByRole(members: Array<Member>): Map<Role, Array<Member>> {
-    return groupBy(members, ({ role }) => role);
+    return groupBy(members, ({ role_id }) => this.roles.get(role_id)!);
   }
 
-  public getById(id: number): Role | undefined {
-    return this.roles.get(id);
+  public values(): Array<Role> {
+    return [...this.roles.values()];
   }
 
   public list(): Map<number, Role> {
@@ -29,6 +29,16 @@ export class RoleService {
   }
 
   public totalMembers(): number {
-    return [...this.roles.values()].reduce((acc, c) => acc + c.count, 0);
+    return this.values().reduce((acc, c) => acc + c.count, 0);
+  }
+
+  public getModuleKey(): string {
+    return this.values()
+      .map((r) => r.count)
+      .join('-');
+  }
+
+  public getModule(): Module {
+    return new Module(this.getModuleKey(), this.roles);
   }
 }

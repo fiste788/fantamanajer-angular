@@ -11,7 +11,7 @@ export class LineupService {
 
   public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
   public membersById?: Map<number, Member>;
-  public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
+  public captains = new Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'>([
     ['C', 'captain_id'],
     ['VC', 'vcaptain_id'],
     ['VVC', 'vvcaptain_id'],
@@ -35,8 +35,8 @@ export class LineupService {
       .fill(benchs)
       .map((_, i) => i + 11);
 
-    this.membersById = flatGroupBy(lineup.team.members, ({ id }) => id);
-    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
+    this.membersById = flatGroupBy(lineup.team.members || [], ({ id }) => id);
+    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members || []);
     this.lineup = lineup;
     this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
