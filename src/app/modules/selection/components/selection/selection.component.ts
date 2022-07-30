@@ -1,12 +1,12 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, firstValueFrom, forkJoin, Observable, of } from 'rxjs';
-import { catchError, distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
 
-import { filterNil, getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { filterNil, getRouteData } from '@app/functions';
+import { save } from '@app/functions/save.function';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { MemberService, RoleService, SelectionService } from '@data/services';
@@ -34,7 +34,6 @@ export class SelectionComponent {
   private readonly role$: Observable<Role | undefined>;
 
   constructor(
-    private readonly snackBar: MatSnackBar,
     private readonly selectionService: SelectionService,
     private readonly app: ApplicationService,
     private readonly roleService: RoleService,
@@ -65,10 +64,11 @@ export class SelectionComponent {
       map(({ members, selection, newMember }) => {
         if (newMember) {
           if (selection.old_member?.role_id !== newMember.role_id) {
+            // eslint-disable-next-line unicorn/no-null
             selection.old_member = null;
           }
-          this.newMemberRoleSubject$.next(this.roleService.getById(newMember.role_id));
-          this.roleSubject$.next(this.roleService.getById(newMember.role_id));
+          this.newMemberRoleSubject$.next(this.roleService.list().get(newMember.role_id));
+          this.roleSubject$.next(this.roleService.list().get(newMember.role_id));
           selection.new_member = newMember;
           selection.new_member_id = newMember.id;
           this.changeRef.detectChanges();
@@ -113,13 +113,13 @@ export class SelectionComponent {
 
   protected oldMemberChange(member: Member | null): void {
     if (member) {
-      this.roleSubject$.next(this.roleService.getById(member.role_id));
+      this.roleSubject$.next(this.roleService.list().get(member.role_id));
     }
   }
 
   protected newMemberChange(member: Member | null): void {
     if (member) {
-      this.newMemberRoleSubject$.next(this.roleService.getById(member.role_id));
+      this.newMemberRoleSubject$.next(this.roleService.list().get(member.role_id));
     }
   }
 
@@ -129,28 +129,28 @@ export class SelectionComponent {
 
   protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm?.valid) {
-      return firstValueFrom(
-        this.app.requireTeam$.pipe(
-          map((t) => {
-            delete selection.id;
-            delete selection.team;
-            selection.team_id = t.id;
-            selection.old_member_id = selection.old_member?.id ?? 0;
-            selection.new_member_id = selection.new_member?.id ?? 0;
+      const save$ = this.app.requireTeam$.pipe(
+        map((t) => {
+          delete selection.id;
+          delete selection.team;
+          selection.team_id = t.id;
+          selection.old_member_id = selection.old_member?.id ?? 0;
+          selection.new_member_id = selection.new_member?.id ?? 0;
 
-            return selection as AtLeast<Selection, 'team_id'>;
-          }),
-          switchMap((sel) => this.selectionService.create(sel)),
-          map((res: Partial<Selection>) => {
-            this.snackBar.open('Selezione salvata correttamente');
-            if (res.id) {
-              selection.id = res.id;
-            }
-          }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.selectionForm)),
-        ),
-        { defaultValue: undefined },
+          return selection as AtLeast<Selection, 'team_id'>;
+        }),
+        switchMap((sel) => this.selectionService.create(sel)),
       );
+
+      return save(save$, undefined, {
+        message: 'Selezione salvata correttamento',
+        callback: (res: Partial<Selection>) => {
+          if (res.id) {
+            selection.id = res.id;
+          }
+        },
+        form: this.selectionForm,
+      });
     }
 
     return undefined;

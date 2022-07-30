@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { catchError, firstValueFrom, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteData } from '@app/functions';
+import { save } from '@app/functions/save.function';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
@@ -19,11 +19,7 @@ export class AddTeamPage {
   protected readonly team$: Observable<Partial<Team>>;
   protected email = '';
 
-  constructor(
-    private readonly teamService: TeamService,
-    private readonly snackBar: MatSnackBar,
-    private readonly router: Router,
-  ) {
+  constructor(private readonly teamService: TeamService, private readonly router: Router) {
     this.team$ = this.loadData();
   }
 
@@ -37,16 +33,11 @@ export class AddTeamPage {
       ? this.teamService.update(team as AtLeast<Team, 'id'>)
       : this.teamService.create(team);
 
-    return firstValueFrom(
-      save$.pipe(
-        map(async (response) => {
-          this.snackBar.open('Modifiche salvate');
-
-          return this.router.navigateByUrl(`/teams/${response.id}/admin/members`);
-        }),
-        catchError((err: unknown) => getUnprocessableEntityErrors(err, this.teamForm)),
-      ),
-      { defaultValue: false },
-    );
+    return save(save$, false, {
+      message: 'Modifiche salvate',
+      form: this.teamForm,
+      callback: async (response) =>
+        this.router.navigateByUrl(`/teams/${response.id}/admin/members`),
+    });
   }
 }

@@ -1,15 +1,15 @@
 <ng-container *ngIf="team$ | async as team">
   <form
-    *ngIf="(controlsByRole$ | async); else loading"
+    *ngIf="(data$ | async) as data; else loading"
     #lineupForm="ngForm"
-    (ngSubmit)="save(team)"
+    (ngSubmit)="save(team, data.dispositions)"
   >
     <div ngModelGroup="members">
       <app-module-area
         [module]="module"
         [wrap]="true"
-        [membersByRole]="membersByRole"
-        [dispositions]="members"
+        [membersByRole]="data.membersByRole"
+        [dispositions]="data.dispositions"
       >
       </app-module-area>
     </div>

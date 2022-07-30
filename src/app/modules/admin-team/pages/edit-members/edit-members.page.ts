@@ -1,13 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, forkJoin, Observable } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
-import { getRouteData, getUnprocessableEntityErrors, groupBy } from '@app/functions';
+import { getRouteData } from '@app/functions';
+import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
 
+interface Data {
+  dispositions: Array<{ member: Member }>;
+  membersByRole: Map<Role, Array<Member>>;
+}
 @Component({
   styleUrls: ['./edit-members.page.scss'],
   templateUrl: './edit-members.page.html',
@@ -17,50 +21,49 @@ export class EditMembersPage {
 
   protected readonly roles: Map<number, Role>;
   protected readonly module: Module;
-  protected readonly controlsByRole$: Observable<boolean>;
+  protected readonly data$: Observable<Data>;
   protected readonly team$: Observable<Team>;
-  protected members!: Array<{ member: Member }>;
-  protected membersByRole!: Map<Role, Array<Member>>;
 
   constructor(
     private readonly roleService: RoleService,
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
-    private readonly snackBar: MatSnackBar,
   ) {
-    this.roles = this.roleService.list();
-    const key = [...this.roles.values()].map((r) => r.count).join('-');
-    this.module = new Module(key, this.roles);
     this.team$ = getRouteData<Team>('team');
-    this.controlsByRole$ = this.team$.pipe(switchMap((team) => this.loadMembers(team)));
+    this.roles = this.roleService.list();
+    this.module = this.roleService.getModule();
+    this.data$ = this.team$.pipe(switchMap((team) => this.loadData(team)));
   }
 
-  protected loadMembers(team: Team): Observable<boolean> {
+  protected loadData(team: Team): Observable<Data> {
     return forkJoin([
       this.memberService.getByTeamId(team.id),
       this.memberService.getAllFree(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
-        team.members = teamMembers.slice(0, this.roleService.totalMembers());
-        if (team.members.length < this.roleService.totalMembers()) {
-          const missing = Array.from<Member>({
-            length: this.roleService.totalMembers() - team.members.length,
-          }).fill({} as Member);
-          team.members = [...team.members, ...missing];
-        }
-        this.members = team.members.map((member) => ({ member }));
-        this.membersByRole = [...this.roles.values()].reduce((m, c) => {
-          const members = [
-            ...team.members.filter((entry) => entry.role_id === c.id),
-            ...allMembers[c.id]!,
-          ];
+        const members = this.fixMissingMembers(team.members ?? [], teamMembers);
+        const dispositions = members.map((member) => ({ member }));
 
-          return m.set(c, members);
+        // eslint-disable-next-line unicorn/no-array-reduce
+        const membersByRole = this.roleService.values().reduce((m, c) => {
+          return m.set(c, [
+            ...members.filter((entry) => entry.role_id === c.id),
+            ...allMembers[c.id]!,
+          ]);
         }, new Map<Role, Array<Member>>());
 
-        return true;
+        return { dispositions, membersByRole };
       }),
     );
+  }
+
+  protected async save(team: Team, dispositions: Array<{ member: Member }>): Promise<void> {
+    team.members = dispositions.map((m) => m.member);
+
+    return save(this.teamService.update(team), undefined, {
+      message: 'Giocatori modificati',
+      form: this.membersForm,
+    });
   }
 
   protected compareTeam(c1: Team | null, c2: Team | null): boolean {
@@ -71,17 +74,17 @@ export class EditMembersPage {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  protected async save(team: Team): Promise<void> {
-    team.members = this.members.map((m) => m.member);
+  private fixMissingMembers(members: Array<Member>, teamMembers: Array<Member>): Array<Member> {
+    const membersCount = this.roleService.totalMembers();
+    teamMembers.slice(0, membersCount);
+    if (members.length < membersCount) {
+      const missing = Array.from<Member>({
+        length: membersCount - members.length,
+      }).fill({} as Member);
 
-    return firstValueFrom(
-      this.teamService.update(team).pipe(
-        map(() => {
-          this.snackBar.open('Giocatori modificati');
-        }),
-        catchError((err: unknown) => getUnprocessableEntityErrors(err, this.membersForm)),
-      ),
-      { defaultValue: undefined },
-    );
+      return [...members, ...missing];
+    }
+
+    return members;
   }
 }

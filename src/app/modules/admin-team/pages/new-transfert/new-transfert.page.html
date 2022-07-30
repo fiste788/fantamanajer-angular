@@ -5,6 +5,17 @@
   fxLayoutAlign="start start"
   (ngSubmit)="submit(team)"
 >
+  <app-member-selection
+    *ngIf="oldMembers$ | async as oldMembers"
+    name="old_member"
+    placeholder="Vecchio giocatore"
+    [height]="450"
+    [members]="oldMembers"
+    [width]="320"
+    [ngModel]="transfert.old_member"
+    (ngModelChange)="playerChange($event.value)"
+  >
+  </app-member-selection>
   <mat-form-field>
     <mat-select
       name="old_member"
@@ -12,7 +23,7 @@
       placeholder="Vecchio giocatore"
       [compareWith]="compareFn"
       [(ngModel)]="transfert.old_member"
-      (selectionChange)="playerChange(team, $event.value)"
+      (selectionChange)="playerChange($event.value)"
     >
       <mat-option
         *ngFor="let member of oldMembers$ | async; trackBy: track"

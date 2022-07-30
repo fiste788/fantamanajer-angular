@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteData } from '@app/functions';
+import { save } from '@app/functions/save.function';
 import { ScoreService } from '@data/services';
 import { Lineup, Score, Team } from '@data/types';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
@@ -20,7 +20,7 @@ export class ScoreEditPage {
   protected score$?: Observable<Score>;
   protected readonly scores$: Observable<Array<Score>>;
 
-  constructor(private readonly scoreService: ScoreService, private readonly snackBar: MatSnackBar) {
+  constructor(private readonly scoreService: ScoreService) {
     this.scores$ = this.loadData();
   }
 
@@ -38,15 +38,10 @@ export class ScoreEditPage {
     if (this.lineupDetail) {
       score.lineup = this.lineupDetail.getLineup() as Lineup;
 
-      return firstValueFrom(
-        this.scoreService.update(score).pipe(
-          map(() => {
-            this.snackBar.open('Punteggio modificato');
-          }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.scoreForm)),
-        ),
-        { defaultValue: undefined },
-      );
+      return save(this.scoreService.update(score), undefined, {
+        message: 'Punteggio modificato',
+        form: this.scoreForm,
+      });
     }
 
     return undefined;
