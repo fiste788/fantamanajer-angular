@@ -9,6 +9,7 @@ const routes = {
   best: `/${url}/best`,
   club: (id: number) => `/clubs/${id}/${url}`,
   free: (id: number) => `/championships/${id}/${url}/free`,
+  freeByRole: (id: number, role: number) => `/championships/${id}/${url}/free/${role}`,
   member: (id: number) => `/${url}/${id}`,
   notMine: (id: number, roleId: number) => `/teams/${id}/${url}/not_mine/${roleId}`,
   team: (id: number) => `/teams/${id}/${url}`,
@@ -23,17 +24,17 @@ export class MemberService {
     if (!stats) {
       params = params.set('stats', '0');
     }
+    const path = roleId ? routes.freeByRole(championshipId, roleId) : routes.free(championshipId);
 
-    return this.http.get<Array<Member>>(
-      routes.free(championshipId) + (roleId ? `/${roleId}` : ''),
-      { params },
-    );
+    return this.http.get<Array<Member>>(path, { params });
   }
 
-  public getAllFree(championshipId: number): Observable<Record<number, Array<Member>>> {
+  public getAllFree(championshipId: number): Observable<Record<Role['id'], Array<Member>>> {
     const params = new HttpParams().set('stats', '0');
 
-    return this.http.get<Record<number, Array<Member>>>(routes.free(championshipId), { params });
+    return this.http.get<Record<Role['id'], Array<Member>>>(routes.free(championshipId), {
+      params,
+    });
   }
 
   public getBest(): Observable<Array<Role>> {

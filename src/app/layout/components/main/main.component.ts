@@ -154,10 +154,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateSticky(offset: number): void {
-    this.document.querySelectorAll('.sticky').forEach((e: Element) => {
-      if (e instanceof HTMLElement) {
-        e.style.top = `${offset}px`;
-      }
+    // eslint-disable-next-line unicorn/no-array-for-each
+    this.document.querySelectorAll<HTMLElement>('.sticky').forEach((e) => {
+      e.style.top = `${offset}px`;
     });
     this.changeRef.detectChanges();
   }

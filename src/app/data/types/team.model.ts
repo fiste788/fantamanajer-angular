@@ -9,7 +9,7 @@ export interface Team {
   admin: boolean;
   user_id: number;
   user: User;
-  members: Array<Member>;
+  members?: Array<Member>;
   championship_id: number;
   championship: Championship;
   photo_url: Record<string, string> | null;

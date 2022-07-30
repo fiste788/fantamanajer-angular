@@ -13,7 +13,7 @@
     class="mat-icon number"
     [matTooltip]="'Ballottaggio ' + (like.second_ballot / 100 | percent)"
   >
-    {{(like.second_ballot || 100) / 100 | percent}}
+    {{like.second_ballot / 100 | percent}}
   </span>
   <mat-icon
     *ngIf="!like.regular"
