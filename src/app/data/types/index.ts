@@ -1,6 +1,7 @@
 export * from './area.model';
 export * from './article.model';
 export * from './championship.model';
+export * from './captains';
 export * from './club.model';
 export * from './disposition.model';
 export * from './email-subscription.model';

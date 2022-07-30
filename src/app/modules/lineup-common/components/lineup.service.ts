@@ -2,16 +2,24 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 import { flatGroupBy } from '@app/functions';
 import { RoleService } from '@data/services';
-import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
+import {
+  Captains,
+  Disposition,
+  EmptyLineup,
+  Member,
+  MemberOption,
+  Module,
+  Role,
+} from '@data/types';
 import { environment } from '@env';
 
 @Injectable()
 export class LineupService {
   public lineup!: EmptyLineup;
 
-  public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
+  public benchOptions?: Array<MemberOption>;
   public membersById?: Map<number, Member>;
-  public captains: Map<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'> = new Map([
+  public captains: Map<string, Captains> = new Map<string, Captains>([
     ['C', 'captain_id'],
     ['VC', 'vcaptain_id'],
     ['VVC', 'vvcaptain_id'],
@@ -31,24 +39,18 @@ export class LineupService {
     benchs: number = environment.benchwarmersCount,
   ): EmptyLineup {
     lineup.team_id = lineup.team_id ?? lineup.team.id;
+    const members = lineup.team.members ?? [];
     this.benchs = Array.from({ length: benchs })
       .fill(benchs)
       .map((_, i) => i + 11);
 
-    this.membersById = flatGroupBy(lineup.team.members, ({ id }) => id);
-    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members);
+    this.membersById = flatGroupBy(members, ({ id }) => id);
+    this.membersByRole = this.roleService.groupMembersByRole(members);
     this.lineup = lineup;
     this.lineup.dispositions = this.loadDispositions(lineup);
+    this.benchOptions = members.map((member) => ({ member, disabled: false }));
     this.loadModules();
     this.captainSelectionChange();
-    this.benchOptions = [...this.membersByRole.entries()].reduce(
-      (m, [k, v]) =>
-        m.set(
-          k,
-          v.map((member) => ({ member, disabled: false })),
-        ),
-      new Map<Role, Array<MemberOption>>(),
-    );
     this.reloadBenchwarmerState();
 
     return this.lineup;
@@ -111,8 +113,10 @@ export class LineupService {
   }
 
   private reloadBenchwarmerState(): void {
-    for (const o of [...this.benchOptions.values()].flat()) {
-      o.disabled = this.isRegular(o.member);
+    if (this.benchOptions) {
+      for (const o of [...this.benchOptions.values()].flat()) {
+        o.disabled = this.isRegular(o.member);
+      }
     }
   }
 

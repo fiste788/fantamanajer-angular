@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, switchMap } from 'rxjs';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteData } from '@app/functions';
+import { save } from '@app/functions/save.function';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { LineupService } from '@data/services';
@@ -45,23 +46,21 @@ export class LineupLastPage {
 
   protected async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm?.valid) {
+      // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.lineupService.create(lineup);
 
-      return firstValueFrom(
-        save$.pipe(
-          map((response: Partial<Lineup>) => {
-            if (response.id) {
-              lineup.id = response.id;
-            }
-            this.snackBar.open('Formazione salvata correttamente');
-          }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.lineupForm)),
-        ),
-        { defaultValue: undefined },
-      );
+      return save(save$, undefined, {
+        message: 'Formazione salvata correttamente',
+        form: this.lineupForm,
+        callback: (response: Partial<Lineup>) => {
+          if (response.id) {
+            lineup.id = response.id;
+          }
+        },
+      });
     }
     this.snackBar.open('Si sono verificati errori di validazione');
 

@@ -1,19 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChange,
-} from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ControlContainer, NgModelGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { Area, Member, Module, Role } from '@data/types';
 
 export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
-  [Key in keyof Props]?: SimpleChange;
+  [Key in keyof Props]?: {
+    previousValue: Props[Key];
+    currentValue: Props[Key];
+    firstChange: boolean;
+    isFirstChange(): boolean;
+  };
 };
 
 type MarkFunctionPropertyNames<Component> = {
@@ -29,7 +26,7 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   selector: 'app-module-area[module][dispositions]',
   styleUrls: ['./module-area.component.scss'],
   templateUrl: './module-area.component.html',
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
 })
 export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() public module!: Module;
@@ -46,7 +43,6 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.moduleChange();
-    // this.moduleChange$.subscribe(() => this.moduleChange());
   }
 
   public ngOnChanges(changes: NgChanges<ModuleAreaComponent>): void {

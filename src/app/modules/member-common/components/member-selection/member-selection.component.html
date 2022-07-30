@@ -5,13 +5,13 @@
 >
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
-      <app-player-image [member]="member || undefined"></app-player-image>
+      <app-player-image [member]="value || undefined"></app-player-image>
     </div>
     <app-member-icons
-      *ngIf="member && member?.likely_lineup"
+      *ngIf="value && value?.likely_lineup"
       @createBox
       [captain]="captain"
-      [member]="member"
+      [member]="value"
       [circle]="true"
     >
     </app-member-icons>
@@ -23,25 +23,23 @@
     [required]="required"
     [name]="name"
     [compareWith]="compareFn"
-    [(ngModel)]="member"
-    (ngModelChange)="change($event)"
+    [(ngModel)]="value"
   >
     <mat-option>{{placeholder}}</mat-option>
-    <mat-select-trigger *ngIf="member">
-      {{member.player.full_name}}
+    <mat-select-trigger *ngIf="value">
+      {{value.player.full_name}}
     </mat-select-trigger>
-    <ng-container *ngIf="memberList?.length">
+    <ng-container *ngIf="group === false else optgroup">
       <mat-option
-        *ngFor="let opt of memberList; trackBy: track"
+        *ngFor="let opt of memberOptions; trackBy: track"
         [value]="opt.member"
-        [disabled]="opt.disabled"
       >
         <app-member-icons [member]="opt.member"></app-member-icons>
       </mat-option>
     </ng-container>
-    <ng-container *ngIf="memberMap">
+    <ng-template #optgroup>
       <mat-optgroup
-        *ngFor="let role of (memberMap | keyvalue), trackBy: trackMember"
+        *ngFor="let role of (memberOptionsMap | keyvalue), trackBy: trackMember"
         [label]="role.key.plural"
       >
         <mat-option
@@ -52,12 +50,12 @@
           <app-member-icons [member]="opt.member"></app-member-icons>
         </mat-option>
       </mat-optgroup>
-    </ng-container>
+    </ng-template>
   </mat-select>
   <mat-error *ngIf="memberSelection.errors?.['required']">Seleziona il giocatore</mat-error>
-  <mat-hint *ngIf="member?.stats">
-    <span>Ø P.ti: {{member?.stats?.avg_points | number: '1.1-1'}}</span> -
-    <span>Ø Voti: {{member?.stats?.avg_rating | number: '1.1-1'}}</span> -
-    <span>Σ Gol: {{member?.role_id !== 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against}}</span>
+  <mat-hint *ngIf="value?.stats">
+    <span>Ø P.ti: {{value?.stats?.avg_points | number: '1.1-1'}}</span> -
+    <span>Ø Voti: {{value?.stats?.avg_rating | number: '1.1-1'}}</span> -
+    <span>Σ Gol: {{value?.role_id !== 1 ? value?.stats?.sum_goals : value?.stats?.sum_goals_against}}</span>
   </mat-hint>
 </mat-form-field>

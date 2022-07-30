@@ -19,20 +19,21 @@
         [ngModelGroup]="i + ''"
       >
         <app-member-selection
+          *ngIf="dispositions[i] as disp"
           fxLayout="row"
           fxLayout.gt-sm="column"
           fxLayoutAlign="start center"
           class="regular"
-          name="member"
-          [captain]="dispositions[i]?.member?.id === captain?.id"
+          [name]="'member' + i"
+          [captain]="disp.member?.id === captain?.id"
           [disabled]="disabled"
           [height]="450"
-          [memberList]="area.options"
+          [members]="area.options"
           [placeholder]="area.role.singolar"
           [required]="true"
           [width]="320"
-          [(member)]="dispositions[i]!.member"
-          (memberChange)="memberSelectionChange(area.role, $event)"
+          [ngModel]="disp.member ?? undefined"
+          (ngModelChange)="memberSelectionChange(area.role, $event)"
         >
         </app-member-selection>
       </ng-container>
