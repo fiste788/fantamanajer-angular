@@ -42,6 +42,7 @@
             <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
               <div [ngModelGroup]="bench + ''">
                 <app-member-selection
+                  *ngIf="lineup.dispositions[bench] as disp"
                   fxLayout="row"
                   fxLayoutAlign="start center"
                   class="benchwarmer"
@@ -51,7 +52,7 @@
                   [memberMap]="lineupService.benchOptions"
                   [placeholder]="'Panchinaro ' + (bench - 10)"
                   [width]="320"
-                  [(member)]="lineup.dispositions[bench]!.member"
+                  [member]="disp.member ?? undefined"
                   (memberChange)="lineupService.benchwarmerSelectionChange($event)"
                 >
                 </app-member-selection>

@@ -24,7 +24,7 @@
     [name]="name"
     [compareWith]="compareFn"
     [(ngModel)]="member"
-    (ngModelChange)="change($event)"
+    (selectionChange)="change($event.value)"
   >
     <mat-option>{{placeholder}}</mat-option>
     <mat-select-trigger *ngIf="member">

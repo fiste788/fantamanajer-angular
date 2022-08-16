@@ -69,7 +69,7 @@ export class LineupService {
     this.selectionChange.emit(member);
   }
 
-  public benchwarmerSelectionChange(member?: Member | null): void {
+  public benchwarmerSelectionChange(member?: Member | undefined): void {
     this.selectionChange.emit(member);
   }
 

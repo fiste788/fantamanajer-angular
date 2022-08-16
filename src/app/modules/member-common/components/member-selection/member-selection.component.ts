@@ -25,7 +25,7 @@ import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animatio
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() public member!: Member | null;
+  @Input() public member!: Member | undefined;
   @Input() public name!: string;
   @Input() public disabled = false;
   @Input() public required = false;
@@ -38,25 +38,27 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() public captain = false;
 
   @Output()
-  public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
+  public readonly memberChange: EventEmitter<Member | undefined> = new EventEmitter<
+    Member | undefined
+  >();
 
   @HostBinding('@lineupDisposition') protected lineupDisposition = '';
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onChange = (_: Member | null): void => undefined;
+  public onChange = (_: Member | undefined): void => undefined;
   public onTouched = (): void => undefined;
 
-  get val(): Member | null {
+  get val(): Member | undefined {
     return this.member;
   }
 
-  set val(val: Member | null) {
+  set val(val: Member | undefined) {
     this.member = val;
     this.onChange(val);
     this.onTouched();
   }
 
-  public registerOnChange(fn: (member: Member | null) => undefined): void {
+  public registerOnChange(fn: (member: Member | undefined) => undefined): void {
     this.onChange = fn;
   }
 
@@ -64,13 +66,13 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  public change(event: Member | null): void {
-    this.member = event;
+  public change(event: Member | undefined): void {
+    this.writeValue(event);
     this.memberChange.emit(event);
   }
 
-  public writeValue(value: Member | null): void {
-    this.member = value;
+  public writeValue(obj: Member | undefined): void {
+    this.member = obj;
   }
 
   public track(_: number, option: MemberOption): number {
@@ -81,7 +83,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     return option.key.id;
   }
 
-  public compareFn(t1: Member | null, t2: Member | null): boolean {
+  public compareFn(t1: Member | undefined, t2: Member | undefined): boolean {
     return t1?.id === t2?.id;
   }
 }

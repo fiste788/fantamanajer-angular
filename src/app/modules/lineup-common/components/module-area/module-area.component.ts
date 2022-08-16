@@ -41,8 +41,8 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   @Output() public readonly selectionChange: EventEmitter<{
     role: Role;
-    member: Member | null;
-  }> = new EventEmitter<{ role: Role; member: Member | null }>();
+    member: Member | undefined;
+  }> = new EventEmitter<{ role: Role; member: Member | undefined }>();
 
   public ngOnInit(): void {
     this.moduleChange();
@@ -79,7 +79,12 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     return item; // or item.id
   }
 
-  protected memberSelectionChange(role: Role, member: Member | null): void {
+  protected memberSelectionChange(
+    role: Role,
+    member: Member | undefined,
+    disp: { member: Member | null },
+  ): void {
+    disp.member = member ?? null;
     this.reloadRegularState(role.id);
     this.selectionChange.emit({ role, member });
   }

@@ -19,6 +19,7 @@
         [ngModelGroup]="i + ''"
       >
         <app-member-selection
+          *ngIf="dispositions[i] as disp"
           fxLayout="row"
           fxLayout.gt-sm="column"
           fxLayoutAlign="start center"
@@ -31,8 +32,8 @@
           [placeholder]="area.role.singolar"
           [required]="true"
           [width]="320"
-          [(member)]="dispositions[i]!.member"
-          (memberChange)="memberSelectionChange(area.role, $event)"
+          [member]="disp.member ?? undefined"
+          (memberChange)="memberSelectionChange(area.role, $event, disp)"
         >
         </app-member-selection>
       </ng-container>

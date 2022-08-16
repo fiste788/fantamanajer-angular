@@ -58,12 +58,16 @@ export class EditMembersPage {
   }
 
   protected async save(team: Team, dispositions: Array<{ member: Member }>): Promise<void> {
-    team.members = dispositions.map((m) => m.member);
+    if (this.membersForm?.valid) {
+      team.members = dispositions.map((m) => m.member);
 
-    return save(this.teamService.update(team), undefined, {
-      message: 'Giocatori modificati',
-      form: this.membersForm,
-    });
+      return save(this.teamService.update(team), undefined, {
+        message: 'Giocatori modificati',
+        form: this.membersForm,
+      });
+    }
+
+    return undefined;
   }
 
   protected compareTeam(c1: Team | null, c2: Team | null): boolean {

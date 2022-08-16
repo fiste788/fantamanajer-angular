@@ -6,23 +6,22 @@ import {
   ValidationErrors,
   Validator,
   FormGroup,
-  FormArray,
   FormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
 
-import { Lineup } from '@data/types';
+import { Lineup, Member } from '@data/types';
 
 type NonUndefined<T> = T extends undefined ? never : T;
 
 export type ControlsOf<T extends Record<string, any>> = {
   [K in keyof T]: NonUndefined<T[K]> extends AbstractControl
     ? T[K]
-    : NonUndefined<T[K]> extends Array<infer R>
-    ? FormArray<FormControl<ControlsOf<R>>>
     : NonUndefined<T[K]> extends Record<any, any>
     ? FormGroup<ControlsOf<T[K]>>
     : FormControl<T[K]>;
 };
+
 @Directive({
   providers: [
     {
@@ -36,23 +35,32 @@ export type ControlsOf<T extends Record<string, any>> = {
 export class MemberAlreadySelectedValidator implements Validator {
   @Input('appMemberAlreadySelected') public lineup!: Partial<Lineup>;
 
-  public validate(formGroup: FormGroup<ControlsOf<Partial<Lineup>>>): ValidationErrors | null {
-    const disp = formGroup.controls.dispositions;
+  public validate(formGroup: UntypedFormGroup): ValidationErrors | null {
+    const disp = formGroup.controls['dispositions'] as FormGroup | undefined;
     if (disp) {
-      const ids = disp.controls.map((v) => v.value.member.value?.id);
+      const ids = Object.values(disp.controls)
+        .filter((v): v is FormGroup => v instanceof FormGroup)
+        .map((v: FormGroup) => {
+          const control = v.controls['member']?.value as Member | undefined | null;
+
+          return control?.id;
+        });
       const dup = new Set(ids.filter((item, index) => ids.indexOf(item) !== index));
+      Object.values(disp.controls)
+        .filter((c): c is FormGroup => c instanceof FormGroup)
+        .map((c) => {
+          const member = c.controls['member']?.value as Member | undefined | null;
+          if (member && dup.has(member.id)) {
+            c.controls['member']?.setErrors({ duplicate: true });
 
-      return disp.controls.map((c) => {
-        const member = c.value.member.value;
-        // eslint-disable-next-line unicorn/no-null
-        const errors = member && dup.has(member.id) ? { duplicate: true } : null;
-        c.value.member.setErrors(errors);
+            return { duplicate: true };
+          }
+          c.controls['member']?.setErrors(null);
 
-        return errors;
-      });
+          return null;
+        });
     }
 
-    // eslint-disable-next-line unicorn/no-null
     return null;
   }
 }
