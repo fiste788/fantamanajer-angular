@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 

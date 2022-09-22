@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { SwPush } from '@angular/service-worker';
 import { EMPTY, firstValueFrom, from, merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';

@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';

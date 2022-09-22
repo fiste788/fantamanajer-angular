@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { ngfModule } from 'angular-file';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';

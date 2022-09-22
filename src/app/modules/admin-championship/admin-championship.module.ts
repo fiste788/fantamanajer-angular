@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
 
 import { SharedModule } from '@shared/shared.module';
 
