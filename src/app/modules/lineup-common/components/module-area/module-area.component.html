@@ -32,8 +32,8 @@
           [placeholder]="area.role.singolar"
           [required]="true"
           [width]="320"
-          [member]="disp.member ?? undefined"
-          (memberChange)="memberSelectionChange(area.role, $event, disp)"
+          [(member)]="disp.member"
+          (memberChange)="memberSelectionChange(area.role, $event)"
         >
         </app-member-selection>
       </ng-container>

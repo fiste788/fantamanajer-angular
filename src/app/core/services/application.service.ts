@@ -1,5 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, APP_INITIALIZER, Inject, Injectable, Provider } from '@angular/core';
+import {
+  ApplicationRef,
+  APP_INITIALIZER,
+  Inject,
+  Injectable,
+  Provider,
+  inject,
+} from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, Subject, Subscription, interval } from 'rxjs';
 import {
   catchError,
@@ -63,9 +70,9 @@ export class ApplicationService {
     );
   }
 
-  public connect(appRef: ApplicationRef): Subscription {
+  public connect(): Subscription {
     const subscriptions = new Subscription();
-    subscriptions.add(this.refreshMatchday(appRef));
+    subscriptions.add(this.refreshMatchday(inject(ApplicationRef)));
     subscriptions.add(this.refreshUser());
     subscriptions.add(this.refreshTeam());
 

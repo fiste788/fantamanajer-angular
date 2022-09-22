@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { defaultIfEmpty, map, Observable } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
@@ -20,7 +21,10 @@ export class ChampionshipDetailPage {
   protected readonly championship$: Observable<Partial<Championship>>;
   protected readonly league$: Observable<Partial<League>>;
 
-  constructor(private readonly championshipService: ChampionshipService) {
+  constructor(
+    private readonly championshipService: ChampionshipService,
+    private readonly snackbar: MatSnackBar,
+  ) {
     this.championship$ = getRouteData<Championship>('championship').pipe(defaultIfEmpty({}));
     this.league$ = this.championship$.pipe(map((c) => c.league ?? {}));
   }
@@ -34,7 +38,10 @@ export class ChampionshipDetailPage {
       ? this.championshipService.update(championship as AtLeast<Championship, 'id'>)
       : this.championshipService.create(championship);
 
-    return save(save$, undefined, { message: 'Modifiche salvate', form: this.championshipForm });
+    return save(save$, undefined, this.snackbar, {
+      message: 'Modifiche salvate',
+      form: this.championshipForm,
+    });
   }
 
   protected formatLabel(value: number): string {

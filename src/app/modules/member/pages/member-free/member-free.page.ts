@@ -1,6 +1,6 @@
 import { KeyValue } from '@angular/common';
-import { ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AfterViewInit, Component, HostBinding, ViewChild } from '@angular/core';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { getRouteData } from '@app/functions';
@@ -15,43 +15,46 @@ import { tableRowAnimation } from '@shared/animations';
   styleUrls: ['./member-free.page.scss'],
   templateUrl: './member-free.page.html',
 })
-export class MemberFreePage implements OnInit {
+export class MemberFreePage implements AfterViewInit {
   @HostBinding('@tableRowAnimation') protected tableRowAnimation = '';
   @ViewChild(MemberListComponent) protected memberList?: MemberListComponent;
 
   public members$?: Observable<Array<Member>>;
   public selectedMember$?: Observable<Member | undefined>;
-  public role: Role | undefined;
+  public role$: BehaviorSubject<Role | undefined>;
   protected readonly roles: Map<number, Role>;
+  private readonly championship$: Observable<Championship>;
 
   constructor(
     protected readonly app: ApplicationService,
-    private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly roleService: RoleService,
   ) {
+    this.championship$ = getRouteData<Championship>('championship');
     this.roles = this.roleService.list();
+    this.role$ = new BehaviorSubject(this.roles.get(0));
+    this.members$ = this.getMembers();
   }
 
-  public ngOnInit(): void {
-    this.roleChange(this.roles.get(0));
-  }
-
-  protected roleChange(role?: Role): void {
-    this.members$ = undefined;
-    this.changeRef.detectChanges();
-    this.members$ = getRouteData<Championship>('championship').pipe(
-      switchMap((c) => this.memberService.getFree(c.id, role?.id)),
-    );
-
-    if (this.memberList) {
-      this.selectedMember$ = this.memberList.selection.changed.pipe(
-        map((m) => m.source.selected[0]),
-      );
-    }
+  public ngAfterViewInit(): void {
+    this.selectedMember$ = this.getSelectedMember();
   }
 
   protected track(_: number, item: KeyValue<number, Role>): number {
     return item.value.id; // or item.id
+  }
+
+  protected compareRole(role1: Role, role2: Role): boolean {
+    return role1.id === role2.id;
+  }
+
+  private getMembers(): Observable<Array<Member>> {
+    return combineLatest([this.role$, this.championship$]).pipe(
+      switchMap(([role, c]) => this.memberService.getFree(c.id, role?.id)),
+    );
+  }
+
+  private getSelectedMember(): Observable<Member | undefined> | undefined {
+    return this.memberList?.selection.changed.pipe(map((m) => m.source.selected[0]));
   }
 }

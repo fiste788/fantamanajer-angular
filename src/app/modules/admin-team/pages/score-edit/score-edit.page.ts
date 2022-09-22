@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
@@ -20,7 +21,7 @@ export class ScoreEditPage {
   protected score$?: Observable<Score>;
   protected readonly scores$: Observable<Array<Score>>;
 
-  constructor(private readonly scoreService: ScoreService) {
+  constructor(private readonly scoreService: ScoreService, private readonly snackbar: MatSnackBar) {
     this.scores$ = this.loadData();
   }
 
@@ -38,7 +39,7 @@ export class ScoreEditPage {
     if (this.lineupDetail) {
       score.lineup = this.lineupDetail.getLineup() as Lineup;
 
-      return save(this.scoreService.update(score), undefined, {
+      return save(this.scoreService.update(score), undefined, this.snackbar, {
         message: 'Punteggio modificato',
         form: this.scoreForm,
       });

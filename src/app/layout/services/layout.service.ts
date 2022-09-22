@@ -1,8 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
+import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { concatMap, distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
@@ -26,6 +27,7 @@ export class LayoutService {
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
     private readonly scrollService: ScrollService,
+    private readonly router: Router,
   ) {
     this.isHandset$ = this.breakpointObserver
       .observe(Breakpoints.Handset)
@@ -51,6 +53,37 @@ export class LayoutService {
         }
       }),
     );
+  }
+
+  public connectChangePageAnimation(container: MatSidenavContent): Subscription {
+    return this.router.events
+      .pipe(
+        filter((evt): evt is RoutesRecognized => evt instanceof RoutesRecognized),
+        pairwise(),
+        filter(
+          (events: Array<RoutesRecognized>) =>
+            events[0]?.urlAfterRedirects.split('/')[1] !==
+            events[1]?.urlAfterRedirects.split('/')[1],
+        ),
+        concatMap(() => this.router.events),
+        filter((event) => event instanceof NavigationEnd),
+      )
+      .subscribe(() => {
+        container.scrollTo({ top: 0 });
+        this.showToolbar();
+        this.showSpeedDial();
+      });
+
+    /* return this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        tap((event: NavigationEnd) => {
+          event.container.scrollTo({ top: 0 });
+          this.showToolbar();
+          this.showSpeedDial();
+        }),
+      )
+      .subscribe(); */
   }
 
   public connectScrollAnimation(

@@ -3,7 +3,10 @@
   "short_name": "FantaManajer",
   "lang": "it-IT",
   "description": "Gestisci la tua lega del fantacalcio",
-  "categories": "sports",
+  "categories": [
+    "sports",
+    "games"
+  ],
   "id": "/",
   "prefer_related_applications": false,
   "icons": [
@@ -14,16 +17,22 @@
       "purpose": "maskable"
     },
     {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/assets/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "/assets/icons/icon-monochrome.png",
+      "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "monochrome"
     }
   ],
   "theme_color": "#00bcd4",
@@ -35,19 +44,40 @@
       "name": "Inserisci formazione",
       "short_name": "Formazione",
       "description": "Inserisci la formazione per la giornata corrente",
-      "url": "/lineups/new"
+      "url": "/lineups/new",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcuts/lineup.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Nuovo trasferimento",
       "short_name": "Trasferimento",
       "description": "Seleziona un nuovo giocatore da acquistare",
-      "url": "/transferts/new"
+      "url": "/transferts/new",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcuts/transfert.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Nuovo conferenza stampa",
       "short_name": "Conferenza",
       "description": "Inserisci una conferenza stampa",
-      "url": "/articles/new"
+      "url": "/articles/new",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcuts/article.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

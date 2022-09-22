@@ -45,6 +45,7 @@ export class LineupLastPage {
 
   protected async save(lineup: EmptyLineup): Promise<void> {
     if (this.lineupForm?.valid) {
+      // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
         ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)

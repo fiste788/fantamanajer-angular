@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
@@ -19,7 +20,11 @@ export class AddTeamPage {
   protected readonly team$: Observable<Partial<Team>>;
   protected email = '';
 
-  constructor(private readonly teamService: TeamService, private readonly router: Router) {
+  constructor(
+    private readonly teamService: TeamService,
+    private readonly router: Router,
+    private readonly snackbar: MatSnackBar,
+  ) {
     this.team$ = this.loadData();
   }
 
@@ -33,7 +38,7 @@ export class AddTeamPage {
       ? this.teamService.update(team as AtLeast<Team, 'id'>)
       : this.teamService.create(team);
 
-    return save(save$, false, {
+    return save(save$, false, this.snackbar, {
       message: 'Modifiche salvate',
       form: this.teamForm,
       callback: async (response) =>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ENVIRONMENT_INITIALIZER, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +15,7 @@ import {
   SpeedDialComponent,
   ToolbarComponent,
 } from './components';
+import { LayoutService } from './services';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,15 @@ import {
     MatIconModule,
     MatBadgeModule,
     EcoFabSpeedDialModule,
+  ],
+  providers: [
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      multi: true,
+      useValue() {
+        inject(LayoutService).init().subscribe();
+      },
+    },
   ],
 })
 export class LayoutModule {}

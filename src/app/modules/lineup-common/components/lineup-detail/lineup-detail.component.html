@@ -52,7 +52,7 @@
                   [memberMap]="lineupService.benchOptions"
                   [placeholder]="'Panchinaro ' + (bench - 10)"
                   [width]="320"
-                  [member]="disp.member ?? undefined"
+                  [(member)]="disp.member"
                   (memberChange)="lineupService.benchwarmerSelectionChange($event)"
                 >
                 </app-member-selection>

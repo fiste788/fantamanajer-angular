@@ -55,11 +55,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  public async install(event: BeforeInstallPromptEvent): Promise<void> {
-    void event.prompt();
+  public async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
+    event.preventDefault();
+    await prompt.prompt();
 
-    return event.userChoice.then(() => {
-      this.deferredPrompt$ = undefined;
+    return prompt.userChoice.then(() => {
+      delete this.deferredPrompt$;
+
+      return true;
     });
   }
 

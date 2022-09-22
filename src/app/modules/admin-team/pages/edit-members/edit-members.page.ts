@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -28,6 +29,7 @@ export class EditMembersPage {
     private readonly roleService: RoleService,
     private readonly teamService: TeamService,
     private readonly memberService: MemberService,
+    private readonly snackbar: MatSnackBar,
   ) {
     this.team$ = getRouteData<Team>('team');
     this.roles = this.roleService.list();
@@ -41,7 +43,7 @@ export class EditMembersPage {
       this.memberService.getAllFree(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
-        const members = this.fixMissingMembers(team.members ?? [], teamMembers);
+        const members = this.fixMissingMembers(teamMembers);
         const dispositions = members.map((member) => ({ member }));
 
         // eslint-disable-next-line unicorn/no-array-reduce
@@ -61,7 +63,7 @@ export class EditMembersPage {
     if (this.membersForm?.valid) {
       team.members = dispositions.map((m) => m.member);
 
-      return save(this.teamService.update(team), undefined, {
+      return save(this.teamService.update(team), undefined, this.snackbar, {
         message: 'Giocatori modificati',
         form: this.membersForm,
       });
@@ -78,9 +80,9 @@ export class EditMembersPage {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  private fixMissingMembers(members: Array<Member>, teamMembers: Array<Member>): Array<Member> {
+  private fixMissingMembers(teamMembers: Array<Member>): Array<Member> {
     const membersCount = this.roleService.totalMembers();
-    teamMembers.slice(0, membersCount);
+    const members = teamMembers.slice(0, membersCount);
     if (members.length < membersCount) {
       const missing = Array.from<Member>({
         length: membersCount - members.length,

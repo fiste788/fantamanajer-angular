@@ -1,7 +1,7 @@
-import { ApplicationRef, Inject, Injectable } from '@angular/core';
+import { ApplicationRef, Inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { fromEvent, interval, Observable, Subscription } from 'rxjs';
+import { concat, fromEvent, interval, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, first } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
@@ -16,6 +16,7 @@ export class PwaService {
     @Inject(WINDOW) private readonly window: Window,
     private readonly snackBar: MatSnackBar,
     private readonly swUpdate: SwUpdate,
+    private readonly zone: NgZone,
     private readonly appRef: ApplicationRef,
   ) {
     this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
@@ -48,7 +49,7 @@ export class PwaService {
       first((isStable) => isStable),
     );
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
-    const everySixHoursOnceAppIsStable$ = appIsStable$.pipe(switchMap(() => everySixHours$));
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
 
     return everySixHoursOnceAppIsStable$.pipe(
       filter(() => this.swUpdate.isEnabled),
@@ -57,12 +58,14 @@ export class PwaService {
   }
 
   private promptUpdate(): Observable<void> {
-    return this.snackBar
-      .open("Nuova versione dell'app disponibile", 'Aggiorna')
-      .onAction()
-      .pipe(
-        switchMap(async () => this.swUpdate.activateUpdate()),
-        map(() => this.window.location.reload()),
-      );
+    return this.zone.run(() => {
+      return this.snackBar
+        .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
+        .onAction()
+        .pipe(
+          switchMap(async () => this.swUpdate.activateUpdate()),
+          map(() => this.window.location.reload()),
+        );
+    });
   }
 }

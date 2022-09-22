@@ -2,14 +2,12 @@ import { trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
-  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Inject,
   NgZone,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
@@ -18,16 +16,9 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import {
-  ApplicationService,
-  GoogleAnalyticsService,
-  PushService,
-  PwaService,
-  ThemeService,
-} from '@app/services';
+import { GoogleAnalyticsService } from '@app/services';
 import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
-import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import { LayoutService } from '../../services';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
@@ -39,7 +30,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   styleUrls: ['./main.component.scss'],
   templateUrl: './main.component.html',
 })
-export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MainComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSidenav, { static: true }) protected drawer?: MatSidenav;
   @ViewChild(MatSidenavContent) protected container?: MatSidenavContent;
   @ViewChild(SpeedDialComponent) protected speedDial?: SpeedDialComponent;
@@ -55,17 +46,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly app: ApplicationService,
-    private readonly pwa: PwaService,
-    private readonly push: PushService,
-    private readonly breadcrumb: BreadcrumbService,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
-    private readonly themeService: ThemeService,
     private readonly ngZone: NgZone,
     private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
-    private readonly appRef: ApplicationRef,
   ) {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
@@ -75,20 +60,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
   }
 
-  public ngOnInit(): void {
-    this.subscriptions.add(this.app.connect(this.appRef));
-    this.subscriptions.add(this.breadcrumb.connect('FantaManajer'));
-    this.subscriptions.add(this.pwa.connect());
-    this.subscriptions.add(this.push.connect());
-    this.subscriptions.add(this.themeService.connect());
-    this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
-  }
-
   public ngAfterViewInit(): void {
-    this.subscriptions.add(this.layoutService.init().subscribe());
+    this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     if (this.container) {
       this.setupScrollAnimation(this.container);
+      this.subscriptions.add(this.layoutService.connectChangePageAnimation(this.container));
     }
     this.changeRef.detectChanges();
   }

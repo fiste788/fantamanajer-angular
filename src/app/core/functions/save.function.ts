@@ -1,4 +1,3 @@
-import { inject } from '@angular/core';
 import { NgForm, UntypedFormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { bindCallback, firstValueFrom, mergeMap, Observable, ObservableInput, of, tap } from 'rxjs';
@@ -14,12 +13,13 @@ interface SaveOptions<T, R> {
 export async function save<T, R>(
   observable$: Observable<T>,
   defaultValue: R,
+  snackbar: MatSnackBar,
   options?: SaveOptions<T, R>,
 ): Promise<R> {
+  // const snackbar = inject(MatSnackBar);
   const obs = observable$.pipe(
     tap(() => {
       if (options?.message) {
-        const snackbar = inject(MatSnackBar);
         snackbar.open(options.message);
       }
     }),

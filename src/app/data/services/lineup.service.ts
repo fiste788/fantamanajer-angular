@@ -21,7 +21,8 @@ export class LineupService {
   public static cleanLineup(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
     const clonedLineup = { ...(lineup as Lineup) };
     const { dispositions } = clonedLineup;
-    const disp = dispositions.filter((value) => value.member_id !== null);
+    const disp = dispositions.filter((value) => value.member_id !== null).map((d) => ({ ...d }));
+    // eslint-disable-next-line unicorn/no-null
     for (const d of disp) d.member = null;
     const cleanedLineup: RecursivePartial<Lineup> = clonedLineup;
     cleanedLineup.dispositions = disp;

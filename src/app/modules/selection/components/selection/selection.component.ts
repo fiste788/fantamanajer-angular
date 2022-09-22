@@ -1,6 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
@@ -40,6 +41,7 @@ export class SelectionComponent {
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly route: ActivatedRoute,
+    private readonly snackbar: MatSnackBar,
   ) {
     this.role$ = this.roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
     this.data$ = this.loadData();
@@ -82,13 +84,13 @@ export class SelectionComponent {
   }
 
   protected setupEvents(): void {
-    const newMember$ = this.role$.pipe(
+    const role$: Observable<Role> = this.role$.pipe(
       filterNil(),
       tap(() => {
         this.newMemberDisabled = true;
       }),
     );
-    this.newMembers$ = combineLatest([newMember$, this.app.requireTeam$]).pipe(
+    this.newMembers$ = combineLatest([role$, this.app.requireTeam$]).pipe(
       switchMap(([role, team]) => this.memberService.getFree(team.championship.id, role.id, false)),
       tap(() => {
         this.changeRef.detectChanges();
@@ -106,7 +108,8 @@ export class SelectionComponent {
   protected getSelectedMember(): Observable<Member | undefined> {
     return this.route.queryParamMap.pipe(
       map((params) => params.get('new_member_id')),
-      switchMap((id) => (id ? this.memberService.getById(+id) : of())),
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      switchMap((id) => (id ? this.memberService.getById(+id) : of(undefined))),
       first(),
     );
   }
@@ -142,7 +145,7 @@ export class SelectionComponent {
         switchMap((sel) => this.selectionService.create(sel)),
       );
 
-      return save(save$, undefined, {
+      return save(save$, undefined, this.snackbar, {
         message: 'Selezione salvata correttamento',
         callback: (res: Partial<Selection>) => {
           if (res.id) {

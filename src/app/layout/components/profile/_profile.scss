@@ -13,15 +13,23 @@
       padding: 0;
       border: 0;
     }
+
+  }
+
+  .teams-panel {
+    margin-left: .5rem;
+
+    .mat-option {
+      line-height: 1 !important;
+    }
   }
 }
-@mixin color($theme) {
-}
+@mixin color($theme) {}
 @mixin theme($theme) {
-  @include core;
+   @include core;
 
   $color-config: mat.get-color-config($theme);
   @if $color-config {
-    @include color($theme);
+     @include color($theme);
   }
 }

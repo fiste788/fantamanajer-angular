@@ -23,10 +23,11 @@
     [required]="required"
     [name]="name"
     [compareWith]="compareFn"
+    [typeaheadDebounceInterval]="350"
     [(ngModel)]="member"
     (selectionChange)="change($event.value)"
   >
-    <mat-option>{{placeholder}}</mat-option>
+    <mat-option [value]="null">{{placeholder}}</mat-option>
     <mat-select-trigger *ngIf="member">
       {{member.player.full_name}}
     </mat-select-trigger>

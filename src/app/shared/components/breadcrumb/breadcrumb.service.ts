@@ -51,7 +51,7 @@ export class BreadcrumbService {
       const routeUrl = [...parentUrl, ...route.url.map((url) => url.path)];
 
       // Add an element for the current route part
-      if (route.data['breadcrumb'] !== undefined) {
+      if (route.data['breadcrumbs'] !== undefined) {
         const breadcrumb = {
           label: this.getLabel(route.data),
           url: `/${routeUrl.join('/')}`,
@@ -66,7 +66,7 @@ export class BreadcrumbService {
 
   private getLabel(data: Data): string {
     // The breadcrumb can be defined as a static string or as a function to construct the breadcrumb element out of the route data
-    const breadcrumb = data['breadcrumb'] as string | ((data: Data) => string);
+    const breadcrumb = data['breadcrumbs'] as string | ((data: Data) => string);
 
     return typeof breadcrumb === 'function' ? breadcrumb(data) : breadcrumb;
   }

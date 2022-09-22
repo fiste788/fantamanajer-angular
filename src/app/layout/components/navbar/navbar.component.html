@@ -7,8 +7,8 @@
   <a
     *ngIf="deferredPrompt$ | async as prompt"
     mat-list-item
-    href=""
-    (click)="install(prompt)"
+    href="#install"
+    (click)="install(prompt, $event)"
   >
     <mat-icon matListIcon>get_app</mat-icon>Installa l'app
   </a>

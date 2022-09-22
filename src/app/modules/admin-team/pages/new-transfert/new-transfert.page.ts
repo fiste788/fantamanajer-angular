@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
@@ -35,6 +36,7 @@ export class NewTransfertPage {
     private readonly changeRef: ChangeDetectorRef,
     private readonly memberService: MemberService,
     private readonly dialog: MatDialog,
+    private readonly snackbar: MatSnackBar,
   ) {
     this.team$ = getRouteData<Team>('team');
     this.oldMembers$ = this.loadMembers(this.team$);
@@ -111,7 +113,7 @@ export class NewTransfertPage {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     this.transfert.old_member_id = this.transfert.old_member?.id;
 
-    return save(this.transfertService.create(this.transfert), undefined, {
+    return save(this.transfertService.create(this.transfert), undefined, this.snackbar, {
       message: 'Trasferimento effettuato',
       form: this.transfertForm,
     });

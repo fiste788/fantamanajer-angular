@@ -8,8 +8,9 @@
       <mat-label>Ruolo</mat-label>
       <mat-select
         placeholder="Seleziona il ruolo"
-        [(ngModel)]="role"
-        (selectionChange)="roleChange($event.value)"
+        [ngModel]="role$ | async"
+        [compareWith]="compareRole"
+        (selectionChange)="role$.next($event.value)"
       >
         <mat-option
           *ngFor="let role of (roles | keyvalue); trackBy: track"

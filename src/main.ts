@@ -8,4 +8,5 @@ if (environment.production) {
   enableProdMode();
 }
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 void platformBrowserDynamic().bootstrapModule(AppModule).catch();

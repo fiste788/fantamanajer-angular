@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-null */
 import { EventEmitter, Injectable } from '@angular/core';
 
 import { flatGroupBy } from '@app/functions';
@@ -35,12 +36,13 @@ export class LineupService {
       .fill(benchs)
       .map((_, i) => i + 11);
 
-    this.membersById = flatGroupBy(lineup.team.members || [], ({ id }) => id);
-    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members || []);
+    this.membersById = flatGroupBy(lineup.team.members ?? [], ({ id }) => id);
+    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members ?? []);
     this.lineup = lineup;
     this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
     this.captainSelectionChange();
+    // eslint-disable-next-line unicorn/no-array-reduce
     this.benchOptions = [...this.membersByRole.entries()].reduce(
       (m, [k, v]) =>
         m.set(
@@ -69,7 +71,7 @@ export class LineupService {
     this.selectionChange.emit(member);
   }
 
-  public benchwarmerSelectionChange(member?: Member | undefined): void {
+  public benchwarmerSelectionChange(member: Member | null): void {
     this.selectionChange.emit(member);
   }
 

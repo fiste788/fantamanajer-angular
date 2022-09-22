@@ -1,8 +1,10 @@
+/* eslint-disable unicorn/no-null */
 import { KeyValue } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   ControlValueAccessor,
+  NgModel,
   NgModelGroup,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
@@ -25,7 +27,7 @@ import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animatio
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() public member!: Member | undefined;
+  @Input() public member!: Member | null;
   @Input() public name!: string;
   @Input() public disabled = false;
   @Input() public required = false;
@@ -38,41 +40,38 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() public captain = false;
 
   @Output()
-  public readonly memberChange: EventEmitter<Member | undefined> = new EventEmitter<
-    Member | undefined
-  >();
+  public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
   @HostBinding('@lineupDisposition') protected lineupDisposition = '';
+  @ViewChild(NgModel, { static: true }) protected ngModelDirective?: NgModel;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onChange = (_: Member | undefined): void => undefined;
+  public onChange = (_: Member | null): void => undefined;
   public onTouched = (): void => undefined;
 
-  get val(): Member | undefined {
-    return this.member;
+  get value(): Member | null {
+    return (this.ngModelDirective?.value ?? null) as Member | null;
   }
 
-  set val(val: Member | undefined) {
-    this.member = val;
-    this.onChange(val);
-    this.onTouched();
+  set value(value: Member | null) {
+    this.ngModelDirective?.valueAccessor?.writeValue(value);
   }
 
   public registerOnChange(fn: (member: Member | undefined) => undefined): void {
-    this.onChange = fn;
+    this.ngModelDirective?.valueAccessor?.registerOnChange(fn);
   }
 
   public registerOnTouched(fn: () => undefined): void {
-    this.onTouched = fn;
+    this.ngModelDirective?.valueAccessor?.registerOnTouched(fn);
   }
 
-  public change(event: Member | undefined): void {
+  public change(event: Member | null): void {
     this.writeValue(event);
     this.memberChange.emit(event);
   }
 
-  public writeValue(obj: Member | undefined): void {
-    this.member = obj;
+  public writeValue(obj: Member | null): void {
+    this.ngModelDirective?.valueAccessor?.writeValue(obj);
   }
 
   public track(_: number, option: MemberOption): number {
@@ -83,7 +82,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
     return option.key.id;
   }
 
-  public compareFn(t1: Member | undefined, t2: Member | undefined): boolean {
+  public compareFn(t1: Member | null, t2: Member | null): boolean {
     return t1?.id === t2?.id;
   }
 }
