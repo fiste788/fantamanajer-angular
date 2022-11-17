@@ -5,7 +5,7 @@
 img {
   height: 100%;
 
-  &:not(.mat-card-image) {
+  &:not(.mat-mdc-card-image) {
     max-width: 100%;
   }
 }

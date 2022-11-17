@@ -27,12 +27,12 @@ import { LayoutService } from './services';
     ToolbarComponent,
   ],
   imports: [
-    SharedModule,
+    EcoFabSpeedDialModule,
+    MatBadgeModule,
+    MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatIconModule,
-    MatBadgeModule,
-    EcoFabSpeedDialModule,
+    SharedModule,
   ],
   providers: [
     {

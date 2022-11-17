@@ -10,14 +10,14 @@
     href="#install"
     (click)="install(prompt, $event)"
   >
-    <mat-icon matListIcon>get_app</mat-icon>Installa l'app
+    <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
   </a>
   <a
     mat-list-item
     routerLinkActive="active"
     routerLink="/home"
   >
-    <mat-icon matListIcon>home</mat-icon>Home
+    <mat-icon matListItemIcon>home</mat-icon>Home
   </a>
   <a
     *ngIf="team$ | async as team"
@@ -27,7 +27,7 @@
   >
     <mat-icon
       svgIcon="team"
-      matListIcon
+      matListItemIcon
     ></mat-icon>{{team.name}}
   </a>
   <a
@@ -36,14 +36,14 @@
     routerLinkActive="active"
     [routerLink]="['championships', championship.id]"
   >
-    <mat-icon matListIcon>emoji_events</mat-icon>{{championship.league.name}}
+    <mat-icon matListItemIcon>emoji_events</mat-icon>{{championship.league.name}}
   </a>
   <a
     mat-list-item
     routerLinkActive="active"
     routerLink="/clubs"
   >
-    <mat-icon matListIcon>sports_soccer</mat-icon>Clubs
+    <mat-icon matListItemIcon>sports_soccer</mat-icon>Clubs
   </a>
   <mat-divider></mat-divider>
   <h3 mat-subheader>Account</h3>
@@ -53,14 +53,14 @@
       routerLinkActive="active"
       routerLink="/user"
     >
-      <mat-icon matListIcon>account_circle</mat-icon>Profilo
+      <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
     </a>
     <a
       mat-list-item
       routerLinkActive="active"
       routerLink="/auth/logout"
     >
-      <mat-icon matListIcon>exit_to_app</mat-icon>Log Out
+      <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
     </a>
   </ng-container>
   <ng-template #notLogged>
@@ -69,7 +69,7 @@
       routerLinkActive="active"
       routerLink="/auth/login"
     >
-      <mat-icon matListIcon>input</mat-icon>Log In
+      <mat-icon matListItemIcon>input</mat-icon>Log In
     </a>
   </ng-template>
 </mat-nav-list>

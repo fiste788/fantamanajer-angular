@@ -16,12 +16,14 @@
   $foreground: map.get($theme, foreground);
 
   .login {
-    .mat-card-title,
-    .mat-icon {
+    .mat-icon,
+    .mat-mdc-card-title {
       color: mat.get-color-from-palette($foreground, 'icon');
     }
   }
 }
+@mixin typography($theme) {
+  }
 @mixin theme($theme) {
    @include core;
 

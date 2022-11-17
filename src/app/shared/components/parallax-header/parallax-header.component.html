@@ -37,6 +37,7 @@
   <nav
     *ngIf="tabs.length"
     mat-tab-nav-bar
+    [tabPanel]="tabPanel"
   >
     <ng-container *ngFor="let tab of tabs; trackBy: track">
       <a

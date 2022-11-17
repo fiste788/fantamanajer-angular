@@ -1,10 +1,12 @@
-.mat-list-item .mat-icon {
+.mat-mdc-list-item .mat-icon {
   margin-right: 1rem;
 }
 
-mat-list .mat-list-item,
-.mat-nav-list .mat-list-item,
-.mat-selection-list .mat-list-item {
+/* TODO: The following rule targets internal classes of list that may no longer apply for the MDC version. */
+
+mat-list .mat-mdc-list-item,
+.mat-nav-list .mat-mdc-list-item,
+.mat-selection-list .mat-mdc-list-item {
   font-size: 14px;
   font-weight: 500;
   margin: 0.25rem 0.5rem;
@@ -13,14 +15,16 @@ mat-list .mat-list-item,
   height: 2.5rem;
 }
 
-.mat-nav-list .mat-list-item .mat-list-item-content {
+/* TODO: The following rule targets internal classes of list that may no longer apply for the MDC version. */
+
+.mat-nav-list .mat-mdc-list-item .mat-list-item-content {
   padding: 0 0.25rem;
 }
 
-.mat-subheader {
+.mat-mdc-subheader {
   padding: 1rem 1rem 0.25rem;
 }
 
-.mat-nav-list .mat-subheader {
+.mat-nav-list .mat-mdc-subheader {
   height: 2.25rem;
 }

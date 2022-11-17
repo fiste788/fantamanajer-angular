@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -7,6 +7,6 @@ import { AdminChampionshipRoutingModule } from './admin-championship-routing.mod
 
 @NgModule({
   declarations: [AdminChampionshipRoutingModule.components],
-  imports: [SharedModule, AdminChampionshipRoutingModule, MatSliderModule],
+  imports: [AdminChampionshipRoutingModule, MatSliderModule, SharedModule],
 })
 export class AdminChampionshipModule {}

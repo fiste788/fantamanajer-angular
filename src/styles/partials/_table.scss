@@ -2,11 +2,11 @@
 @use 'sass:color';
 @use '@angular/material' as mat;
 @mixin core() {
-  .mat-table {
+  .mat-mdc-table {
     width: 100%;
     border-radius: 4px;
 
-    thead > .mat-header-row {
+    thead > .mat-mdc-header-row {
       border-radius: 4px;
     }
   }
@@ -20,7 +20,7 @@
     @include mat.elevation(1);
   }
 
-  .mat-table-header {
+  .mat-mdc-table-header {
     width: 100%;
     padding: 1.25rem 1.5rem;
     min-height: 4rem;
@@ -33,7 +33,7 @@
     overflow: hidden;
   }
 
-  .mat-table-header-selected {
+  .mat-mdc-table-header-selected {
     position: absolute;
     top: 0;
     left: 0;
@@ -46,12 +46,12 @@
     animation: slide-down 250ms ease-in;
   }
 
-  .mat-table-title {
+  .mat-mdc-table-title {
     font-size: 20px;
   }
 
-  .mat-cell,
-  .mat-header-cell {
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
     padding-right: 1rem;
   }
 
@@ -85,8 +85,8 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
-  .mat-table {
-    .mat-row:hover .mat-cell {
+  .mat-mdc-table {
+    .mat-mdc-row:hover .mat-mdc-cell {
       $app-background: mat.get-color-from-palette($background, 'background');
       $badge-color: mat.get-color-from-palette($background, 'hover');
 
@@ -105,11 +105,11 @@
       }
     }
 
-    .mat-table-sticky-border-elem-right {
+    .mat-mdc-table-sticky-border-elem-right {
       border-left: 1px solid mat.get-color-from-palette($foreground, divider);
     }
 
-    .mat-table-sticky-border-elem-left {
+    .mat-mdc-table-sticky-border-elem-left {
       border-right: 1px solid mat.get-color-from-palette($foreground, divider);
     }
   }
@@ -118,11 +118,11 @@
     background-color: mat.get-color-from-palette($background, 'card');
   }
 
-  .mat-table-header {
+  .mat-mdc-table-header {
     background-color: mat.get-color-from-palette($background, 'card');
   }
 
-  .mat-table-header-selected {
+  .mat-mdc-table-header-selected {
     background-color: mat.get-color-from-palette($accent, 50);
   }
 }

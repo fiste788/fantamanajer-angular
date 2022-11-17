@@ -1,5 +1,5 @@
 import { NgForm, UntypedFormArray } from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { bindCallback, firstValueFrom, mergeMap, Observable, ObservableInput, of, tap } from 'rxjs';
 
 import { catchUnprocessableEntityErrors } from './catch-unprocessable-entity-errors.functions';

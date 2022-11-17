@@ -6,12 +6,14 @@
         [image]="club.photo_url"
         [title]="club.name"
         [tabs]="tabs"
+        [tabPanel]="tabPanel"
         (imageLoaded)="scrollTo($event)"
       >
       </app-parallax-header>
     </div>
   </div>
   <div
+    #tabPanel
     class="tabbed-container"
     [@contextChange]="o | state"
   >

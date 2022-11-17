@@ -3,9 +3,10 @@ import { CanActivate } from '@angular/router';
 import { combineLatest, map, Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { CoreModule } from '@app/core.module';
 import { ApplicationService } from '@app/services';
 
-@Injectable()
+@Injectable({ providedIn: CoreModule })
 export class ChampionshipAdminGuard implements CanActivate {
   constructor(
     private readonly auth: AuthenticationService,

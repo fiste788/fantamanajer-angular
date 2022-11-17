@@ -13,10 +13,7 @@
     fxLayout="column"
     fxLayoutAlign="end none"
   >
-    <mat-form-field
-      *ngIf="(auth.user$ | async)?.teams as teams"
-      appearance="standard"
-    >
+    <mat-form-field *ngIf="(auth.user$ | async)?.teams as teams">
       <mat-select
         panelClass="teams-panel"
         role="listbox"

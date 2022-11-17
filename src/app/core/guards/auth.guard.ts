@@ -3,8 +3,9 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map, Observable, tap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { CoreModule } from '@app/core.module';
 
-@Injectable()
+@Injectable({ providedIn: CoreModule })
 export class AuthGuard implements CanActivate {
   constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
 

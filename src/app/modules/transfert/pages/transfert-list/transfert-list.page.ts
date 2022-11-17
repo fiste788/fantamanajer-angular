@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -53,12 +53,14 @@ export class TransfertListPage {
   protected sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
-      case 'old_member':
+      case 'old_member': {
         value = data.old_member.player.full_name;
         break;
-      case 'new_member':
+      }
+      case 'new_member': {
         value = data.new_member.player.full_name;
         break;
+      }
       default:
     }
 

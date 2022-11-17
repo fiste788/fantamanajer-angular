@@ -4,6 +4,7 @@
       [backgroundImage]="team.photo_url"
       [tabs]="(tabs$ | async) ?? []"
       [title]="team.name"
+      [tabPanel]="tabPanel"
       [subtitle]="team.user.name + ' ' + team.user.surname"
       (imageLoaded)="scrollTo($event)"
     >
@@ -23,6 +24,7 @@
     </app-parallax-header>
   </div>
   <div
+    #tabPanel
     class="tabbed-container"
     [@contextChange]="o | state"
   >

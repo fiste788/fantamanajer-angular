@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ngfModule } from 'angular-file';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
@@ -14,13 +14,13 @@ import { TeamRoutingModule } from './team-routing.module';
 @NgModule({
   declarations: [TeamEditModal, TeamRoutingModule.components],
   imports: [
-    SharedModule,
-    TeamRoutingModule,
-    MemberCommonModule,
     MatDialogModule,
-    NotificationSubscriptionModule,
-    StreamModule,
+    MemberCommonModule,
     ngfModule,
+    NotificationSubscriptionModule,
+    SharedModule,
+    StreamModule,
+    TeamRoutingModule,
   ],
   providers: [TeamDetailResolver],
 })

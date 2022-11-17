@@ -9,6 +9,6 @@ import { StreamComponent } from './components/stream.component';
 @NgModule({
   declarations: [StreamComponent],
   exports: [StreamComponent],
-  imports: [SharedModule, ScrollingModule, ContentLoaderModule],
+  imports: [ContentLoaderModule, ScrollingModule, SharedModule],
 })
 export class StreamModule {}

@@ -3,8 +3,9 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { CoreModule } from '@app/core.module';
 
-@Injectable()
+@Injectable({ providedIn: CoreModule })
 export class NoAuthGuard implements CanActivate {
   constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
 

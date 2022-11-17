@@ -3,8 +3,9 @@ import { CanActivate } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { CoreModule } from '@app/core.module';
 
-@Injectable()
+@Injectable({ providedIn: CoreModule })
 export class AdminGuard implements CanActivate {
   constructor(private readonly auth: AuthenticationService) {}
 

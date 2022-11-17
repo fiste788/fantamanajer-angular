@@ -1,13 +1,19 @@
 @use "@angular/material" as mat;
 @mixin core() {
   app-profile {
+    /* TODO: The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+
     .mat-form-field-wrapper {
       padding-bottom: 0 !important;
     }
 
+    /* TODO: The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+
     .mat-form-field-appearance-standard .mat-form-field-underline {
       display: none;
     }
+
+    /* TODO: The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 
     .mat-form-field-infix {
       padding: 0;
@@ -19,7 +25,7 @@
   .teams-panel {
     margin-left: .5rem;
 
-    .mat-option {
+    .mat-mdc-option {
       line-height: 1 !important;
     }
   }
