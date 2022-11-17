@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
