@@ -44,25 +44,23 @@ export class ThemeService {
   private async setThemeCss(isDark: boolean): Promise<void> {
     return new Promise((resolve) => {
       let mainEl = this.document.querySelector<HTMLLinkElement>('#main-theme');
-      if (mainEl !== null) {
-        const isLoadedDark = mainEl.href.startsWith('dark');
-        const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
-        let altEl = this.document.querySelector<HTMLLinkElement>('alternate-theme');
-        if (isLoadedDark !== isDark) {
-          if (altEl !== null) {
-            this.enableAlternate(altEl);
-          } else {
-            altEl = this.createLink(styleName, 'alternate-theme');
-            this.renderer.setProperty(altEl, 'onload', resolve);
-            this.renderer.appendChild(this.head, altEl);
-          }
-        } else {
-          this.disableAlternate(altEl);
-        }
-      } else {
+      if (mainEl === null) {
         mainEl = this.createLink(`${isDark ? 'dark' : 'light'}-theme.css`, 'main-theme');
         this.renderer.setProperty(mainEl, 'onload', resolve);
         this.renderer.appendChild(this.head, mainEl);
+      } else {
+        const isLoadedDark = mainEl.href.startsWith('dark');
+        const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
+        let altEl = this.document.querySelector<HTMLLinkElement>('alternate-theme');
+        if (isLoadedDark === isDark) {
+          this.disableAlternate(altEl);
+        } else if (altEl === null) {
+          altEl = this.createLink(styleName, 'alternate-theme');
+          this.renderer.setProperty(altEl, 'onload', resolve);
+          this.renderer.appendChild(this.head, altEl);
+        } else {
+          this.enableAlternate(altEl);
+        }
       }
     });
   }

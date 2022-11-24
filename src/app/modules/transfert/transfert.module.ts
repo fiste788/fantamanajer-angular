@@ -7,6 +7,6 @@ import { TransfertRoutingModule } from './transfert-routing.module';
 
 @NgModule({
   declarations: [TransfertRoutingModule.components],
-  imports: [SharedModule, TransfertRoutingModule, SelectionModule],
+  imports: [SelectionModule, SharedModule, TransfertRoutingModule],
 })
-export class TransfertModule {}
+export default class TransfertModule {}

@@ -9,7 +9,7 @@ import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.ser
 
 @NgModule({
   declarations: [ClubRoutingModule.components],
-  imports: [SharedModule, ClubRoutingModule, MemberCommonModule, StreamModule],
+  imports: [ClubRoutingModule, MemberCommonModule, SharedModule, StreamModule],
   providers: [ClubDetailResolver],
 })
-export class ClubModule {}
+export default class ClubModule {}

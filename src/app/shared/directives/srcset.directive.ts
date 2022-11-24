@@ -22,10 +22,10 @@ export class SrcsetDirective implements OnInit, OnChanges {
 
   public init(): void {
     if (this.appSrcset !== null && this.appSrcset !== undefined) {
-      if (typeof this.appSrcset !== 'string') {
-        this.processRecord(this.appSrcset);
-      } else {
+      if (typeof this.appSrcset === 'string') {
         this.renderer.setProperty(this.el.nativeElement, 'srcset', this.appSrcset);
+      } else {
+        this.processRecord(this.appSrcset);
       }
     } else {
       this.renderer.setProperty(this.el.nativeElement, 'src', this.placeholder);

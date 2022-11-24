@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   transform-origin: 100% 0 0;
   display: block;
   padding: 24px;
@@ -16,7 +16,7 @@
   max-height: inherit;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   display: block;
   margin: 0 -24px;
   padding: 0 24px;
@@ -25,7 +25,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
   margin: 0 0 20px;
   display: block;
 }

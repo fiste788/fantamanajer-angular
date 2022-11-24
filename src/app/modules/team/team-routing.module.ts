@@ -42,8 +42,7 @@ const routes: Routes = [
           {
             path: 'articles',
             data: { state: 'team-articles' },
-            loadChildren: () =>
-              import('@modules/article/article.module').then((m) => m.ArticleModule),
+            loadChildren: () => import('@modules/article/article.module'),
           },
           {
             path: 'players',
@@ -59,25 +58,23 @@ const routes: Routes = [
           {
             path: 'scores',
             data: { state: 'team-scores' },
-            loadChildren: () => import('@modules/score/score.module').then((m) => m.ScoreModule),
+            loadChildren: () => import('@modules/score/score.module'),
           },
           {
             path: 'lineup',
             data: { state: 'team-lineup' },
-            loadChildren: () => import('@modules/lineup/lineup.module').then((m) => m.LineupModule),
+            loadChildren: () => import('@modules/lineup/lineup.module'),
           },
           {
             path: 'transferts',
             data: { state: 'team-transfert' },
-            loadChildren: () =>
-              import('@modules/transfert/transfert.module').then((m) => m.TransfertModule),
+            loadChildren: () => import('@modules/transfert/transfert.module'),
           },
           {
             path: 'admin',
             canActivate: [ChampionshipAdminGuard],
             data: { state: 'team-admin' },
-            loadChildren: () =>
-              import('@modules/admin-team/admin-team.module').then((m) => m.AdminTeamModule),
+            loadChildren: () => import('@modules/admin-team/admin-team.module'),
           },
         ],
         runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',

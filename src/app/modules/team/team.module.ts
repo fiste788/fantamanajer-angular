@@ -14,14 +14,14 @@ import { TeamRoutingModule } from './team-routing.module';
 @NgModule({
   declarations: [TeamEditModal, TeamRoutingModule.components],
   imports: [
-    SharedModule,
-    TeamRoutingModule,
-    MemberCommonModule,
     MatDialogModule,
-    NotificationSubscriptionModule,
-    StreamModule,
+    MemberCommonModule,
     ngfModule,
+    NotificationSubscriptionModule,
+    SharedModule,
+    StreamModule,
+    TeamRoutingModule,
   ],
   providers: [TeamDetailResolver],
 })
-export class TeamModule {}
+export default class TeamModule {}

@@ -6,9 +6,9 @@
     <span class="mat-table-title">{{caption}}</span>
   </div>
   <table
-    @tableRowAnimation
     #table
     mat-table
+    @tableRowAnimation
     [trackBy]="trackDisposition"
     [dataSource]="dataSource"
   >

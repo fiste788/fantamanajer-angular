@@ -18,8 +18,8 @@ import { appInitializerProvider, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from '.
 @NgModule({
   exports: [],
   imports: [
-    HttpClientModule,
     ErrorHandlerModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
 
@@ -29,15 +29,15 @@ import { appInitializerProvider, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from '.
     }),
   ],
   providers: [
-    AuthGuard,
     AdminGuard,
-    NoAuthGuard,
-    ChampionshipAdminGuard,
-    WINDOW_PROVIDERS,
-    NAVIGATOR_PROVIDERS,
-    authInterceptorProvider,
     apiPrefixInterceptorProvider,
     appInitializerProvider,
+    AuthGuard,
+    authInterceptorProvider,
+    ChampionshipAdminGuard,
+    NAVIGATOR_PROVIDERS,
+    NoAuthGuard,
+    WINDOW_PROVIDERS,
   ],
 })
 export class CoreModule {

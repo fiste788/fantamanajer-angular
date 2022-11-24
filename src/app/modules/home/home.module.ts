@@ -8,6 +8,6 @@ import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
   declarations: [HomeRoutingModule.components],
-  imports: [SharedModule, HomeRoutingModule, MatProgressSpinnerModule, MatExpansionModule],
+  imports: [HomeRoutingModule, MatExpansionModule, MatProgressSpinnerModule, SharedModule],
 })
-export class HomeModule {}
+export default class HomeModule {}

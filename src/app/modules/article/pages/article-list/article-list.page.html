@@ -1,14 +1,15 @@
 <div
   *ngIf="articles.length"
-  @cardCreationAnimation
   class="flex-container"
   fxLayout="row wrap"
   fxLayout.xs="column"
   fxLayoutAlign="space-around flex-start"
   fxLayoutAlign.xs="start"
+  @cardCreationAnimation
 >
   <mat-card
     *ngFor="let article of articles; let i=index; trackBy: track"
+    appearance="outlined"
     fxFlex.xs="100"
     fxFlex.gt-sm="45"
     [id]="article.id"

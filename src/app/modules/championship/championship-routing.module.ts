@@ -30,22 +30,22 @@ const routes: Routes = [
       {
         path: 'articles',
         data: { state: 'articles' },
-        loadChildren: () => import('@modules/article/article.module').then((m) => m.ArticleModule),
+        loadChildren: () => import('@modules/article/article.module'),
       },
       {
         path: 'teams',
         data: { state: 'teams' },
-        loadChildren: () => import('@modules/team/team.module').then((m) => m.TeamModule),
+        loadChildren: () => import('@modules/team/team.module'),
       },
       {
         path: 'members',
         data: { state: 'members' },
-        loadChildren: () => import('@modules/member/member.module').then((m) => m.MemberModule),
+        loadChildren: () => import('@modules/member/member.module'),
       },
       {
         path: 'ranking',
         data: { state: 'ranking' },
-        loadChildren: () => import('@modules/score/score.module').then((m) => m.ScoreModule),
+        loadChildren: () => import('@modules/score/score.module'),
       },
       {
         path: 'stream',
@@ -56,10 +56,7 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [AdminGuard],
         data: { state: 'championship-admin' },
-        loadChildren: () =>
-          import('@modules/admin-championship/admin-championship.module').then(
-            (m) => m.AdminChampionshipModule,
-          ),
+        loadChildren: () => import('@modules/admin-championship/admin-championship.module'),
       },
     ],
   },

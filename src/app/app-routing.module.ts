@@ -13,66 +13,64 @@ export const routes: Routes = [
   {
     path: 'home',
     data: { state: 'home' },
-    loadChildren: () => import('./modules/home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('./modules/home/home.module'),
   },
   {
     path: 'auth',
     data: { state: 'auth' },
-    loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () => import('./modules/auth/auth.module'),
   },
   {
     path: 'clubs',
     data: { state: 'clubs' },
-    loadChildren: () => import('./modules/club/club.module').then((m) => m.ClubModule),
+    loadChildren: () => import('./modules/club/club.module'),
   },
   {
     path: 'players',
     data: { state: 'players' },
-    loadChildren: () => import('./modules/player/player.module').then((m) => m.PlayerModule),
+    loadChildren: () => import('./modules/player/player.module'),
   },
   {
     path: 'user',
     canActivate: [AuthGuard],
     data: { state: 'user' },
-    loadChildren: () => import('./modules/user/user.module').then((m) => m.UserModule),
+    loadChildren: () => import('./modules/user/user.module'),
   },
   {
     path: 'championships',
     canActivate: [AuthGuard],
     data: { state: 'championships' },
-    loadChildren: () =>
-      import('./modules/championship/championship.module').then((m) => m.ChampionshipModule),
+    loadChildren: () => import('./modules/championship/championship.module'),
   },
   {
     path: 'teams',
     canActivate: [AuthGuard],
     data: { state: 'teams' },
-    loadChildren: () => import('./modules/team/team.module').then((m) => m.TeamModule),
+    loadChildren: () => import('./modules/team/team.module'),
   },
   {
     path: 'articles',
     canActivate: [AuthGuard],
     data: { state: 'articles' },
-    loadChildren: () => import('./modules/article/article.module').then((m) => m.ArticleModule),
+    loadChildren: () => import('./modules/article/article.module'),
   },
   {
     path: 'scores',
     canActivate: [AuthGuard],
     data: { state: 'scores' },
-    loadChildren: () => import('./modules/score/score.module').then((m) => m.ScoreModule),
+    loadChildren: () => import('./modules/score/score.module'),
   },
   {
     path: 'lineups',
     canActivate: [AuthGuard],
     data: { state: 'lineups' },
-    loadChildren: () => import('./modules/lineup/lineup.module').then((m) => m.LineupModule),
+    loadChildren: () => import('./modules/lineup/lineup.module'),
   },
   {
     path: 'transferts',
     canActivate: [AuthGuard],
     data: { state: 'transferts' },
-    loadChildren: () =>
-      import('./modules/transfert/transfert.module').then((m) => m.TransfertModule),
+    loadChildren: () => import('./modules/transfert/transfert.module'),
   },
 ];
 @NgModule({
@@ -80,7 +78,6 @@ export const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
-      relativeLinkResolution: 'legacy',
     }),
   ],
 })

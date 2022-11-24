@@ -1,15 +1,16 @@
 <ng-container *ngIf="((app.matchday$ | async)?.number|| 0) > 1; else started">
   <ng-container *ngIf="(bestPlayers$ | async) as bestPlayers; else loading">
     <div
-      @cardCreationAnimation
       class="flex-container"
       fxLayout="row wrap"
       fxLayout.xs="column"
       fxLayoutAlign="space-around start"
       fxLayoutAlign.xs="start"
+      @cardCreationAnimation
     >
       <ng-container *ngFor="let role of bestPlayers; trackBy: trackByRole">
         <mat-card
+          appearance="outlined"
           class="flex-item"
           fxFlex.xs="100"
           fxFlex.sm="45"

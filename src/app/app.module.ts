@@ -15,18 +15,18 @@ import { LayoutModule } from './layout/layout.module';
   bootstrap: [MainComponent],
   imports: [
     // angular
-    BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
 
     // 3rd party
-    LayoutModule,
+    BrowserModule,
 
     // core & shared
     CoreModule,
-    SharedModule,
+    LayoutModule,
 
     // app
-    AppRoutingModule,
+    SharedModule,
   ],
   providers: [
     {

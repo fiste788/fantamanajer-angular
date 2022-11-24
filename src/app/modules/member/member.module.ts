@@ -7,6 +7,6 @@ import { MemberRoutingModule } from './member-routing.module';
 
 @NgModule({
   declarations: [MemberRoutingModule.components],
-  imports: [SharedModule, MemberCommonModule, MemberRoutingModule],
+  imports: [MemberCommonModule, MemberRoutingModule, SharedModule],
 })
-export class MemberModule {}
+export default class MemberModule {}

@@ -3,6 +3,8 @@
    @include mat.core-color($theme);
   @include mat.badge-color($theme);
   @include mat.button-color($theme);
+  @include mat.fab-color($theme);
+  @include mat.icon-button-color($theme);
   @include mat.card-color($theme);
   @include mat.checkbox-color($theme);
   @include mat.dialog-color($theme);
@@ -26,12 +28,15 @@
   @include mat.tooltip-color($theme);
 }
 @mixin density($theme) {
-   @include mat.all-component-densities($theme);
+   @include mat.core-density($theme);
+  @include mat.all-component-densities($theme);
 }
 @mixin typography($theme) {
    @include mat.core-typography($theme);
   @include mat.badge-typography($theme);
   @include mat.button-typography($theme);
+  @include mat.fab-typography($theme);
+  @include mat.icon-button-typography($theme);
   @include mat.card-typography($theme);
   @include mat.checkbox-typography($theme);
   @include mat.dialog-typography($theme);
@@ -55,28 +60,57 @@
   @include mat.tooltip-typography($theme);
 }
 @mixin theme($theme) {
-   @include mat.core-theme($theme);
-  @include mat.badge-theme($theme);
-  @include mat.button-theme($theme);
-  @include mat.card-theme($theme);
-  @include mat.checkbox-theme($theme);
-  @include mat.dialog-theme($theme);
-  @include mat.divider-theme($theme);
-  @include mat.expansion-theme($theme);
+   @include mat.core;
+
+  // @include mat.core-theme($theme);
   @include mat.form-field-theme($theme);
-  @include mat.icon-theme($theme);
-  @include mat.input-theme($theme);
-  @include mat.list-theme($theme);
-  @include mat.menu-theme($theme);
-  @include mat.progress-spinner-theme($theme);
-  @include mat.select-theme($theme);
-  @include mat.sidenav-theme($theme);
-  @include mat.slide-toggle-theme($theme);
-  @include mat.snack-bar-theme($theme);
-  @include mat.sort-theme($theme);
-  @include mat.stepper-theme($theme);
-  @include mat.table-theme($theme);
-  @include mat.tabs-theme($theme);
-  @include mat.toolbar-theme($theme);
-  @include mat.tooltip-theme($theme);
+
+  /* @include mat.badge-theme($theme);
+ @include mat.button-theme($theme);
+ @include mat.button-typography($theme);
+ @include mat.fab-theme($theme);
+ @include mat.fab-typography($theme);
+ @include mat.icon-button-theme($theme);
+ @include mat.icon-button-typography($theme);
+ @include mat.card-theme($theme);
+ @include mat.card-typography($theme);
+ @include mat.checkbox-theme($theme);
+ @include mat.checkbox-typography($theme);
+ @include mat.dialog-theme($theme);
+ @include mat.dialog-typography($theme);
+ @include mat.divider-theme($theme);
+ @include mat.expansion-theme($theme);
+ @include mat.form-field-theme($theme);
+ @include mat.form-field-typography($theme);
+ @include mat.icon-theme($theme);
+ @include mat.input-theme($theme);
+ @include mat.input-typography($theme);
+ @include mat.list-theme($theme);
+ @include mat.list-typography($theme);
+ @include mat.menu-theme($theme);
+ @include mat.menu-typography($theme);
+ @include mat.progress-spinner-theme($theme);
+ @include mat.progress-spinner-typography($theme);
+ @include mat.select-theme($theme);
+ @include mat.select-typography($theme);
+ @include mat.core-theme($theme);
+ @include mat.core-typography($theme);
+ @include mat.sidenav-theme($theme);
+ @include mat.slide-toggle-theme($theme);
+ @include mat.slide-toggle-typography($theme);
+ @include mat.snack-bar-theme($theme);
+ @include mat.snack-bar-typography($theme);
+ @include mat.sort-theme($theme);
+ @include mat.stepper-theme($theme);
+ @include mat.table-theme($theme);
+ @include mat.table-typography($theme);
+ @include mat.tabs-theme($theme);
+ @include mat.tabs-typography($theme);
+ @include mat.toolbar-theme($theme);
+ @include mat.tooltip-theme($theme);
+ @include mat.tooltip-typography($theme); */
+  @include color($theme);
+  @include typography($theme);
+
+  // @include density($theme)
 }

@@ -4,6 +4,7 @@
       <app-parallax-header
         [backgroundImage]="club.background_url"
         [image]="club.photo_url"
+        [tabPanel]="tabPanel"
         [title]="club.name"
         [tabs]="tabs"
         (imageLoaded)="scrollTo($event)"
@@ -12,6 +13,7 @@
     </div>
   </div>
   <div
+    #tabPanel
     class="tabbed-container"
     [@contextChange]="o | state"
   >

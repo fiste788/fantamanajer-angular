@@ -8,6 +8,6 @@ import { LineupRoutingModule } from './lineup-routing.module';
 
 @NgModule({
   declarations: [LineupRoutingModule.components],
-  imports: [SharedModule, LineupCommonModule, LineupRoutingModule, MemberCommonModule],
+  imports: [LineupCommonModule, LineupRoutingModule, MemberCommonModule, SharedModule],
 })
-export class LineupModule {}
+export default class LineupModule {}

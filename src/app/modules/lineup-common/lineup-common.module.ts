@@ -12,11 +12,11 @@ import { ModuleAreaComponent } from './components/module-area/module-area.compon
 @NgModule({
   declarations: [
     LineupDetailComponent,
+    LineupOptionsComponent,
     MemberAlreadySelectedValidator,
     ModuleAreaComponent,
-    LineupOptionsComponent,
   ],
   exports: [LineupDetailComponent, MemberAlreadySelectedValidator, ModuleAreaComponent],
-  imports: [SharedModule, MemberCommonModule, MatExpansionModule],
+  imports: [MatExpansionModule, MemberCommonModule, SharedModule],
 })
 export class LineupCommonModule {}

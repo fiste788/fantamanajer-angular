@@ -7,6 +7,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   declarations: [AuthRoutingModule.components],
-  imports: [SharedModule, AuthRoutingModule, MatStepperModule],
+  imports: [AuthRoutingModule, MatStepperModule, SharedModule],
 })
-export class AuthModule {}
+export default class AuthModule {}

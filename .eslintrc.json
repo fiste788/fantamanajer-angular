@@ -3,6 +3,10 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
+  "parserOptions": {
+    "project": "tsconfig.eslint.json",
+    "sourceType": "module"
+  },
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [

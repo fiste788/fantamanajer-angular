@@ -1,27 +1,22 @@
 @use "@angular/material" as mat;
 @use "@angular/flex-layout/mq";
 @mixin core() {
-  .mat-card {
+  .mat-mdc-card {
     margin: 1rem;
   }
-
-  .mat-card-header-text {
-    overflow: hidden;
-  }
   @include mq.layout-bp(gt-md) {
-    .mat-card {
+    .mat-mdc-card {
       margin-left: 0;
       margin-right: 0;
     }
   }
 }
-@mixin color($theme) {
-}
+@mixin color($theme) {}
 @mixin theme($theme) {
-  @include core;
+   @include core;
 
   $color-config: mat.get-color-config($theme);
   @if $color-config {
-    @include color($theme);
+     @include color($theme);
   }
 }

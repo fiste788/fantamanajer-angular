@@ -5,7 +5,7 @@ export class SrcsetPipe implements PipeTransform {
   public transform(sizes: Record<string, string> | string | null): string {
     if (sizes !== null) {
       const srcset =
-        typeof sizes !== 'string' ? Object.entries(sizes).map(([k, v]) => `${v} ${k}`) : [...sizes];
+        typeof sizes === 'string' ? [...sizes] : Object.entries(sizes).map(([k, v]) => `${v} ${k}`);
 
       return srcset.join(',');
     }

@@ -6,6 +6,6 @@ import { ArticleRoutingModule } from './article-routing.module';
 
 @NgModule({
   declarations: [ArticleRoutingModule.components],
-  imports: [SharedModule, ArticleRoutingModule],
+  imports: [ArticleRoutingModule, SharedModule],
 })
-export class ArticleModule {}
+export default class ArticleModule {}

@@ -1,8 +1,8 @@
 <ng-container *ngIf="(breadcrumbs$ | async) as crumbs">
   <nav *ngIf="crumbs.length">
     <ul
-      @breadcrumbTransition
       class="breadcrumb"
+      @breadcrumbTransition
     >
       <li
         *ngFor="let crumb of crumbs; let last = last; let first = first; trackBy: track"

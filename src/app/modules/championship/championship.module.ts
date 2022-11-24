@@ -8,7 +8,7 @@ import { ChampionshipResolver } from './pages/championship/championship-resolve.
 
 @NgModule({
   declarations: [ChampionshipRoutingModule.components],
-  imports: [SharedModule, ChampionshipRoutingModule, StreamModule],
+  imports: [ChampionshipRoutingModule, SharedModule, StreamModule],
   providers: [ChampionshipResolver],
 })
-export class ChampionshipModule {}
+export default class ChampionshipModule {}

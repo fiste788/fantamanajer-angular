@@ -29,56 +29,56 @@ export const breakPointsProvider = {
 
 @NgModule({
   declarations: [
-    RellaxDirective,
-    SeasonActiveDirective,
-    SrcsetDirective,
-    StickyDirective,
-
-    CaptainPipe,
-    PlaceholderPipe,
-    RangePipe,
-    SrcsetPipe,
-    StatePipe,
-
     BreadcrumbComponent,
+    CaptainPipe,
     MatEmptyStateComponent,
     ParallaxHeaderComponent,
+
+    PlaceholderPipe,
     PlayerImageComponent,
+    RangePipe,
+    RellaxDirective,
     RouterOutletComponent,
+    SeasonActiveDirective,
+    SrcsetDirective,
+
+    SrcsetPipe,
+    StatePipe,
+    StickyDirective,
   ],
   exports: [
+    BreadcrumbComponent,
+    CaptainPipe,
     CommonModule,
-    FormsModule,
-    RouterModule,
-    MaterialModule,
     FlexLayoutModule,
+    FormsModule,
     LazyLoadImageModule,
 
+    MatEmptyStateComponent,
+    MaterialModule,
+    ParallaxHeaderComponent,
+    PlaceholderPipe,
+    PlayerImageComponent,
+    RangePipe,
     RellaxDirective,
+
+    RouterModule,
+    RouterOutletComponent,
     SeasonActiveDirective,
     SrcsetDirective,
-    StickyDirective,
-
-    CaptainPipe,
-    PlaceholderPipe,
-    RangePipe,
     SrcsetPipe,
     StatePipe,
 
-    BreadcrumbComponent,
-    MatEmptyStateComponent,
-    ParallaxHeaderComponent,
-    PlayerImageComponent,
-    RouterOutletComponent,
+    StickyDirective,
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    RouterModule,
-    MaterialModule,
-
     FlexLayoutModule,
+    FormsModule,
     LazyLoadImageModule,
+
+    MaterialModule,
+    RouterModule,
   ],
 })
 export class SharedModule {}

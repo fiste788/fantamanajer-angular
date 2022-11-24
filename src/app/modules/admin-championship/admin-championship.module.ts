@@ -7,6 +7,6 @@ import { AdminChampionshipRoutingModule } from './admin-championship-routing.mod
 
 @NgModule({
   declarations: [AdminChampionshipRoutingModule.components],
-  imports: [SharedModule, AdminChampionshipRoutingModule, MatSliderModule],
+  imports: [AdminChampionshipRoutingModule, MatSliderModule, SharedModule],
 })
-export class AdminChampionshipModule {}
+export default class AdminChampionshipModule {}

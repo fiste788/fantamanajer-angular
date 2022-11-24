@@ -27,7 +27,7 @@
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -51,7 +51,8 @@
       "@data/*": [
         "src/app/data/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "types": [
     "gtag.js"

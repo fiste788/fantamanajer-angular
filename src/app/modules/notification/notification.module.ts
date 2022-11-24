@@ -10,7 +10,7 @@ import { NotificationOverlayService } from './services/notification-overlay.serv
 @NgModule({
   declarations: [NotificationListComponent, NotificationListModal],
   exports: [NotificationListComponent],
-  imports: [SharedModule, OverlayModule],
+  imports: [OverlayModule, SharedModule],
   providers: [NotificationOverlayService],
 })
 export class NotificationModule {

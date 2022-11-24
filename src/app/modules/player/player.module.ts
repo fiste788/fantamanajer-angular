@@ -7,7 +7,7 @@ import { PlayerRoutingModule } from './player-routing.module';
 
 @NgModule({
   declarations: [PlayerRoutingModule.components],
-  imports: [SharedModule, PlayerRoutingModule],
+  imports: [PlayerRoutingModule, SharedModule],
   providers: [PlayerResolver],
 })
-export class PlayerModule {}
+export default class PlayerModule {}

@@ -50,6 +50,6 @@ export class BreadcrumbComponent {
   }
 
   protected track(index: number, crumb: Breadcrumb | null): string {
-    return crumb !== null ? crumb.label : `${index}`;
+    return crumb === null ? `${index}` : crumb.label;
   }
 }

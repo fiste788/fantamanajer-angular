@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <mat-toolbar
   *ngIf="app.team$ | async as team"
   color="primary"
@@ -15,7 +16,7 @@
   >
     <mat-form-field
       *ngIf="(auth.user$ | async)?.teams as teams"
-      appearance="standard"
+      appearance="fill"
     >
       <mat-select
         panelClass="teams-panel"

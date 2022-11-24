@@ -1,4 +1,4 @@
-<mat-card class="options mat-elevation-z4">
+<mat-card appearance="outlined" class="options mat-elevation-z4">
   <mat-card-header>
     <mat-card-title>Giornata {{lineup.matchday?.number}}</mat-card-title>
     <mat-card-subtitle *ngIf="lineup.modified_at">Aggiornata il: {{lineup.modified_at | date: 'dd/MM HH:mm'}}
@@ -42,7 +42,6 @@
       <ng-template matExpansionPanelContent>
         <mat-form-field
           *ngFor="let captain of (lineupService.captains | keyvalue); trackBy: trackByCaptainField"
-          appearance="standard"
         >
           <mat-label>{{captain.key}}</mat-label>
           <mat-select

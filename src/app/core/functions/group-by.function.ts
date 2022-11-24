@@ -3,10 +3,10 @@ export function groupBy<T, K>(list: Array<T>, getKey: (item: T) => K): Map<K, Ar
   for (const item of list) {
     const key = getKey(item);
     const collection = map.get(key);
-    if (!collection) {
-      map.set(key, [item]);
-    } else {
+    if (collection) {
       collection.push(item);
+    } else {
+      map.set(key, [item]);
     }
   }
 

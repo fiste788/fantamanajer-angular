@@ -15,7 +15,7 @@
 
 /* Use .layout-scrollbar-obtrusive to only use overflow if scrollbars don’t overlay */
 
-.mat-select-panel,
+.mat-mdc-select-panel,
 .mat-sidenav > div,
 .mat-sidenav-content,
 .scrollbar-test {
@@ -28,7 +28,7 @@
 
 /* This class controls what elements have the new fancy scrollbar CSS */
 
-.mat-select-panel,
+.mat-mdc-select-panel,
 .mat-sidenav > div,
 .mat-sidenav-content {
   scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
@@ -60,7 +60,7 @@
 /* Only apply height/width to ::-webkit-scrollbar if is obtrusive */
 
 .layout-scrollbar-obtrusive {
-  .mat-select-panel::-webkit-scrollbar,
+  .mat-mdc-select-panel::-webkit-scrollbar,
   .mat-sidenav > div::-webkit-scrollbar,
   .mat-sidenav-content::-webkit-scrollbar {
     height: var(--scrollbar-size);
@@ -68,14 +68,14 @@
   }
 }
 
-.mat-select-panel::-webkit-scrollbar-thumb:vertical,
+.mat-mdc-select-panel::-webkit-scrollbar-thumb:vertical,
 .mat-sidenav > div::-webkit-scrollbar-thumb:vertical,
 .mat-sidenav-content::-webkit-scrollbar-thumb:vertical,
 .scrollbar-test::-webkit-scrollbar-thumb:vertical {
   min-height: var(--scrollbar-minlength);
 }
 
-.mat-select-panel::-webkit-scrollbar-thumb:horizontal,
+.mat-mdc-select-panel::-webkit-scrollbar-thumb:horizontal,
 .mat-sidenav > div::-webkit-scrollbar-thumb:horizontal,
 .mat-sidenav-content::-webkit-scrollbar-thumb:horizontal,
 .scrollbar-test::-webkit-scrollbar-thumb:horizontal {

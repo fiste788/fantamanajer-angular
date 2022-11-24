@@ -123,12 +123,14 @@ export class MemberListComponent implements OnInit {
       let value;
       const id = sortHeaderId as Stats | 'player';
       switch (id) {
-        case 'player':
+        case 'player': {
           value = data.player.full_name;
           break;
-        default:
+        }
+        default: {
           value = data.stats ? data.stats[id] : 0;
           break;
+        }
       }
       if (typeof value === 'string' && !value.trim()) {
         return value;

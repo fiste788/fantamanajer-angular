@@ -1,10 +1,10 @@
 <div class="table-container">
   <div
     fxLayout="row"
-    class="mat-table-header"
+    class="mat-mdc-table-header"
   >
-    <span class="mat-table-title">Seleziona per acquistarlo</span>
-    <mat-form-field floatLabel="never">
+    <span class="mat-mdc-table-title">Seleziona per acquistarlo</span>
+    <mat-form-field floatLabel="always">
       <mat-label>Ruolo</mat-label>
       <mat-select
         placeholder="Seleziona il ruolo"
@@ -24,9 +24,9 @@
       <div
         *ngIf="member !== undefined"
         fxLayout="row"
-        class="mat-table-header-selected"
+        class="mat-mdc-table-header-selected"
       >
-        <span class="mat-table-title">Selezionato {{member?.player?.full_name}}</span>
+        <span class="mat-mdc-table-title">Selezionato {{member?.player?.full_name}}</span>
         <a
           mat-button
           matTooltip="Acquista"

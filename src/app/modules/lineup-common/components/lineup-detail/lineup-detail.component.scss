@@ -5,7 +5,8 @@
   padding-bottom: 1rem;
 }
 
-mat-select {
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
+.mat-mdc-select {
   min-width: 100%;
   display: inline-block !important;
 }
@@ -29,7 +30,7 @@ mat-select {
   }
 }
 
-.mat-form-field:not(.module) {
+.mat-mdc-form-field:not(.module) {
   width: 100%;
 }
 
@@ -41,7 +42,7 @@ fieldset {
   width: 100%;
 }
 @include mq.layout-bp(gt-md) {
-  .mat-form-field {
+  .mat-mdc-form-field {
     width: unset;
     min-width: 10rem;
     margin: 0 .5rem;

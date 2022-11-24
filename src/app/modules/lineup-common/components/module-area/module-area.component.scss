@@ -24,12 +24,13 @@
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 mat-select {
   min-width: 100%;
   display: inline-block !important;
 }
 @include mq.layout-bp(gt-md) {
-  .mat-form-field {
+  .mat-mdc-form-field {
     width: unset;
     min-width: 10rem;
     margin: 0 .5rem;

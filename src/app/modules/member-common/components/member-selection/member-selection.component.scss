@@ -1,8 +1,8 @@
 @use '@angular/flex-layout/mq';
 
-.mat-form-field {
+.mat-mdc-form-field {
   max-width: 100%;
-  margin-top: -1rem;
+  //margin-top: -1rem;
   flex-grow: 1;
 }
 
@@ -32,7 +32,7 @@
 
 }
 
-.mat-form-field.ng-invalid .img-container {
+.mat-mdc-form-field.ng-invalid .img-container {
   border-color: #f44336;
 }
 
@@ -42,7 +42,7 @@
 @include mq.layout-bp(gt-sm) {
   :host {
     overflow: hidden;
-    max-width: 180px;
+    // max-width: 180px;
     display: inline-block;
     margin: 1rem .5rem 0;
   }

@@ -1,25 +1,24 @@
 @use "@angular/material" as mat;
 @mixin core() {
   app-profile {
-    .mat-form-field-wrapper {
-      padding-bottom: 0 !important;
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+      background-color: transparent;
     }
 
-    .mat-form-field-appearance-standard .mat-form-field-underline {
+    .mat-mdc-form-field-subscript-wrapper,
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
       display: none;
     }
 
-    .mat-form-field-infix {
-      padding: 0;
-      border: 0;
+    .mat-mdc-select-value {
+      color: #fff;
     }
-
   }
 
   .teams-panel {
     margin-left: .5rem;
 
-    .mat-option {
+    .mat-mdc-option {
       line-height: 1 !important;
     }
   }

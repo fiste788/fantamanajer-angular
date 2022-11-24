@@ -1,14 +1,15 @@
 <div
   *ngIf="(clubs$ | async) as clubs; else loading"
-  @cardCreationAnimation
   class="flex-container"
   fxLayout="row wrap"
   fxLayout.xs="column"
   fxLayoutAlign="space-around flex-start"
   fxLayoutAlign.xs="start"
+  @cardCreationAnimation
 >
   <mat-card
     *ngFor="let club of clubs; let i=index; trackBy: track"
+    appearance="outlined"
     class="flex-item"
     fxFlex.xs="100"
     fxFlex.sm="45"

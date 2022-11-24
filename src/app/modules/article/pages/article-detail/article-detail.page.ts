@@ -26,7 +26,7 @@ export class ArticleDetailPage {
     private readonly articleService: ArticleService,
   ) {
     const id = this.route.snapshot.params['id'] as string | undefined;
-    this.article$ = id !== undefined ? this.load(+id) : this.new();
+    this.article$ = id === undefined ? this.new() : this.load(+id);
   }
 
   protected load(id: number): Observable<Article> {

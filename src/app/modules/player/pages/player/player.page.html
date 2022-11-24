@@ -1,7 +1,7 @@
 <ng-container *ngIf="(player$ | async) as player;">
   <div
-    @enterDetailAnimation
     *ngIf="(selectedMember$ | async) as selectedMember;"
+    @enterDetailAnimation
   >
     <div class="animation-container">
       <app-parallax-header
@@ -23,7 +23,7 @@
           >
             Acquista
           </a>
-          <mat-form-field appearance="standard">
+          <mat-form-field>
             <mat-label>Stagione</mat-label>
             <mat-select
               placeholder="Stagione"
@@ -47,10 +47,10 @@
     class="table-container"
   >
     <table
-      @tableRowAnimation
       #table
       mat-table
       matSort
+      @tableRowAnimation
       [trackBy]="trackRating"
       [dataSource]="ratings"
     >

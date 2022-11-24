@@ -10,11 +10,11 @@ import { AdminTeamRoutingModule } from './admin-team-routing.module';
 @NgModule({
   declarations: [AdminTeamRoutingModule.components],
   imports: [
-    SharedModule,
     AdminTeamRoutingModule,
-    MemberCommonModule,
-    LineupCommonModule,
     ConfirmationDialogModule,
+    LineupCommonModule,
+    MemberCommonModule,
+    SharedModule,
   ],
 })
-export class AdminTeamModule {}
+export default class AdminTeamModule {}

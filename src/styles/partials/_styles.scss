@@ -8,6 +8,10 @@
     font-family: Roboto, sans-serif;
   }
 
+  figure {
+    margin: 0;
+  }
+
   fieldset {
     margin: 0;
     padding: 0;
@@ -32,7 +36,7 @@
     flex: 1 1 auto;
   }
 
-  .mat-progress-spinner {
+  .mat-mdc-progress-spinner {
     margin: 3rem auto 5rem;
   }
 

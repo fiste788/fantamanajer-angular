@@ -118,11 +118,11 @@ export class ApplicationService {
   }
 
   private setTeam(matchday: Matchday, teamSubject?: Team): void {
-    if (teamSubject?.championship.season_id !== matchday.season_id) {
+    if (teamSubject?.championship.season_id === matchday.season_id) {
+      this.recalcSeason(matchday);
+    } else {
       this.seasonStarted = false;
       this.seasonEnded = true;
-    } else {
-      this.recalcSeason(matchday);
     }
   }
 }

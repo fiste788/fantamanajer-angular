@@ -4,10 +4,10 @@
     class="table-container mat-elevation-z1"
   >
     <table
-      @tableRowAnimation
       #table
       mat-table
       matSort
+      @tableRowAnimation
       [trackBy]="trackTransfert"
       [dataSource]="dataSource"
       (matSortChange)="setSort(dataSource)"

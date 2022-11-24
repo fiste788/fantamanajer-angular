@@ -18,11 +18,11 @@
         [src]="image"
       >
       <div class="parallax-header-title">
-        <h1 class="mat-display-1 title">{{title}}</h1>
+        <h1 class="mat-headline-4 title">{{title}}</h1>
         <div class="subtitle">
           <p
             *ngIf="subtitle"
-            class="mat-body-2"
+            class="mat-subtitle-2"
           >{{subtitle}}
             <ng-content select="subtitle"></ng-content>
           </p>
@@ -37,6 +37,7 @@
   <nav
     *ngIf="tabs.length"
     mat-tab-nav-bar
+    [tabPanel]="tabPanel"
   >
     <ng-container *ngFor="let tab of tabs; trackBy: track">
       <a
