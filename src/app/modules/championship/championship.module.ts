@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { StreamModule } from '@modules/stream/stream.module';
+import { StreamComponent } from '@modules/stream/components/stream.component';
 import { SharedModule } from '@shared/shared.module';
 
 import { ChampionshipRoutingModule } from './championship-routing.module';
@@ -8,7 +8,7 @@ import { ChampionshipResolver } from './pages/championship/championship-resolve.
 
 @NgModule({
   declarations: [ChampionshipRoutingModule.components],
-  imports: [ChampionshipRoutingModule, SharedModule, StreamModule],
+  imports: [ChampionshipRoutingModule, SharedModule, StreamComponent],
   providers: [ChampionshipResolver],
 })
 export default class ChampionshipModule {}

@@ -16,8 +16,9 @@
       </mat-list-item>
       <ng-template #placeholder>
         <content-loader
+          height="88"
           preserveAspectRatio="none"
-          [style]="{height: 88, width}"
+          [style.width]="width"
         >
           <svg:rect
             x="66"

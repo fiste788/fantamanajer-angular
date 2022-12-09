@@ -5,7 +5,7 @@
   html {
     margin: 0;
     height: 100%;
-    font-family: Roboto, sans-serif;
+    // font-family: Roboto, sans-serif;
   }
 
   figure {
@@ -96,11 +96,22 @@
     color: mat.get-color-from-palette($accent, default-contrast);
   }
 }
+@mixin density($theme) {}
+@mixin typography($theme) {}
 @mixin theme($theme) {
    @include core;
-
-  $color-config: mat.get-color-config($theme);
-  @if $color-config {
-     @include color($theme);
+  @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
+    $color: mat.get-color-config($theme);
+    $density: mat.get-density-config($theme);
+    $typography: mat.get-typography-config($theme);
+    @if $color {
+       @include color($color);
+    }
+    @if $density {
+       @include density($density);
+    }
+    @if $typography {
+       @include typography($typography);
+    }
   }
 }

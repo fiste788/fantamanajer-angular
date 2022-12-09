@@ -12,9 +12,12 @@ import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { MemberService, RoleService, SelectionService } from '@data/services';
 import { Member, Role, Selection, Team } from '@data/types';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-selection',
+  standalone: true,
+  imports: [SharedModule],
   styleUrls: ['./selection.component.scss'],
   templateUrl: './selection.component.html',
 })

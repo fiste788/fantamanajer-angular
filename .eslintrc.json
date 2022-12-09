@@ -303,6 +303,12 @@
         "angular-strict/template"
       ],
       "rules": {
+        "@angular-eslint/template/no-inline-styles": [
+          "warn",
+          {
+            "allowBindToStyle": true
+          }
+        ],
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/cyclomatic-complexity": [
           "warn",

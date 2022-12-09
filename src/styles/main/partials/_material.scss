@@ -1,4 +1,7 @@
 @use '@angular/material' as mat;
+@mixin core() {
+   @include mat.core;
+}
 @mixin color($theme) {
    @include mat.core-color($theme);
   @include mat.badge-color($theme);
@@ -29,7 +32,31 @@
 }
 @mixin density($theme) {
    @include mat.core-density($theme);
-  @include mat.all-component-densities($theme);
+  @include mat.badge-density($theme);
+  @include mat.button-density($theme);
+  @include mat.fab-density($theme);
+  @include mat.icon-button-density($theme);
+  @include mat.card-density($theme);
+  @include mat.checkbox-density($theme);
+  @include mat.dialog-density($theme);
+  @include mat.divider-density($theme);
+  @include mat.expansion-density($theme);
+  @include mat.form-field-density($theme);
+  @include mat.icon-density($theme);
+  @include mat.input-density($theme);
+  @include mat.list-density($theme);
+  @include mat.menu-density($theme);
+  @include mat.progress-spinner-density($theme);
+  @include mat.select-density($theme);
+  @include mat.sidenav-density($theme);
+  @include mat.slide-toggle-density($theme);
+  @include mat.snack-bar-density($theme);
+  @include mat.sort-density($theme);
+  @include mat.stepper-density($theme);
+  @include mat.table-density($theme);
+  @include mat.tabs-density($theme);
+  @include mat.toolbar-density($theme);
+  @include mat.tooltip-density($theme);
 }
 @mixin typography($theme) {
    @include mat.core-typography($theme);
@@ -60,57 +87,19 @@
   @include mat.tooltip-typography($theme);
 }
 @mixin theme($theme) {
-   @include mat.core;
-
-  // @include mat.core-theme($theme);
-  @include mat.form-field-theme($theme);
-
-  /* @include mat.badge-theme($theme);
- @include mat.button-theme($theme);
- @include mat.button-typography($theme);
- @include mat.fab-theme($theme);
- @include mat.fab-typography($theme);
- @include mat.icon-button-theme($theme);
- @include mat.icon-button-typography($theme);
- @include mat.card-theme($theme);
- @include mat.card-typography($theme);
- @include mat.checkbox-theme($theme);
- @include mat.checkbox-typography($theme);
- @include mat.dialog-theme($theme);
- @include mat.dialog-typography($theme);
- @include mat.divider-theme($theme);
- @include mat.expansion-theme($theme);
- @include mat.form-field-theme($theme);
- @include mat.form-field-typography($theme);
- @include mat.icon-theme($theme);
- @include mat.input-theme($theme);
- @include mat.input-typography($theme);
- @include mat.list-theme($theme);
- @include mat.list-typography($theme);
- @include mat.menu-theme($theme);
- @include mat.menu-typography($theme);
- @include mat.progress-spinner-theme($theme);
- @include mat.progress-spinner-typography($theme);
- @include mat.select-theme($theme);
- @include mat.select-typography($theme);
- @include mat.core-theme($theme);
- @include mat.core-typography($theme);
- @include mat.sidenav-theme($theme);
- @include mat.slide-toggle-theme($theme);
- @include mat.slide-toggle-typography($theme);
- @include mat.snack-bar-theme($theme);
- @include mat.snack-bar-typography($theme);
- @include mat.sort-theme($theme);
- @include mat.stepper-theme($theme);
- @include mat.table-theme($theme);
- @include mat.table-typography($theme);
- @include mat.tabs-theme($theme);
- @include mat.tabs-typography($theme);
- @include mat.toolbar-theme($theme);
- @include mat.tooltip-theme($theme);
- @include mat.tooltip-typography($theme); */
-  @include color($theme);
-  @include typography($theme);
-
-  // @include density($theme)
+   @include core;
+  @include mat.private-check-duplicate-theme-styles($theme, 'material') {
+    $color: mat.get-color-config($theme);
+    $density: mat.get-density-config($theme);
+    $typography: mat.get-typography-config($theme);
+    @if $color {
+       @include color($color);
+    }
+    @if $density {
+       @include density($density);
+    }
+    @if $typography {
+       @include typography($typography);
+    }
+  }
 }

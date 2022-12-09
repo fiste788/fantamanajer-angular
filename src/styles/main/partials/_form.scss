@@ -1,21 +1,12 @@
 @use "@angular/material" as mat;
 @mixin core() {
-  app-profile {
-    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-      background-color: transparent;
-    }
-
-    .mat-mdc-form-field-subscript-wrapper,
-    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
-      display: none;
-    }
-  }
-
-  .teams-panel {
-    margin-left: .5rem;
-
-    .mat-mdc-option {
-      line-height: 1 !important;
+  .inherit-color {
+    .mat-focused .mat-form-field-label,
+    .mat-form-field.mat-focused .mat-select-arrow,
+    .mat-mdc-form-field-label,
+    .mat-select-arrow,
+    .mat-select-value {
+      color: inherit;
     }
   }
 }
@@ -24,7 +15,7 @@
 @mixin typography($theme) {}
 @mixin theme($theme) {
    @include core;
-  @include mat.private-check-duplicate-theme-styles($theme, 'profile') {
+  @include mat.private-check-duplicate-theme-styles($theme, 'form') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);

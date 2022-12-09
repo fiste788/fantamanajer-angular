@@ -1,4 +1,4 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,14 +8,18 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 
 import { StreamService } from '@data/services';
 import { listItemAnimation } from '@shared/animations';
+import { SharedModule } from '@shared/shared.module';
 
 import { StreamDataSource } from './stream.datasource';
 
 @Component({
   animations: [listItemAnimation],
+  standalone: true,
+  imports: [ContentLoaderModule, ScrollingModule, SharedModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-stream[context][id]',
   styleUrls: ['./stream.component.scss'],

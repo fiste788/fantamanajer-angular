@@ -9,11 +9,14 @@ import {
 } from '@angular/core';
 
 import { NotificationSubscription, NotificationSubscriptionsKeys, Team } from '@data/types';
+import { SharedModule } from '@shared/shared.module';
 
 import { Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [SharedModule],
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
   styleUrls: ['./notification-subscription.component.scss'],
   templateUrl: './notification-subscription.component.html',

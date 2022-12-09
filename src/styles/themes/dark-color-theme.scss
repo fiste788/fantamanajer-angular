@@ -1,4 +1,4 @@
-@use '../partials/app';
+@use '../app';
 @use './dark/variables';
 @use './dark/core';
 @include core.core(variables.$theme);

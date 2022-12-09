@@ -3,8 +3,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ngfModule } from 'angular-file';
 
 import { MemberCommonModule } from '@modules/member-common/member-common.module';
-import { NotificationSubscriptionModule } from '@modules/notification-subscription/notification-subscription.module';
-import { StreamModule } from '@modules/stream/stream.module';
+import { NotificationSubscriptionComponent } from '@modules/notification-subscription/components/notification-subscription/notification-subscription.component';
+import { StreamComponent } from '@modules/stream/components/stream.component';
 import { SharedModule } from '@shared/shared.module';
 
 import { TeamEditModal } from './modals/team-edit/team-edit.modal';
@@ -17,9 +17,9 @@ import { TeamRoutingModule } from './team-routing.module';
     MatDialogModule,
     MemberCommonModule,
     ngfModule,
-    NotificationSubscriptionModule,
+    NotificationSubscriptionComponent,
     SharedModule,
-    StreamModule,
+    StreamComponent,
     TeamRoutingModule,
   ],
   providers: [TeamDetailResolver],
