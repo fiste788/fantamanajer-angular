@@ -23,13 +23,13 @@
               <mat-label>Email</mat-label>
               <input
                 #username="ngModel"
-                required
-                name="email"
-                type="email"
-                placeholder="Email"
                 autocomplete="username"
-                matInput
                 cdkFocusInitial
+                matInput
+                name="email"
+                placeholder="Email"
+                required
+                type="email"
                 [(ngModel)]="loginData.email"
               >
               <mat-error *ngIf="username.errors?.['email']">
@@ -42,9 +42,9 @@
             </mat-form-field>
             <div fxLayoutAlign="end end">
               <button
-                type="submit"
                 color="accent"
                 mat-raised-button
+                type="submit"
                 [disabled]="username.errors !== null"
               >Avanti</button>
             </div>
@@ -56,24 +56,24 @@
             (ngSubmit)="f.valid && login()"
           >
             <input
+              autocomplete="username"
               class="mat-h3"
+              name="email"
               readonly
               required
-              name="email"
               type="email"
-              autocomplete="username"
               [(ngModel)]="loginData.email"
             >
             <mat-form-field>
               <mat-label>Password</mat-label>
               <input
                 #password="ngModel"
-                name="password"
-                type="password"
-                placeholder="Password"
                 autocomplete="current-password"
                 matInput
+                name="password"
+                placeholder="Password"
                 required
+                type="password"
                 [(ngModel)]="loginData.password"
               >
               <mat-error *ngIf="password.errors">
@@ -91,16 +91,16 @@
               fxLayoutAlign="space-between"
             >
               <button
-                type="reset"
                 color="accent"
                 mat-raised-button
                 matStepperPrevious
+                type="reset"
                 (click)="reset()"
               >Cambia account</button>
               <button
-                type="submit"
                 color="accent"
                 mat-raised-button
+                type="submit"
               >Accedi</button>
             </div>
           </form>

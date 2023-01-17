@@ -3,8 +3,8 @@
     #drawer
     fixedInViewport="true"
     [autoFocus]="false"
-    [opened]="(isOpen$ | async)"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isOpen$ | async)"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
   >

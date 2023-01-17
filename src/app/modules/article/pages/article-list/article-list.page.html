@@ -10,8 +10,8 @@
   <mat-card
     *ngFor="let article of articles; let i=index; trackBy: track"
     appearance="outlined"
-    fxFlex.xs="100"
     fxFlex.gt-sm="45"
+    fxFlex.xs="100"
     [id]="article.id"
   >
     <mat-card-header>
@@ -23,13 +23,13 @@
     </mat-card-content>
     <mat-card-actions fxLayoutAlign="end">
       <a
-        type="button"
         mat-button
+        type="button"
         [routerLink]="['/articles',article.id]"
       >EDIT</a>
       <button
-        type="button"
         mat-button
+        type="button"
         (click)="delete(article.id)"
       >DELETE</button>
     </mat-card-actions>
@@ -37,13 +37,13 @@
 </div>
 <app-mat-empty-state
   *ngIf="articles.length === 0 && !isLoading"
-  label="Nessuna conferenza stampa ancora rilasciata"
   description="Sii il primo"
   icon="message"
+  label="Nessuna conferenza stampa ancora rilasciata"
 >
   <a
-    mat-raised-button
     color="accent"
+    mat-raised-button
     routerLink="/articles/new"
   >Nuova conferenza stampa</a>
 </app-mat-empty-state>

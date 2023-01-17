@@ -14,14 +14,14 @@
   </div>
 
   <div
-    ngfDrop
-    class="my-drop-zone"
     accept="image/*"
-    [selectable]="true"
+    class="my-drop-zone"
+    ngfDrop
     [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
+    [selectable]="true"
     [(file)]="file"
-    [(validDrag)]="validComboDrag"
     [(invalidDrag)]="invalidComboDrag"
+    [(validDrag)]="validComboDrag"
   >
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
     <div
@@ -36,33 +36,33 @@
   </div>
   <div>
     <app-notification-subscription
-      type="email"
       label="Notifiche tramite email"
+      type="email"
       [team]="team"
       [(subscriptions)]="team.email_notification_subscriptions"
     ></app-notification-subscription>
     <app-notification-subscription
-      type="push"
       label="Notifiche push"
+      type="push"
       [team]="team"
       [(subscriptions)]="team.push_notification_subscriptions"
     ></app-notification-subscription>
   </div>
 </div>
 <div
-  mat-dialog-actions
   align="end"
+  mat-dialog-actions
 >
   <button
-    type="reset"
     mat-button
     tabindex="-1"
+    type="reset"
     [mat-dialog-close]="undefined"
   >ANNULLA</button>
   <button
-    type="submit"
-    mat-button
     cdkFocusInitial
+    mat-button
+    type="submit"
     (click)="save()"
   >SALVA</button>
 </div>

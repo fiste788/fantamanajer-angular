@@ -6,17 +6,17 @@
   >
     <div ngModelGroup="members">
       <app-module-area
+        [dispositions]="data.dispositions"
+        [membersByRole]="data.membersByRole"
         [module]="module"
         [wrap]="true"
-        [membersByRole]="data.membersByRole"
-        [dispositions]="data.dispositions"
       >
       </app-module-area>
     </div>
     <button
       color="accent"
-      type="submit"
       mat-raised-button
+      type="submit"
     >SALVA</button>
   </form>
   <ng-template #loading>

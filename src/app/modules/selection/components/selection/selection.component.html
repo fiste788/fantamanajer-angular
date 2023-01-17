@@ -26,8 +26,8 @@
         <ng-container *ngIf="data.members as members;">
           <mat-optgroup
             *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
-            [label]="role.key.plural"
             [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
+            [label]="role.key.plural"
           >
             <mat-option
               *ngFor="let member of role.value; trackBy: trackMember"
@@ -42,8 +42,8 @@
       <mat-select
         #newMember="ngModel"
         name="new_member"
-        required
         placeholder="Nuovo giocatore"
+        required
         [compareWith]="compareFn"
         [disabled]="newMemberDisabled"
         [(ngModel)]="data.selection.new_member"
@@ -62,14 +62,14 @@
   </div>
   <div class="row center">
     <button
-      type="submit"
       color="accent"
       mat-raised-button
+      type="submit"
       [disabled]="!selectionForm.form.valid"
     >SALVA</button>
     <button
-      type="reset"
       mat-raised-button
+      type="reset"
       (click)="reset()"
     >SVUOTA</button>
   </div>

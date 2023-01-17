@@ -7,9 +7,9 @@
       #table
       mat-table
       matSort
+      [dataSource]="dataSource"
       @tableRowAnimation
       [trackBy]="trackDevice"
-      [dataSource]="dataSource"
     >
       <ng-container matColumnDef="name">
         <th
@@ -62,9 +62,9 @@
           mat-cell
         >
           <button
-            type="button"
             color="accent"
             mat-raised-button
+            type="button"
             (click)="unregister(row)"
           >Elimina</button>
         </td>
@@ -83,9 +83,9 @@
   <p>Web Authentication is a new standard enabling the creation and use of strong, attested, scoped, public key-based
     credentials by web applications, for the purpose of strongly authenticating users using hardware authenticators.</p>
   <button
-    type="button"
     color="accent"
     mat-raised-button
+    type="button"
     (click)="register()"
   >
     Registra device
@@ -93,8 +93,8 @@
 </div>
 <ng-template #empty>
   <app-mat-empty-state
-    label="Nessun device registrato"
     icon="swap_vert"
+    label="Nessun device registrato"
     [rounded]="true"
     [size]="330"
   >

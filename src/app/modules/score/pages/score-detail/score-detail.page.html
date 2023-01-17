@@ -2,10 +2,10 @@
   <div *ngIf="score.lineup; else nolineup">
     <app-disposition-list
       *ngIf="regular$ | async as regular"
-      [regular]="true"
-      [lineup]="score.lineup"
-      [dispositions]="regular"
       [caption]="'Punteggio: ' + score.points"
+      [dispositions]="regular"
+      [lineup]="score.lineup"
+      [regular]="true"
     ></app-disposition-list>
     <app-disposition-list
       *ngIf="notRegular$ | async as notRegular"

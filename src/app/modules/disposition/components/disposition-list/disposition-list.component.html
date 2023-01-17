@@ -8,9 +8,9 @@
   <table
     #table
     mat-table
+    [dataSource]="dataSource"
     @tableRowAnimation
     [trackBy]="trackDisposition"
-    [dataSource]="dataSource"
   >
     <ng-container
       matColumnDef="player"
@@ -86,9 +86,9 @@
         mat-header-cell
       >
         <span
+          class="yellow-card"
           matTooltip="Ammonizioni"
           matTooltipPosition="above"
-          class="yellow-card"
         ></span>
       </th>
       <th
@@ -109,9 +109,9 @@
         mat-header-cell
       >
         <span
+          class="red-card"
           matTooltip="Espulsioni"
           matTooltipPosition="above"
-          class="red-card"
         ></span>
       </th>
       <td
@@ -125,13 +125,13 @@
     <ng-container matColumnDef="assist">
       <th
         *matHeaderCellDef
-        mat-header-cell
         class="mat-cell-numeric"
+        mat-header-cell
       > Assist </th>
       <td
         *matCellDef="let row;"
-        mat-cell
         class="mat-cell-numeric"
+        mat-cell
       >
         {{row.member.ratings.length ? row.member.ratings[0].assist : ''}}
       </td>
@@ -140,13 +140,13 @@
     <ng-container matColumnDef="goals">
       <th
         *matHeaderCellDef
-        mat-header-cell
         class="mat-cell-numeric"
+        mat-header-cell
       > Gol </th>
       <td
         *matCellDef="let row;"
-        mat-cell
         class="mat-cell-numeric"
+        mat-cell
       >
         {{row.member.ratings.length ? row.member.ratings[0].goals : ''}}
       </td>
@@ -158,13 +158,13 @@
     >
       <th
         *matHeaderCellDef
-        mat-header-cell
         class="mat-cell-numeric"
+        mat-header-cell
       > Punti </th>
       <td
         *matCellDef="let row;"
-        mat-cell
         class="mat-cell-numeric"
+        mat-cell
       >
         {{(row.points * (regular ? row.consideration : 1))}}
       </td>

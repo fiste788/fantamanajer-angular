@@ -8,8 +8,8 @@
   <mat-form-field>
     <mat-select
       name="old_member"
-      required
       placeholder="Vecchio giocatore"
+      required
       [compareWith]="compareFn"
       [(ngModel)]="transfert.old_member"
       (selectionChange)="playerChange($event.value)"
@@ -24,8 +24,8 @@
     <mat-select
       #newMember
       name="new_member"
-      required
       placeholder="Nuovo giocatore"
+      required
       [compareWith]="compareFn"
       [(ngModel)]="transfert.new_member"
     >
@@ -41,8 +41,8 @@
   >Obbligato</mat-slide-toggle>
   <button
     color="accent"
-    type="submit"
     mat-raised-button
+    type="submit"
     [disabled]="!transfertForm.form.valid"
   >SALVA</button>
 </form>

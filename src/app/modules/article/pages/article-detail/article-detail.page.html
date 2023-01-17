@@ -8,9 +8,9 @@
     <mat-label>Titolo</mat-label>
     <input
       matInput
-      required
       name="title"
       placeholder="Titolo"
+      required
       [(ngModel)]="article.title"
     >
   </mat-form-field>
@@ -30,16 +30,16 @@
     <textarea
       matInput
       name="body"
-      rows="5"
-      required
       placeholder="Testo"
+      required
+      rows="5"
       [(ngModel)]="article.body"
     ></textarea>
   </mat-form-field>
   <button
+    color="accent"
     mat-raised-button
     type="submit"
-    color="accent"
     [disabled]="!articleForm.form.valid"
   >SALVA</button>
 </form>

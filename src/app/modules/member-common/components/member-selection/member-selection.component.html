@@ -1,6 +1,6 @@
 <mat-form-field
-  hideRequiredMarker="true"
   floatLabel="always"
+  hideRequiredMarker="true"
 >
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
@@ -8,20 +8,20 @@
     </div>
     <app-member-icons
       *ngIf="member && member?.likely_lineup"
-      @createBox
       [captain]="captain"
-      [member]="member"
       [circle]="true"
+      @createBox
+      [member]="member"
     >
     </app-member-icons>
   </div>
   <mat-select
     #memberSelection="ngModel"
+    [compareWith]="compareFn"
     [disabled]="disabled"
+    [name]="name"
     [placeholder]="placeholder"
     [required]="required"
-    [name]="name"
-    [compareWith]="compareFn"
     [typeaheadDebounceInterval]="350"
     [(ngModel)]="member"
     (selectionChange)="change($event.value)"
@@ -33,8 +33,8 @@
     <ng-container *ngIf="memberList?.length">
       <mat-option
         *ngFor="let opt of memberList; trackBy: track"
-        [value]="opt.member"
         [disabled]="opt.disabled"
+        [value]="opt.member"
       >
         <app-member-icons [member]="opt.member"></app-member-icons>
       </mat-option>
@@ -46,8 +46,8 @@
       >
         <mat-option
           *ngFor="let opt of role.value; trackBy: track"
-          [value]="opt.member"
           [disabled]="opt.disabled"
+          [value]="opt.member"
         >
           <app-member-icons [member]="opt.member"></app-member-icons>
         </mat-option>

@@ -6,16 +6,16 @@
   >Giornata {{matchday.number}}</h3>
   <a
     *ngIf="deferredPrompt$ | async as prompt"
-    mat-list-item
     href="#install"
+    mat-list-item
     (click)="install(prompt, $event)"
   >
     <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
   </a>
   <a
     mat-list-item
-    routerLinkActive="active"
     routerLink="/home"
+    routerLinkActive="active"
   >
     <mat-icon matListItemIcon>home</mat-icon>Home
   </a>
@@ -26,8 +26,8 @@
     [routerLink]="['teams', team.id]"
   >
     <mat-icon
-      svgIcon="team"
       matListItemIcon
+      svgIcon="team"
     ></mat-icon>{{team.name}}
   </a>
   <a
@@ -40,8 +40,8 @@
   </a>
   <a
     mat-list-item
-    routerLinkActive="active"
     routerLink="/clubs"
+    routerLinkActive="active"
   >
     <mat-icon matListItemIcon>sports_soccer</mat-icon>Clubs
   </a>
@@ -50,15 +50,15 @@
   <ng-container *ngIf="loggedIn$ | async; else notLogged">
     <a
       mat-list-item
-      routerLinkActive="active"
       routerLink="/user"
+      routerLinkActive="active"
     >
       <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
     </a>
     <a
       mat-list-item
-      routerLinkActive="active"
       routerLink="/auth/logout"
+      routerLinkActive="active"
     >
       <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
     </a>
@@ -66,8 +66,8 @@
   <ng-template #notLogged>
     <a
       mat-list-item
-      routerLinkActive="active"
       routerLink="/auth/login"
+      routerLinkActive="active"
     >
       <mat-icon matListItemIcon>input</mat-icon>Log In
     </a>

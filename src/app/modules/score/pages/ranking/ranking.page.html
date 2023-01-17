@@ -4,11 +4,11 @@
 >
   <table
     #table
-    mat-table
     class="ranking"
+    mat-table
+    [dataSource]="ranking"
     @tableRowAnimation
     [trackBy]="trackRanking"
-    [dataSource]="ranking"
   >
     <ng-container
       matColumnDef="team-name"
@@ -46,13 +46,13 @@
     >
       <th
         *matHeaderCellDef
-        mat-header-cell
         class="matchday"
+        mat-header-cell
       > {{matchday}} </th>
       <td
         *matCellDef="let row;"
-        mat-cell
         class="matchday"
+        mat-cell
       >
         <a routerLink="/scores/{{row.scores[matchday].id}}">{{row.scores[matchday].points}}</a>
       </td>

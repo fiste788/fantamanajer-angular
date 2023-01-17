@@ -1,15 +1,15 @@
 <div class="table-container">
   <div
-    fxLayout="row"
     class="mat-mdc-table-header"
+    fxLayout="row"
   >
     <span class="mat-mdc-table-title">Seleziona per acquistarlo</span>
     <mat-form-field floatLabel="always">
       <mat-label>Ruolo</mat-label>
       <mat-select
         placeholder="Seleziona il ruolo"
-        [ngModel]="role$ | async"
         [compareWith]="compareRole"
+        [ngModel]="role$ | async"
         (selectionChange)="role$.next($event.value)"
       >
         <mat-option
@@ -23,8 +23,8 @@
     <ng-container *ngIf="(selectedMember$ | async) as member">
       <div
         *ngIf="member !== undefined"
-        fxLayout="row"
         class="mat-mdc-table-header-selected"
+        fxLayout="row"
       >
         <span class="mat-mdc-table-title">Selezionato {{member?.player?.full_name}}</span>
         <a

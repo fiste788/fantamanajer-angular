@@ -25,12 +25,12 @@
           <mat-form-field>
             <mat-label>Punteggio</mat-label>
             <input
-              name="points"
-              type="number"
               matInput
-              step="0.5"
-              required
+              name="points"
               placeholder="Punteggio"
+              required
+              step="0.5"
+              type="number"
               [(ngModel)]="score.points"
             >
           </mat-form-field>
@@ -42,19 +42,19 @@
             <mat-form-field>
               <mat-label>Penalità</mat-label>
               <input
-                name="penality_points"
-                type="number"
                 matInput
-                step="0.5"
+                name="penality_points"
                 placeholder="Penalità"
+                step="0.5"
+                type="number"
                 [(ngModel)]="score.penality_points"
               >
             </mat-form-field>
             <mat-form-field>
               <mat-label>Motivazione penalità</mat-label>
               <input
-                name="penality"
                 matInput
+                name="penality"
                 placeholder="Motivazione penalità"
                 [(ngModel)]="score.penality"
               >
@@ -63,8 +63,8 @@
         </mat-card>
         <h4>Formazione</h4>
         <app-lineup-detail
-          [lineup]="score.lineup"
           [benchs]="9"
+          [lineup]="score.lineup"
         >
           <button
             buttons

@@ -6,21 +6,21 @@
   <mat-form-field>
     <mat-label>Nome squadra</mat-label>
     <input
-      name="name"
       matInput
-      required
+      name="name"
       placeholder="Nome squadra"
+      required
       [(ngModel)]="team.name"
     >
   </mat-form-field>
   <mat-form-field>
     <mat-label>Email</mat-label>
     <input
-      name="email"
-      type="email"
       matInput
-      required
+      name="email"
       placeholder="Utente"
+      required
+      type="email"
       [(ngModel)]="email"
     >
   </mat-form-field>
@@ -29,9 +29,9 @@
     [(ngModel)]="team.admin"
   >Amministratore lega</mat-slide-toggle>
   <button
-    type="submit"
     color="accent"
     mat-raised-button
+    type="submit"
     [disabled]="!teamForm.form.valid"
   >SALVA</button>
 </form>

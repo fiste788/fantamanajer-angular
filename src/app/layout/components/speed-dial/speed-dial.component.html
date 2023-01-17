@@ -1,14 +1,14 @@
 <eco-fab-speed-dial
-  direction="up"
   animationMode="scale"
+  direction="up"
   [fixed]="false"
   [(open)]="openSpeeddial"
 >
   <eco-fab-speed-dial-trigger [spin]="true">
     <button
-      type="button"
-      mat-fab
       aria-label="Aggiungi"
+      mat-fab
+      type="button"
     >
       <mat-icon class="spin360">add</mat-icon>
     </button>
@@ -17,8 +17,8 @@
   <eco-fab-speed-dial-actions>
     <a
       *appSeasonActive
-      mat-mini-fab
       class="mat-accent"
+      mat-mini-fab
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
       [routerLink]="['teams', (app.team$ | async)?.id, 'lineup','current']"
@@ -26,8 +26,8 @@
       <mat-icon svgIcon="soccer_field"></mat-icon>
     </a>
     <a
-      mat-mini-fab
       class="mat-accent"
+      mat-mini-fab
       matTooltip="Nuovo articolo"
       matTooltipPosition="left"
       routerLink="/articles/new"
@@ -36,8 +36,8 @@
     </a>
     <a
       *appSeasonActive
-      mat-mini-fab
       class="mat-accent"
+      mat-mini-fab
       matTooltip="Nuovo trasferimento"
       matTooltipPosition="left"
       [routerLink]="['teams', (app.team$ | async)?.id, 'transferts']"

@@ -12,10 +12,10 @@
         <mat-card
           appearance="outlined"
           class="flex-item"
-          fxFlex.xs="100"
-          fxFlex.sm="45"
-          fxFlex.md="22"
           fxFlex.gt-md="22"
+          fxFlex.md="22"
+          fxFlex.sm="45"
+          fxFlex.xs="100"
         >
           <app-player-image
             [inCard]="true"
@@ -59,9 +59,9 @@
 </ng-container>
 <ng-template #started>
   <app-mat-empty-state
-    label="La stagione non è ancora iniziata"
     description="Buona asta!"
     icon="wb_sunny"
+    label="La stagione non è ancora iniziata"
     [rounded]="true"
   ></app-mat-empty-state>
 </ng-template>

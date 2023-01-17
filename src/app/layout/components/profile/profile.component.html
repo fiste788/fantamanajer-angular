@@ -3,8 +3,8 @@
   *ngIf="app.team$ | async as team"
   color="primary"
   [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
-  [class.has-image]="(photo$ | async)"
   [class.greyscale-image]="(photo$ | async)"
+  [class.has-image]="(photo$ | async)"
 >
   <mat-toolbar-row>
     <span></span>
@@ -19,11 +19,11 @@
       appearance="fill"
     >
       <mat-select
+        aria-label="Squadra selezionata"
         panelClass="teams-panel"
         role="listbox"
-        aria-label="Squadra selezionata"
-        [ngModel]="team"
         [compareWith]="compareFn"
+        [ngModel]="team"
         (ngModelChange)="change($event)"
       >
         <mat-select-trigger *ngIf="team">

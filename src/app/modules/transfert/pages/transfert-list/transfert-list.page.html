@@ -7,9 +7,9 @@
       #table
       mat-table
       matSort
+      [dataSource]="dataSource"
       @tableRowAnimation
       [trackBy]="trackTransfert"
-      [dataSource]="dataSource"
       (matSortChange)="setSort(dataSource)"
     >
       <ng-container matColumnDef="old_member">
@@ -77,8 +77,8 @@
 </div>
 <ng-template #empty>
   <app-mat-empty-state
-    label="Nessun trasferimento presente"
     icon="swap_vert"
+    label="Nessun trasferimento presente"
     [rounded]="true"
     [size]="330"
   >

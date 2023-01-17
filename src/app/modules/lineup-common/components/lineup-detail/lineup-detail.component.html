@@ -43,9 +43,9 @@
               <div [ngModelGroup]="bench + ''">
                 <app-member-selection
                   *ngIf="lineup.dispositions[bench] as disp"
+                  class="benchwarmer"
                   fxLayout="row"
                   fxLayoutAlign="start center"
-                  class="benchwarmer"
                   name="member"
                   [disabled]="disabled"
                   [height]="450"

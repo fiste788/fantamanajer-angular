@@ -11,15 +11,15 @@
     *ngFor="let club of clubs; let i=index; trackBy: track"
     appearance="outlined"
     class="flex-item"
-    fxFlex.xs="100"
-    fxFlex.sm="45"
-    fxFlex.md="30"
     fxFlex.gt-md="30"
+    fxFlex.md="30"
+    fxFlex.sm="45"
+    fxFlex.xs="100"
   >
     <mat-card-header>
       <img
-        mat-card-avatar
         class="club-header-image"
+        mat-card-avatar
         [alt]="club.name"
         [lazyLoad]="club.photo_url || ''"
       >
@@ -28,10 +28,10 @@
     </mat-card-header>
 
     <img
-      mat-card-image
-      sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
       defaultImage="//via.placeholder.com/600x337"
       height="337"
+      mat-card-image
+      sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
       width="600"
       [alt]="club.name"
       [class.has-image]="club.background_url !== null"
@@ -40,13 +40,13 @@
     >
     <mat-card-actions>
       <a
-        mat-button
         color="primary"
+        mat-button
         [routerLink]="[club.id]"
       >DETTAGLI</a>
       <a
-        mat-button
         color="primary"
+        mat-button
         [routerLink]="[club.id, 'stream']"
       >ATTIVITÀ</a>
     </mat-card-actions>

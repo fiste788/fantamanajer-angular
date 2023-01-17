@@ -10,9 +10,9 @@
       <mat-form-field>
         <mat-label>Nome</mat-label>
         <input
+          matInput
           name="name"
           placeholder="Nome"
-          matInput
           required
           [(ngModel)]="user.name"
         >
@@ -21,9 +21,9 @@
       <mat-form-field>
         <mat-label>Cognome</mat-label>
         <input
+          matInput
           name="surname"
           placeholder="Cognome"
-          matInput
           required
           [(ngModel)]="user.surname"
         >
@@ -32,11 +32,11 @@
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input
-          name="password"
-          type="password"
-          placeholder="Password"
           autocomplete="new-password"
           matInput
+          name="password"
+          placeholder="Password"
+          type="password"
           [(ngModel)]="user.password"
         >
       </mat-form-field>
@@ -44,10 +44,10 @@
       <mat-form-field>
         <mat-label>Ripeti password</mat-label>
         <input
-          name="repeatPassword"
-          type="password"
-          placeholder="Ripeti password"
           matInput
+          name="repeatPassword"
+          placeholder="Ripeti password"
+          type="password"
           [required]="user.password !== undefined && user.password !== ''"
           [(ngModel)]="repeatPassword"
         >
@@ -55,17 +55,17 @@
 
       <mat-slide-toggle
         name="active_push"
-        [disabled]="!enabled"
         [checked]="(push$ | async)"
+        [disabled]="!enabled"
         (change)="togglePush(user, $event.checked)"
       >
         Ricevi notifiche push
       </mat-slide-toggle>
       <mat-card-actions>
         <button
-          type="submit"
           color="accent"
           mat-raised-button
+          type="submit"
           (click)="save(user)"
         >
           Salva

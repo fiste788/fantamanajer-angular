@@ -5,21 +5,21 @@
   >
     <div class="animation-container">
       <app-parallax-header
-        [title]="player.full_name"
-        [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
         [backgroundImage]="selectedMember.club.background_url"
         [image]="selectedMember.photo_url || player.photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
+        [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
+        [title]="player.full_name"
         (imageLoaded)="scrollTo($event)"
       >
         <div
-          parallax-header-right
           class="inherit-color"
+          parallax-header-right
         >
           <a
             *ngIf="selectedMember.free"
             mat-button
-            [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
             [queryParams]="{new_member_id: selectedMember.id}"
+            [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
           >
             Acquista
           </a>
@@ -50,9 +50,9 @@
       #table
       mat-table
       matSort
+      [dataSource]="ratings"
       @tableRowAnimation
       [trackBy]="trackRating"
-      [dataSource]="ratings"
     >
       <ng-container matColumnDef="matchday">
         <th
@@ -60,8 +60,8 @@
           mat-header-cell
         >
           <span
-            matTooltipPosition="above"
             matTooltip="Giornata"
+            matTooltipPosition="above"
           >#</span>
         </th>
         <td
@@ -176,8 +176,8 @@
           mat-sort-header
         >
           <span
-            matTooltipPosition="above"
             matTooltip="Titolare"
+            matTooltipPosition="above"
           >Tit</span>
         </th>
         <td
@@ -195,9 +195,9 @@
           mat-sort-header
         >
           <span
+            class="yellow-card"
             matTooltip="Ammonizioni"
             matTooltipPosition="above"
-            class="yellow-card"
           ></span>
         </th>
         <td
@@ -215,9 +215,9 @@
           mat-sort-header
         >
           <span
+            class="red-card"
             matTooltip="Espulsioni"
             matTooltipPosition="above"
-            class="red-card"
           ></span>
         </th>
         <td

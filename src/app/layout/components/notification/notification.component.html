@@ -1,18 +1,18 @@
 <ng-container *ngIf="(stream$ | async) as stream">
   <div @createBox>
     <button
-      type="button"
       aria-label="open"
       mat-icon-button
+      type="button"
       (click)="open($event.target)"
     >
       <mat-icon
-        matBadgeSize="small"
-        matBadgeOverlap="true"
         matBadgeColor="accent"
+        matBadgeOverlap="true"
         matBadgePosition="above after"
-        [matBadgeHidden]="stream.unseen === 0"
+        matBadgeSize="small"
         [matBadge]="(stream.unseen | number: '1.0-0') || ''"
+        [matBadgeHidden]="stream.unseen === 0"
       >notifications</mat-icon>
       <ng-template #container></ng-template>
     </button>

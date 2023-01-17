@@ -2,6 +2,7 @@
 
 .mat-mdc-form-field {
   max-width: 100%;
+
   //margin-top: -1rem;
   flex-grow: 1;
 }
@@ -42,6 +43,7 @@
 @include mq.layout-bp(gt-sm) {
   :host {
     overflow: hidden;
+
     // max-width: 180px;
     display: inline-block;
     margin: 1rem .5rem 0;
