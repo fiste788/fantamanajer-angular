@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-@use '@angular/flex-layout/mq';
 
+// @use '@angular/flex-layout/mq';
 :host {
   animation: create-box .25s;
   position: fixed;
@@ -15,7 +15,9 @@
 .mat-mdc-fab {
   box-shadow: 0 0 0 !important;
 }
-@include mq.layout-bp(gt-sm) {
+
+//@include mq.layout-bp(gt-sm) {
+@media (min-width: theme('screens.md')) {
   :host {
     left: 212px;
     right: unset !important;

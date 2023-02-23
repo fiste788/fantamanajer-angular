@@ -89,7 +89,8 @@ export class AuthenticationService {
   }
 
   public loggedIn(): boolean {
-    return !this.jwtHelper.isTokenExpired(this.tokenStorageService.token);
+    // eslint-disable-next-line unicorn/no-null
+    return !this.jwtHelper.isTokenExpired(this.tokenStorageService.token ?? null);
   }
 
   public getCurrentUser(): Observable<User> {

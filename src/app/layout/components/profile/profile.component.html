@@ -9,35 +9,33 @@
   <mat-toolbar-row>
     <span></span>
   </mat-toolbar-row>
-  <mat-toolbar-row
-    class="mat-body"
-    fxLayout="column"
-    fxLayoutAlign="end none"
-  >
-    <mat-form-field
-      *ngIf="(auth.user$ | async)?.teams as teams"
-      appearance="fill"
-    >
-      <mat-select
-        aria-label="Squadra selezionata"
-        panelClass="teams-panel"
-        role="listbox"
-        [compareWith]="compareFn"
-        [ngModel]="team"
-        (ngModelChange)="change($event)"
+  <mat-toolbar-row>
+    <div class="mat-body flex flex-col justify-end">
+      <mat-form-field
+        *ngIf="(auth.user$ | async)?.teams as teams"
+        appearance="fill"
       >
-        <mat-select-trigger *ngIf="team">
-          <h3>{{team.name}}</h3>
-        </mat-select-trigger>
-        <mat-option
-          *ngFor="let team of teams; trackBy: track"
-          [value]="team"
+        <mat-select
+          aria-label="Squadra selezionata"
+          panelClass="teams-panel"
+          role="listbox"
+          [compareWith]="compareFn"
+          [ngModel]="team"
+          (ngModelChange)="change($event)"
         >
-          {{team.name}}<br />
-          <small>{{team.championship.season.name}}</small>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <span>{{team.championship.season.name}}</span>
+          <mat-select-trigger *ngIf="team">
+            <h3>{{team.name}}</h3>
+          </mat-select-trigger>
+          <mat-option
+            *ngFor="let team of teams; trackBy: track"
+            [value]="team"
+          >
+            {{team.name}}<br />
+            <small>{{team.championship.season.name}}</small>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>{{team.championship.season.name}}</span>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>

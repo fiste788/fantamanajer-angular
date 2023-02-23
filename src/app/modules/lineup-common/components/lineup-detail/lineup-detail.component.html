@@ -24,9 +24,7 @@
   </ng-container>
   <div
     *ngIf="lineup.dispositions?.length"
-    fxLayout="row"
-    fxLayout.xs="column"
-    fxLayoutAlign="space-evenly start"
+    class="flex flex-row xs:flex-col justify-evenly items-start"
   >
     <fieldset class="benchwarmers">
       <mat-card appearance="outlined">
@@ -34,18 +32,14 @@
         <mat-card-content>
 
           <div
-            fxLayout="column"
-            fxLayout.gt-sm="row wrap"
-            fxLayoutAlign="space-around"
+            class="flex flex-col justify-around md:flex-row md:flex-wrap"
             ngModelGroup="dispositions"
           >
             <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
               <div [ngModelGroup]="bench + ''">
                 <app-member-selection
                   *ngIf="lineup.dispositions[bench] as disp"
-                  class="benchwarmer"
-                  fxLayout="row"
-                  fxLayoutAlign="start center"
+                  class="benchwarmer flex flex-row justify-start items-center"
                   name="member"
                   [disabled]="disabled"
                   [height]="450"

@@ -1,7 +1,7 @@
 <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
   <div
     *ngIf="dataSource.data.length; else empty"
-    class="table-container mat-elevation-z{{elevation}}"
+    [ngClass]="'table-container mat-elevation-z' + elevation"
   >
     <table
       #table

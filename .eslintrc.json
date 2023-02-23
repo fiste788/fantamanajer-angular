@@ -5,6 +5,7 @@
   ],
   "parserOptions": {
     "project": "tsconfig.eslint.json",
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "settings": {

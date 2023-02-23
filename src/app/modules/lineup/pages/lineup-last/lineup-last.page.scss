@@ -1,4 +1,4 @@
-@use '@angular/flex-layout/mq';
+// @use '@angular/flex-layout/mq';
 
 .role {
   width: 100%;
@@ -38,7 +38,8 @@ h5 {
 button {
   margin: 1rem auto;
 }
-@include mq.layout-bp(gt-xs) {
+@media (min-width: theme('screens.sm')) {
+  // @include mq.layout-bp(gt-xs) {
   .mat-mdc-form-field {
     min-width: 10rem;
     margin: 0 .5rem;

@@ -5,9 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from '@app/guards';
 import { Championship } from '@data/types';
 
-import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
 import { ChampionshipPage } from './pages/championship/championship.page';
+import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 
 const routes: Routes = [
   {

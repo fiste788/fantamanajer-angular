@@ -1,5 +1,8 @@
 @use '../app';
 @use './light/variables';
 @use './light/core';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 @include core.core(variables.$theme);
 @include app.theme(variables.$theme);

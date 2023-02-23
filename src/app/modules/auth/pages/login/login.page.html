@@ -1,7 +1,5 @@
 <div
-  class="flex-container login"
-  fxLayout="column wrap"
-  fxLayoutAlign="space-around center"
+  class="login flex flex-col flex-wrap justify-around items-center"
   @cardCreationAnimation
 >
   <mat-card appearance="outlined">
@@ -40,7 +38,7 @@
                 <strong>required</strong>
               </mat-error>
             </mat-form-field>
-            <div fxLayoutAlign="end end">
+            <div class="items-end align-end">
               <button
                 color="accent"
                 mat-raised-button
@@ -85,11 +83,7 @@
               name="remember_me"
               [(ngModel)]="loginData.rememberMe"
             >Ricordami</mat-checkbox>
-            <div
-              class="actions"
-              fxLayout="row"
-              fxLayoutAlign="space-between"
-            >
+            <div class="actions flex flex-row justify-between">
               <button
                 color="accent"
                 mat-raised-button

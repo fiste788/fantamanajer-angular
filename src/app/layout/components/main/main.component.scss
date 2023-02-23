@@ -1,4 +1,4 @@
-@use '@angular/flex-layout/mq';
+// @use '@angular/flex-layout/mq';
 
 .mat-sidenav-container {
   height: 100%;
@@ -34,7 +34,9 @@ main {
 app-toolbar {
   will-change: transform;
 }
-@include mq.layout-bp(gt-sm) {
+
+// @include mq.layout-bp(gt-sm) {
+@media (min-width: theme('screens.md')) {
   main {
     width: 90%;
     max-width: 90%;

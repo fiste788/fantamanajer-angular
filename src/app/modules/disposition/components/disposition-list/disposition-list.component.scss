@@ -1,5 +1,6 @@
-@use '@angular/flex-layout/mq';
-@include mq.layout-bp(lt-md) {
+// @use '@angular/flex-layout/mq';
+// @include mq.layout-bp(lt-md) {
+@media (min-width: theme('screens.lg')) {
   .mat-column-club,
   .mat-column-red-card,
   .mat-column-yellow-card {

@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-@use '@angular/flex-layout/mq';
 
+// @use '@angular/flex-layout/mq';
 :host-context(.mat-mdc-option) .mat-icon {
   line-height: 24px;
 }
@@ -46,7 +46,9 @@
     transform-origin: top left;
   }
 }
-@include mq.layout-bp(gt-sm) {
+
+// @include mq.layout-bp(gt-sm) {
+@media (min-width: theme('screens.md')) {
   .circle .mat-icon {
     font-size: 32px;
     width: 32px;

@@ -1,10 +1,12 @@
 @use "@angular/material" as mat;
-@use "@angular/flex-layout/mq";
+
+// @use "@angular/flex-layout/mq";
 @mixin core() {
   .mat-mdc-card {
     margin: 1rem;
   }
-  @include mq.layout-bp(gt-md) {
+  @media (min-width: theme('screens.lg')) {
+    // @include mq.layout-bp(gt-md) {
     .mat-mdc-card {
       margin-left: 0;
       margin-right: 0;

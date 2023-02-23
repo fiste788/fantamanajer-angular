@@ -1,4 +1,4 @@
-@use '@angular/flex-layout/mq';
+// @use '@angular/flex-layout/mq';
 
 .area {
   width: 100%;
@@ -41,7 +41,9 @@
 fieldset {
   width: 100%;
 }
-@include mq.layout-bp(gt-md) {
+
+// @include mq.layout-bp(gt-md) {
+@media (min-width: theme('screens.lg')) {
   .mat-mdc-form-field {
     width: unset;
     min-width: 10rem;

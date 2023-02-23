@@ -1,7 +1,7 @@
 <ng-container *ngIf="dispositions">
   <div
     *ngFor="let area of module.areas; trackBy: trackByArea"
-    fxLayout="row"
+    class="flex flex-row"
     [ngClass]="[area.role.abbreviation, 'area-container']"
   >
     <h5
@@ -9,10 +9,8 @@
       [title]="area.role.plural"
     >{{area.role.plural | uppercase}}</h5>
     <div
-      class="area"
-      fxLayout="column"
-      fxLayoutAlign="space-around"
-      [fxLayout.gt-sm]="'row' + wrap ? ' wrap' : ''"
+      class="area flex flex-col justify-around md:flex-row "
+      [ngClass]="{'md:flex-wrap': wrap}"
     >
       <ng-container
         *ngFor="let i of (area.toIndex | range: area.fromIndex); trackBy: trackByPosition"
@@ -20,10 +18,7 @@
       >
         <app-member-selection
           *ngIf="dispositions[i] as disp"
-          class="regular"
-          fxLayout="row"
-          fxLayout.gt-sm="column"
-          fxLayoutAlign="start center"
+          class="regular flex flex-row flex-md-column justify-start items-center"
           name="member"
           [captain]="dispositions[i]?.member?.id === captain?.id"
           [disabled]="disabled"

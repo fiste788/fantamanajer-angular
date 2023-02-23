@@ -6,8 +6,7 @@
     <form
       *ngIf="(championship$ | async) as championship "
       #championshipForm="ngForm"
-      fxLayout="column"
-      fxLayoutAlign="start start"
+      class="flex flex-col justify-start align-start"
       (ngSubmit)="save(league, championship)"
     >
       <mat-form-field>

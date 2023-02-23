@@ -5,8 +5,8 @@ import { AuthGuard } from '@app/guards';
 
 import { DeviceListPage } from './pages/device-list/device-list.page';
 import { SettingsPage } from './pages/settings/settings.page';
-import { UserStreamPage } from './pages/user-stream/user-stream.page';
 import { UserPage } from './pages/user/user.page';
+import { UserStreamPage } from './pages/user-stream/user-stream.page';
 
 const routes: Routes = [
   {

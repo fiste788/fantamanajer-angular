@@ -1,8 +1,5 @@
 <div class="table-container">
-  <div
-    class="mat-mdc-table-header"
-    fxLayout="row"
-  >
+  <div class="mat-mdc-table-header flex flex-row">
     <span class="mat-mdc-table-title">Seleziona per acquistarlo</span>
     <mat-form-field floatLabel="always">
       <mat-label>Ruolo</mat-label>
@@ -23,8 +20,7 @@
     <ng-container *ngIf="(selectedMember$ | async) as member">
       <div
         *ngIf="member !== undefined"
-        class="mat-mdc-table-header-selected"
-        fxLayout="row"
+        class="mat-mdc-table-header-selected flex flex-row"
       >
         <span class="mat-mdc-table-title">Selezionato {{member?.player?.full_name}}</span>
         <a

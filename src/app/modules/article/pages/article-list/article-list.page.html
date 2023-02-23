@@ -1,17 +1,11 @@
 <div
   *ngIf="articles.length"
-  class="flex-container"
-  fxLayout="row wrap"
-  fxLayout.xs="column"
-  fxLayoutAlign="space-around flex-start"
-  fxLayoutAlign.xs="start"
+  class="grid grid-cols-1 sm:grid-cols-2 grid-rows-1 gap-x-12"
   @cardCreationAnimation
 >
   <mat-card
     *ngFor="let article of articles; let i=index; trackBy: track"
     appearance="outlined"
-    fxFlex.gt-sm="45"
-    fxFlex.xs="100"
     [id]="article.id"
   >
     <mat-card-header>
@@ -21,7 +15,7 @@
     <mat-card-content>
       <p>{{article.body}}</p>
     </mat-card-content>
-    <mat-card-actions fxLayoutAlign="end">
+    <mat-card-actions>
       <a
         mat-button
         type="button"

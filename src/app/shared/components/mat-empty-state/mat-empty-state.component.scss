@@ -1,4 +1,4 @@
-@use "@angular/flex-layout/mq";
+// @use "@angular/flex-layout/mq";
 
 :host {
   display: block;
@@ -60,7 +60,9 @@
   font-size: 120px !important;
   margin: 0;
 }
-@include mq.layout-bp(gt-xs) {
+
+// @include mq.layout-bp(gt-xs) {
+@media (min-width: theme('screens.sm')) {
   .mat-empty-state-icon {
     width: 160px;
     min-width: 160px;

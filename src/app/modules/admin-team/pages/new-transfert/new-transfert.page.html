@@ -1,8 +1,7 @@
 <form
   *ngIf="team$ | async as team"
   #transfertForm="ngForm"
-  fxLayout="column"
-  fxLayoutAlign="start start"
+  class="flex flex-col justify-start items-start"
   (ngSubmit)="submit(team)"
 >
   <mat-form-field>

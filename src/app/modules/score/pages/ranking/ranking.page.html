@@ -54,7 +54,7 @@
         class="matchday"
         mat-cell
       >
-        <a routerLink="/scores/{{row.scores[matchday].id}}">{{row.scores[matchday].points}}</a>
+        <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points}}</a>
       </td>
     </ng-container>
 

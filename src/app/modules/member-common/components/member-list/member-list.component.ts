@@ -24,7 +24,7 @@ const stats = [
   'sum_yellow_card',
   'sum_red_card',
 ] as const;
-type Stats = typeof stats[number];
+type Stats = (typeof stats)[number];
 
 @Component({
   animations: [tableRowAnimation],
