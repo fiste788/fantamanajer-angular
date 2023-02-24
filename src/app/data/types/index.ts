@@ -1,3 +1,4 @@
+export * from './api-response.model';
 export * from './area.model';
 export * from './article.model';
 export * from './championship.model';

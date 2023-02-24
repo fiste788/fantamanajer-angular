@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '@app/guards';
+import { authenticatedGuard } from '@app/guards';
 
 export const routes: Routes = [
   {
@@ -32,43 +32,43 @@ export const routes: Routes = [
   },
   {
     path: 'user',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'user' },
     loadChildren: () => import('./modules/user/user.module'),
   },
   {
     path: 'championships',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'championships' },
     loadChildren: () => import('./modules/championship/championship.module'),
   },
   {
     path: 'teams',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'teams' },
     loadChildren: () => import('./modules/team/team.module'),
   },
   {
     path: 'articles',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'articles' },
     loadChildren: () => import('./modules/article/article.module'),
   },
   {
     path: 'scores',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'scores' },
     loadChildren: () => import('./modules/score/score.module'),
   },
   {
     path: 'lineups',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'lineups' },
     loadChildren: () => import('./modules/lineup/lineup.module'),
   },
   {
     path: 'transferts',
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: { state: 'transferts' },
     loadChildren: () => import('./modules/transfert/transfert.module'),
   },

@@ -8,7 +8,6 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
 import { SharedModule } from '@shared/shared.module';
 
 import { TeamEditModal } from './modals/team-edit/team-edit.modal';
-import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { TeamRoutingModule } from './team-routing.module';
 
 @NgModule({
@@ -22,6 +21,5 @@ import { TeamRoutingModule } from './team-routing.module';
     StreamComponent,
     TeamRoutingModule,
   ],
-  providers: [TeamDetailResolver],
 })
 export default class TeamModule {}

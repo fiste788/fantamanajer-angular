@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard, NoAuthGuard } from '@app/guards';
+import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components';
 
 import { LoginPage } from './pages/login/login.page';
@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginPage,
-        canActivate: [NoAuthGuard],
+        canActivate: [authenticatedGuard],
         data: {
           state: 'login',
         },
@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'logout',
         component: LogoutPage,
-        canActivate: [AuthGuard],
+        canActivate: [authenticatedGuard],
         data: {
           state: 'logout',
         },

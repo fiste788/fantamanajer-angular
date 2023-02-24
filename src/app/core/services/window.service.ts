@@ -11,7 +11,7 @@ import { WindowRef } from './native-window.service';
 
 export const WINDOW = new InjectionToken('WindowToken');
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BrowserWindowRef extends WindowRef {
   override get nativeWindow(): Window | object {
     return window;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '@app/guards';
+import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components';
 
 import { MemberFreePage } from './pages/member-free/member-free.page';
@@ -15,7 +15,7 @@ const routes: Routes = [
       {
         path: 'free',
         component: MemberFreePage,
-        canActivate: [AuthGuard],
+        canActivate: [authenticatedGuard],
         data: {
           state: 'free',
         },

@@ -2,12 +2,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ChampionshipAdminGuard } from '@app/guards';
+import { championshipAdminGuard } from '@app/guards';
 import { Team } from '@data/types';
 import { RouterOutletComponent } from '@shared/components';
 
-import { TeamDetailResolver } from './pages/team-detail/team-detail-resolver.service';
 import { TeamDetailPage } from './pages/team-detail/team-detail.page';
+import { teamResolver } from './pages/team-detail/team.resolver';
 import { TeamListPage } from './pages/team-list/team-list.page';
 import { TeamMembersPage } from './pages/team-members/team-members.page';
 import { TeamStreamPage } from './pages/team-stream/team-stream.page';
@@ -31,7 +31,7 @@ const routes: Routes = [
           stabreadte: 'team-detail',
         },
         resolve: {
-          team: TeamDetailResolver,
+          team: teamResolver,
         },
         children: [
           {
@@ -72,7 +72,7 @@ const routes: Routes = [
           },
           {
             path: 'admin',
-            canActivate: [ChampionshipAdminGuard],
+            canActivate: [championshipAdminGuard],
             data: { state: 'team-admin' },
             loadChildren: () => import('@modules/admin-team/admin-team.module'),
           },

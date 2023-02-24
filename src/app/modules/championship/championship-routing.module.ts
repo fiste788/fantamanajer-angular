@@ -2,11 +2,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AdminGuard } from '@app/guards';
+import { adminGuard } from '@app/guards';
 import { Championship } from '@data/types';
 
-import { ChampionshipResolver } from './pages/championship/championship-resolve.service';
 import { ChampionshipPage } from './pages/championship/championship.page';
+import { championshipResolver } from './pages/championship/championship.resolver';
 import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
       state: 'championship',
     },
     resolve: {
-      championship: ChampionshipResolver,
+      championship: championshipResolver,
     },
     children: [
       {
@@ -54,7 +54,7 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        canActivate: [AdminGuard],
+        canActivate: [adminGuard],
         data: { state: 'championship-admin' },
         loadChildren: () => import('@modules/admin-championship/admin-championship.module'),
       },

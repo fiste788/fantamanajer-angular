@@ -11,7 +11,7 @@ import { NavigatorRef } from './native-navigator.service';
 
 export const NAVIGATOR = new InjectionToken('NavigatorToken');
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BrowserNavigatorRef extends NavigatorRef {
   override get nativeNavigator(): Navigator | object {
     return navigator;

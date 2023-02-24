@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { Player } from '@data/types';
 
-import { PlayerResolver } from './pages/player/player-resolver.service';
 import { PlayerPage } from './pages/player/player.page';
+import { playerResolver } from './pages/player/player.resolver';
 
 const routes: Routes = [
   { path: '', component: PlayerPage, data: { state: 'player' } },
@@ -16,7 +16,7 @@ const routes: Routes = [
       state: 'player-detail',
     },
     resolve: {
-      player: PlayerResolver,
+      player: playerResolver,
     },
   },
 ];

@@ -1,19 +1,8 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
 import { AuthenticationService } from '@app/authentication';
 
-@Injectable()
-export class NoAuthGuard implements CanActivate {
-  constructor(private readonly auth: AuthenticationService, private readonly router: Router) {}
-
-  public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.auth.loggedIn()) {
-      return true;
-    }
-    void this.router.navigate(['/home']);
-
-    return false;
-  }
-}
+export const noAuthGuard: CanActivateFn = () => {
+  return inject(AuthenticationService).loggedIn() ? inject(Router).createUrlTree(['/home']) : true;
+};

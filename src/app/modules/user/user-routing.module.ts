@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '@app/guards';
+import { authenticatedGuard } from '@app/guards';
 
 import { DeviceListPage } from './pages/device-list/device-list.page';
 import { SettingsPage } from './pages/settings/settings.page';
@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     component: UserPage,
-    canActivate: [AuthGuard],
+    canActivate: [authenticatedGuard],
     data: {
       breadcrumbs: 'Impostazioni',
       state: 'user',

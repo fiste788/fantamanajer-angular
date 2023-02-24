@@ -5,13 +5,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env';
 
 import { ErrorHandlerModule } from './errors/error-handler.module';
-import {
-  AdminGuard,
-  AuthGuard,
-  ChampionshipAdminGuard,
-  NoAuthGuard,
-  throwIfAlreadyLoaded,
-} from './guards';
+import { throwIfAlreadyLoaded } from './guards';
 import { apiPrefixInterceptorProvider, authInterceptorProvider } from './interceptors';
 import { appInitializerProvider, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from './services';
 
@@ -29,14 +23,10 @@ import { appInitializerProvider, NAVIGATOR_PROVIDERS, WINDOW_PROVIDERS } from '.
     }),
   ],
   providers: [
-    AdminGuard,
     apiPrefixInterceptorProvider,
     appInitializerProvider,
-    AuthGuard,
     authInterceptorProvider,
-    ChampionshipAdminGuard,
     NAVIGATOR_PROVIDERS,
-    NoAuthGuard,
     WINDOW_PROVIDERS,
   ],
 })

@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { Club } from '@data/types';
 import { RouterOutletComponent } from '@shared/components';
 
-import { ClubDetailResolver } from './pages/club-detail/club-detail-resolver.service';
 import { ClubDetailPage } from './pages/club-detail/club-detail.page';
+import { clubResolver } from './pages/club-detail/club.resolver';
 import { ClubListPage } from './pages/club-list/club-list.page';
 import { ClubMembersPage } from './pages/club-members/club-members.page';
 import { ClubStreamPage } from './pages/club-stream/club-stream.page';
@@ -32,7 +32,7 @@ const routes: Routes = [
           state: 'club-detail',
         },
         resolve: {
-          club: ClubDetailResolver,
+          club: clubResolver,
         },
         children: [
           {

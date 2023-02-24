@@ -19,7 +19,7 @@ import { LineupService } from '../lineup.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LineupService],
+  // providers: [LineupService],
   selector: 'app-lineup-detail',
   styleUrls: ['./lineup-detail.component.scss'],
   templateUrl: './lineup-detail.component.html',

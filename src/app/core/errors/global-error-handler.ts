@@ -5,7 +5,7 @@ import { firstValueFrom, tap } from 'rxjs';
 
 import { WINDOW } from '@app/services';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(
     @Inject(WINDOW) private readonly window: Window,
