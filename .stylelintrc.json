@@ -1,10 +1,10 @@
 {
   "extends": [
-    "stylelint-config-standard-scss",
-    "stylelint-config-prettier-scss"
+    "stylelint-config-standard-scss"
   ],
   "rules": {
     "block-no-empty": null,
+    "number-leading-zero": "never",
     "no-empty-source": null
   }
 }

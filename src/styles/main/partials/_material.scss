@@ -1,7 +1,9 @@
 @use '@angular/material' as mat;
+
 @mixin core() {
    @include mat.core;
 }
+
 @mixin color($theme) {
    @include mat.core-color($theme);
   @include mat.badge-color($theme);
@@ -30,6 +32,7 @@
   @include mat.toolbar-color($theme);
   @include mat.tooltip-color($theme);
 }
+
 @mixin density($theme) {
    @include mat.core-density($theme);
   @include mat.badge-density($theme);
@@ -58,6 +61,7 @@
   @include mat.toolbar-density($theme);
   @include mat.tooltip-density($theme);
 }
+
 @mixin typography($theme) {
    @include mat.core-typography($theme);
   @include mat.badge-typography($theme);
@@ -86,18 +90,23 @@
   @include mat.toolbar-typography($theme);
   @include mat.tooltip-typography($theme);
 }
+
 @mixin theme($theme) {
    @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'material') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
        @include color($color);
     }
+
     @if $density {
        @include density($density);
     }
+
     @if $typography {
        @include typography($typography);
     }

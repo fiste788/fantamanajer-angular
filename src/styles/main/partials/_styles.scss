@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
+
 @mixin core() {
   body,
   html {
@@ -50,6 +51,7 @@
     width: .75rem;
     height: 1rem;
     display: inline-block;
+
     @include mat.elevation(1);
   }
 
@@ -66,6 +68,7 @@
     background-color: transparent;
     animation: leave-animation .2s ease-in-out forwards;
   }
+
   @keyframes leave-animation {
     0% {
       opacity: 1;
@@ -78,6 +81,7 @@
     }
   }
 }
+
 @mixin color($theme) {
   $primary: map.get($theme, primary);
   $accent: map.get($theme, accent);
@@ -97,20 +101,27 @@
     color: mat.get-color-from-palette($accent, default-contrast);
   }
 }
+
 @mixin density($theme) {}
+
 @mixin typography($theme) {}
+
 @mixin theme($theme) {
    @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
        @include color($color);
     }
+
     @if $density {
        @include density($density);
     }
+
     @if $typography {
        @include typography($typography);
     }

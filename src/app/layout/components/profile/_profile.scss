@@ -1,4 +1,6 @@
-@use "@angular/material" as mat;
+/* stylelint-disable selector-class-pattern */
+@use '@angular/material' as mat;
+
 @mixin core() {
   app-profile {
     .mdc-text-field--filled:not(.mdc-text-field--disabled) {
@@ -19,23 +21,34 @@
     }
   }
 }
-@mixin color($theme) {}
-@mixin density($theme) {}
-@mixin typography($theme) {}
+
+@mixin color($theme) {
+}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+}
+
 @mixin theme($theme) {
-   @include core;
+  @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'profile') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
-       @include color($color);
+      @include color($color);
     }
+
     @if $density {
-       @include density($density);
+      @include density($density);
     }
+
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

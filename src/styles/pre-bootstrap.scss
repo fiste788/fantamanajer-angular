@@ -46,10 +46,11 @@ html {
     margin-top: 1.5rem;
   }
 }
+
 @keyframes in-animation {
   0% {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(.6);
   }
 
   100% {
@@ -57,6 +58,7 @@ html {
     transform: scale(1);
   }
 }
+
 @keyframes pulse-animation {
   0% {
     transform: scale(1);
@@ -64,7 +66,7 @@ html {
   }
 
   67% {
-    transform: scale(0.82);
+    transform: scale(.82);
     filter: saturate(33%);
   }
 
@@ -73,6 +75,7 @@ html {
     filter: saturate(100%);
   }
 }
+
 @media(prefers-color-scheme: dark) {
   .pre-bootstrap {
     background-color: map.get(mat.$dark-theme-background-palette, 'background');

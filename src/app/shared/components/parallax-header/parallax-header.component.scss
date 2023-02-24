@@ -1,11 +1,10 @@
 @use '@angular/material' as mat;
 
-// @use '@angular/flex-layout/mq';
-
 .parallax-header-img {
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
+
   @include mat.elevation(2);
 
   img {
@@ -46,11 +45,13 @@
 .parallax {
   min-height: 300px;
 }
+
 @media (min-width: theme('screens.sm')) {
   // @include mq.layout-bp(gt-xs) {
   .parallax-header-img {
     // height: 300px;
     max-height: unset;
+
     @include mat.elevation(0);
 
     img {
@@ -78,6 +79,7 @@
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     max-height: 85vh;
+
     @include mat.elevation(2);
   }
 

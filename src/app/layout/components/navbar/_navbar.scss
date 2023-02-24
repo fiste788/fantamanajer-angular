@@ -1,6 +1,9 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-@mixin core() {}
+
+@mixin core() {
+}
+
 @mixin color($theme) {
   $primary: map.get($theme, primary);
   $foreground: map.get($theme, foreground);
@@ -9,10 +12,9 @@
     color: mat.get-color-from-palette($foreground, 'icon');
   }
 
-  .mat-list-item.active:active,
   .mat-list-item.active:hover,
-  .mat-mdc-list-item.active {
-    background-color: mat.get-color-from-palette($primary, 0.12) !important;
+  .mat-mdc-list-item.active .mat-list-item.active:active {
+    background-color: mat.get-color-from-palette($primary, .12) !important;
     color: mat.get-color-from-palette($primary) !important;
 
     .mat-icon {
@@ -20,22 +22,31 @@
     }
   }
 }
-@mixin density($theme) {}
-@mixin typography($theme) {}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+}
+
 @mixin theme($theme) {
-   @include core;
+  @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'navbar') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
-       @include color($color);
+      @include color($color);
     }
+
     @if $density {
-       @include density($density);
+      @include density($density);
     }
+
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

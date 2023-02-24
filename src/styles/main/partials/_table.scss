@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'sass:color';
 @use '@angular/material' as mat;
+
 @mixin core() {
   .mat-mdc-table {
     width: 100%;
@@ -68,6 +69,7 @@
       margin: 0 6px 0 0;
     }
   }
+
   @keyframes slide-down {
     0% {
       opacity: 0;
@@ -80,6 +82,7 @@
     }
   }
 }
+
 @mixin color($theme) {
   $accent: map.get($theme, accent);
   $background: map.get($theme, background);
@@ -99,8 +102,7 @@
         $badge-opacity: opacity($badge-color);
 
         background-color: color.mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
-      }
-      @else {
+      } @else {
         background-color: $badge-color;
       }
     }
@@ -126,20 +128,27 @@
     background-color: mat.get-color-from-palette($accent, 50);
   }
 }
+
 @mixin density($theme) {}
+
 @mixin typography($theme) {}
+
 @mixin theme($theme) {
    @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'table') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
        @include color($color);
     }
+
     @if $density {
        @include density($density);
     }
+
     @if $typography {
        @include typography($typography);
     }

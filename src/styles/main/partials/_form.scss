@@ -1,32 +1,44 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
+
 @mixin core() {
   .inherit-color {
+    .mat-select-arrow,
     .mat-focused .mat-form-field-label,
     .mat-form-field.mat-focused .mat-select-arrow,
     .mat-mdc-form-field-label,
-    .mat-select-arrow,
     .mat-select-value {
       color: inherit;
     }
   }
 }
-@mixin color($theme) {}
-@mixin density($theme) {}
-@mixin typography($theme) {}
+
+@mixin color($theme) {
+}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+}
+
 @mixin theme($theme) {
-   @include core;
+  @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'form') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
-       @include color($color);
+      @include color($color);
     }
+
     @if $density {
-       @include density($density);
+      @include density($density);
     }
+
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

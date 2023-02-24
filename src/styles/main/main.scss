@@ -4,6 +4,7 @@
 @use './partials/card';
 @use './partials/table';
 @use './partials/form';
+
 @mixin core() {
    @include material.core;
   @include styles.core;
@@ -12,6 +13,7 @@
   @include table.core;
 
 }
+
 @mixin density($theme) {
    @include material.density($theme);
   @include styles.density($theme);
@@ -19,6 +21,7 @@
   @include card.density($theme);
   @include table.density($theme);
 }
+
 @mixin typography($theme) {
    @include material.typography($theme);
   @include styles.typography($theme);
@@ -26,6 +29,7 @@
   @include card.typography($theme);
   @include table.typography($theme);
 }
+
 @mixin color($theme) {
    @include material.color($theme);
   @include styles.color($theme);
@@ -33,18 +37,23 @@
   @include card.color($theme);
   @include table.color($theme);
 }
+
 @mixin theme($theme) {
    @include core;
+
   @include mat.private-check-duplicate-theme-styles($theme, 'main') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
+
     @if $color {
        @include color($color);
     }
+
     @if $density {
        @include density($density);
     }
+
     @if $typography {
        @include typography($typography);
     }

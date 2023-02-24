@@ -39,7 +39,7 @@ import { LayoutService } from './services';
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
       useValue() {
-        inject(LayoutService).init().subscribe();
+        void inject(LayoutService).init().subscribe();
       },
     },
   ],
