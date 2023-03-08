@@ -6,10 +6,8 @@ import { RoleService } from '@data/services';
 import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
 import { environment } from '@env';
 
-import { LineupCommonModule } from '../lineup-common.module';
-
 @Injectable({
-  providedIn: LineupCommonModule,
+  providedIn: 'any',
 })
 export class LineupService {
   public lineup!: EmptyLineup;

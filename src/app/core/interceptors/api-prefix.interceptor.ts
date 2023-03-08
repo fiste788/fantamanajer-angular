@@ -4,10 +4,8 @@ import {
   HttpEvent,
   HttpRequest,
   HttpResponse,
-  HTTP_INTERCEPTORS,
   HttpInterceptorFn,
 } from '@angular/common/http';
-import { Provider } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { ApiResponse } from '@data/types';
@@ -15,13 +13,6 @@ import { environment } from '@env';
 
 const NO_PREFIX_IT = new HttpContextToken<boolean>(() => false);
 const NO_HEADERS_IT = new HttpContextToken<boolean>(() => false);
-
-export function noPrefixIt(context?: HttpContext): HttpContext {
-  return (context ?? new HttpContext()).set(NO_PREFIX_IT, true);
-}
-export function noHeadersIt(context?: HttpContext): HttpContext {
-  return (context ?? new HttpContext()).set(NO_HEADERS_IT, true);
-}
 
 function setPrefix(req: HttpRequest<unknown>): HttpRequest<unknown> {
   const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
@@ -75,9 +66,10 @@ export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
     }),
   );
 };
+export function noHeadersIt(context?: HttpContext): HttpContext {
+  return (context ?? new HttpContext()).set(NO_HEADERS_IT, true);
+}
 
-export const apiPrefixInterceptorProvider: Provider = {
-  multi: true,
-  provide: HTTP_INTERCEPTORS,
-  useFactory: apiPrefixInterceptor,
-};
+export function noPrefixIt(context?: HttpContext): HttpContext {
+  return (context ?? new HttpContext()).set(NO_PREFIX_IT, true);
+}

@@ -1,13 +1,28 @@
+import { NgIf, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatTabNavPanel } from '@angular/material/tabs';
+import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
+import { RouterLinkActive, RouterLink } from '@angular/router';
 
 import { Tab } from '@data/types';
+
+import { RellaxDirective } from '../../directives/rellax.directive';
+import { SrcsetDirective } from '../../directives/srcset.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-parallax-header,app-parallax-header[tabs][tabPanel]',
   styleUrls: ['./parallax-header.component.scss'],
   templateUrl: './parallax-header.component.html',
+  standalone: true,
+  imports: [
+    RellaxDirective,
+    SrcsetDirective,
+    NgIf,
+    MatTabsModule,
+    NgFor,
+    RouterLinkActive,
+    RouterLink,
+  ],
 })
 export class ParallaxHeaderComponent {
   @Input() public title = '';

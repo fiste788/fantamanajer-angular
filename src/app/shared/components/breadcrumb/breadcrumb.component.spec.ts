@@ -8,7 +8,7 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [BreadcrumbComponent],
+      imports: [BreadcrumbComponent],
     }).compileComponents();
   }));
 

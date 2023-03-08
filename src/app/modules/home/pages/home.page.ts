@@ -1,4 +1,10 @@
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -6,6 +12,9 @@ import { ApplicationService } from '@app/services';
 import { MemberService } from '@data/services';
 import { Member } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
+
+import { MatEmptyStateComponent } from '../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { PlayerImageComponent } from '../../../shared/components/player-image/player-image.component';
 
 interface BestPlayer {
   role: string;
@@ -17,6 +26,19 @@ interface BestPlayer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./home.page.scss'],
   templateUrl: './home.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    MatCardModule,
+    PlayerImageComponent,
+    MatExpansionModule,
+    MatListModule,
+    RouterLink,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+  ],
 })
 export class HomePage {
   protected readonly bestPlayers$: Observable<Array<BestPlayer> | undefined>;

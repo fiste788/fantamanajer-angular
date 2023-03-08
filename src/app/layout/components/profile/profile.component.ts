@@ -1,4 +1,10 @@
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
@@ -12,6 +18,17 @@ import { LayoutService } from '../../services';
   selector: 'app-profile',
   styleUrls: ['./profile.component.scss'],
   templateUrl: './profile.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    NgFor,
+    MatOptionModule,
+    AsyncPipe,
+  ],
 })
 export class ProfileComponent {
   protected readonly photo$: Observable<string | undefined>;

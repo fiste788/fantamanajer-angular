@@ -8,7 +8,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ProfileComponent],
+      imports: [ProfileComponent],
     }).compileComponents();
   }));
 

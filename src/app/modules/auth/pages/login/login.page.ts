@@ -1,9 +1,16 @@
+import { NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -14,6 +21,18 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
   styleUrls: ['./login.page.scss'],
   templateUrl: './login.page.html',
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatIconModule,
+    MatStepperModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgIf,
+    MatButtonModule,
+    MatCheckboxModule,
+  ],
 })
 export class LoginPage {
   @ViewChild('stepper') protected readonly stepper?: MatStepper;
@@ -50,20 +69,15 @@ export class LoginPage {
   }
 
   protected async checkToken(): Promise<boolean> {
-    return firstValueFrom(
-      this.authService.tryTokenLogin(this.loginData.email).pipe(
-        switchMap((res) => {
-          if (!res) {
-            this.stepper?.next();
+    const res = await this.authService.tryTokenLogin(this.loginData.email);
 
-            return of(false);
-          }
+    if (!res) {
+      this.stepper?.next();
 
-          return this.postLogin(res);
-        }),
-      ),
-      { defaultValue: false },
-    );
+      return false;
+    }
+
+    return this.postLogin(res);
   }
 
   protected async postLogin(result: boolean): Promise<boolean> {

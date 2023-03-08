@@ -1,15 +1,33 @@
+import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
 
 import { ArticleService } from '@data/services';
 import { Article, PagedResponse, Pagination } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+
 @Component({
   animations: [cardCreationAnimation],
   styleUrls: ['./article-list.page.scss'],
   templateUrl: './article-list.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    MatCardModule,
+    MatButtonModule,
+    RouterLink,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    DatePipe,
+  ],
 })
 export class ArticleListPage implements OnInit {
   protected articles: Array<Article> = [];

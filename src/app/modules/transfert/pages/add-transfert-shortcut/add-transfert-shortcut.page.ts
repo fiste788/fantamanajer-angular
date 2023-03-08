@@ -6,6 +6,7 @@ import { ApplicationService } from '@app/services';
 
 @Component({
   template: '',
+  standalone: true,
 })
 export class AddTransfertShortcutPage implements OnInit {
   constructor(private readonly router: Router, private readonly app: ApplicationService) {}

@@ -8,7 +8,7 @@ describe('HomePage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [HomePage],
+      imports: [HomePage],
     }).compileComponents();
   }));
 

@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'srcset' })
+@Pipe({
+  name: 'srcset',
+  standalone: true,
+})
 export class SrcsetPipe implements PipeTransform {
   public transform(sizes: Record<string, string> | string | null): string {
     if (sizes !== null) {

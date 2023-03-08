@@ -25,7 +25,7 @@ export async function save<T, R>(
     }),
     mergeMap<T, ObservableInput<R>>((result) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-      const func = bindCallback((_callback: (res1: R) => any) =>
+      const func = bindCallback(async (_callback: (res1: R) => any) =>
         options?.callback ? options.callback(result) : of(defaultValue),
       );
 
@@ -34,5 +34,5 @@ export async function save<T, R>(
     catchUnprocessableEntityErrors(options?.form),
   );
 
-  return firstValueFrom(obs, { defaultValue });
+  return firstValueFrom<R, R>(obs, { defaultValue });
 }

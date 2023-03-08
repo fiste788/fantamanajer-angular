@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { adminGuard } from '@app/guards';
 import { Championship } from '@data/types';
@@ -30,22 +29,22 @@ const routes: Routes = [
       {
         path: 'articles',
         data: { state: 'articles' },
-        loadChildren: () => import('@modules/article/article.module'),
+        loadChildren: () => import('@modules/article/article.routes'),
       },
       {
         path: 'teams',
         data: { state: 'teams' },
-        loadChildren: () => import('@modules/team/team.module'),
+        loadChildren: () => import('@modules/team/team.routes'),
       },
       {
         path: 'members',
         data: { state: 'members' },
-        loadChildren: () => import('@modules/member/member.module'),
+        loadChildren: () => import('@modules/member/member.routes'),
       },
       {
         path: 'ranking',
         data: { state: 'ranking' },
-        loadChildren: () => import('@modules/score/score.module'),
+        loadChildren: () => import('@modules/score/score.routes'),
       },
       {
         path: 'stream',
@@ -56,16 +55,10 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [adminGuard],
         data: { state: 'championship-admin' },
-        loadChildren: () => import('@modules/admin-championship/admin-championship.module'),
+        loadChildren: () => import('@modules/admin-championship/admin-championship.routes'),
       },
     ],
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class ChampionshipRoutingModule {
-  public static components = [ChampionshipPage, ChampionshipStreamPage];
-}
+export default routes;

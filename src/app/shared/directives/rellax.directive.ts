@@ -45,6 +45,7 @@ interface Block {
 
 @Directive({
   selector: '[appRellax]',
+  standalone: true,
 })
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('style.will-change') public will = 'transform';

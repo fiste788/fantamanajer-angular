@@ -14,7 +14,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "module": "es2020",
+    "module": "ES2022",
     "moduleResolution": "node",
     "noImplicitOverride": true,
     "noImplicitAny": true,
@@ -28,35 +28,17 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "paths": {
-      "@app/*": [
-        "src/app/core/*"
-      ],
-      "@modules/*": [
-        "src/app/modules/*"
-      ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
-      "@env": [
-        "src/environments/environment"
-      ],
-      "@data/*": [
-        "src/app/data/*"
-      ]
+      "@app/*": ["src/app/core/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@env": ["src/environments/environment"],
+      "@data/*": ["src/app/data/*"]
     },
     "useDefineForClassFields": false
   },
-  "types": [
-    "gtag.js"
-  ],
+  "types": ["gtag.js"],
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
     "fullTemplateTypeCheck": true,

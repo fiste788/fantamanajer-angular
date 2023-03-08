@@ -1,6 +1,10 @@
-import { KeyValue } from '@angular/common';
+import { AsyncPipe, KeyValue, KeyValuePipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
@@ -12,12 +16,21 @@ import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { MemberService, RoleService, SelectionService } from '@data/services';
 import { Member, Role, Selection, Team } from '@data/types';
-import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-selection',
   standalone: true,
-  imports: [SharedModule],
+  imports: [
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatButtonModule,
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    KeyValuePipe,
+  ],
   styleUrls: ['./selection.component.scss'],
   templateUrl: './selection.component.html',
 })

@@ -1,6 +1,12 @@
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
@@ -14,6 +20,18 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
 @Component({
   styleUrls: ['./new-transfert.page.scss'],
   templateUrl: './new-transfert.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgFor,
+    MatOptionModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    AsyncPipe,
+  ],
 })
 export class NewTransfertPage {
   @ViewChild(NgForm) public transfertForm?: NgForm;

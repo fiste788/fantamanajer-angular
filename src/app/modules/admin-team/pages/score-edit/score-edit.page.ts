@@ -1,5 +1,14 @@
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, switchMap } from 'rxjs';
 
@@ -12,6 +21,22 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
 @Component({
   styleUrls: ['./score-edit.page.scss'],
   templateUrl: './score-edit.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgFor,
+    MatOptionModule,
+    FormsModule,
+    MatCardModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    LineupDetailComponent,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+  ],
 })
 export class ScoreEditPage {
   @ViewChild(NgForm) protected scoreForm?: NgForm;

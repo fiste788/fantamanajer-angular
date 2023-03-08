@@ -32,6 +32,7 @@ export type ControlsOf<T extends Record<string, any>> = {
     },
   ],
   selector: '[appMemberAlreadySelected]',
+  standalone: true,
 })
 export class MemberAlreadySelectedValidator implements Validator {
   @Input('appMemberAlreadySelected') public lineup!: Partial<Lineup>;

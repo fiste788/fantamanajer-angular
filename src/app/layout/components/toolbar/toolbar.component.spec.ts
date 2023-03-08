@@ -8,7 +8,7 @@ describe('ToolbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ToolbarComponent],
+      imports: [ToolbarComponent],
     }).compileComponents();
   }));
 

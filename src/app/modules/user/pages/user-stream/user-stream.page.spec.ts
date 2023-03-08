@@ -8,7 +8,7 @@ describe('UserStreamPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [UserStreamPage],
+      imports: [UserStreamPage],
     }).compileComponents();
   }));
 

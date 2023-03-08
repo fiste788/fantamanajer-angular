@@ -1,5 +1,9 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Event, NavigationStart, Router } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { Event, NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
@@ -8,11 +12,23 @@ import { ApplicationService, PwaService } from '@app/services';
 import { Championship, Matchday, Team } from '@data/types';
 
 import { LayoutService } from '../../services';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-navbar',
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
+  standalone: true,
+  imports: [
+    ProfileComponent,
+    MatListModule,
+    NgIf,
+    MatIconModule,
+    RouterLink,
+    RouterLinkActive,
+    MatDividerModule,
+    AsyncPipe,
+  ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   protected deferredPrompt$?: Observable<BeforeInstallPromptEvent>;

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 
@@ -18,7 +17,7 @@ const routes: Routes = [
       state: 'user',
     },
     children: [
-      { path: '', redirectTo: 'profile' },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'profile', component: SettingsPage, data: { state: 'settings' } },
       { path: 'stream', component: UserStreamPage, data: { state: 'stream' } },
       { path: 'devices', component: DeviceListPage, data: { state: 'devices' } },
@@ -26,10 +25,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class UserRoutingModule {
-  public static components = [UserPage, DeviceListPage, SettingsPage, UserStreamPage];
-}
+export default routes;

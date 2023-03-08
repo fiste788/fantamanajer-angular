@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { Club } from '@data/types';
 import { RouterOutletComponent } from '@shared/components';
@@ -56,10 +55,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class ClubRoutingModule {
-  public static components = [ClubListPage, ClubDetailPage, ClubMembersPage, ClubStreamPage];
-}
+export default routes;

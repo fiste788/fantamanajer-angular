@@ -1,11 +1,17 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { scrollUpAnimation } from '@shared/animations';
 
+import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 import { LayoutService } from '../../services';
+import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
   animations: [scrollUpAnimation],
@@ -13,6 +19,16 @@ import { LayoutService } from '../../services';
   selector: 'app-toolbar[state]',
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    BreadcrumbComponent,
+    NotificationComponent,
+    AsyncPipe,
+  ],
 })
 export class ToolbarComponent {
   @Input() public state!: VisibilityState | null;

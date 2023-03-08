@@ -8,7 +8,7 @@ describe('PlayerPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [PlayerPage],
+      imports: [PlayerPage],
     }).compileComponents();
   }));
 

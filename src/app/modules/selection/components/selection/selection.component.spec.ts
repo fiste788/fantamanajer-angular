@@ -8,7 +8,7 @@ describe('SelectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [SelectionComponent],
+      imports: [SelectionComponent],
     }).compileComponents();
   }));
 

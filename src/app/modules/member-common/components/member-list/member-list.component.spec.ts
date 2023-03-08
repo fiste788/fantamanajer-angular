@@ -8,7 +8,7 @@ describe('MemberListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [MemberListComponent],
+      imports: [MemberListComponent],
     }).compileComponents();
   }));
 

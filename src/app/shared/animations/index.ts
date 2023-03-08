@@ -1,4 +1,5 @@
 export * from './card-creation.animation';
+export * from './close.animation';
 export * from './create-box.animation';
 export * from './enter-detail.animation';
 export * from './lineup-disposition.animation';
@@ -9,4 +10,3 @@ export * from './scroll-down.animation';
 export * from './scroll-up.animation';
 export * from './tab-transition.animation';
 export * from './table-row.animation';
-export * from './close.animation';

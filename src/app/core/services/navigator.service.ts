@@ -9,8 +9,6 @@ import {
 
 import { NavigatorRef } from './native-navigator.service';
 
-export const NAVIGATOR = new InjectionToken('NavigatorToken');
-
 @Injectable({ providedIn: 'root' })
 export class BrowserNavigatorRef extends NavigatorRef {
   override get nativeNavigator(): Navigator | object {
@@ -18,7 +16,7 @@ export class BrowserNavigatorRef extends NavigatorRef {
   }
 }
 
-export const navigatorFactory = (
+const navigatorFactory = (
   browserNavigatorRef: BrowserNavigatorRef,
   platformId: object,
 ): Navigator | object => {
@@ -28,12 +26,11 @@ export const navigatorFactory = (
 
   return {};
 };
-
 const browserNavigatorProvider: ClassProvider = {
   provide: NavigatorRef,
   useClass: BrowserNavigatorRef,
 };
-
+export const NAVIGATOR = new InjectionToken('NavigatorToken');
 const navigatorProvider: FactoryProvider = {
   provide: NAVIGATOR,
   useFactory: navigatorFactory,

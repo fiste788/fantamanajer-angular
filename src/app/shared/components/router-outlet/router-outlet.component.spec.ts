@@ -8,7 +8,7 @@ describe('RouterOutletComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [RouterOutletComponent],
+      imports: [RouterOutletComponent],
     }).compileComponents();
   }));
 

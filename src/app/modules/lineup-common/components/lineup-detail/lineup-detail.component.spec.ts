@@ -8,7 +8,7 @@ describe('LineupDetailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [LineupDetailComponent],
+      imports: [LineupDetailComponent],
     }).compileComponents();
   }));
 

@@ -1,5 +1,8 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
@@ -10,9 +13,24 @@ import { LineupService } from '@data/services';
 import { EmptyLineup, Lineup, Team } from '@data/types';
 import { environment } from '@env';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { LineupDetailComponent } from '../../../lineup-common/components/lineup-detail/lineup-detail.component';
+import { MemberAlreadySelectedValidator } from '../../../lineup-common/components/lineup-detail/member-already-selected-validator.directive';
+
 @Component({
   styleUrls: ['./lineup-last.page.scss'],
   templateUrl: './lineup-last.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    MemberAlreadySelectedValidator,
+    LineupDetailComponent,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatEmptyStateComponent,
+    AsyncPipe,
+  ],
 })
 export class LineupLastPage {
   @ViewChild(NgForm) public lineupForm?: NgForm;

@@ -1,4 +1,14 @@
+import {
+  NgIf,
+  NgClass,
+  UpperCasePipe,
+  SlicePipe,
+  PercentPipe,
+  TitleCasePipe,
+} from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Member } from '@data/types';
 
@@ -6,6 +16,17 @@ import { Member } from '@data/types';
   selector: 'app-member-icons[member]',
   styleUrls: ['./member-icons.component.scss'],
   templateUrl: './member-icons.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgClass,
+    MatIconModule,
+    MatTooltipModule,
+    UpperCasePipe,
+    SlicePipe,
+    PercentPipe,
+    TitleCasePipe,
+  ],
 })
 export class MemberIconsComponent {
   @Input() public member!: Member;

@@ -8,7 +8,7 @@ describe('EventListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [StreamComponent],
+      imports: [StreamComponent],
     }).compileComponents();
   }));
 

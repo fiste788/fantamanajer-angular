@@ -4,6 +4,7 @@ import { Lineup } from '@data/types';
 
 @Pipe({
   name: 'captain',
+  standalone: true,
 })
 export class CaptainPipe implements PipeTransform {
   public transform(memberId: number, lineup: Lineup): string {

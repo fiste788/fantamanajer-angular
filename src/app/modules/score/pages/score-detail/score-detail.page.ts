@@ -1,4 +1,6 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, map, shareReplay } from 'rxjs/operators';
@@ -7,9 +9,20 @@ import { filterNil, getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Disposition, Lineup, Score, Team } from '@data/types';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { DispositionListComponent } from '../../../disposition/components/disposition-list/disposition-list.component';
+
 @Component({
   styleUrls: ['./score-detail.page.scss'],
   templateUrl: './score-detail.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    DispositionListComponent,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+  ],
 })
 export class ScoreDetailPage {
   protected readonly score$: Observable<Score>;

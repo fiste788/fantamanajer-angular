@@ -8,7 +8,7 @@ describe('TeamEditModal', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TeamEditModal],
+      imports: [TeamEditModal],
     }).compileComponents();
   }));
 

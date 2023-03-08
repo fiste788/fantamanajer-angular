@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'srcset' })
+@Pipe({
+  name: 'srcset',
+  standalone: true,
+})
 export class PlaceholderPipe implements PipeTransform {
   // private placeholderService = require('placeholder.js');
 

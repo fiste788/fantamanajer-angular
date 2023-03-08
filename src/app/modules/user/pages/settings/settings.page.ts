@@ -1,4 +1,11 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
@@ -13,6 +20,17 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
   styleUrls: ['./settings.page.scss'],
   templateUrl: './settings.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    AsyncPipe,
+  ],
 })
 export class SettingsPage {
   @HostBinding('@cardCreationAnimation') public a = '';

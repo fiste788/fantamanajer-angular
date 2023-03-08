@@ -8,7 +8,7 @@ describe('MemberOptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [MemberIconsComponent],
+      imports: [MemberIconsComponent],
     }).compileComponents();
   }));
 

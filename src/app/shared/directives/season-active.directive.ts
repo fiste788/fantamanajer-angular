@@ -5,6 +5,7 @@ import { ApplicationService } from '@app/services';
 
 @Directive({
   selector: '[appSeasonActive]',
+  standalone: true,
 })
 export class SeasonActiveDirective implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();

@@ -8,7 +8,7 @@ describe('TransfertListPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TransfertListPage],
+      imports: [TransfertListPage],
     }).compileComponents();
   }));
 

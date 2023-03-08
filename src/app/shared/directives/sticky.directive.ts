@@ -3,6 +3,7 @@ import { AfterViewInit, Directive, ElementRef, Inject, Renderer2 } from '@angula
 
 @Directive({
   selector: '[appSticky]',
+  standalone: true,
 })
 export class StickyDirective implements AfterViewInit {
   constructor(

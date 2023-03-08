@@ -8,7 +8,7 @@ describe('ArticleDetailPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ArticleDetailPage],
+      imports: [ArticleDetailPage],
     }).compileComponents();
   }));
 

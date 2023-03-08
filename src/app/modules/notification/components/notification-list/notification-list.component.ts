@@ -9,6 +9,7 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
   selector: 'app-notification-list',
   styleUrls: ['./notification-list.component.scss'],
   templateUrl: './notification-list.component.html',
+  standalone: true,
 })
 export class NotificationListComponent {
   constructor(private readonly overlayService: NotificationOverlayService) {}

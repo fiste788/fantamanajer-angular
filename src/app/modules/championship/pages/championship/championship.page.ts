@@ -1,15 +1,21 @@
 import { trigger } from '@angular/animations';
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { combineLatest, firstValueFrom, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
 import { routerTransition } from '@shared/animations';
+import { StatePipe } from '@shared/pipes';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],
   templateUrl: './championship.page.html',
+  standalone: true,
+  imports: [NgIf, MatTabsModule, NgFor, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
 })
 export class ChampionshipPage implements OnInit {
   protected tabs: Array<Tab> = [];

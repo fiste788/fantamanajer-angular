@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { KeyValue } from '@angular/common';
+import { KeyValue, NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
 import {
   ControlContainer,
@@ -7,10 +7,17 @@ import {
   NgModel,
   NgModelGroup,
   NG_VALUE_ACCESSOR,
+  FormsModule,
 } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 import { Member, MemberOption, Role } from '@data/types';
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
+
+import { PlayerImageComponent } from '../../../../shared/components/player-image/player-image.component';
+import { MemberIconsComponent } from '../member-icons/member-icons.component';
 
 @Component({
   animations: [lineupDispositionAnimation, createBoxAnimation],
@@ -25,6 +32,19 @@ import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animatio
   styleUrls: ['./member-selection.component.scss'],
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    PlayerImageComponent,
+    NgIf,
+    MemberIconsComponent,
+    MatSelectModule,
+    FormsModule,
+    MatOptionModule,
+    NgFor,
+    DecimalPipe,
+    KeyValuePipe,
+  ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
   @Input() public member!: Member | null;

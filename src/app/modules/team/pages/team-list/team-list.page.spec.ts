@@ -8,7 +8,7 @@ describe('TeamListPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TeamListPage],
+      imports: [TeamListPage],
     }).compileComponents();
   }));
 

@@ -8,7 +8,7 @@ describe('ConfirmationDialogModal', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ConfirmationDialogModal],
+      imports: [ConfirmationDialogModal],
     }).compileComponents();
   }));
 

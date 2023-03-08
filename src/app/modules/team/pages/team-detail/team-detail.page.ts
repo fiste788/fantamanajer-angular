@@ -1,6 +1,10 @@
 import { trigger } from '@angular/animations';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterOutlet } from '@angular/router';
 import { combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
@@ -9,14 +13,27 @@ import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
+import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
+import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-header/parallax-header.component';
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
   animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    ParallaxHeaderComponent,
+    MatButtonModule,
+    MatIconModule,
+    RouterOutlet,
+    AsyncPipe,
+    StatePipe,
+    MatDialogModule,
+  ],
 })
 export class TeamDetailPage {
   @HostBinding('@enterDetailAnimation') protected e = '';

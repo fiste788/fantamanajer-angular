@@ -1,5 +1,8 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -9,6 +12,8 @@ import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
 
+import { ModuleAreaComponent } from '../../../lineup-common/components/module-area/module-area.component';
+
 interface Data {
   dispositions: Array<{ member: Member }>;
   membersByRole: Map<Role, Array<Member>>;
@@ -16,6 +21,15 @@ interface Data {
 @Component({
   styleUrls: ['./edit-members.page.scss'],
   templateUrl: './edit-members.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    ModuleAreaComponent,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+  ],
 })
 export class EditMembersPage {
   @ViewChild(NgForm) protected membersForm?: NgForm;

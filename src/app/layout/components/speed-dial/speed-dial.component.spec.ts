@@ -8,7 +8,7 @@ describe('SpeedDialComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [SpeedDialComponent],
+      imports: [SpeedDialComponent],
     }).compileComponents();
   }));
 

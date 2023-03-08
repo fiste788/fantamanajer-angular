@@ -8,7 +8,7 @@ describe('AddTransfertShortcutPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [AddTransfertShortcutPage],
+      imports: [AddTransfertShortcutPage],
     }).compileComponents();
   }));
 

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { championshipAdminGuard } from '@app/guards';
 import { Team } from '@data/types';
@@ -42,7 +41,7 @@ const routes: Routes = [
           {
             path: 'articles',
             data: { state: 'team-articles' },
-            loadChildren: () => import('@modules/article/article.module'),
+            loadChildren: () => import('@modules/article/article.routes'),
           },
           {
             path: 'players',
@@ -58,23 +57,23 @@ const routes: Routes = [
           {
             path: 'scores',
             data: { state: 'team-scores' },
-            loadChildren: () => import('@modules/score/score.module'),
+            loadChildren: () => import('@modules/score/score.routes'),
           },
           {
             path: 'lineup',
             data: { state: 'team-lineup' },
-            loadChildren: () => import('@modules/lineup/lineup.module'),
+            loadChildren: () => import('@modules/lineup/lineup.routes'),
           },
           {
             path: 'transferts',
             data: { state: 'team-transfert' },
-            loadChildren: () => import('@modules/transfert/transfert.module'),
+            loadChildren: () => import('@modules/transfert/transfert.routes'),
           },
           {
             path: 'admin',
             canActivate: [championshipAdminGuard],
             data: { state: 'team-admin' },
-            loadChildren: () => import('@modules/admin-team/admin-team.module'),
+            loadChildren: () => import('@modules/admin-team/admin-team.routes'),
           },
         ],
         runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
@@ -83,10 +82,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class TeamRoutingModule {
-  public static components = [TeamListPage, TeamDetailPage, TeamMembersPage, TeamStreamPage];
-}
+export default routes;

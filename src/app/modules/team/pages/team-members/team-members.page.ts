@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -6,9 +7,13 @@ import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
 import { Member, Team } from '@data/types';
 
+import { MemberListComponent } from '../../../member-common/components/member-list/member-list.component';
+
 @Component({
   styleUrls: ['./team-members.page.scss'],
   templateUrl: './team-members.page.html',
+  standalone: true,
+  imports: [NgIf, MemberListComponent],
 })
 export class TeamMembersPage {
   protected readonly members$: Observable<Array<Member>>;

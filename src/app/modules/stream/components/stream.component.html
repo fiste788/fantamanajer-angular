@@ -6,13 +6,13 @@
   <mat-list @listItemAnimation>
     <ng-container *cdkVirtualFor="let activity of ds">
       <mat-list-item *ngIf="activity; else placeholder">
-        <mat-icon mat-list-icon>{{activity.icon}}</mat-icon>
-        <h3 mat-line> {{activity.title}} </h3>
-        <p
-          mat-line
+        <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
+        <h3 matListItemTitle> {{activity.title}} </h3>
+        <span
+          matListItemLine
           [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-        > {{activity.humanTime}} </p>
-        <p mat-line> {{activity.body}} </p>
+        > {{activity.humanTime}} </span>
+        <span matListItemLine> {{activity.body}} </span>
       </mat-list-item>
       <ng-template #placeholder>
         <content-loader

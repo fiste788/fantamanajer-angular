@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components';
 
@@ -27,10 +26,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class LineupRoutingModule {
-  public static components = [LineupLastPage, AddLineupShortcutPage];
-}
+export default routes;

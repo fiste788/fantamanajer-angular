@@ -1,2 +1,2 @@
-export * from './notification-subscription.definition';
 export * from './notification';
+export * from './notification-subscription.definition';

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components';
@@ -24,10 +23,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class MemberRoutingModule {
-  public static components = [MemberFreePage];
-}
+export default routes;

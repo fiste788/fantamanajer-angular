@@ -1,5 +1,9 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, map, Observable } from 'rxjs';
@@ -12,6 +16,8 @@ import { Article } from '@data/types';
 @Component({
   styleUrls: ['./article-detail.page.scss'],
   templateUrl: './article-detail.page.html',
+  standalone: true,
+  imports: [NgIf, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
 })
 export class ArticleDetailPage {
   @ViewChild(NgForm) protected articleForm?: NgForm;

@@ -1,5 +1,13 @@
-import { KeyValue } from '@angular/common';
+import { KeyValue, NgFor, NgIf, AsyncPipe, KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, HostBinding, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -14,6 +22,22 @@ import { tableRowAnimation } from '@shared/animations';
   animations: [tableRowAnimation],
   styleUrls: ['./member-free.page.scss'],
   templateUrl: './member-free.page.html',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    NgFor,
+    MatOptionModule,
+    NgIf,
+    MatButtonModule,
+    MatTooltipModule,
+    RouterLink,
+    MatIconModule,
+    MemberListComponent,
+    AsyncPipe,
+    KeyValuePipe,
+  ],
 })
 export class MemberFreePage implements AfterViewInit {
   @HostBinding('@tableRowAnimation') protected tableRowAnimation = '';
@@ -44,8 +68,8 @@ export class MemberFreePage implements AfterViewInit {
     return item.value.id; // or item.id
   }
 
-  protected compareRole(role1: Role, role2: Role): boolean {
-    return role1.id === role2.id;
+  protected compareRole(role1?: Role, role2?: Role): boolean {
+    return role1?.id === role2?.id;
   }
 
   private getMembers(): Observable<Array<Member>> {

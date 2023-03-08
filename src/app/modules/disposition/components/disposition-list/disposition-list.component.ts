@@ -1,8 +1,13 @@
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 
 import { Disposition, Lineup } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
+import { CaptainPipe } from '@shared/pipes';
 
 @Component({
   animations: [tableRowAnimation],
@@ -10,6 +15,8 @@ import { tableRowAnimation } from '@shared/animations';
   selector: 'app-disposition-list[caption]',
   styleUrls: ['./disposition-list.component.scss'],
   templateUrl: './disposition-list.component.html',
+  standalone: true,
+  imports: [NgIf, MatTableModule, MatIconModule, RouterLink, MatTooltipModule, CaptainPipe],
 })
 export class DispositionListComponent implements OnInit {
   @Input() public caption!: string;

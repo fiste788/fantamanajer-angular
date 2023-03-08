@@ -1,12 +1,17 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { Team } from '@data/types';
 
+import { StreamComponent } from '../../../stream/components/stream.component';
+
 @Component({
   styleUrls: ['./team-stream.page.scss'],
   templateUrl: './team-stream.page.html',
+  standalone: true,
+  imports: [NgIf, StreamComponent, AsyncPipe],
 })
 export class TeamStreamPage {
   protected readonly id$: Observable<number>;

@@ -9,8 +9,6 @@ import {
 
 import { WindowRef } from './native-window.service';
 
-export const WINDOW = new InjectionToken('WindowToken');
-
 @Injectable({ providedIn: 'root' })
 export class BrowserWindowRef extends WindowRef {
   override get nativeWindow(): Window | object {
@@ -18,20 +16,18 @@ export class BrowserWindowRef extends WindowRef {
   }
 }
 
-export const windowFactory = (
-  browserWindowRef: BrowserWindowRef,
-  platformId: object,
-): Window | object => {
+export const WINDOW = new InjectionToken('WindowToken');
+const browserWindowProvider: ClassProvider = {
+  provide: WindowRef,
+  useClass: BrowserWindowRef,
+};
+
+const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: object): Window | object => {
   if (isPlatformBrowser(platformId)) {
     return browserWindowRef.nativeWindow;
   }
 
   return {};
-};
-
-const browserWindowProvider: ClassProvider = {
-  provide: WindowRef,
-  useClass: BrowserWindowRef,
 };
 
 const windowProvider: FactoryProvider = {

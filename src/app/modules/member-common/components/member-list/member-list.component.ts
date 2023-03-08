@@ -1,4 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { NgIf, NgClass, AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,12 +9,19 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 
 import { Member } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
+
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { StickyDirective } from '../../../../shared/directives/sticky.directive';
 
 const stats = [
   'sum_present',
@@ -32,6 +40,21 @@ type Stats = (typeof stats)[number];
   selector: 'app-member-list[members]',
   styleUrls: ['./member-list.component.scss'],
   templateUrl: './member-list.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgClass,
+    MatTableModule,
+    MatSortModule,
+    StickyDirective,
+    MatCheckboxModule,
+    RouterLink,
+    MatTooltipModule,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+    DecimalPipe,
+  ],
 })
 export class MemberListComponent implements OnInit {
   @Input() public members!: Observable<Array<Member>>;

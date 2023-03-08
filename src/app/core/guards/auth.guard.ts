@@ -5,36 +5,23 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 
-export const authenticatedGuard: CanActivateFn = (
+export const authenticatedGuard: CanActivateFn = async (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
   const auth = inject(AuthenticationService);
   if (auth.loggedIn()) {
-    const authorities = next.data['authorities'] as Array<string> | undefined;
-    if (authorities === undefined || authorities.length === 0) {
-      return true;
-    }
-
-    return auth.requireUser$.pipe(map((user) => authorities.some((r) => user.roles.includes(r))));
+    return auth.hasAuthorities(next.data['authorities'] as Array<string> | undefined);
   }
 
-  const user = localStorage.getItem('user') ?? undefined;
-  const router = inject(Router);
+  if (!(await auth.tryTokenLogin())) {
+    auth.logoutUI();
 
-  return auth.tryTokenLogin(user).pipe(
-    map((res) => {
-      if (!res) {
-        auth.logoutUI();
+    return inject(Router).createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
+  }
 
-        return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
-      }
-
-      return res;
-    }),
-  );
+  return true;
 };

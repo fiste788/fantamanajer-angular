@@ -2,12 +2,9 @@ import {
   HttpContext,
   HttpContextToken,
   HttpErrorResponse,
-  HttpHandlerFn,
   HttpInterceptorFn,
-  HttpRequest,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { inject, Provider } from '@angular/core';
+import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,10 +13,6 @@ import { ErrorResponse } from '@data/types';
 import { environment } from '@env';
 
 const NO_ERROR_IT = new HttpContextToken<boolean>(() => false);
-
-export function noErrorIt(context?: HttpContext): HttpContext {
-  return (context ?? new HttpContext()).set(NO_ERROR_IT, true);
-}
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
@@ -42,8 +35,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 
-export const httpErrorInterceptorProvider: Provider = {
-  multi: true,
-  provide: HTTP_INTERCEPTORS,
-  useFactory: (req: HttpRequest<unknown>, next: HttpHandlerFn) => httpErrorInterceptor(req, next),
-};
+export function noErrorIt(context?: HttpContext): HttpContext {
+  return (context ?? new HttpContext()).set(NO_ERROR_IT, true);
+}

@@ -8,7 +8,7 @@ describe('ChampionshipDetailPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ChampionshipDetailPage],
+      imports: [ChampionshipDetailPage],
     }).compileComponents();
   }));
 

@@ -23,6 +23,7 @@ export class AuthenticationService {
   private readonly jwtHelper = new JwtHelperService();
   private readonly adminRole = 'ROLE_ADMIN';
   private readonly userRole = 'ROLE_USER';
+  private readonly emailField = 'user';
 
   constructor(
     private readonly tokenStorageService: TokenStorageService,
@@ -83,7 +84,7 @@ export class AuthenticationService {
 
   public logoutUI(): void {
     const user = undefined;
-    localStorage.removeItem('user');
+    localStorage.removeItem(this.emailField);
     this.tokenStorageService.deleteToken();
     this.userSubject.next(user);
   }
@@ -91,6 +92,10 @@ export class AuthenticationService {
   public loggedIn(): boolean {
     // eslint-disable-next-line unicorn/no-null
     return !this.jwtHelper.isTokenExpired(this.tokenStorageService.token ?? null);
+  }
+
+  public isAdmin(): Observable<boolean> {
+    return this.requireUser$.pipe(map((user) => user.admin));
   }
 
   public getCurrentUser(): Observable<User> {
@@ -112,14 +117,28 @@ export class AuthenticationService {
     );
   }
 
-  public tryTokenLogin(email?: string): Observable<boolean> {
+  public async tryTokenLogin(email = localStorage.getItem(this.emailField)): Promise<boolean> {
     if (email) {
-      return this.webauthnService
-        .get(email)
-        .pipe(switchMap(async (t) => this.tokenLogin(email, true, t)));
+      return firstValueFrom(
+        this.webauthnService
+          .get(email)
+          .pipe(switchMap(async (t) => this.tokenLogin(email, true, t))),
+        { defaultValue: false },
+      );
     }
 
-    return of(false);
+    return false;
+  }
+
+  public async hasAuthorities(authorities?: Array<string>): Promise<boolean> {
+    if (authorities === undefined || authorities.length === 0) {
+      return true;
+    }
+
+    return firstValueFrom(
+      this.requireUser$.pipe(map((user) => authorities.some((r) => user.roles.includes(r)))),
+      { defaultValue: false },
+    );
   }
 
   private getRoles(user: User): Array<string> {

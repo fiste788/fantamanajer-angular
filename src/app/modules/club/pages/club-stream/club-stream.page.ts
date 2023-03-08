@@ -1,3 +1,4 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -5,9 +6,13 @@ import { map } from 'rxjs/operators';
 import { getRouteData } from '@app/functions';
 import { Club } from '@data/types';
 
+import { StreamComponent } from '../../../stream/components/stream.component';
+
 @Component({
   styleUrls: ['./club-stream.page.scss'],
   templateUrl: './club-stream.page.html',
+  standalone: true,
+  imports: [NgIf, StreamComponent, AsyncPipe],
 })
 export class ClubStreamPage {
   protected readonly id$: Observable<number>;

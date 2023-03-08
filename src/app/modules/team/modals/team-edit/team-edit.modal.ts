@@ -1,10 +1,18 @@
+import { NgIf, NgClass } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ngfModule } from 'angular-file';
 import { firstValueFrom, map, tap } from 'rxjs';
 
 import { TeamService } from '@data/services';
 import { NotificationSubscription, notificationSubscriptionsKeys, Team } from '@data/types';
 import { createBoxAnimation } from '@shared/animations';
+
+import { NotificationSubscriptionComponent } from '../../../notification-subscription/components/notification-subscription/notification-subscription.component';
 
 export interface TeamEditModalData {
   team: Team;
@@ -15,6 +23,18 @@ export interface TeamEditModalData {
   animations: [createBoxAnimation],
   styleUrls: ['./team-edit.modal.scss'],
   templateUrl: './team-edit.modal.html',
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ngfModule,
+    NgClass,
+    NotificationSubscriptionComponent,
+    MatButtonModule,
+  ],
 })
 export class TeamEditModal {
   protected validComboDrag = false;

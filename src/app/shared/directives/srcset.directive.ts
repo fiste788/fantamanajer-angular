@@ -2,6 +2,7 @@ import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2 } from '@ang
 
 @Directive({
   selector: '[appSrcset]',
+  standalone: true,
 })
 export class SrcsetDirective implements OnInit, OnChanges {
   @Input() public appSrcset?: Record<string, string> | string | null;

@@ -1,5 +1,9 @@
 import { AnimationEvent } from '@angular/animations';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -8,11 +12,24 @@ import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],
   selector: 'app-notification-overlay',
   styleUrls: ['./notification-list.modal.scss'],
   templateUrl: './notification-list.modal.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    MatListModule,
+    NgFor,
+    MatIconModule,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class NotificationListModal {
   @Output() public readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();

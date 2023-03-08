@@ -1,3 +1,4 @@
+import { NgIf, NgFor, NgClass, UpperCasePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -7,10 +8,14 @@ import {
   Output,
   SimpleChange,
 } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { Area, Member, Module, Role } from '@data/types';
+import { RangePipe } from '@shared/pipes';
+
+import { StickyDirective } from '../../../../shared/directives/sticky.directive';
+import { MemberSelectionComponent } from '../../../member-common/components/member-selection/member-selection.component';
 
 export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
   [Key in keyof Props]?: SimpleChange;
@@ -30,6 +35,17 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   styleUrls: ['./module-area.component.scss'],
   templateUrl: './module-area.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    StickyDirective,
+    FormsModule,
+    MemberSelectionComponent,
+    UpperCasePipe,
+    RangePipe,
+  ],
 })
 export class ModuleAreaComponent implements OnInit, OnChanges {
   @Input() public module!: Module;

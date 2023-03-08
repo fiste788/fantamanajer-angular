@@ -8,7 +8,7 @@ describe('LineupOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LineupOptionsComponent],
+      imports: [LineupOptionsComponent],
     }).compileComponents();
   });
 

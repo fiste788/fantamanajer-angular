@@ -4,19 +4,14 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpInterceptorFn,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { inject, Provider } from '@angular/core';
+import { inject } from '@angular/core';
 import { catchError, EMPTY, Observable, of, switchMap, throwError } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { TokenStorageService } from '@app/authentication/token-storage.service';
 
 const NO_AUTH_IT = new HttpContextToken<boolean>(() => false);
-
-export function noAuthIt(context?: HttpContext): HttpContext {
-  return (context ?? new HttpContext()).set(NO_AUTH_IT, true);
-}
 
 function handle401(): Observable<never> {
   return of(inject(AuthenticationService).logoutUI()).pipe(switchMap(() => EMPTY));
@@ -59,9 +54,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(newReq).pipe((s) => handleErrors(s, newReq.url));
 };
-export const authInterceptorProvider: Provider = {
-  multi: true,
-  deps: [TokenStorageService],
-  provide: HTTP_INTERCEPTORS,
-  useFactory: authInterceptor,
-};
+
+export function noAuthIt(context?: HttpContext): HttpContext {
+  return (context ?? new HttpContext()).set(NO_AUTH_IT, true);
+}

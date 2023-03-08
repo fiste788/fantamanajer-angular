@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Inject, Injectable, NgZone, Provider } from '@angular/core';
+import { ErrorHandler, inject, Inject, Injectable, NgZone, Provider } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, tap } from 'rxjs';
 
@@ -7,16 +7,12 @@ import { WINDOW } from '@app/services';
 
 @Injectable({ providedIn: 'root' })
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(
-    @Inject(WINDOW) private readonly window: Window,
-    private readonly snackbar: MatSnackBar,
-    private readonly zone: NgZone,
-  ) {}
+  constructor(@Inject(WINDOW) private readonly window: Window) {}
 
   public handleError(error: Error): void {
     if (!(error instanceof HttpErrorResponse)) {
-      this.zone.run(() => {
-        const ref = this.snackbar.open(
+      inject(NgZone).run(() => {
+        const ref = inject(MatSnackBar).open(
           error.message || 'Undefined client error',
           'Ricarica pagina',
           { duration: 5000 },
@@ -35,4 +31,5 @@ export class GlobalErrorHandler implements ErrorHandler {
 export const globalErrorHandlerProvider: Provider = {
   provide: ErrorHandler,
   useClass: GlobalErrorHandler,
+  deps: [MatSnackBar, NgZone],
 };

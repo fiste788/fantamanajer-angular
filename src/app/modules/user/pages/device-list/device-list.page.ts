@@ -1,5 +1,9 @@
+import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -9,10 +13,23 @@ import { PublicKeyCredentialSourceService, WebauthnService } from '@data/service
 import { PublicKeyCredentialSource } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+
 @Component({
   animations: [tableRowAnimation],
   styleUrls: ['./device-list.page.scss'],
   templateUrl: './device-list.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class DeviceListPage {
   protected readonly dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;

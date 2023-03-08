@@ -8,7 +8,7 @@ describe('DispositionListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [DispositionListComponent],
+      imports: [DispositionListComponent],
     }).compileComponents();
   }));
 

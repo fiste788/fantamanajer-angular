@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,7 +10,8 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
 import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
 import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -19,9 +20,12 @@ import { VisibilityState } from '@app/enums';
 import { GoogleAnalyticsService } from '@app/services';
 import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
+import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   animations: [trigger('contextChange', routerTransition), scrollUpAnimation, closeAnimation],
@@ -29,6 +33,16 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   selector: 'app-main',
   styleUrls: ['./main.component.scss'],
   templateUrl: './main.component.html',
+  standalone: true,
+  imports: [
+    MatSidenavModule,
+    NavbarComponent,
+    ToolbarComponent,
+    RouterOutlet,
+    SpeedDialComponent,
+    AsyncPipe,
+    StatePipe,
+  ],
 })
 export class MainComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSidenav, { static: true }) protected drawer?: MatSidenav;

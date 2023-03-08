@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'range',
+  standalone: true,
 })
 export class RangePipe implements PipeTransform {
   public transform(size = 0, start = 1, step = 1): Array<number> {

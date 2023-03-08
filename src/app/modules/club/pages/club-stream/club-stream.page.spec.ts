@@ -8,7 +8,7 @@ describe('ClubStreamPage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [ClubStreamPage],
+      imports: [ClubStreamPage],
     }).compileComponents();
   }));
 

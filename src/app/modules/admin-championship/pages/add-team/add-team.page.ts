@@ -1,5 +1,10 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
@@ -13,6 +18,16 @@ import { Championship, Team } from '@data/types';
 @Component({
   styleUrls: ['./add-team.page.scss'],
   templateUrl: './add-team.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    AsyncPipe,
+  ],
 })
 export class AddTeamPage {
   @ViewChild(NgForm) protected teamForm?: NgForm;

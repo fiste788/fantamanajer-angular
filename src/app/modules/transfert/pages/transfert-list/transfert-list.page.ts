@@ -1,6 +1,10 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -10,10 +14,27 @@ import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 
+import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { SeasonActiveDirective } from '../../../../shared/directives/season-active.directive';
+import { SelectionComponent } from '../../../selection/components/selection/selection.component';
+
 @Component({
   animations: [tableRowAnimation],
   styleUrls: ['./transfert-list.page.scss'],
   templateUrl: './transfert-list.page.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    MatTableModule,
+    MatSortModule,
+    RouterLink,
+    MatIconModule,
+    MatEmptyStateComponent,
+    MatProgressSpinnerModule,
+    SeasonActiveDirective,
+    SelectionComponent,
+    AsyncPipe,
+  ],
 })
 export class TransfertListPage {
   @ViewChild(MatSort) public sort?: MatSort;

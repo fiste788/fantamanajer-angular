@@ -1,5 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   animations: [
@@ -23,6 +25,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   selector: 'app-mat-empty-state[label][icon]',
   styleUrls: ['./mat-empty-state.component.scss'],
   templateUrl: './mat-empty-state.component.html',
+  standalone: true,
+  imports: [NgIf, MatIconModule],
 })
 export class MatEmptyStateComponent {
   @Input() public label!: string;

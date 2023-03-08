@@ -1,4 +1,4 @@
-import { KeyValue } from '@angular/common';
+import { KeyValue, NgIf, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +7,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { finalize, firstValueFrom, map } from 'rxjs';
 
 import { LineupService as LineupHttpService } from '@data/services';
@@ -15,7 +16,10 @@ import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
 import { cardCreationAnimation } from '@shared/animations';
 
+import { MemberSelectionComponent } from '../../../member-common/components/member-selection/member-selection.component';
+import { LineupOptionsComponent } from '../lineup-options/lineup-options.component';
 import { LineupService } from '../lineup.service';
+import { ModuleAreaComponent } from '../module-area/module-area.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +29,16 @@ import { LineupService } from '../lineup.service';
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [cardCreationAnimation],
+  standalone: true,
+  imports: [
+    NgIf,
+    LineupOptionsComponent,
+    FormsModule,
+    ModuleAreaComponent,
+    MatCardModule,
+    NgFor,
+    MemberSelectionComponent,
+  ],
 })
 export class LineupDetailComponent implements OnInit {
   @Input() public lineup?: EmptyLineup;

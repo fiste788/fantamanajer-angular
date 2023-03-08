@@ -1,5 +1,12 @@
+import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { defaultIfEmpty, map, Observable } from 'rxjs';
 
@@ -14,6 +21,18 @@ import { cardCreationAnimation } from '@shared/animations';
   styleUrls: ['./championship-detail.page.scss'],
   templateUrl: './championship-detail.page.html',
   animations: [cardCreationAnimation],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatCardModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    AsyncPipe,
+  ],
 })
 export class ChampionshipDetailPage {
   @ViewChild(NgForm) protected championshipForm?: NgForm;

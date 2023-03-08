@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { AddTransfertShortcutPage } from './pages/add-transfert-shortcut/add-transfert-shortcut.page';
 import { TransfertListPage } from './pages/transfert-list/transfert-list.page';
@@ -16,10 +15,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class TransfertRoutingModule {
-  public static components = [TransfertListPage, AddTransfertShortcutPage];
-}
+export default routes;
