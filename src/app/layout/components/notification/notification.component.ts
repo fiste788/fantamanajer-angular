@@ -40,9 +40,9 @@ export class NotificationComponent {
     if (this.container) {
       const notificationList = await import(
         '@modules/notification/components/notification-list/notification-list.component'
-      ).then((m) => m.NotificationListComponent);
+      );
 
-      const componentRef = this.container.createComponent(notificationList);
+      const componentRef = this.container.createComponent(notificationList.default);
       componentRef.instance.open(new ElementRef(el));
     }
   }

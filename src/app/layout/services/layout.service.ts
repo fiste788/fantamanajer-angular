@@ -1,9 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
-import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { concatMap, distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
@@ -56,23 +56,13 @@ export class LayoutService {
   }
 
   public connectChangePageAnimation(container: MatSidenavContent): Subscription {
-    return this.router.events
-      .pipe(
-        filter((evt): evt is RoutesRecognized => evt instanceof RoutesRecognized),
-        pairwise(),
-        filter(
-          (events: Array<RoutesRecognized>) =>
-            events[0]?.urlAfterRedirects.split('/')[1] !==
-            events[1]?.urlAfterRedirects.split('/')[1],
-        ),
-        concatMap(() => this.router.events),
-        filter((event) => event instanceof NavigationEnd),
-      )
-      .subscribe(() => {
+    return this.isRouteContextChanged().subscribe((changed) => {
+      if (changed) {
         container.scrollTo({ top: 0 });
         this.showToolbar();
         this.showSpeedDial();
-      });
+      }
+    });
 
     /* return this.router.events
       .pipe(
@@ -179,5 +169,16 @@ export class LayoutService {
 
   public setReady(): void {
     this.isReadySubject.next(true);
+  }
+
+  private isRouteContextChanged(): Observable<boolean> {
+    return this.router.events.pipe(
+      filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
+      pairwise(),
+      map(
+        (events: Array<NavigationEnd>) =>
+          events[0]?.urlAfterRedirects.split('/')[1] !== events[1]?.urlAfterRedirects.split('/')[1],
+      ),
+    );
   }
 }

@@ -1,11 +1,11 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components';
 
 import { MemberFreePage } from './pages/member-free/member-free.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -21,6 +21,4 @@ const routes: Routes = [
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

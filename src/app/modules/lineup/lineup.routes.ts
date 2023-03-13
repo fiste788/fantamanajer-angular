@@ -1,11 +1,11 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components';
 
 import { AddLineupShortcutPage } from './pages/add-lineup-shortcut/add-lineup-shortcut.page';
 import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -24,6 +24,4 @@ const routes: Routes = [
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

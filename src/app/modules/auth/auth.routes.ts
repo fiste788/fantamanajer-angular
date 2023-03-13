@@ -1,12 +1,12 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
-import { authenticatedGuard } from '@app/guards';
+import { authenticatedGuard, noAuthGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components';
 
 import { LoginPage } from './pages/login/login.page';
 import { LogoutPage } from './pages/logout/logout.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginPage,
-        canActivate: [authenticatedGuard],
+        canActivate: [noAuthGuard],
         data: {
           state: 'login',
         },
@@ -32,6 +32,4 @@ const routes: Routes = [
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

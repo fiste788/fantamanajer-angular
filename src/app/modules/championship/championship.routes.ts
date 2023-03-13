@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { adminGuard } from '@app/guards';
 import { Championship } from '@data/types';
@@ -8,7 +7,7 @@ import { ChampionshipPage } from './pages/championship/championship.page';
 import { championshipResolver } from './pages/championship/championship.resolver';
 import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
 
-const routes: Routes = [
+export default [
   {
     path: ':championship_id',
     component: ChampionshipPage,
@@ -29,22 +28,22 @@ const routes: Routes = [
       {
         path: 'articles',
         data: { state: 'articles' },
-        loadChildren: () => import('@modules/article/article.routes'),
+        loadChildren: async () => import('@modules/article/article.routes'),
       },
       {
         path: 'teams',
         data: { state: 'teams' },
-        loadChildren: () => import('@modules/team/team.routes'),
+        loadChildren: async () => import('@modules/team/team.routes'),
       },
       {
         path: 'members',
         data: { state: 'members' },
-        loadChildren: () => import('@modules/member/member.routes'),
+        loadChildren: async () => import('@modules/member/member.routes'),
       },
       {
         path: 'ranking',
         data: { state: 'ranking' },
-        loadChildren: () => import('@modules/score/score.routes'),
+        loadChildren: async () => import('@modules/score/score.routes'),
       },
       {
         path: 'stream',
@@ -55,10 +54,8 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [adminGuard],
         data: { state: 'championship-admin' },
-        loadChildren: () => import('@modules/admin-championship/admin-championship.routes'),
+        loadChildren: async () => import('@modules/admin-championship/admin-championship.routes'),
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

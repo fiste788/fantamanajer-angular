@@ -13,6 +13,7 @@ export const authenticatedGuard: CanActivateFn = async (
   state: RouterStateSnapshot,
 ) => {
   const auth = inject(AuthenticationService);
+  const router = inject(Router);
   if (auth.loggedIn()) {
     return auth.hasAuthorities(next.data['authorities'] as Array<string> | undefined);
   }
@@ -20,7 +21,7 @@ export const authenticatedGuard: CanActivateFn = async (
   if (!(await auth.tryTokenLogin())) {
     auth.logoutUI();
 
-    return inject(Router).createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
+    return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });
   }
 
   return true;

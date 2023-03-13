@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { championshipAdminGuard } from '@app/guards';
 import { Team } from '@data/types';
@@ -11,7 +10,7 @@ import { TeamListPage } from './pages/team-list/team-list.page';
 import { TeamMembersPage } from './pages/team-members/team-members.page';
 import { TeamStreamPage } from './pages/team-stream/team-stream.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -41,7 +40,7 @@ const routes: Routes = [
           {
             path: 'articles',
             data: { state: 'team-articles' },
-            loadChildren: () => import('@modules/article/article.routes'),
+            loadChildren: async () => import('@modules/article/article.routes'),
           },
           {
             path: 'players',
@@ -57,29 +56,27 @@ const routes: Routes = [
           {
             path: 'scores',
             data: { state: 'team-scores' },
-            loadChildren: () => import('@modules/score/score.routes'),
+            loadChildren: async () => import('@modules/score/score.routes'),
           },
           {
             path: 'lineup',
             data: { state: 'team-lineup' },
-            loadChildren: () => import('@modules/lineup/lineup.routes'),
+            loadChildren: async () => import('@modules/lineup/lineup.routes'),
           },
           {
             path: 'transferts',
             data: { state: 'team-transfert' },
-            loadChildren: () => import('@modules/transfert/transfert.routes'),
+            loadChildren: async () => import('@modules/transfert/transfert.routes'),
           },
           {
             path: 'admin',
             canActivate: [championshipAdminGuard],
             data: { state: 'team-admin' },
-            loadChildren: () => import('@modules/admin-team/admin-team.routes'),
+            loadChildren: async () => import('@modules/admin-team/admin-team.routes'),
           },
         ],
         runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

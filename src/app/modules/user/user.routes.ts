@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 
@@ -7,7 +7,7 @@ import { SettingsPage } from './pages/settings/settings.page';
 import { UserPage } from './pages/user/user.page';
 import { UserStreamPage } from './pages/user-stream/user-stream.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: UserPage,
@@ -23,6 +23,4 @@ const routes: Routes = [
       { path: 'devices', component: DeviceListPage, data: { state: 'devices' } },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

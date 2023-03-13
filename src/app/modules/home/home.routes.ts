@@ -1,8 +1,8 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { HomePage } from './pages/home.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     pathMatch: 'full',
@@ -11,6 +11,4 @@ const routes: Routes = [
       state: 'home',
     },
   },
-];
-
-export default routes;
+] as Array<Route>;

@@ -34,10 +34,13 @@ if (environment.production) {
   enableProdMode();
 }
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
 void bootstrapApplication(MainComponent, {
   providers: [
-    provideRouter(APP_ROUTES, withRouterConfig({ onSameUrlNavigation: 'reload' })),
+    provideRouter(
+      APP_ROUTES,
+      withRouterConfig({ onSameUrlNavigation: 'reload' }),
+      // withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+    ),
     provideHttpClient(
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
     ),
@@ -69,5 +72,4 @@ void bootstrapApplication(MainComponent, {
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
   ],
-  // eslint-disable-next-line unicorn/prefer-top-level-await
-}).then();
+});

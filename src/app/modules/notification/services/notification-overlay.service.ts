@@ -4,12 +4,11 @@ import { ElementRef, Injectable, Injector } from '@angular/core';
 import { firstValueFrom, tap } from 'rxjs';
 
 import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
-import { NotificationModule } from '../notification.module';
 
 import { NotificationOverlayRef } from './notification-overlay-ref';
 
 @Injectable({
-  providedIn: NotificationModule,
+  providedIn: 'any',
 })
 export class NotificationOverlayService {
   constructor(private readonly overlay: Overlay, private readonly injector: Injector) {}

@@ -4,64 +4,68 @@
     ngForm
   >
     <mat-card appearance="outlined">
-      <mat-card-title>
-        Profilo utente
-      </mat-card-title>
-      <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          name="name"
-          placeholder="Nome"
-          required
-          [(ngModel)]="user.name"
-        >
-      </mat-form-field>
+      <mat-card-header>
+        <mat-card-title>
+          Profilo utente
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            name="name"
+            placeholder="Nome"
+            required
+            [(ngModel)]="user.name"
+          >
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Cognome</mat-label>
-        <input
-          matInput
-          name="surname"
-          placeholder="Cognome"
-          required
-          [(ngModel)]="user.surname"
-        >
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label>Cognome</mat-label>
+          <input
+            matInput
+            name="surname"
+            placeholder="Cognome"
+            required
+            [(ngModel)]="user.surname"
+          >
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input
-          autocomplete="new-password"
-          matInput
-          name="password"
-          placeholder="Password"
-          type="password"
-          [(ngModel)]="user.password"
-        >
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            autocomplete="new-password"
+            matInput
+            name="password"
+            placeholder="Password"
+            type="password"
+            [(ngModel)]="user.password"
+          >
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Ripeti password</mat-label>
-        <input
-          matInput
-          name="repeatPassword"
-          placeholder="Ripeti password"
-          type="password"
-          [required]="user.password !== undefined && user.password !== ''"
-          [(ngModel)]="repeatPassword"
-        >
-      </mat-form-field>
+        <mat-form-field>
+          <mat-label>Ripeti password</mat-label>
+          <input
+            matInput
+            name="repeatPassword"
+            placeholder="Ripeti password"
+            type="password"
+            [required]="user.password !== undefined && user.password !== ''"
+            [(ngModel)]="repeatPassword"
+          >
+        </mat-form-field>
 
-      <mat-slide-toggle
-        name="active_push"
-        [checked]="(push$ | async)"
-        [disabled]="!enabled"
-        (change)="togglePush(user, $event.checked)"
-      >
-        Ricevi notifiche push
-      </mat-slide-toggle>
-      <mat-card-actions>
+        <mat-slide-toggle
+          name="active_push"
+          [checked]="(push$ | async)"
+          [disabled]="!enabled"
+          (change)="togglePush(user, $event.checked)"
+        >
+          Ricevi notifiche push
+        </mat-slide-toggle>
+      </mat-card-content>
+      <mat-card-actions align="end">
         <button
           color="accent"
           mat-raised-button

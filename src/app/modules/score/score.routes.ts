@@ -1,11 +1,11 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components';
 
 import { RankingPage } from './pages/ranking/ranking.page';
 import { ScoreDetailPage } from './pages/score-detail/score-detail.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -34,6 +34,4 @@ const routes: Routes = [
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

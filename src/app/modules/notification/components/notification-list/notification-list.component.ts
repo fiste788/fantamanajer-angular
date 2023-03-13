@@ -11,7 +11,7 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
   templateUrl: './notification-list.component.html',
   standalone: true,
 })
-export class NotificationListComponent {
+export default class NotificationListComponent {
   constructor(private readonly overlayService: NotificationOverlayService) {}
 
   public open(el: ElementRef): void {

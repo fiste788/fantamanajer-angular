@@ -1,11 +1,11 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { Player } from '@data/types';
 
 import { PlayerPage } from './pages/player/player.page';
 import { playerResolver } from './pages/player/player.resolver';
 
-const routes: Routes = [
+export default [
   { path: '', component: PlayerPage, data: { state: 'player' } },
   {
     path: ':id',
@@ -18,6 +18,4 @@ const routes: Routes = [
       player: playerResolver,
     },
   },
-];
-
-export default routes;
+] as Array<Route>;

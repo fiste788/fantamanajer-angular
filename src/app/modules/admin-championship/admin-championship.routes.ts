@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components';
 
@@ -6,7 +6,7 @@ import { AddTeamPage } from './pages/add-team/add-team.page';
 import { ChampionshipDetailPage } from './pages/championship-detail/championship-detail.page';
 import { HomePage } from './pages/home/home.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: RouterOutletComponent,
@@ -50,6 +50,4 @@ const routes: Routes = [
       },
     ],
   },
-];
-
-export default routes;
+] as Array<Route>;

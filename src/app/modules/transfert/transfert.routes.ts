@@ -1,9 +1,9 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { AddTransfertShortcutPage } from './pages/add-transfert-shortcut/add-transfert-shortcut.page';
 import { TransfertListPage } from './pages/transfert-list/transfert-list.page';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     component: TransfertListPage,
@@ -13,6 +13,4 @@ const routes: Routes = [
     path: 'new',
     component: AddTransfertShortcutPage,
   },
-];
-
-export default routes;
+] as Array<Route>;
