@@ -1,44 +1,55 @@
-/* Variables */
-:root {
-  --scrollbar-size: .375rem;
-  --scrollbar-minlength: 1.5rem;
+/* stylelint-disable selector-class-pattern */
+@use 'sass:map';
+@use '@angular/material' as mat;
 
-  /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
-  --scrollbar-ff-width: thin;
-
-  /* FF-only accepts auto, thin, none */
-  --scrollbar-track-color: transparent;
-  --scrollbar-color: rgb(0 0 0 / 20%);
-  --scrollbar-color-hover: rgb(0 0 0 / 30%);
-  --scrollbar-color-active: rgb(0 0 0);
+@mixin core() {
 }
 
-/* Use .layout-scrollbar-obtrusive to only use overflow if scrollbars don’t overlay */
+@mixin color($theme) {
+  $accent: map.get($theme, accent);
 
-.mat-mdc-select-panel,
-.mat-sidenav > div,
-.mat-sidenav-content,
-.scrollbar-test {
-  overscroll-behavior: contain;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  scrollbar-width: var(--scrollbar-ff-width);
-}
+  /* Variables */
+  :root {
+    --scrollbar-size: .375rem;
+    --scrollbar-minlength: 1.5rem;
 
-/* This class controls what elements have the new fancy scrollbar CSS */
+    /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
+    --scrollbar-ff-width: thin;
 
-.mat-mdc-select-panel,
-.mat-sidenav > div,
-.mat-sidenav-content {
-  scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
-  overflow-y: overlay !important;
+    /* FF-only accepts auto, thin, none */
+    --scrollbar-track-color: transparent;
+    --scrollbar-color: rgb(0 0 0 / 20%);
+    --scrollbar-color-hover: rgb(0 0 0 / 30%);
+    --scrollbar-color-active: #{mat.get-color-from-palette($accent, .66)};
+  }
 
-  &::-webkit-scrollbar-track {
+  /* Use .layout-scrollbar-obtrusive to only use overflow if scrollbars don’t overlay */
+
+  .mat-mdc-select-panel,
+  .mat-sidenav > div,
+  .mat-sidenav-content,
+  .scrollbar-test {
+    overscroll-behavior: contain;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-width: var(--scrollbar-ff-width);
+  }
+
+  /* This class controls what elements have the new fancy scrollbar CSS */
+
+  .mat-mdc-select-panel,
+  .mat-sidenav > div,
+  .mat-sidenav-content {
+    scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
+    overflow-y: overlay !important;
+  }
+
+  ::-webkit-scrollbar-track {
     background-color: var(--scrollbar-track-color);
   }
 
-  &::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-color);
     border-radius: 3px;
 
@@ -55,29 +66,44 @@
       min-height: var(--scrollbar-minlength);
     }
   }
-}
 
-/* Only apply height/width to ::-webkit-scrollbar if is obtrusive */
+  /* Only apply height/width to ::-webkit-scrollbar if is obtrusive */
 
-.layout-scrollbar-obtrusive {
-  .mat-mdc-select-panel::-webkit-scrollbar,
-  .mat-sidenav > div::-webkit-scrollbar,
-  .mat-sidenav-content::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     height: var(--scrollbar-size);
     width: var(--scrollbar-size);
   }
+
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal {
+    min-height: var(--scrollbar-minlength);
+  }
 }
 
-.mat-mdc-select-panel::-webkit-scrollbar-thumb:vertical,
-.mat-sidenav > div::-webkit-scrollbar-thumb:vertical,
-.mat-sidenav-content::-webkit-scrollbar-thumb:vertical,
-.scrollbar-test::-webkit-scrollbar-thumb:vertical {
-  min-height: var(--scrollbar-minlength);
+@mixin density($theme) {
 }
 
-.mat-mdc-select-panel::-webkit-scrollbar-thumb:horizontal,
-.mat-sidenav > div::-webkit-scrollbar-thumb:horizontal,
-.mat-sidenav-content::-webkit-scrollbar-thumb:horizontal,
-.scrollbar-test::-webkit-scrollbar-thumb:horizontal {
-  min-width: var(--scrollbar-minlength);
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @include core;
+
+  @include mat.private-check-duplicate-theme-styles($theme, 'scrollbar') {
+    $color: mat.get-color-config($theme);
+    $density: mat.get-density-config($theme);
+    $typography: mat.get-typography-config($theme);
+
+    @if $color {
+      @include color($color);
+    }
+
+    @if $density {
+      @include density($density);
+    }
+
+    @if $typography {
+      @include typography($typography);
+    }
+  }
 }

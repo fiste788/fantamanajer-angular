@@ -7,19 +7,16 @@
 @mixin color($theme) {
   $primary: map.get($theme, primary);
   $foreground: map.get($theme, foreground);
+  $darker: mat.get-color-from-palette($primary, 'darker');
+  $icon: mat.get-color-from-palette($foreground, 'icon');
 
-  .mat-mdc-list-item .mat-icon {
-    color: mat.get-color-from-palette($foreground, 'icon');
-  }
-
-  .mat-list-item.active:hover,
-  .mat-mdc-list-item.active .mat-list-item.active:active {
-    background-color: mat.get-color-from-palette($primary, .12) !important;
-    color: mat.get-color-from-palette($primary) !important;
-
-    .mat-icon {
-      color: mat.get-color-from-palette($primary, 'darker') !important;
-    }
+  .mat-mdc-nav-list {
+    --mdc-list-list-item-hover-state-layer-color: #{$darker};
+    --mdc-list-list-item-focus-state-layer-color: #{$darker};
+    --mdc-list-list-item-hover-label-text-color: #{$darker};
+    --mdc-list-list-item-focus-label-text-color: #{$darker};
+    --mdc-list-list-item-hover-leading-icon-color: #{$darker};
+    --mdc-list-list-item-leading-icon-color: #{$icon};
   }
 }
 
