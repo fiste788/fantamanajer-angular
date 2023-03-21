@@ -1,4 +1,4 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 @use './main/main';
 @use 'app/layout/layout';
 @use 'app/modules/auth/pages/login/login';
@@ -7,7 +7,7 @@
 @use 'app/shared/components/mat-empty-state/mat-empty-state';
 
 @mixin core() {
-   @include main.core;
+  @include main.core;
   @include layout.core;
   @include login.core;
   @include member-selection.core;
@@ -16,7 +16,7 @@
 }
 
 @mixin density($theme) {
-   @include main.density($theme);
+  @include main.density($theme);
   @include layout.density($theme);
   @include login.density($theme);
   @include member-selection.density($theme);
@@ -25,7 +25,7 @@
 }
 
 @mixin typography($theme) {
-   @include main.typography($theme);
+  @include main.typography($theme);
   @include layout.typography($theme);
   @include login.typography($theme);
   @include member-selection.typography($theme);
@@ -34,7 +34,7 @@
 }
 
 @mixin color($theme) {
-   @include main.color($theme);
+  @include main.color($theme);
   @include layout.color($theme);
   @include login.color($theme);
   @include member-selection.color($theme);
@@ -43,7 +43,7 @@
 }
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'app') {
     $color: mat.get-color-config($theme);
@@ -51,15 +51,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

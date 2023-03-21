@@ -57,7 +57,6 @@
 
   .yellow-card {
     background-color: yellow;
-
   }
 
   .red-card {
@@ -102,12 +101,14 @@
   }
 }
 
-@mixin density($theme) {}
+@mixin density($theme) {
+}
 
-@mixin typography($theme) {}
+@mixin typography($theme) {
+}
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
     $color: mat.get-color-config($theme);
@@ -115,15 +116,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

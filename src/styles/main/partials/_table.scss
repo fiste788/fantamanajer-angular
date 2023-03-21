@@ -101,7 +101,11 @@
       @if type-of($badge-color) == color and type-of($app-background) == color {
         $badge-opacity: opacity($badge-color);
 
-        background-color: color.mix($app-background, rgba($badge-color, 1), (1 - $badge-opacity) * 100%);
+        background-color: color.mix(
+          $app-background,
+          rgba($badge-color, 1),
+          (1 - $badge-opacity) * 100%
+        );
       } @else {
         background-color: $badge-color;
       }
@@ -129,12 +133,14 @@
   }
 }
 
-@mixin density($theme) {}
+@mixin density($theme) {
+}
 
-@mixin typography($theme) {}
+@mixin typography($theme) {
+}
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'table') {
     $color: mat.get-color-config($theme);
@@ -142,15 +148,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

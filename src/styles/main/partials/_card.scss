@@ -1,9 +1,13 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 // @use "@angular/flex-layout/mq";
 @mixin core() {
   .mat-mdc-card {
     margin: 1rem;
+  }
+
+  .mat-mdc-card-header-text {
+    max-width: 100%;
   }
 
   @media (min-width: theme('screens.lg')) {
@@ -15,14 +19,17 @@
   }
 }
 
-@mixin color($theme) {}
+@mixin color($theme) {
+}
 
-@mixin density($theme) {}
+@mixin density($theme) {
+}
 
-@mixin typography($theme) {}
+@mixin typography($theme) {
+}
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'card') {
     $color: mat.get-color-config($theme);
@@ -30,16 +37,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
-
 }

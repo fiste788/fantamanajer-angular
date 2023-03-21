@@ -2,27 +2,27 @@
 @use './components/profile/profile';
 
 @mixin core() {
-   @include navbar.core;
+  @include navbar.core;
   @include profile.core;
 }
 
 @mixin color($theme) {
-   @include navbar.color($theme);
+  @include navbar.color($theme);
   @include profile.color($theme);
 }
 
 @mixin density($theme) {
-   @include navbar.density($theme);
+  @include navbar.density($theme);
   @include profile.density($theme);
 }
 
 @mixin typography($theme) {
-   @include navbar.typography($theme);
+  @include navbar.typography($theme);
   @include profile.typography($theme);
 }
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'layout') {
     $color: mat.get-color-config($theme);
@@ -30,15 +30,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

@@ -1,22 +1,25 @@
-@use "sass:map";
-@use "@angular/material" as mat;
+@use 'sass:map';
+@use '@angular/material' as mat;
 
-@mixin core() {}
+@mixin core() {
+}
 
 @mixin color($theme) {
   $foreground: map.get($theme, foreground);
 
   .role-container h5 {
-    color: mat.get-color-from-palette($foreground, "secondary-text");
+    color: mat.get-color-from-palette($foreground, 'secondary-text');
   }
 }
 
-@mixin density($theme) {}
+@mixin density($theme) {
+}
 
-@mixin typography($theme) {}
+@mixin typography($theme) {
+}
 
 @mixin theme($theme) {
-   @include core;
+  @include core;
 
   @include mat.private-check-duplicate-theme-styles($theme, 'lineup-detail') {
     $color: mat.get-color-config($theme);
@@ -24,15 +27,15 @@
     $typography: mat.get-typography-config($theme);
 
     @if $color {
-       @include color($color);
+      @include color($color);
     }
 
     @if $density {
-       @include density($density);
+      @include density($density);
     }
 
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }
