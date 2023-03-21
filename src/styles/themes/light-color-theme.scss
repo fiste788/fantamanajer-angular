@@ -1,5 +1,7 @@
-@use '../app';
+@use 'app/app';
 @use './light/variables';
-@use './light/core';
-@include core.core(variables.$theme);
+@use './light/color';
+@use '../main/main';
+@include color.color(variables.$theme);
+@include main.color(variables.$theme);
 @include app.color(variables.$theme);

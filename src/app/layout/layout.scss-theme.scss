@@ -1,5 +1,5 @@
-@use './components/navbar/navbar';
-@use './components/profile/profile';
+@use './components/navbar/navbar.scss-theme';
+@use './components/profile/profile.scss-theme';
 
 @mixin core() {
   @include navbar.core;

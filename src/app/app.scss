@@ -1,13 +1,11 @@
 @use '@angular/material' as mat;
-@use './main/main';
-@use 'app/layout/layout';
-@use 'app/modules/auth/pages/login/login';
-@use 'app/modules/lineup-common/components/lineup-detail/lineup-detail';
-@use 'app/modules/member-common/components/member-selection/member-selection';
-@use 'app/shared/components/mat-empty-state/mat-empty-state';
+@use 'layout/layout.scss-theme';
+@use 'modules/auth/pages/login/login.scss-theme';
+@use 'modules/lineup-common/components/lineup-detail/lineup-detail.scss-theme';
+@use 'modules/member-common/components/member-selection/member-selection.scss-theme';
+@use 'shared/components/mat-empty-state/mat-empty-state.scss-theme';
 
 @mixin core() {
-  @include main.core;
   @include layout.core;
   @include login.core;
   @include member-selection.core;
@@ -16,7 +14,6 @@
 }
 
 @mixin density($theme) {
-  @include main.density($theme);
   @include layout.density($theme);
   @include login.density($theme);
   @include member-selection.density($theme);
@@ -25,7 +22,6 @@
 }
 
 @mixin typography($theme) {
-  @include main.typography($theme);
   @include layout.typography($theme);
   @include login.typography($theme);
   @include member-selection.typography($theme);
@@ -34,7 +30,6 @@
 }
 
 @mixin color($theme) {
-  @include main.color($theme);
   @include layout.color($theme);
   @include login.color($theme);
   @include member-selection.color($theme);
@@ -45,7 +40,7 @@
 @mixin theme($theme) {
   @include core;
 
-  @include mat.private-check-duplicate-theme-styles($theme, 'app') {
+  @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
