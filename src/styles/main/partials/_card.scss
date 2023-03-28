@@ -10,7 +10,7 @@
     max-width: 100%;
   }
 
-  @media (min-width: theme('screens.lg')) {
+  @media (min-width: theme('screens.md')) {
     // @include mq.layout-bp(gt-md) {
     .mat-mdc-card {
       margin-left: 0;

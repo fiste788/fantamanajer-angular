@@ -1,5 +1,6 @@
 .mat-sidenav-container {
-  height: 100%;
+  position: absolute;
+  inset: 0;
 }
 
 .mat-sidenav {
@@ -16,20 +17,12 @@ main {
   position: relative;
 }
 
-.pan {
-  position: absolute;
-  width: .5rem;
-  z-index: 99;
-  top: 0;
-  bottom: 0;
-}
-
 .speed-dial {
   transform: scale(0);
 }
 
 .speed-dial,
-app-toolbar {
+app-toolbar .mat-toolbar {
   will-change: transform;
 }
 
@@ -39,10 +32,6 @@ app-toolbar {
     width: 90%;
     max-width: 90%;
     margin: 0 auto;
-  }
-
-  .pan {
-    display: none;
   }
 
   .mat-sidenav {

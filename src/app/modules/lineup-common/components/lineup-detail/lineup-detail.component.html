@@ -22,39 +22,41 @@
       ></app-module-area>
     </div>
   </ng-container>
-  <div
-    *ngIf="lineup.dispositions?.length"
-    class="flex flex-row xs:flex-col justify-evenly items-start"
-  >
-    <fieldset class="benchwarmers">
-      <mat-card appearance="outlined">
-        <mat-card-title>Panchinari</mat-card-title>
-        <mat-card-content>
 
+  <fieldset
+    *ngIf="lineup.dispositions?.length"
+    class="flex benchwarmers"
+    ngModelGroup="dispositions"
+  >
+    <mat-card
+      appearance="outlined"
+      class="grow"
+    >
+      <mat-card-header>
+        <mat-card-title>Panchinari</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex flex-col justify-around md:flex-row md:flex-wrap">
           <div
-            class="flex flex-col justify-around md:flex-row md:flex-wrap"
-            ngModelGroup="dispositions"
+            *ngFor="let bench of lineupService.benchs; trackBy: trackByBench"
+            [ngModelGroup]="bench + ''"
           >
-            <ng-container *ngFor="let bench of lineupService.benchs; trackBy: trackByBench">
-              <div [ngModelGroup]="bench + ''">
-                <app-member-selection
-                  *ngIf="lineup.dispositions[bench] as disp"
-                  class="benchwarmer flex flex-row justify-start items-center"
-                  name="member"
-                  [disabled]="disabled"
-                  [height]="450"
-                  [memberMap]="lineupService.benchOptions"
-                  [placeholder]="'Panchinaro ' + (bench - 10)"
-                  [width]="320"
-                  [(member)]="disp.member"
-                  (memberChange)="lineupService.benchwarmerSelectionChange($event)"
-                >
-                </app-member-selection>
-              </div>
-            </ng-container>
+            <app-member-selection
+              *ngIf="lineup.dispositions[bench] as disp"
+              class="benchwarmer flex flex-row justify-start items-center"
+              name="member"
+              [disabled]="disabled"
+              [height]="450"
+              [memberMap]="lineupService.benchOptions"
+              [placeholder]="'Panchinaro ' + (bench - 10)"
+              [width]="320"
+              [(member)]="disp.member"
+              (memberChange)="lineupService.benchwarmerSelectionChange($event)"
+            >
+            </app-member-selection>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </fieldset>
-  </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </fieldset>
 </div>

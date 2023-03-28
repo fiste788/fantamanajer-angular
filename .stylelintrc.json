@@ -9,7 +9,6 @@
   ],
   "rules": {
     "block-no-empty": null,
-    "number-leading-zero": "never",
-    "no-empty-source": null
+    "number-leading-zero": "never"
   }
 }

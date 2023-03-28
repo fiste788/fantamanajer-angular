@@ -8,9 +8,11 @@ import { Player } from '@data/types';
 
 export const playerResolver: ResolveFn<Player | undefined> = (route) => {
   const playerId = route.paramMap.get('id');
+  const app = inject(ApplicationService);
+  const ps = inject(PlayerService);
   if (playerId !== null) {
-    return inject(ApplicationService).team$.pipe(
-      switchMap((t) => inject(PlayerService).getPlayer(+playerId, t?.championship.id)),
+    return app.team$.pipe(
+      switchMap((t) => ps.getPlayer(+playerId, t?.championship.id)),
       first(),
     );
   }

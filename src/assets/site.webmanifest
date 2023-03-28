@@ -2,13 +2,17 @@
   "name": "FantaManajer",
   "short_name": "FantaManajer",
   "lang": "it-IT",
+  "dir": "ltr",
   "description": "Gestisci la tua lega del fantacalcio",
+  "orientation": "any",
+  "screenshots": [],
   "categories": [
     "sports",
     "games"
   ],
   "id": "/",
   "prefer_related_applications": false,
+  "related_applications": [],
   "icons": [
     {
       "src": "/assets/icons/maskable-icon.png",
