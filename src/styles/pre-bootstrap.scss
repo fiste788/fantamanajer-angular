@@ -34,7 +34,7 @@ html {
 
   img {
     will-change: transform, opacity, filter;
-    animation: in-animation .4s ease-in-out, pulse-animation 1.8s ease-in-out .4s infinite;
+    animation: in-animation 0.4s ease-in-out, pulse-animation 1.8s ease-in-out 0.4s infinite;
   }
 
   > div {
@@ -51,7 +51,7 @@ html {
 @keyframes in-animation {
   0% {
     opacity: 0;
-    transform: scale(.6);
+    transform: scale(0.6);
   }
 
   100% {
@@ -67,7 +67,7 @@ html {
   }
 
   67% {
-    transform: scale(.82);
+    transform: scale(0.82);
     filter: saturate(33%);
   }
 

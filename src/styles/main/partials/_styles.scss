@@ -21,7 +21,7 @@
   }
 
   .sticky {
-    transition: top .2s ease-in;
+    transition: top 0.2s ease-in;
   }
 
   router-outlet ~ * {
@@ -48,7 +48,7 @@
 
   .red-card,
   .yellow-card {
-    width: .75rem;
+    width: 0.75rem;
     height: 1rem;
     display: inline-block;
 
@@ -65,7 +65,7 @@
 
   app-main:not(:empty) + .pre-bootstrap {
     background-color: transparent;
-    animation: leave-animation .2s ease-in-out forwards;
+    animation: leave-animation 0.2s ease-in-out forwards;
   }
 
   @keyframes leave-animation {

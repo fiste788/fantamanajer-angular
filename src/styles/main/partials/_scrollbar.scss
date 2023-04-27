@@ -10,7 +10,7 @@
 
   /* Variables */
   :root {
-    --scrollbar-size: .375rem;
+    --scrollbar-size: 0.375rem;
     --scrollbar-minlength: 1.5rem;
 
     /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
@@ -20,7 +20,7 @@
     --scrollbar-track-color: transparent;
     --scrollbar-color: rgb(0 0 0 / 20%);
     --scrollbar-color-hover: rgb(0 0 0 / 30%);
-    --scrollbar-color-active: #{mat.get-color-from-palette($accent, .66)};
+    --scrollbar-color-active: #{mat.get-color-from-palette($accent, 0.66)};
   }
 
   /* Use .layout-scrollbar-obtrusive to only use overflow if scrollbars don’t overlay */

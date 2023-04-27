@@ -3,11 +3,11 @@
   background-position: center center;
   z-index: 1;
   position: relative;
-  transition: background-image .5s linear;
+  transition: background-image 0.5s linear;
 
   mat-toolbar-row:nth-child(2n) {
     min-height: 5.25rem;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
   }
 
   h3 {

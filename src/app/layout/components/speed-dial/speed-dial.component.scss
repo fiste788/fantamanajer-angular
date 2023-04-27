@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 :host {
-  animation: create-box .25s;
+  animation: create-box 0.25s;
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;

@@ -17,8 +17,6 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { GoogleAnalyticsService } from '@app/services';
-import { environment } from '@env';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
@@ -63,7 +61,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
-    private readonly gaService: GoogleAnalyticsService,
     private readonly changeRef: ChangeDetectorRef,
   ) {
     this.isReady$ = this.layoutService.isReady$;
@@ -97,8 +94,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
       filter((e) => e),
       tap(() => this.layoutService.showSpeedDial()),
       switchMap(() => timer(300)),
-      tap(() => this.document.querySelector('.pre-bootstrap')?.remove()),
-      switchMap(() => this.gaService.init(environment.gaCode)),
+      map(() => this.document.querySelector('.pre-bootstrap')?.remove()),
     );
   }
 

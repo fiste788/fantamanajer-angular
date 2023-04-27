@@ -1,6 +1,11 @@
 .mat-sidenav-container {
-  position: absolute;
-  inset: 0;
+  height: 100vh;
+  height: stretch;
+}
+
+.speed-dial,
+app-toolbar .mat-toolbar {
+  will-change: transform;
 }
 
 .mat-sidenav {
@@ -19,11 +24,6 @@ main {
 
 .speed-dial {
   transform: scale(0);
-}
-
-.speed-dial,
-app-toolbar .mat-toolbar {
-  will-change: transform;
 }
 
 // @include mq.layout-bp(gt-sm) {
