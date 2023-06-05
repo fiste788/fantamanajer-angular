@@ -11,8 +11,7 @@ import {
 } from '@ecodev/fab-speed-dial';
 
 import { ApplicationService } from '@app/services';
-
-import { SeasonActiveDirective } from '../../../shared/directives/season-active.directive';
+import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-speed-dial',

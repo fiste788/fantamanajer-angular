@@ -10,9 +10,8 @@ import { firstValueFrom, map, tap } from 'rxjs';
 
 import { TeamService } from '@data/services';
 import { NotificationSubscription, notificationSubscriptionsKeys, Team } from '@data/types';
+import { NotificationSubscriptionComponent } from '@modules/notification-subscription/components/notification-subscription/notification-subscription.component';
 import { createBoxAnimation } from '@shared/animations';
-
-import { NotificationSubscriptionComponent } from '../../../notification-subscription/components/notification-subscription/notification-subscription.component';
 
 export interface TeamEditModalData {
   team: Team;

@@ -10,10 +10,10 @@
         (selectionChange)="role$.next($event.value)"
       >
         <mat-option
-          *ngFor="let role of (roles | keyvalue); trackBy: track"
-          [value]="role.value"
+          *ngFor="let role of (roles); trackBy: track"
+          [value]="role"
         >
-          {{role.value.singolar}}
+          {{role.singolar}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -37,6 +37,7 @@
   <app-member-list
     *ngIf="members$ && (app.team$ | async) as team"
     [elevation]="0"
+    [hideRole]="true"
     [isSelectable]="team.championship.started && !app.seasonEnded || false"
     [members]="members$"
   ></app-member-list>

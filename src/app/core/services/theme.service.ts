@@ -22,6 +22,7 @@ export class ThemeService {
     private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer,
   ) {
+    this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     this.iconRegistry.addSvgIconSet(
       this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
     );

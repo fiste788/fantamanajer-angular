@@ -11,8 +11,7 @@ import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
 import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],

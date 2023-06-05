@@ -10,8 +10,7 @@ import { firstValueFrom, map } from 'rxjs';
 import { ArticleService } from '@data/services';
 import { Article, PagedResponse, Pagination } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   animations: [cardCreationAnimation],

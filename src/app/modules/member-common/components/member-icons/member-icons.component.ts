@@ -29,7 +29,7 @@ import { Member } from '@data/types';
   ],
 })
 export class MemberIconsComponent {
-  @Input() public member!: Member;
+  @Input({ required: true }) public member!: Member;
   @Input() public circle = false;
   @Input() public captain = false;
 }

@@ -35,7 +35,7 @@ import { LineupService } from '../lineup.service';
   ],
 })
 export class LineupOptionsComponent {
-  @Input() public lineup!: Partial<Lineup>;
+  @Input({ required: true }) public lineup!: Partial<Lineup>;
   @Input() public disabled = false;
 
   constructor(protected readonly lineupService: LineupService) {}

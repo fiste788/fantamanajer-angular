@@ -85,8 +85,8 @@ export class SelectionComponent {
             // eslint-disable-next-line unicorn/no-null
             selection.old_member = null;
           }
-          this.newMemberRoleSubject$.next(this.roleService.list().get(newMember.role_id));
-          this.roleSubject$.next(this.roleService.list().get(newMember.role_id));
+          this.newMemberRoleSubject$.next(this.roleService.get(newMember.role_id));
+          this.roleSubject$.next(this.roleService.get(newMember.role_id));
           selection.new_member = newMember;
           selection.new_member_id = newMember.id;
           this.changeRef.detectChanges();
@@ -132,13 +132,13 @@ export class SelectionComponent {
 
   protected oldMemberChange(member: Member | null): void {
     if (member) {
-      this.roleSubject$.next(this.roleService.list().get(member.role_id));
+      this.roleSubject$.next(this.roleService.get(member.role_id));
     }
   }
 
   protected newMemberChange(member: Member | null): void {
     if (member) {
-      this.newMemberRoleSubject$.next(this.roleService.list().get(member.role_id));
+      this.newMemberRoleSubject$.next(this.roleService.get(member.role_id));
     }
   }
 

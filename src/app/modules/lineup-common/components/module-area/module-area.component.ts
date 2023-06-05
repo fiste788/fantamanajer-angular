@@ -12,10 +12,9 @@ import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { Area, Member, Module, Role } from '@data/types';
+import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
+import { StickyDirective } from '@shared/directives';
 import { RangePipe } from '@shared/pipes';
-
-import { StickyDirective } from '../../../../shared/directives/sticky.directive';
-import { MemberSelectionComponent } from '../../../member-common/components/member-selection/member-selection.component';
 
 export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
   [Key in keyof Props]?: SimpleChange;
@@ -48,8 +47,12 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   ],
 })
 export class ModuleAreaComponent implements OnInit, OnChanges {
-  @Input() public module!: Module;
-  @Input() public dispositions!: Array<{ member: Member | null; position?: number }>;
+  @Input({ required: true }) public module!: Module;
+  @Input({ required: true }) public dispositions!: Array<{
+    member: Member | null;
+    position?: number;
+  }>;
+
   @Input() public disabled = false;
   @Input() public wrap = false;
   @Input() public captain?: Member;

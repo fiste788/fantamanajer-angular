@@ -1,22 +1,20 @@
-<ng-container *ngIf="(club$ | async) as club;">
-  <div @enterDetailAnimation>
-    <div class="animation-container">
-      <app-parallax-header
-        [backgroundImage]="club.background_url"
-        [image]="club.photo_url"
-        [tabPanel]="tabPanel"
-        [tabs]="tabs"
-        [title]="club.name"
-        (imageLoaded)="scrollTo($event)"
-      >
-      </app-parallax-header>
-    </div>
+<div @enterDetailAnimation>
+  <div class="animation-container">
+    <app-parallax-header
+      [backgroundImage]="club.background_url"
+      [image]="club.photo_url"
+      [tabPanel]="tabPanel"
+      [tabs]="tabs"
+      [title]="club.name"
+      (imageLoaded)="scrollTo($event)"
+    >
+    </app-parallax-header>
   </div>
-  <div
-    #tabPanel
-    class="tabbed-container"
-    [@contextChange]="o | state"
-  >
-    <router-outlet #o="outlet"></router-outlet>
-  </div>
-</ng-container>
+</div>
+<div
+  #tabPanel
+  class="tabbed-container"
+  [@contextChange]="o | state"
+>
+  <router-outlet #o="outlet"></router-outlet>
+</div>

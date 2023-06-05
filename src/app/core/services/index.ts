@@ -1,5 +1,4 @@
 export * from './application.service';
-export * from './google-analytics.service';
 export * from './navigator.service';
 export * from './push.service';
 export * from './pwa.service';

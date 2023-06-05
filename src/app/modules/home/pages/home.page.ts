@@ -12,9 +12,7 @@ import { ApplicationService } from '@app/services';
 import { MemberService } from '@data/services';
 import { Member } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../shared/components/mat-empty-state/mat-empty-state.component';
-import { PlayerImageComponent } from '../../../shared/components/player-image/player-image.component';
+import { MatEmptyStateComponent, PlayerImageComponent } from '@shared/components';
 
 interface BestPlayer {
   role: string;

@@ -235,7 +235,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
 
       // Remove "transform" string and save the attribute
       transform = trimmedStyle.slice(11, delimiter >= 0 ? delimiter : undefined);
-      transform = ` ${transform}`.replace(/\s/g, '');
+      transform = ` ${transform}`.replaceAll(/\s/g, '');
     }
 
     return transform;

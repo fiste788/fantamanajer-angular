@@ -1,16 +1,13 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { getRouteData } from '@app/functions';
 import { Club } from '@data/types';
 import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
+import { ParallaxHeaderComponent } from '@shared/components';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
-
-import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-header/parallax-header.component';
 
 @Component({
   animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],
@@ -20,15 +17,14 @@ import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-
   imports: [NgIf, ParallaxHeaderComponent, RouterOutlet, AsyncPipe, StatePipe],
 })
 export class ClubDetailPage {
-  protected readonly club$: Observable<Club>;
+  @Input({ required: true }) protected club!: Club;
+
   protected readonly tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' },
   ];
 
-  constructor(private readonly layoutService: LayoutService) {
-    this.club$ = getRouteData('club');
-  }
+  private readonly layoutService = inject(LayoutService);
 
   protected scrollTo(height: number): void {
     this.layoutService.scrollTo(0, height - 300);

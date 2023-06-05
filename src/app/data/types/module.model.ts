@@ -5,12 +5,12 @@ export class Module {
   public label: string;
   public areas: Array<Area>;
 
-  constructor(public key: string, roles: Map<number, Role>) {
+  constructor(public key: string, roles: Array<Role>) {
     this.label = key.slice(Math.max(0, key.indexOf('-') + 1));
     const mod = key.split('-').map((c) => +c);
 
     // eslint-disable-next-line unicorn/no-array-reduce
-    this.areas = [...roles.values()].reduce((array, role, index) => {
+    this.areas = [...roles].reduce((array, role, index) => {
       array.push({
         fromIndex: this.getIndex(array),
         options: [],

@@ -6,8 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
 import { Member, Team } from '@data/types';
-
-import { MemberListComponent } from '../../../member-common/components/member-list/member-list.component';
+import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 
 @Component({
   styleUrls: ['./team-members.page.scss'],

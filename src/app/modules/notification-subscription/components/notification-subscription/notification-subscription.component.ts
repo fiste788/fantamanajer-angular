@@ -23,10 +23,10 @@ import { Notification, notificationSubscriptions } from '../../types';
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {
-  @Input() public type!: NotificationSubscriptionsKeys;
-  @Input() public label!: string;
-  @Input() public subscriptions!: Array<NotificationSubscription>;
-  @Input() public team!: Team;
+  @Input({ required: true }) public type!: NotificationSubscriptionsKeys;
+  @Input({ required: true }) public label!: string;
+  @Input({ required: true }) public subscriptions!: Array<NotificationSubscription>;
+  @Input({ required: true }) public team!: Team;
 
   @Output() public readonly subscriptionsChange: EventEmitter<Array<NotificationSubscription>> =
     new EventEmitter<Array<NotificationSubscription>>();

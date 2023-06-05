@@ -12,10 +12,9 @@ import { AtLeast } from '@app/types';
 import { LineupService } from '@data/services';
 import { EmptyLineup, Lineup, Team } from '@data/types';
 import { environment } from '@env';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
-import { LineupDetailComponent } from '../../../lineup-common/components/lineup-detail/lineup-detail.component';
-import { MemberAlreadySelectedValidator } from '../../../lineup-common/components/lineup-detail/member-already-selected-validator.directive';
+import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
+import { MemberAlreadySelectedValidator } from '@modules/lineup-common/components/lineup-detail/member-already-selected-validator.directive';
+import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   styleUrls: ['./lineup-last.page.scss'],

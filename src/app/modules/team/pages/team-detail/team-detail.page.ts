@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,14 +9,13 @@ import { combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
 import { enterDetailAnimation, routerTransition } from '@shared/animations';
+import { ParallaxHeaderComponent } from '@shared/components';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
-import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-header/parallax-header.component';
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
@@ -37,7 +36,8 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
 })
 export class TeamDetailPage {
   @HostBinding('@enterDetailAnimation') protected e = '';
-  protected readonly team$: Observable<Team>;
+  @Input({ required: true }) protected team!: Team;
+
   protected readonly tabs$: Observable<Array<Tab>>;
 
   constructor(
@@ -47,14 +47,13 @@ export class TeamDetailPage {
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {
-    this.team$ = getRouteData<Team>('team');
     this.tabs$ = this.loadTabs();
   }
 
   public loadTabs(): Observable<Array<Tab>> {
-    return combineLatest([this.team$, this.auth.user$, this.app.requireTeam$]).pipe(
-      map(([selectedTeam, user, team]) => {
-        const { started } = selectedTeam.championship;
+    return combineLatest([this.auth.user$, this.app.requireTeam$]).pipe(
+      map(([user, team]) => {
+        const { started } = this.team.championship;
         const ended = this.app.seasonEnded;
 
         return [

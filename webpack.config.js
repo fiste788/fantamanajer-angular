@@ -14,7 +14,7 @@ module.exports = {
       deleteOriginalAssets: false,
     }),
     new StatsWriterPlugin.StatsWriterPlugin({
-      filename: 'stats.json',
+      filename: '../stats.json',
       stats: {
         context: './src', // optional, will improve readability of the paths
         assets: true,

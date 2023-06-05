@@ -31,6 +31,12 @@ export class BreadcrumbService {
         }
         this.title.setTitle([...array, ...breadcrumbs.map((b) => b.label)].join(' - '));
 
+        if (breadcrumbs.length === 0 && defaultTitle) {
+          breadcrumbs.push({
+            label: defaultTitle,
+            url: '/',
+          });
+        }
         // Emit the new hierarchy
         this._breadcrumbs$.next(breadcrumbs);
       }),

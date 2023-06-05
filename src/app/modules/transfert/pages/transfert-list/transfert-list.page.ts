@@ -12,11 +12,10 @@ import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
+import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
 import { tableRowAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
-import { SeasonActiveDirective } from '../../../../shared/directives/season-active.directive';
-import { SelectionComponent } from '../../../selection/components/selection/selection.component';
+import { MatEmptyStateComponent } from '@shared/components';
+import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
   animations: [tableRowAnimation],

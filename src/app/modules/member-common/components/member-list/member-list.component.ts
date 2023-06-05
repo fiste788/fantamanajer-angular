@@ -19,9 +19,8 @@ import { map, Observable, tap } from 'rxjs';
 
 import { Member } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
-import { StickyDirective } from '../../../../shared/directives/sticky.directive';
+import { MatEmptyStateComponent } from '@shared/components';
+import { StickyDirective } from '@shared/directives';
 
 const stats = [
   'sum_present',
@@ -57,8 +56,9 @@ type Stats = (typeof stats)[number];
   ],
 })
 export class MemberListComponent implements OnInit {
-  @Input() public members!: Observable<Array<Member>>;
+  @Input({ required: true }) public members!: Observable<Array<Member>>;
   @Input() public hideClub = false;
+  @Input() public hideRole = false;
   @Input() public isSelectable = false;
   @Input() public multipleSelection = false;
   @Input() public elevation = 1;
@@ -103,6 +103,9 @@ export class MemberListComponent implements OnInit {
   protected fixColumns(): void {
     if (this.hideClub) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
+    }
+    if (this.hideRole) {
+      this.displayedColumns.splice(this.displayedColumns.indexOf('role'), 1);
     }
     if (this.isSelectable) {
       this.displayedColumns.unshift('select');

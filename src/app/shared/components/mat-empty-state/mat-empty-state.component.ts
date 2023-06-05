@@ -29,8 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [NgIf, MatIconModule],
 })
 export class MatEmptyStateComponent {
-  @Input() public label!: string;
-  @Input() public icon!: string;
+  @Input({ required: true }) public label!: string;
+  @Input({ required: true }) public icon!: string;
   @Input() public description?: string;
   @Input() public rounded = true;
   @Input() public size = 492;

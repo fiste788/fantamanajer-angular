@@ -23,7 +23,6 @@
       "extends": [
         "plugin:rxjs/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/recommended--extra",
         "plugin:@angular-eslint/template/process-inline-templates",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -256,12 +255,17 @@
         "space-in-parens": ["error", "never"],
         "unicorn/filename-case": "error",
         "unicorn/prevent-abbreviations": "off",
+        "unicorn/prefer-event-target": "off",
         "yoda": "error"
       }
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/all", "angular-strict/template"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
+        "angular-strict/template"
+      ],
       "rules": {
         "@angular-eslint/template/no-inline-styles": [
           "warn",

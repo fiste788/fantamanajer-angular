@@ -5,8 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { getRouteData } from '@app/functions';
 import { Club } from '@data/types';
-
-import { StreamComponent } from '../../../stream/components/stream.component';
+import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
   styleUrls: ['./club-stream.page.scss'],

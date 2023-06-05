@@ -15,13 +15,15 @@ import { environment } from '@env';
 const NO_ERROR_IT = new HttpContextToken<boolean>(() => false);
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
+  const snackbar = inject(MatSnackBar);
+
   return next(req).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse) {
         const error = err.error as ErrorResponse;
         const message = error.data?.message ?? err.message;
         if (!req.context.get(NO_ERROR_IT)) {
-          inject(MatSnackBar).open(message, 'CLOSE', {
+          snackbar.open(message, 'CLOSE', {
             duration: 5000,
           });
         }

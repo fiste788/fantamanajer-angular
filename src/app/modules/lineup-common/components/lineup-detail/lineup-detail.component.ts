@@ -14,9 +14,9 @@ import { finalize, firstValueFrom, map } from 'rxjs';
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
+import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
 import { cardCreationAnimation } from '@shared/animations';
 
-import { MemberSelectionComponent } from '../../../member-common/components/member-selection/member-selection.component';
 import { LineupOptionsComponent } from '../lineup-options/lineup-options.component';
 import { LineupService } from '../lineup.service';
 import { ModuleAreaComponent } from '../module-area/module-area.component';

@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
+import { HomePage } from '@modules/home/pages/home.page';
 
-export const APP_ROUTES: Routes = [
+export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -11,7 +12,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'home',
     data: { state: 'home' },
-    loadChildren: async () => import('./modules/home/home.routes'),
+    component: HomePage,
   },
   {
     path: 'auth',

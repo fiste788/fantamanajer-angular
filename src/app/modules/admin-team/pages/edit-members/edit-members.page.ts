@@ -11,8 +11,7 @@ import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Module, Role, Team } from '@data/types';
-
-import { ModuleAreaComponent } from '../../../lineup-common/components/module-area/module-area.component';
+import { ModuleAreaComponent } from '@modules/lineup-common/components/module-area/module-area.component';
 
 interface Data {
   dispositions: Array<{ member: Member }>;
@@ -34,7 +33,7 @@ interface Data {
 export class EditMembersPage {
   @ViewChild(NgForm) protected membersForm?: NgForm;
 
-  protected readonly roles: Map<number, Role>;
+  protected readonly roles: Array<Role>;
   protected readonly module: Module;
   protected readonly data$: Observable<Data>;
   protected readonly team$: Observable<Team>;
@@ -61,7 +60,7 @@ export class EditMembersPage {
         const dispositions = members.map((member) => ({ member }));
 
         // eslint-disable-next-line unicorn/no-array-reduce
-        const membersByRole = this.roleService.values().reduce((m, c) => {
+        const membersByRole = this.roleService.list().reduce((m, c) => {
           return m.set(c, [
             ...members.filter((entry) => entry.role_id === c.id),
             ...allMembers[c.id]!,

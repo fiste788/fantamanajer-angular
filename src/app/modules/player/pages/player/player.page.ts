@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -11,17 +11,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
-import { filterNil, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
+import { ParallaxHeaderComponent } from '@shared/components';
 import { LayoutService } from 'src/app/layout/services';
-
-import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-header/parallax-header.component';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
@@ -46,11 +44,11 @@ import { ParallaxHeaderComponent } from '../../../../shared/components/parallax-
     AsyncPipe,
   ],
 })
-export class PlayerPage {
-  protected readonly player$: Observable<Player>;
-  protected readonly ratings$: Observable<Array<Rating>>;
-  protected readonly firstMember$: Observable<Member>;
-  protected readonly selectedMember$: BehaviorSubject<Member | undefined>;
+export class PlayerPage implements OnInit {
+  @Input({ required: true }) protected readonly player!: Player;
+  protected firstMember!: Member;
+  protected ratings$?: Observable<Array<Rating>>;
+  protected readonly selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
   protected readonly displayedColumns = [
     'matchday',
     'rating',
@@ -70,21 +68,18 @@ export class PlayerPage {
     private readonly ratingService: RatingService,
     private readonly layoutService: LayoutService,
     protected readonly app: ApplicationService,
-  ) {
-    this.player$ = getRouteData<Player>('player');
-    this.selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
-    this.firstMember$ = this.player$.pipe(
-      map((p) => p.members[0]),
-      filterNil(),
-      tap((member) => this.selectedMember$.next(member)),
-    );
+  ) {}
+
+  public ngOnInit(): void {
+    this.firstMember = this.player.members[0]!;
+    this.selectedMember$.next(this.firstMember);
 
     this.ratings$ = this.getRatings();
   }
 
   protected getRatings(): Observable<Array<Rating>> {
-    return combineLatest([this.firstMember$, this.selectedMember$]).pipe(
-      map(([first, selected]) => selected ?? first),
+    return this.selectedMember$.pipe(
+      map((selected) => selected ?? this.firstMember),
       distinctUntilChanged(),
       switchMap((member) => this.ratingService.getRatings(member.id)),
     );

@@ -4,8 +4,7 @@ import { Observable, map } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { Championship } from '@data/types';
-
-import { StreamComponent } from '../../../stream/components/stream.component';
+import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
   styleUrls: ['./championship-stream.page.scss'],

@@ -1,4 +1,4 @@
-import { KeyValue, NgFor, NgIf, AsyncPipe, KeyValuePipe } from '@angular/common';
+import { NgFor, NgIf, AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, HostBinding, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,7 +36,6 @@ import { tableRowAnimation } from '@shared/animations';
     MatIconModule,
     MemberListComponent,
     AsyncPipe,
-    KeyValuePipe,
   ],
 })
 export class MemberFreePage implements AfterViewInit {
@@ -45,8 +44,8 @@ export class MemberFreePage implements AfterViewInit {
 
   public members$?: Observable<Array<Member>>;
   public selectedMember$?: Observable<Member | undefined>;
-  public role$: BehaviorSubject<Role | undefined>;
-  protected readonly roles: Map<number, Role>;
+  public role$: BehaviorSubject<Role>;
+  protected readonly roles: Array<Role>;
   private readonly championship$: Observable<Championship>;
 
   constructor(
@@ -56,7 +55,7 @@ export class MemberFreePage implements AfterViewInit {
   ) {
     this.championship$ = getRouteData<Championship>('championship');
     this.roles = this.roleService.list();
-    this.role$ = new BehaviorSubject(this.roles.get(0));
+    this.role$ = new BehaviorSubject(this.roles[0]!);
     this.members$ = this.getMembers();
   }
 
@@ -64,8 +63,8 @@ export class MemberFreePage implements AfterViewInit {
     this.selectedMember$ = this.getSelectedMember();
   }
 
-  protected track(_: number, item: KeyValue<number, Role>): number {
-    return item.value.id; // or item.id
+  protected track(_: number, item: Role): number {
+    return item.id; // or item.id
   }
 
   protected compareRole(role1?: Role, role2?: Role): boolean {
@@ -74,7 +73,7 @@ export class MemberFreePage implements AfterViewInit {
 
   private getMembers(): Observable<Array<Member>> {
     return combineLatest([this.role$, this.championship$]).pipe(
-      switchMap(([role, c]) => this.memberService.getFree(c.id, role?.id)),
+      switchMap(([role, c]) => this.memberService.getFree(c.id, role.id)),
     );
   }
 

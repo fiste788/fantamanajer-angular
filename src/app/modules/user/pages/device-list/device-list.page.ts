@@ -12,8 +12,7 @@ import { filterNil } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
-
-import { MatEmptyStateComponent } from '../../../../shared/components/mat-empty-state/mat-empty-state.component';
+import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   animations: [tableRowAnimation],

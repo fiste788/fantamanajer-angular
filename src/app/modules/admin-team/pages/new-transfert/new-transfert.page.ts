@@ -85,7 +85,7 @@ export class NewTransfertPage {
 
   protected playerChange(oldMember?: Member): void {
     if (oldMember) {
-      this.roleSubject$.next(this.roleService.list().get(oldMember.role_id));
+      this.roleSubject$.next(this.roleService.get(oldMember.role_id));
     }
   }
 

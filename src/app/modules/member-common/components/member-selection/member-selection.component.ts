@@ -15,8 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Member, MemberOption, Role } from '@data/types';
 import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
+import { PlayerImageComponent } from '@shared/components';
 
-import { PlayerImageComponent } from '../../../../shared/components/player-image/player-image.component';
 import { MemberIconsComponent } from '../member-icons/member-icons.component';
 
 @Component({
@@ -47,8 +47,8 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input() public member!: Member | null;
-  @Input() public name!: string;
+  @Input({ required: true }) public member!: Member | null;
+  @Input({ required: true }) public name!: string;
   @Input() public disabled = false;
   @Input() public required = false;
   @Input() public placeholder = '';

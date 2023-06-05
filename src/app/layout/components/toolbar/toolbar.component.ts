@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { scrollUpAnimation } from '@shared/animations';
+import { BreadcrumbComponent } from '@shared/components';
 
-import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 import { LayoutService } from '../../services';
 import { NotificationComponent } from '../notification/notification.component';
 

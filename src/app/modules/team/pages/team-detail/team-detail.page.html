@@ -1,33 +1,31 @@
-<ng-container *ngIf="(team$ | async) as team;">
-  <div class="animation-container">
-    <app-parallax-header
-      [backgroundImage]="team.photo_url"
-      [subtitle]="team.user.name + ' ' + team.user.surname"
-      [tabPanel]="tabPanel"
-      [tabs]="(tabs$ | async) ?? []"
-      [title]="team.name"
-      (imageLoaded)="scrollTo($event)"
-    >
-      <div
-        *ngIf="team.user.id === (auth.user$ | async)?.id && !app.seasonEnded"
-        parallax-header-right
-      >
-        <button
-          aria-label="Settings"
-          mat-icon-button
-          type="button"
-          (click)="openDialog(team)"
-        >
-          <mat-icon>settings</mat-icon>
-        </button>
-      </div>
-    </app-parallax-header>
-  </div>
-  <div
-    #tabPanel
-    class="tabbed-container"
-    [@contextChange]="o | state"
+<div class="animation-container">
+  <app-parallax-header
+    [backgroundImage]="team.photo_url"
+    [subtitle]="team.user.name + ' ' + team.user.surname"
+    [tabPanel]="tabPanel"
+    [tabs]="(tabs$ | async) ?? []"
+    [title]="team.name"
+    (imageLoaded)="scrollTo($event)"
   >
-    <router-outlet #o="outlet"></router-outlet>
-  </div>
-</ng-container>
+    <div
+      *ngIf="team.user.id === (auth.user$ | async)?.id && !app.seasonEnded"
+      parallax-header-right
+    >
+      <button
+        aria-label="Settings"
+        mat-icon-button
+        type="button"
+        (click)="openDialog(team)"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+  </app-parallax-header>
+</div>
+<div
+  #tabPanel
+  class="tabbed-container"
+  [@contextChange]="o | state"
+>
+  <router-outlet #o="outlet"></router-outlet>
+</div>

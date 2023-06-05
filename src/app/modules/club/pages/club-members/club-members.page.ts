@@ -5,9 +5,8 @@ import { Observable, switchMap } from 'rxjs';
 import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
 import { Club, Member } from '@data/types';
+import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 import { tableRowAnimation } from '@shared/animations';
-
-import { MemberListComponent } from '../../../member-common/components/member-list/member-list.component';
 
 @Component({
   animations: [tableRowAnimation],
