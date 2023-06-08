@@ -55,6 +55,11 @@
                 "input": "src/assets",
                 "output": "./"
               },
+              {
+                "glob": "_headers",
+                "input": "src/assets",
+                "output": "./"
+              },
               "src/assets",
               "src/assets/site.webmanifest",
               "src/favicon.ico"
