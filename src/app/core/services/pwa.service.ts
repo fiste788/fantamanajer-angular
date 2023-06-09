@@ -49,10 +49,10 @@ export class PwaService {
       first((isStable) => isStable),
     );
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
-    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
 
-    return everySixHoursOnceAppIsStable$.pipe(
+    return appIsStable$.pipe(
       filter(() => this.swUpdate.isEnabled),
+      switchMap(() => everySixHours$),
       switchMap(async () => this.swUpdate.checkForUpdate()),
     );
   }
