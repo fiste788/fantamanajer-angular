@@ -12,7 +12,7 @@
   @include styles.core;
   @include form.core;
   @include card.core;
-  @include scrollbar.core;
+  //@include scrollbar.core;
   @include table.core;
   @include toolbar.core;
 }
@@ -22,7 +22,7 @@
   @include styles.density($theme);
   @include form.density($theme);
   @include card.density($theme);
-  @include scrollbar.density($theme);
+  //@include scrollbar.density($theme);
   @include table.density($theme);
   @include toolbar.density($theme);
 }
@@ -32,7 +32,7 @@
   @include styles.typography($theme);
   @include form.typography($theme);
   @include card.typography($theme);
-  @include scrollbar.typography($theme);
+  //@include scrollbar.typography($theme);
   @include table.typography($theme);
   @include toolbar.typography($theme);
 }
@@ -42,7 +42,7 @@
   @include styles.color($theme);
   @include form.color($theme);
   @include card.color($theme);
-  @include scrollbar.color($theme);
+  //@include scrollbar.color($theme);
   @include table.color($theme);
   @include toolbar.color($theme);
 }
