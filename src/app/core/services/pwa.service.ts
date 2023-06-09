@@ -1,7 +1,7 @@
 import { ApplicationRef, Inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, fromEvent, interval, Observable, Subscription } from 'rxjs';
+import { fromEvent, interval, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, first } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
