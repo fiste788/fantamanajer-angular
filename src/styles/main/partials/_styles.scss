@@ -24,12 +24,6 @@
     transition: top 0.2s ease-in;
   }
 
-  router-outlet ~ * {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
-
   .tabbed-container {
     min-height: calc(100vh - 25rem);
   }
