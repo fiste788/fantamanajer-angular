@@ -55,10 +55,10 @@ export class LayoutService {
     );
   }
 
-  public connectChangePageAnimation(container: MatSidenavContent): Subscription {
+  public connectChangePageAnimation(_container: MatSidenavContent): Subscription {
     return this.isRouteContextChanged().subscribe((changed) => {
       if (changed) {
-        container.scrollTo({ top: 0 });
+        // container.scrollTo({ top: 0 });
         this.showToolbar();
         this.showSpeedDial();
       }
@@ -176,8 +176,8 @@ export class LayoutService {
       filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
       pairwise(),
       map(
-        (events: Array<NavigationEnd>) =>
-          events[0]?.urlAfterRedirects.split('/')[1] !== events[1]?.urlAfterRedirects.split('/')[1],
+        ([pre, post]) =>
+          pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1],
       ),
     );
   }

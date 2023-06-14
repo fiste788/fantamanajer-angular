@@ -8,7 +8,12 @@ import {
 } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withRouterConfig,
+} from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
@@ -33,7 +38,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      // withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
     provideHttpClient(
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
