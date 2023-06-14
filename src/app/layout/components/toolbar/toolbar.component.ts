@@ -6,7 +6,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { VisibilityState } from '@app/enums';
 import { scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbComponent } from '@shared/components';
 
@@ -16,7 +15,7 @@ import { NotificationComponent } from '../notification/notification.component';
 @Component({
   animations: [scrollUpAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-toolbar[state]',
+  selector: 'app-toolbar',
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
   standalone: true,
@@ -31,7 +30,6 @@ import { NotificationComponent } from '../notification/notification.component';
   ],
 })
 export class ToolbarComponent {
-  @Input() public state!: VisibilityState | null;
   @Input() public showDrawerButton = false;
 
   protected readonly loggedIn$: Observable<boolean>;

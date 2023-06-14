@@ -30,9 +30,7 @@ export class NotificationService {
   public getNotificationCount(teamId: number): Observable<Stream> {
     return this.http.get<Stream>(`${routes.notifications(teamId)}/count`).pipe(
       tap((s) => {
-        if (this.navigator.setAppBadge) {
-          this.navigator.setAppBadge(s.unseen);
-        }
+        void this.navigator.setAppBadge(s.unseen);
       }),
     );
   }

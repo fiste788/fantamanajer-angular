@@ -4,7 +4,7 @@
 }
 
 .speed-dial,
-app-toolbar .mat-toolbar {
+app-toolbar {
   will-change: transform;
 }
 
@@ -17,10 +17,14 @@ app-toolbar .mat-toolbar {
   }
 }
 
+.mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   padding-bottom: 1rem;
   position: relative;
-  height: 100%;
 }
 
 .speed-dial {

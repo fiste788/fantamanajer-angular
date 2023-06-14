@@ -1,10 +1,4 @@
-@media (min-width: theme('screens.lg')) {
-  :host {
-    width: calc(100% - 15rem);
-  }
-}
-
-.mat-toolbar.mat-primary {
+:host {
   position: sticky;
   top: 0;
   z-index: 102;

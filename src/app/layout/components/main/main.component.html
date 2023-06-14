@@ -12,8 +12,8 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
+      [@scrollUpAnimation]="(showedToolbar$ | async)"
       [showDrawerButton]="(isHandset$ | async) || false"
-      [state]="(showedToolbar$ | async)"
     >
     </app-toolbar>
     <main [@contextChange]="o | state">

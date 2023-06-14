@@ -3,7 +3,14 @@
   <h3
     *ngIf="matchday$ | async as matchday"
     mat-subheader
-  >Giornata {{matchday.number}}</h3>
+  >
+    <span *ngIf="!matchday.season.ended && !matchday.season.started else seasonClosed">
+      Giornata {{matchday.number}}
+    </span>
+    <ng-template #seasonClosed>
+      <span>{{matchday.season.name}}</span>
+    </ng-template>
+  </h3>
   <a
     *ngIf="deferredPrompt$ | async as prompt"
     href="#install"

@@ -149,7 +149,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private getToolbarHeight(): number {
-    const toolbar = this.document.querySelector('app-toolbar > .mat-toolbar.mat-primary');
+    const toolbar = this.document.querySelector('app-toolbar');
 
     return toolbar?.clientHeight ?? 0;
   }
