@@ -158,11 +158,6 @@
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.head.insertAdjacentHTML('beforeend', '<link id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '-theme.css">');
   </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-  </script>
 </head>
 
 <body>

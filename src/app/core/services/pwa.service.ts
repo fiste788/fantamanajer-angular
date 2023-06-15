@@ -1,7 +1,7 @@
 import { ApplicationRef, Inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { fromEvent, interval, Observable, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription, timer } from 'rxjs';
 import { filter, map, switchMap, tap, first } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
@@ -48,7 +48,7 @@ export class PwaService {
       filter((isStable) => isStable),
       first((isStable) => isStable),
     );
-    const everySixHours$ = interval(6 * 60 * 60 * 1000);
+    const everySixHours$ = timer(0, 6 * 60 * 60 * 1000);
 
     return appIsStable$.pipe(
       filter(() => this.swUpdate.isEnabled),
