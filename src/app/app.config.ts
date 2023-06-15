@@ -38,7 +38,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
     provideHttpClient(
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),

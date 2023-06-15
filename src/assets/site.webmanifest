@@ -4,8 +4,16 @@
   "lang": "it-IT",
   "dir": "ltr",
   "description": "Gestisci la tua lega del fantacalcio",
-  "orientation": "any",
-  "screenshots": [],
+  "orientation": "portrait-primary",
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home.webp",
+      "sizes": "1920x644",
+      "type": "image/webp",
+      "platform": "wide",
+      "label": "Homescreen of FantaManajer"
+    }
+  ],
   "categories": [
     "sports",
     "games"
@@ -15,27 +23,27 @@
   "related_applications": [],
   "icons": [
     {
-      "src": "/assets/icons/maskable-icon.png",
+      "src": "/assets/icons/maskable-icon.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-512x512.png",
+      "src": "/assets/icons/icon-512x512.webp",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-192x192.png",
+      "src": "/assets/icons/icon-192x192.webp",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-monochrome.png",
+      "src": "/assets/icons/icon-monochrome.webp",
       "sizes": "72x72",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "monochrome"
     }
   ],
@@ -51,9 +59,9 @@
       "url": "/lineups/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/lineup.png",
+          "src": "/assets/icons/shortcuts/lineup.webp",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/webp"
         }
       ]
     },
@@ -64,9 +72,9 @@
       "url": "/transferts/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/transfert.png",
+          "src": "/assets/icons/shortcuts/transfert.webp",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/webp"
         }
       ]
     },
@@ -77,9 +85,9 @@
       "url": "/articles/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/article.png",
+          "src": "/assets/icons/shortcuts/article.webp",
           "sizes": "96x96",
-          "type": "image/png"
+          "type": "image/webp"
         }
       ]
     }
