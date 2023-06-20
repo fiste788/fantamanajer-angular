@@ -4,7 +4,7 @@
   "lang": "it-IT",
   "dir": "ltr",
   "description": "Gestisci la tua lega del fantacalcio",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "screenshots": [
     {
       "src": "/assets/screenshots/home.webp",
