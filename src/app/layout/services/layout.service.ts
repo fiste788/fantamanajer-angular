@@ -55,25 +55,13 @@ export class LayoutService {
     );
   }
 
-  public connectChangePageAnimation(_container: MatSidenavContent): Subscription {
+  public connectChangePageAnimation(): Subscription {
     return this.isRouteContextChanged().subscribe((changed) => {
       if (changed) {
-        // container.scrollTo({ top: 0 });
         this.showToolbar();
         this.showSpeedDial();
       }
     });
-
-    /* return this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        tap((event: NavigationEnd) => {
-          event.container.scrollTo({ top: 0 });
-          this.showToolbar();
-          this.showSpeedDial();
-        }),
-      )
-      .subscribe(); */
   }
 
   public connectScrollAnimation(
