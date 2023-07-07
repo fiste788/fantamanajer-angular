@@ -2,12 +2,12 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 
 export const listItemAnimation = trigger('listItemAnimation', [
   transition(':enter', [
-    query('mat-list-item', style({ opacity: 0, transform: 'translatey(1.5rem)' }), {
+    query('.mat-mdc-list-item', style({ opacity: 0, transform: 'translatey(1.5rem)' }), {
       optional: true,
     }),
 
     query(
-      'mat-list-item',
+      '.mat-mdc-list-item',
       stagger('20ms', [
         animate('120ms 50ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
       ]),
@@ -16,7 +16,7 @@ export const listItemAnimation = trigger('listItemAnimation', [
   ]),
   transition(':leave', [
     query(
-      'mat-list-item',
+      '.mat-mdc-list-item',
       stagger('20ms', [
         animate('120ms 50ms ease-out', style({ opacity: 0, transform: 'translatey(1.5rem)' })),
       ]),

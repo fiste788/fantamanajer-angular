@@ -17,6 +17,7 @@
 
   &.has-image {
     color: #fff !important;
+    --mat-select-enabled-trigger-text-color: #fff;
 
     mat-toolbar-row:nth-child(2n) {
       background-image: linear-gradient(transparent, rgb(0 0 0 / 80%));

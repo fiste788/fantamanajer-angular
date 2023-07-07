@@ -2,11 +2,11 @@
 
 @mixin core() {
   .inherit-color {
-    .mat-select-arrow,
-    .mat-focused .mat-form-field-label,
-    .mat-form-field.mat-focused .mat-select-arrow,
+    .mat-mdc-select-arrow,
+    .mat-focused .mat-mdc-form-field-label,
+    .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow,
     .mat-mdc-form-field-label,
-    .mat-select-value {
+    .mat-mdc-select-value {
       color: inherit;
     }
   }

@@ -3,14 +3,14 @@ import { animate, query, sequence, stagger, style, transition, trigger } from '@
 export const tableRowAnimation = trigger('tableRowAnimation', [
   transition(':enter', [
     query(
-      '.mat-row, .mat-header-row, .mat-footer-row',
+      '.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row',
       style({ opacity: 0, transform: 'translateY(1.5rem)' }),
       { optional: true },
     ),
 
     sequence([
       query(
-        '.mat-row, .mat-header-row, .mat-footer-row',
+        '.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row',
         stagger(20, [
           animate(
             '250ms cubic-bezier(0.4, 0.0, 0.2, 1)',
@@ -20,14 +20,14 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
         { optional: true },
       ),
 
-      query('.mat-row, .mat-header-row, .mat-footer-row', [style({ opacity: 1 })], {
+      query('.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row', [style({ opacity: 1 })], {
         optional: true,
       }),
     ]),
   ]),
   transition(':leave', [
     query(
-      '.mat-row, .mat-header-row, .mat-footer-row',
+      '.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row',
       stagger(-10, [
         animate(
           '200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
