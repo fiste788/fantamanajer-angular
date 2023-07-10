@@ -14,6 +14,7 @@ import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
@@ -68,7 +69,9 @@ export class PlayerPage implements OnInit {
     private readonly ratingService: RatingService,
     private readonly layoutService: LayoutService,
     protected readonly app: ApplicationService,
-  ) {}
+  ) {
+    addVisibleClassOnDestroy(tableRowAnimation);
+  }
 
   public ngOnInit(): void {
     this.firstMember = this.player.members[0]!;

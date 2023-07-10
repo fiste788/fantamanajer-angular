@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 
-import { getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
 import { Club, Member } from '@data/types';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
@@ -22,5 +22,6 @@ export class ClubMembersPage {
     this.members$ = getRouteData<Club>('club').pipe(
       switchMap((club) => this.memberService.getByClubId(club.id)),
     );
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 }

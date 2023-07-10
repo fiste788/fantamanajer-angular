@@ -8,7 +8,7 @@ import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs
 import { map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { filterNil } from '@app/functions';
+import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -42,6 +42,7 @@ export class DeviceListPage {
   ) {
     this.refresh$ = new BehaviorSubject(true);
     this.dataSource$ = this.getDataSource();
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {

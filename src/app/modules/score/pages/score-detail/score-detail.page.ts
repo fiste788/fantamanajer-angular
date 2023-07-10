@@ -25,14 +25,14 @@ import { MatEmptyStateComponent } from '@shared/components';
 })
 export class ScoreDetailPage implements OnInit {
   @Input() protected id = '';
+  protected team$!: Observable<Team>;
   protected score$!: Observable<Score>;
   protected regular$!: Observable<Array<Disposition>>;
   protected notRegular$!: Observable<Array<Disposition>>;
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly scoreService: ScoreService,
-  ) {}
+  constructor(private readonly route: ActivatedRoute, private readonly scoreService: ScoreService) {
+    this.team$ = getRouteData<Team>('team');
+  }
 
   public ngOnInit(): void {
     this.score$ = this.getScore().pipe(shareReplay({ bufferSize: 0, refCount: true }));
@@ -46,9 +46,7 @@ export class ScoreDetailPage implements OnInit {
 
   protected getScore(): Observable<Score> {
     return this.route.snapshot.url.pop()?.path === 'last'
-      ? getRouteData<Team>('team').pipe(
-          switchMap((team) => this.scoreService.getLastScore(team.id)),
-        )
+      ? this.team$.pipe(switchMap((team) => this.scoreService.getLastScore(team.id)))
       : this.scoreService.getScore(+this.id);
   }
 }

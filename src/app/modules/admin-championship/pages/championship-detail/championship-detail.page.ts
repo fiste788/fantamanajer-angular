@@ -10,7 +10,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { defaultIfEmpty, map, Observable } from 'rxjs';
 
-import { getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { ChampionshipService } from '@data/services';
@@ -46,6 +46,7 @@ export class ChampionshipDetailPage {
   ) {
     this.championship$ = getRouteData<Championship>('championship').pipe(defaultIfEmpty({}));
     this.league$ = this.championship$.pipe(map((c) => c.league ?? {}));
+    addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   protected async save(

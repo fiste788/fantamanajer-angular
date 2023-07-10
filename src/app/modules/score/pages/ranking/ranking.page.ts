@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 
-import { filterNil, getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, filterNil, getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Championship, RankingPosition } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -35,6 +35,7 @@ export class RankingPage {
         return c;
       }),
     );
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected loadRanking(): Observable<Array<RankingPosition>> {

@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Championship, Member, Role } from '@data/types';
@@ -57,6 +57,7 @@ export class MemberFreePage implements AfterViewInit {
     this.roles = this.roleService.list();
     this.role$ = new BehaviorSubject(this.roles[0]!);
     this.members$ = this.getMembers();
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   public ngAfterViewInit(): void {

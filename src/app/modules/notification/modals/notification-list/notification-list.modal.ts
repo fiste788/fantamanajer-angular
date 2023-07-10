@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
@@ -42,6 +43,7 @@ export class NotificationListModal {
     private readonly app: ApplicationService,
   ) {
     this.stream$ = this.loadData();
+    addVisibleClassOnDestroy(listItemAnimation);
   }
 
   public loadData(): Observable<Stream> {

@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { Disposition, Lineup } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 import { CaptainPipe } from '@shared/pipes';
@@ -36,6 +37,10 @@ export class DispositionListComponent implements OnInit {
     'goals',
     'points',
   ];
+
+  constructor() {
+    addVisibleClassOnDestroy(tableRowAnimation);
+  }
 
   public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.dispositions);

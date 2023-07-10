@@ -11,6 +11,7 @@ import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { finalize, firstValueFrom, map } from 'rxjs';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
@@ -51,7 +52,9 @@ export class LineupDetailComponent implements OnInit {
     protected readonly lineupService: LineupService,
     private readonly lineupHttpService: LineupHttpService,
     private readonly cd: ChangeDetectorRef,
-  ) {}
+  ) {
+    addVisibleClassOnDestroy(cardCreationAnimation);
+  }
 
   public async ngOnInit(): Promise<void> {
     return this.loadLineup();

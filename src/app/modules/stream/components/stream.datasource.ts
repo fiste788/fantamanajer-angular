@@ -21,6 +21,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     super();
     this.cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
     this.dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
+    // this.dataStream.pipe(tap(() => this.cd.detectChanges()));
     this.fetchPage(1);
   }
 

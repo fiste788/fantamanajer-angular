@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
@@ -11,4 +12,9 @@ import { cardCreationAnimation } from '@shared/animations';
   standalone: true,
   imports: [RouterLink, MatCardModule],
 })
-export class HomePage {}
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+export class HomePage {
+  constructor() {
+    addVisibleClassOnDestroy(cardCreationAnimation);
+  }
+}

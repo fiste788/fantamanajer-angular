@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService } from '@data/services';
 import { Member } from '@data/types';
@@ -43,6 +44,7 @@ export class HomePage {
 
   constructor(private readonly memberService: MemberService, public app: ApplicationService) {
     this.bestPlayers$ = this.loadBestPlayers();
+    addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   protected loadBestPlayers(): Observable<Array<BestPlayer>> {

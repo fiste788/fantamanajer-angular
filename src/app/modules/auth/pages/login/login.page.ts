@@ -13,6 +13,7 @@ import { firstValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { Team } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
@@ -50,7 +51,9 @@ export class LoginPage {
     private readonly authService: AuthenticationService,
     private readonly app: ApplicationService,
     private readonly cd: ChangeDetectorRef,
-  ) {}
+  ) {
+    addVisibleClassOnDestroy(cardCreationAnimation);
+  }
 
   protected async login(): Promise<boolean> {
     if (this.loginData.email && this.loginData.password) {

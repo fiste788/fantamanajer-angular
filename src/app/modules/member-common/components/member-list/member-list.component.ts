@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { Member } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components';
@@ -87,6 +88,7 @@ export class MemberListComponent implements OnInit {
 
   constructor(private readonly changeRef: ChangeDetectorRef) {
     this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   public ngOnInit(): void {

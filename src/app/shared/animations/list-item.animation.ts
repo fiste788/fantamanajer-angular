@@ -16,7 +16,7 @@ export const listItemAnimation = trigger('listItemAnimation', [
   ]),
   transition(':leave', [
     query(
-      '.mat-mdc-list-item',
+      '.mat-mdc-list-item.visible',
       stagger('20ms', [
         animate('120ms 50ms ease-out', style({ opacity: 0, transform: 'translatey(1.5rem)' })),
       ]),

@@ -2,9 +2,10 @@
   *ngIf="!ds.isEmpty"
   class="viewport"
   itemSize="88"
+  scrollWindow
 >
   <mat-list @listItemAnimation>
-    <ng-container *cdkVirtualFor="let activity of ds">
+    <ng-container *cdkVirtualFor="let activity of ds; templateCacheSize:0; trackBy: trackList">
       <mat-list-item *ngIf="activity; else placeholder">
         <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
         <h3 matListItemTitle> {{activity.title}} </h3>
@@ -18,13 +19,12 @@
         <content-loader
           height="88"
           preserveAspectRatio="none"
-          [style.width.px]="width"
         >
           <svg:rect
             height="15"
             rx="3"
             ry="3"
-            width="250"
+            width="100%"
             x="66"
             y="17"
           />
@@ -32,7 +32,7 @@
             height="10"
             rx="3"
             ry="3"
-            width="100"
+            width="30%"
             x="66"
             y="42"
           />
@@ -40,7 +40,7 @@
             height="10"
             rx="3"
             ry="3"
-            width="90%"
+            width="80%"
             x="66"
             y="62"
           />

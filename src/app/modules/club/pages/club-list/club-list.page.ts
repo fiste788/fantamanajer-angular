@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { Observable } from 'rxjs';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ClubService } from '@data/services';
 import { Club } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
@@ -36,6 +37,7 @@ export class ClubListPage {
 
   constructor(private readonly clubService: ClubService) {
     this.clubs$ = this.clubService.getClubs();
+    addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   public track(_: number, club: Club): number {

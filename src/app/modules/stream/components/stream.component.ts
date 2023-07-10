@@ -13,7 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { StreamService } from '@data/services';
+import { StreamActivity } from '@data/types';
 import { listItemAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components';
 
@@ -45,7 +47,9 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   protected ds!: StreamDataSource;
   protected width!: number;
 
-  constructor(private readonly streamService: StreamService) {}
+  constructor(private readonly streamService: StreamService) {
+    addVisibleClassOnDestroy(listItemAnimation);
+  }
 
   public ngOnInit(): void {
     this.ds = new StreamDataSource(this.streamService, this.context, this.id);
@@ -55,6 +59,11 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.viewport) {
       this.width = this.viewport.elementRef.nativeElement.clientWidth;
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public trackList(index: number, _item: StreamActivity | undefined): number {
+    return index;
   }
 
   public ngOnDestroy(): void {

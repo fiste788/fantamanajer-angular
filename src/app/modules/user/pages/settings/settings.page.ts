@@ -11,6 +11,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { PushService } from '@app/services';
 import { UserService } from '@data/services';
 import { User } from '@data/types';
@@ -50,6 +51,7 @@ export class SettingsPage {
     this.repeatPassword = '';
     this.enabled = this.pushService.isEnabled();
     this.push$ = this.pushService.isSubscribed();
+    addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   protected async save(user: User): Promise<void> {

@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom, map } from 'rxjs';
 
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { ArticleService } from '@data/services';
 import { Article, PagedResponse, Pagination } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
@@ -38,7 +39,9 @@ export class ArticleListPage implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly articleService: ArticleService,
     private readonly changeRef: ChangeDetectorRef,
-  ) {}
+  ) {
+    addVisibleClassOnDestroy(cardCreationAnimation);
+  }
 
   public async ngOnInit(): Promise<void> {
     return this.loadData();

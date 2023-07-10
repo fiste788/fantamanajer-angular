@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
@@ -53,6 +53,7 @@ export class TransfertListPage {
       map(([cur, my]) => cur.id === my.id),
     );
     this.dataSource$ = this.loadData();
+    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected loadData(): Observable<MatTableDataSource<Transfert>> {

@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { Observable, switchMap } from 'rxjs';
 
-import { getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
@@ -36,6 +36,7 @@ export class TeamListPage {
 
   constructor(private readonly teamService: TeamService) {
     this.teams$ = this.loadData();
+    addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   protected loadData(): Observable<Array<Team>> {
