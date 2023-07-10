@@ -1,6 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
@@ -22,7 +21,7 @@ export class LayoutService {
   private readonly openSidebarSubject = new BehaviorSubject<boolean>(false);
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
   private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
-  private readonly scrollSubscription = new Map<MatSidenavContent, Subscription | undefined>();
+  private readonly scrollSubscription = new Map<Window, Subscription | undefined>();
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
@@ -56,16 +55,16 @@ export class LayoutService {
   }
 
   public connectChangePageAnimation(): Subscription {
-    return this.isRouteContextChanged().subscribe((changed) => {
-      if (changed) {
+    return this.isRouteContextChanged()
+      .pipe(filter((c) => c))
+      .subscribe(() => {
         this.showToolbar();
         this.showSpeedDial();
-      }
-    });
+      });
   }
 
   public connectScrollAnimation(
-    container: MatSidenavContent,
+    window: Window,
     upCallback: () => void,
     downCallback: () => void,
     offset = 0,
@@ -73,36 +72,36 @@ export class LayoutService {
     return this.isHandset$
       .pipe(
         tap((isHandset) => {
-          const subscriptions = this.scrollSubscription.get(container);
+          const subscriptions = this.scrollSubscription.get(window);
           if (isHandset) {
             if (subscriptions === undefined) {
               this.scrollSubscription.set(
-                container,
-                this.applyScrollAnimation(container, upCallback, downCallback, offset),
+                window,
+                this.applyScrollAnimation(window, upCallback, downCallback, offset),
               );
             }
           } else if (subscriptions) {
-            this.disconnectScrollAnimation(container);
+            this.disconnectScrollAnimation(window);
           } else {
-            this.scrollSubscription.set(container, undefined);
+            this.scrollSubscription.set(window, undefined);
           }
         }),
       )
       .subscribe();
   }
 
-  public disconnectScrollAnimation(container: MatSidenavContent): void {
-    this.scrollSubscription.get(container)?.unsubscribe();
-    this.scrollSubscription.delete(container);
+  public disconnectScrollAnimation(window: Window): void {
+    this.scrollSubscription.get(window)?.unsubscribe();
+    this.scrollSubscription.delete(window);
   }
 
   public applyScrollAnimation(
-    container: MatSidenavContent,
+    window: Window,
     upCallback: () => void,
     downCallback: () => void,
     offset = 0,
   ): Subscription {
-    const scroll$ = this.scrollService.connectScrollAnimation(container, offset);
+    const scroll$ = this.scrollService.connectScrollAnimation(window, offset);
 
     return combineLatest([
       scroll$.up.pipe(
@@ -122,9 +121,9 @@ export class LayoutService {
     ]).subscribe();
   }
 
-  public scrollTo(x = 0, y = 0, container?: MatSidenavContent): void {
-    const containers: Array<MatSidenavContent> = [...this.scrollSubscription.keys()];
-    (container ?? containers.shift())?.scrollTo({ top: y, left: x });
+  public scrollTo(x = 0, y = 0, window?: Window): void {
+    const windows: Array<Window> = [...this.scrollSubscription.keys()];
+    (window ?? windows.shift())?.scrollTo({ top: y, left: x });
   }
 
   public openSidebar(): void {

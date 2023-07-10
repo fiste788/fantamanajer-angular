@@ -17,6 +17,7 @@ import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxj
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
+import { WINDOW } from '@app/services';
 import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
@@ -58,6 +59,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(WINDOW) private readonly window: Window,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -76,7 +78,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());
     if (this.container) {
-      this.setupScrollAnimation(this.container);
+      this.setupScrollAnimation(this.window);
     }
     this.changeRef.detectChanges();
   }
@@ -98,10 +100,10 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  private setupScrollAnimation(container: MatSidenavContent): void {
+  private setupScrollAnimation(window: Window): void {
     this.ngZone.runOutsideAngular(() => {
       this.layoutService.connectScrollAnimation(
-        container,
+        window,
         this.up.bind(this),
         this.down.bind(this),
         this.getToolbarHeight(),
@@ -149,8 +151,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private getToolbarHeight(): number {
-    const toolbar = this.document.querySelector('app-toolbar');
-
-    return toolbar?.clientHeight ?? 0;
+    return this.document.querySelector('app-toolbar')?.clientHeight ?? 0;
   }
 }

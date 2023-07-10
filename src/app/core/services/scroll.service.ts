@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSidenavContent } from '@angular/material/sidenav';
-import { Observable } from 'rxjs';
+import { Observable, fromEvent } from 'rxjs';
 import {
   auditTime,
   distinctUntilChanged,
@@ -18,12 +17,12 @@ import { Direction } from '@app/enums';
 })
 export class ScrollService {
   public connectScrollAnimation(
-    container: MatSidenavContent,
+    window: Window,
     offset = 0,
   ): { up: Observable<Direction>; down: Observable<Direction> } {
-    const scrollObservable$ = container.elementScrolled().pipe(
+    const scrollObservable$ = fromEvent(window, 'scroll').pipe(
       throttleTime(15),
-      map(() => container.measureScrollOffset('top')),
+      map(() => window.scrollY),
       filter((y) => y > offset),
       pairwise(),
       filter(([y1, y2]) => Math.abs(y2 - y1) > 5),

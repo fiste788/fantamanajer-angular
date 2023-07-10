@@ -1,6 +1,6 @@
 .mat-sidenav-container {
-  height: 100vh;
-  height: stretch;
+  overflow: visible;
+  min-height: 100vh;
 }
 
 .speed-dial,
@@ -20,7 +20,8 @@ app-toolbar {
 .mat-drawer-content {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  // height: 100vh;
+  overflow: visible;
 }
 
 main {
