@@ -25,6 +25,7 @@ export const routerTransition: Array<AnimationStateMetadata | AnimationTransitio
       query(':enter', [style({ opacity: 0 }), animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)')], {
         optional: true,
       }),
+      query('@*', animateChild(), { optional: true }),
     ]),
   ]),
 ];
