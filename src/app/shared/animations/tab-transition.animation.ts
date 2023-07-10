@@ -2,7 +2,6 @@ import {
   animate,
   animateChild,
   group,
-  query,
   sequence,
   style,
   transition,
@@ -12,7 +11,7 @@ import {
 export const tabTransition = trigger('tabTransition', [
   transition('* <=> *', [
     sequence([
-      query('@*', animateChild(), { optional: true }),
+      animateChild(),
       group([
         animate(
           '500ms cubic-bezier(.75,-0.48,.26,1.52)',
@@ -21,7 +20,7 @@ export const tabTransition = trigger('tabTransition', [
         style({ transform: 'translateX(100vw)', display: 'none' }),
         animate('500ms cubic-bezier(.75,-0.48,.26,1.52)', style({ transform: 'translateX(0%)' })),
       ]),
-      query('@*', animateChild(), { optional: true }),
+      animateChild(),
     ]),
   ]),
 ]);
