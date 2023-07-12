@@ -3,9 +3,9 @@
 @mixin core() {
   .inherit-color {
     .mat-mdc-select-arrow,
+    .mat-mdc-form-field-label,
     .mat-focused .mat-mdc-form-field-label,
     .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow,
-    .mat-mdc-form-field-label,
     .mat-mdc-select-value {
       color: inherit;
     }

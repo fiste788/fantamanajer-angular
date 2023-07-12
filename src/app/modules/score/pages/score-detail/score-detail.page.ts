@@ -30,7 +30,10 @@ export class ScoreDetailPage implements OnInit {
   protected regular$!: Observable<Array<Disposition>>;
   protected notRegular$!: Observable<Array<Disposition>>;
 
-  constructor(private readonly route: ActivatedRoute, private readonly scoreService: ScoreService) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly scoreService: ScoreService,
+  ) {
     this.team$ = getRouteData<Team>('team');
   }
 

@@ -42,7 +42,7 @@ export class ChampionshipPage implements OnInit {
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
     ];
-    if (user?.admin || team?.admin) {
+    if (user?.admin ?? team?.admin) {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }

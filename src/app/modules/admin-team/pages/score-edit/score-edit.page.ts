@@ -46,7 +46,10 @@ export class ScoreEditPage {
   protected score$?: Observable<Score>;
   protected readonly scores$: Observable<Array<Score>>;
 
-  constructor(private readonly scoreService: ScoreService, private readonly snackbar: MatSnackBar) {
+  constructor(
+    private readonly scoreService: ScoreService,
+    private readonly snackbar: MatSnackBar,
+  ) {
     this.scores$ = this.loadData();
   }
 

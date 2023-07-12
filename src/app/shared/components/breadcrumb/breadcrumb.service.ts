@@ -13,7 +13,10 @@ export class BreadcrumbService {
   public readonly breadcrumbs$: Observable<Array<Breadcrumb>>;
   private readonly _breadcrumbs$ = new BehaviorSubject<Array<Breadcrumb>>([]);
 
-  constructor(private readonly router: Router, private readonly title: Title) {
+  constructor(
+    private readonly router: Router,
+    private readonly title: Title,
+  ) {
     this.breadcrumbs$ = this._breadcrumbs$.asObservable();
   }
 

@@ -42,7 +42,10 @@ interface BestPlayer {
 export class HomePage {
   protected readonly bestPlayers$: Observable<Array<BestPlayer> | undefined>;
 
-  constructor(private readonly memberService: MemberService, public app: ApplicationService) {
+  constructor(
+    private readonly memberService: MemberService,
+    public app: ApplicationService,
+  ) {
     this.bestPlayers$ = this.loadBestPlayers();
     addVisibleClassOnDestroy(cardCreationAnimation);
   }

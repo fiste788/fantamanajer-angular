@@ -9,7 +9,10 @@ import { ApplicationService } from '@app/services';
   standalone: true,
 })
 export class AddLineupShortcutPage implements OnInit {
-  constructor(private readonly router: Router, private readonly app: ApplicationService) {}
+  constructor(
+    private readonly router: Router,
+    private readonly app: ApplicationService,
+  ) {}
 
   public async ngOnInit(): Promise<boolean> {
     return firstValueFrom(

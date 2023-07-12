@@ -11,7 +11,10 @@ import { NotificationOverlayRef } from './notification-overlay-ref';
   providedIn: 'any',
 })
 export class NotificationOverlayService {
-  constructor(private readonly overlay: Overlay, private readonly injector: Injector) {}
+  constructor(
+    private readonly overlay: Overlay,
+    private readonly injector: Injector,
+  ) {}
 
   public open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)

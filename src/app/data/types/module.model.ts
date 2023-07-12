@@ -5,7 +5,10 @@ export class Module {
   public label: string;
   public areas: Array<Area>;
 
-  constructor(public key: string, roles: Array<Role>) {
+  constructor(
+    public key: string,
+    roles: Array<Role>,
+  ) {
     this.label = key.slice(Math.max(0, key.indexOf('-') + 1));
     const mod = key.split('-').map((c) => +c);
 
