@@ -4,13 +4,13 @@ import { Component, Input, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { Club } from '@data/types';
-import { enterDetailAnimation, routerTransition, tabTransition } from '@shared/animations';
+import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
 @Component({
-  animations: [enterDetailAnimation, tabTransition, trigger('contextChange', routerTransition)],
+  animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
   styleUrls: ['./club-detail.page.scss'],
   templateUrl: './club-detail.page.html',
   standalone: true,

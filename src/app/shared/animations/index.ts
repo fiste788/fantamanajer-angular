@@ -8,5 +8,4 @@ export * from './open-overlay.animation';
 export * from './router-transition.animation';
 export * from './scroll-down.animation';
 export * from './scroll-up.animation';
-export * from './tab-transition.animation';
 export * from './table-row.animation';
