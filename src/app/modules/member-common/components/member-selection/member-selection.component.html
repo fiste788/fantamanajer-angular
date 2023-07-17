@@ -4,7 +4,7 @@
 >
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
-      <app-player-image [member]="member || undefined"></app-player-image>
+      <app-player-image [member]="member || undefined" />
     </div>
     <app-member-icons
       *ngIf="member && member?.likely_lineup"
@@ -12,8 +12,7 @@
       [circle]="true"
       @createBox
       [member]="member"
-    >
-    </app-member-icons>
+     />
   </div>
   <mat-select
     #memberSelection="ngModel"
@@ -36,7 +35,7 @@
         [disabled]="opt.disabled"
         [value]="opt.member"
       >
-        <app-member-icons [member]="opt.member"></app-member-icons>
+        <app-member-icons [member]="opt.member" />
       </mat-option>
     </ng-container>
     <ng-container *ngIf="memberMap">
@@ -49,7 +48,7 @@
           [disabled]="opt.disabled"
           [value]="opt.member"
         >
-          <app-member-icons [member]="opt.member"></app-member-icons>
+          <app-member-icons [member]="opt.member" />
         </mat-option>
       </mat-optgroup>
     </ng-container>

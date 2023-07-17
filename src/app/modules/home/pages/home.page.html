@@ -9,7 +9,7 @@
           <app-player-image
             [inCard]="true"
             [member]="role.first"
-          ></app-player-image>
+           />
           <mat-card-header>
             <mat-card-title>
               <span class="mat-text-primary">
@@ -52,11 +52,11 @@
     icon="wb_sunny"
     label="La stagione non è ancora iniziata"
     [rounded]="true"
-  ></app-mat-empty-state>
+   />
 </ng-template>
 <ng-template #loading>
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-  ></mat-progress-spinner>
+   />
 </ng-template>

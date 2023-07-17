@@ -81,15 +81,14 @@
     label="Nessun trasferimento presente"
     [rounded]="true"
     [size]="330"
-  >
-  </app-mat-empty-state>
+   />
 </ng-template>
 <ng-template #loading>
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-  ></mat-progress-spinner>
+   />
 </ng-template>
 <ng-container *appSeasonActive>
-  <app-selection *ngIf="isMyTeam$ | async"></app-selection>
+  <app-selection *ngIf="isMyTeam$ | async" />
 </ng-container>

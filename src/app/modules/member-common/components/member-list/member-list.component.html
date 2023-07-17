@@ -29,8 +29,7 @@
           <mat-checkbox
             (change)="$event ? selection.toggle(row) : null"
             (click)="$event.stopPropagation()"
-          >
-          </mat-checkbox>
+           />
         </td>
         <td
           *matFooterCellDef
@@ -308,12 +307,11 @@
     icon="gavel"
     label="Nessun giocatore acquistato"
     [rounded]="true"
-  >
-  </app-mat-empty-state>
+   />
 </ng-template>
 <ng-template #loading>
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-  ></mat-progress-spinner>
+   />
 </ng-template>

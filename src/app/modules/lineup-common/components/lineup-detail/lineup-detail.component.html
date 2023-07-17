@@ -19,7 +19,7 @@
         [membersByRole]="lineupService.membersByRole"
         [module]="lineupService.selectedModule"
         (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
-      ></app-module-area>
+       />
     </div>
   </ng-container>
 
@@ -52,8 +52,7 @@
               [width]="320"
               [(member)]="disp.member"
               (memberChange)="lineupService.benchwarmerSelectionChange($event)"
-            >
-            </app-member-selection>
+             />
           </div>
         </div>
       </mat-card-content>

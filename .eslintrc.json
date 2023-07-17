@@ -262,11 +262,7 @@
     },
     {
       "files": ["*.html"],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "plugin:@angular-eslint/template/accessibility",
-        "angular-strict/template"
-      ],
+      "extends": ["plugin:@angular-eslint/template/all", "angular-strict/template"],
       "rules": {
         "@angular-eslint/template/no-inline-styles": [
           "warn",
@@ -274,6 +270,7 @@
             "allowBindToStyle": true
           }
         ],
+        "@angular-eslint/template/attributes-order": "off",
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/cyclomatic-complexity": [
           "warn",

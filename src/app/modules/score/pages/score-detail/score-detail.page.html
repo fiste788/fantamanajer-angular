@@ -6,26 +6,24 @@
       [dispositions]="regular"
       [lineup]="score.lineup"
       [regular]="true"
-    ></app-disposition-list>
+     />
     <app-disposition-list
       *ngIf="notRegular$ | async as notRegular"
       caption="Panchinari"
       [dispositions]="notRegular"
-    >
-    </app-disposition-list>
+     />
   </div>
   <ng-template #nolineup>
     <app-mat-empty-state
       description="Formazione non presente"
       icon="mood_bad"
       [label]="'Punteggio: ' + score.points"
-    >
-    </app-mat-empty-state>
+     />
   </ng-template>
 </div>
 <ng-template #loading>
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-  ></mat-progress-spinner>
+   />
 </ng-template>

@@ -1,15 +1,17 @@
-<app-profile></app-profile>
+<app-profile />
 <mat-nav-list>
   <h3
     *ngIf="matchday$ | async as matchday"
     mat-subheader
   >
-    <span *ngIf="!matchday.season.ended && !matchday.season.started else seasonClosed">
-      Giornata {{matchday.number}}
+    <span>
+      <ng-container *ngIf="!matchday.season.ended && !matchday.season.started else seasonClosed">
+        Giornata {{matchday.number}}
+      </ng-container>
+      <ng-template #seasonClosed>
+        {{matchday.season.name}}
+      </ng-template>
     </span>
-    <ng-template #seasonClosed>
-      <span>{{matchday.season.name}}</span>
-    </ng-template>
   </h3>
   <a
     *ngIf="deferredPrompt$ | async as prompt"
@@ -39,7 +41,7 @@
     <mat-icon
       matListItemIcon
       svgIcon="team"
-    ></mat-icon>{{team.name}}
+    />{{team.name}}
   </a>
   <a
     *ngIf="championship$ | async as championship"
@@ -60,7 +62,7 @@
   >
     <mat-icon matListItemIcon>sports_soccer</mat-icon>Clubs
   </a>
-  <mat-divider></mat-divider>
+  <mat-divider />
   <h3 mat-subheader>Account</h3>
   <ng-container *ngIf="loggedIn$ | async; else notLogged">
     <a

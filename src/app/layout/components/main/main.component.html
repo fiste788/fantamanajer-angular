@@ -8,16 +8,15 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
   >
-    <app-navbar></app-navbar>
+    <app-navbar />
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
       [@scrollUpAnimation]="(showedToolbar$ | async)"
       [showDrawerButton]="(isHandset$ | async) || false"
-    >
-    </app-toolbar>
+     />
     <main [@contextChange]="o | state">
-      <router-outlet #o="outlet"></router-outlet>
+      <router-outlet #o="outlet" />
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
@@ -25,4 +24,4 @@
   #speedDial
   class="speed-dial"
   [@closeAnimation]="(showedSpeedDial$ | async)"
-></app-speed-dial>
+ />

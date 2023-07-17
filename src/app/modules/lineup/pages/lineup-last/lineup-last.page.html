@@ -32,7 +32,7 @@
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-  ></mat-progress-spinner>
+   />
 </ng-template>
 <ng-template #seasonEnded>
   <app-mat-empty-state
@@ -40,5 +40,5 @@
     icon="wb_sunny"
     [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
     [rounded]="true"
-  ></app-mat-empty-state>
+   />
 </ng-template>
