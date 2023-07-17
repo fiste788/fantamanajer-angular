@@ -11,7 +11,7 @@ import {
 
 export const routerTransition: Array<AnimationStateMetadata | AnimationTransitionMetadata> = [
   // Used when switching between different app contexts.
-  transition('* => *', [
+  transition('* <=> *', [
     // Prepare current context and next context for transition.
     query(':enter', style({ opacity: 0 }), { optional: true }),
     // Create a sequence of animations.
