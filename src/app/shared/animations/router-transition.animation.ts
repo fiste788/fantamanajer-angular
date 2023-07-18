@@ -4,7 +4,7 @@ import {
   AnimationStateMetadata,
   AnimationTransitionMetadata,
   query,
-  group,
+  sequence,
   style,
   transition,
 } from '@angular/animations';
@@ -15,10 +15,9 @@ export const routerTransition: Array<AnimationStateMetadata | AnimationTransitio
     // Prepare current context and next context for transition.
     query(':enter', style({ opacity: 0 }), { optional: true }),
     // Create a sequence of animations.
-
-    // Fade out current context.
-    query(':leave', query('@*', animateChild(), { optional: true }), { optional: true }), // play leave animations for view that is being removed
-    group([
+    sequence([
+      // Fade out current context.
+      query('@*', animateChild(), { optional: true }),
       query(':leave', [animate('80ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ opacity: 0 }))], {
         optional: true,
       }),
@@ -27,6 +26,5 @@ export const routerTransition: Array<AnimationStateMetadata | AnimationTransitio
         optional: true,
       }),
     ]),
-    query(':enter', query('@*', animateChild(), { optional: true })), // play animations for the new view
   ]),
 ];
