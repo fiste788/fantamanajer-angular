@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { noErrorIt } from '@app/errors/http-error.interceptor';
+
 import { User } from '../types';
 
 const url = 'users';
@@ -32,7 +34,7 @@ export class UserService {
   }
 
   public logout(): Observable<Record<string, never>> {
-    return this.http.get<Record<string, never>>(routes.logout);
+    return this.http.get<Record<string, never>>(routes.logout, { context: noErrorIt() });
   }
 
   public update(user: User): Observable<User> {
