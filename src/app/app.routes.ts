@@ -1,9 +1,9 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 import { HomePage } from '@modules/home/pages/home.page';
 
-export const routes: Routes = [
+export default [
   {
     path: '',
     pathMatch: 'full',
@@ -71,4 +71,4 @@ export const routes: Routes = [
     data: { state: 'transferts' },
     loadChildren: async () => import('./modules/transfert/transfert.routes'),
   },
-];
+] as Array<Route>;

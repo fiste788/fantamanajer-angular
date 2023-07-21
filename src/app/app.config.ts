@@ -29,13 +29,13 @@ import {
 } from '@app/services';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
-import { routes } from './app.routes';
+import appRoutes from './app.routes';
 import { LayoutService } from './layout/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
-      routes,
+      appRoutes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
       withInMemoryScrolling(),
