@@ -26,5 +26,4 @@ module.exports = {
       'xl': '1920px',
     }
   },
-  plugins: [require('prettier-plugin-tailwindcss')],
 };

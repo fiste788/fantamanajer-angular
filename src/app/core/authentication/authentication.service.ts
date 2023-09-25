@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
 import { BehaviorSubject, firstValueFrom, Observable, of, catchError, EMPTY } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
 import { UserService, WebauthnService } from '@data/services';
@@ -120,9 +120,10 @@ export class AuthenticationService {
   public async tryTokenLogin(email = localStorage.getItem(this.emailField)): Promise<boolean> {
     if (email) {
       return firstValueFrom(
-        this.webauthnService
-          .get(email)
-          .pipe(switchMap(async (t) => this.tokenLogin(email, true, t))),
+        this.webauthnService.get(email).pipe(
+          filter((t) => (t.publicKey?.allowCredentials?.length ?? 0) > 0),
+          switchMap(async (t) => this.tokenLogin(email, true, t)),
+        ),
         { defaultValue: false },
       );
     }
