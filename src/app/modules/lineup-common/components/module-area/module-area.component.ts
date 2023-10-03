@@ -63,16 +63,15 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     member: Member | null;
   }> = new EventEmitter<{ role: Role; member: Member | null }>();
 
-  public ngOnInit(): void {
-    this.moduleChange();
-    // this.moduleChange$.subscribe(() => this.moduleChange());
-  }
-
   public ngOnChanges(changes: NgChanges<ModuleAreaComponent>): void {
     const change = changes.module;
     if (!change?.isFirstChange() && change?.previousValue !== change?.currentValue) {
       this.moduleChange();
     }
+  }
+
+  public ngOnInit(): void {
+    this.moduleChange();
   }
 
   protected moduleChange(): void {

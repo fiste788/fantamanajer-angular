@@ -54,7 +54,7 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @Input() public center = false;
   @Input() public percentage = 0;
   @Input() public relativeToWrapper = false;
-  @Input() public wrapper = '.mat-drawer-content';
+  @Input() public wrapper = 'window';
 
   private readonly options: Options;
   private block?: Block;
