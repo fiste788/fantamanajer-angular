@@ -1,5 +1,5 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, firstValueFrom, tap } from 'rxjs';
 
 import { StreamService } from '@data/services';
 import { Stream, StreamActivity } from '@data/types';
@@ -20,22 +20,27 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   ) {
     super();
     this.cachedData = Array.from<StreamActivity | undefined>({ length: this.length });
+    this.addPlaceholder();
     this.dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.cachedData);
-    // this.dataStream.pipe(tap(() => this.cd.detectChanges()));
-    this.fetchPage(1);
+    this.dataStream.next(this.cachedData);
   }
 
   public connect(
     collectionViewer: CollectionViewer,
   ): Observable<Array<StreamActivity | undefined>> {
     this.subscription.add(
-      collectionViewer.viewChange.subscribe((range) => {
-        const startPage = this.getPageForIndex(range.start);
-        const endPage = this.getPageForIndex(range.end);
-        for (let i = startPage; i <= endPage; i += 1) {
-          this.fetchPage(i + 1);
-        }
-      }),
+      collectionViewer.viewChange
+        .pipe(
+          tap(async (range) => {
+            console.log(range);
+            const startPage = this.getPageForIndex(range.start);
+            const endPage = this.getPageForIndex(range.end);
+            for (let i = startPage; i <= endPage; i += 1) {
+              await this.fetchPage(i + 1);
+            }
+          }),
+        )
+        .subscribe(),
     );
 
     return this.dataStream;
@@ -49,24 +54,23 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     return Math.floor(index / this.pageSize);
   }
 
-  private fetchPage(page: number): void {
+  private async fetchPage(page: number): Promise<Stream | undefined> {
     if (this.fetchedPages.has(page) || page === 0) {
-      return;
+      return undefined;
     }
     this.fetchedPages.add(page);
-    if (page === 1) {
-      this.addPlaceholder();
-      this.dataStream.next(this.cachedData);
-    }
 
-    this.subscription.add(
-      this.streamService.get(this.name, this.id, page).subscribe((data: Stream) => {
-        this.cachedData = [...this.cachedData.filter((it) => it !== undefined), ...data.results];
-        if (this.cachedData.length === 0) {
-          this.isEmpty = true;
-        }
-        this.dataStream.next(this.cachedData);
-      }),
+    return firstValueFrom(
+      this.streamService.get(this.name, this.id, page).pipe(
+        tap((data: Stream) => {
+          this.cachedData = [...this.cachedData.filter((it) => it !== undefined), ...data.results];
+          if (this.cachedData.length === 0) {
+            this.isEmpty = true;
+          }
+          this.dataStream.next(this.cachedData);
+        }),
+      ),
+      { defaultValue: undefined },
     );
   }
 
