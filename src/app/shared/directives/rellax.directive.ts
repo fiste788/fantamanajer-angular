@@ -103,7 +103,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // if (this.el.nativeElement !== undefined) {
     const target = this.el.nativeElement.querySelector('img');
     if (target !== null) {
       this.subscription = fromEvent(target, 'load').subscribe(() => {
@@ -112,7 +111,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
         });
       });
     }
-    // }
   }
 
   public clamp(num: number, min: number, max: number): number {

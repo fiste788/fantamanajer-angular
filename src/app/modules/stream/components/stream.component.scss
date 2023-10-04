@@ -5,3 +5,7 @@ content-loader {
     max-height: 100%;
   }
 }
+:host ::ng-deep .cdk-virtual-scroll-content-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
