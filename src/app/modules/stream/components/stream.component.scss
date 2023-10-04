@@ -1,3 +1,7 @@
-svg {
-  display: block;
+content-loader {
+  height: 88px;
+
+  ::ng-deep svg {
+    max-height: 100%;
+  }
 }

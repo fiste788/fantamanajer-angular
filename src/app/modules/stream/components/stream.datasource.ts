@@ -1,11 +1,20 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable, Subscription, firstValueFrom, tap } from 'rxjs';
+import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  map,
+  mergeMap,
+  range,
+  filter,
+  EMPTY,
+  concatMap,
+} from 'rxjs';
 
 import { StreamService } from '@data/services';
-import { Stream, StreamActivity } from '@data/types';
+import { StreamActivity } from '@data/types';
 
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
-  public isEmpty = false;
   private readonly length = 0;
   private readonly pageSize = 10;
   private readonly fetchedPages = new Set<number>();
@@ -31,16 +40,11 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.subscription.add(
       collectionViewer.viewChange
         .pipe(
-          tap(async (range) => {
-            console.log(range);
-            const startPage = this.getPageForIndex(range.start);
-            const endPage = this.getPageForIndex(range.end);
-            for (let i = startPage; i <= endPage; i += 1) {
-              await this.fetchPage(i + 1);
-            }
-          }),
+          concatMap((r) => this.getRange(r)),
+          filter((page) => !this.fetchedPages.has(page)),
+          mergeMap((page) => this.fetchPage(page)),
         )
-        .subscribe(),
+        .subscribe((res) => this.dataStream.next(res)),
     );
 
     return this.dataStream;
@@ -50,27 +54,37 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.subscription.unsubscribe();
   }
 
-  private getPageForIndex(index: number): number {
-    return Math.floor(index / this.pageSize);
+  get isEmpty(): boolean {
+    return this.cachedData.length == 0;
   }
 
-  private async fetchPage(page: number): Promise<Stream | undefined> {
-    if (this.fetchedPages.has(page) || page === 0) {
-      return undefined;
+  private getPageForIndex(index: number): number {
+    return Math.floor(index / this.pageSize) + 1;
+  }
+
+  private getRange(r: ListRange): Observable<number> {
+    const startPage = this.getPageForIndex(r.start);
+    const endPage = this.getPageForIndex(r.end - 1);
+
+    return range(startPage, endPage - startPage + 1);
+  }
+
+  private fetchPage(page: number): Observable<Array<StreamActivity | undefined>> {
+    if (this.fetchedPages.has(page)) {
+      return EMPTY;
     }
     this.fetchedPages.add(page);
 
-    return firstValueFrom(
-      this.streamService.get(this.name, this.id, page).pipe(
-        tap((data: Stream) => {
-          this.cachedData = [...this.cachedData.filter((it) => it !== undefined), ...data.results];
-          if (this.cachedData.length === 0) {
-            this.isEmpty = true;
-          }
-          this.dataStream.next(this.cachedData);
-        }),
-      ),
-      { defaultValue: undefined },
+    return this.streamService.get(this.name, this.id, page).pipe(
+      map((data) => data.results),
+      map((res) => {
+        this.cachedData = [...this.cachedData.filter((cd) => cd !== undefined), ...res];
+        if (res.length !== 0) {
+          this.addPlaceholder();
+        }
+
+        return this.cachedData;
+      }),
     );
   }
 

@@ -16,10 +16,7 @@
         <span matListItemLine> {{activity.body}} </span>
       </mat-list-item>
       <ng-template #placeholder>
-        <content-loader
-          height="88"
-          preserveAspectRatio="none"
-        >
+        <content-loader viewBox="0 0 1500 88">
           <svg:rect
             height="15"
             rx="3"
@@ -58,4 +55,4 @@
   *ngIf="ds.isEmpty"
   icon="message"
   label="Ancora nessuna attività"
- />
+/>
