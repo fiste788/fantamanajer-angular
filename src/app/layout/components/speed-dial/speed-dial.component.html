@@ -15,34 +15,34 @@
   </eco-fab-speed-dial-trigger>
 
   <eco-fab-speed-dial-actions>
-    <a
+    <button
       *appSeasonActive
       class="mat-accent"
       mat-mini-fab
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
-      [routerLink]="['teams', (app.team$ | async)?.id, 'lineup','current']"
+      (click)="navigate('/lineups/new')"
     >
       <mat-icon svgIcon="soccer_field" />
-    </a>
-    <a
+    </button>
+    <button
       class="mat-accent"
       mat-mini-fab
       matTooltip="Nuovo articolo"
       matTooltipPosition="left"
-      routerLink="/articles/new"
+      (click)="navigate('/articles/new')"
     >
       <mat-icon>message</mat-icon>
-    </a>
-    <a
+    </button>
+    <button
       *appSeasonActive
       class="mat-accent"
       mat-mini-fab
       matTooltip="Nuovo trasferimento"
       matTooltipPosition="left"
-      [routerLink]="['teams', (app.team$ | async)?.id, 'transferts']"
+      (click)="navigate('/transferts/new')"
     >
       <mat-icon>swap_vert</mat-icon>
-    </a>
+    </button>
   </eco-fab-speed-dial-actions>
 </eco-fab-speed-dial>
