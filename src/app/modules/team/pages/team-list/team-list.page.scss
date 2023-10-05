@@ -1,7 +1,7 @@
 .aspect-ratio-box {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 600/450;
+  aspect-ratio: 16/9;
 
   &::after {
     display: block;
