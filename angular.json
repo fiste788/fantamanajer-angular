@@ -56,6 +56,11 @@
                 "output": "./"
               },
               {
+                "glob": "robots.txt",
+                "input": "src/assets",
+                "output": "./"
+              },
+              {
                 "glob": "_headers",
                 "input": "src/assets",
                 "output": "./"
