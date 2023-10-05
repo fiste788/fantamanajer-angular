@@ -62,6 +62,14 @@
     animation: leave-animation 0.2s ease-in-out forwards;
   }
 
+  .placeholder {
+    font-size: 2rem;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
   @keyframes leave-animation {
     0% {
       opacity: 1;
@@ -92,6 +100,11 @@
   ::selection {
     background: mat.get-color-from-palette($accent);
     color: mat.get-color-from-palette($accent, default-contrast);
+  }
+
+  .placeholder {
+    background-color: mat.get-color-from-palette($background, 'status-bar');
+    color: mat.get-color-from-palette($foreground, 'secondary-text');
   }
 }
 

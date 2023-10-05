@@ -1,3 +1,8 @@
+.aspect-ratio-box {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 600/450;
+}
 .mat-mdc-card-avatar {
   width: auto;
   min-width: 24px;
@@ -11,6 +16,7 @@
 
 img {
   object-fit: cover;
+  max-height: 100%;
 
   &.ng-lazyloaded {
     opacity: 1;

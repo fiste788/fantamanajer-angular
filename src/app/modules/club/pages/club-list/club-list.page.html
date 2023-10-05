@@ -7,6 +7,30 @@
     *ngFor="let club of clubs; let i=index; trackBy: track"
     appearance="outlined"
   >
+
+
+    <figure
+      class="aspect-ratio-box"
+      mat-card-image
+    >
+      <img
+        *ngIf="club.background_url; else placeholder"
+        defaultImage="//via.placeholder.com/600x450"
+        height="450"
+        sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+        width="600"
+        [alt]="club.name"
+        [class.has-image]="club.background_url !== null"
+        [lazyLoad]="(club.background_url | srcset)"
+        [useSrcset]="true"
+      >
+
+      <ng-template #placeholder>
+        <div class="placeholder">
+          <span>{{club.name}}</span>
+        </div>
+      </ng-template>
+    </figure>
     <mat-card-header>
       <img
         class="club-header-image"
@@ -17,18 +41,6 @@
       <mat-card-title>{{club.name}}</mat-card-title>
       <mat-card-subtitle>Club</mat-card-subtitle>
     </mat-card-header>
-
-    <img
-      defaultImage="//via.placeholder.com/600x337"
-      height="337"
-      mat-card-image
-      sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-      width="600"
-      [alt]="club.name"
-      [class.has-image]="club.background_url !== null"
-      [lazyLoad]="(club.background_url | srcset)"
-      [useSrcset]="true"
-    >
     <mat-card-actions>
       <a
         color="primary"
@@ -48,5 +60,5 @@
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-   />
+  />
 </ng-template>
