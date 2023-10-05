@@ -1,6 +1,9 @@
+<ng-container *ngIf="!circle">
+  {{member.player.full_name}}
+</ng-container>
 <span
   *ngIf="member.likely_lineup as like"
-  [ngClass]="{'circle':circle}"
+  [ngClass]="{'circle':circle, 'icon-container': true}"
 >
   <mat-icon
     *ngIf="like.regular"
@@ -10,7 +13,7 @@
   </mat-icon>
   <span
     *ngIf="like.second_ballot"
-    class="mat-icon number"
+    class="number"
     [matTooltip]="'Ballottaggio ' + (like.second_ballot / 100 | percent)"
   >
     {{like.second_ballot / 100 | percent}}
@@ -40,12 +43,9 @@
     copyright
   </mat-icon>
   <span
-    class="mat-icon number"
+    class="number"
     [matTooltip]="'Avversario ' + (like.versus | titlecase)"
   >
     {{like.versus | uppercase | slice: 0:3}}
   </span>
 </span>
-<ng-container *ngIf="!circle">
-  {{member.player.full_name}}
-</ng-container>

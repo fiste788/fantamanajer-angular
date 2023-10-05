@@ -79,7 +79,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
       map((data) => data.results),
       map((res) => {
         this.cachedData = [...this.cachedData.filter((cd) => cd !== undefined), ...res];
-        if (res.length !== 0) {
+        if (res.length === this.pageSize) {
           this.addPlaceholder();
         }
 

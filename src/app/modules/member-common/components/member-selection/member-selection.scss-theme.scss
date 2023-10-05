@@ -24,8 +24,13 @@
     border-color: mat.get-color-from-palette($background, 'card');
   }
 
-  .circle .mat-icon {
+  .circle .mat-icon,
+  .circle > span {
     background-color: mat.get-color-from-palette($background, 'card');
+  }
+
+  .mat-mdc-option .icon-container {
+    color: mat.get-color-from-palette($foreground, 'secondary-text');
   }
 }
 

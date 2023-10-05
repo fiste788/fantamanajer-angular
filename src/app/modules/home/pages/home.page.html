@@ -1,7 +1,7 @@
 <ng-container *ngIf="((app.matchday$ | async)?.number|| 0) > 1; else started">
   <ng-container *ngIf="(bestPlayers$ | async) as bestPlayers; else loading">
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-x-12"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-x-12 items-start"
       @cardCreationAnimation
     >
       <ng-container *ngFor="let role of bestPlayers; trackBy: trackByRole">
@@ -9,7 +9,7 @@
           <app-player-image
             [inCard]="true"
             [member]="role.first"
-           />
+          />
           <mat-card-header>
             <mat-card-title>
               <span class="mat-text-primary">
@@ -52,11 +52,11 @@
     icon="wb_sunny"
     label="La stagione non è ancora iniziata"
     [rounded]="true"
-   />
+  />
 </ng-template>
 <ng-template #loading>
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-   />
+  />
 </ng-template>

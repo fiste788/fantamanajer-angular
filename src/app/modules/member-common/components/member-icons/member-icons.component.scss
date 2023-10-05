@@ -1,6 +1,19 @@
 @use '@angular/material' as mat;
 
-.circle .mat-icon {
+:host-context(.mat-mdc-option) {
+  :host {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  .icon-container {
+    display: inline-flex;
+    font-size: small;
+  }
+}
+
+.circle .mat-icon,
+.circle > span {
   position: absolute;
 
   @include mat.elevation(4);
@@ -43,12 +56,21 @@
   }
 }
 
-:host-context(.mat-mdc-option) .mat-icon {
-  line-height: 24px;
+:host-context(.mat-mdc-option) .mat-icon,
+:host-context(.mat-mdc-option) > span {
+  line-height: 1rem;
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+:host-context(.mat-mdc-option) .icon-container > span {
+  font-size: small;
 }
 
 @media (min-width: theme('screens.md')) {
-  .circle .mat-icon {
+  .circle .mat-icon,
+  .circle > span {
     font-size: 32px;
     width: 32px;
     height: 32px;
