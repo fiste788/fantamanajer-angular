@@ -59,7 +59,8 @@ export class LoginPage implements OnInit {
     const cma = await PublicKeyCredential.isConditionalMediationAvailable();
     if (cma) {
       // If conditional UI is available, invoke the authenticate() function.
-      return this.authService.authenticateMediation();
+
+      return this.postLogin(await this.authService.authenticateMediation());
     }
 
     return false;
