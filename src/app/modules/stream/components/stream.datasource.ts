@@ -55,7 +55,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   }
 
   get isEmpty(): boolean {
-    return this.cachedData.length == 0;
+    return this.cachedData.length === 0;
   }
 
   private getPageForIndex(index: number): number {

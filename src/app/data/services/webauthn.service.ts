@@ -11,7 +11,7 @@ import {
   CredentialRequestOptionsJSON,
 } from '@github/webauthn-json/dist/types/basic/json';
 import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
 
@@ -51,6 +51,12 @@ export class WebauthnService {
 
   public createPublicKey(): Observable<PublicKeyCredentialSource | undefined> {
     return this.create().pipe(
+      tap((request) => {
+        request.publicKey.authenticatorSelection = {
+          authenticatorAttachment: 'platform',
+          requireResidentKey: true,
+        };
+      }),
       mergeMap(create),
       mergeMap((data) => this.register(data)),
     );

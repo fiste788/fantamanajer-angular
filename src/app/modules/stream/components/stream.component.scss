@@ -1,12 +1,4 @@
 content-loader {
   height: 88px;
   padding-right: 1rem;
-
-  ::ng-deep svg {
-    max-height: 100%;
-  }
-}
-:host ::ng-deep .cdk-virtual-scroll-content-wrapper {
-  width: 100%;
-  overflow: hidden;
 }
