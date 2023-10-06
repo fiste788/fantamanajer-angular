@@ -131,6 +131,16 @@ export class AuthenticationService {
     return false;
   }
 
+  public async authenticateMediation(): Promise<boolean> {
+    return firstValueFrom(
+      this.webauthnService.get().pipe(
+        switchMap((cred) => this.webauthnService.getPublicKeyWithMediation(cred.publicKey!)),
+        switchMap((res) => this.postLogin(res, true)),
+      ),
+      { defaultValue: false },
+    );
+  }
+
   public async hasAuthorities(authorities?: Array<string>): Promise<boolean> {
     if (authorities === undefined || authorities.length === 0) {
       return true;

@@ -9,8 +9,9 @@ import {
 import {
   CredentialCreationOptionsJSON,
   CredentialRequestOptionsJSON,
+  PublicKeyCredentialRequestOptionsJSON,
 } from '@github/webauthn-json/dist/types/basic/json';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, from, of } from 'rxjs';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
@@ -39,8 +40,8 @@ export class WebauthnService {
     return this.http.post<PublicKeyCredentialSource>(routes.register, credential);
   }
 
-  public get(email: string): Observable<CredentialRequestOptionsJSON> {
-    const params = new HttpParams().set('email', email);
+  public get(email?: string): Observable<CredentialRequestOptionsJSON> {
+    const params = email ? new HttpParams().set('email', email) : new HttpParams();
 
     return this.http.get<CredentialRequestOptionsJSON>(routes.login, { params });
   }
@@ -71,6 +72,15 @@ export class WebauthnService {
     return token.pipe(
       filterNil(),
       mergeMap(get),
+      catchError(() => EMPTY),
+      mergeMap((data) => this.login(data)),
+    );
+  }
+
+  public getPublicKeyWithMediation(
+    publicKey: PublicKeyCredentialRequestOptionsJSON,
+  ): Observable<{ user: User; token: string }> {
+    return from(get({ publicKey, mediation: 'conditional' })).pipe(
       catchError(() => EMPTY),
       mergeMap((data) => this.login(data)),
     );
