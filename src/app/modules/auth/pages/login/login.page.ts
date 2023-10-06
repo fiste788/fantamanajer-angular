@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,7 +35,7 @@ import { cardCreationAnimation } from '@shared/animations';
     MatCheckboxModule,
   ],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   @ViewChild('stepper') protected readonly stepper?: MatStepper;
   @ViewChild('f') protected readonly form?: NgForm;
   @ViewChild('userForm') protected readonly userForm?: NgForm;
@@ -53,6 +53,16 @@ export class LoginPage {
     private readonly cd: ChangeDetectorRef,
   ) {
     addVisibleClassOnDestroy(cardCreationAnimation);
+  }
+
+  public async ngOnInit(): Promise<boolean> {
+    const cma = await PublicKeyCredential.isConditionalMediationAvailable();
+    if (cma) {
+      // If conditional UI is available, invoke the authenticate() function.
+      return this.authService.tryTokenLogin(this.loginData.email);
+    }
+
+    return false;
   }
 
   protected async login(): Promise<boolean> {
