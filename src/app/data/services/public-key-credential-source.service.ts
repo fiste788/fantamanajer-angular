@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PublicKeyCredentialSource } from '../types';
 
-const url = 'public-key-credential-sources';
+const url = 'passkeys';
 const routes = {
   delete: (userId: number, id: string) => `/users/${userId}/${url}/${id}`,
   index: (id: number) => `/users/${id}/${url}`,
