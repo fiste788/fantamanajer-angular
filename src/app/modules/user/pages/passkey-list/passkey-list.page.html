@@ -19,7 +19,8 @@
       <mat-icon matListItemIcon>passkey</mat-icon>
       <span matListItemTitle>{{passkey.name}}</span>
       <span matListItemLine>
-        {{passkey.created_at | date: 'dd/MM/y HH:mm'}} | {{passkey.last_seen_at | date: 'dd/MM/y HH:mm'}}
+        Creata il: {{passkey.created_at | date: 'dd/MM/y HH:mm'}} |
+        Ultimo utilizzo: {{passkey.last_seen_at | date: 'dd/MM/y HH:mm'}}
       </span>
       <div matListItemMeta>
         <button
