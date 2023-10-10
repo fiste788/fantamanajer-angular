@@ -18,7 +18,7 @@ import { StatePipe } from '@shared/pipes';
 export class UserPage {
   protected readonly tabs: Array<Tab> = [
     { label: 'Profilo', link: 'profile' },
-    { label: 'Dispositivi', link: 'devices' },
+    { label: 'Passkey', link: 'passkeys' },
     { label: 'Attività', link: 'stream' },
   ];
 

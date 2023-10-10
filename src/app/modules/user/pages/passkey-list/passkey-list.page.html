@@ -14,7 +14,10 @@
   </button>
 </div>
 <div *ngIf="passkeys$ | async as passkeys; else loading">
-  <mat-list *ngIf="passkeys.length; else empty">
+  <mat-list
+    *ngIf="passkeys.length; else empty"
+    @listItemAnimation
+  >
     <mat-list-item *ngFor="let passkey of passkeys; trackBy:trackPasskey">
       <mat-icon matListItemIcon>passkey</mat-icon>
       <span matListItemTitle>{{passkey.name}}</span>

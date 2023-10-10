@@ -20,7 +20,7 @@ export default [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'profile', component: SettingsPage, data: { state: 'settings' } },
       { path: 'stream', component: UserStreamPage, data: { state: 'stream' } },
-      { path: 'devices', component: PasskeyListPage, data: { state: 'devices' } },
+      { path: 'passkeys', component: PasskeyListPage, data: { state: 'passkeys' } },
     ],
   },
 ] as Array<Route>;
