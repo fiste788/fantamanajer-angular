@@ -55,7 +55,9 @@ export class LoginPage implements OnInit {
   }
 
   public async ngOnInit(): Promise<boolean> {
-    return this.authService.authenticatePasskey();
+    const result = await this.authService.authenticatePasskey();
+
+    return this.postLogin(result);
   }
 
   protected async login(): Promise<boolean> {
