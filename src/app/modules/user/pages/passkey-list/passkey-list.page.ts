@@ -17,8 +17,8 @@ import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
-  styleUrls: ['./device-list.page.scss'],
-  templateUrl: './device-list.page.html',
+  styleUrls: ['./passkey-list.page.scss'],
+  templateUrl: './passkey-list.page.html',
   standalone: true,
   imports: [
     NgIf,
@@ -34,7 +34,7 @@ import { MatEmptyStateComponent } from '@shared/components';
     DatePipe,
   ],
 })
-export class DeviceListPage {
+export class PasskeyListPage {
   protected readonly passkeys$: Observable<Array<PublicKeyCredentialSource>>;
   protected readonly refresh$: BehaviorSubject<true>;
   protected readonly isSupported$: Promise<boolean>;

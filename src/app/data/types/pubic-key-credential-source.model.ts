@@ -9,5 +9,6 @@ export interface PublicKeyCredentialSource {
   counter: number;
   user_handle: string;
   created_at: Date;
+  last_seen_at: Date;
   user: User;
 }

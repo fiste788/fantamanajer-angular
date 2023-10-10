@@ -1,9 +1,26 @@
+<div
+  *ngIf="isSupported$ | async"
+  class="flex flex-row justify-between"
+>
+  <p>Le passkey sostituiscono la password e convalidano l'identità tramite impronta digitale, riconoscimento facciale,
+    password del dispositivo o PIN.</p>
+  <button
+    color="accent"
+    mat-raised-button
+    type="button"
+    (click)="register()"
+  >
+    Registra passkey
+  </button>
+</div>
 <div *ngIf="passkeys$ | async as passkeys; else loading">
   <mat-list *ngIf="passkeys.length; else empty">
     <mat-list-item *ngFor="let passkey of passkeys; trackBy:trackPasskey">
       <mat-icon matListItemIcon>passkey</mat-icon>
       <span matListItemTitle>{{passkey.name}}</span>
-      <span matListItemLine>{{passkey.created_at | date: 'dd/MM/y HH:mm'}}</span>
+      <span matListItemLine>
+        {{passkey.created_at | date: 'dd/MM/y HH:mm'}} | {{passkey.last_seen_at | date: 'dd/MM/y HH:mm'}}
+      </span>
       <div matListItemMeta>
         <button
           mat-icon-button
@@ -30,15 +47,3 @@
     mode="indeterminate"
   />
 </ng-template>
-<div *ngIf="isSupported$ | async">
-  <p>Passkeys are a password replacement that validates your identity using touch, facial recognition, a device
-    password, or a PIN.</p>
-  <button
-    color="accent"
-    mat-raised-button
-    type="button"
-    (click)="register()"
-  >
-    Registra passkey
-  </button>
-</div>
