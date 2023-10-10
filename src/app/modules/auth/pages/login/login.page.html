@@ -13,10 +13,7 @@
         [linear]="true"
       >
         <mat-step>
-          <form
-            #userForm="ngForm"
-            (ngSubmit)="checkToken()"
-          >
+          <form #userForm="ngForm">
             <mat-form-field>
               <mat-label>Email</mat-label>
               <input
@@ -42,6 +39,7 @@
               <button
                 color="accent"
                 mat-raised-button
+                matStepperNext
                 type="submit"
                 [disabled]="username.errors !== null"
               >Avanti</button>
@@ -79,10 +77,6 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-checkbox
-              name="remember_me"
-              [(ngModel)]="loginData.rememberMe"
-            >Ricordami</mat-checkbox>
             <div class="actions flex flex-row justify-between">
               <button
                 color="accent"

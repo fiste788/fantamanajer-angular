@@ -18,7 +18,7 @@ export const authenticatedGuard: CanActivateFn = async (
     return auth.hasAuthorities(next.data['authorities'] as Array<string> | undefined);
   }
 
-  if (!(await auth.tryTokenLogin())) {
+  if (!(await auth.authenticatePasskey())) {
     auth.logoutUI();
 
     return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl: state.url } });

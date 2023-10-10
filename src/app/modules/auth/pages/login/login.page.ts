@@ -9,8 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';
@@ -42,8 +42,7 @@ export class LoginPage implements OnInit {
   protected loginData: {
     email?: string;
     password?: string;
-    rememberMe: boolean;
-  } = { rememberMe: true };
+  } = {};
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -56,42 +55,24 @@ export class LoginPage implements OnInit {
   }
 
   public async ngOnInit(): Promise<boolean> {
-    const cma = await PublicKeyCredential.isConditionalMediationAvailable();
-    if (cma) {
-      // If conditional UI is available, invoke the authenticate() function.
-
-      return this.postLogin(await this.authService.authenticateMediation());
-    }
-
-    return false;
+    return this.authService.authenticatePasskey();
   }
 
   protected async login(): Promise<boolean> {
     if (this.loginData.email && this.loginData.password) {
-      return firstValueFrom(
-        this.authService
-          .login(this.loginData.email, this.loginData.password, this.loginData.rememberMe)
-          .pipe(
-            catchError(() => of(false)),
-            map(async (result) => this.postLogin(result)),
-          ),
-        { defaultValue: false },
-      );
+      try {
+        const result = await firstValueFrom(
+          this.authService.authenticate(this.loginData.email, this.loginData.password),
+          { defaultValue: false },
+        );
+
+        return await this.postLogin(result);
+      } catch {
+        return false;
+      }
     }
 
     return false;
-  }
-
-  protected async checkToken(): Promise<boolean> {
-    const res = await this.authService.tryTokenLogin(this.loginData.email);
-
-    if (!res) {
-      this.stepper?.next();
-
-      return false;
-    }
-
-    return this.postLogin(res);
   }
 
   protected async postLogin(result: boolean): Promise<boolean> {

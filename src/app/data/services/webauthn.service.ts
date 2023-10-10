@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -11,14 +12,11 @@ import {
   CredentialRequestOptionsJSON,
   PublicKeyCredentialRequestOptionsJSON,
 } from '@github/webauthn-json/dist/types/basic/json';
-import { EMPTY, Observable, from, of } from 'rxjs';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
-
-import { filterNil } from '@app/functions';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { PublicKeyCredentialSource, User } from '../types';
 
-const url = 'webauthn';
+const url = 'passkeys';
 const routes = {
   login: `/${url}/login`,
   register: `/${url}/register`,
@@ -50,39 +48,40 @@ export class WebauthnService {
     return this.http.get<CredentialCreationOptionsJSON>(routes.register);
   }
 
-  public createPublicKey(): Observable<PublicKeyCredentialSource | undefined> {
-    return this.create().pipe(
-      tap((request) => {
-        request.publicKey.authenticatorSelection = {
-          authenticatorAttachment: 'platform',
-          requireResidentKey: true,
-        };
-      }),
-      mergeMap(create),
-      mergeMap((data) => this.register(data)),
-    );
+  public async isSupported(): Promise<boolean> {
+    if (
+      window.PublicKeyCredential &&
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
+      PublicKeyCredential.isConditionalMediationAvailable
+    ) {
+      // Check if user verifying platform authenticator is available.
+      const results = await Promise.all([
+        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
+        PublicKeyCredential.isConditionalMediationAvailable(),
+      ]);
+
+      return results.every(Boolean);
+    }
+
+    return false;
   }
 
-  public getPublicKey(
-    email: string,
-    publicKey?: CredentialRequestOptionsJSON,
-  ): Observable<{ user: User; token: string }> {
-    const token = publicKey ? of(publicKey) : this.get(email);
+  public async createPublicKey(): Promise<PublicKeyCredentialSource | undefined> {
+    const req = await firstValueFrom(this.create(), { defaultValue: undefined });
+    if (req) {
+      const cred = await create(req);
 
-    return token.pipe(
-      filterNil(),
-      mergeMap(get),
-      catchError(() => EMPTY),
-      mergeMap((data) => this.login(data)),
-    );
+      return firstValueFrom(this.register(cred), { defaultValue: undefined });
+    }
+
+    return undefined;
   }
 
-  public getPublicKeyWithMediation(
+  public async getPublicKey(
     publicKey: PublicKeyCredentialRequestOptionsJSON,
-  ): Observable<{ user: User; token: string }> {
-    return from(get({ publicKey, mediation: 'conditional' })).pipe(
-      catchError(() => EMPTY),
-      mergeMap((data) => this.login(data)),
-    );
+  ): Promise<{ user: User; token: string } | undefined> {
+    const cred = await get({ publicKey, mediation: 'conditional' });
+
+    return firstValueFrom(this.login(cred), { defaultValue: undefined });
   }
 }

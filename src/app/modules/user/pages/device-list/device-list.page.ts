@@ -1,26 +1,30 @@
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
-import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
+import { addVisibleClassOnDestroy } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
-  animations: [tableRowAnimation],
   styleUrls: ['./device-list.page.scss'],
   templateUrl: './device-list.page.html',
   standalone: true,
   imports: [
     NgIf,
+    NgFor,
+    MatIconModule,
+    MatListModule,
     MatTableModule,
     MatSortModule,
     MatButtonModule,
@@ -31,9 +35,10 @@ import { MatEmptyStateComponent } from '@shared/components';
   ],
 })
 export class DeviceListPage {
-  protected readonly dataSource$: Observable<MatTableDataSource<PublicKeyCredentialSource>>;
+  protected readonly passkeys$: Observable<Array<PublicKeyCredentialSource>>;
   protected readonly refresh$: BehaviorSubject<true>;
-  protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
+  protected readonly isSupported$: Promise<boolean>;
+  // protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
 
   constructor(
     private readonly webauthnService: WebauthnService,
@@ -41,25 +46,22 @@ export class DeviceListPage {
     private readonly auth: AuthenticationService,
   ) {
     this.refresh$ = new BehaviorSubject(true);
-    this.dataSource$ = this.getDataSource();
+    this.passkeys$ = this.getDataSource();
+    this.isSupported$ = this.webauthnService.isSupported();
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
-  protected getDataSource(): Observable<MatTableDataSource<PublicKeyCredentialSource>> {
+  protected getDataSource(): Observable<Array<PublicKeyCredentialSource>> {
     return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
       switchMap(([user]) => this.pbcsService.index(user.id)),
-      map((data) => new MatTableDataSource<PublicKeyCredentialSource>(data)),
     );
   }
 
   protected async register(): Promise<void> {
-    return firstValueFrom(
-      this.webauthnService.createPublicKey().pipe(
-        filterNil(),
-        map(() => this.refresh$.next(true)),
-      ),
-      { defaultValue: undefined },
-    );
+    const passkey = await this.webauthnService.createPublicKey();
+    if (passkey) {
+      this.refresh$.next(true);
+    }
   }
 
   protected async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
@@ -72,7 +74,7 @@ export class DeviceListPage {
     );
   }
 
-  protected trackDevice(_: number, item: PublicKeyCredentialSource): string {
+  protected trackPasskey(_: number, item: PublicKeyCredentialSource): string {
     return item.id;
   }
 }

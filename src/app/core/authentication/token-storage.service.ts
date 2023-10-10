@@ -8,16 +8,11 @@ export class TokenStorageService {
     return localStorage.getItem(this.TOKEN_ITEM_NAME) ?? undefined;
   }
 
-  public setToken(token: string, rememberMe: boolean): void {
-    if (rememberMe) {
-      localStorage.setItem(this.TOKEN_ITEM_NAME, token);
-    } else {
-      sessionStorage.setItem(this.TOKEN_ITEM_NAME, token);
-    }
+  public setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_ITEM_NAME, token);
   }
 
   public deleteToken(): void {
     localStorage.removeItem(this.TOKEN_ITEM_NAME);
-    sessionStorage.removeItem(this.TOKEN_ITEM_NAME);
   }
 }

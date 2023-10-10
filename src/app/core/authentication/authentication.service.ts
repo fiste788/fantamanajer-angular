@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CredentialRequestOptionsJSON } from '@github/webauthn-json/dist/types/basic/json';
-import { BehaviorSubject, firstValueFrom, Observable, of, catchError, EMPTY } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
 import { UserService, WebauthnService } from '@data/services';
@@ -38,38 +37,44 @@ export class AuthenticationService {
     }
   }
 
-  public login(email: string, password: string, rememberMe?: boolean): Observable<boolean> {
+  public authenticate(email: string, password: string): Observable<boolean> {
     return this.userService
-      .login(email, password, rememberMe)
-      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
+      .login(email, password)
+      .pipe(switchMap(async (res) => this.postLogin(res)));
   }
 
-  public webauthnLogin(
-    email: string,
-    rememberMe?: boolean,
-    token?: CredentialRequestOptionsJSON,
-  ): Observable<boolean> {
-    return this.webauthnService
-      .getPublicKey(email, token)
-      .pipe(switchMap((res) => this.postLogin(res, rememberMe)));
+  public async authenticatePasskey(): Promise<boolean> {
+    try {
+      const cma = await PublicKeyCredential.isConditionalMediationAvailable();
+      if (cma) {
+        const cred = await firstValueFrom(this.webauthnService.get(), { defaultValue: undefined });
+        if (cred?.publicKey) {
+          const res = await this.webauthnService.getPublicKey(cred.publicKey);
+          if (res) {
+            return await this.postLogin(res);
+          }
+        }
+      }
+    } catch {
+      return false;
+    }
+
+    return false;
   }
 
-  public postLogin(res: { user: User; token: string }, rememberMe?: boolean): Observable<boolean> {
+  public async postLogin(res: { user: User; token: string }): Promise<boolean> {
     if (res.token) {
       const { user, token } = res;
       user.roles = this.getRoles(user);
       if (token) {
-        this.tokenStorageService.setToken(token, rememberMe ?? false);
-      }
-      if (rememberMe) {
-        localStorage.setItem('user', user.email);
+        this.tokenStorageService.setToken(token);
       }
       this.userSubject.next(user);
 
-      return this.user$.pipe(map((u) => u !== undefined));
+      return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
     }
 
-    return of(false);
+    return false;
   }
 
   public async logout(): Promise<void> {
@@ -103,41 +108,6 @@ export class AuthenticationService {
       tap((user) => {
         this.userSubject.next(user);
       }),
-    );
-  }
-
-  public async tokenLogin(
-    email: string,
-    rememberMe: boolean,
-    t: CredentialRequestOptionsJSON,
-  ): Promise<boolean> {
-    return firstValueFrom(
-      this.webauthnLogin(email, rememberMe, t).pipe(catchError(() => of(false))),
-      { defaultValue: false },
-    );
-  }
-
-  public async tryTokenLogin(email = localStorage.getItem(this.emailField)): Promise<boolean> {
-    if (email) {
-      return firstValueFrom(
-        this.webauthnService.get(email).pipe(
-          filter((t) => (t.publicKey?.allowCredentials?.length ?? 0) > 0),
-          switchMap(async (t) => this.tokenLogin(email, true, t)),
-        ),
-        { defaultValue: false },
-      );
-    }
-
-    return false;
-  }
-
-  public async authenticateMediation(): Promise<boolean> {
-    return firstValueFrom(
-      this.webauthnService.get().pipe(
-        switchMap((cred) => this.webauthnService.getPublicKeyWithMediation(cred.publicKey!)),
-        switchMap((res) => this.postLogin(res, true)),
-      ),
-      { defaultValue: false },
     );
   }
 

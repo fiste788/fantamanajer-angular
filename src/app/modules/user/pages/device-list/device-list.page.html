@@ -1,107 +1,44 @@
-<div *ngIf="dataSource$ | async as dataSource; else loading">
-  <div
-    *ngIf="dataSource.data.length; else empty"
-    class="table-container mat-elevation-z1"
-  >
-    <table
-      #table
-      mat-table
-      matSort
-      [dataSource]="dataSource"
-      @tableRowAnimation
-      [trackBy]="trackDevice"
-    >
-      <ng-container matColumnDef="name">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-          mat-sort-header
-        > Nome </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
+<div *ngIf="passkeys$ | async as passkeys; else loading">
+  <mat-list *ngIf="passkeys.length; else empty">
+    <mat-list-item *ngFor="let passkey of passkeys; trackBy:trackPasskey">
+      <mat-icon matListItemIcon>passkey</mat-icon>
+      <span matListItemTitle>{{passkey.name}}</span>
+      <span matListItemLine>{{passkey.created_at | date: 'dd/MM/y HH:mm'}}</span>
+      <div matListItemMeta>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="unregister(passkey)"
         >
-          {{row.name}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="created_at">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-          mat-sort-header
-        > Creato il </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          {{row.created_at | date: 'dd/MM/y HH:mm'}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="counter">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-        > Utilizzi </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          {{row.counter}}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-        > </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          <button
-            color="accent"
-            mat-raised-button
-            type="button"
-            (click)="unregister(row)"
-          >Elimina</button>
-        </td>
-      </ng-container>
-
-      <tr
-        *matHeaderRowDef="displayedColumns; sticky: true"
-        mat-header-row
-      ></tr>
-      <tr
-        *matRowDef="let row; columns: displayedColumns;"
-        mat-row
-      ></tr>
-    </table>
-  </div>
-  <p>Web Authentication is a new standard enabling the creation and use of strong, attested, scoped, public key-based
-    credentials by web applications, for the purpose of strongly authenticating users using hardware authenticators.</p>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<ng-template #empty>
+  <app-mat-empty-state
+    icon="passkey"
+    label="Nessuna passkey registrata"
+    [rounded]="true"
+    [size]="330"
+  />
+</ng-template>
+<ng-template #loading>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
+</ng-template>
+<div *ngIf="isSupported$ | async">
+  <p>Passkeys are a password replacement that validates your identity using touch, facial recognition, a device
+    password, or a PIN.</p>
   <button
     color="accent"
     mat-raised-button
     type="button"
     (click)="register()"
   >
-    Registra device
+    Registra passkey
   </button>
 </div>
-<ng-template #empty>
-  <app-mat-empty-state
-    icon="swap_vert"
-    label="Nessun device registrato"
-    [rounded]="true"
-    [size]="330"
-   />
-</ng-template>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-   />
-</ng-template>
