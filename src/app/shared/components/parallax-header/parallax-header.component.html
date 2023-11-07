@@ -1,5 +1,8 @@
 <div class="parallax-container">
-  <div class="parallax">
+  <div
+    class="parallax"
+    [style.viewTransitionName]="'preview-' + title"
+  >
     <div class="parallax-header-img">
       <div appRellax>
         <img
@@ -16,9 +19,13 @@
         *ngIf="image"
         [alt]="title"
         [src]="image"
+        [style.viewTransitionName]="'avatar-' + title"
       >
       <div class="parallax-header-title">
-        <h1 class="mat-headline-4 title">{{title}}</h1>
+        <h1
+          class="mat-headline-4 title"
+          [style.viewTransitionName]="'title-' + title"
+        >{{title}}</h1>
         <div class="subtitle">
           <p
             *ngIf="subtitle"

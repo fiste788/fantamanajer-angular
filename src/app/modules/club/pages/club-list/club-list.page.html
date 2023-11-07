@@ -1,17 +1,16 @@
-<div
-  *ngIf="(clubs$ | async) as clubs; else loading"
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-x-12"
-  @cardCreationAnimation
->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-x-12">
+
   <mat-card
     *ngFor="let club of clubs; let i=index; trackBy: track"
     appearance="outlined"
+    #card
   >
 
 
     <figure
       class="aspect-ratio-box"
       mat-card-image
+      [style.viewTransitionName]="'preview-' + club.name"
     >
       <img
         *ngIf="club.background_url; else placeholder"
@@ -19,10 +18,9 @@
         height="337"
         sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
         width="600"
+        #img
         [alt]="club.name"
-        [class.has-image]="club.background_url !== null"
-        [lazyLoad]="(club.background_url | srcset)"
-        [useSrcset]="true"
+        [srcset]="(club.background_url | srcset)"
       >
 
       <ng-template #placeholder>
@@ -37,8 +35,9 @@
         mat-card-avatar
         [alt]="club.name"
         [lazyLoad]="club.photo_url || ''"
+        [style.viewTransitionName]="'avatar-' + club.name"
       >
-      <mat-card-title>{{club.name}}</mat-card-title>
+      <mat-card-title [style.viewTransitionName]="'title-' + club.name">{{club.name}}</mat-card-title>
       <mat-card-subtitle>Club</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
@@ -56,9 +55,3 @@
   </mat-card>
 
 </div>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
-</ng-template>

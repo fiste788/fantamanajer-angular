@@ -13,6 +13,7 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
   withRouterConfig,
+  withViewTransitions,
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
       withInMemoryScrolling(),
+      withViewTransitions(),
     ),
     provideHttpClient(
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
