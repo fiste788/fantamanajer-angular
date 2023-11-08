@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 // @use "@angular/flex-layout/mq";
-@mixin core() {
+@mixin core($theme) {
   .mat-mdc-card {
     margin: 1rem;
   }
@@ -29,7 +29,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'card') {
     $color: mat.get-color-config($theme);

@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
   .login {
     .mat-horizontal-stepper-header-container {
       display: none !important;
@@ -32,7 +32,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'login') {
     $color: mat.get-color-config($theme);

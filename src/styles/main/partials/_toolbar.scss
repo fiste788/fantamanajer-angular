@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
   .mat-mdc-form-field-underline,
   .mat-mdc-form-field-ripple,
   .mat-mdc-focused .mat-mdc-form-field-ripple {
@@ -36,7 +36,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'toolbar') {
     $color: mat.get-color-config($theme);

@@ -1,7 +1,49 @@
 @use '@angular/material' as mat;
 
-@mixin core() {
-  @include mat.core;
+@mixin core($theme) {
+  // @include mat.core;
+
+  // The following mixins include base theme styles that are only needed once per application. These
+  // theme styles do not depend on the color, typography, or density settings in your theme. However,
+  // these styles may differ depending on the theme's design system. Currently all themes use the
+  // Material 2 design system, but in the future it may be possible to create theme based on other
+  // design systems, such as Material 3.
+  //
+  // Please note: you do not need to include the 'base' mixins, if you include the corresponding
+  // 'theme' mixin elsewhere in your Sass. The full 'theme' mixins already include the base styles.
+  //
+  // To learn more about "base" theme styles visit our theming guide:
+  // https://material.angular.io/guide/theming#theming-dimensions
+  //
+  // TODO(v17): Please move these @include statements to the preferred place in your Sass, and pass
+  // your theme to them. This will ensure the correct values for your app are included.
+  @include mat.badge-base($theme);
+  @include mat.button-base($theme);
+  @include mat.card-base($theme);
+  @include mat.checkbox-base($theme);
+  @include mat.core-base($theme);
+  @include mat.dialog-base($theme);
+  @include mat.divider-base($theme);
+  @include mat.expansion-base($theme);
+  @include mat.fab-base($theme);
+  @include mat.form-field-base($theme);
+  @include mat.icon-base($theme);
+  @include mat.icon-button-base($theme);
+  @include mat.input-base($theme);
+  @include mat.list-base($theme);
+  @include mat.menu-base($theme);
+  @include mat.progress-spinner-base($theme);
+  @include mat.select-base($theme);
+  @include mat.sidenav-base($theme);
+  @include mat.slide-toggle-base($theme);
+  @include mat.snack-bar-base($theme);
+  @include mat.sort-base($theme);
+  @include mat.stepper-base($theme);
+  @include mat.table-base($theme);
+  @include mat.tabs-base($theme);
+  @include mat.toolbar-base($theme);
+  @include mat.tooltip-base($theme);
+
 }
 
 @mixin color($theme) {
@@ -92,7 +134,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'material') {
     $color: mat.get-color-config($theme);

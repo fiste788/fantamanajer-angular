@@ -161,13 +161,13 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "fantamanajer-angular:build:production"
+              "buildTarget": "fantamanajer-angular:build:production"
             },
             "stage": {
-              "browserTarget": "fantamanajer-angular:build:stage"
+              "buildTarget": "fantamanajer-angular:build:stage"
             },
             "development": {
-              "browserTarget": "fantamanajer-angular:build:development"
+              "buildTarget": "fantamanajer-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -175,7 +175,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fantamanajer-angular:build"
+            "buildTarget": "fantamanajer-angular:build"
           }
         },
         "test": {

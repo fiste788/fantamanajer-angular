@@ -5,12 +5,12 @@
 @use 'modules/member-common/components/member-selection/member-selection.scss-theme';
 @use 'shared/components/mat-empty-state/mat-empty-state.scss-theme';
 
-@mixin core() {
-  @include layout.core;
-  @include login.core;
-  @include member-selection.core;
-  @include lineup-detail.core;
-  @include mat-empty-state.core;
+@mixin core($theme) {
+  @include layout.core($theme);
+  @include login.core($theme);
+  @include member-selection.core($theme);
+  @include lineup-detail.core($theme);
+  @include mat-empty-state.core($theme);
 }
 
 @mixin density($theme) {
@@ -38,7 +38,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
     $color: mat.get-color-config($theme);
