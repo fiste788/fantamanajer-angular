@@ -1,8 +1,5 @@
 @if (dataSource) {
-<div
- 
-  class="table-container"
->
+<div class="table-container">
   <div class="mat-mdc-table-header">
     <span class="mat-mdc-table-title">{{caption}}</span>
   </div>
@@ -27,19 +24,19 @@
       >
 
         @if (regular && row.consideration === 0) {
-<mat-icon>arrow_back</mat-icon>
-}
+        <mat-icon>arrow_back</mat-icon>
+        }
         @if (!regular && row.consideration === 1) {
-<mat-icon>arrow_forward</mat-icon>
-}
+        <mat-icon>arrow_forward</mat-icon>
+        }
         @if (row.consideration === 2) {
-<mat-icon>copyright</mat-icon>
-}
+        <mat-icon>copyright</mat-icon>
+        }
 
         <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.full_name}}</a>
         @if (lineup) {
-<span>&nbsp;{{row.member.id | captain: lineup}}</span>
-}
+        <span>&nbsp;{{row.member.id | captain: lineup}}</span>
+        }
 
       </td>
     </ng-container>
@@ -83,8 +80,8 @@
         mat-cell
       >
         @if (row.member.ratings.length && row.member.ratings[0].regular) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       </td>
     </ng-container>
 
@@ -108,8 +105,8 @@
         mat-cell
       >
         @if (row.member.ratings.length && row.member.ratings[0].yellow_card) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       </td>
     </ng-container>
 
@@ -129,8 +126,8 @@
         mat-cell
       >
         @if (row.member.ratings.length && row.member.ratings[0].red_card) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       </td>
     </ng-container>
 

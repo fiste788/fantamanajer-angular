@@ -1,35 +1,31 @@
 @if ((breadcrumbs$ | async); as crumbs) {
 
-  @if (crumbs.length) {
+@if (crumbs.length) {
 <nav>
-    <ul
-      class="breadcrumb"
-      @breadcrumbTransition
+  <ul
+    class="breadcrumb"
+    @breadcrumbTransition
+  >
+    @for (crumb of crumbs; track track($index, crumb); let last = $last; let first = $first) {
+    <li
+      class="breadcrumb-item"
+      [class.active]="last"
     >
-      @for (crumb of crumbs; track track($index, crumb); let last = $last; let first = $first) {
-  <li
-       
-        class="breadcrumb-item"
-        [class.active]="last"
-      >
-        <span>
-          @if (!first) {
-<mat-icon>chevron_right</mat-icon>
-}
-          @if (!last) {
-<a
-           
-            [routerLink]="crumb.url"
-          >{{ crumb.label }}</a>
-}
-          @if (last) {
-<span>{{ crumb.label }}</span>
-}
-        </span>
-      </li>
-}
-    </ul>
-  </nav>
+      <span>
+        @if (!first) {
+        <mat-icon>chevron_right</mat-icon>
+        }
+        @if (!last) {
+        <a [routerLink]="crumb.url">{{ crumb.label }}</a>
+        }
+        @if (last) {
+        <span>{{ crumb.label }}</span>
+        }
+      </span>
+    </li>
+    }
+  </ul>
+</nav>
 }
 
 }

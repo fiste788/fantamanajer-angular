@@ -31,14 +31,16 @@
     <mat-select-trigger>
       {{ member.player.full_name }}
     </mat-select-trigger>
-    } @if (memberList.length) { @for (opt of memberList; track track($index, opt)) {
+    } @if (memberList.length) {
+    @for (opt of memberList; track track($index, opt)) {
     <mat-option
       [disabled]="opt.disabled"
       [value]="opt.member"
     >
       <app-member-icons [member]="opt.member" />
     </mat-option>
-    } } @if (memberMap) { @for (role of (memberMap | keyvalue); track trackMember($index, role)) {
+    }
+    } @if (memberMap) { @for (role of (memberMap | keyvalue); track trackMember($index, role)) {
     <mat-optgroup [label]="role.key.plural">
       @for (opt of role.value; track track($index, opt)) {
       <mat-option
