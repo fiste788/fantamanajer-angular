@@ -27,13 +27,17 @@
                 type="email"
                 [(ngModel)]="loginData.email"
               >
-              <mat-error *ngIf="username.errors?.['email']">
+              @if (username.errors?.['email']) {
+<mat-error>
                 Please enter a valid email address
               </mat-error>
-              <mat-error *ngIf="username.errors?.['required']">
+}
+              @if (username.errors?.['required']) {
+<mat-error>
                 Email is
                 <strong>required</strong>
               </mat-error>
+}
             </mat-form-field>
             <div class="items-end align-end">
               <button
@@ -72,9 +76,11 @@
                 type="password"
                 [(ngModel)]="loginData.password"
               >
-              <mat-error *ngIf="password.errors">
+              @if (password.errors) {
+<mat-error>
                 {{password.errors['msg']}}
               </mat-error>
+}
             </mat-form-field>
 
             <div class="actions flex flex-row justify-between">

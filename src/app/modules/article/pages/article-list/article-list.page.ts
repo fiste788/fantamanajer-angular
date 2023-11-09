@@ -81,8 +81,4 @@ export class ArticleListPage implements OnInit {
       { defaultValue: undefined },
     );
   }
-
-  protected track(_: number, item: Article): number {
-    return item.id; // or item.id
-  }
 }

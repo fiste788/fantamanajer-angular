@@ -1,10 +1,10 @@
+@if (articles.length) {
 <div
-  *ngIf="articles.length"
   class="grid grid-cols-1 sm:grid-cols-2 grid-rows-1 gap-x-12"
   @cardCreationAnimation
 >
+  @for (article of articles; track article.id; let i = $index) {
   <mat-card
-    *ngFor="let article of articles; let i=index; trackBy: track"
     appearance="outlined"
     [id]="article.id"
   >
@@ -28,9 +28,11 @@
       >DELETE</button>
     </mat-card-actions>
   </mat-card>
+  }
 </div>
+}
+@if (articles.length === 0 && !isLoading) {
 <app-mat-empty-state
-  *ngIf="articles.length === 0 && !isLoading"
   description="Sii il primo"
   icon="message"
   label="Nessuna conferenza stampa ancora rilasciata"
@@ -41,9 +43,11 @@
     routerLink="/articles/new"
   >Nuova conferenza stampa</a>
 </app-mat-empty-state>
+}
+@if (isLoading) {
 <mat-progress-spinner
-  *ngIf="isLoading"
   #loading
   color="accent"
   mode="indeterminate"
- />
+/>
+}

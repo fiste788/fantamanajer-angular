@@ -1,10 +1,12 @@
-<ng-container *ngIf="tabs.length">
+@if (tabs.length) {
+
   <nav
     mat-tab-nav-bar
     [tabPanel]="tabPanel"
   >
-    <a
-      *ngFor="let tab of tabs; trackBy: track"
+    @for (tab of tabs; track track($index, tab)) {
+  <a
+     
       #rla="routerLinkActive"
       mat-tab-link
       routerLinkActive
@@ -13,8 +15,10 @@
     >
       {{tab.label}}
     </a>
+}
   </nav>
-</ng-container>
+
+}
 <div
   #tabPanel
   class="tabbed-container"

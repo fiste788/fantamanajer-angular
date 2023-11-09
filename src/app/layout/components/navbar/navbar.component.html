@@ -1,26 +1,25 @@
 <app-profile />
 <mat-nav-list>
-  <h3
-    *ngIf="matchday$ | async as matchday"
-    mat-subheader
-  >
+  @if (matchday$ | async; as matchday) {
+  <h3 mat-subheader>
     <span>
-      <ng-container *ngIf="!matchday.season.ended && !matchday.season.started else seasonClosed">
-        Giornata {{matchday.number}}
-      </ng-container>
-      <ng-template #seasonClosed>
-        {{matchday.season.name}}
-      </ng-template>
+      @if (!matchday.season.ended && !matchday.season.started ) {
+      Giornata {{matchday.number}}
+      } @else {
+      {{matchday.season.name}}
+      }
     </span>
   </h3>
+  }
+  @if (deferredPrompt$ | async; as prompt) {
   <a
-    *ngIf="deferredPrompt$ | async as prompt"
     href="#install"
     mat-list-item
     (click)="install(prompt, $event)"
   >
     <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
   </a>
+  }
   <a
     #rla1="routerLinkActive"
     mat-list-item
@@ -30,8 +29,8 @@
   >
     <mat-icon matListItemIcon>home</mat-icon>Home
   </a>
+  @if (team$ | async; as team) {
   <a
-    *ngIf="team$ | async as team"
     #rla2="routerLinkActive"
     mat-list-item
     routerLinkActive
@@ -43,8 +42,9 @@
       svgIcon="team"
     />{{team.name}}
   </a>
+  }
+  @if (championship$ | async; as championship) {
   <a
-    *ngIf="championship$ | async as championship"
     #rla3="routerLinkActive"
     mat-list-item
     routerLinkActive
@@ -53,6 +53,7 @@
   >
     <mat-icon matListItemIcon>emoji_events</mat-icon>{{championship.league.name}}
   </a>
+  }
   <a
     #rla4="routerLinkActive"
     mat-list-item
@@ -64,35 +65,38 @@
   </a>
   <mat-divider />
   <h3 mat-subheader>Account</h3>
-  <ng-container *ngIf="loggedIn$ | async; else notLogged">
-    <a
-      #rla5="routerLinkActive"
-      mat-list-item
-      routerLink="/user"
-      routerLinkActive
-      [activated]="rla5.isActive"
-    >
-      <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
-    </a>
-    <a
-      #rla6="routerLinkActive"
-      mat-list-item
-      routerLink="/auth/logout"
-      routerLinkActive
-      [activated]="rla6.isActive"
-    >
-      <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
-    </a>
-  </ng-container>
-  <ng-template #notLogged>
-    <a
-      #rla7="routerLinkActive"
-      mat-list-item
-      routerLink="/auth/login"
-      routerLinkActive
-      [activated]="rla7.isActive"
-    >
-      <mat-icon matListItemIcon>input</mat-icon>Log In
-    </a>
-  </ng-template>
+  @if (loggedIn$ | async) {
+
+  <a
+    #rla5="routerLinkActive"
+    mat-list-item
+    routerLink="/user"
+    routerLinkActive
+    [activated]="rla5.isActive"
+  >
+    <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
+  </a>
+  <a
+    #rla6="routerLinkActive"
+    mat-list-item
+    routerLink="/auth/logout"
+    routerLinkActive
+    [activated]="rla6.isActive"
+  >
+    <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
+  </a>
+
+  } @else {
+
+  <a
+    #rla7="routerLinkActive"
+    mat-list-item
+    routerLink="/auth/login"
+    routerLinkActive
+    [activated]="rla7.isActive"
+  >
+    <mat-icon matListItemIcon>input</mat-icon>Log In
+  </a>
+
+  }
 </mat-nav-list>

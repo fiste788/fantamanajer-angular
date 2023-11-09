@@ -1,6 +1,8 @@
-<ng-container *ngIf="dispositions">
+@if (dispositions) {
+
+  @for (area of module.areas; track trackByArea($index, area)) {
   <div
-    *ngFor="let area of module.areas; trackBy: trackByArea"
+   
     class="flex flex-row"
     [ngClass]="[area.role.abbreviation, 'area-container']"
   >
@@ -12,12 +14,14 @@
       class="area flex flex-col justify-around md:flex-row "
       [ngClass]="{'md:flex-wrap': wrap}"
     >
-      <ng-container
-        *ngFor="let i of (area.toIndex | range: area.fromIndex); trackBy: trackByPosition"
+      @for (i of (area.toIndex | range: area.fromIndex); track trackByPosition($index, i)) {
+  <ng-container
+       
         [ngModelGroup]="i + ''"
       >
-        <app-member-selection
-          *ngIf="dispositions[i] as disp"
+        @if (dispositions[i]; as disp) {
+<app-member-selection
+         
           class="regular flex flex-row flex-md-column justify-start items-center"
           name="member"
           [captain]="dispositions[i]?.member?.id === captain?.id"
@@ -30,7 +34,11 @@
           [(member)]="disp.member"
           (memberChange)="memberSelectionChange(area.role, $event)"
          />
+}
       </ng-container>
+}
     </div>
   </div>
-</ng-container>
+}
+
+}

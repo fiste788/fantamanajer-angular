@@ -1,6 +1,8 @@
-<ng-container *ngIf="team$ | async as team">
-  <form
-    *ngIf="(data$ | async) as data; else loading"
+@if (team$ | async; as team) {
+
+  @if ((data$ | async); as data) {
+<form
+   
     #lineupForm="ngForm"
     (ngSubmit)="save(team, data.dispositions)"
   >
@@ -18,10 +20,13 @@
       type="submit"
     >SALVA</button>
   </form>
-  <ng-template #loading>
+} @else {
+
     <mat-progress-spinner
       color="accent"
       mode="indeterminate"
      />
-  </ng-template>
-</ng-container>
+  
+}
+  
+}

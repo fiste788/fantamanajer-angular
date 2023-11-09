@@ -39,8 +39,4 @@ export class ClubListPage {
     this.clubs$ = this.clubService.getClubs();
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
-
-  public track(_: number, club: Club): number {
-    return club.id;
-  }
 }

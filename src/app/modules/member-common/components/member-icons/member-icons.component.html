@@ -1,47 +1,62 @@
-<ng-container *ngIf="!circle">
+@if (!circle) {
+
   {{member.player.full_name}}
-</ng-container>
+
+}
+@if (member.likely_lineup; as like) {
 <span
-  *ngIf="member.likely_lineup as like"
+ 
   [ngClass]="{'circle':circle, 'icon-container': true}"
 >
-  <mat-icon
-    *ngIf="like.regular"
+  @if (like.regular) {
+<mat-icon
+   
     matTooltip="Titolare"
   >
     verified_user
   </mat-icon>
-  <span
-    *ngIf="like.second_ballot"
+}
+  @if (like.second_ballot) {
+<span
+   
     class="number"
     [matTooltip]="'Ballottaggio ' + (like.second_ballot / 100 | percent)"
   >
     {{like.second_ballot / 100 | percent}}
   </span>
-  <mat-icon
-    *ngIf="!like.regular"
+}
+  @if (!like.regular) {
+<mat-icon
+   
     matTooltip="Panchina"
   >
     event_seat
   </mat-icon>
-  <mat-icon
-    *ngIf="like.injured"
+}
+  @if (like.injured) {
+<mat-icon
+   
     matTooltip="Infortunato"
   >
     local_hospital
   </mat-icon>
-  <mat-icon
-    *ngIf="like.disqualified"
+}
+  @if (like.disqualified) {
+<mat-icon
+   
     matTooltip="Squalificato"
   >
     highlight_off
   </mat-icon>
-  <mat-icon
-    *ngIf="captain"
+}
+  @if (captain) {
+<mat-icon
+   
     matTooltip="Capitano"
   >
     copyright
   </mat-icon>
+}
   <span
     class="number"
     [matTooltip]="'Avversario ' + (like.versus | titlecase)"
@@ -49,3 +64,4 @@
     {{like.versus | uppercase | slice: 0:3}}
   </span>
 </span>
+}

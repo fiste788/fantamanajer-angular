@@ -1,6 +1,8 @@
-<ng-container *ngIf="dataSource$ | async as dataSource; else loading">
-  <div
-    *ngIf="dataSource.data.length; else empty"
+@if (dataSource$ | async; as dataSource) {
+
+  @if (dataSource.data.length) {
+<div
+   
     [ngClass]="'table-container mat-elevation-z' + elevation"
   >
     <table
@@ -103,7 +105,9 @@
           class="mat-cell-numeric"
           mat-cell
         >
-          <span *ngIf="row.stats">{{row.stats.sum_present}} ({{row.stats.sum_valued}})</span>
+          @if (row.stats) {
+<span>{{row.stats.sum_present}} ({{row.stats.sum_valued}})</span>
+}
         </td>
         <td
           *matFooterCellDef
@@ -300,18 +304,22 @@
       ></tr>
     </table>
   </div>
-</ng-container>
-<ng-template #empty>
+} @else {
+
   <app-mat-empty-state
     description="Buona asta!"
     icon="gavel"
     label="Nessun giocatore acquistato"
     [rounded]="true"
    />
-</ng-template>
-<ng-template #loading>
+
+}
+
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}

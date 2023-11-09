@@ -1,20 +1,16 @@
+@if ((clubs$ | async); as clubs) {
 <div
-  *ngIf="(clubs$ | async) as clubs; else loading"
   class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-x-12"
   @cardCreationAnimation
 >
-  <mat-card
-    *ngFor="let club of clubs; let i=index; trackBy: track"
-    appearance="outlined"
-  >
-
-
+  @for (club of clubs; track club.id; let i = $index) {
+  <mat-card appearance="outlined">
     <figure
       class="aspect-ratio-box"
       mat-card-image
     >
+      @if (club.background_url) {
       <img
-        *ngIf="club.background_url; else placeholder"
         defaultImage="//via.placeholder.com/600x337"
         height="337"
         sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
@@ -24,6 +20,13 @@
         [lazyLoad]="(club.background_url | srcset)"
         [useSrcset]="true"
       >
+      } @else {
+
+      <div class="placeholder">
+        <span>{{club.name}}</span>
+      </div>
+
+      }
 
       <ng-template #placeholder>
         <div class="placeholder">
@@ -54,11 +57,14 @@
       >ATTIVITÀ</a>
     </mat-card-actions>
   </mat-card>
+  }
 
 </div>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
-</ng-template>
+} @else {
+
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
+}

@@ -1,5 +1,6 @@
+@if (team$ | async; as team) {
 <form
-  *ngIf="team$ | async as team"
+ 
   #teamForm="ngForm"
   (ngSubmit)="save(team)"
 >
@@ -35,3 +36,4 @@
     [disabled]="!teamForm.form.valid"
   >SALVA</button>
 </form>
+}

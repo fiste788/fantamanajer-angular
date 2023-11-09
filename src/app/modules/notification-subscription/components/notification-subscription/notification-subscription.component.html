@@ -1,9 +1,11 @@
 <h4>{{label}}</h4>
-<mat-slide-toggle
-  *ngFor="let notification of (map | keyvalue); trackBy: track"
+@for (notification of (map | keyvalue); track track($index, notification)) {
+  <mat-slide-toggle
+ 
   [name]="notification.key.name"
   [(ngModel)]="notification.value.enabled"
   (change)="toggle()"
 >
   {{notification.key.label}}
 </mat-slide-toggle>
+}

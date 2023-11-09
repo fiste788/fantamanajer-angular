@@ -75,8 +75,4 @@ export class ScoreEditPage {
 
     return undefined;
   }
-
-  protected track(_: number, item: Score): number {
-    return item.id; // or item.id
-  }
 }

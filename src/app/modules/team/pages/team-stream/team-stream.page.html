@@ -1,5 +1,7 @@
+@if (id$ | async; as id) {
 <app-stream
-  *ngIf="id$ | async as id"
+ 
   context="teams"
   [id]="id"
  />
+}

@@ -1,6 +1,8 @@
-<div *ngIf="dataSource$ | async as dataSource; else loading">
-  <div
-    *ngIf="dataSource.data.length; else empty"
+@if (dataSource$ | async; as dataSource) {
+<div>
+  @if (dataSource.data.length) {
+<div
+   
     class="table-container mat-elevation-z1"
   >
     <table
@@ -49,7 +51,9 @@
           *matCellDef="let row;"
           mat-cell
         >
-          <mat-icon *ngIf="row.constrained">done</mat-icon>
+          @if (row.constrained) {
+<mat-icon>done</mat-icon>
+}
         </td>
       </ng-container>
 
@@ -74,21 +78,27 @@
       ></tr>
     </table>
   </div>
-</div>
-<ng-template #empty>
+} @else {
+
   <app-mat-empty-state
     icon="swap_vert"
     label="Nessun trasferimento presente"
     [rounded]="true"
     [size]="330"
    />
-</ng-template>
-<ng-template #loading>
+
+}
+</div>
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}
 <ng-container *appSeasonActive>
-  <app-selection *ngIf="isMyTeam$ | async" />
+  @if (isMyTeam$ | async) {
+<app-selection />
+}
 </ng-container>

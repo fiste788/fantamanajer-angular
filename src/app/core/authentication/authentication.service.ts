@@ -48,8 +48,8 @@ export class AuthenticationService {
       const cma = await PublicKeyCredential.isConditionalMediationAvailable();
       if (cma) {
         const cred = await firstValueFrom(this.webauthnService.get(), { defaultValue: undefined });
-        if (cred?.publicKey) {
-          const res = await this.webauthnService.getPublicKey(cred.publicKey);
+        if (cred) {
+          const res = await this.webauthnService.loginPasskey(cred);
           if (res) {
             return await this.postLogin(res);
           }

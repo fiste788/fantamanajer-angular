@@ -7,8 +7,9 @@
     [title]="team.name"
     (imageLoaded)="scrollTo($event)"
   >
-    <div
-      *ngIf="team.user.id === (auth.user$ | async)?.id && !app.seasonEnded"
+    @if (team.user.id === (auth.user$ | async)?.id && !app.seasonEnded) {
+<div
+     
       parallax-header-right
     >
       <button
@@ -20,6 +21,7 @@
         <mat-icon>settings</mat-icon>
       </button>
     </div>
+}
   </app-parallax-header>
 </div>
 <div

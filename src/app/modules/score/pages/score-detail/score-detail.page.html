@@ -1,29 +1,39 @@
-<div *ngIf="(score$ | async) as score; else loading">
-  <div *ngIf="score.lineup; else nolineup">
-    <app-disposition-list
-      *ngIf="regular$ | async as regular"
+@if ((score$ | async); as score) {
+<div>
+  @if (score.lineup) {
+<div>
+    @if (regular$ | async; as regular) {
+<app-disposition-list
+     
       [caption]="'Punteggio: ' + score.points"
       [dispositions]="regular"
       [lineup]="score.lineup"
       [regular]="true"
      />
-    <app-disposition-list
-      *ngIf="notRegular$ | async as notRegular"
+}
+    @if (notRegular$ | async; as notRegular) {
+<app-disposition-list
+     
       caption="Panchinari"
       [dispositions]="notRegular"
      />
+}
   </div>
-  <ng-template #nolineup>
+} @else {
+
     <app-mat-empty-state
       description="Formazione non presente"
       icon="mood_bad"
       [label]="'Punteggio: ' + score.points"
      />
-  </ng-template>
-</div>
-<ng-template #loading>
+  
+}
+  </div>
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}

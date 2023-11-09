@@ -6,13 +6,10 @@ import {
   get,
   PublicKeyCredentialWithAssertionJSON,
   PublicKeyCredentialWithAttestationJSON,
-} from '@github/webauthn-json';
-import {
   CredentialCreationOptionsJSON,
   CredentialRequestOptionsJSON,
-  PublicKeyCredentialRequestOptionsJSON,
-} from '@github/webauthn-json/dist/types/basic/json';
-import { firstValueFrom, Observable } from 'rxjs';
+} from '@github/webauthn-json';
+import { firstValueFrom, Observable, tap } from 'rxjs';
 
 import { PublicKeyCredentialSource, User } from '../types';
 
@@ -41,7 +38,9 @@ export class WebauthnService {
   public get(email?: string): Observable<CredentialRequestOptionsJSON> {
     const params = email ? new HttpParams().set('email', email) : new HttpParams();
 
-    return this.http.get<CredentialRequestOptionsJSON>(routes.login, { params });
+    return this.http
+      .get<CredentialRequestOptionsJSON>(routes.login, { params })
+      .pipe(tap((cred) => (cred.mediation = 'conditional')));
   }
 
   public create(): Observable<CredentialCreationOptionsJSON> {
@@ -66,7 +65,7 @@ export class WebauthnService {
     return false;
   }
 
-  public async createPublicKey(): Promise<PublicKeyCredentialSource | undefined> {
+  public async createPasskey(): Promise<PublicKeyCredentialSource | undefined> {
     const req = await firstValueFrom(this.create(), { defaultValue: undefined });
     if (req) {
       const cred = await create(req);
@@ -77,11 +76,11 @@ export class WebauthnService {
     return undefined;
   }
 
-  public async getPublicKey(
-    publicKey: PublicKeyCredentialRequestOptionsJSON,
+  public async loginPasskey(
+    cred: CredentialRequestOptionsJSON,
   ): Promise<{ user: User; token: string } | undefined> {
-    const cred = await get({ publicKey, mediation: 'conditional' });
+    const assertion = await get(cred);
 
-    return firstValueFrom(this.login(cred), { defaultValue: undefined });
+    return firstValueFrom(this.login(assertion), { defaultValue: undefined });
   }
 }

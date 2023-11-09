@@ -7,8 +7,9 @@
   giornata (ad esempio se la giornata è il 25/12 saranno attivi dalle ore 02:00 del 25/12).<br />Se il giocatore
   svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
   possibile cambiare il giocatore selezionato 2 volte.</p>
+@if ((data$ | async); as data) {
 <form
-  *ngIf="(data$ | async) as data; else loading"
+ 
   #selectionForm="ngForm"
   (ngSubmit)="save(data.selection)"
 >
@@ -23,18 +24,24 @@
         [(ngModel)]="data.selection.old_member"
         (selectionChange)="oldMemberChange($event.value)"
       >
-        <ng-container *ngIf="data.members as members;">
-          <mat-optgroup
-            *ngFor="let role of (members | keyvalue: descOrder); trackBy: track"
+        @if (data.members; as members;) {
+
+          @for (role of (members | keyvalue: descOrder); track track($index, role)) {
+  <mat-optgroup
+           
             [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
             [label]="role.key.plural"
           >
-            <mat-option
-              *ngFor="let member of role.value; trackBy: trackMember"
+            @for (member of role.value; track trackMember($index, member)) {
+  <mat-option
+             
               [value]="member"
             >{{ member.player.full_name }}</mat-option>
+}
           </mat-optgroup>
-        </ng-container>
+}
+        
+}
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -48,16 +55,20 @@
         [disabled]="newMemberDisabled"
         [(ngModel)]="data.selection.new_member"
       >
-        <mat-option
-          *ngFor="let member of (newMembers$ | async); trackBy: trackMember"
+        @for (member of (newMembers$ | async); track trackMember($index, member)) {
+  <mat-option
+         
           [value]="member"
         >
           {{ member.player.full_name }}
         </mat-option>
+}
       </mat-select>
-      <mat-error *ngIf="newMember.errors?.['TeamReachedMaximum']">
+      @if (newMember.errors?.['TeamReachedMaximum']) {
+<mat-error>
         {{newMember.errors?.['TeamReachedMaximum']}}
       </mat-error>
+}
     </mat-form-field>
   </div>
   <div class="row center">
@@ -74,9 +85,11 @@
     >SVUOTA</button>
   </div>
 </form>
-<ng-template #loading>
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}

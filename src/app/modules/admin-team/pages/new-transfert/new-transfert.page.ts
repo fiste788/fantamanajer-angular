@@ -136,8 +136,4 @@ export class NewTransfertPage {
       form: this.transfertForm,
     });
   }
-
-  protected track(_: number, item: Member): number {
-    return item.id; // or item.id
-  }
 }

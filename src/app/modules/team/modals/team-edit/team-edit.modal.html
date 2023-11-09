@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{team.name}}</h1>
 <div mat-dialog-content>
-  <div *ngIf="showChangeTeamName">
+  @if (showChangeTeamName) {
+<div>
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>
       <input
@@ -12,6 +13,7 @@
       >
     </mat-form-field>
   </div>
+}
 
   <div
     accept="image/*"
@@ -24,8 +26,9 @@
     [(validDrag)]="validComboDrag"
   >
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
-    <div
-      *ngIf="file"
+    @if (file) {
+<div
+     
       @createBox
     >
       <img
@@ -33,6 +36,7 @@
         [ngfSrc]="file"
       />
     </div>
+}
   </div>
   <div>
     <app-notification-subscription

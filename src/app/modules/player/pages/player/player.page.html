@@ -1,5 +1,6 @@
+@if ((selectedMember$ | async); as selectedMember;) {
 <div
-  *ngIf="(selectedMember$ | async) as selectedMember;"
+ 
   @enterDetailAnimation
 >
   <div class="animation-container">
@@ -14,14 +15,16 @@
         class="inherit-color"
         parallax-header-right
       >
-        <a
-          *ngIf="selectedMember.free"
+        @if (selectedMember.free) {
+<a
+         
           mat-button
           [queryParams]="{new_member_id: selectedMember.id}"
           [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
         >
           Acquista
         </a>
+}
         <mat-form-field>
           <mat-label>Stagione</mat-label>
           <mat-select
@@ -29,20 +32,24 @@
             [ngModel]="selectedMember"
             (selectionChange)="selectedMember$.next($event.value)"
           >
-            <mat-option
-              *ngFor="let member of player.members; trackBy: track"
+            @for (member of player.members; track track($index, member)) {
+  <mat-option
+             
               [value]="member"
             >
               {{ member.season.name }}
             </mat-option>
+}
           </mat-select>
         </mat-form-field>
       </div>
     </app-parallax-header>
   </div>
 </div>
+}
+@if ((ratings$ | async); as ratings) {
 <div
-  *ngIf="(ratings$ | async) as ratings; else loading"
+ 
   class="table-container"
 >
   <table
@@ -183,7 +190,9 @@
         *matCellDef="let row;"
         mat-cell
       >
-        <mat-icon *ngIf="row.regular">done</mat-icon>
+        @if (row.regular) {
+<mat-icon>done</mat-icon>
+}
       <td>
     </ng-container>
 
@@ -203,7 +212,9 @@
         *matCellDef="let row;"
         mat-cell
       >
-        <mat-icon *ngIf="row.yellow_card">done</mat-icon>
+        @if (row.yellow_card) {
+<mat-icon>done</mat-icon>
+}
       <td>
     </ng-container>
 
@@ -223,7 +234,9 @@
         *matCellDef="let row;"
         mat-cell
       >
-        <mat-icon *ngIf="row.red_card">done</mat-icon>
+        @if (row.red_card) {
+<mat-icon>done</mat-icon>
+}
       <td>
     </ng-container>
 
@@ -256,9 +269,11 @@
     ></tr>
   </table>
 </div>
-<ng-template #loading>
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}

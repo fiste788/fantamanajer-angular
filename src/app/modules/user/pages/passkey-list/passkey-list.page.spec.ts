@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceListPage } from './device-list.page';
+import { PasskeyListPage } from './passkey-list.page';
 
-describe('DeviceListPage', () => {
-  let component: DeviceListPage;
-  let fixture: ComponentFixture<DeviceListPage>;
+describe('PasskeyListPage', () => {
+  let component: PasskeyListPage;
+  let fixture: ComponentFixture<PasskeyListPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeviceListPage],
+      imports: [PasskeyListPage],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeviceListPage);
+    fixture = TestBed.createComponent(PasskeyListPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

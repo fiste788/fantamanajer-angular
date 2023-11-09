@@ -1,10 +1,12 @@
 <div @cardCreationAnimation>
-  <mat-card
-    *ngIf="(league$ | async) as league"
+  @if ((league$ | async); as league) {
+<mat-card
+   
     appearance="outlined"
   >
-    <form
-      *ngIf="(championship$ | async) as championship "
+    @if ((championship$ | async); as championship ) {
+<form
+     
       #championshipForm="ngForm"
       class="flex flex-col justify-start align-start"
       (ngSubmit)="save(league, championship)"
@@ -95,5 +97,7 @@
         [disabled]="!championshipForm.form.valid"
       >SALVA</button>
     </form>
+}
   </mat-card>
+}
 </div>

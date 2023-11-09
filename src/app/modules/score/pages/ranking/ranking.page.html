@@ -1,5 +1,6 @@
+@if ((ranking$ | async); as ranking) {
 <div
-  *ngIf="(ranking$ | async) as ranking; else loading"
+ 
   class="mat-elevation-z1 ranking-container table-container"
 >
   <table
@@ -40,8 +41,9 @@
       > {{row.sum_points}} </td>
     </ng-container>
 
-    <ng-container
-      *ngFor="let matchday of matchdays$ | async; trackBy: track"
+    @for (matchday of matchdays$ | async; track track($index, matchday)) {
+  <ng-container
+     
       [matColumnDef]="matchday + ''"
     >
       <th
@@ -57,6 +59,7 @@
         <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points}}</a>
       </td>
     </ng-container>
+}
 
     <tr
       *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
@@ -69,9 +72,11 @@
   </table>
 
 </div>
-<ng-template #loading>
+} @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
    />
-</ng-template>
+
+}

@@ -1,5 +1,5 @@
+@if (team$ | async; as team) {
 <form
-  *ngIf="team$ | async as team"
   #transfertForm="ngForm"
   class="flex flex-col justify-start items-start"
   (ngSubmit)="submit(team)"
@@ -13,10 +13,9 @@
       [(ngModel)]="transfert.old_member"
       (selectionChange)="playerChange($event.value)"
     >
-      <mat-option
-        *ngFor="let member of oldMembers$ | async; trackBy: track"
-        [value]="member"
-      >{{ member.player.full_name}}</mat-option>
+      @for (member of oldMembers$ | async; track member.id) {
+      <mat-option [value]="member">{{ member.player.full_name}}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -28,10 +27,9 @@
       [compareWith]="compareFn"
       [(ngModel)]="transfert.new_member"
     >
-      <mat-option
-        *ngFor="let member of newMembers$ | async; trackBy: track"
-        [value]="member"
-      >{{ member.player.full_name }}</mat-option>
+      @for (member of newMembers$ | async; track member.id) {
+      <mat-option [value]="member">{{ member.player.full_name }}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
   <mat-slide-toggle
@@ -45,3 +43,4 @@
     [disabled]="!transfertForm.form.valid"
   >SALVA</button>
 </form>
+}
