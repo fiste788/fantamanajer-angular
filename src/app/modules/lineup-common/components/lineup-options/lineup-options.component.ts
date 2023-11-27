@@ -1,5 +1,5 @@
 import { KeyValue, NgIf, NgFor, DatePipe, KeyValuePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, booleanAttribute } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -36,7 +36,7 @@ import { LineupService } from '../lineup.service';
 })
 export class LineupOptionsComponent {
   @Input({ required: true }) public lineup!: Partial<Lineup>;
-  @Input() public disabled = false;
+  @Input({ transform: booleanAttribute }) public disabled = false;
 
   constructor(protected readonly lineupService: LineupService) {}
 

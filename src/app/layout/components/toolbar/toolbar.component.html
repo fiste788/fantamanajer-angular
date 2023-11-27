@@ -3,8 +3,7 @@
   color="primary"
 >
   @if (showDrawerButton) {
-<button
-   
+  <button
     aria-label="Toggle sidenav"
     mat-icon-button
     type="button"
@@ -12,10 +11,10 @@
   >
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-}
+  }
   <app-breadcrumb />
   <span class="spacer"></span>
   @if (loggedIn$ | async) {
-<app-notification />
-}
+  <app-notification />
+  }
 </mat-toolbar>

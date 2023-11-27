@@ -1,16 +1,13 @@
 @if (dataSource$ | async; as dataSource) {
 <div>
   @if (dataSource.data.length) {
-<div
-   
-    class="table-container mat-elevation-z1"
-  >
+  <div class="table-container mat-elevation-z1">
     <table
+      @tableRowAnimation
       #table
       mat-table
       matSort
       [dataSource]="dataSource"
-      @tableRowAnimation
       [trackBy]="trackTransfert"
       (matSortChange)="setSort(dataSource)"
     >
@@ -52,8 +49,8 @@
           mat-cell
         >
           @if (row.constrained) {
-<mat-icon>done</mat-icon>
-}
+          <mat-icon>done</mat-icon>
+          }
         </td>
       </ng-container>
 
@@ -78,27 +75,26 @@
       ></tr>
     </table>
   </div>
-} @else {
+  } @else {
 
   <app-mat-empty-state
     icon="swap_vert"
     label="Nessun trasferimento presente"
-    [rounded]="true"
+    rounded
     [size]="330"
-   />
+  />
 
-}
+  }
 </div>
 } @else {
 
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-   />
-
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
 }
-<ng-container *appSeasonActive>
+<ng-container *appSeasonActive="">
   @if (isMyTeam$ | async) {
-<app-selection />
-}
+  <app-selection />
+  }
 </ng-container>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, booleanAttribute } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
@@ -14,5 +14,5 @@ import { Member } from '@data/types';
 })
 export class PlayerImageComponent {
   @Input() public member?: Member;
-  @Input() public inCard = false;
+  @Input({ transform: booleanAttribute }) public inCard = false;
 }

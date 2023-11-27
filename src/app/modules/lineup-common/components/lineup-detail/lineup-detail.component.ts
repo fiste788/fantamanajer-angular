@@ -6,6 +6,8 @@ import {
   Input,
   OnInit,
   ViewChild,
+  booleanAttribute,
+  numberAttribute,
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -43,8 +45,8 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
 })
 export class LineupDetailComponent implements OnInit {
   @Input() public lineup?: EmptyLineup;
-  @Input() public disabled = false;
-  @Input() public benchs = environment.benchwarmersCount;
+  @Input({ transform: booleanAttribute }) public disabled = false;
+  @Input({ transform: numberAttribute }) public benchs = environment.benchwarmersCount;
 
   @ViewChild(NgForm) protected lineupForm?: NgForm;
 

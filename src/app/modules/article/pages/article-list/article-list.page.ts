@@ -75,7 +75,7 @@ export class ArticleListPage implements OnInit {
       this.articleService.delete(id).pipe(
         map(() => {
           this.snackBar.open('Article deleted');
-          this.articles.filter((article) => article.id !== id);
+          this.articles = this.articles.filter((article) => article.id !== id);
         }),
       ),
       { defaultValue: undefined },

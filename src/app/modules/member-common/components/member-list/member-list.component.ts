@@ -8,6 +8,8 @@ import {
   OnInit,
   Output,
   ViewChild,
+  booleanAttribute,
+  numberAttribute,
 } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -58,11 +60,11 @@ type Stats = (typeof stats)[number];
 })
 export class MemberListComponent implements OnInit {
   @Input({ required: true }) public members!: Observable<Array<Member>>;
-  @Input() public hideClub = false;
-  @Input() public hideRole = false;
-  @Input() public isSelectable = false;
-  @Input() public multipleSelection = false;
-  @Input() public elevation = 1;
+  @Input({ transform: booleanAttribute }) public hideClub = false;
+  @Input({ transform: booleanAttribute }) public hideRole = false;
+  @Input({ transform: booleanAttribute }) public isSelectable = false;
+  @Input({ transform: booleanAttribute }) public multipleSelection = false;
+  @Input({ transform: numberAttribute }) public elevation = 1;
 
   @Output() public readonly selection: SelectionModel<Member>;
 
@@ -148,18 +150,9 @@ export class MemberListComponent implements OnInit {
   protected sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
     // eslint-disable-next-line unicorn/prefer-includes
     if (sortHeaderId === 'player' || stats.some((s) => s === sortHeaderId)) {
-      let value;
       const id = sortHeaderId as Stats | 'player';
-      switch (id) {
-        case 'player': {
-          value = data.player.full_name;
-          break;
-        }
-        default: {
-          value = data.stats ? data.stats[id] : 0;
-          break;
-        }
-      }
+
+      const value = id === 'player' ? data.player.full_name : data.stats?.[id] ?? 0;
       if (typeof value === 'string' && !value.trim()) {
         return value;
       }
