@@ -40,7 +40,8 @@
       <app-member-icons [member]="opt.member" />
     </mat-option>
     }
-    } @if (memberMap) { @for (role of (memberMap | keyvalue); track trackMember($index, role)) {
+    } @if (memberMap) {
+    @for (role of (memberMap | keyvalue); track trackMember($index, role)) {
     <mat-optgroup [label]="role.key.plural">
       @for (opt of role.value; track track($index, opt)) {
       <mat-option
@@ -51,7 +52,8 @@
       </mat-option>
       }
     </mat-optgroup>
-    } }
+    }
+    }
   </mat-select>
   @if (memberSelection.errors?.['required']) {
   <mat-error>Seleziona il giocatore</mat-error>

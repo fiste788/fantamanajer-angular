@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 
 @mixin core($theme) {
+  @include mat.core;
   @include mat.badge-base($theme);
   @include mat.button-base($theme);
   @include mat.card-base($theme);

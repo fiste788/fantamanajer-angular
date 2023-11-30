@@ -25,10 +25,10 @@
           <h3>{{team.name}}</h3>
         </mat-select-trigger>
         }
-        @for (team of teams; track team.id) {
-        <mat-option [value]="team">
-          {{team.name}}<br />
-          <small>{{team.championship.season.name}}</small>
+        @for (_team of teams; track _team.id) {
+        <mat-option [value]="_team">
+          {{_team.name}}<br />
+          <small>{{_team.championship.season.name}}</small>
         </mat-option>
         }
       </mat-select>

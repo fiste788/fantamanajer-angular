@@ -6,7 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { combineLatest, firstValueFrom, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, first, map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -84,6 +84,7 @@ export class TeamDetailPage {
   protected async openDialog(team: Team): Promise<void> {
     return firstValueFrom(
       this.app.matchday$.pipe(
+        first(),
         switchMap((m) =>
           this.dialog
             .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
