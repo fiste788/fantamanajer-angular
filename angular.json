@@ -99,7 +99,12 @@
                 "src"
               ]
             },
-            "serviceWorker": "ngsw-config.json"
+            "serviceWorker": "ngsw-config.json",
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
           },
           "configurations": {
             "production": {

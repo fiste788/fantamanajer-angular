@@ -12,7 +12,8 @@
     "build:stats": "ng build --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/fantamanajer-angular/stats.json",
     "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
-    "postbuild": "cd dist/fantamanajer-angular/browser && brotli-cli compress index.html ngsw-worker.js assets/svg/clubs.svg assets/svg/fantamanajer-icons.svg"
+    "postbuild": "cd dist/fantamanajer-angular/browser && brotli-cli compress index.html ngsw-worker.js assets/svg/clubs.svg assets/svg/fantamanajer-icons.svg",
+    "serve:ssr:fantamanajer-angular": "node dist/fantamanajer-angular/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -29,11 +30,13 @@
     "@angular/platform-server": "^17.0.5",
     "@angular/router": "^17.0.5",
     "@angular/service-worker": "^17.0.5",
+    "@angular/ssr": "^17.0.5",
     "@auth0/angular-jwt": "^5.2.0",
     "@ecodev/fab-speed-dial": "^15.0.0",
     "@github/webauthn-json": "^2.1.1",
     "@ngneat/content-loader": "^7.0.0",
     "angular-file": "^4.0.2",
+    "express": "^4.18.2",
     "ng-lazyload-image": "^9.1.3",
     "ngx-infinite-scroll": "^17.0.0",
     "rellax": "^1.12.1",
@@ -55,6 +58,7 @@
     "@angular/language-service": "^17.0.5",
     "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@relative-ci/agent": "^4.2.1",
+    "@types/express": "^4.17.17",
     "@types/html-minifier": "^4.0.5",
     "@types/jasmine": "5.1.4",
     "@types/jasminewd2": "~2.0.13",

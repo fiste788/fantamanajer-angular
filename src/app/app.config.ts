@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import {
   ApplicationConfig,
   ENVIRONMENT_INITIALIZER,
@@ -7,6 +7,7 @@ import {
   isDevMode,
 } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
@@ -41,6 +42,7 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling(),
     ),
     provideHttpClient(
+      withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
     ),
     provideAnimations(),
@@ -65,5 +67,6 @@ export const appConfig: ApplicationConfig = {
     appInitializerProvider,
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
+    provideClientHydration(),
   ],
 };
