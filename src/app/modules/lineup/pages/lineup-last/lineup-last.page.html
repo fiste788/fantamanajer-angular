@@ -1,7 +1,9 @@
-<div *ngIf="!app.seasonEnded; else seasonEnded">
-  <div *ngIf="(lineup$ | async) as lineup; else loading">
+@if (!app.seasonEnded) {
+<div>
+  @if ((lineup$ | async); as lineup) {
+  <div>
+    @if (lineup.module || editMode) {
     <form
-      *ngIf="lineup.module || editMode; else notSet"
       #lineupForm="ngForm"
       class="flex-container"
       [appMemberAlreadySelected]="lineup"
@@ -13,32 +15,47 @@
         [disabled]="!editMode"
         [lineup]="lineup"
       >
+        @if (editMode) {
         <button
-          *ngIf="editMode"
           align="end"
           buttons
           color="accent"
           mat-raised-button
           type="submit"
         >Salva</button>
+        }
       </app-lineup-detail>
     </form>
-    <ng-template #notSet>
-      <h3 class="subheading-1">Formazione non settata</h3>
-    </ng-template>
+    } @else {
+
+    <h3 class="subheading-1">Formazione non settata</h3>
+
+    }
   </div>
-</div>
-<ng-template #loading>
+  } @else {
+
   <mat-progress-spinner
     color="accent"
     mode="indeterminate"
-   />
-</ng-template>
+  />
+
+  }
+</div>
+} @else {
+
+<app-mat-empty-state
+  description="Goditi l'estate e tieniti pronto per la prossima stagione"
+  icon="wb_sunny"
+  [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
+  rounded
+/>
+
+}
 <ng-template #seasonEnded>
   <app-mat-empty-state
     description="Goditi l'estate e tieniti pronto per la prossima stagione"
     icon="wb_sunny"
     [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
-    [rounded]="true"
-   />
+    rounded
+  />
 </ng-template>

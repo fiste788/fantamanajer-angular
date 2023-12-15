@@ -1,23 +1,31 @@
-<ng-container *ngIf="(breadcrumbs$ | async) as crumbs">
-  <nav *ngIf="crumbs.length">
-    <ul
-      class="breadcrumb"
-      @breadcrumbTransition
+@if ((breadcrumbs$ | async); as crumbs) {
+
+@if (crumbs.length) {
+<nav>
+  <ul
+    class="breadcrumb"
+    @breadcrumbTransition
+  >
+    @for (crumb of crumbs; track track($index, crumb); let last = $last; let first = $first) {
+    <li
+      class="breadcrumb-item"
+      [class.active]="last"
     >
-      <li
-        *ngFor="let crumb of crumbs; let last = last; let first = first; trackBy: track"
-        class="breadcrumb-item"
-        [class.active]="last"
-      >
-        <span>
-          <mat-icon *ngIf="!first">chevron_right</mat-icon>
-          <a
-            *ngIf="!last"
-            [routerLink]="crumb.url"
-          >{{ crumb.label }}</a>
-          <span *ngIf="last">{{ crumb.label }}</span>
-        </span>
-      </li>
-    </ul>
-  </nav>
-</ng-container>
+      <span>
+        @if (!first) {
+        <mat-icon>chevron_right</mat-icon>
+        }
+        @if (!last) {
+        <a [routerLink]="crumb.url">{{ crumb.label }}</a>
+        }
+        @if (last) {
+        <span>{{ crumb.label }}</span>
+        }
+      </span>
+    </li>
+    }
+  </ul>
+</nav>
+}
+
+}

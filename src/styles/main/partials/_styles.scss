@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
   body,
   html {
     margin: 0;
@@ -124,7 +124,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
     $color: mat.get-color-config($theme);

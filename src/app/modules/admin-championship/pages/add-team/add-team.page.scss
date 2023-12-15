@@ -2,7 +2,6 @@ form {
   display: flex;
   flex-flow: column wrap;
   box-sizing: border-box; // fxLayoutAlign
-  align-content: flex-start; // fxLayoutAlign
+  place-content: flex-start flex-start; // fxLayoutAlign
   align-items: flex-start; // fxLayoutAlign
-  justify-content: flex-start;
 }

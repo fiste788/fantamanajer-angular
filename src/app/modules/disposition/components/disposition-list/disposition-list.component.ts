@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, booleanAttribute } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -23,7 +23,7 @@ export class DispositionListComponent implements OnInit {
   @Input() public caption!: string;
   @Input() public lineup?: Lineup;
   @Input() public dispositions?: Array<Disposition>;
-  @Input() public regular = false;
+  @Input({ transform: booleanAttribute }) public regular = false;
 
   protected dataSource!: MatTableDataSource<Disposition>;
   protected readonly displayedColumns = [

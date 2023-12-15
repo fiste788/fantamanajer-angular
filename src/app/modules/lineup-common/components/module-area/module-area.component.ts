@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   SimpleChange,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -53,8 +54,8 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
     position?: number;
   }>;
 
-  @Input() public disabled = false;
-  @Input() public wrap = false;
+  @Input({ transform: booleanAttribute }) public disabled = false;
+  @Input({ transform: booleanAttribute }) public wrap = false;
   @Input() public captain?: Member;
   @Input() public membersByRole?: Map<Role, Array<Member>>;
 
@@ -112,6 +113,6 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
 
   private reloadRegularState(roleId?: number): void {
     for (const v of this.module.areas.filter((a) => roleId === undefined || a.role.id === roleId))
-      v.options.map((o) => (o.disabled = this.isRegular(o.member)));
+      for (const o of v.options) o.disabled = this.isRegular(o.member);
   }
 }

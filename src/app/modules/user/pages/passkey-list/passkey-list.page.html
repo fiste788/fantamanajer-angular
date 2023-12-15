@@ -1,7 +1,5 @@
-<div
-  *ngIf="isSupported$ | async"
-  class="flex flex-row justify-between"
->
+@if (isSupported$ | async) {
+<div class="flex flex-row justify-between">
   <p>Le passkey sostituiscono la password e convalidano l'identità tramite impronta digitale, riconoscimento facciale,
     password del dispositivo o PIN.</p>
   <button
@@ -13,12 +11,13 @@
     Registra passkey
   </button>
 </div>
-<div *ngIf="passkeys$ | async as passkeys; else loading">
-  <mat-list
-    *ngIf="passkeys.length; else empty"
-    @listItemAnimation
-  >
-    <mat-list-item *ngFor="let passkey of passkeys; trackBy:trackPasskey">
+}
+@if (passkeys$ | async; as passkeys) {
+<div>
+  @if (passkeys.length) {
+  <mat-list @listItemAnimation>
+    @for (passkey of passkeys; track passkey.id) {
+    <mat-list-item>
       <mat-icon matListItemIcon>passkey</mat-icon>
       <span matListItemTitle>{{passkey.name}}</span>
       <span matListItemLine>
@@ -35,19 +34,22 @@
         </button>
       </div>
     </mat-list-item>
+    }
   </mat-list>
-</div>
-<ng-template #empty>
+  } @else {
+
   <app-mat-empty-state
     icon="passkey"
     label="Nessuna passkey registrata"
-    [rounded]="true"
+    rounded
     [size]="330"
   />
-</ng-template>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
-</ng-template>
+
+  }
+</div>
+} @else {
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+}

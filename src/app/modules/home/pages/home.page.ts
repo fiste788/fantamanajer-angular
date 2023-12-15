@@ -63,12 +63,4 @@ export class HomePage {
       ),
     );
   }
-
-  protected track(_: number, item: Member): number {
-    return item.id; // or item.id
-  }
-
-  protected trackByRole(_: number, item: BestPlayer): string {
-    return item.role; // or item.id
-  }
 }

@@ -1,6 +1,13 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  booleanAttribute,
+  numberAttribute,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -32,8 +39,8 @@ export class MatEmptyStateComponent {
   @Input({ required: true }) public label!: string;
   @Input({ required: true }) public icon!: string;
   @Input() public description?: string;
-  @Input() public rounded = true;
-  @Input() public size = 492;
+  @Input({ transform: booleanAttribute }) public rounded = true;
+  @Input({ transform: numberAttribute }) public size = 492;
 
   @HostBinding('@createBox') protected createBox = true;
 }

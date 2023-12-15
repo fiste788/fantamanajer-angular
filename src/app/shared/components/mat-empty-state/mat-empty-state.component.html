@@ -6,19 +6,23 @@
   [style.width.px]="size"
 >
   <div class="mat-empty-state-container">
-    <mat-icon
-      *ngIf="icon"
+    @if (icon) {
+<mat-icon
+     
       class="mat-empty-state-icon"
     >
       {{icon}}
     </mat-icon>
+}
     <strong class="mat-empty-state-label">{{label}}</strong>
-    <p
-      *ngIf="description"
+    @if (description) {
+<p
+     
       class="mat-empty-state-description"
     >
       {{description}}
     </p>
-    <ng-content></ng-content>
+}
+    <ng-content />
   </div>
 </div>

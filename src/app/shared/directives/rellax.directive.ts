@@ -10,6 +10,8 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  booleanAttribute,
+  numberAttribute,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
@@ -50,10 +52,10 @@ interface Block {
 export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   @HostBinding('style.will-change') public will = 'transform';
   // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
-  @Input() public speed = -3;
-  @Input() public center = false;
-  @Input() public percentage = 0;
-  @Input() public relativeToWrapper = false;
+  @Input({ transform: numberAttribute }) public speed = -3;
+  @Input({ transform: booleanAttribute }) public center = false;
+  @Input({ transform: numberAttribute }) public percentage = 0;
+  @Input({ transform: booleanAttribute }) public relativeToWrapper = false;
   @Input() public wrapper = 'window';
 
   private readonly options: Options;

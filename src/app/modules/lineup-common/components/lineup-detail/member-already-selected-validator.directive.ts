@@ -19,8 +19,8 @@ export type ControlsOf<T extends Record<string, any>> = {
   [K in keyof T]: NonUndefined<T[K]> extends AbstractControl
     ? T[K]
     : NonUndefined<T[K]> extends Record<any, any>
-    ? FormGroup<ControlsOf<T[K]>>
-    : FormControl<T[K]>;
+      ? FormGroup<ControlsOf<T[K]>>
+      : FormControl<T[K]>;
 };
 
 @Directive({

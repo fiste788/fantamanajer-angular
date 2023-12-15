@@ -44,7 +44,10 @@ export class ApplicationService {
     this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
     this.requireTeam$ = this.team$.pipe(filterNil());
     this.matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
-    this.matchday$ = this.matchdaySubject$.pipe(filterNil()); // .pipe(distinctUntilChanged());
+    this.matchday$ = this.matchdaySubject$.pipe(
+      filterNil(),
+      distinctUntilChanged((prev, cur) => prev.id === cur.id),
+    );
   }
 
   public bootstrap(): Observable<unknown> {

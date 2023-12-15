@@ -4,8 +4,10 @@
 >
   <mat-card-header>
     <mat-card-title>Giornata {{lineup.matchday?.number}}</mat-card-title>
-    <mat-card-subtitle *ngIf="lineup.modified_at">Aggiornata il: {{lineup.modified_at | date: 'dd/MM HH:mm'}}
+    @if (lineup.modified_at) {
+<mat-card-subtitle>Aggiornata il: {{lineup.modified_at | date: 'dd/MM HH:mm'}}
     </mat-card-subtitle>
+}
   </mat-card-header>
   <mat-card-content>
 
@@ -19,17 +21,23 @@
         [(ngModel)]="lineupService.selectedModule"
         (selectionChange)="lineupService.moduleChange()"
       >
-        <mat-option
-          *ngFor="let m of lineupService.modules; trackBy: trackByModules"
+        @for (m of lineupService.modules; track trackByModules($index, m)) {
+  <mat-option
+         
           [value]="m"
         >{{m.label}}</mat-option>
+}
       </mat-select>
-      <mat-error *ngIf="module.errors?.['Expired']">
+      @if (module.errors?.['Expired']) {
+<mat-error>
         {{module.errors?.['Expired']}}
       </mat-error>
-      <mat-error *ngIf="module.errors?.['MissingPlayer']">
+}
+      @if (module.errors?.['MissingPlayer']) {
+<mat-error>
         {{module.errors?.['MissingPlayer']}}
       </mat-error>
+}
     </mat-form-field>
     <mat-checkbox
       name="jolly"
@@ -37,13 +45,16 @@
       [attr.value]="true"
       [(ngModel)]="lineup.jolly"
     >Jolly</mat-checkbox>
-    <mat-error *ngIf="module.errors?.['JollyAlreadyUsed']">
+    @if (module.errors?.['JollyAlreadyUsed']) {
+<mat-error>
       {{module.errors?.['JollyAlreadyUsed']}}
     </mat-error>
+}
     <mat-expansion-panel class="mat-elevation-z0">
       <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <mat-form-field *ngFor="let captain of (lineupService.captains | keyvalue); trackBy: trackByCaptainField">
+        @for (captain of (lineupService.captains | keyvalue); track trackByCaptainField($index, captain)) {
+  <mat-form-field>
           <mat-label>{{captain.key}}</mat-label>
           <mat-select
             [disabled]="disabled"
@@ -52,20 +63,23 @@
             [(ngModel)]="lineup[captain.value]"
             (selectionChange)="lineupService.captainSelectionChange()"
           >
-            <mat-option
-              *ngFor="let c of lineupService.captainables; trackBy: trackByCaptain"
+            @for (c of lineupService.captainables; track trackByCaptain($index, c)) {
+  <mat-option
+             
               [disabled]="c.disabled"
               [value]="c.member.id"
             >{{c.member.player.full_name}}
             </mat-option>
+}
           </mat-select>
         </mat-form-field>
+}
       </ng-template>
     </mat-expansion-panel>
 
   </mat-card-content>
   <mat-divider />
   <mat-card-actions>
-    <ng-content select="[buttons]"></ng-content>
+    <ng-content select="[buttons]" />
   </mat-card-actions>
 </mat-card>

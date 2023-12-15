@@ -1,20 +1,23 @@
-<ng-container *ngIf="tabs.length">
-  <nav
-    mat-tab-nav-bar
-    [tabPanel]="tabPanel"
+@if (tabs.length) {
+
+<nav
+  mat-tab-nav-bar
+  [tabPanel]="tabPanel"
+>
+  @for (tab of tabs; track tab.link) {
+  <a
+    #rla="routerLinkActive"
+    mat-tab-link
+    routerLinkActive
+    [active]="rla.isActive"
+    [routerLink]="tab.link"
   >
-    <a
-      *ngFor="let tab of tabs; trackBy: track"
-      #rla="routerLinkActive"
-      mat-tab-link
-      routerLinkActive
-      [active]="rla.isActive"
-      [routerLink]="tab.link"
-    >
-      {{tab.label}}
-    </a>
-  </nav>
-</ng-container>
+    {{tab.label}}
+  </a>
+  }
+</nav>
+
+}
 <div
   #tabPanel
   class="tabbed-container"

@@ -12,34 +12,39 @@
         mat-dialog-title
       >Notifiche</h3>
       <div class="content mat-mdc-dialog-content">
-        <div *ngIf="(stream$ | async) as stream; else loading">
-          <mat-list
-            *ngIf="stream.results.length; else empty"
-            @listItemAnimation
-          >
-            <mat-list-item *ngFor="let activity of stream.results; trackBy: track">
-              <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
-              <h3 matListItemTitle> {{activity.title}} </h3>
-              <span
-                matListItemLine
-                [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-              > {{activity.humanTime}} </span>
-              <span matListItemLine> {{activity.body}} </span>
-            </mat-list-item>
-          </mat-list>
-          <ng-template #empty>
-            <app-mat-empty-state
-              icon="mood"
-              label="Nessuna notifica presente"
-             />
-          </ng-template>
-        </div>
-        <ng-template #loading>
-          <mat-progress-spinner
-            color="accent"
-            mode="indeterminate"
-           />
-        </ng-template>
+        @if ((stream$ | async); as stream) {
+
+        @if (stream.results.length) {
+        <mat-list @listItemAnimation>
+          @for (activity of stream.results; track track($index)) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
+            <h3 matListItemTitle> {{activity.title}} </h3>
+            <span
+              matListItemLine
+              [title]="(activity.time | date: 'dd/MM/y HH:mm')"
+            > {{activity.humanTime}} </span>
+            <span matListItemLine> {{activity.body}} </span>
+          </mat-list-item>
+          }
+        </mat-list>
+        } @else {
+
+        <app-mat-empty-state
+          icon="mood"
+          label="Nessuna notifica presente"
+        />
+
+        }
+
+        } @else {
+
+        <mat-progress-spinner
+          color="accent"
+          mode="indeterminate"
+        />
+
+        }
       </div>
     </div>
   </div>

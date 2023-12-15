@@ -15,40 +15,47 @@
       </div>
     </div>
     <div class="parallax-header-title-container">
-      <img
-        *ngIf="image"
+      @if (image) {
+<img
+       
         [alt]="title"
         [src]="image"
         [style.viewTransitionName]="'avatar-' + title"
       >
+}
       <div class="parallax-header-title">
         <h1
           class="mat-headline-4 title"
           [style.viewTransitionName]="'title-' + title"
         >{{title}}</h1>
         <div class="subtitle">
-          <p
-            *ngIf="subtitle"
+          @if (subtitle) {
+<p
+           
             class="mat-subtitle-2"
           >{{subtitle}}
-            <ng-content select="subtitle"></ng-content>
+            <ng-content select="subtitle" />
           </p>
+}
         </div>
       </div>
       <ng-content
         class="parallax-header-right"
         select="[parallax-header-right]"
-      ></ng-content>
+      />
     </div>
   </div>
-  <nav
-    *ngIf="tabs.length"
+  @if (tabs.length) {
+<nav
+   
     mat-tab-nav-bar
     [tabPanel]="tabPanel"
   >
-    <ng-container *ngFor="let tab of tabs; trackBy: track">
-      <a
-        *ngIf="!tab.hidden"
+    @for (tab of tabs; track track($index, tab)) {
+  
+      @if (!tab.hidden) {
+<a
+       
         #rla="routerLinkActive"
         mat-tab-link
         routerLinkActive
@@ -57,6 +64,9 @@
       >
         {{tab.label}}
       </a>
-    </ng-container>
+}
+    
+}
   </nav>
+}
 </div>

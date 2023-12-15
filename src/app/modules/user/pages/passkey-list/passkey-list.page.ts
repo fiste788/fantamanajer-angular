@@ -59,7 +59,7 @@ export class PasskeyListPage {
   }
 
   protected async register(): Promise<void> {
-    const passkey = await this.webauthnService.createPublicKey();
+    const passkey = await this.webauthnService.createPasskey();
     if (passkey) {
       this.refresh$.next(true);
     }
@@ -73,9 +73,5 @@ export class PasskeyListPage {
       ),
       { defaultValue: undefined },
     );
-  }
-
-  protected trackPasskey(_: number, item: PublicKeyCredentialSource): string {
-    return item.id;
   }
 }

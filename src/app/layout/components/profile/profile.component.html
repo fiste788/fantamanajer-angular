@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+@if (app.team$ | async; as team) {
 <mat-toolbar
-  *ngIf="app.team$ | async as team"
   color="primary"
   [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
   [class.greyscale-image]="(photo$ | async)"
@@ -11,10 +11,8 @@
   </mat-toolbar-row>
   <mat-toolbar-row>
 
-    <mat-form-field
-      *ngIf="(auth.user$ | async)?.teams as teams"
-      appearance="fill"
-    >
+    @if ((auth.user$ | async)?.teams; as teams) {
+    <mat-form-field appearance="fill">
       <mat-select
         aria-label="Squadra selezionata"
         panelClass="teams-panel"
@@ -22,21 +20,24 @@
         [ngModel]="team"
         (ngModelChange)="change($event)"
       >
-        <mat-select-trigger *ngIf="team">
+        @if (team) {
+        <mat-select-trigger>
           <h3>{{team.name}}</h3>
         </mat-select-trigger>
-        <mat-option
-          *ngFor="let team of teams; trackBy: track"
-          [value]="team"
-        >
-          {{team.name}}<br />
-          <small>{{team.championship.season.name}}</small>
+        }
+        @for (_team of teams; track _team.id) {
+        <mat-option [value]="_team">
+          {{_team.name}}<br />
+          <small>{{_team.championship.season.name}}</small>
         </mat-option>
+        }
       </mat-select>
       <mat-hint>
         <span>{{team.championship.season.name}}</span>
       </mat-hint>
     </mat-form-field>
+    }
 
   </mat-toolbar-row>
 </mat-toolbar>
+}

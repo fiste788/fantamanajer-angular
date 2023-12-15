@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  numberAttribute,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -40,7 +41,7 @@ import { StreamDataSource } from './stream.datasource';
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input({ required: true }) public context!: 'teams' | 'users' | 'clubs' | 'championships';
-  @Input({ required: true }) public id!: number;
+  @Input({ required: true, transform: numberAttribute }) public id!: number;
 
   @ViewChild(CdkVirtualScrollViewport) protected viewport?: CdkVirtualScrollViewport;
 

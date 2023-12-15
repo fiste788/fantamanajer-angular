@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
   /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   app-member-selection .mat-mdc-form-field-infix {
     display: flex !important;
@@ -41,7 +41,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'member-selection') {
     $color: mat.get-color-config($theme);

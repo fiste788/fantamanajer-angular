@@ -1,6 +1,7 @@
 <div class="flex-container">
-  <form
-    *ngIf="user$ | async as user"
+  @if (user$ | async; as user) {
+<form
+   
     ngForm
   >
     <mat-card appearance="outlined">
@@ -77,4 +78,5 @@
       </mat-card-actions>
     </mat-card>
   </form>
+}
 </div>

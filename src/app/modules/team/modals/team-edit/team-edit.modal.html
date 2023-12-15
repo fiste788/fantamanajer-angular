@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{team.name}}</h1>
 <div mat-dialog-content>
-  <div *ngIf="showChangeTeamName">
+  @if (showChangeTeamName) {
+  <div>
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>
       <input
@@ -12,27 +13,27 @@
       >
     </mat-form-field>
   </div>
+  }
 
   <div
     accept="image/*"
     class="my-drop-zone"
     ngfDrop
     [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
-    [selectable]="true"
+    selectable
     [(file)]="file"
     [(invalidDrag)]="invalidComboDrag"
     [(validDrag)]="validComboDrag"
   >
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
-    <div
-      *ngIf="file"
-      @createBox
-    >
+    @if (file) {
+    <div @createBox>
       <img
         alt="uploadImage"
         [ngfSrc]="file"
       />
     </div>
+    }
   </div>
   <div>
     <app-notification-subscription
@@ -40,13 +41,13 @@
       type="email"
       [team]="team"
       [(subscriptions)]="team.email_notification_subscriptions"
-     />
+    />
     <app-notification-subscription
       label="Notifiche push"
       type="push"
       [team]="team"
       [(subscriptions)]="team.push_notification_subscriptions"
-     />
+    />
   </div>
 </div>
 <div

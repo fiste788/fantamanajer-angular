@@ -1,6 +1,15 @@
 /* eslint-disable unicorn/no-null */
 import { KeyValue, NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  ViewChild,
+  booleanAttribute,
+  numberAttribute,
+} from '@angular/core';
 import {
   ControlContainer,
   ControlValueAccessor,
@@ -49,15 +58,15 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
 export class MemberSelectionComponent implements ControlValueAccessor {
   @Input({ required: true }) public member!: Member | null;
   @Input({ required: true }) public name!: string;
-  @Input() public disabled = false;
-  @Input() public required = false;
+  @Input({ transform: booleanAttribute }) public disabled = false;
+  @Input({ transform: booleanAttribute }) public required = false;
   @Input() public placeholder = '';
   @Input() public memberList: Array<MemberOption> = [];
   @Input() public memberMap?: Map<Role, Array<MemberOption>>;
-  @Input() public size = 100;
-  @Input() public width = 100;
-  @Input() public height = 100;
-  @Input() public captain = false;
+  @Input({ transform: numberAttribute }) public size = 100;
+  @Input({ transform: numberAttribute }) public width = 100;
+  @Input({ transform: numberAttribute }) public height = 100;
+  @Input({ transform: booleanAttribute }) public captain = false;
 
   @Output()
   public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();

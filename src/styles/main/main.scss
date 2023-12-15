@@ -7,15 +7,15 @@
 @use './partials/toolbar';
 @use './partials/form';
 
-@mixin core() {
-  @include material.core;
-  @include styles.core;
-  @include form.core;
-  @include card.core;
+@mixin core($theme) {
+  @include material.core($theme);
+  @include styles.core($theme);
+  @include form.core($theme);
+  @include card.core($theme);
 
   // @include scrollbar.core;
-  @include table.core;
-  @include toolbar.core;
+  @include table.core($theme);
+  @include toolbar.core($theme);
 }
 
 @mixin density($theme) {
@@ -52,7 +52,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'main') {
     $color: mat.get-color-config($theme);

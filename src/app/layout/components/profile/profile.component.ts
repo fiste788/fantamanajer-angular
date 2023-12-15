@@ -52,10 +52,6 @@ export class ProfileComponent {
     return t1.id === t2.id;
   }
 
-  public track(_: number, team: Team): number {
-    return team.id;
-  }
-
   private loadPhoto(): Observable<string | undefined> {
     return this.app.requireTeam$.pipe(
       map((team) => (team.photo_url ? team.photo_url['240w'] : undefined)),

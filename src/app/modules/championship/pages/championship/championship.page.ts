@@ -46,8 +46,4 @@ export class ChampionshipPage implements OnInit {
       this.tabs.push({ label: 'Admin', link: 'admin' });
     }
   }
-
-  protected track(_: number, item: Tab): string {
-    return item.link;
-  }
 }

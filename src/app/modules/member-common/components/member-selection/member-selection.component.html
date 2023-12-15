@@ -6,13 +6,14 @@
     <div class="img-container mat-elevation-z2">
       <app-player-image [member]="member || undefined" />
     </div>
+    @if (member && member.likely_lineup) {
     <app-member-icons
-      *ngIf="member && member?.likely_lineup"
       [captain]="captain"
-      [circle]="true"
+      circle
       @createBox
       [member]="member"
-     />
+    />
+    }
   </div>
   <mat-select
     #memberSelection="ngModel"
@@ -25,38 +26,45 @@
     [(ngModel)]="member"
     (selectionChange)="change($event.value)"
   >
-    <mat-option [value]="null">{{placeholder}}</mat-option>
-    <mat-select-trigger *ngIf="member">
-      {{member.player.full_name}}
+    <mat-option [value]="null">{{ placeholder }}</mat-option>
+    @if (member) {
+    <mat-select-trigger>
+      {{ member.player.full_name }}
     </mat-select-trigger>
-    <ng-container *ngIf="memberList?.length">
+    } @if (memberList.length) {
+    @for (opt of memberList; track track($index, opt)) {
+    <mat-option
+      [disabled]="opt.disabled"
+      [value]="opt.member"
+    >
+      <app-member-icons [member]="opt.member" />
+    </mat-option>
+    }
+    } @if (memberMap) {
+    @for (role of (memberMap | keyvalue); track trackMember($index, role)) {
+    <mat-optgroup [label]="role.key.plural">
+      @for (opt of role.value; track track($index, opt)) {
       <mat-option
-        *ngFor="let opt of memberList; trackBy: track"
         [disabled]="opt.disabled"
         [value]="opt.member"
       >
         <app-member-icons [member]="opt.member" />
       </mat-option>
-    </ng-container>
-    <ng-container *ngIf="memberMap">
-      <mat-optgroup
-        *ngFor="let role of (memberMap | keyvalue), trackBy: trackMember"
-        [label]="role.key.plural"
-      >
-        <mat-option
-          *ngFor="let opt of role.value; trackBy: track"
-          [disabled]="opt.disabled"
-          [value]="opt.member"
-        >
-          <app-member-icons [member]="opt.member" />
-        </mat-option>
-      </mat-optgroup>
-    </ng-container>
+      }
+    </mat-optgroup>
+    }
+    }
   </mat-select>
-  <mat-error *ngIf="memberSelection.errors?.['required']">Seleziona il giocatore</mat-error>
-  <mat-hint *ngIf="member?.stats">
-    <span>Ø P.ti: {{member?.stats?.avg_points | number: '1.1-1'}}</span> -
-    <span>Ø Voti: {{member?.stats?.avg_rating | number: '1.1-1'}}</span> -
-    <span>Σ Gol: {{member?.role_id !== 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against}}</span>
+  @if (memberSelection.errors?.['required']) {
+  <mat-error>Seleziona il giocatore</mat-error>
+  } @if (member?.stats) {
+  <mat-hint>
+    <span>Ø P.ti: {{ member?.stats?.avg_points | number: '1.1-1' }}</span> -
+    <span>Ø Voti: {{ member?.stats?.avg_rating | number: '1.1-1' }}</span> -
+    <span>Σ Gol:
+      {{
+      member?.role_id !== 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against
+      }}</span>
   </mat-hint>
+  }
 </mat-form-field>

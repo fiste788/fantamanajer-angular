@@ -1,49 +1,33 @@
-<div
-  *ngIf="lineup"
-  @cardCreationAnimation
->
-  <app-lineup-options
-    [disabled]="disabled"
-    [lineup]="lineup"
-  >
-    <ng-content
-      buttons
-      select="[buttons]"
-    ></ng-content>
+@if (lineup) {
+<div @cardCreationAnimation>
+  <app-lineup-options [disabled]="disabled" [lineup]="lineup">
+    <ng-content buttons select="[buttons]" />
   </app-lineup-options>
-  <ng-container *ngIf="lineupService.selectedModule">
-    <div ngModelGroup="dispositions">
-      <app-module-area
-        [disabled]="disabled"
-        [dispositions]="lineupService.lineup.dispositions"
-        [membersByRole]="lineupService.membersByRole"
-        [module]="lineupService.selectedModule"
-        (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
-       />
-    </div>
-  </ng-container>
+  @if (lineupService.selectedModule) {
 
-  <fieldset
-    *ngIf="lineup.dispositions?.length"
-    class="flex benchwarmers"
-    ngModelGroup="dispositions"
-  >
-    <mat-card
-      appearance="outlined"
-      class="grow"
-    >
+  <div ngModelGroup="dispositions">
+    <app-module-area
+      [disabled]="disabled"
+      [dispositions]="lineupService.lineup.dispositions"
+      [membersByRole]="lineupService.membersByRole"
+      [module]="lineupService.selectedModule"
+      (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
+    />
+  </div>
+
+  } @if (lineup.dispositions.length) {
+  <fieldset class="benchwarmers flex" ngModelGroup="dispositions">
+    <mat-card appearance="outlined" class="grow">
       <mat-card-header>
         <mat-card-title>Panchinari</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="flex flex-col justify-around md:flex-row md:flex-wrap">
-          <div
-            *ngFor="let bench of lineupService.benchs; trackBy: trackByBench"
-            [ngModelGroup]="bench + ''"
-          >
+          @for (bench of lineupService.benchs; track trackByBench($index, bench)) {
+          <div [ngModelGroup]="bench + ''">
+            @if (lineup.dispositions[bench]; as disp) {
             <app-member-selection
-              *ngIf="lineup.dispositions[bench] as disp"
-              class="benchwarmer flex flex-row justify-start items-center"
+              class="benchwarmer flex flex-row items-center justify-start"
               name="member"
               [disabled]="disabled"
               [height]="450"
@@ -52,10 +36,14 @@
               [width]="320"
               [(member)]="disp.member"
               (memberChange)="lineupService.benchwarmerSelectionChange($event)"
-             />
+            />
+            }
           </div>
+          }
         </div>
       </mat-card-content>
     </mat-card>
   </fieldset>
+  }
 </div>
+}

@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
 }
 
 @mixin color($theme) {
@@ -24,7 +24,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'mat-empty-state') {
     $color: mat.get-color-config($theme);

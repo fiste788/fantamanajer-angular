@@ -1,18 +1,16 @@
+@if ((teams$ | async); as teams) {
 <div
-  *ngIf="(teams$ | async) as teams; else loading"
   class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-x-12"
   @cardCreationAnimation
 >
-  <mat-card
-    *ngFor="let team of teams; let i=index; trackBy: track"
-    appearance="outlined"
-  >
+  @for (team of teams; track track(i, team); let i = $index) {
+  <mat-card appearance="outlined">
     <figure
       class="aspect-ratio-box"
       mat-card-image
     >
+      @if (team.photo_url) {
       <img
-        *ngIf="team.photo_url; else placeholder"
         defaultImage="//via.placeholder.com/600x337"
         height="337"
         sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
@@ -22,6 +20,13 @@
         [lazyLoad]="(team.photo_url | srcset)"
         [useSrcset]="true"
       >
+      } @else {
+
+      <div class="placeholder">
+        <span>{{team.name}}</span>
+      </div>
+
+      }
 
       <ng-template #placeholder>
         <div class="placeholder">
@@ -46,10 +51,13 @@
       >PUNTEGGIO</a>
     </mat-card-actions>
   </mat-card>
+  }
 </div>
-<ng-template #loading>
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
-</ng-template>
+} @else {
+
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
+}

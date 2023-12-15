@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@mixin core() {
+@mixin core($theme) {
   .inherit-color {
     .mat-mdc-select-arrow,
     .mat-mdc-form-field-label,
@@ -22,7 +22,7 @@
 }
 
 @mixin theme($theme) {
-  @include core;
+  @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'form') {
     $color: mat.get-color-config($theme);

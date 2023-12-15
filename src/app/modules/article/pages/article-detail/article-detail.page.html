@@ -1,6 +1,7 @@
 <h1>Articolo</h1>
+@if ((article$ | async); as article) {
 <form
-  *ngIf="(article$ | async) as article"
+ 
   #articleForm="ngForm"
   (ngSubmit)="save(article)"
 >
@@ -43,3 +44,4 @@
     [disabled]="!articleForm.form.valid"
   >SALVA</button>
 </form>
+}

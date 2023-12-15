@@ -9,36 +9,37 @@
         [ngModel]="role$ | async"
         (selectionChange)="role$.next($event.value)"
       >
-        <mat-option
-          *ngFor="let role of (roles); trackBy: track"
-          [value]="role"
-        >
+        @for (role of (roles); track track($index, role)) {
+        <mat-option [value]="role">
           {{role.singolar}}
         </mat-option>
+        }
       </mat-select>
     </mat-form-field>
-    <ng-container *ngIf="(selectedMember$ | async) as member">
-      <div
-        *ngIf="member !== undefined"
-        class="mat-mdc-table-header-selected flex flex-row"
+    @if ((selectedMember$ | async); as member) {
+
+    @if (member !== undefined) {
+    <div class="mat-mdc-table-header-selected flex flex-row">
+      <span class="mat-mdc-table-title">Selezionato {{member?.player?.full_name}}</span>
+      <a
+        mat-button
+        matTooltip="Acquista"
+        [queryParams]="{new_member_id: member?.id}"
+        [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
       >
-        <span class="mat-mdc-table-title">Selezionato {{member?.player?.full_name}}</span>
-        <a
-          mat-button
-          matTooltip="Acquista"
-          [queryParams]="{new_member_id: member?.id}"
-          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
-        >
-          <mat-icon>add_shopping_cart</mat-icon>
-        </a>
-      </div>
-    </ng-container>
+        <mat-icon>add_shopping_cart</mat-icon>
+      </a>
+    </div>
+    }
+
+    }
   </div>
+  @if (members$ && (app.team$ | async); as team) {
   <app-member-list
-    *ngIf="members$ && (app.team$ | async) as team"
     [elevation]="0"
-    [hideRole]="true"
+    hideRole
     [isSelectable]="team.championship.started && !app.seasonEnded || false"
-    [members]="members$"
-   />
+    [members]="members$!"
+  />
+  }
 </div>
