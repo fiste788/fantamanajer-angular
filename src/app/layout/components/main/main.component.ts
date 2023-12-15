@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -74,7 +74,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
+    // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());
     if (this.container) {
@@ -89,15 +89,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   protected open(open: boolean): void {
     this.layoutService.toggleSidebar(open);
-  }
-
-  private preBootstrapExitAnimation(): Observable<void> {
-    return this.isReady$.pipe(
-      filter((e) => e),
-      tap(() => this.layoutService.showSpeedDial()),
-      switchMap(() => timer(300)),
-      map(() => this.document.querySelector('.pre-bootstrap')?.remove()),
-    );
   }
 
   private setupScrollAnimation(window: Window): void {

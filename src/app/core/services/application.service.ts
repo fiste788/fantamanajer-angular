@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ApplicationRef,
   APP_INITIALIZER,
@@ -6,6 +6,7 @@ import {
   Injectable,
   Provider,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, Subject, Subscription, interval } from 'rxjs';
 import {
@@ -27,6 +28,8 @@ import { Matchday, Team } from '@data/types';
   providedIn: 'root',
 })
 export class ApplicationService {
+  public static isBrowser = new BehaviorSubject<boolean | undefined>(undefined);
+
   public seasonEnded = false;
   public seasonStarted = true;
   public readonly teamSubject$: BehaviorSubject<Team | undefined>;
@@ -37,9 +40,11 @@ export class ApplicationService {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly authService: AuthenticationService,
     private readonly matchdayService: MatchdayService,
   ) {
+    ApplicationService.isBrowser.next(isPlatformBrowser(this.platformId));
     this.teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
     this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
     this.requireTeam$ = this.team$.pipe(filterNil());

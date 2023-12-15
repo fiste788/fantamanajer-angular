@@ -3,35 +3,37 @@
   width: 100%;
 }
 
-.mat-mdc-dialog-container, .mat-mdc-dialog-container .mdc-dialog__container, .mat-mdc-dialog-container .mdc-dialog__surface {
-    max-height: inherit;
-    min-height: inherit;
-    min-width: inherit;
-    max-width: inherit;
+.mat-mdc-dialog-container,
+.mat-mdc-dialog-container .mdc-dialog__container,
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  max-height: inherit;
+  min-height: inherit;
+  min-width: inherit;
+  max-width: inherit;
 }
 
 .mat-mdc-dialog-container {
-    --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
-    outline: 0;
-    transform-origin: 100% 0 0;
+  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
+
+  outline: 0;
+  transform-origin: 100% 0 0;
 }
 
 .mdc-dialog--open .mdc-dialog__container {
-    transform: none;
-    opacity: 1;
+  transform: none;
+  opacity: 1;
 }
 
 .mdc-dialog__container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    box-sizing: border-box;
-
-    height: 100%;
-    transform: scale(0.8);
-    opacity: 0;
-    pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  height: 100%;
+  transform: scale(0.8);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .mat-mdc-dialog-content {
@@ -47,7 +49,6 @@
   margin: 0;
   display: block;
 }
-
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
   width: 100%;

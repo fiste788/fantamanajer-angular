@@ -40,7 +40,7 @@ import { StreamDataSource } from './stream.datasource';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input({ required: true }) public context!: 'teams' | 'users' | 'clubs' | 'championships';
+  @Input({ required: true }) public context!: 'championships' | 'clubs' | 'teams' | 'users';
   @Input({ required: true, transform: numberAttribute }) public id!: number;
 
   @ViewChild(CdkVirtualScrollViewport) protected viewport?: CdkVirtualScrollViewport;

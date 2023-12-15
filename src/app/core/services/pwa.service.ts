@@ -1,8 +1,8 @@
 import { ApplicationRef, Inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { fromEvent, Observable, Subscription, timer } from 'rxjs';
-import { filter, map, switchMap, tap, first } from 'rxjs/operators';
+import { Observable, Subscription, timer } from 'rxjs';
+import { filter, map, switchMap, first } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
 
@@ -10,7 +10,7 @@ import { WINDOW } from './window.service';
   providedIn: 'root',
 })
 export class PwaService {
-  public readonly beforeInstall$: Observable<BeforeInstallPromptEvent>;
+  public readonly beforeInstall$!: Observable<BeforeInstallPromptEvent>;
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
@@ -19,17 +19,14 @@ export class PwaService {
     private readonly zone: NgZone,
     private readonly appRef: ApplicationRef,
   ) {
-    this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
-      this.window,
-      'beforeinstallprompt',
-    ).pipe(
-      tap((e) => {
-        // this.window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-      }),
-    );
+    // this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
+    //   this.window,
+    //   'beforeinstallprompt',
+    // ).pipe(
+    //   tap((e) => {
+    //     e.preventDefault();
+    //   }),
+    // );
   }
 
   public init(): Observable<void> {

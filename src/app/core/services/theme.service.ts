@@ -45,11 +45,7 @@ export class ThemeService {
   private async setThemeCss(isDark: boolean): Promise<void> {
     return new Promise((resolve) => {
       let mainEl = this.document.querySelector<HTMLLinkElement>('#main-theme');
-      if (mainEl === null) {
-        mainEl = this.createLink(`${isDark ? 'dark' : 'light'}-theme.css`, 'main-theme');
-        this.renderer.setProperty(mainEl, 'onload', resolve);
-        this.renderer.appendChild(this.head, mainEl);
-      } else {
+      if (mainEl) {
         const isLoadedDark = mainEl.href.startsWith('dark');
         const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
         let altEl = this.document.querySelector<HTMLLinkElement>('alternate-theme');
@@ -62,6 +58,10 @@ export class ThemeService {
         } else {
           this.enableAlternate(altEl);
         }
+      } else {
+        mainEl = this.createLink(`${isDark ? 'dark' : 'light'}-theme.css`, 'main-theme');
+        this.renderer.setProperty(mainEl, 'onload', resolve);
+        this.renderer.appendChild(this.head, mainEl);
       }
     });
   }

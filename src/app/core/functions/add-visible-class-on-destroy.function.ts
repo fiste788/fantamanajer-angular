@@ -5,7 +5,8 @@ import {
   AnimationMetadata,
   AnimationQueryMetadata,
 } from '@angular/animations';
-import { inject, DestroyRef } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, DestroyRef, PLATFORM_ID } from '@angular/core';
 
 const CLASS_NAME = 'visible';
 
@@ -58,13 +59,15 @@ function setVisible(el: Element) {
 }
 
 export function addVisibleClassOnDestroy(...animations: Array<AnimationTriggerMetadata>) {
-  const selector = getLeaveSelectorsFromAnimations(...animations).join(',');
-  if (selector) {
-    inject(DestroyRef).onDestroy(() => {
-      document
-        .querySelectorAll(selector)
-        // eslint-disable-next-line unicorn/no-array-for-each
-        .forEach((element) => setVisible(element));
-    });
+  if (isPlatformBrowser(inject(PLATFORM_ID))) {
+    const selector = getLeaveSelectorsFromAnimations(...animations).join(',');
+    if (selector) {
+      inject(DestroyRef).onDestroy(() => {
+        document
+          .querySelectorAll(selector)
+          // eslint-disable-next-line unicorn/no-array-for-each
+          .forEach((element) => setVisible(element));
+      });
+    }
   }
 }

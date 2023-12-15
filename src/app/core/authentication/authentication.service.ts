@@ -4,6 +4,7 @@ import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from '
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
+import { LocalstorageService } from '@app/services/local-storage.service';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
@@ -28,6 +29,7 @@ export class AuthenticationService {
     private readonly tokenStorageService: TokenStorageService,
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
+    private readonly localStorage: LocalstorageService,
   ) {
     this.user$ = this.userSubject.asObservable();
     this.requireUser$ = this.user$.pipe(filterNil());
@@ -89,7 +91,7 @@ export class AuthenticationService {
 
   public logoutUI(): void {
     const user = undefined;
-    localStorage.removeItem(this.emailField);
+    this.localStorage.removeItem(this.emailField);
     this.tokenStorageService.deleteToken();
     this.userSubject.next(user);
   }

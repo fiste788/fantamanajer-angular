@@ -41,6 +41,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling(),
     ),
+    provideClientHydration(),
     provideHttpClient(
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
@@ -67,6 +68,5 @@ export const appConfig: ApplicationConfig = {
     appInitializerProvider,
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
-    provideClientHydration(),
   ],
 };
