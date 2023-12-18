@@ -36,7 +36,7 @@ export class NotificationListModal {
   @Output() public readonly animationStateChanged = new EventEmitter<AnimationEvent>();
 
   protected readonly stream$: Observable<Stream>;
-  protected animationState: 'void' | 'enter' | 'leave' = 'enter';
+  protected animationState: 'enter' | 'leave' | 'void' = 'enter';
 
   constructor(
     private readonly notificationService: NotificationService,

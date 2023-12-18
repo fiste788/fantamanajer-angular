@@ -1,28 +1,27 @@
-<div class="animation-container">
-  <app-parallax-header
-    [backgroundImage]="team.photo_url"
-    [subtitle]="team.user.name + ' ' + team.user.surname"
-    [tabPanel]="tabPanel"
-    [tabs]="(tabs$ | async) ?? []"
-    [title]="team.name"
-    (imageLoaded)="scrollTo($event)"
-  >
-    @if (team.user.id === (auth.user$ | async)?.id && !app.seasonEnded) {
-<div
-     
-      parallax-header-right
+<div>
+  <div class="animation-container">
+    <app-parallax-header
+      [backgroundImage]="team.photo_url"
+      [subtitle]="team.user.name + ' ' + team.user.surname"
+      [tabPanel]="tabPanel"
+      [tabs]="(tabs$ | async) ?? []"
+      [title]="team.name"
+      (imageLoaded)="scrollTo($event)"
     >
-      <button
-        aria-label="Settings"
-        mat-icon-button
-        type="button"
-        (click)="openDialog(team)"
-      >
-        <mat-icon>settings</mat-icon>
-      </button>
-    </div>
-}
-  </app-parallax-header>
+      @if (team.user.id === (auth.user$ | async)?.id && !app.seasonEnded) {
+      <div parallax-header-right>
+        <button
+          aria-label="Settings"
+          mat-icon-button
+          type="button"
+          (click)="openDialog(team)"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+      }
+    </app-parallax-header>
+  </div>
 </div>
 <div
   #tabPanel

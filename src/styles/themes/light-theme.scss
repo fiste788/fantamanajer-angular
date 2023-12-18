@@ -8,4 +8,3 @@
 @include color.color(variables.$theme);
 @include main.theme(variables.$theme);
 @include app.theme(variables.$theme);
-@import '../transitions/club.component.transition.scss';

@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { filter, first, map, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
-import { enterDetailAnimation, routerTransition } from '@shared/animations';
+import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
@@ -19,7 +19,7 @@ import { LayoutService } from 'src/app/layout/services';
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
-  animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
+  animations: [trigger('contextChange', routerTransition)],
   styleUrls: ['./team-detail.page.scss'],
   templateUrl: './team-detail.page.html',
   standalone: true,
@@ -35,7 +35,6 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   ],
 })
 export class TeamDetailPage {
-  @HostBinding('@enterDetailAnimation') protected e = '';
   @Input({ required: true }) protected team!: Team;
 
   protected readonly tabs$: Observable<Array<Tab>>;

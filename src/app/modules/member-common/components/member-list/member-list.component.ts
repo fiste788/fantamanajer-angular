@@ -147,7 +147,7 @@ export class MemberListComponent implements OnInit {
     }
   }
 
-  protected sortingDataAccessor(data: Member, sortHeaderId: string): string | number {
+  protected sortingDataAccessor(data: Member, sortHeaderId: string): number | string {
     // eslint-disable-next-line unicorn/prefer-includes
     if (sortHeaderId === 'player' || stats.some((s) => s === sortHeaderId)) {
       const id = sortHeaderId as Stats | 'player';

@@ -7,6 +7,7 @@ import { RouterOutletComponent } from '@shared/components';
 import { TeamDetailPage } from './pages/team-detail/team-detail.page';
 import { teamResolver } from './pages/team-detail/team.resolver';
 import { TeamListPage } from './pages/team-list/team-list.page';
+import { teamsResolver } from './pages/team-list/team-list.resolver';
 import { TeamMembersPage } from './pages/team-members/team-members.page';
 import { TeamStreamPage } from './pages/team-stream/team-stream.page';
 
@@ -20,6 +21,9 @@ export default [
         path: '',
         component: TeamListPage,
         data: { state: 'team-list' },
+        resolve: {
+          teams: teamsResolver,
+        },
       },
       {
         path: ':team_id',

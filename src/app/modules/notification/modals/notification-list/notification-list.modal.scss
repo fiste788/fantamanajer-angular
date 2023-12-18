@@ -3,35 +3,37 @@
   width: 100%;
 }
 
-.mat-mdc-dialog-container, .mat-mdc-dialog-container .mdc-dialog__container, .mat-mdc-dialog-container .mdc-dialog__surface {
-    max-height: inherit;
-    min-height: inherit;
-    min-width: inherit;
-    max-width: inherit;
+.mdc-dialog__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  height: 100%;
+  transform: scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mat-mdc-dialog-container,
+.mat-mdc-dialog-container .mdc-dialog__container,
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  max-height: inherit;
+  min-height: inherit;
+  min-width: inherit;
+  max-width: inherit;
 }
 
 .mat-mdc-dialog-container {
-    --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
-    outline: 0;
-    transform-origin: 100% 0 0;
+  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
+
+  outline: 0;
+  transform-origin: 100% 0 0;
 }
 
 .mdc-dialog--open .mdc-dialog__container {
-    transform: none;
-    opacity: 1;
-}
-
-.mdc-dialog__container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    box-sizing: border-box;
-
-    height: 100%;
-    transform: scale(0.8);
-    opacity: 0;
-    pointer-events: none;
+  transform: none;
+  opacity: 1;
 }
 
 .mat-mdc-dialog-content {
@@ -48,18 +50,12 @@
   display: block;
 }
 
-
 .mat-mdc-dialog-container .mdc-dialog__surface {
   width: 100%;
   border-radius: var(--mdc-dialog-container-shape, 4px);
   background-color: var(--mdc-dialog-container-color, white);
   padding: 0 24px;
-  box-shadow: var(
-    --mdc-dialog-container-elevation-shadow,
-    0 11px 15px -7px rgb(0 0 0 / 20%),
-    0 24px 38px 3px rgb(0 0 0 / 14%),
-    0 9px 46px 8px rgb(0 0 0 / 12%)
-  );
+  box-shadow: var( --mdc-dialog-container-elevation-shadow, 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%) );
 }
 
 .mat-empty-state {

@@ -50,7 +50,7 @@ export class StreamService {
   }
 
   public get(
-    context: 'teams' | 'users' | 'clubs' | 'championships',
+    context: 'championships' | 'clubs' | 'teams' | 'users',
     id: number,
     page = 1,
   ): Observable<Stream> {

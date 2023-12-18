@@ -1,12 +1,13 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
+import { CurrentTransitionService } from '@app/services';
 import { Club } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
@@ -33,8 +34,9 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 export class ClubListPage {
   @Input({ required: true }) protected clubs!: Array<Club>;
 
-  constructor(private readonly router: Router) {
-    // this.clubs$ = this.route.getClubs();
+  private readonly transitionService = inject(CurrentTransitionService);
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
@@ -42,11 +44,7 @@ export class ClubListPage {
     return club.id;
   }
 
-  protected async nav(segments: Array<string>, el: HTMLImageElement): Promise<void> {
-    // add class to assign view-transition-name
-    // const ref = new ElementRef(el) as ElementRef<HTMLElement>;
-    el.classList.add('active');
-    // startViewTransition, navigate to detail route and animate the state change
-    await this.router.navigate(segments);
+  protected viewTransitionName(club: Club) {
+    return this.transitionService.getViewTransitionName(club);
   }
 }

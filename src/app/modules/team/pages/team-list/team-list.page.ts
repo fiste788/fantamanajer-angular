@@ -1,15 +1,14 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { Observable, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
-import { TeamService } from '@data/services';
-import { Championship, Team } from '@data/types';
+import { addVisibleClassOnDestroy } from '@app/functions';
+import { CurrentTransitionService } from '@app/services';
+import { Team } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
@@ -32,20 +31,19 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   ],
 })
 export class TeamListPage {
-  protected readonly teams$?: Observable<Array<Team>>;
+  @Input({ required: true }) protected readonly teams?: Array<Team>;
 
-  constructor(private readonly teamService: TeamService) {
-    this.teams$ = this.loadData();
+  private readonly transitionService = inject(CurrentTransitionService);
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
-  }
-
-  protected loadData(): Observable<Array<Team>> {
-    return getRouteData<Championship>('championship').pipe(
-      switchMap((c) => this.teamService.getTeams(c.id)),
-    );
   }
 
   protected track(_: number, item: Team): number {
     return item.id;
+  }
+
+  protected viewTransitionName(team: Team) {
+    return this.transitionService.getViewTransitionName(team, 'team_id');
   }
 }

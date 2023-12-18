@@ -6,7 +6,6 @@
   ],
   "rules": {
     "no-empty-source": null,
-    "block-no-empty": null,
-    "number-leading-zero": "always"
+    "block-no-empty": null
   }
 }

@@ -5,6 +5,7 @@
 @use './partials/scrollbar';
 @use './partials/table';
 @use './partials/toolbar';
+@use './partials/transition';
 @use './partials/form';
 
 @mixin core($theme) {
@@ -16,6 +17,7 @@
   // @include scrollbar.core;
   @include table.core($theme);
   @include toolbar.core($theme);
+  @include transition.core($theme);
 }
 
 @mixin density($theme) {
@@ -27,6 +29,7 @@
   // @include scrollbar.density($theme);
   @include table.density($theme);
   @include toolbar.density($theme);
+  @include transition.density($theme);
 }
 
 @mixin typography($theme) {
@@ -38,6 +41,7 @@
   // @include scrollbar.typography($theme);
   @include table.typography($theme);
   @include toolbar.typography($theme);
+  @include transition.typography($theme);
 }
 
 @mixin color($theme) {
@@ -49,6 +53,7 @@
   // @include scrollbar.color($theme);
   @include table.color($theme);
   @include toolbar.color($theme);
+  @include transition.color($theme);
 }
 
 @mixin theme($theme) {

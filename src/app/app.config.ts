@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
@@ -18,6 +19,7 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
+import { onViewTransitionCreated } from '@app/functions/view-transition-created.function';
 import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
@@ -39,8 +41,10 @@ export const appConfig: ApplicationConfig = {
       appRoutes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling(),
-      withViewTransitions(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withViewTransitions({
+        onViewTransitionCreated,
+      }),
     ),
     provideHttpClient(
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),

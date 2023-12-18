@@ -24,7 +24,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
 
   constructor(
     private readonly streamService: StreamService,
-    private readonly name: 'teams' | 'users' | 'clubs' | 'championships',
+    private readonly name: 'championships' | 'clubs' | 'teams' | 'users',
     private readonly id: number,
   ) {
     super();
