@@ -11,8 +11,7 @@
     "lint": "ng lint",
     "build:stats": "ng build --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/fantamanajer-angular/stats.json",
-    "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
-    "postbuild": "cd dist/fantamanajer-angular/browser && brotli-cli compress index.html ngsw-worker.js assets/svg/clubs.svg assets/svg/fantamanajer-icons.svg"
+    "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json"
   },
   "private": true,
   "dependencies": {
