@@ -1,8 +1,16 @@
-import { NgIf, NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf, NgFor, ViewportScroller } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+} from '@angular/core';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 
+import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
@@ -25,6 +33,7 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
   ],
 })
 export class ParallaxHeaderComponent {
+  @Input({ required: true }) public contextParam!: string;
   @Input() public title = '';
   @Input() public subtitle = '';
   @Input() public image?: string | null;
@@ -33,11 +42,19 @@ export class ParallaxHeaderComponent {
   @Input() public tabPanel?: MatTabNavPanel;
   @Output() public readonly imageLoaded = new EventEmitter<number>();
 
-  protected imageLoad(event: Event): void {
-    this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
+  private readonly transitionService = inject(CurrentTransitionService);
+  private readonly viewportScroller = inject(ViewportScroller);
+
+  protected imageLoad(): void {
+    // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
+    this.viewportScroller.scrollToAnchor('tab');
   }
 
   protected track(_: number, item: Tab): string {
     return item.link;
+  }
+
+  protected viewTransitionName() {
+    return this.transitionService.isOutletChanged(this.contextParam);
   }
 }

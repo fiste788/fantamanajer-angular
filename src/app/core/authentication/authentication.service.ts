@@ -55,7 +55,9 @@ export class AuthenticationService {
           }
         }
       }
-    } catch {
+    } catch (error) {
+      console.error(error);
+
       return false;
     }
 

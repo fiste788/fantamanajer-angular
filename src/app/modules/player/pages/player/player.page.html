@@ -1,10 +1,8 @@
 @if ((selectedMember$ | async); as selectedMember;) {
-<div
- 
-  @enterDetailAnimation
->
+<div @enterDetailAnimation>
   <div class="animation-container">
     <app-parallax-header
+      contextParam="id"
       [backgroundImage]="selectedMember.club.background_url"
       [image]="selectedMember.photo_url || player.photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
       [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
@@ -16,15 +14,14 @@
         parallax-header-right
       >
         @if (selectedMember.free) {
-<a
-         
+        <a
           mat-button
           [queryParams]="{new_member_id: selectedMember.id}"
           [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
         >
           Acquista
         </a>
-}
+        }
         <mat-form-field>
           <mat-label>Stagione</mat-label>
           <mat-select
@@ -33,13 +30,10 @@
             (selectionChange)="selectedMember$.next($event.value)"
           >
             @for (member of player.members; track track($index, member)) {
-  <mat-option
-             
-              [value]="member"
-            >
+            <mat-option [value]="member">
               {{ member.season.name }}
             </mat-option>
-}
+            }
           </mat-select>
         </mat-form-field>
       </div>
@@ -48,10 +42,7 @@
 </div>
 }
 @if ((ratings$ | async); as ratings) {
-<div
- 
-  class="table-container"
->
+<div class="table-container">
   <table
     #table
     mat-table
@@ -191,8 +182,8 @@
         mat-cell
       >
         @if (row.regular) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       <td>
     </ng-container>
 
@@ -213,8 +204,8 @@
         mat-cell
       >
         @if (row.yellow_card) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       <td>
     </ng-container>
 
@@ -235,8 +226,8 @@
         mat-cell
       >
         @if (row.red_card) {
-<mat-icon>done</mat-icon>
-}
+        <mat-icon>done</mat-icon>
+        }
       <td>
     </ng-container>
 
@@ -271,9 +262,9 @@
 </div>
 } @else {
 
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-   />
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
 
 }

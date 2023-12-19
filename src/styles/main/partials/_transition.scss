@@ -35,11 +35,6 @@
 
   ::view-transition-image-pair(banner-img) {
     isolation: none;
-    z-index: 1;
-  }
-
-  ::view-transition-group(banner-img) {
-    z-index: 1;
   }
 }
 @mixin color($theme) {}

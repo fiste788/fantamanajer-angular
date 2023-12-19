@@ -19,6 +19,17 @@ export class CurrentTransitionService {
     return isBannerImg ? 'banner-img' : '';
   }
 
+  public isOutletChanged(param = 'id') {
+    const transition = this.currentTransition();
+    // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
+    // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
+    const isBannerImg =
+      this.getOutlet(transition?.to)?.firstChild?.params[param] !==
+      this.getOutlet(transition?.from)?.firstChild?.params[param];
+
+    return isBannerImg ? 'banner-img' : '';
+  }
+
   private getOutlet(route?: ActivatedRouteSnapshot): ActivatedRouteSnapshot | undefined {
     if (route) {
       const state = route?.data['state'] as string | undefined;

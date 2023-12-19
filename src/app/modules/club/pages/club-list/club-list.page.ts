@@ -13,7 +13,7 @@ import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [cardCreationAnimation],
+  animations: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./club-list.page.scss'],
   templateUrl: './club-list.page.html',

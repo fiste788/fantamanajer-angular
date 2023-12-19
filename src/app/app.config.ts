@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
       appRoutes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
       withViewTransitions({
         onViewTransitionCreated,
       }),

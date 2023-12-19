@@ -1,5 +1,9 @@
 <div class="parallax-container">
-  <div class="parallax banner-img">
+  <div
+    #parallax
+    class="parallax"
+    [style.viewTransitionName]="viewTransitionName()"
+  >
     <div class="parallax-header-img">
       <div appRellax>
         <img
@@ -7,7 +11,7 @@
           sizes=""
           [alt]="title"
           [appSrcset]="backgroundImage"
-          (load)="imageLoad($event)"
+          (load)="imageLoad()"
         >
       </div>
     </div>
@@ -20,6 +24,10 @@
       >
       }
       <div class="parallax-header-title">
+        <a
+          class="anchor"
+          id="tab"
+        >Anchor</a>
         <h1
           class="mat-headline-4 title"
           [style.viewTransitionName]="'title-' + title"
@@ -38,6 +46,7 @@
       />
     </div>
   </div>
+
   @if (tabs.length) {
   <nav
     mat-tab-nav-bar
@@ -50,6 +59,7 @@
       #rla="routerLinkActive"
       mat-tab-link
       routerLinkActive
+      fragment="tab"
       [active]="rla.isActive"
       [routerLink]="tab.link"
     >
