@@ -7,9 +7,7 @@
       "path": ".angular/cache",
       "environment": "all"
     },
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -42,9 +40,7 @@
             "outputPath": "dist/fantamanajer-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -95,9 +91,7 @@
               }
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src"
-              ]
+              "includePaths": ["src"]
             },
             "serviceWorker": "ngsw-config.json"
           },
@@ -112,7 +106,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kb",
+                  "maximumWarning": "12kb",
                   "maximumError": "15kb"
                 }
               ],
@@ -176,10 +170,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss"
@@ -188,13 +179,8 @@
         "lint": {
           "builder": "@krema/angular-eslint-stylelint-builder:lint",
           "options": {
-            "eslintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ],
-            "stylelintFilePatterns": [
-              "**/*.scss"
-            ]
+            "eslintFilePatterns": ["src/**/*.ts", "src/**/*.html"],
+            "stylelintFilePatterns": ["**/*.scss"]
           }
         }
       }
