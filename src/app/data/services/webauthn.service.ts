@@ -8,8 +8,9 @@ import {
   PublicKeyCredentialWithAttestationJSON,
   CredentialCreationOptionsJSON,
   CredentialRequestOptionsJSON,
+  supported,
 } from '@github/webauthn-json';
-import { firstValueFrom, Observable, tap } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { PublicKeyCredentialSource, User } from '../types';
 
@@ -38,9 +39,7 @@ export class WebauthnService {
   public get(email?: string): Observable<CredentialRequestOptionsJSON> {
     const params = email ? new HttpParams().set('email', email) : new HttpParams();
 
-    return this.http
-      .get<CredentialRequestOptionsJSON>(routes.login, { params })
-      .pipe(tap((cred) => (cred.mediation = 'conditional')));
+    return this.http.get<CredentialRequestOptionsJSON>(routes.login, { params });
   }
 
   public create(): Observable<CredentialCreationOptionsJSON> {
@@ -49,7 +48,7 @@ export class WebauthnService {
 
   public async isSupported(): Promise<boolean> {
     if (
-      window.PublicKeyCredential &&
+      supported() &&
       PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
       PublicKeyCredential.isConditionalMediationAvailable
     ) {

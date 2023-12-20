@@ -43,12 +43,17 @@ export class AuthenticationService {
       .pipe(switchMap(async (res) => this.postLogin(res)));
   }
 
-  public async authenticatePasskey(): Promise<boolean> {
+  public async authenticatePasskey(
+    mediation: CredentialMediationRequirement = 'conditional',
+  ): Promise<boolean> {
     try {
       const cma = await PublicKeyCredential.isConditionalMediationAvailable();
       if (cma) {
         const cred = await firstValueFrom(this.webauthnService.get(), { defaultValue: undefined });
         if (cred) {
+          if (mediation) {
+            cred.mediation = mediation;
+          }
           const res = await this.webauthnService.loginPasskey(cred);
           if (res) {
             return await this.postLogin(res);
