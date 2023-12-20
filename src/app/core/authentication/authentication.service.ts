@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { supported } from '@github/webauthn-json';
 import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
@@ -47,22 +48,17 @@ export class AuthenticationService {
     mediation: CredentialMediationRequirement = 'conditional',
   ): Promise<boolean> {
     try {
-      const cma = await PublicKeyCredential.isConditionalMediationAvailable();
-      if (cma) {
+      if (supported()) {
         const cred = await firstValueFrom(this.webauthnService.get(), { defaultValue: undefined });
         if (cred) {
-          if (mediation) {
-            cred.mediation = mediation;
-          }
+          cred.mediation = mediation;
           const res = await this.webauthnService.loginPasskey(cred);
           if (res) {
             return await this.postLogin(res);
           }
         }
       }
-    } catch (error) {
-      console.error(error);
-
+    } catch {
       return false;
     }
 
