@@ -53,14 +53,14 @@
 
 a.anchor {
   display: block;
-  position: relative;
-  top: -8rem;
+  position: absolute;
+  top: 0;
   visibility: hidden;
 }
 @media (min-width: theme('screens.sm')) {
   a.anchor {
-    position: absolute;
-    top: 0;
+    position: relative;
+    top: -8rem;
   }
 
   .parallax-header-img {
