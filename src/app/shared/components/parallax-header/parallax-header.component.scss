@@ -47,9 +47,22 @@
 
 .parallax {
   min-height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+
+a.anchor {
+  display: block;
+  position: relative;
+  top: -8rem;
+  visibility: hidden;
 }
 @media (min-width: theme('screens.sm')) {
-  // @include mq.layout-bp(gt-xs) {
+  a.anchor {
+    position: absolute;
+    top: 0;
+  }
+
   .parallax-header-img {
     // height: 300px;
     max-height: unset;
@@ -101,11 +114,4 @@
       margin: 0;
     }
   }
-}
-
-a.anchor {
-  display: block;
-  position: relative;
-  top: -8rem;
-  visibility: hidden;
 }
