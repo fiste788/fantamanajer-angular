@@ -1,6 +1,12 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "exportall.config.folderListener": [
-    "/src/app/core/services"
+    "/src/app/core/services",
+    "/src/app/core/interceptors",
+    "/src/app/core/guards",
+    "/src/app/core/functions",
+    "/src/app/core/enums",
+    "/src/app/core/authentication",
+    "/src/app/data/services"
   ]
 }

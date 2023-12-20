@@ -1,5 +1,6 @@
 export * from './application.service';
 export * from './current-transition.service';
+export * from './local-storage.service';
 export * from './native-navigator.service';
 export * from './native-window.service';
 export * from './navigator.service';
