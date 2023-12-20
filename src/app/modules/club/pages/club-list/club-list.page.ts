@@ -1,20 +1,19 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { Observable } from 'rxjs';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
-import { ClubService } from '@data/services';
+import { CurrentTransitionService } from '@app/services';
 import { Club } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [cardCreationAnimation],
+  animations: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./club-list.page.scss'],
   templateUrl: './club-list.page.html',
@@ -33,10 +32,19 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   ],
 })
 export class ClubListPage {
-  protected readonly clubs$?: Observable<Array<Club>>;
+  @Input({ required: true }) protected clubs!: Array<Club>;
 
-  constructor(private readonly clubService: ClubService) {
-    this.clubs$ = this.clubService.getClubs();
+  private readonly transitionService = inject(CurrentTransitionService);
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
+  }
+
+  public track(_: number, club: Club): number {
+    return club.id;
+  }
+
+  protected viewTransitionName(club: Club) {
+    return this.transitionService.getViewTransitionName(club);
   }
 }

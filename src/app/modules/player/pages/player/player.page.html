@@ -2,6 +2,7 @@
 <div @enterDetailAnimation>
   <div class="animation-container">
     <app-parallax-header
+      contextParam="id"
       [backgroundImage]="selectedMember.club.background_url"
       [image]="selectedMember.photo_url || player?.photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
       [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"

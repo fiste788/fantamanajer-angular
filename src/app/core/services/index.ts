@@ -1,4 +1,7 @@
 export * from './application.service';
+export * from './current-transition.service';
+export * from './native-navigator.service';
+export * from './native-window.service';
 export * from './navigator.service';
 export * from './push.service';
 export * from './pwa.service';

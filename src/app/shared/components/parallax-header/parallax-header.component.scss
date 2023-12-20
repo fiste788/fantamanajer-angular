@@ -4,7 +4,6 @@
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-
   @include mat.elevation(2);
 
   img {
@@ -31,6 +30,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  a {
+    color: inherit;
+  }
 }
 
 .title {
@@ -44,14 +47,25 @@
 
 .parallax {
   min-height: 300px;
+  width: 100%;
+  object-fit: cover;
 }
 
+a.anchor {
+  display: block;
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+}
 @media (min-width: theme('screens.sm')) {
-  // @include mq.layout-bp(gt-xs) {
+  a.anchor {
+    position: relative;
+    top: -8rem;
+  }
+
   .parallax-header-img {
     // height: 300px;
     max-height: unset;
-
     @include mat.elevation(0);
 
     img {
@@ -76,7 +90,6 @@
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     max-height: 85vh;
-
     @include mat.elevation(2);
   }
 

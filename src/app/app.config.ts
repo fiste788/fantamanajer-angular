@@ -14,10 +14,12 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
   withRouterConfig,
+  withViewTransitions,
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
+import { onViewTransitionCreated } from '@app/functions/view-transition-created.function';
 import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
@@ -39,7 +41,10 @@ export const appConfig: ApplicationConfig = {
       appRoutes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+      withViewTransitions({
+        onViewTransitionCreated,
+      }),
     ),
     provideClientHydration(),
     provideHttpClient(

@@ -1,5 +1,9 @@
 <div class="parallax-container">
-  <div class="parallax">
+  <div
+    #parallax
+    class="parallax"
+    [style.viewTransitionName]="viewTransitionName()"
+  >
     <div class="parallax-header-img">
       <div appRellax>
         <img
@@ -7,29 +11,33 @@
           sizes=""
           [alt]="title"
           [appSrcset]="backgroundImage"
-          (load)="imageLoad($event)"
+          (load)="imageLoad()"
         >
       </div>
     </div>
     <div class="parallax-header-title-container">
       @if (image) {
-<img
-       
+      <img
         [alt]="title"
         [src]="image"
+        [style.viewTransitionName]="'avatar-' + title"
       >
-}
+      }
       <div class="parallax-header-title">
-        <h1 class="mat-headline-4 title">{{title}}</h1>
+        <a
+          class="anchor"
+          id="tab"
+        >Anchor</a>
+        <h1
+          class="mat-headline-4 title"
+          [style.viewTransitionName]="'title-' + title"
+        >{{title}}</h1>
         <div class="subtitle">
           @if (subtitle) {
-<p
-           
-            class="mat-subtitle-2"
-          >{{subtitle}}
+          <p class="mat-subtitle-2">{{subtitle}}
             <ng-content select="subtitle" />
           </p>
-}
+          }
         </div>
       </div>
       <ng-content
@@ -38,28 +46,28 @@
       />
     </div>
   </div>
+
   @if (tabs.length) {
-<nav
-   
+  <nav
     mat-tab-nav-bar
     [tabPanel]="tabPanel"
   >
     @for (tab of tabs; track track($index, tab)) {
-  
-      @if (!tab.hidden) {
-<a
-       
-        #rla="routerLinkActive"
-        mat-tab-link
-        routerLinkActive
-        [active]="rla.isActive"
-        [routerLink]="tab.link"
-      >
-        {{tab.label}}
-      </a>
-}
-    
-}
+
+    @if (!tab.hidden) {
+    <a
+      #rla="routerLinkActive"
+      mat-tab-link
+      routerLinkActive
+      fragment="tab"
+      [active]="rla.isActive"
+      [routerLink]="tab.link"
+    >
+      {{tab.label}}
+    </a>
+    }
+
+    }
   </nav>
-}
+  }
 </div>

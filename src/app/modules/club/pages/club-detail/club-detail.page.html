@@ -1,13 +1,14 @@
-<div @enterDetailAnimation>
+<div>
   <div class="animation-container">
     <app-parallax-header
+      contextParam="id"
       [backgroundImage]="club.background_url"
       [image]="club.photo_url"
       [tabPanel]="tabPanel"
       [tabs]="tabs"
       [title]="club.name"
       (imageLoaded)="scrollTo($event)"
-     />
+    />
   </div>
 </div>
 <div

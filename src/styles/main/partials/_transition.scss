@@ -1,0 +1,59 @@
+@use "@angular/material" as mat;
+
+// @use "@angular/flex-layout/mq";
+@mixin core($theme) {
+  ::view-transition-new(banner-img),
+  ::view-transition-old(banner-img) {
+    /* Prevent the default animation, so both views remain opacity:1 throughout the transition */
+    animation: none;
+
+    /* Use normal blending, so the new view sits on top and obscures the old view */
+    mix-blend-mode: normal;
+
+    /* Make the height the same as the group, meaning the view size might not match its aspect-ratio. */
+    height: 100%;
+
+    /* Clip any overflow of the view */
+    overflow: clip;
+  }
+
+  /* The old view is the thumbnail */
+  ::view-transition-old(banner-img) {
+    /* Maintain the aspect ratio of the view, by shrinking it to fit within the bounds of the element */
+    object-fit: contain;
+  }
+
+  /* The new view is the full image */
+  ::view-transition-new(banner-img) {
+    /* Maintain the aspect ratio of the view, by growing it to cover the bounds of the element */
+    object-fit: cover;
+  }
+
+  :root {
+    view-transition-name: none;
+  }
+
+  ::view-transition-image-pair(banner-img) {
+    isolation: none;
+  }
+}
+@mixin color($theme) {}
+@mixin density($theme) {}
+@mixin typography($theme) {}
+@mixin theme($theme) {
+   @include core($theme);
+  @include mat.private-check-duplicate-theme-styles($theme, "transition") {
+    $color: mat.get-color-config($theme);
+    $density: mat.get-density-config($theme);
+    $typography: mat.get-typography-config($theme);
+    @if $color {
+       @include color($color);
+    }
+    @if $density {
+       @include density($density);
+    }
+    @if $typography {
+       @include typography($typography);
+    }
+  }
+}
