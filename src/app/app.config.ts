@@ -19,7 +19,7 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
-import { onViewTransitionCreated } from '@app/functions/view-transition-created.function';
+import { onViewTransitionCreated } from '@app/functions';
 import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
@@ -32,13 +32,13 @@ import {
 } from '@app/services';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
-import appRoutes from './app.routes';
+import routes from './app.routes';
 import { LayoutService } from './layout/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
-      appRoutes,
+      routes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),

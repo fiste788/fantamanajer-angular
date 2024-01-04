@@ -3,16 +3,11 @@
   width: 100%;
 }
 
-.mdc-dialog__container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  box-sizing: border-box;
-  height: 100%;
-  transform: scale(0.8);
-  opacity: 0;
-  pointer-events: none;
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
+
+  outline: 0;
+  transform-origin: 100% 0 0;
 }
 
 .mat-mdc-dialog-container,
@@ -22,13 +17,6 @@
   min-height: inherit;
   min-width: inherit;
   max-width: inherit;
-}
-
-.mat-mdc-dialog-container {
-  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
-
-  outline: 0;
-  transform-origin: 100% 0 0;
 }
 
 .mdc-dialog--open .mdc-dialog__container {

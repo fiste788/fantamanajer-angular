@@ -2,7 +2,6 @@
   height="256"
   width="181"
   [alt]="member?.player?.full_name"
-  [defaultImage]="'/assets/svg/clubs.svg#club-' + member?.club_id"
-  [lazyLoad]="member?.photo_url || ''"
+  [src]="'/assets/svg/clubs.svg#club-' + member?.club_id"
   [class.mat-card-image]="inCard"
 />
