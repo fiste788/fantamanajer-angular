@@ -3,6 +3,13 @@
   width: 100%;
 }
 
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
+
+  outline: 0;
+  transform-origin: 100% 0 0;
+}
+
 .mat-mdc-dialog-container,
 .mat-mdc-dialog-container .mdc-dialog__container,
 .mat-mdc-dialog-container .mdc-dialog__surface {
@@ -10,13 +17,6 @@
   min-height: inherit;
   min-width: inherit;
   max-width: inherit;
-}
-
-.mat-mdc-dialog-container {
-  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
-
-  outline: 0;
-  transform-origin: 100% 0 0;
 }
 
 .mdc-dialog--open .mdc-dialog__container {

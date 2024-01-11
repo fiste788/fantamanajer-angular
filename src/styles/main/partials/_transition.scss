@@ -1,4 +1,4 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 // @use "@angular/flex-layout/mq";
 @mixin core($theme) {
@@ -37,23 +37,26 @@
     isolation: none;
   }
 }
-@mixin color($theme) {}
-@mixin density($theme) {}
-@mixin typography($theme) {}
+@mixin color($theme) {
+}
+@mixin density($theme) {
+}
+@mixin typography($theme) {
+}
 @mixin theme($theme) {
-   @include core($theme);
-  @include mat.private-check-duplicate-theme-styles($theme, "transition") {
+  @include core($theme);
+  @include mat.private-check-duplicate-theme-styles($theme, 'transition') {
     $color: mat.get-color-config($theme);
     $density: mat.get-density-config($theme);
     $typography: mat.get-typography-config($theme);
     @if $color {
-       @include color($color);
+      @include color($color);
     }
     @if $density {
-       @include density($density);
+      @include density($density);
     }
     @if $typography {
-       @include typography($typography);
+      @include typography($typography);
     }
   }
 }

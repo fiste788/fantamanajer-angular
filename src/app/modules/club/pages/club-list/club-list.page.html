@@ -36,9 +36,10 @@
     <mat-card-header>
       <img
         class="club-header-image"
+        loading="lazy"
         mat-card-avatar
         [alt]="club.name"
-        [lazyLoad]="club.photo_url || ''"
+        [src]="club.photo_url || ''"
         [style.viewTransitionName]="'avatar-' + club.name"
       >
       <mat-card-title [style.viewTransitionName]="'title-' + club.name">{{club.name}}</mat-card-title>
