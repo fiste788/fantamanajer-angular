@@ -9,9 +9,9 @@ $theme: mat.define-dark-theme(
     color: (
       primary: $primary,
       accent: $accent,
-      warn: $warn,
+      warn: $warn
     ),
     typography: mat.define-typography-config(),
-    density: 0,
+    density: 0
   )
 );
