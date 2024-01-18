@@ -4,6 +4,7 @@
 @mixin core($theme) {
   .mat-mdc-card {
     margin: 1rem;
+    overflow: hidden;
   }
 
   .mat-mdc-card-header-text {

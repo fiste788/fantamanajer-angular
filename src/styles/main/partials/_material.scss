@@ -118,23 +118,29 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'material') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-
-    @if $color {
-      @include color($color);
+    @if mat.get-theme-version($theme) == 1 {
+      @include core($theme);
+      @include color($theme);
+      @include density($theme);
+      @include typography($theme);
     }
+    else {
+      $color: mat.get-color-config($theme);
+      $density: mat.get-density-config($theme);
+      $typography: mat.get-typography-config($theme);
 
-    @if $density {
-      @include density($density);
-    }
+      @if $color {
+        @include color($color);
+      }
 
-    @if $typography {
-      @include typography($typography);
+      @if $density {
+        @include density($density);
+      }
+
+      @if $typography {
+        @include typography($typography);
+      }
     }
   }
 }

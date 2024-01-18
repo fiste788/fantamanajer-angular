@@ -30,31 +30,33 @@
 }
 
 @mixin color($theme) {
-  @include layout.color($theme);
-  @include login.color($theme);
-  @include member-selection.color($theme);
-  @include lineup-detail.color($theme);
-  @include mat-empty-state.color($theme);
+  //@include layout.color($theme);
+  //@include login.color($theme);
+  //@include member-selection.color($theme);
+  //@include lineup-detail.color($theme);
+  //@include mat-empty-state.color($theme);
 }
 
 @mixin theme($theme) {
   @include core($theme);
 
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @if mat.get-theme-version($theme) != 1 {
+      $color: mat.get-color-config($theme);
+      $density: mat.get-density-config($theme);
+      $typography: mat.get-typography-config($theme);
 
-    @if $color {
-      @include color($color);
-    }
+      @if $color {
+        @include color($color);
+      }
 
-    @if $density {
-      @include density($density);
-    }
+      @if $density {
+        @include density($density);
+      }
 
-    @if $typography {
-      @include typography($typography);
+      @if $typography {
+        @include typography($typography);
+      }
     }
   }
 }
