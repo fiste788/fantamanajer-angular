@@ -1,4 +1,4 @@
-import { KeyValue, KeyValuePipe, NgFor, NgIf } from '@angular/common';
+import { KeyValuePipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -57,9 +57,5 @@ export class NotificationSubscriptionComponent implements OnInit {
 
   protected toggle(): void {
     this.subscriptionsChange.emit(this.subscriptions);
-  }
-
-  protected track(_: number, item: KeyValue<Notification, NotificationSubscription>): string {
-    return item.key.name; // or item.id
   }
 }

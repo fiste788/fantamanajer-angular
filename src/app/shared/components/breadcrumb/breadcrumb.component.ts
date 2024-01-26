@@ -53,8 +53,4 @@ export class BreadcrumbComponent {
   constructor(breadcrumbService: BreadcrumbService) {
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
   }
-
-  protected track(index: number, crumb: Breadcrumb | null): string {
-    return crumb === null ? `${index}` : crumb.label;
-  }
 }

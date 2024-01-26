@@ -1,6 +1,6 @@
 @if (dispositions) {
 
-@for (area of module.areas; track trackByArea($index, area)) {
+@for (area of module.areas; track area.role.id) {
 <div
   class="flex flex-row"
   [ngClass]="[area.role.abbreviation, 'area-container']"
@@ -13,7 +13,7 @@
     class="area flex flex-col justify-around md:flex-row "
     [ngClass]="{'md:flex-wrap': wrap}"
   >
-    @for (i of (area.toIndex | range: area.fromIndex); track trackByPosition($index, i)) {
+    @for (i of (area.toIndex | range: area.fromIndex); track i) {
     <ng-container [ngModelGroup]="i + ''">
       @if (dispositions[i]; as disp) {
       <app-member-selection

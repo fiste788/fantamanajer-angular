@@ -58,10 +58,6 @@ export class RankingPage {
     return this.scoreService.getRanking(championship.id);
   }
 
-  protected track(_: number, item: number): number {
-    return item;
-  }
-
   protected trackRanking(idx: number): number {
     return idx;
   }

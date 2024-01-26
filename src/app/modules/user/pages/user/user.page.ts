@@ -21,8 +21,4 @@ export class UserPage {
     { label: 'Passkey', link: 'passkeys' },
     { label: 'Attività', link: 'stream' },
   ];
-
-  protected track(_: number, item: Tab): string {
-    return item.link;
-  }
 }

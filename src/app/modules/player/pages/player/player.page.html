@@ -29,7 +29,7 @@
             [ngModel]="selectedMember"
             (selectionChange)="selectedMember$.next($event.value)"
           >
-            @for (member of player.members; track track($index, member)) {
+            @for (member of player.members; track member.id) {
             <mat-option [value]="member">
               {{ member.season.name }}
             </mat-option>

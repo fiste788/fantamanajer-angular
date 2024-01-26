@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { KeyValue, NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
+import { NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -101,14 +101,6 @@ export class MemberSelectionComponent implements ControlValueAccessor {
 
   public writeValue(obj: Member | null): void {
     this.ngModelDirective?.valueAccessor?.writeValue(obj);
-  }
-
-  public track(_: number, option: MemberOption): number {
-    return option.member.id;
-  }
-
-  public trackMember(_: number, option: KeyValue<Role, Array<MemberOption>>): number {
-    return option.key.id;
   }
 
   public compareFn(t1: Member | null, t2: Member | null): boolean {

@@ -97,8 +97,4 @@ export class LineupDetailComponent implements OnInit {
   protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
     return a.key < b.key ? b.key : a.key;
   }
-
-  protected trackByBench(_: number, item: number): number {
-    return item; // or item.id
-  }
 }

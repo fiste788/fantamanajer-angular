@@ -184,12 +184,4 @@ export class SelectionComponent {
     this.roleSubject$.next(role);
     this.newMemberRoleSubject$.next(role);
   }
-
-  protected track(_: number, item: KeyValue<Role, Array<Member>>): number {
-    return item.key.id;
-  }
-
-  protected trackMember(_: number, item: Member): number {
-    return item.id;
-  }
 }
