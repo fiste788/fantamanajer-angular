@@ -11,10 +11,7 @@
     <app-navbar />
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar
-      [@scrollUpAnimation]="(showedToolbar$ | async)"
-      [showDrawerButton]="(isHandset$ | async) || false"
-     />
+    <app-toolbar [@scrollUpAnimation]="(showedToolbar$ | async)" />
     <main [@contextChange]="o | state">
       <router-outlet #o="outlet" />
     </main>
@@ -24,4 +21,4 @@
   #speedDial
   class="speed-dial"
   [@closeAnimation]="(showedSpeedDial$ | async)"
- />
+/>

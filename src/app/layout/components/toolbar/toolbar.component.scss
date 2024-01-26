@@ -9,3 +9,8 @@ app-breadcrumb {
   flex: 10 1 auto;
   overflow: hidden;
 }
+@media (min-width: theme('screens.md')) {
+  .drawer {
+    display: none;
+  }
+}

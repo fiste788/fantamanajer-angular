@@ -11,6 +11,7 @@ app-toolbar {
 .mat-sidenav {
   width: 340px;
   max-width: calc(100% - 54px);
+  display: none;
 
   .mat-toolbar {
     background: inherit;
@@ -42,5 +43,10 @@ main {
 
   .mat-sidenav {
     width: 15rem !important;
+    display: block;
+  }
+
+  .mat-drawer-content {
+    margin-left: 15rem;
   }
 }

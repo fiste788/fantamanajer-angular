@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { DOCUMENT, AsyncPipe } from '@angular/common';
+import { DOCUMENT, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,6 +8,7 @@ import {
   Inject,
   NgZone,
   OnDestroy,
+  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
@@ -60,6 +61,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     @Inject(WINDOW) private readonly window: Window,
+    @Inject(PLATFORM_ID) private readonly platformId: string,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -74,6 +76,9 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.drawer!._content.nativeElement.parentElement!.style.display = 'block';
+    }
     // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());

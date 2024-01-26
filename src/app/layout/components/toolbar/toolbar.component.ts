@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, booleanAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -30,8 +30,6 @@ import { NotificationComponent } from '../notification/notification.component';
   ],
 })
 export class ToolbarComponent {
-  @Input({ transform: booleanAttribute }) public showDrawerButton = false;
-
   protected readonly loggedIn$: Observable<boolean>;
 
   constructor(

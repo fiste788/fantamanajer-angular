@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-empty */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -10,7 +10,7 @@ import bootstrap from './src/main.server';
 
 interface Env {
   ASSETS: { fetch: typeof fetch };
-  API: { fetch: typeof fetch };
+  API?: { fetch: typeof fetch };
 }
 
 // We attach the Cloudflare `fetch()` handler to the global scope
@@ -18,11 +18,31 @@ interface Env {
 // See tools/bundle.mjs
 async function workerFetchHandler(request: Request, env: Env) {
   const url = new URL(request.url);
-  console.log('render SSR', url.href);
 
   if (url.pathname.startsWith('/api/')) {
-    return env.API.fetch(request);
+    return env.API?.fetch(request);
   }
+
+  try {
+    const path = url.pathname === '/' || url.pathname === '' ? '/home' : url.pathname;
+    const ssg = `/ssg${path}/index.html`;
+    console.log(`try to fetch asset`, ssg);
+
+    const asset = await env.ASSETS.fetch(new URL(ssg, url));
+    console.log(asset);
+    if (asset.status === 200) {
+      console.log('render SSG');
+
+      const resp = new Response(asset.body, asset);
+      resp.headers.append('ssg', '1');
+
+      return resp;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  console.log('render SSR', url.href);
 
   // Get the root `index.html` content.
   const indexUrl = new URL('/', url);
