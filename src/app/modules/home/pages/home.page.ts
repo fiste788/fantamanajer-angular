@@ -1,17 +1,18 @@
+/* eslint-disable @angular-eslint/no-async-lifecycle-method */
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
-import { MemberService } from '@data/services';
-import { Member } from '@data/types';
+import { MemberService, RoleService } from '@data/services';
+import { Member, Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent, PlayerImageComponent } from '@shared/components';
 
@@ -35,32 +36,45 @@ interface BestPlayer {
     MatListModule,
     RouterLink,
     MatEmptyStateComponent,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     AsyncPipe,
   ],
 })
 export class HomePage {
-  protected readonly bestPlayers$: Observable<Array<BestPlayer> | undefined>;
+  protected roles: Array<{ role: Role; best_players?: BestPlayer }> = this.roleService
+    .list()
+    .map((r) => ({ role: r }));
 
   constructor(
     private readonly memberService: MemberService,
+    private readonly roleService: RoleService,
+    private readonly cd: ChangeDetectorRef,
     public app: ApplicationService,
   ) {
-    this.bestPlayers$ = this.loadBestPlayers();
     addVisibleClassOnDestroy(cardCreationAnimation);
+    this.loadBestPlayers();
   }
 
-  protected loadBestPlayers(): Observable<Array<BestPlayer>> {
-    return this.memberService.getBest().pipe(
-      map((role) =>
-        role
-          .filter((a) => a.best_players !== undefined)
-          .map((a) => ({
-            first: a.best_players!.shift()!,
-            others: a.best_players ?? [],
-            role: a.singolar,
-          })),
-      ),
-    );
+  protected loadBestPlayers(): Subscription {
+    return this.memberService
+      .getBest()
+      .pipe(
+        map((roles) =>
+          roles
+            .filter((a) => a.best_players !== undefined)
+            .map((a) => ({
+              first: a.best_players!.shift()!,
+              others: a.best_players ?? [],
+              role: a.singolar,
+            })),
+        ),
+        tap((bps) => {
+          for (const bp of bps) {
+            this.roles.find((r) => r.role.singolar === bp.role)!.best_players = bp;
+          }
+          this.cd.detectChanges();
+        }),
+      )
+      .subscribe();
   }
 }

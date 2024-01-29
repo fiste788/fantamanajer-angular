@@ -18,6 +18,7 @@
   @include mat.list-base($theme);
   @include mat.menu-base($theme);
   @include mat.progress-spinner-base($theme);
+  @include mat.progress-bar-base($theme);
   @include mat.select-base($theme);
   @include mat.sidenav-base($theme);
   @include mat.slide-toggle-base($theme);
@@ -47,6 +48,7 @@
   @include mat.list-color($theme);
   @include mat.menu-color($theme);
   @include mat.progress-spinner-color($theme);
+  @include mat.progress-bar-color($theme);
   @include mat.select-color($theme);
   @include mat.sidenav-color($theme);
   @include mat.slide-toggle-color($theme);
@@ -76,6 +78,7 @@
   @include mat.list-density($theme);
   @include mat.menu-density($theme);
   @include mat.progress-spinner-density($theme);
+  @include mat.progress-bar-density($theme);
   @include mat.select-density($theme);
   @include mat.sidenav-density($theme);
   @include mat.slide-toggle-density($theme);
@@ -105,6 +108,7 @@
   @include mat.list-typography($theme);
   @include mat.menu-typography($theme);
   @include mat.progress-spinner-typography($theme);
+  @include mat.progress-bar-typography($theme);
   @include mat.select-typography($theme);
   @include mat.sidenav-typography($theme);
   @include mat.slide-toggle-typography($theme);
