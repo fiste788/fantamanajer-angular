@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
@@ -41,16 +41,15 @@ interface BestPlayer {
   ],
 })
 export class HomePage {
-  protected roles: Array<{ role: Role; best_players?: BestPlayer }> = this.roleService
-    .list()
-    .map((r) => ({ role: r }));
+  protected matchday$ = inject(ApplicationService).matchday$;
+  protected roles: Array<{ role: Role; best_players?: BestPlayer }>;
 
   constructor(
     private readonly memberService: MemberService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef,
-    public app: ApplicationService,
   ) {
+    this.roles = this.roleService.list().map((r) => ({ role: r }));
     addVisibleClassOnDestroy(cardCreationAnimation);
     this.loadBestPlayers();
   }
