@@ -1,7 +1,13 @@
 @if (lineup) {
 <div @cardCreationAnimation>
-  <app-lineup-options [disabled]="disabled" [lineup]="lineup">
-    <ng-content buttons select="[buttons]" />
+  <app-lineup-options
+    [disabled]="disabled"
+    [lineup]="lineup"
+  >
+    <ng-content
+      buttons
+      select="[buttons]"
+    />
   </app-lineup-options>
   @if (lineupService.selectedModule) {
 
@@ -16,14 +22,20 @@
   </div>
 
   } @if (lineup.dispositions.length) {
-  <fieldset class="benchwarmers flex" ngModelGroup="dispositions">
-    <mat-card appearance="outlined" class="grow">
+  <fieldset
+    class="benchwarmers flex"
+    ngModelGroup="dispositions"
+  >
+    <mat-card
+      appearance="outlined"
+      class="grow"
+    >
       <mat-card-header>
         <mat-card-title>Panchinari</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="flex flex-col justify-around md:flex-row md:flex-wrap">
-          @for (bench of lineupService.benchs; track trackByBench($index, bench)) {
+          @for (bench of lineupService.benchs; track bench) {
           <div [ngModelGroup]="bench + ''">
             @if (lineup.dispositions[bench]; as disp) {
             <app-member-selection

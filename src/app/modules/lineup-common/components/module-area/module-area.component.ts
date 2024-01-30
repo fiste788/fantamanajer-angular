@@ -12,7 +12,7 @@ import {
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { Area, Member, Module, Role } from '@data/types';
+import { Member, Module, Role } from '@data/types';
 import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
 import { StickyDirective } from '@shared/directives';
 import { RangePipe } from '@shared/pipes';
@@ -89,14 +89,6 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
         disabled: this.isRegular(member),
       }));
     }
-  }
-
-  protected trackByArea(_: number, item: Area): number {
-    return item.role.id; // or item.id
-  }
-
-  protected trackByPosition(_: number, item: number): number {
-    return item; // or item.id
   }
 
   protected memberSelectionChange(role: Role, member: Member | null): void {

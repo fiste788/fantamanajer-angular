@@ -1,4 +1,4 @@
-import { KeyValue, NgIf, NgFor, DatePipe, KeyValuePipe } from '@angular/common';
+import { NgIf, NgFor, DatePipe, KeyValuePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy, Input, booleanAttribute } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
-import { Lineup, MemberOption, Module } from '@data/types';
+import { Lineup } from '@data/types';
 
 import { LineupService } from '../lineup.service';
 
@@ -39,19 +39,4 @@ export class LineupOptionsComponent {
   @Input({ transform: booleanAttribute }) public disabled = false;
 
   constructor(protected readonly lineupService: LineupService) {}
-
-  protected trackByCaptain(_: number, item: MemberOption): number {
-    return item.member.id; // or item.id
-  }
-
-  protected trackByModules(_: number, item: Module): string {
-    return item.key; // or item.id
-  }
-
-  protected trackByCaptainField(
-    _: number,
-    item: KeyValue<string, 'captain_id' | 'vcaptain_id' | 'vvcaptain_id'>,
-  ): string {
-    return item.key; // or item.id
-  }
 }

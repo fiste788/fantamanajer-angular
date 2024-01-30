@@ -64,10 +64,6 @@ export class MemberFreePage implements AfterViewInit {
     this.selectedMember$ = this.getSelectedMember();
   }
 
-  protected track(_: number, item: Role): number {
-    return item.id; // or item.id
-  }
-
   protected compareRole(role1?: Role, role2?: Role): boolean {
     return role1?.id === role2?.id;
   }
