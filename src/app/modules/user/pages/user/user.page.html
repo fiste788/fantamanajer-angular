@@ -1,22 +1,21 @@
 @if (tabs.length) {
 
-  <nav
-    mat-tab-nav-bar
-    [tabPanel]="tabPanel"
-  >
-    @for (tab of tabs; track track($index, tab)) {
+<nav
+  mat-tab-nav-bar
+  [tabPanel]="tabPanel"
+>
+  @for (tab of tabs; track tab.link) {
   <a
-     
-      #rla="routerLinkActive"
-      mat-tab-link
-      routerLinkActive
-      [active]="rla.isActive"
-      [routerLink]="tab.link"
-    >
-      {{tab.label}}
-    </a>
-}
-  </nav>
+    #rla="routerLinkActive"
+    mat-tab-link
+    routerLinkActive
+    [active]="rla.isActive"
+    [routerLink]="tab.link"
+  >
+    {{tab.label}}
+  </a>
+  }
+</nav>
 
 }
 <div

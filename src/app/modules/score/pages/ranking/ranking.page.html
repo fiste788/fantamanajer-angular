@@ -1,8 +1,5 @@
 @if ((ranking$ | async); as ranking) {
-<div
- 
-  class="mat-elevation-z1 ranking-container table-container"
->
+<div class="mat-elevation-z1 ranking-container table-container">
   <table
     #table
     class="ranking"
@@ -41,11 +38,8 @@
       > {{row.sum_points}} </td>
     </ng-container>
 
-    @for (matchday of matchdays$ | async; track track($index, matchday)) {
-  <ng-container
-     
-      [matColumnDef]="matchday + ''"
-    >
+    @for (matchday of matchdays$ | async; track matchday) {
+    <ng-container [matColumnDef]="matchday + ''">
       <th
         *matHeaderCellDef
         class="matchday"
@@ -59,7 +53,7 @@
         <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points}}</a>
       </td>
     </ng-container>
-}
+    }
 
     <tr
       *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
@@ -74,9 +68,9 @@
 </div>
 } @else {
 
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-   />
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
 
 }

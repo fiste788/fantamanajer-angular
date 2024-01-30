@@ -2,11 +2,11 @@
 
 @if (crumbs.length) {
 <nav>
-  <ul
+  <ol
     class="breadcrumb"
     @breadcrumbTransition
   >
-    @for (crumb of crumbs; track track($index, crumb); let last = $last; let first = $first) {
+    @for (crumb of crumbs; track crumb?.label; let last = $last; let first = $first) {
     <li
       class="breadcrumb-item"
       [class.active]="last"
@@ -24,7 +24,7 @@
       </span>
     </li>
     }
-  </ul>
+  </ol>
 </nav>
 }
 

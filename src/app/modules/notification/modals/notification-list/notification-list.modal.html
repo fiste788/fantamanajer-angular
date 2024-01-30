@@ -16,7 +16,7 @@
 
         @if (stream.results.length) {
         <mat-list @listItemAnimation>
-          @for (activity of stream.results; track track($index)) {
+          @for (activity of stream.results; track $index) {
           <mat-list-item>
             <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
             <h3 matListItemTitle> {{activity.title}} </h3>

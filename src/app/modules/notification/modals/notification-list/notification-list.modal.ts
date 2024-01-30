@@ -66,8 +66,4 @@ export class NotificationListModal {
   public startExitAnimation(): void {
     this.animationState = 'leave';
   }
-
-  public track(_: number): number {
-    return _; // or item.id
-  }
 }
