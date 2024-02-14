@@ -2,6 +2,7 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,6 +44,7 @@ import { LayoutService } from 'src/app/layout/services';
     MatIconModule,
     MatProgressSpinnerModule,
     AsyncPipe,
+    MatCardModule,
   ],
 })
 export class PlayerPage implements OnInit {

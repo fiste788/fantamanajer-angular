@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
   app-profile {
     .mdc-text-field--filled:not(.mdc-text-field--disabled) {
       background-color: transparent;
@@ -27,23 +27,17 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'profile') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
 
-    @if $color {
-      @include color($color);
+    @if mat.theme-has($theme, color) {
+      @include color($theme);
     }
-
-    @if $density {
-      @include density($density);
+    @if mat.theme-has($theme, density) {
+      @include density($theme);
     }
-
-    @if $typography {
-      @include typography($typography);
+    @if mat.theme-has($theme, typography) {
+      @include typography($theme);
     }
   }
 }

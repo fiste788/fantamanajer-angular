@@ -1,7 +1,6 @@
 <h1>Articolo</h1>
 @if ((article$ | async); as article) {
 <form
- 
   #articleForm="ngForm"
   (ngSubmit)="save(article)"
 >
@@ -39,7 +38,7 @@
   </mat-form-field>
   <button
     color="accent"
-    mat-raised-button
+    mat-flat-button
     type="submit"
     [disabled]="!articleForm.form.valid"
   >SALVA</button>

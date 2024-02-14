@@ -1,5 +1,6 @@
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, booleanAttribute } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,7 +18,15 @@ import { CaptainPipe } from '@shared/pipes';
   styleUrls: ['./disposition-list.component.scss'],
   templateUrl: './disposition-list.component.html',
   standalone: true,
-  imports: [NgIf, MatTableModule, MatIconModule, RouterLink, MatTooltipModule, CaptainPipe],
+  imports: [
+    NgIf,
+    MatTableModule,
+    MatIconModule,
+    RouterLink,
+    MatTooltipModule,
+    CaptainPipe,
+    MatCardModule,
+  ],
 })
 export class DispositionListComponent implements OnInit {
   @Input() public caption!: string;

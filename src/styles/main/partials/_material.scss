@@ -1,12 +1,13 @@
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
-@mixin core($theme) {
+@mixin base($theme) {
   @include mat.core;
+  @include mat.core-base($theme);
   @include mat.badge-base($theme);
   @include mat.button-base($theme);
   @include mat.card-base($theme);
   @include mat.checkbox-base($theme);
-  @include mat.core-base($theme);
   @include mat.dialog-base($theme);
   @include mat.divider-base($theme);
   @include mat.expansion-base($theme);
@@ -119,28 +120,9 @@
 
 @mixin theme($theme) {
   @include mat.private-check-duplicate-theme-styles($theme, 'material') {
-    @if mat.get-theme-version($theme) == 1 {
-      @include core($theme);
-      @include color($theme);
-      @include density($theme);
-      @include typography($theme);
-    }
-    else {
-      $color: mat.get-color-config($theme);
-      $density: mat.get-density-config($theme);
-      $typography: mat.get-typography-config($theme);
-
-      @if $color {
-        @include color($color);
-      }
-
-      @if $density {
-        @include density($density);
-      }
-
-      @if $typography {
-        @include typography($typography);
-      }
-    }
+    @include core($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

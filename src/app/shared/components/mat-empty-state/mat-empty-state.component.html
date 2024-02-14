@@ -7,22 +7,16 @@
 >
   <div class="mat-empty-state-container">
     @if (icon) {
-<mat-icon
-     
-      class="mat-empty-state-icon"
-    >
+    <mat-icon class="mat-empty-state-icon">
       {{icon}}
     </mat-icon>
-}
+    }
     <strong class="mat-empty-state-label">{{label}}</strong>
     @if (description) {
-<p
-     
-      class="mat-empty-state-description"
-    >
+    <p class="mat-empty-state-description">
       {{description}}
     </p>
-}
+    }
     <ng-content />
   </div>
 </div>

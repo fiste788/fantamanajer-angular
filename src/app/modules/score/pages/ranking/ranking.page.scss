@@ -4,7 +4,7 @@
 }
 
 .mat-column-team-name {
-  min-width: 11rem;
+  min-width: 12rem;
 }
 
 .mat-mdc-cell.matchday,
@@ -15,4 +15,9 @@
 
 .mat-column-points {
   padding-right: 1rem;
+  text-align: right;
+}
+
+td.mat-column-points {
+  font-weight: 500;
 }

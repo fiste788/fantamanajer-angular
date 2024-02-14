@@ -8,12 +8,14 @@
   $background: map.get($theme, background);
 
   a {
-    color: var(--mdc-outlined-button-label-text-color);
+    color: mat.get-theme-color($theme, primary);
+    // color: var(--mdc-outlined-button-label-text-color);
     //color: mat.get-color-from-palette($accent, darker);
   }
 
   img[src*='svg'] {
-    background-color: var(--mdc-outlined-card-container-color);
+    background-color: mat.get-theme-color($theme, primary, 99);
+    //background-color: var(--mdc-outlined-card-container-color);
     //background-color: mat.get-color-from-palette($background, 'card');
   }
 }

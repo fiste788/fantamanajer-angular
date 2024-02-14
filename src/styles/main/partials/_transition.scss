@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 // @use "@angular/flex-layout/mq";
-@mixin core($theme) {
+@mixin base($theme) {
   ::view-transition-new(banner-img),
   ::view-transition-old(banner-img) {
     /* Prevent the default animation, so both views remain opacity:1 throughout the transition */
@@ -44,19 +44,12 @@
 @mixin typography($theme) {
 }
 @mixin theme($theme) {
-  @include core($theme);
   @include mat.private-check-duplicate-theme-styles($theme, 'transition') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-    @if $color {
-      @include color($color);
-    }
-    @if $density {
-      @include density($density);
-    }
-    @if $typography {
-      @include typography($typography);
-    }
+    @include base($theme);
+    @include color($theme);
+
+    @include density($theme);
+
+    @include typography($theme);
   }
 }

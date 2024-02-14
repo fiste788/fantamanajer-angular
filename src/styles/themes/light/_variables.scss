@@ -2,17 +2,14 @@
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
 
-$typography: mat.define-typography-config(
-  $font-family: 'Open Sans'
-);
 $m3-base-config: (
   color: (
-    primary: matx.$m3-magenta-palette,
-    secondary: matx.$m3-purple-palette,
-    tertiary: matx.$m3-red-palette
+    primary: matx.$m3-green-palette,
+    tertiary: matx.$m3-violet-palette
   ),
   typography: (
-    plain-family: 'Open Sans'
+    plain-family: 'Open Sans',
+    brand-family: 'Open Sans'
   )
 );
 

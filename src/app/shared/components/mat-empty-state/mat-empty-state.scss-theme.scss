@@ -1,19 +1,16 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
 }
 
 @mixin color($theme) {
-  $foreground: map.get($theme, foreground);
-  $background: map.get($theme, background);
-
   .mat-empty-state.mat-rounded {
-    background-color: mat.get-color-from-palette($background, 'app-bar');
+    background-color: mat.get-theme-color($theme, primary-container);
   }
 
   .mat-empty-state-icon {
-    color: mat.get-color-from-palette($foreground, 'icon');
+    color: mat.get-theme-color($theme, primary);
   }
 }
 
@@ -24,23 +21,10 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'mat-empty-state') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

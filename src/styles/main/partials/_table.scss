@@ -2,7 +2,7 @@
 @use 'sass:color';
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
   .mat-mdc-table {
     width: 100%;
     border-radius: 4px;
@@ -84,52 +84,30 @@
 }
 
 @mixin color($theme) {
-  $accent: map.get($theme, accent);
-  $background: map.get($theme, background);
-  $foreground: map.get($theme, foreground);
-
   .mat-mdc-table {
     .mat-mdc-row:hover .mat-mdc-cell {
-      $app-background: mat.get-color-from-palette($background, 'background');
-      $badge-color: mat.get-color-from-palette($background, 'hover');
-
-      // The disabled color usually has some kind of opacity, but because the badge is overlayed
-      // on top of something else, it won't look good if it's opaque. If it is a color *type*,
-      // we convert it into a solid color by taking the opacity from the rgba value and using
-      // the value to determine the percentage of the background to put into foreground when
-      // mixing the colors together.
-      @if type-of($badge-color) == color and type-of($app-background) == color {
-        $badge-opacity: opacity($badge-color);
-
-        background-color: color.mix(
-          $app-background,
-          rgba($badge-color, 1),
-          (1 - $badge-opacity) * 100%
-        );
-      } @else {
-        background-color: $badge-color;
-      }
+      background-color: mat.get-theme-color($theme, primary, 90);
     }
 
     .mat-mdc-table-sticky-border-elem-right {
-      border-left: 1px solid mat.get-color-from-palette($foreground, divider);
+      border-left: 1px solid mat.get-theme-color($theme, neutral, 80);
     }
 
     .mat-mdc-table-sticky-border-elem-left {
-      border-right: 1px solid mat.get-color-from-palette($foreground, divider);
+      border-right: 1px solid mat.get-theme-color($theme, neutral, 80);
     }
   }
 
   .table-container {
-    background-color: mat.get-color-from-palette($background, 'card');
+    background-color: var(--mat-table-background-color);
   }
 
   .mat-mdc-table-header {
-    background-color: mat.get-color-from-palette($background, 'card');
+    background-color: var(--mat-table-background-color);
   }
 
   .mat-mdc-table-header-selected {
-    background-color: mat.get-color-from-palette($accent, 50);
+    background-color: mat.get-theme-color($theme, primary, 90);
   }
 }
 
@@ -140,23 +118,12 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'table') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
+    @include color($theme);
 
-    @if $color {
-      @include color($color);
-    }
+    @include density($theme);
 
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include typography($theme);
   }
 }

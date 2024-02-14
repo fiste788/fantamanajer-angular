@@ -1,9 +1,9 @@
 @use './components/navbar/navbar.scss-theme';
 @use './components/profile/profile.scss-theme';
 
-@mixin core($theme) {
-  @include navbar.core($theme);
-  @include profile.core($theme);
+@mixin base($theme) {
+  @include navbar.base($theme);
+  @include profile.base($theme);
 }
 
 @mixin color($theme) {
@@ -22,23 +22,11 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'layout') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
 
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

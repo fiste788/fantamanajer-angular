@@ -1,22 +1,26 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
 }
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-  $foreground: map.get($theme, foreground);
-  $darker: mat.get-color-from-palette($primary, 'darker');
-  $icon: mat.get-color-from-palette($foreground, 'icon');
+  @if mat.get-theme-version($theme) == 1 {
+  } @else {
+    $color: mat.get-color-config($theme);
+    $primary: map.get($color, primary);
+    $foreground: map.get($color, foreground);
+    $darker: mat.get-color-from-palette($primary, 'darker');
+    $icon: mat.get-color-from-palette($foreground, 'icon');
 
-  .mat-mdc-nav-list {
-    --mdc-list-list-item-hover-state-layer-color: #{$darker};
-    --mdc-list-list-item-focus-state-layer-color: #{$darker};
-    --mdc-list-list-item-hover-label-text-color: #{$darker};
-    --mdc-list-list-item-focus-label-text-color: #{$darker};
-    --mdc-list-list-item-hover-leading-icon-color: #{$darker};
-    --mdc-list-list-item-leading-icon-color: #{$icon};
+    .mat-mdc-nav-list {
+      --mdc-list-list-item-hover-state-layer-color: #{$darker};
+      --mdc-list-list-item-focus-state-layer-color: #{$darker};
+      --mdc-list-list-item-hover-label-text-color: #{$darker};
+      --mdc-list-list-item-focus-label-text-color: #{$darker};
+      --mdc-list-list-item-hover-leading-icon-color: #{$darker};
+      --mdc-list-list-item-leading-icon-color: #{$icon};
+    }
   }
 }
 
@@ -27,23 +31,11 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'navbar') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
 
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

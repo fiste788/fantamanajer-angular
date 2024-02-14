@@ -1,32 +1,31 @@
 @if (team$ | async; as team) {
 
-  @if ((data$ | async); as data) {
+@if ((data$ | async); as data) {
 <form
-   
-    #lineupForm="ngForm"
-    (ngSubmit)="save(team, data.dispositions)"
-  >
-    <div ngModelGroup="members">
-      <app-module-area
-        [dispositions]="data.dispositions"
-        [membersByRole]="data.membersByRole"
-        [module]="module"
-        [wrap]="true"
-       />
-    </div>
-    <button
-      color="accent"
-      mat-raised-button
-      type="submit"
-    >SALVA</button>
-  </form>
+  #lineupForm="ngForm"
+  (ngSubmit)="save(team, data.dispositions)"
+>
+  <div ngModelGroup="members">
+    <app-module-area
+      [dispositions]="data.dispositions"
+      [membersByRole]="data.membersByRole"
+      [module]="module"
+      [wrap]="true"
+    />
+  </div>
+  <button
+    color="accent"
+    mat-flat-button
+    type="submit"
+  >SALVA</button>
+</form>
 } @else {
 
-    <mat-progress-spinner
-      color="accent"
-      mode="indeterminate"
-     />
-  
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
 }
-  
+
 }

@@ -1,9 +1,6 @@
 <div class="flex-container">
   @if (user$ | async; as user) {
-<form
-   
-    ngForm
-  >
+  <form ngForm>
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>
@@ -69,7 +66,7 @@
       <mat-card-actions align="end">
         <button
           color="accent"
-          mat-raised-button
+          mat-flat-button
           type="submit"
           (click)="save(user)"
         >
@@ -78,5 +75,5 @@
       </mat-card-actions>
     </mat-card>
   </form>
-}
+  }
 </div>

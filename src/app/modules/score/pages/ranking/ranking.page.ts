@@ -1,5 +1,6 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
@@ -16,7 +17,15 @@ import { tableRowAnimation } from '@shared/animations';
   styleUrls: ['./ranking.page.scss'],
   templateUrl: './ranking.page.html',
   standalone: true,
-  imports: [NgIf, MatTableModule, RouterLink, NgFor, MatProgressSpinnerModule, AsyncPipe],
+  imports: [
+    NgIf,
+    MatTableModule,
+    RouterLink,
+    NgFor,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+    MatCardModule,
+  ],
 })
 export class RankingPage {
   protected readonly ranking$: Observable<Array<RankingPosition>>;
