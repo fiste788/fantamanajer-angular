@@ -4,15 +4,13 @@
 @mixin base($theme) {
   .mat-mdc-card {
     margin: 1rem;
-    overflow: hidden;
-  }
-
-  .mat-mdc-card-header-text {
-    max-width: 100%;
+    .mdc-card__media:first-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
   }
 
   @media (min-width: theme('screens.md')) {
-    // @include mq.layout-bp(gt-md) {
     .mat-mdc-card {
       margin-left: 0;
       margin-right: 0;
@@ -21,6 +19,9 @@
 }
 
 @mixin color($theme) {
+  .mat-mdc-card {
+    background-color: mat.get-theme-color($theme, surface-container-low);
+  }
 }
 
 @mixin density($theme) {

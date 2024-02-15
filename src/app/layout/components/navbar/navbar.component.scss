@@ -1,6 +1,7 @@
 .mat-mdc-nav-list {
   padding: 0 0.75rem;
 }
+
 .mat-mdc-list-item .mat-icon {
   margin-right: 1rem;
 }
@@ -10,17 +11,23 @@ mat-mdc-list .mat-mdc-list-item,
 .mat-mdc-nav-list .mat-mdc-list-item {
   height: 3.5rem;
   border-radius: 1.75rem;
+
   --mdc-list-list-item-leading-icon-size: 24px;
 }
+
 .mat-mdc-subheader {
   font-size: 1rem;
 }
+
 .mat-divider {
   margin: 0 1rem;
 }
+
 .speed-dial {
   margin: 0 1rem 1rem;
   display: inline-block;
+  z-index: 1;
+  position: relative;
 }
 @media (max-width: theme('screens.md')) {
   .speed-dial {

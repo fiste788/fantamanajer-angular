@@ -6,12 +6,12 @@ $m3-base-config: (
   color: (
     theme-type: dark,
     primary: matx.$m3-cyan-palette,
-    tertiary: matx.$m3-violet-palette
+    tertiary: matx.$m3-violet-palette,
   ),
   typography: (
     plain-family: 'Open Sans',
-    brand-family: 'Open Sans'
-  )
+    brand-family: 'Open Sans',
+  ),
 );
 
 // Our M3 light theme.

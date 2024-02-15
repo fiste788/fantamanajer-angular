@@ -11,7 +11,7 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
     sequence([
       query(
         '.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row',
-        stagger(20, [
+        stagger(10, [
           animate(
             '250ms cubic-bezier(0.4, 0.0, 0.2, 1)',
             style({ opacity: 1, transform: 'translateX(0)' }),
@@ -28,7 +28,7 @@ export const tableRowAnimation = trigger('tableRowAnimation', [
   transition(':leave', [
     query(
       '.mat-mdc-row.visible, .mat-mdc-header-row.visible, .mat-mdc-footer-row.visible',
-      stagger(-10, [
+      stagger(-5, [
         animate(
           '200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
           style({ opacity: 0, transform: 'translateY(1.5rem)' }),

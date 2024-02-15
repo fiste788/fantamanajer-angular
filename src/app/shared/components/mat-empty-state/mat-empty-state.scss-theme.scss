@@ -6,7 +6,8 @@
 
 @mixin color($theme) {
   .mat-empty-state.mat-rounded {
-    background-color: mat.get-theme-color($theme, primary-container);
+    background-color: mat.get-theme-color($theme, surface-container-low);
+    color: mat.get-theme-color($theme, on-surface);
   }
 
   .mat-empty-state-icon {

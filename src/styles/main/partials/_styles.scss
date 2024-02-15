@@ -6,7 +6,6 @@
   html {
     margin: 0;
     height: 100%;
-
     font-family: 'Open Sans', sans-serif;
   }
 
@@ -35,6 +34,7 @@
   .mat-mdc-progress-spinner {
     margin: 3rem auto 5rem;
   }
+
   .mat-mdc-option .mdc-list-item__primary-text {
     white-space: nowrap;
   }
@@ -110,8 +110,15 @@
   }
 
   .placeholder {
-    background-color: mat.get-theme-color($theme, primary, 99);
-    color: mat.get-theme-color($theme, on-primary);
+    background-color: mat.get-theme-color($theme, surface-container-low);
+    color: mat.get-theme-color($theme, on-surface);
+  }
+  img[src~='.svg'] {
+    background-color: mat.get-theme-color($theme, surface-container-low);
+  }
+
+  a {
+    color: mat.get-theme-color($theme, on-primary-container);
   }
 }
 

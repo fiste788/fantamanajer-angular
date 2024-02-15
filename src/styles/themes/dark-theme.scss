@@ -6,6 +6,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @include color.color(variables.$theme);
+
 html {
   @include main.theme(variables.$theme);
   @include app.theme(variables.$theme);

@@ -85,16 +85,23 @@
 
 @mixin color($theme) {
   .mat-mdc-table {
+    background-color: transparent;
+
     .mat-mdc-row:hover .mat-mdc-cell {
-      background-color: mat.get-theme-color($theme, primary, 90);
+      background-color: mat.get-theme-color($theme, primary-fixed-dim);
+      color: mat.get-theme-color($theme, on-primary-fixed);
+
+      a {
+        color: inherit;
+      }
     }
 
     .mat-mdc-table-sticky-border-elem-right {
-      border-left: 1px solid mat.get-theme-color($theme, neutral, 80);
+      border-left: 1px solid mat.get-theme-color($theme, outline-variant);
     }
 
     .mat-mdc-table-sticky-border-elem-left {
-      border-right: 1px solid mat.get-theme-color($theme, neutral, 80);
+      border-right: 1px solid mat.get-theme-color($theme, outline-variant);
     }
   }
 
@@ -107,7 +114,7 @@
   }
 
   .mat-mdc-table-header-selected {
-    background-color: mat.get-theme-color($theme, primary, 90);
+    background-color: mat.get-theme-color($theme, primary-container);
   }
 }
 

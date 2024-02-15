@@ -1,19 +1,20 @@
 @use 'sass:map';
+@use './themes/dark/variables' as dark;
+@use './themes/light/variables' as light;
 @use '@angular/material' as mat;
 
-body,
-html {
+body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .pre-bootstrap {
-  background-color: map.get(mat.$light-theme-background-palette, 'card');
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: mat.get-theme-color(light.$theme, surface);
   align-items: center;
   display: flex;
   flex-direction: column;
-  color: map.get(mat.$light-theme-foreground-palette, 'text');
+  color: mat.get-theme-color(light.$theme, on-surface);
   place-content: center;
   justify-content: center;
   height: 100vh;
@@ -25,7 +26,7 @@ html {
 
   .error,
   noscript h3 {
-    color: #d50000;
+    color: mat.get-theme-color(light.$theme, error);
     margin: 2rem 1rem;
   }
 
@@ -44,13 +45,13 @@ html {
 
 @media (prefers-color-scheme: dark) {
   .pre-bootstrap {
-    background-color: map.get(mat.$dark-theme-background-palette, 'background');
-    color: map.get(mat.$dark-theme-foreground-palette, 'text');
+    background-color: mat.get-theme-color(dark.$theme, surface);
+    color: mat.get-theme-color(dark.$theme, on-surface);
   }
 
   .error,
   noscript h3 {
-    color: #cf6679;
+    color: mat.get-theme-color(dark.$theme, error);
   }
 }
 svg .s-1 {
@@ -73,7 +74,7 @@ svg.active .s-2 {
 
 svg .s-3 {
   fill: transparent;
-  transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.30000000000000004s;
+  transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.3s;
 }
 
 svg.active .s-3 {
