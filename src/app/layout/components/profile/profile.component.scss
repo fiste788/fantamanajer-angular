@@ -1,12 +1,14 @@
 .mat-toolbar {
-  background-size: cover !important;
-  background-position: center center;
-  z-index: 1;
-  position: relative;
-  transition: background-image 0.5s linear;
-  color: #fff !important;
-
-  --mat-select-enabled-trigger-text-color: #fff;
+  .mat-toolbar-row:first-child {
+    height: auto;
+  }
+  img {
+    border-radius: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
 
   mat-toolbar-row:nth-child(2n) {
     min-height: 5.25rem;
@@ -17,10 +19,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
   }
-
-  &.has-image {
-    mat-toolbar-row:nth-child(2n) {
-      background-image: linear-gradient(transparent, rgb(0 0 0 / 80%));
-    }
+  .mat-mdc-form-field {
+    width: 100%;
   }
 }

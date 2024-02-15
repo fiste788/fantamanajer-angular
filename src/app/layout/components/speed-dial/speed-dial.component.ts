@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, booleanAttribute } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -8,6 +8,7 @@ import {
   EcoFabSpeedDialComponent,
   EcoFabSpeedDialTriggerComponent,
   EcoFabSpeedDialActionsComponent,
+  Direction,
 } from '@ecodev/fab-speed-dial';
 
 import { SeasonActiveDirective } from '@shared/directives';
@@ -30,6 +31,8 @@ import { SeasonActiveDirective } from '@shared/directives';
   ],
 })
 export class SpeedDialComponent {
+  @Input({ transform: booleanAttribute }) public extended = false;
+  @Input() public direction: Direction = 'up';
   protected openSpeeddial = false;
 
   constructor(private readonly router: Router) {}

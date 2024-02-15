@@ -1,26 +1,15 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
 }
 
 @mixin color($theme) {
-  @if mat.get-theme-version($theme) == 1 {
-  } @else {
-    $color: mat.get-color-config($theme);
-    $primary: map.get($color, primary);
-    $foreground: map.get($color, foreground);
-    $darker: mat.get-color-from-palette($primary, 'darker');
-    $icon: mat.get-color-from-palette($foreground, 'icon');
-
-    .mat-mdc-nav-list {
-      --mdc-list-list-item-hover-state-layer-color: #{$darker};
-      --mdc-list-list-item-focus-state-layer-color: #{$darker};
-      --mdc-list-list-item-hover-label-text-color: #{$darker};
-      --mdc-list-list-item-focus-label-text-color: #{$darker};
-      --mdc-list-list-item-hover-leading-icon-color: #{$darker};
-      --mdc-list-list-item-leading-icon-color: #{$icon};
-    }
+  .mdc-list-item--activated {
+    background-color: mat.get-theme-color($theme, secondary-container);
+    color: mat.get-theme-color($theme, on-secondary-container) !important;
+  }
+  .mat-mdc-subheader {
+    color: mat.get-theme-color($theme, on-surface-variant);
   }
 }
 
@@ -33,7 +22,6 @@
 @mixin theme($theme) {
   @include mat.private-check-duplicate-theme-styles($theme, 'navbar') {
     @include base($theme);
-
     @include color($theme);
     @include density($theme);
     @include typography($theme);

@@ -14,7 +14,7 @@
     <app-toolbar
       [@scrollUpAnimation]="(showedToolbar$ | async)"
       [showDrawerButton]="(isHandset$ | async) || false"
-     />
+    />
     <main [@contextChange]="o | state">
       <router-outlet #o="outlet" />
     </main>
@@ -23,5 +23,6 @@
 <app-speed-dial
   #speedDial
   class="speed-dial"
+  extended="false"
   [@closeAnimation]="(showedSpeedDial$ | async)"
- />
+/>

@@ -4,17 +4,21 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Event, NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
+import { VisibilityState } from '@app/enums';
 import { ApplicationService, PwaService } from '@app/services';
 import { Championship, Matchday, Team } from '@data/types';
+import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
 import { ProfileComponent } from '../profile/profile.component';
+import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
+  animations: [closeAnimation],
   selector: 'app-navbar',
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
@@ -28,6 +32,7 @@ import { ProfileComponent } from '../profile/profile.component';
     RouterLinkActive,
     MatDividerModule,
     AsyncPipe,
+    SpeedDialComponent,
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
@@ -37,6 +42,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   protected readonly matchday$: Observable<Matchday | undefined>;
   protected readonly championship$: Observable<Championship | undefined>;
   protected readonly navStart$: Observable<Event>;
+  protected readonly showedSpeedDial$: Observable<VisibilityState>;
 
   private readonly subscriptions = new Subscription();
 
@@ -48,6 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private readonly router: Router,
   ) {
     this.deferredPrompt$ = this.pwa.beforeInstall$;
+    this.showedSpeedDial$ = this.isShowedSpeedDial();
     this.loggedIn$ = this.auth.loggedIn$;
     this.matchday$ = this.app.matchday$;
     this.team$ = this.app.team$;
@@ -84,5 +91,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private isShowedSpeedDial(): Observable<VisibilityState> {
+    return combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$]).pipe(
+      map(([v, u]) => (u ? v : VisibilityState.Hidden)),
+    );
   }
 }

@@ -1,4 +1,11 @@
 <app-profile />
+<app-speed-dial
+  #speedDial
+  class="speed-dial"
+  direction="down"
+  extended="true"
+  [@closeAnimation]="(showedSpeedDial$ | async)"
+/>
 <mat-nav-list>
   @if (matchday$ | async; as matchday) {
   <h3 mat-subheader>

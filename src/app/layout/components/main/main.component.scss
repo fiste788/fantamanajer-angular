@@ -23,21 +23,27 @@ app-toolbar {
   overflow: visible;
 }
 
+.speed-dial {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1;
+  transform: scale(0);
+}
+
 main {
   padding-bottom: 1rem;
   position: relative;
 }
 
-.speed-dial {
-  transform: scale(0);
-}
-
 // @include mq.layout-bp(gt-sm) {
 @media (min-width: theme('screens.md')) {
   main {
-    width: 90%;
-    max-width: 90%;
-    margin: 0 auto;
+    margin: 0 1rem;
+  }
+
+  .speed-dial {
+    display: none;
   }
 
   .mat-sidenav {
