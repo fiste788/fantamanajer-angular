@@ -12,6 +12,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
+      [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
       [@scrollUpAnimation]="(showedToolbar$ | async)"
       [showDrawerButton]="(isHandset$ | async) || false"
     />

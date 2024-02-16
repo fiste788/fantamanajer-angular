@@ -23,7 +23,7 @@ export const lineupDispositionAnimation = trigger('lineupDisposition', [
       query(
         '.img-container',
         animate(
-          '350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
           style({ transform: 'scale(1)', opacity: 1 }),
         ),
         { optional: true },
@@ -32,7 +32,7 @@ export const lineupDispositionAnimation = trigger('lineupDisposition', [
         query(
           '.mat-mdc-select, .mat-mdc-form-field-subscript-wrapper',
           animate(
-            '200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+            '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
             style({ opacity: 1, transform: 'translateY(0)' }),
           ),
           { optional: true },
@@ -49,7 +49,7 @@ export const lineupDispositionAnimation = trigger('lineupDisposition', [
         query(
           '.mat-mdc-select, .mat-mdc-form-field-subscript-wrapper',
           animate(
-            '150ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+            '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
             style({ opacity: 0, transform: 'translateY(-1.5rem)' }),
           ),
           { optional: true },
@@ -58,7 +58,7 @@ export const lineupDispositionAnimation = trigger('lineupDisposition', [
       query(
         '.img-container',
         animate(
-          '200ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
           style({ transform: 'scale(0.4)', opacity: 0 }),
         ),
         { optional: true },

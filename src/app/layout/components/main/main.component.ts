@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { DOCUMENT, AsyncPipe } from '@angular/common';
+import { DOCUMENT, AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,8 +12,17 @@ import {
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, fromEvent, Observable, Subscription, timer } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  mergeMap,
+  share,
+  switchMap,
+  tap,
+  throttleTime,
+} from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -41,6 +50,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     SpeedDialComponent,
     AsyncPipe,
     StatePipe,
+    NgClass,
   ],
 })
 export class MainComponent implements OnDestroy, AfterViewInit {
@@ -54,6 +64,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly openedSidebar$: Observable<boolean>;
   protected readonly showedSpeedDial$: Observable<VisibilityState>;
   protected readonly showedToolbar$: Observable<VisibilityState>;
+  protected isScrolled$?: Observable<boolean>;
 
   private readonly subscriptions = new Subscription();
 
@@ -102,6 +113,14 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   private setupScrollAnimation(window: Window): void {
     this.ngZone.runOutsideAngular(() => {
+      this.isScrolled$ = fromEvent(window, 'scroll').pipe(
+        throttleTime(15),
+        map(() => window.scrollY),
+        map((y) => y > 10),
+        distinctUntilChanged(),
+        share(),
+      );
+
       this.layoutService.connectScrollAnimation(
         window,
         this.up.bind(this),
@@ -112,12 +131,12 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private up(): void {
-    this.updateSticky(this.getToolbarHeight());
+    // this.updateSticky(this.getToolbarHeight());
   }
 
   private down(): void {
     this.speedDial?.close();
-    this.updateSticky(0);
+    // this.updateSticky(0);
   }
 
   private initDrawer(): Observable<void> {
@@ -140,14 +159,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     return combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
     );
-  }
-
-  private updateSticky(offset: number): void {
-    // eslint-disable-next-line unicorn/no-array-for-each
-    this.document.querySelectorAll<HTMLElement>('.sticky').forEach((e) => {
-      e.style.top = `${offset}px`;
-    });
-    this.changeRef.detectChanges();
   }
 
   private getToolbarHeight(): number {

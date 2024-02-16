@@ -4,6 +4,7 @@
 @mixin base($theme) {
   .mat-mdc-card {
     margin: 1rem;
+    overflow: auto;
     .mdc-card__media:first-child {
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
@@ -20,7 +21,7 @@
 
 @mixin color($theme) {
   .mat-mdc-card {
-    background-color: mat.get-theme-color($theme, surface-container-low);
+    --mdc-outlined-card-container-color: #{mat.get-theme-color($theme, surface-container-low)};
   }
 }
 

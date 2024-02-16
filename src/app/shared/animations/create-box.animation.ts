@@ -9,7 +9,7 @@ export const createBoxAnimation = trigger('createBox', [
       ':scope>img, .mat-icon, .img-container',
       stagger(40, [
         animate(
-          '450ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
           style({ transform: 'scale(1)', opacity: 1 }),
         ),
       ]),
@@ -21,7 +21,7 @@ export const createBoxAnimation = trigger('createBox', [
       ':scope>img, .mat-icon, .img-container',
       stagger(40, [
         animate(
-          '400ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
           style({ transform: 'scale(0.4)', opacity: 0 }),
         ),
       ]),

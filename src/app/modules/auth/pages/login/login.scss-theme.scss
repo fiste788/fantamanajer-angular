@@ -15,10 +15,10 @@
 
 @mixin color($theme) {
   .login {
-    .mat-icon,
-    .mat-mdc-card-title {
-      color: mat.get-theme-color($theme, surface);
+    .mat-icon {
+      color: mat.get-theme-color($theme, primary);
     }
+    --mat-stepper-container-color: transparent;
   }
 }
 

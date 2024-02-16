@@ -2,6 +2,9 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
+  .mat-toolbar {
+    transition: background-color 0.6s cubic-bezier(0.2, 0, 0, 1);
+  }
   .mat-mdc-form-field-underline,
   .mat-mdc-form-field-ripple,
   .mat-mdc-focused .mat-mdc-form-field-ripple {
@@ -27,6 +30,9 @@
 }
 
 @mixin color($theme) {
+  .is-scrolled .mat-toolbar {
+    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container-high)};
+  }
 }
 
 @mixin density($theme) {

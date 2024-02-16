@@ -12,6 +12,8 @@
 
     /* Make the height the same as the group, meaning the view size might not match its aspect-ratio. */
     height: 100%;
+    animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    animation-duration: 500ms;
 
     /* Clip any overflow of the view */
     overflow: clip;

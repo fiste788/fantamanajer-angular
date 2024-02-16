@@ -8,15 +8,6 @@ app-toolbar {
   will-change: transform;
 }
 
-.mat-sidenav {
-  width: 340px;
-  max-width: calc(100% - 54px);
-
-  .mat-toolbar {
-    background: inherit;
-  }
-}
-
 .mat-drawer-content {
   display: flex;
   flex-direction: column;
@@ -28,18 +19,16 @@ app-toolbar {
   bottom: 1.5rem;
   right: 1.5rem;
   z-index: 1;
-  transform: scale(0);
 }
 
 main {
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
   position: relative;
 }
 
-// @include mq.layout-bp(gt-sm) {
 @media (min-width: theme('screens.md')) {
   main {
-    margin: 0 1rem;
+    margin: 0 2rem;
   }
 
   .speed-dial {
@@ -47,6 +36,6 @@ main {
   }
 
   .mat-sidenav {
-    width: 15rem !important;
+    width: 18rem !important;
   }
 }

@@ -2,8 +2,7 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  body,
-  html {
+  body {
     margin: 0;
     height: 100%;
     font-family: 'Open Sans', sans-serif;

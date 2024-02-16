@@ -85,7 +85,7 @@
 
 @mixin color($theme) {
   .mat-mdc-table {
-    background-color: transparent;
+    background-color: inherit;
 
     .mat-mdc-row:hover .mat-mdc-cell {
       background-color: mat.get-theme-color($theme, primary-fixed-dim);
