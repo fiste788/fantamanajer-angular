@@ -1,4 +1,5 @@
 <app-profile />
+@if (loggedIn$ | async) {
 <app-speed-dial
   #speedDial
   class="speed-dial"
@@ -6,6 +7,7 @@
   extended="true"
   [@closeAnimation]="(showedSpeedDial$ | async)"
 />
+}
 <mat-nav-list>
   @if (matchday$ | async; as matchday) {
   <h3 mat-subheader>
