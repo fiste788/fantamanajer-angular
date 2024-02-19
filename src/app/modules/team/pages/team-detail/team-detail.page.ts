@@ -1,11 +1,11 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
-import { combineLatest, firstValueFrom, Observable } from 'rxjs';
+import { Observable, combineLatest, firstValueFrom } from 'rxjs';
 import { filter, first, map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -13,6 +13,7 @@ import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components';
+import { ToolbartTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
@@ -32,12 +33,13 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     AsyncPipe,
     StatePipe,
     MatDialogModule,
+    ToolbartTabComponent,
   ],
 })
-export class TeamDetailPage {
+export class TeamDetailPage implements OnInit {
   @Input({ required: true }) protected team!: Team;
 
-  protected readonly tabs$: Observable<Array<Tab>>;
+  protected tabs$!: Observable<Array<Tab>>;
 
   constructor(
     protected readonly app: ApplicationService,
@@ -45,7 +47,9 @@ export class TeamDetailPage {
     private readonly layoutService: LayoutService,
     private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-  ) {
+  ) {}
+
+  public ngOnInit(): void {
     this.tabs$ = this.loadTabs();
   }
 

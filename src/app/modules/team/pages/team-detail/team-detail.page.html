@@ -1,11 +1,13 @@
-<div>
+@if(tabs$ | async; as tabs) {
+<app-toolbar-tab
+  [tabs]="tabs"
+  fragment="tab"
+>
   <div class="animation-container">
     <app-parallax-header
       contextParam="team_id"
       [backgroundImage]="team.photo_url"
       [subtitle]="team.user.name + ' ' + team.user.surname"
-      [tabPanel]="tabPanel"
-      [tabs]="(tabs$ | async) ?? []"
       [title]="team.name"
       (imageLoaded)="scrollTo($event)"
     >
@@ -23,11 +25,5 @@
       }
     </app-parallax-header>
   </div>
-</div>
-<div
-  #tabPanel
-  class="tabbed-container"
-  [@contextChange]="o | state"
->
-  <router-outlet #o="outlet" />
-</div>
+</app-toolbar-tab>
+}

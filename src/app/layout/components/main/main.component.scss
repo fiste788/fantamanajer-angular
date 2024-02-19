@@ -16,9 +16,10 @@ app-toolbar {
 
 .speed-dial {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 1rem;
+  right: 1rem;
   z-index: 1;
+  transform-origin: right bottom;
 }
 
 main {

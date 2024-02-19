@@ -2,19 +2,22 @@
   class="mat-elevation-z4"
   color="primary"
 >
-  @if (showDrawerButton) {
-  <button
-    aria-label="Toggle sidenav"
-    mat-icon-button
-    type="button"
-    (click)="clickNav()"
-  >
-    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-  </button>
-  }
-  <app-breadcrumb />
-  <span class="spacer"></span>
-  @if (loggedIn$ | async) {
-  <app-notification />
-  }
+  <mat-toolbar-row>
+    @if (showDrawerButton) {
+    <button
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      type="button"
+      (click)="clickNav()"
+    >
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    }
+    <app-breadcrumb />
+    <span class="spacer"></span>
+    @if (loggedIn$ | async) {
+    <app-notification />
+    }
+  </mat-toolbar-row>
+  <mat-toolbar-row id="toolbar-tab-container" />
 </mat-toolbar>

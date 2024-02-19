@@ -4,7 +4,7 @@
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-  @include mat.elevation(2);
+  //@include mat.elevation(2);
 
   img {
     display: block;
@@ -46,7 +46,7 @@
 }
 
 .parallax {
-  min-height: 300px;
+  min-height: 20rem;
   width: 100%;
   object-fit: cover;
 }
@@ -60,13 +60,12 @@ a.anchor {
 @media (min-width: theme('screens.sm')) {
   a.anchor {
     position: relative;
-    top: -8rem;
+    top: -18rem;
   }
 
   .parallax-header-img {
     // height: 300px;
     max-height: unset;
-    @include mat.elevation(0);
 
     img {
       // position: absolute;
@@ -87,10 +86,10 @@ a.anchor {
     position: relative;
     background-position: center;
     background-size: cover;
-    border-radius: 0 0 4px 4px;
+    border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
+    border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
     overflow: hidden;
     max-height: 85vh;
-    @include mat.elevation(2);
   }
 
   .parallax-header-title-container {
