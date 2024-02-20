@@ -5,9 +5,10 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@include color.color(variables.$theme);
+@import '../main/transition';
 
-html {
+@include color.color(variables.$theme);
+:root {
   @include main.theme(variables.$theme);
   @include app.theme(variables.$theme);
 }

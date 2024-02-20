@@ -1,9 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
-<div class="parallax-container">
+<div
+  class="parallax-container"
+  [style.viewTransitionName]="viewTransitionName()"
+>
   <div
     #parallax
     class="parallax"
-    [style.viewTransitionName]="viewTransitionName()"
   >
     <div class="parallax-header-img">
       <div appRellax>
