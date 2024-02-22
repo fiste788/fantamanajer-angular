@@ -44,6 +44,6 @@ export class TeamListPage {
   }
 
   protected viewTransitionName(team: Team) {
-    return this.transitionService.getViewTransitionName(team, 'team_id');
+    return this.transitionService.getViewTransitionName('banner-img', team, 'team_id');
   }
 }

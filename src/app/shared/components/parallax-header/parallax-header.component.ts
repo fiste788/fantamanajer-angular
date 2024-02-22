@@ -55,6 +55,6 @@ export class ParallaxHeaderComponent {
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isOutletChanged(this.contextParam);
+    return this.transitionService.isOutletChanged('banner-img', this.contextParam);
   }
 }

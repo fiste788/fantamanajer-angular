@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ApplicationRef,
@@ -12,9 +12,13 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { MatTabNav, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Observable, map, pairwise, switchMap, tap } from 'rxjs';
 
+import { filterNil } from '@app/functions';
+import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
@@ -34,19 +38,33 @@ import { StatePipe } from '@shared/pipes';
     RouterLink,
     RouterOutlet,
     StatePipe,
+    AsyncPipe,
+    NgClass,
   ],
 })
 export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
   @Input() public fragment?: string;
   public tabs = input([] as Array<Tab>);
+  public readonly direction$: Observable<string>;
   protected portal = viewChild.required(CdkPortal);
+  protected tabBar = viewChild(MatTabNav);
   private portalHost?: PortalOutlet;
 
   constructor(
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
-  ) {}
+    private readonly transitionService: CurrentTransitionService,
+  ) {
+    this.direction$ = toObservable(this.tabBar).pipe(
+      tap((it) => console.log('aaa', it)),
+      filterNil(),
+      switchMap((tab) => tab.selectFocusedIndex),
+      tap((it) => console.log('bbb', it)),
+      pairwise(),
+      map(([p, c]) => (p < c ? 'left' : 'right')),
+    );
+  }
 
   public ngAfterViewInit(): void {
     // Create a portalHost from a DOM element
@@ -64,5 +82,9 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.portalHost?.detach();
+  }
+
+  protected viewTransitionName() {
+    return this.transitionService.isTab('tab', this.tabBar());
   }
 }

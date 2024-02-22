@@ -45,6 +45,6 @@ export class ClubListPage {
   }
 
   protected viewTransitionName(club: Club) {
-    return this.transitionService.getViewTransitionName(club);
+    return this.transitionService.getViewTransitionName('banner-img', club);
   }
 }

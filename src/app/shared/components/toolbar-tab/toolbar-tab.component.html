@@ -25,8 +25,9 @@
 <ng-content />
 <div
   #tabPanel
-  class="tabbed-container"
+  [ngClass]="{'tabbed-container': true, 'direction': direction$ | async}"
   [@contextChange]="o | state"
+  [style.viewTransitionName]="viewTransitionName()"
 >
   <router-outlet #o="outlet" />
 </div>

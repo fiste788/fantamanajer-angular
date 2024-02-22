@@ -8,6 +8,10 @@ app-toolbar {
   will-change: transform;
 }
 
+.mat-sidenav {
+  view-transition-name: sidenav;
+}
+
 .mat-drawer-content {
   display: flex;
   flex-direction: column;
