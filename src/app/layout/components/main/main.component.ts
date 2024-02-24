@@ -28,7 +28,12 @@ import {
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { WINDOW } from '@app/services';
-import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/animations';
+import {
+  closeAnimation,
+  routerTransition,
+  scrollDownAnimation,
+  scrollUpAnimation,
+} from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
@@ -38,7 +43,12 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition), scrollUpAnimation, closeAnimation],
+  animations: [
+    trigger('contextChange', routerTransition),
+    scrollUpAnimation,
+    scrollDownAnimation,
+    closeAnimation,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
   styleUrls: ['./main.component.scss'],

@@ -1,0 +1,34 @@
+/* stylelint-disable selector-class-pattern */
+@use '@angular/material' as mat;
+
+@mixin base($theme) {
+  .bottom-bar .mdc-list-item__content {
+    display: flex;
+    margin-top: 0.25rem;
+  }
+  .bottom-bar {
+    --mdc-list-list-item-label-text-size: 14px;
+  }
+
+  a.mdc-list-item.mdc-list-item--activated {
+    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
+  }
+}
+
+@mixin color($theme) {
+}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @include mat.private-check-duplicate-theme-styles($theme, 'bottom-bar') {
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
+  }
+}
