@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
 import { DOCUMENT, AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -31,6 +32,7 @@ import { closeAnimation, routerTransition, scrollUpAnimation } from '@shared/ani
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
+import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
@@ -48,6 +50,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     ToolbarComponent,
     RouterOutlet,
     SpeedDialComponent,
+    BottomBarComponent,
     AsyncPipe,
     StatePipe,
     NgClass,

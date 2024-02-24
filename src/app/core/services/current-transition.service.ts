@@ -44,7 +44,7 @@ export class CurrentTransitionService {
     return isBannerImg ? transitionName : '';
   }
 
-  public isTab(transitionName: string, tabBar?: MatTabNav) {
+  public isTabChanged(tabBar?: MatTabNav): boolean {
     const transition = this.currentTransition();
 
     if (tabBar) {
@@ -68,10 +68,11 @@ export class CurrentTransitionService {
       }
     }
 
-    return this.getOutlet(transition?.to)?.data['state'] ===
+    return (
+      this.getOutlet(transition?.to)?.data['state'] ===
       this.getOutlet(transition?.from)?.data['state']
-      ? transitionName
-      : '';
+    );
+
     // return outlet.isActivated ? transitionName : '';
   }
 

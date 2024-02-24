@@ -85,6 +85,6 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isTab('tab', this.tabBar());
+    return this.transitionService.isTabChanged(this.tabBar()) ? 'tab' : '';
   }
 }

@@ -16,5 +16,8 @@
     <app-notification />
     }
   </mat-toolbar-row>
-  <mat-toolbar-row id="toolbar-tab-container" />
+  <mat-toolbar-row
+    id="toolbar-tab-container"
+    [style.viewTransitionName]="viewTransitionName()"
+  />
 </mat-toolbar>

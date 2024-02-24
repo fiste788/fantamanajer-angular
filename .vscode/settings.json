@@ -2,5 +2,17 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "exportall.config.folderListener": [
     "/src/app/core/services"
-  ]
+  ],
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "style": "scss",
+      "externalTemplate": true
+    },
+    "angular-component": {
+      "skipChangeDetectionOnPush": false
+    },
+    "angular-page": {
+      "skipChangeDetectionOnPush": false
+    }
+  }
 }

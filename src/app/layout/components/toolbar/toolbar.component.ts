@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { CurrentTransitionService } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbComponent } from '@shared/components';
 
@@ -37,11 +38,16 @@ export class ToolbarComponent {
   constructor(
     private readonly layoutService: LayoutService,
     private readonly auth: AuthenticationService,
+    private readonly transitionService: CurrentTransitionService,
   ) {
     this.loggedIn$ = this.auth.loggedIn$;
   }
 
   public clickNav(): void {
     this.layoutService.toggleSidebar();
+  }
+
+  protected viewTransitionName(): string {
+    return this.transitionService.isTabChanged() ? '' : 'toolbar-tab';
   }
 }

@@ -2,10 +2,7 @@
 
 @if (crumbs.length) {
 <nav>
-  <ol
-    class="breadcrumb"
-    @breadcrumbTransition
-  >
+  <ol class="breadcrumb">
     @for (crumb of crumbs; track crumb?.label; let last = $last; let first = $first) {
     <li
       class="breadcrumb-item"
