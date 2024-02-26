@@ -45,10 +45,7 @@
     [activated]="rla2.isActive"
     [routerLink]="['teams', team.id]"
   >
-    <mat-icon
-      matListItemIcon
-      svgIcon="team"
-    />{{team.name}}
+    <mat-icon matListItemIcon>groups_3</mat-icon>{{team.name}}
   </a>
   }
   @if (championship$ | async; as championship) {

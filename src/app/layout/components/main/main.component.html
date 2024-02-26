@@ -19,12 +19,13 @@
     <main [@contextChange]="o | state">
       <router-outlet #o="outlet" />
     </main>
+    <app-bottom-bar
+      class="bottom-bar"
+      [@scrollDownAnimation]="(showedToolbar$ | async)"
+    />
   </mat-sidenav-content>
 </mat-sidenav-container>
-<app-bottom-bar
-  class="bottom-bar"
-  [@scrollDownAnimation]="(showedToolbar$ | async)"
-/>
+
 <app-speed-dial
   #speedDial
   class="speed-dial"

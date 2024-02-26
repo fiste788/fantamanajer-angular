@@ -2,16 +2,25 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  .bottom-bar .mdc-list-item__content {
-    display: flex;
-    margin-top: 0.25rem;
-  }
   .bottom-bar {
     --mdc-list-list-item-label-text-size: 14px;
-  }
+    --mdc-list-list-item-label-text-line-height: 1rem;
+    --mdc-list-list-item-label-text-weight: 500;
+    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
+    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
 
-  a.mdc-list-item.mdc-list-item--activated {
-    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
+    .mdc-list-item__content {
+      display: flex;
+      margin-top: 0.25rem;
+    }
+
+    a.mdc-list-item.mdc-list-item--activated {
+      --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
+      --mdc-list-list-item-label-text-weight: 700;
+      mat-icon {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
   }
 }
 

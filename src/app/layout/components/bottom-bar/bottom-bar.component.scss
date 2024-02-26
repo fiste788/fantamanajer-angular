@@ -1,7 +1,8 @@
 :host {
-  position: sticky;
+  position: fixed;
   bottom: 0;
-  z-index: 1;
+  z-index: 102;
+  width: 100%;
   display: block;
   --mdc-list-list-item-one-line-container-height: auto;
   --mdc-list-list-item-label-text-line-height: 1;
@@ -9,6 +10,10 @@
 .mat-toolbar-row {
   padding: 0;
   height: auto;
+}
+
+.mdc-list {
+  padding: 0.75rem 0 1rem;
 }
 
 .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
@@ -41,11 +46,26 @@ a.mdc-list-item.mdc-list-item--activated {
   content: '';
   pointer-events: none;
 }
-.mdc-list-item:focus mat-icon::before {
+
+.mat-mdc-list-item-interactive mat-icon::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mdc-list-item:focus mat-icon::before,
+.mdc-list-item:hover mat-icon::before {
   background-color: var(--mdc-list-list-item-focus-state-layer-color);
   opacity: var(--mdc-list-list-item-focus-state-layer-opacity);
 }
 
+.mdc-list-item:hover::before,
+.mat-mdc-list-item-interactive::before,
 .mdc-list-item:not(.mdc-list-item--selected):focus::before,
 .mdc-list-item.mdc-ripple-upgraded--background-focused::before {
   display: none;
@@ -62,6 +82,13 @@ a.mdc-list-item.mdc-list-item--activated {
     padding: 0;
   }
 }
+.mat-toolbar-row:first-child {
+  view-transition-name: toolbar;
+}
+.mat-toolbar-row {
+  background-color: inherit;
+}
+
 mat-icon {
   position: relative;
 }
