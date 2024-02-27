@@ -46,7 +46,7 @@ export class CurrentTransitionService {
 
   public isTabChanged(tabBar?: MatTabNav): boolean {
     const transition = this.currentTransition();
-    const outletFrom = this.getOutlet(transition?.to);
+    const outletFrom = this.getOutlet(transition?.from);
     const outletTo = this.getOutlet(transition?.to);
     let isSameContext = outletFrom?.data['state'] === outletTo?.data['state'];
 
