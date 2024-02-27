@@ -4,7 +4,8 @@
 @mixin base($theme) {
   .mat-mdc-card {
     margin: 1rem;
-    overflow: auto;
+    overflow: hidden;
+
     .mdc-card__media:first-child {
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;

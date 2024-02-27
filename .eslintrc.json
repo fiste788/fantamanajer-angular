@@ -1,6 +1,8 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
   "parserOptions": {
     "project": "tsconfig.eslint.json",
     "ecmaVersion": 2022,
@@ -8,7 +10,10 @@
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
     },
     "import/resolver": {
       "typescript": {
@@ -18,7 +23,9 @@
   },
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parser": "@typescript-eslint/parser",
       "extends": [
         "plugin:rxjs/recommended",
@@ -34,12 +41,20 @@
         "prettier",
         "plugin:prettier/recommended"
       ],
-      "plugins": ["eslint-plugin-unicorn", "deprecation", "sort-exports"],
+      "plugins": [
+        "eslint-plugin-unicorn",
+        "deprecation",
+        "sort-exports"
+      ],
       "rules": {
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-            "suffixes": ["Component", "Page", "Modal"]
+            "suffixes": [
+              "Component",
+              "Page",
+              "Modal"
+            ]
           }
         ],
         "@angular-eslint/component-max-inline-declarations": "error",
@@ -152,10 +167,21 @@
         ],
         "@typescript-eslint/triple-slash-reference": "error",
         "@typescript-eslint/unbound-method": "error",
-        "arrow-parens": ["error", "always"],
-        "brace-style": ["error", "1tbs"],
-        "class-methods-use-this": ["off"],
-        "comma-dangle": ["error", "always-multiline"],
+        "arrow-parens": [
+          "error",
+          "always"
+        ],
+        "brace-style": [
+          "error",
+          "1tbs"
+        ],
+        "class-methods-use-this": [
+          "off"
+        ],
+        "comma-dangle": [
+          "error",
+          "always-multiline"
+        ],
         "complexity": [
           "error",
           {
@@ -164,11 +190,20 @@
         ],
         "default-case": "error",
         "deprecation/deprecation": "warn",
-        "import/no-cycle": ["off"],
+        "import/no-cycle": [
+          "off"
+        ],
         "import/order": [
           "error",
           {
-            "groups": ["builtin", "external", "internal", "parent", "object", "type"],
+            "groups": [
+              "builtin",
+              "external",
+              "internal",
+              "parent",
+              "object",
+              "type"
+            ],
             "newlines-between": "always",
             "alphabetize": {
               "order": "asc",
@@ -207,7 +242,10 @@
             "pathGroupsExcludedImportTypes": []
           }
         ],
-        "max-lines": ["error", 400],
+        "max-lines": [
+          "error",
+          400
+        ],
         "new-parens": "error",
         "newline-per-chained-call": "error",
         "no-constant-condition": "error",
@@ -219,7 +257,10 @@
         "no-new-func": "error",
         "no-plusplus": "error",
         "no-redeclare": "error",
-        "no-restricted-syntax": ["error", "ForInStatement"],
+        "no-restricted-syntax": [
+          "error",
+          "ForInStatement"
+        ],
         "no-return-await": "error",
         "no-sequences": "error",
         "no-sparse-arrays": "error",
@@ -253,7 +294,11 @@
             "sortExportKindFirst": "type"
           }
         ],
-        "space-in-parens": ["error", "never"],
+        "sort-keys": "off",
+        "space-in-parens": [
+          "error",
+          "never"
+        ],
         "unicorn/filename-case": "error",
         "unicorn/prevent-abbreviations": "off",
         "unicorn/prefer-event-target": "off",
@@ -261,8 +306,13 @@
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/all", "angular-strict/template"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/all",
+        "angular-strict/template"
+      ],
       "rules": {
         "@angular-eslint/template/no-inline-styles": [
           "warn",
@@ -272,6 +322,7 @@
         ],
         "@angular-eslint/template/attributes-order": "off",
         "@angular-eslint/template/i18n": "off",
+        "@angular-eslint/template/no-call-expression": "off",
         "@angular-eslint/template/prefer-ngsrc": "off",
         "@angular-eslint/template/cyclomatic-complexity": [
           "warn",

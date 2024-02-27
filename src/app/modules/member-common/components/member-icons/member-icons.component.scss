@@ -81,25 +81,5 @@
       font-size: 16px;
       line-height: 32px;
     }
-
-    &:nth-child(1) {
-      top: 0.33rem;
-      left: 1rem;
-    }
-
-    &:nth-child(2) {
-      top: 0.33rem;
-      right: 1rem;
-    }
-
-    &:nth-child(3) {
-      bottom: 0.33rem;
-      left: 1rem;
-    }
-
-    &:nth-child(4) {
-      bottom: 0.33rem;
-      right: 1rem;
-    }
   }
 }

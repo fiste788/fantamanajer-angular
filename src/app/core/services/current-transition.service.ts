@@ -46,32 +46,40 @@ export class CurrentTransitionService {
 
   public isTabChanged(tabBar?: MatTabNav): boolean {
     const transition = this.currentTransition();
+    const outletFrom = this.getOutlet(transition?.to);
+    const outletTo = this.getOutlet(transition?.to);
+    let isSameContext = outletFrom?.data['state'] === outletTo?.data['state'];
 
-    if (tabBar) {
+    if (isSameContext && outletTo?.firstChild?.data['exit'] === true) {
+      isSameContext = false;
+    }
+    console.log(outletFrom, outletTo);
+    if (isSameContext && tabBar) {
       const el = tabBar._tabList.nativeElement as HTMLDivElement;
+      // eslint-disable-next-line unicorn/prefer-spread
       const tabs = Array.from(el.querySelectorAll('a'));
       const from = this.getUrl(transition?.from);
       const to = this.getUrl(transition?.to);
 
       console.log(from, to);
-
-      const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
-      const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
-      if (pre > -1 && post > -1) {
-        if (pre > post) {
-          this.document.documentElement.classList.remove('direction-left');
-          this.document.documentElement.classList.add('direction-right');
-        } else {
-          this.document.documentElement.classList.remove('direction-right');
-          this.document.documentElement.classList.add('direction-left');
+      if (from && to) {
+        const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
+        const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
+        if (pre > -1 && post > -1) {
+          if (pre > post) {
+            this.document.documentElement.classList.remove('direction-left');
+            this.document.documentElement.classList.add('direction-right');
+          } else {
+            this.document.documentElement.classList.remove('direction-right');
+            this.document.documentElement.classList.add('direction-left');
+          }
         }
       }
+    } else {
+      this.document.documentElement.classList.remove('direction-left', 'direction-right');
     }
 
-    return (
-      this.getOutlet(transition?.to)?.data['state'] ===
-      this.getOutlet(transition?.from)?.data['state']
-    );
+    return isSameContext;
 
     // return outlet.isActivated ? transitionName : '';
   }
@@ -87,8 +95,11 @@ export class CurrentTransitionService {
   }
 
   private getUrl(route?: ActivatedRouteSnapshot): string | undefined {
-    return this.getOutlet(route)
-      ?.firstChild?.firstChild?.pathFromRoot?.map((entry) => entry.url[0])
+    const outlet = this.getOutlet(route);
+    const child = outlet?.firstChild?.firstChild ?? outlet?.firstChild;
+
+    return child?.pathFromRoot
+      ?.map((entry) => entry.url[0])
       .filter((entry) => entry !== undefined)
       .join('/');
   }

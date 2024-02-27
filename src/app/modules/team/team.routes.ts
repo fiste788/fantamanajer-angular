@@ -30,7 +30,7 @@ export default [
         component: TeamDetailPage,
         data: {
           breadcrumbs: (data: { team: Team }): string => `${data.team.name}`,
-          stabreadte: 'team-detail',
+          state: 'team-detail',
         },
         resolve: {
           team: teamResolver,

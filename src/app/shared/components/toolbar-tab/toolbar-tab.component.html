@@ -25,7 +25,7 @@
 <ng-content />
 <div
   #tabPanel
-  [ngClass]="{'tabbed-container': true, 'direction': direction$ | async}"
+  class="tabbed-container"
   [@contextChange]="o | state"
   [style.viewTransitionName]="viewTransitionName()"
 >

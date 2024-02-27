@@ -14,16 +14,4 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
       { optional: true },
     ),
   ]),
-  transition(':leave', [
-    query(
-      '.mat-mdc-card.visible',
-      stagger(-40, [
-        animate(
-          '.2s cubic-bezier(0.3, 0.0, 0.8, 0.15)',
-          style({ opacity: 0, transform: 'translateY(10%)' }),
-        ),
-      ]),
-      { optional: true },
-    ),
-  ]),
 ]);

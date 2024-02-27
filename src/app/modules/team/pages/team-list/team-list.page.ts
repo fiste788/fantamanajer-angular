@@ -39,10 +39,6 @@ export class TeamListPage {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  protected track(_: number, item: Team): number {
-    return item.id;
-  }
-
   protected viewTransitionName(team: Team) {
     return this.transitionService.getViewTransitionName('banner-img', team, 'team_id');
   }

@@ -4,9 +4,11 @@
   z-index: 102;
   width: 100%;
   display: block;
+
   --mdc-list-list-item-one-line-container-height: auto;
   --mdc-list-list-item-label-text-line-height: 1;
 }
+
 .mat-toolbar-row {
   padding: 0;
   height: auto;
@@ -29,6 +31,7 @@
 a.mdc-list-item.mdc-list-item--activated mat-icon {
   background-color: var(--mat-list-active-indicator-color);
 }
+
 a.mdc-list-item.mdc-list-item--activated {
   background-color: transparent;
 }
@@ -41,17 +44,14 @@ a.mdc-list-item.mdc-list-item--activated {
   height: 100%;
   top: 0;
   left: 0;
-  border: 1px solid rgba(0, 0, 0, 0);
+  border: 1px solid rgb(0 0 0 / 0%);
   border-radius: inherit;
   content: '';
   pointer-events: none;
 }
 
 .mat-mdc-list-item-interactive mat-icon::before {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   position: absolute;
   content: '';
   opacity: 0;
@@ -82,9 +82,11 @@ a.mdc-list-item.mdc-list-item--activated {
     padding: 0;
   }
 }
+
 .mat-toolbar-row:first-child {
   view-transition-name: toolbar;
 }
+
 .mat-toolbar-row {
   background-color: inherit;
 }

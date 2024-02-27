@@ -1,62 +1,41 @@
 @if (!circle) {
-
-  {{member.player.full_name}}
-
+{{member.player.full_name}}
 }
 @if (member.likely_lineup; as like) {
-<span
- 
-  [ngClass]="{'circle':circle, 'icon-container': true}"
->
+<span [ngClass]="{'circle': circle, 'icon-container': true}">
   @if (like.regular) {
-<mat-icon
-   
-    matTooltip="Titolare"
-  >
+  <mat-icon matTooltip="Titolare">
     verified_user
   </mat-icon>
-}
+  }
   @if (like.second_ballot) {
-<span
-   
+  <span
     class="number"
     [matTooltip]="'Ballottaggio ' + (like.second_ballot / 100 | percent)"
   >
     {{like.second_ballot / 100 | percent}}
   </span>
-}
+  }
   @if (!like.regular) {
-<mat-icon
-   
-    matTooltip="Panchina"
-  >
+  <mat-icon matTooltip="Panchina">
     event_seat
   </mat-icon>
-}
+  }
   @if (like.injured) {
-<mat-icon
-   
-    matTooltip="Infortunato"
-  >
+  <mat-icon matTooltip="Infortunato">
     local_hospital
   </mat-icon>
-}
+  }
   @if (like.disqualified) {
-<mat-icon
-   
-    matTooltip="Squalificato"
-  >
+  <mat-icon matTooltip="Squalificato">
     highlight_off
   </mat-icon>
-}
+  }
   @if (captain) {
-<mat-icon
-   
-    matTooltip="Capitano"
-  >
+  <mat-icon matTooltip="Capitano">
     copyright
   </mat-icon>
-}
+  }
   <span
     class="number"
     [matTooltip]="'Avversario ' + (like.versus | titlecase)"

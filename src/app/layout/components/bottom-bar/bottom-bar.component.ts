@@ -1,6 +1,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, map } from 'rxjs';
@@ -8,7 +9,6 @@ import { Observable, map } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Championship, Team } from '@data/types';
-import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-bottom-bar',

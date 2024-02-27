@@ -4,7 +4,15 @@
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-  //@include mat.elevation(2);
+
+  > div {
+    transition: all 200ms;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .no-animate {
+    transition: none !important;
+  }
 
   img {
     display: block;
@@ -103,6 +111,8 @@ a.anchor {
     align-items: flex-end;
     background-color: rgb(0 0 0 / 0%);
     background-image: linear-gradient(rgb(0 0 0 / 0%), rgb(0 0 0 / 80%));
+
+    --mdc-icon-button-icon-color: #fff;
 
     img {
       max-height: 128px;

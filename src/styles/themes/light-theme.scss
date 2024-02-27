@@ -8,6 +8,7 @@
 @import '../main/transition';
 
 @include color.color(variables.$theme);
+
 :root {
   @include main.theme(variables.$theme);
   @include app.theme(variables.$theme);

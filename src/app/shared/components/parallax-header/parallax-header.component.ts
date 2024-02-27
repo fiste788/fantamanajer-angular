@@ -2,9 +2,12 @@ import { NgIf, NgFor, ViewportScroller } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
+  ViewChild,
   inject,
 } from '@angular/core';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
@@ -32,7 +35,8 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
     RouterLink,
   ],
 })
-export class ParallaxHeaderComponent {
+export class ParallaxHeaderComponent implements OnDestroy {
+  @ViewChild('rellax') public readonly rellax?: ElementRef<HTMLElement>;
   @Input({ required: true }) public contextParam!: string;
   @Input() public title = '';
   @Input() public subtitle = '';
@@ -45,9 +49,14 @@ export class ParallaxHeaderComponent {
   private readonly transitionService = inject(CurrentTransitionService);
   private readonly viewportScroller = inject(ViewportScroller);
 
+  public ngOnDestroy(): void {
+    this.rellax?.nativeElement.classList.remove('no-animate');
+  }
+
   protected imageLoad(): void {
     // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
     this.viewportScroller.scrollToAnchor('tab');
+    this.rellax?.nativeElement.classList.add('no-animate');
   }
 
   protected track(_: number, item: Tab): string {

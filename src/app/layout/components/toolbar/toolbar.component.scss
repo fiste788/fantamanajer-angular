@@ -9,13 +9,16 @@ app-breadcrumb {
   flex: 10 1 auto;
   overflow: hidden;
 }
+
 #toolbar-tab-container {
   padding: 0;
   height: auto;
 }
+
 .mat-toolbar-row:first-child {
   view-transition-name: toolbar;
 }
+
 .mat-toolbar-row {
   background-color: inherit;
 }

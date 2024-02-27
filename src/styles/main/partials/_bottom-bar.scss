@@ -17,6 +17,7 @@
     a.mdc-list-item.mdc-list-item--activated {
       --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
       --mdc-list-list-item-label-text-weight: 700;
+
       mat-icon {
         font-variation-settings: 'FILL' 1;
       }

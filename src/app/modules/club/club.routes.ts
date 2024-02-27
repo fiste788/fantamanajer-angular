@@ -21,7 +21,7 @@ export default [
       {
         path: '',
         component: ClubListPage,
-        data: { state: 'club-list' },
+        data: { state: 'club-list', exit: true },
         breadcrumbs: 'Club',
         resolve: {
           clubs: clubsResolver,

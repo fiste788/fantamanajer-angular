@@ -11,27 +11,27 @@
   margin: 0 1rem 0 0;
 
   > .img-container {
-    border-radius: 50%;
-    box-sizing: border-box;
-    max-width: 64px;
-    border-style: solid;
-    border-width: 2px;
-    overflow: hidden;
-    padding: 0 0.5rem;
+    position: relative;
+    max-width: 4rem;
     display: inline-block;
     height: 100%;
-    transition: border-color 0.5s;
 
-    > app-player-image {
+    > div {
+      border-radius: 1rem;
+      box-sizing: border-box;
+      overflow: hidden;
+      border-style: solid;
+      border-width: 2px;
+
+      padding: 0 0.5rem;
+      transition: border-color 0.5s;
+    }
+    app-player-image {
       transform: scale(1.45);
       transform-origin: top;
       max-width: 100%;
     }
   }
-}
-
-.mat-mdc-form-field.ng-invalid .img-container {
-  border-color: #f44336;
 }
 
 .select-container {
@@ -53,10 +53,15 @@
 
     > .img-container {
       max-width: calc(100% - 1rem);
-      padding: 0 1rem;
-      margin: 0 0.25rem;
-      border-width: 4px;
+
       display: inline-flex;
+
+      > div {
+        border-radius: 2rem;
+        padding: 0 1rem;
+        margin: 0 0.25rem;
+        border-width: 4px;
+      }
     }
   }
 

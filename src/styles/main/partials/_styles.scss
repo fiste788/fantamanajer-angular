@@ -112,6 +112,7 @@
     background-color: mat.get-theme-color($theme, surface-container-low);
     color: mat.get-theme-color($theme, on-surface);
   }
+
   img[src~='.svg'] {
     background-color: mat.get-theme-color($theme, surface-container-low);
   }
@@ -119,6 +120,9 @@
   a {
     color: mat.get-theme-color($theme, on-primary-container);
   }
+
+  --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed)};
+  --mat-skeleton-foregrounf-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
 }
 
 @mixin density($theme) {
