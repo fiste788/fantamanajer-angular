@@ -15,6 +15,7 @@ export default [
       breadcrumbs: (data: { championship: Championship }): string =>
         `${data.championship.league.name}`,
       state: 'championship-outlet',
+      viewTransitionOutlet: 'team-outlet',
     },
     resolve: {
       championship: championshipResolver,

@@ -1,5 +1,5 @@
 import { NgIf, NgClass } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ngfModule } from 'angular-file';
 import { firstValueFrom, map, tap } from 'rxjs';
 
+import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { NotificationSubscription, notificationSubscriptionsKeys, Team } from '@data/types';
 import { NotificationSubscriptionComponent } from '@modules/notification-subscription/components/notification-subscription/notification-subscription.component';
@@ -44,7 +45,9 @@ export class TeamEditModal {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: TeamEditModalData,
+    protected readonly app: ApplicationService,
     private readonly teamService: TeamService,
+    private readonly changeRef: ChangeDetectorRef,
     private readonly dialogRef: MatDialogRef<TeamEditModal>,
   ) {
     this.team = data.team;
@@ -65,7 +68,11 @@ export class TeamEditModal {
 
     return firstValueFrom(
       this.teamService.upload(this.team.id, fd).pipe(
-        tap((t) => (this.team.photo_url = t.photo_url)),
+        tap((team) => (this.team.photo_url = team.photo_url)),
+        map(() => {
+          this.app.teamSubject$.next(this.team);
+          this.changeRef.detectChanges();
+        }),
         map(() => this.dialogRef.close(true)),
       ),
       { defaultValue: undefined },

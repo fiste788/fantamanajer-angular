@@ -13,7 +13,7 @@ import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [cardCreationAnimation],
+  animations: [],
   styleUrls: ['./team-list.page.scss'],
   templateUrl: './team-list.page.html',
   standalone: true,

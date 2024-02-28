@@ -1,24 +1,27 @@
+/* eslint-disable unicorn/no-useless-undefined */
+
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, signal } from '@angular/core';
 import { MatTabNav } from '@angular/material/tabs';
-import { ActivatedRouteSnapshot, ViewTransitionInfo } from '@angular/router';
+import { ActivatedRouteSnapshot, UrlTree, ViewTransitionInfo } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentTransitionService {
-  // eslint-disable-next-line unicorn/no-useless-undefined
-  public readonly currentTransition = signal<ViewTransitionInfo | undefined>(undefined);
+  public readonly currentTransition = signal<
+    { transition: ViewTransitionInfo; previousUrl?: UrlTree; finalUrl?: UrlTree } | undefined
+  >(undefined);
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
 
   public getViewTransitionName(transitionName: string, entity: { id: number }, param = 'id') {
-    const transition = this.currentTransition();
+    const info = this.currentTransition();
     // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
     // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
     const isBannerImg =
-      this.getOutlet(transition?.to)?.firstChild?.params[param] === `${entity.id}` ||
-      this.getOutlet(transition?.from)?.firstChild?.params[param] === `${entity.id}`;
+      this.getOutlet(info?.transition?.to)?.firstChild?.params[param] === `${entity.id}` ||
+      this.getOutlet(info?.transition?.from)?.firstChild?.params[param] === `${entity.id}`;
 
     if (isBannerImg) {
       this.document.documentElement.classList.remove('list-to-detail');
@@ -28,53 +31,63 @@ export class CurrentTransitionService {
     return isBannerImg ? transitionName : '';
   }
 
-  public isOutletChanged(transitionName: string, param = 'id') {
-    const transition = this.currentTransition();
+  public isOutletChanged(transitionName: string, param = 'id'): string {
+    const info = this.currentTransition();
     // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
     // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
-    const isBannerImg =
-      this.getOutlet(transition?.to)?.firstChild?.params[param] !==
-      this.getOutlet(transition?.from)?.firstChild?.params[param];
+    const outletTo = this.getOutlet(info?.transition?.to);
+    const outletFrom = this.getOutlet(info?.transition?.from);
+    if (
+      outletFrom?.data['state'] === outletTo?.data['state'] ||
+      outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
+      outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
+    ) {
+      const isBannerImg =
+        this.getOutlet(info?.transition?.to)?.firstChild?.params[param] !==
+        this.getOutlet(info?.transition?.from)?.firstChild?.params[param];
 
-    if (isBannerImg) {
-      this.document.documentElement.classList.remove('detail-to-list');
-      this.document.documentElement.classList.add('list-to-detail');
+      console.log(this.getOutlet(info?.transition?.from), this.getOutlet(info?.transition?.to));
+      console.log('isbannerimg' + isBannerImg);
+      if (isBannerImg) {
+        this.document.documentElement.classList.remove('detail-to-list');
+        this.document.documentElement.classList.add('list-to-detail');
+      }
+
+      return isBannerImg ? transitionName : '';
     }
 
-    return isBannerImg ? transitionName : '';
+    return '';
   }
 
   public isTabChanged(tabBar?: MatTabNav): boolean {
-    const transition = this.currentTransition();
-    const outletFrom = this.getOutlet(transition?.from);
-    const outletTo = this.getOutlet(transition?.to);
+    const info = this.currentTransition();
+
+    const outletFrom = this.getOutlet(info?.transition?.from);
+    const outletTo = this.getOutlet(info?.transition?.to);
     let isSameContext = outletFrom?.data['state'] === outletTo?.data['state'];
 
     if (isSameContext && outletTo?.firstChild?.data['exit'] === true) {
       isSameContext = false;
     }
-    if (isSameContext && tabBar) {
-      const el = tabBar._tabList.nativeElement as HTMLDivElement;
-      // eslint-disable-next-line unicorn/prefer-spread
-      const tabs = Array.from(el.querySelectorAll('a'));
-      const from = this.getUrl(transition?.from);
-      const to = this.getUrl(transition?.to);
 
-      if (from && to) {
-        const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
-        const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
-        if (pre > -1 && post > -1) {
-          if (pre > post) {
-            this.document.documentElement.classList.remove('direction-left');
-            this.document.documentElement.classList.add('direction-right');
-          } else {
-            this.document.documentElement.classList.remove('direction-right');
-            this.document.documentElement.classList.add('direction-left');
-          }
+    if (tabBar) {
+      const el = tabBar._tabList.nativeElement as HTMLDivElement;
+
+      const tabs = Array.from(el.querySelectorAll('a'));
+      const from = this.getUrl(info?.transition?.from);
+      const to = this.getUrl(info?.transition?.to);
+
+      console.log(from, to);
+
+      const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
+      const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
+      if (pre > -1 && post > -1) {
+        if (pre > post) {
+          this.document.documentElement.classList.add('direction-right');
+        } else {
+          this.document.documentElement.classList.add('direction-left');
         }
       }
-    } else {
-      this.document.documentElement.classList.remove('direction-left', 'direction-right');
     }
 
     return isSameContext;

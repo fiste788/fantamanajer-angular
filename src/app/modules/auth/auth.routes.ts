@@ -10,9 +10,6 @@ export default [
   {
     path: '',
     component: RouterOutletComponent,
-    data: {
-      state: 'login-outlet',
-    },
     children: [
       {
         path: 'login',

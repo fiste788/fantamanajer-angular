@@ -15,7 +15,7 @@ export default [
   {
     path: '',
     component: RouterOutletComponent,
-    data: { state: 'team-outlet' },
+    data: { state: 'team-outlet', viewTransitionOutlet: 'championship-outlet' },
     children: [
       {
         path: '',

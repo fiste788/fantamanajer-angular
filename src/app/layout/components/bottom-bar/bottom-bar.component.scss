@@ -1,9 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 :host {
-  position: fixed;
-  bottom: 0;
-  z-index: 102;
-  width: 100%;
   display: block;
 
   --mdc-list-list-item-one-line-container-height: auto;
@@ -21,7 +17,7 @@ mat-icon {
 }
 
 .mat-toolbar-row:first-child {
-  view-transition-name: toolbar;
+  view-transition-name: bottom-bar;
 }
 
 .mdc-list {

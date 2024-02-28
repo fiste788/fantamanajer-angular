@@ -9,7 +9,6 @@ export default [
   {
     path: '',
     component: RouterOutletComponent,
-    data: { state: 'score-outlet' },
     children: [
       {
         path: '',

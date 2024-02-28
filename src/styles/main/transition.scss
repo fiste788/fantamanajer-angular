@@ -130,6 +130,10 @@
   z-index: 2;
 }
 
+::view-transition-group(bottom-bar) {
+  z-index: 2;
+}
+
 ::view-transition-group(toolbar-tab) {
   z-index: 1;
 }

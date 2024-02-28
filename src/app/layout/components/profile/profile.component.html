@@ -29,7 +29,19 @@
         </mat-option>
         }
       </mat-select>
+      @if(team === teams[0]) {
+      <button
+        aria-label="Settings"
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="openDialog($event, team)"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+      }
     </mat-form-field>
+
     }
 
   </mat-toolbar-row>

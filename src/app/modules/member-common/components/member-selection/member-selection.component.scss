@@ -5,6 +5,10 @@
   flex-grow: 1;
 }
 
+.mat-mdc-select {
+  overflow: hidden;
+}
+
 .photo-container {
   position: relative;
   text-align: center;
@@ -15,6 +19,7 @@
     max-width: 4rem;
     display: inline-block;
     height: 100%;
+    min-width: 3rem;
 
     > div {
       border-radius: 1rem;

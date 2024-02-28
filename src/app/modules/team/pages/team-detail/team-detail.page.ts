@@ -1,12 +1,12 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { Observable, combineLatest, firstValueFrom } from 'rxjs';
-import { filter, first, map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -45,7 +45,6 @@ export class TeamDetailPage implements OnInit {
     protected readonly app: ApplicationService,
     protected readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
-    private readonly changeRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
   ) {}
 
@@ -84,7 +83,7 @@ export class TeamDetailPage implements OnInit {
     );
   }
 
-  protected async openDialog(team: Team): Promise<void> {
+  protected async openDialog(team: Team): Promise<boolean | undefined> {
     return firstValueFrom(
       this.app.matchday$.pipe(
         first(),
@@ -95,11 +94,6 @@ export class TeamDetailPage implements OnInit {
             })
             .afterClosed(),
         ),
-        filter((t) => t === true),
-        map(() => {
-          this.app.teamSubject$.next(team);
-          this.changeRef.detectChanges();
-        }),
       ),
       { defaultValue: undefined },
     );
