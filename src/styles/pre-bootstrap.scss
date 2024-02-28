@@ -54,13 +54,14 @@ body {
     color: mat.get-theme-color(dark.$theme, error);
   }
 }
+
 svg .s-1 {
   fill: transparent;
   transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.1s;
 }
 
 svg.active .s-1 {
-  fill: rgb(228, 0, 217);
+  fill: rgb(228 0 217);
 }
 
 svg .s-2 {
@@ -69,7 +70,7 @@ svg .s-2 {
 }
 
 svg.active .s-2 {
-  fill: rgb(228, 0, 103);
+  fill: rgb(228 0 103);
 }
 
 svg .s-3 {
@@ -78,5 +79,5 @@ svg .s-3 {
 }
 
 svg.active .s-3 {
-  fill: rgb(246, 73, 73);
+  fill: rgb(246 73 73);
 }

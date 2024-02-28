@@ -5,7 +5,6 @@ import {
   AfterViewInit,
   ApplicationRef,
   Component,
-  ComponentFactoryResolver,
   Injector,
   Input,
   OnDestroy,
@@ -47,7 +46,6 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
   private portalHost?: PortalOutlet;
 
   constructor(
-    private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
     private readonly transitionService: CurrentTransitionService,
@@ -57,12 +55,7 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
     // Create a portalHost from a DOM element
     const element = document.querySelector('#toolbar-tab-container');
     if (element) {
-      this.portalHost = new DomPortalOutlet(
-        element,
-        this.componentFactoryResolver,
-        this.appRef,
-        this.injector,
-      );
+      this.portalHost = new DomPortalOutlet(element, undefined, this.appRef, this.injector);
       this.portalHost.attach(this.portal());
     }
   }

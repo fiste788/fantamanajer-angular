@@ -1,3 +1,4 @@
+/* stylelint-disable selector-type-no-unknown */
 ::view-transition-new(banner-img),
 ::view-transition-old(banner-img) {
   /* Prevent the default animation, so both views remain opacity:1 throughout the transition */

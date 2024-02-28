@@ -1,3 +1,13 @@
+.speed-dial {
+  --mdc-extended-fab-container-elevation-shadow: none;
+  --mdc-extended-fab-hover-container-elevation-shadow: none;
+
+  padding: 0 1rem 1rem;
+  display: flex;
+  z-index: 1;
+  position: relative;
+}
+
 .mat-mdc-nav-list {
   padding: 0 0.75rem;
 }
@@ -17,18 +27,13 @@ mat-mdc-list .mat-mdc-list-item,
 
 .mat-mdc-subheader {
   font-size: 1rem;
+  font-weight: 500;
 }
 
 .mat-divider {
   margin: 0 1rem;
 }
 
-.speed-dial {
-  margin: 0 1rem 1rem;
-  display: inline-block;
-  z-index: 1;
-  position: relative;
-}
 @media (max-width: theme('screens.md')) {
   .speed-dial {
     display: none;

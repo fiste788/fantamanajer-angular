@@ -53,7 +53,6 @@ export class CurrentTransitionService {
     if (isSameContext && outletTo?.firstChild?.data['exit'] === true) {
       isSameContext = false;
     }
-    console.log(outletFrom, outletTo);
     if (isSameContext && tabBar) {
       const el = tabBar._tabList.nativeElement as HTMLDivElement;
       // eslint-disable-next-line unicorn/prefer-spread
@@ -61,7 +60,6 @@ export class CurrentTransitionService {
       const from = this.getUrl(transition?.from);
       const to = this.getUrl(transition?.to);
 
-      console.log(from, to);
       if (from && to) {
         const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
         const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;

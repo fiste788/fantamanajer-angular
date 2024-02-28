@@ -15,10 +15,10 @@ app-breadcrumb {
   height: auto;
 }
 
-.mat-toolbar-row:first-child {
-  view-transition-name: toolbar;
-}
-
 .mat-toolbar-row {
   background-color: inherit;
+}
+
+.mat-toolbar-row:first-child {
+  view-transition-name: toolbar;
 }

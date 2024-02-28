@@ -22,10 +22,10 @@
       overflow: hidden;
       border-style: solid;
       border-width: 2px;
-
       padding: 0 0.5rem;
       transition: border-color 0.5s;
     }
+
     app-player-image {
       transform: scale(1.45);
       transform-origin: top;
@@ -53,7 +53,6 @@
 
     > .img-container {
       max-width: calc(100% - 1rem);
-
       display: inline-flex;
 
       > div {
