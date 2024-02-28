@@ -4,6 +4,7 @@
     <figure
       class="aspect-ratio-box"
       mat-card-image
+      [style.viewTransitionName]="viewTransitionName(team)"
     >
       @if (team.photo_url) {
       <img
@@ -15,7 +16,6 @@
         [class.has-image]="team.photo_url !== null"
         [lazyLoad]="(team.photo_url | srcset)"
         [useSrcset]="true"
-        [style.viewTransitionName]="viewTransitionName(team)"
       >
       } @else {
 

@@ -43,6 +43,7 @@ app-toolbar {
 main {
   padding-bottom: 2rem;
   position: relative;
+  view-transition-name: main;
 }
 
 @media (min-width: theme('screens.md')) {
