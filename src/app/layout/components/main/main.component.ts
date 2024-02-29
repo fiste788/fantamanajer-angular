@@ -27,7 +27,7 @@ import {
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { WINDOW } from '@app/services';
+import { CurrentTransitionService, WINDOW } from '@app/services';
 import {
   closeAnimation,
   routerTransition,
@@ -87,6 +87,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
+    private readonly transitionService: CurrentTransitionService,
     private readonly changeRef: ChangeDetectorRef,
   ) {
     this.isReady$ = this.layoutService.isReady$;
@@ -115,6 +116,10 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.layoutService.toggleSidebar(open);
   }
 
+  protected viewTransitionName() {
+    return this.transitionService.isRootOutlet() ? 'main' : '';
+  }
+
   private preBootstrapExitAnimation(): Observable<void> {
     return this.isReady$.pipe(
       filter((e) => e),
@@ -129,7 +134,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
       this.isScrolled$ = fromEvent(window, 'scroll').pipe(
         throttleTime(15),
         map(() => window.scrollY),
-        map((y) => y > 10),
+        map((y) => y > 48),
         distinctUntilChanged(),
         share(),
       );

@@ -1,3 +1,6 @@
-<div [@contextChange]="o | state">
+<div
+  [@contextChange]="o | state"
+  [style.viewTransitionName]="viewTransitionName(o)"
+>
   <router-outlet #o="outlet" />
 </div>

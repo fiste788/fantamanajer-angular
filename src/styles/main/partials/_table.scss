@@ -17,10 +17,6 @@
     border-radius: 4px;
   }
 
-  .table-container:not([class*='mat-elevation-z']) {
-    @include mat.elevation(1);
-  }
-
   .mat-mdc-table-header {
     width: 100%;
     padding: 1.25rem 1.5rem;

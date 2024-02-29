@@ -32,7 +32,8 @@ export default [
         component: ClubDetailPage,
         data: {
           breadcrumbs: (data: { club: Club }): string => `${data.club.name}`,
-          state: 'club-detail',
+          state: 'club-outlet',
+          exit: true,
         },
         resolve: {
           club: clubResolver,

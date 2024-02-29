@@ -16,6 +16,7 @@ app-toolbar {
   display: flex;
   flex-direction: column-reverse;
   max-height: 5rem;
+  view-transition-name: bottom-bar;
 }
 
 .mat-sidenav {
@@ -33,22 +34,23 @@ app-toolbar {
 }
 
 .speed-dial {
-  text-align: right;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  position: absolute;
+  top: calc(-100% + 0.5rem);
+  right: 1rem;
   z-index: 1;
   transform-origin: right bottom;
 }
 
 main {
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   position: relative;
-  view-transition-name: main;
+  // view-transition-name: main;
 }
 
 @media (min-width: theme('screens.md')) {
   main {
     margin: 0 2rem;
+    padding-bottom: 2rem;
   }
 
   .speed-dial {

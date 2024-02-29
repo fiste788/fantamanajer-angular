@@ -1,13 +1,16 @@
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
 <div
   class="parallax-container"
-  [style.viewTransitionName]="viewTransitionName()"
+  [style.viewTransitionName]="(isHandset$ | async) ? '' : viewTransitionName()"
 >
   <div
     #parallax
     class="parallax"
   >
-    <div class="parallax-header-img">
+    <div
+      class="parallax-header-img"
+      [style.viewTransitionName]="(isHandset$ | async) ? viewTransitionName() : ''"
+    >
       <div
         #rellax
         appRellax

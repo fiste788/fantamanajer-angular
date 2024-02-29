@@ -27,6 +27,9 @@
 }
 
 @mixin typography($theme) {
+  .username {
+    font: mat.get-theme-typography($theme, headline-small, font);
+  }
 }
 
 @mixin theme($theme) {

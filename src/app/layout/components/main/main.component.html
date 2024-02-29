@@ -16,7 +16,10 @@
       [@scrollUpAnimation]="(showedToolbar$ | async)"
       [showDrawerButton]="(isHandset$ | async) || false"
     />
-    <main [@contextChange]="o | state">
+    <main
+      [@contextChange]="o | state"
+      [style.viewTransitionName]="viewTransitionName()"
+    >
       <router-outlet #o="outlet" />
     </main>
     <div

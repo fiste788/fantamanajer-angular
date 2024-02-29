@@ -19,6 +19,17 @@
 }
 
 @mixin typography($theme) {
+  .mat-empty-state-label {
+    font-size: mat.get-theme-typography($theme, title-medium, font-size);
+    font-weight: mat.get-theme-typography($theme, title-medium, font-weight);
+    line-height: mat.get-theme-typography($theme, title-medium, line-height);
+  }
+
+  .mat-empty-state-description {
+    font-size: mat.get-theme-typography($theme, title-small, font-size);
+    font-weight: mat.get-theme-typography($theme, title-small, font-weight);
+    line-height: mat.get-theme-typography($theme, title-small, line-height);
+  }
 }
 
 @mixin theme($theme) {

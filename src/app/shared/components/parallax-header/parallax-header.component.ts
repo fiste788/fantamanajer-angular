@@ -1,4 +1,4 @@
-import { NgIf, NgFor, ViewportScroller } from '@angular/common';
+import { NgIf, NgFor, ViewportScroller, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,6 +18,7 @@ import { Tab } from '@data/types';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
 import { SrcsetDirective } from '../../directives/srcset.directive';
+import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,6 +34,7 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
     NgFor,
     RouterLinkActive,
     RouterLink,
+    AsyncPipe,
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {
@@ -46,6 +48,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
   @Input() public tabPanel?: MatTabNavPanel;
   @Output() public readonly imageLoaded = new EventEmitter<number>();
 
+  protected readonly isHandset$ = inject(LayoutService).isHandset$;
   private readonly transitionService = inject(CurrentTransitionService);
   private readonly viewportScroller = inject(ViewportScroller);
 

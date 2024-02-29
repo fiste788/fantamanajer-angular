@@ -3,7 +3,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, signal } from '@angular/core';
 import { MatTabNav } from '@angular/material/tabs';
-import { ActivatedRouteSnapshot, UrlTree, ViewTransitionInfo } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -46,8 +46,6 @@ export class CurrentTransitionService {
         this.getOutlet(info?.transition?.to)?.firstChild?.params[param] !==
         this.getOutlet(info?.transition?.from)?.firstChild?.params[param];
 
-      console.log(this.getOutlet(info?.transition?.from), this.getOutlet(info?.transition?.to));
-      console.log('isbannerimg' + isBannerImg);
       if (isBannerImg) {
         this.document.documentElement.classList.remove('detail-to-list');
         this.document.documentElement.classList.add('list-to-detail');
@@ -77,8 +75,6 @@ export class CurrentTransitionService {
       const from = this.getUrl(info?.transition?.from);
       const to = this.getUrl(info?.transition?.to);
 
-      console.log(from, to);
-
       const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
       const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
       if (pre > -1 && post > -1) {
@@ -93,6 +89,33 @@ export class CurrentTransitionService {
     return isSameContext;
 
     // return outlet.isActivated ? transitionName : '';
+  }
+
+  public isRootOutlet(): boolean {
+    const info = this.currentTransition();
+
+    const outletFrom = this.getOutlet(info?.transition?.from);
+    const outletTo = this.getOutlet(info?.transition?.to);
+
+    return outletFrom === undefined || outletTo === undefined;
+  }
+
+  public isLastOutlet(o: RouterOutlet): boolean {
+    const info = this.currentTransition();
+
+    let outletFrom = this.getOutlet(info?.transition?.from);
+    while (this.getOutlet(outletFrom) !== undefined) {
+      outletFrom = this.getOutlet(outletFrom)?.firstChild ?? undefined;
+    }
+
+    let outletTo = this.getOutlet(info?.transition?.to);
+    while (this.getOutlet(outletTo) !== undefined) {
+      outletTo = this.getOutlet(outletTo)?.firstChild ?? undefined;
+    }
+
+    console.log(outletFrom, outletTo, o.component);
+
+    return outletFrom?.component === o.component || outletTo?.component === o.component;
   }
 
   private getOutlet(route?: ActivatedRouteSnapshot): ActivatedRouteSnapshot | undefined {
