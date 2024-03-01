@@ -181,6 +181,7 @@ $magenta-palette: _patch-missing-hues(
 $m3-base-config: (
   color: (
     primary: $orange-palette,
+    tertiary: matx.$m3-violet-palette,
   ),
   typography: (
     plain-family: '"Exo 2"',

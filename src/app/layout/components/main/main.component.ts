@@ -67,6 +67,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly isReady$: Observable<boolean>;
   protected readonly isOpen$: Observable<boolean>;
   protected readonly isHandset$: Observable<boolean>;
+  protected readonly isTablet$: Observable<boolean>;
   protected readonly openedSidebar$: Observable<boolean>;
   protected readonly showedSpeedDial$: Observable<VisibilityState>;
   protected readonly showedToolbar$: Observable<VisibilityState>;
@@ -84,6 +85,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   ) {
     this.isReady$ = this.layoutService.isReady$;
     this.isHandset$ = this.layoutService.isHandset$;
+    this.isTablet$ = this.layoutService.isTablet$;
     this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.isOpen$ = this.isOpenObservable();
     this.showedSpeedDial$ = this.isShowedSpeedDial();
@@ -144,8 +146,13 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private isOpenObservable(): Observable<boolean> {
-    return combineLatest([this.isReady$, this.isHandset$, this.openedSidebar$]).pipe(
-      map(([r, h, o]) => o || (!h && r)),
+    return combineLatest([
+      this.isReady$,
+      this.isHandset$,
+      this.isTablet$,
+      this.openedSidebar$,
+    ]).pipe(
+      map(([r, h, t, o]) => o || (!h && !t && r)),
       distinctUntilChanged(),
     );
   }

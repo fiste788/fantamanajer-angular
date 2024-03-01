@@ -58,6 +58,10 @@
   @include mat.tabs-color($theme);
   @include mat.toolbar-color($theme);
   @include mat.tooltip-color($theme);
+
+  .tertiary-fab {
+    @include mat.fab-color($theme, $color-variant: tertiary);
+  }
 }
 
 @mixin density($theme) {

@@ -26,7 +26,7 @@
   .tabbed-container {
     min-height: calc(100vh - 25rem);
 
-    @media (max-width: theme('screens.sm')) {
+    @media (max-width: theme('screens.md')) {
       margin-left: 1rem;
       margin-right: 1rem;
 
@@ -74,11 +74,6 @@
     background-color: red;
   }
 
-  app-main:not(:empty) + .pre-bootstrap {
-    background-color: transparent;
-    animation: leave-animation 0.2s ease-in-out forwards;
-  }
-
   content-loader svg {
     max-height: 100%;
   }
@@ -94,18 +89,6 @@
     height: 100%;
     align-items: center;
     justify-content: center;
-  }
-
-  @keyframes leave-animation {
-    0% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
-      transform: scale(0);
-      display: none;
-    }
   }
 }
 

@@ -3,10 +3,11 @@
     #drawer
     fixedInViewport="true"
     [autoFocus]="false"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [mode]="(isHandset$ | async) ? 'over' : ( (isTablet$ | async) && (isOpen$ | async) ? 'over' : 'side')"
     [opened]="(isOpen$ | async)"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
+    [ngClass]="{ rail: (isTablet$ | async) && !drawer.opened,   'rail-opened': (isTablet$ | async) && drawer.opened}"
   >
     <app-navbar />
   </mat-sidenav>

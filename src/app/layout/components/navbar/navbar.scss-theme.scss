@@ -2,6 +2,52 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
+  .rail {
+    .mat-mdc-subheader,
+    .mdc-list-item__content,
+    .mdc-button__label,
+    app-profile {
+      display: none;
+    }
+
+    a.mdc-list-item.mdc-list-item--activated {
+      mat-icon {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+
+    .speed-dial {
+      padding: 0;
+      margin-top: 0.5rem;
+    }
+
+    .toggle {
+      display: block;
+      margin-top: 3rem;
+    }
+
+    .mat-mdc-nav-list {
+      margin-top: 3rem;
+    }
+
+    .mat-mdc-list-item {
+      padding: 0 !important;
+    }
+
+    app-navbar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &-opened {
+      .toggle {
+        display: block;
+        margin-top: 1rem;
+        margin-left: 1rem;
+      }
+    }
+  }
 }
 
 @mixin color($theme) {
@@ -13,12 +59,23 @@
   .mat-mdc-subheader {
     color: mat.get-theme-color($theme, on-surface-variant);
   }
+
+  .speed-dial .tertiary-fab {
+    --mdc-extended-fab-container-elevation-shadow: none;
+    --mdc-extended-fab-hover-container-elevation-shadow: none;
+    --mdc-fab-container-elevation-shadow: none;
+    --mdc-fab-hover-container-elevation-shadow: none;
+  }
 }
 
 @mixin density($theme) {
 }
 
 @mixin typography($theme) {
+  .mat-mdc-subheader {
+    font-size: 1rem;
+    font-weight: mat.get-theme-typography($theme, headline-medium, font-weight);
+  }
 }
 
 @mixin theme($theme) {

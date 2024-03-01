@@ -1,7 +1,4 @@
 .speed-dial {
-  --mdc-extended-fab-container-elevation-shadow: none;
-  --mdc-extended-fab-hover-container-elevation-shadow: none;
-
   padding: 0 1rem 1rem;
   display: flex;
   z-index: 1;
@@ -25,13 +22,12 @@ mat-mdc-list .mat-mdc-list-item,
   --mdc-list-list-item-leading-icon-size: 24px;
 }
 
-.mat-mdc-subheader {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
 .mat-divider {
   margin: 0 1rem;
+}
+
+.toggle {
+  display: none;
 }
 
 @media (max-width: theme('screens.md')) {

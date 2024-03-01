@@ -16,6 +16,7 @@ import { closeAnimation } from '@shared/animations';
 import { LayoutService } from '../../services';
 import { ProfileComponent } from '../profile/profile.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   animations: [closeAnimation],
@@ -29,6 +30,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
     NgIf,
     MatIconModule,
     RouterLink,
+    MatButtonModule,
     RouterLinkActive,
     MatDividerModule,
     AsyncPipe,
@@ -42,6 +44,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   protected readonly matchday$: Observable<Matchday | undefined>;
   protected readonly championship$: Observable<Championship | undefined>;
   protected readonly navStart$: Observable<Event>;
+  protected readonly openedSidebar$: Observable<boolean>;
   protected readonly showedSpeedDial$: Observable<VisibilityState>;
 
   private readonly subscriptions = new Subscription();
@@ -58,6 +61,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.loggedIn$ = this.auth.loggedIn$;
     this.matchday$ = this.app.matchday$;
     this.team$ = this.app.team$;
+    this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.championship$ = this.app.team$.pipe(map((t) => t?.championship));
     this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
   }
@@ -91,6 +95,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  public clickNav(): void {
+    this.layoutService.toggleSidebar();
   }
 
   private isShowedSpeedDial(): Observable<VisibilityState> {

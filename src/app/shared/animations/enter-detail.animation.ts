@@ -15,7 +15,7 @@ export const enterDetailAnimation = trigger('enterDetailAnimation', [
     query(
       '.animation-container',
       animate(
-        '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
+        '400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
         style({ opacity: 1, transform: 'translateX(0)' }),
       ),
     ),

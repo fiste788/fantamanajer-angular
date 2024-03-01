@@ -7,7 +7,7 @@ export const cardCreationAnimation = trigger('cardCreationAnimation', [
       '.mat-mdc-card',
       stagger(60, [
         animate(
-          '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
+          '400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
           style({ opacity: 1, transform: 'translateY(0)' }),
         ),
       ]),

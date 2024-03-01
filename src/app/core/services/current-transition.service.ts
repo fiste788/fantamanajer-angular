@@ -113,8 +113,6 @@ export class CurrentTransitionService {
       outletTo = this.getOutlet(outletTo)?.firstChild ?? undefined;
     }
 
-    console.log(outletFrom, outletTo, o.component);
-
     return outletFrom?.component === o.component || outletTo?.component === o.component;
   }
 

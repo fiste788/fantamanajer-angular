@@ -12,6 +12,7 @@ import { ScrollService } from '@app/services';
 })
 export class LayoutService {
   public isHandset$: Observable<boolean>;
+  public isTablet$: Observable<boolean>;
   public openedSidebar$: Observable<boolean>;
   public isReady$: Observable<boolean>;
   public isShowSpeedDial$: Observable<VisibilityState>;
@@ -31,6 +32,9 @@ export class LayoutService {
     this.isHandset$ = this.breakpointObserver
       .observe(Breakpoints.Handset)
       .pipe(map((result) => result.matches));
+    this.isTablet$ = this.breakpointObserver
+      .observe(Breakpoints.Tablet)
+      .pipe(map((result) => result.matches));
     this.openedSidebar$ = this.openSidebarSubject.asObservable();
     this.isReady$ = this.isReadySubject.pipe(distinctUntilChanged());
     this.isShowSpeedDial$ = this.showSpeedDialSubject.pipe(
@@ -42,14 +46,16 @@ export class LayoutService {
   }
 
   public init(): Observable<boolean> {
-    return this.isHandset$.pipe(
-      tap((e) => {
-        this.openSidebarSubject.next(!e);
-        this.showSpeedDialSubject.next(this.showSpeedDialSubject.value || e);
+    return combineLatest([this.isHandset$, this.isTablet$]).pipe(
+      map(([h, t]) => {
+        this.openSidebarSubject.next(!h && !t);
+        this.showSpeedDialSubject.next(this.showSpeedDialSubject.value || h);
         this.showToolbarSubject.next(true);
-        if (e) {
+        if (h) {
           this.setReady();
         }
+
+        return true;
       }),
     );
   }
