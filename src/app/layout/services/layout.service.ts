@@ -65,9 +65,9 @@ export class LayoutService {
 
   public connectScrollAnimation(
     window: Window,
-    upCallback: () => void,
-    downCallback: () => void,
-    offset = 0,
+    upCallback?: () => void,
+    downCallback?: () => void,
+    offsetCallback = () => 0,
   ): Subscription {
     return this.isHandset$
       .pipe(
@@ -77,7 +77,7 @@ export class LayoutService {
             if (subscriptions === undefined) {
               this.scrollSubscription.set(
                 window,
-                this.applyScrollAnimation(window, upCallback, downCallback, offset),
+                this.applyScrollAnimation(window, upCallback, downCallback, offsetCallback),
               );
             }
           } else if (subscriptions) {
@@ -97,25 +97,29 @@ export class LayoutService {
 
   public applyScrollAnimation(
     window: Window,
-    upCallback: () => void,
-    downCallback: () => void,
-    offset = 0,
+    upCallback?: () => void,
+    downCallback?: () => void,
+    offsetCallback = () => 0,
   ): Subscription {
-    const scroll$ = this.scrollService.connectScrollAnimation(window, offset);
+    const scroll$ = this.scrollService.connectScrollAnimation(window, offsetCallback);
 
     return combineLatest([
       scroll$.up.pipe(
         tap(() => {
           this.showSpeedDial();
           this.showToolbar();
-          upCallback();
+          if (upCallback) {
+            upCallback();
+          }
         }),
       ),
       scroll$.down.pipe(
         tap(() => {
           this.hideSpeedDial();
           this.hideToolbar();
-          downCallback();
+          if (downCallback) {
+            downCallback();
+          }
         }),
       ),
     ]).subscribe();
