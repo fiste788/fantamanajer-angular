@@ -123,8 +123,10 @@
     color: mat.get-theme-color($theme, on-primary-container);
   }
 
-  --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed)};
-  --mat-skeleton-foregrounf-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+  .cdk-virtual-scroll-viewport {
+    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed)};
+    --mat-skeleton-foregrounf-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+  }
 }
 
 @mixin density($theme) {

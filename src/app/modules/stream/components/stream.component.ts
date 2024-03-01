@@ -45,6 +45,8 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(CdkVirtualScrollViewport) protected viewport?: CdkVirtualScrollViewport;
 
+  protected backgroundColor = '';
+  protected foregroundColor = '';
   protected ds!: StreamDataSource;
   protected width!: number;
 
@@ -58,6 +60,9 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     if (this.viewport) {
+      const style = getComputedStyle(this.viewport?.elementRef.nativeElement);
+      this.backgroundColor = style.getPropertyValue('--mat-skeleton-background-color');
+      this.foregroundColor = style.getPropertyValue('--mat-skeleton-foreground-color');
       this.width = this.viewport.elementRef.nativeElement.clientWidth;
     }
   }

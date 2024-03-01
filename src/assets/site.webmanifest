@@ -82,8 +82,8 @@
       "purpose": "monochrome"
     }
   ],
-  "theme_color": "#E40067",
-  "background_color": "#fafafa",
+  "theme_color": "#fffbff",
+  "background_color": "#fffbff",
   "start_url": "/",
   "display": "standalone",
   "shortcuts": [
