@@ -1,10 +1,16 @@
-<h4>{{label}}</h4>
-@for (notification of (map | keyvalue); track notification.key.name) {
-<mat-slide-toggle
-  [name]="notification.key.name"
-  [(ngModel)]="notification.value.enabled"
-  (change)="toggle()"
->
-  {{notification.key.label}}
-</mat-slide-toggle>
-}
+<mat-list>
+  <h3 mat-subheader>{{label}}</h3>
+  @for (notification of (map | keyvalue); track notification.key.name) {
+  <mat-list-item>
+    <mat-slide-toggle
+      [name]="notification.key.name"
+      [(ngModel)]="notification.value.enabled"
+      (change)="toggle()"
+    >
+      {{notification.key.label}}
+    </mat-slide-toggle>
+
+  </mat-list-item>
+
+  }
+</mat-list>

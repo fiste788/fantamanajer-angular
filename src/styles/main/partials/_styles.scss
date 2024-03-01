@@ -6,7 +6,7 @@
   body {
     margin: 0;
     height: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Exo 2', sans-serif;
   }
 
   figure {
@@ -25,6 +25,16 @@
 
   .tabbed-container {
     min-height: calc(100vh - 25rem);
+
+    @media (max-width: theme('screens.sm')) {
+      margin-left: 1rem;
+      margin-right: 1rem;
+
+      .mat-mdc-card {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   }
 
   .mat-drawer .mat-toolbar {

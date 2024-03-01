@@ -1,5 +1,5 @@
 @if (isSupported$ | async) {
-<div class="flex flex-row justify-between">
+<div class="flex flex-col justify-between md:flex-row">
   <p>Le passkey sostituiscono la password e convalidano l'identità tramite impronta digitale, riconoscimento facciale,
     password del dispositivo o PIN.</p>
   <button
@@ -13,40 +13,38 @@
 </div>
 }
 @if (passkeys$ | async; as passkeys) {
-<div>
-  @if (passkeys.length) {
-  <mat-list @listItemAnimation>
-    @for (passkey of passkeys; track passkey.id) {
-    <mat-list-item>
-      <mat-icon matListItemIcon>passkey</mat-icon>
-      <span matListItemTitle>{{passkey.name}}</span>
-      <span matListItemLine>
-        Creata il: {{passkey.created_at | date: 'dd/MM/y HH:mm'}} |
-        Ultimo utilizzo: {{passkey.last_seen_at | date: 'dd/MM/y HH:mm'}}
-      </span>
-      <div matListItemMeta>
-        <button
-          mat-icon-button
-          type="button"
-          (click)="unregister(passkey)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </mat-list-item>
-    }
-  </mat-list>
-  } @else {
-
-  <app-mat-empty-state
-    icon="passkey"
-    label="Nessuna passkey registrata"
-    rounded
-    [size]="330"
-  />
-
+@if (passkeys.length) {
+<mat-list @listItemAnimation>
+  @for (passkey of passkeys; track passkey.id) {
+  <mat-list-item>
+    <mat-icon matListItemIcon>passkey</mat-icon>
+    <span matListItemTitle>{{passkey.name}}</span>
+    <span matListItemLine>
+      Creata il: {{passkey.created_at | date: 'dd/MM/y HH:mm'}} |
+      Ultimo utilizzo: {{passkey.last_seen_at | date: 'dd/MM/y HH:mm'}}
+    </span>
+    <div matListItemMeta>
+      <button
+        mat-icon-button
+        type="button"
+        (click)="unregister(passkey)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-list-item>
   }
-</div>
+</mat-list>
+} @else {
+
+<app-mat-empty-state
+  icon="passkey"
+  label="Nessuna passkey registrata"
+  rounded
+  [size]="330"
+/>
+
+}
 } @else {
 <mat-progress-spinner
   color="accent"

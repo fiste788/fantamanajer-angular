@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { NotificationSubscription, NotificationSubscriptionsKeys, Team } from '@data/types';
@@ -17,7 +18,7 @@ import { Notification, notificationSubscriptions } from '../../types';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatSlideToggleModule, NgIf, FormsModule, KeyValuePipe, NgFor],
+  imports: [MatSlideToggleModule, NgIf, FormsModule, KeyValuePipe, NgFor, MatListModule],
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
   styleUrls: ['./notification-subscription.component.scss'],
   templateUrl: './notification-subscription.component.html',
