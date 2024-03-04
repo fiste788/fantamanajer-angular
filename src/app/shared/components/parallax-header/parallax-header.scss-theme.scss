@@ -5,22 +5,24 @@
 }
 
 @mixin color($theme) {
-  .parallax-header-title-container {
-    $dark-theme: matx.define-theme(
-      (
-        color: (
-          theme-type: dark,
-        ),
-      )
-    );
+  @media (min-width: theme('screens.sm')) {
+    .parallax-header-title-container {
+      $dark-theme: matx.define-theme(
+        (
+          color: (
+            theme-type: dark,
+          ),
+        )
+      );
 
-    color: mat.get-theme-color($dark-theme, on-surface);
-    background-image: linear-gradient(
-      #{mat.get-theme-color($dark-theme, surface)}00,
-      #{mat.get-theme-color($dark-theme, surface)}e6
-    );
+      color: mat.get-theme-color($dark-theme, on-surface);
+      background-image: linear-gradient(
+        #{mat.get-theme-color($dark-theme, surface)}00,
+        #{mat.get-theme-color($dark-theme, surface)}e6
+      );
 
-    --mdc-icon-button-icon-color: #{mat.get-theme-color($dark-theme, on-surface)};
+      --mdc-icon-button-icon-color: #{mat.get-theme-color($dark-theme, on-surface)};
+    }
   }
 }
 
