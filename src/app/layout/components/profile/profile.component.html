@@ -1,12 +1,14 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (app.team$ | async; as team) {
 <mat-toolbar>
+  @if(photo$ | async; as photo) {
   <mat-toolbar-row>
     <img
-      [src]="(photo$ | async)"
+      [src]="photo"
       alt="Logo"
     />
   </mat-toolbar-row>
+  }
   <mat-toolbar-row>
     @if ((auth.user$ | async)?.teams; as teams) {
     <mat-form-field appearance="fill">

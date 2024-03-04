@@ -1,5 +1,6 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -16,11 +17,11 @@ import { closeAnimation } from '@shared/animations';
 import { LayoutService } from '../../services';
 import { ProfileComponent } from '../profile/profile.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   animations: [closeAnimation],
-  selector: 'app-navbar',
+  selector: 'app-navbar[sidenav]',
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
   standalone: true,
@@ -38,6 +39,8 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  @Input({ required: true }) public sidenav!: MatSidenav;
+
   protected deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
   protected readonly loggedIn$: Observable<boolean>;
   protected readonly team$: Observable<Team | undefined>;

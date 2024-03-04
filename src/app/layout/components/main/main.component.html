@@ -9,7 +9,7 @@
     (openedChange)="open($event)"
     [ngClass]="{ rail: (isTablet$ | async) && !drawer.opened,   'rail-opened': (isTablet$ | async) && drawer.opened}"
   >
-    <app-navbar />
+    <app-navbar [sidenav]="drawer" />
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
