@@ -9,6 +9,7 @@ import { Observable, map } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Championship, Team } from '@data/types';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-bottom-bar',
@@ -22,6 +23,7 @@ import { Championship, Team } from '@data/types';
     RouterLink,
     RouterLinkActive,
     AsyncPipe,
+    MatRippleModule,
   ],
   templateUrl: './bottom-bar.component.html',
   styleUrl: './bottom-bar.component.scss',

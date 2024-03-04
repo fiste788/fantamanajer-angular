@@ -1,22 +1,27 @@
+@use './components/bottom-bar/bottom-bar.scss-theme';
 @use './components/navbar/navbar.scss-theme';
 @use './components/profile/profile.scss-theme';
 
 @mixin base($theme) {
+  @include bottom-bar.base($theme);
   @include navbar.base($theme);
   @include profile.base($theme);
 }
 
 @mixin color($theme) {
+  @include bottom-bar.color($theme);
   @include navbar.color($theme);
   @include profile.color($theme);
 }
 
 @mixin density($theme) {
+  @include bottom-bar.density($theme);
   @include navbar.density($theme);
   @include profile.density($theme);
 }
 
 @mixin typography($theme) {
+  @include bottom-bar.typography($theme);
   @include navbar.typography($theme);
   @include profile.typography($theme);
 }

@@ -8,7 +8,10 @@
         routerLinkActive
         [activated]="rla1.isActive"
       >
-        <mat-icon matListItemIcon>home</mat-icon>Home
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >home</mat-icon>Home
       </a>
       @if (team$ | async; as team) {
       <a
@@ -18,7 +21,10 @@
         [activated]="rla2.isActive"
         [routerLink]="['teams', team.id]"
       >
-        <mat-icon matListItemIcon>groups_3</mat-icon>Squadra
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >groups_3</mat-icon>Squadra
       </a>
       }
       @if (championship$ | async; as championship) {
@@ -29,7 +35,10 @@
         [activated]="rla3.isActive"
         [routerLink]="['championships', championship.id]"
       >
-        <mat-icon matListItemIcon>emoji_events</mat-icon>Lega
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >emoji_events</mat-icon>Lega
       </a>
       }
       @if (loggedIn$ | async) {
@@ -41,7 +50,10 @@
         routerLinkActive
         [activated]="rla5.isActive"
       >
-        <mat-icon matListItemIcon>account_circle</mat-icon>Io
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >account_circle</mat-icon>Io
       </a>
       }
     </mat-nav-list>

@@ -6,9 +6,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import '../main/transition';
+
 @include color.color(variables.$theme);
 
-html {
+:root {
   @include main.theme(variables.$theme);
   @include app.theme(variables.$theme);
 }

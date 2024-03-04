@@ -1,6 +1,6 @@
 .speed-dial {
   padding: 0 1rem 1rem;
-  display: flex;
+  display: none;
   z-index: 1;
   position: relative;
 }
@@ -30,8 +30,8 @@ mat-mdc-list .mat-mdc-list-item,
   display: none;
 }
 
-@media (max-width: theme('screens.md')) {
+@media (min-width: theme('screens.sm')) {
   .speed-dial {
-    display: none;
+    display: flex;
   }
 }

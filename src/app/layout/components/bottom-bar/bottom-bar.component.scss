@@ -85,7 +85,7 @@ a.mdc-list-item.mdc-list-item--activated {
   }
 }
 
-@media (min-width: theme('screens.md')) {
+@media (min-width: theme('screens.sm')) {
   :host {
     display: none;
   }

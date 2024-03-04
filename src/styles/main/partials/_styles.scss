@@ -1,6 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use 'sass:map';
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
 @mixin base($theme) {
   body {
@@ -124,8 +125,8 @@
   }
 
   .cdk-virtual-scroll-viewport {
-    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed)};
-    --mat-skeleton-foregrounf-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+    --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
   }
 }
 

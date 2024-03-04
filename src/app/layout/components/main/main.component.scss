@@ -33,7 +33,20 @@ app-toolbar {
   overflow: visible;
 }
 
-@media (min-width: theme('screens.md')) and (max-width: theme('screens.xl')) {
+.speed-dial {
+  position: absolute;
+  top: calc(-100% + 0.5rem);
+  right: 1rem;
+  z-index: 1;
+  transform-origin: right bottom;
+}
+
+main {
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+@media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
   .rail {
     width: 5rem !important; // Closed width - adjust as needed
     transition: 200ms cubic-bezier(0.3, 0, 0.8, 0.15) !important;
@@ -50,19 +63,6 @@ app-toolbar {
   .mat-drawer-content {
     margin-left: 5rem;
   }
-}
-
-.speed-dial {
-  position: absolute;
-  top: calc(-100% + 0.5rem);
-  right: 1rem;
-  z-index: 1;
-  transform-origin: right bottom;
-}
-
-main {
-  padding-bottom: 1rem;
-  position: relative;
 }
 
 @media (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {

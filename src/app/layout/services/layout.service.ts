@@ -30,10 +30,10 @@ export class LayoutService {
     private readonly router: Router,
   ) {
     this.isHandset$ = this.breakpointObserver
-      .observe(Breakpoints.Handset)
+      .observe(Breakpoints.XSmall)
       .pipe(map((result) => result.matches));
     this.isTablet$ = this.breakpointObserver
-      .observe(Breakpoints.Tablet)
+      .observe([Breakpoints.Small, Breakpoints.Medium])
       .pipe(map((result) => result.matches));
     this.openedSidebar$ = this.openSidebarSubject.asObservable();
     this.isReady$ = this.isReadySubject.pipe(distinctUntilChanged());

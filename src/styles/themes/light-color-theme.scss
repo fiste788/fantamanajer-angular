@@ -4,7 +4,7 @@
 @use '../main/main';
 @include color.color(variables.$theme);
 
-html {
+:root {
   @include main.color(variables.$theme);
   @include app.color(variables.$theme);
 }
