@@ -2,28 +2,26 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
+  .teams-panel {
+    margin-left: 0.5rem;
+  }
+}
+
+@mixin color($theme) {
   app-profile {
     .mdc-text-field--filled:not(.mdc-text-field--disabled) {
       background-color: transparent;
     }
   }
-
-  .teams-panel {
-    margin-left: 0.5rem;
-
-    .mat-mdc-option {
-      line-height: 1 !important;
-    }
-  }
-}
-
-@mixin color($theme) {
 }
 
 @mixin density($theme) {
 }
 
 @mixin typography($theme) {
+  .teams-panel .mat-mdc-option {
+    line-height: 1 !important;
+  }
 }
 
 @mixin theme($theme) {

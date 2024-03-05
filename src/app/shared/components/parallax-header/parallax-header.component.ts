@@ -15,10 +15,10 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
+import { LayoutService } from 'src/app/layout/services';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
 import { SrcsetDirective } from '../../directives/srcset.directive';
-import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

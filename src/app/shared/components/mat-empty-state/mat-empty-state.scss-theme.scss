@@ -6,7 +6,7 @@
 
 @mixin color($theme) {
   .mat-empty-state.mat-rounded {
-    background-color: mat.get-theme-color($theme, surface-container-low);
+    background-color: mat.get-theme-color($theme, surface-container);
     color: mat.get-theme-color($theme, on-surface);
   }
 

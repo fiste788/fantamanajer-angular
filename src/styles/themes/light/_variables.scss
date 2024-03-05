@@ -1,3 +1,4 @@
+/* stylelint-disable scss/at-function-pattern */
 /* stylelint-disable value-keyword-case */
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
@@ -32,7 +33,7 @@
 
 $orange-palette: _patch-missing-hues(
   (
-    0: #000000,
+    0: #000,
     10: #410004,
     20: #68000b,
     25: #7d0010,
@@ -47,9 +48,9 @@ $orange-palette: _patch-missing-hues(
     95: #ffedeb,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
     secondary: (
-      0: #000000,
+      0: #000,
       10: #350f0e,
       20: #4f2321,
       25: #5c2e2b,
@@ -64,10 +65,10 @@ $orange-palette: _patch-missing-hues(
       95: #ffedeb,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
     neutral: (
-      0: #000000,
+      0: #000,
       10: #201a1a,
       20: #362f2e,
       25: #413a39,
@@ -82,10 +83,10 @@ $orange-palette: _patch-missing-hues(
       95: #fbeeec,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
     neutral-variant: (
-      0: #000000,
+      0: #000,
       10: #251918,
       20: #3b2d2c,
       25: #473837,
@@ -100,13 +101,13 @@ $orange-palette: _patch-missing-hues(
       95: #ffedeb,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
   )
 );
 $magenta-palette: _patch-missing-hues(
   (
-    0: #000000,
+    0: #000,
     10: #3f0017,
     20: #66002a,
     25: #7a0034,
@@ -121,9 +122,9 @@ $magenta-palette: _patch-missing-hues(
     95: #ffecee,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
     secondary: (
-      0: #000000,
+      0: #000,
       10: #380a19,
       20: #52202d,
       25: #5f2a38,
@@ -138,10 +139,10 @@ $magenta-palette: _patch-missing-hues(
       95: #ffecee,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
     neutral: (
-      0: #000000,
+      0: #000,
       10: #201a1b,
       20: #352f30,
       25: #413a3b,
@@ -156,10 +157,10 @@ $magenta-palette: _patch-missing-hues(
       95: #faeeef,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
     neutral-variant: (
-      0: #000000,
+      0: #000,
       10: #24191b,
       20: #3a2d2f,
       25: #46383a,
@@ -174,7 +175,7 @@ $magenta-palette: _patch-missing-hues(
       95: #ffecee,
       98: #fff8f7,
       99: #fffbff,
-      100: #ffffff,
+      100: #fff,
     ),
   )
 );

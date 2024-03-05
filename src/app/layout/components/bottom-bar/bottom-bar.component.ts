@@ -1,5 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatRippleModule } from '@angular/material/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,7 +10,6 @@ import { Observable, map } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Championship, Team } from '@data/types';
-import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-bottom-bar',

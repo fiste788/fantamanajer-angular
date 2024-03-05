@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Event, NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -17,7 +18,6 @@ import { closeAnimation } from '@shared/animations';
 import { LayoutService } from '../../services';
 import { ProfileComponent } from '../profile/profile.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
-import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   animations: [closeAnimation],
