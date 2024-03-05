@@ -7,10 +7,4 @@
   img {
     filter: grayscale(60%);
   }
-
-  img[src^='//via.placeholder.com'],
-  img[srcset^='//via.placeholder.com']
-  {
-    filter: invert(0.85);
-  }
 }

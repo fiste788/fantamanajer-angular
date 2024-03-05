@@ -15,13 +15,18 @@
         #rellax
         appRellax
       >
+        @if(backgroundImage) {
         <img
-          placeholder="//via.placeholder.com/1200x800"
           sizes=""
           [alt]="title"
           [appSrcset]="backgroundImage"
           (load)="imageLoad()"
         >
+        } @else {
+        <div class="placeholder">
+          <span>{{title}}</span>
+        </div>
+        }
       </div>
     </div>
     <div class="parallax-header-title-container">
