@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:string';
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
@@ -29,6 +30,7 @@
 @mixin typography($theme) {
   .username {
     font: mat.get-theme-typography($theme, headline-small, font);
+    font-family: string.unquote(mat.get-theme-typography($theme, headline-small, font-family));
   }
 }
 

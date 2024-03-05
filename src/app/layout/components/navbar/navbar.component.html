@@ -8,7 +8,7 @@
   <mat-icon aria-label="Side nav toggle icon">menu{{(openedSidebar$ | async) ? '_open' : ''}}</mat-icon>
 </button>
 <app-profile />
-@if (showedSpeedDial$ | async) {
+@if ((loggedIn$ | async) && (showedSpeedDial$ | async)) {
 <app-speed-dial
   #speedDial
   class="speed-dial"

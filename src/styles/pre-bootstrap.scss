@@ -1,6 +1,6 @@
 @use 'sass:map';
-@use './themes/dark/variables' as dark;
-@use './themes/light/variables' as light;
+@use './themes/dark/theme' as dark;
+@use './themes/light/theme' as light;
 @use '@angular/material' as mat;
 
 body {
