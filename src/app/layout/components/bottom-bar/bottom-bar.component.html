@@ -55,6 +55,31 @@
           matRipple
         >account_circle</mat-icon>Io
       </a>
+      } @else {
+      <a
+        #rla7="routerLinkActive"
+        mat-list-item
+        routerLink="/clubs"
+        routerLinkActive
+        [activated]="rla7.isActive"
+      >
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >sports_soccer</mat-icon>Clubs
+      </a>
+      <a
+        #rla6="routerLinkActive"
+        mat-list-item
+        routerLink="/auth/login"
+        routerLinkActive
+        [activated]="rla6.isActive"
+      >
+        <mat-icon
+          matListItemIcon
+          matRipple
+        >input</mat-icon>Login
+      </a>
       }
     </mat-nav-list>
   </mat-toolbar-row>

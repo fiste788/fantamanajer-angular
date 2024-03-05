@@ -7,6 +7,10 @@
     margin: 1rem;
     overflow-y: hidden;
 
+    .mat-mdc-card-header-text {
+      overflow: hidden;
+    }
+
     .mdc-card__media:first-child {
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;

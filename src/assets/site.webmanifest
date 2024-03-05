@@ -7,11 +7,28 @@
   "orientation": "portrait",
   "screenshots": [
     {
-      "src": "/assets/screenshots/home.webp",
-      "sizes": "1920x644",
+      "src": "/assets/screenshots/home_narrow.webp",
+      "sizes": "1290x2796",
       "type": "image/webp",
-      "form_factor": "wide",
-      "label": "Homescreen of FantaManajer"
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/screenshots/team_narrow.webp",
+      "sizes": "1290x2796",
+      "type": "image/webp",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/screenshots/home_wide.webp",
+      "sizes": "2560x1232",
+      "type": "image/webp",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/screenshots/team_wide.webp",
+      "sizes": "2560x1232",
+      "type": "image/webp",
+      "form_factor": "wide"
     }
   ],
   "categories": ["sports", "games"],
@@ -22,7 +39,7 @@
     {
       "src": "/favicon.ico",
       "type": "image/x-icon",
-      "sizes": "48x48 32x32 16x16"
+      "sizes": "48x48"
     },
     {
       "src": "/assets/icons/icon-512-maskable.webp",
