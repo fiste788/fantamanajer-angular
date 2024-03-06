@@ -1,10 +1,7 @@
 @use '@angular/material-experimental' as matx;
-@use '../main';
-@use './color';
 
-$theme: matx.define-theme(
-  (
-    color: color.$color,
-    typography: main.$typography,
-  )
+$color: (
+  theme-type: dark,
+  primary: matx.$m3-cyan-palette,
+  tertiary: matx.$m3-violet-palette,
 );

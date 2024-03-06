@@ -1,18 +1,10 @@
-/* stylelint-disable value-keyword-case */
-@use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
+@use '../main';
+@use './color';
 
-$m3-base-config: (
-  color: (
-    theme-type: dark,
-    primary: matx.$m3-cyan-palette,
-    tertiary: matx.$m3-violet-palette,
-  ),
-  typography: (
-    plain-family: "'Exo 2'",
-    brand-family: "'Exo 2'",
-  ),
+$theme: matx.define-theme(
+  (
+    color: color.$color,
+    typography: main.$typography,
+  )
 );
-
-// Our M3 light theme.
-$theme: matx.define-theme($m3-base-config);
