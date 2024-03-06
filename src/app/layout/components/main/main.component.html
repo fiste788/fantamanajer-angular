@@ -7,7 +7,11 @@
     [opened]="(isOpen$ | async)"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
-    [ngClass]="{ rail: (isTablet$ | async) && !drawer.opened,   'rail-opened': (isTablet$ | async) && drawer.opened}"
+    [ngClass]="{
+      rail: (isTablet$ | async),
+      'rail-closed': (isTablet$ | async) && !drawer.opened,
+      'rail-opened': (isTablet$ | async) && drawer.opened
+      }"
   >
     <app-navbar [sidenav]="drawer" />
   </mat-sidenav>
