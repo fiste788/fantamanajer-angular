@@ -31,7 +31,38 @@
   @return $palette;
 }
 
-$orange-palette: _patch-missing-hues(
+/// Adds the error colors to the given palette.
+@function _patch-error-palette($palette) {
+  @return map.merge(
+    $palette,
+    (
+      error: (
+        0: #000000,
+        10: #410002,
+        20: #690005,
+        25: #7e0007,
+        30: #93000a,
+        35: #a80710,
+        40: #ba1a1a,
+        50: #de3730,
+        60: #ff5449,
+        70: #ff897d,
+        80: #ffb4ab,
+        90: #ffdad6,
+        95: #ffedea,
+        98: #fff8f7,
+        99: #fffbff,
+        100: #ffffff,
+      ),
+    )
+  );
+}
+
+@function _apply-patches($palette) {
+  @return _patch-missing-hues(_patch-error-palette($palette));
+}
+
+$orange-palette: _apply-patches(
   (
     0: #000,
     10: #410004,
@@ -105,7 +136,7 @@ $orange-palette: _patch-missing-hues(
     ),
   )
 );
-$magenta-palette: _patch-missing-hues(
+$magenta-palette: _apply-patches(
   (
     0: #000,
     10: #3f0017,
