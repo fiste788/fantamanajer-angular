@@ -42,20 +42,20 @@ app-toolbar {
 }
 
 main {
-  padding-bottom: 1rem;
+  margin: 1rem;
   position: relative;
 }
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
   .rail {
     transition-property: width, transform, background-color !important;
+    transform: translate3d(0, 0, 0);
   }
 
   .rail-closed {
     width: 5rem !important; // Closed width - adjust as needed
     transition-duration: 200ms !important;
     transition-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15) !important;
-    transform: translate(0);
     display: block !important;
     visibility: visible !important;
   }
@@ -70,16 +70,9 @@ main {
   }
 }
 
-@media (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
-  main {
-    margin: 0 1rem;
-  }
-}
-
 @media (min-width: theme('screens.lg')) {
   main {
-    margin: 0 2rem;
-    padding-bottom: 2rem;
+    margin: 1rem 2rem 2rem;
   }
 
   .speed-dial {

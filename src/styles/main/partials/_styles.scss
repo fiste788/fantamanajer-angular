@@ -24,20 +24,6 @@
     transition: top 0.2s ease-in;
   }
 
-  .tabbed-container {
-    min-height: calc(100vh - 25rem);
-
-    @media (max-width: theme('screens.md')) {
-      margin-left: 1rem;
-      margin-right: 1rem;
-
-      .mat-mdc-card {
-        margin-left: 0;
-        margin-right: 0;
-      }
-    }
-  }
-
   .mat-drawer .mat-toolbar {
     background-color: inherit;
   }

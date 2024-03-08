@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
 
+.parallax-container {
+  margin: -1rem 0 2rem;
+}
+
 .parallax-header-img {
   // max-height: 12.5rem;
   overflow: hidden;
@@ -47,10 +51,6 @@
 .title {
   margin: 1rem 0 0;
   text-align: center;
-}
-
-.parallax-container {
-  margin: 0 0 2rem;
 }
 
 .parallax {

@@ -4,7 +4,6 @@
 // @use "@angular/flex-layout/mq";
 @mixin base($theme) {
   .mat-mdc-card {
-    margin: 1rem;
     overflow-y: hidden;
 
     .mat-mdc-card-header-text {
@@ -14,13 +13,6 @@
     .mdc-card__media:first-child {
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
-    }
-  }
-
-  @media (min-width: theme('screens.md')) {
-    .mat-mdc-card {
-      margin-left: 0;
-      margin-right: 0;
     }
   }
 }
