@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 .parallax-container {
-  margin: -1rem 0 2rem;
+  margin: -1rem -1rem 2rem;
 }
 
 .parallax-header-img {
@@ -69,6 +69,11 @@ a.anchor {
   a.anchor {
     position: relative;
     top: -18rem;
+  }
+
+  .parallax-container {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .parallax-header-img {

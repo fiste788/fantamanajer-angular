@@ -126,6 +126,10 @@
   display: none;
 }
 
+::view-transition-group(sidenav) {
+  z-index: 3;
+}
+
 ::view-transition-group(toolbar) {
   z-index: 2;
 }

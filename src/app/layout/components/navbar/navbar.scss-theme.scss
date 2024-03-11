@@ -55,6 +55,7 @@
 
     .speed-dial .mat-icon {
       transition: margin 0s ease !important;
+      min-width: 24px;
     }
 
     .mat-mdc-nav-list,
@@ -63,8 +64,26 @@
     .speed-dial,
     .toggle {
       transition: all 200ms 66ms;
-      overflow: hidden;
       display: block;
+    }
+
+    .mat-sidenav.ng-animating {
+      .speed-dial {
+        overflow: hidden;
+      }
+
+      &.rail-opened {
+        eco-fab-speed-dial {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .mat-mdc-nav-list,
+    .mat-mdc-subheader,
+    app-profile,
+    .toggle {
+      overflow: hidden;
     }
   }
 }

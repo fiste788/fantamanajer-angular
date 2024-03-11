@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Event, NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, map, mergeMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -77,8 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.navStart$
         .pipe(
-          mergeMap(() => this.layoutService.isHandset$),
-          filter((r) => r),
+          filter(() => this.sidenav.mode === 'over'),
           map(() => this.layoutService.closeSidebar()),
         )
         .subscribe(),
