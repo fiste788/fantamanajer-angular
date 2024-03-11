@@ -4,7 +4,7 @@
   contain: paint;
   left: env(titlebar-area-x, 0);
   top: env(titlebar-area-y, 0);
-  height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
+  min-height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
   width: env(titlebar-area-width, 100%);
   -webkit-app-region: drag;
 }
@@ -28,6 +28,6 @@ app-breadcrumb {
 }
 @media (min-width: theme('screens.sm')) {
   :host {
-    height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+    min-height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
   }
 }
