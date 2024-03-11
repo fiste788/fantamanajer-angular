@@ -2,8 +2,7 @@
   position: sticky;
   z-index: 102;
   contain: paint;
-  left: env(titlebar-area-x, 0);
-  top: env(titlebar-area-y, 0);
+  top: 0;
 }
 
 app-breadcrumb {
@@ -23,18 +22,27 @@ app-breadcrumb {
 
 .mat-toolbar-row:first-child {
   view-transition-name: toolbar;
-  height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
-  padding-right: calc(100% - (env(titlebar-area-width, 100%)));
 }
-@media (min-width: theme('screens.sm')) {
+
+:host-context(.window-overlayed) {
+  left: env(titlebar-area-x, 0);
+  top: env(titlebar-area-y, 0);
+
   .mat-toolbar-row:first-child {
-    height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
-    padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 5rem);
+    height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
+    padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 1rem);
   }
-}
-@media (min-width: theme('screens.lg')) {
-  .mat-toolbar-row:first-child {
-    height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
-    padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 18rem);
+
+  @media (min-width: theme('screens.sm')) {
+    .mat-toolbar-row:first-child {
+      height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
+    }
+  }
+  @media (min-width: theme('screens.lg')) {
+    .mat-toolbar-row:first-child {
+      height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
+    }
   }
 }
