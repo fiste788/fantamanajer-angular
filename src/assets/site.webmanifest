@@ -115,6 +115,11 @@
           "src": "/assets/icons/shortcuts/lineup.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/lineup.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
@@ -128,6 +133,11 @@
           "src": "/assets/icons/shortcuts/transfert.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/transfert.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
@@ -141,6 +151,11 @@
           "src": "/assets/icons/shortcuts/article.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/article.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     }
