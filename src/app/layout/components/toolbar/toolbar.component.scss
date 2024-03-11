@@ -4,14 +4,12 @@
   contain: paint;
   left: env(titlebar-area-x, 0);
   top: env(titlebar-area-y, 0);
-  min-height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
-  width: env(titlebar-area-width, 100%);
-  -webkit-app-region: drag;
 }
 
 app-breadcrumb {
   flex: 10 1 auto;
   overflow: hidden;
+  -webkit-app-region: drag;
 }
 
 #toolbar-tab-container {
@@ -25,9 +23,18 @@ app-breadcrumb {
 
 .mat-toolbar-row:first-child {
   view-transition-name: toolbar;
+  height: env(titlebar-area-height, var(--mat-toolbar-mobile-height));
+  padding-right: calc(100% - (env(titlebar-area-width, 100%)));
 }
 @media (min-width: theme('screens.sm')) {
-  :host {
-    min-height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+  .mat-toolbar-row:first-child {
+    height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+    padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 5rem);
+  }
+}
+@media (min-width: theme('screens.lg')) {
+  .mat-toolbar-row:first-child {
+    height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+    padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 18rem);
   }
 }
