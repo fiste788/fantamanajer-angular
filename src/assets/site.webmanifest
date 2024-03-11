@@ -103,6 +103,7 @@
   "background_color": "#fffbff",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay"],
   "shortcuts": [
     {
       "name": "Inserisci formazione",

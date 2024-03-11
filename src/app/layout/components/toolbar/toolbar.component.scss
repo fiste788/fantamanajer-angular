@@ -1,8 +1,12 @@
 :host {
   position: sticky;
-  top: 0;
   z-index: 102;
   contain: paint;
+  left: env(titlebar-area-x, 0);
+  top: env(titlebar-area-y, 0);
+  height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
+  width: env(titlebar-area-width, 100%);
+  -webkit-app-region: drag;
 }
 
 app-breadcrumb {
