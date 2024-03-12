@@ -65,6 +65,13 @@ a.anchor {
   top: 0;
   visibility: hidden;
 }
+
+.placeholder {
+  max-height: 33vh;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+
 @media (min-width: theme('screens.sm')) {
   a.anchor {
     position: relative;
@@ -86,10 +93,6 @@ a.anchor {
       margin: auto;
       inset: 0;
       contain: paint;
-    }
-
-    .placeholder {
-      height: 66vh;
     }
   }
 

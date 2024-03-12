@@ -5,7 +5,15 @@
 }
 
 @mixin color($theme) {
+  .parallax-header-img {
+    background-color: mat.get-theme-color($theme, surface-container-low);
+  }
+
   @media (min-width: theme('screens.sm')) {
+    .parallax {
+      background-color: mat.get-theme-color($theme, surface-container-low);
+    }
+
     .parallax-header-title-container {
       $dark-theme: matx.define-theme(
         (

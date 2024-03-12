@@ -20,7 +20,7 @@
   @if (matchday$ | async; as matchday) {
   <h3 mat-subheader>
     <span>
-      @if (!matchday.season.ended && !matchday.season.started ) {
+      @if (!matchday.season.ended && matchday.season.started ) {
       Giornata {{matchday.number}}
       } @else {
       {{matchday.season.name}}

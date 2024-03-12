@@ -7,7 +7,7 @@ import {
   importProvidersFrom,
   isDevMode,
 } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
@@ -55,6 +55,13 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     importProvidersFrom(MatSnackBarModule),
+    {
+      deps: [LayoutService],
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 3000,
+      },
+    },
     {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
