@@ -1,22 +1,110 @@
-@use 'sass:map';
+/* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
+  .rail-closed {
+    .mat-mdc-subheader,
+    app-profile {
+      max-height: 0;
+      margin: 0;
+      transform: translateZ(0);
+    }
+
+    a.mdc-list-item.mdc-list-item--activated {
+      mat-icon {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+
+    .speed-dial {
+      padding: 0;
+      margin: 0.5rem 0.75rem;
+    }
+
+    .toggle {
+      display: block;
+      margin: 3rem 1.25rem 0;
+    }
+
+    .mat-mdc-nav-list {
+      margin-top: 3rem;
+    }
+
+    .mat-mdc-list-item {
+      padding: 0 !important;
+    }
+  }
+
+  .rail-opened {
+    .mat-mdc-subheader,
+    app-profile {
+      max-height: 300px;
+    }
+
+    .toggle {
+      display: block;
+      margin-top: 1rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+    .mat-sidenav-container .mat-drawer-backdrop {
+      margin-left: 5rem;
+    }
+
+    .speed-dial .mat-icon {
+      transition: margin 0s ease !important;
+      min-width: 24px;
+    }
+
+    .mat-mdc-nav-list,
+    .mat-mdc-subheader,
+    app-profile,
+    .speed-dial,
+    .toggle {
+      transition: all 200ms 66ms;
+      display: block;
+    }
+
+    .mat-sidenav.ng-animating {
+      .speed-dial {
+        overflow: hidden;
+      }
+
+      &.rail-opened {
+        eco-fab-speed-dial {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .mat-mdc-nav-list,
+    .mat-mdc-subheader,
+    app-profile,
+    .toggle {
+      overflow: hidden;
+    }
+  }
 }
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-  $foreground: map.get($theme, foreground);
-  $darker: mat.get-color-from-palette($primary, 'darker');
-  $icon: mat.get-color-from-palette($foreground, 'icon');
+  app-navbar {
+    .mdc-list-item--activated {
+      background-color: mat.get-theme-color($theme, secondary-container);
+      color: mat.get-theme-color($theme, on-secondary-container) !important;
+    }
 
-  .mat-mdc-nav-list {
-    --mdc-list-list-item-hover-state-layer-color: #{$darker};
-    --mdc-list-list-item-focus-state-layer-color: #{$darker};
-    --mdc-list-list-item-hover-label-text-color: #{$darker};
-    --mdc-list-list-item-focus-label-text-color: #{$darker};
-    --mdc-list-list-item-hover-leading-icon-color: #{$darker};
-    --mdc-list-list-item-leading-icon-color: #{$icon};
+    .mat-mdc-subheader {
+      color: mat.get-theme-color($theme, on-surface-variant);
+    }
+
+    .speed-dial .tertiary-fab {
+      --mdc-extended-fab-container-elevation-shadow: none;
+      --mdc-extended-fab-hover-container-elevation-shadow: none;
+      --mdc-fab-container-elevation-shadow: none;
+      --mdc-fab-hover-container-elevation-shadow: none;
+    }
   }
 }
 
@@ -24,26 +112,20 @@
 }
 
 @mixin typography($theme) {
+  .mat-mdc-subheader {
+    font-size: 1rem;
+    font-weight: mat.get-theme-typography($theme, headline-medium, font-weight);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'navbar') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

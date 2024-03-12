@@ -1,42 +1,7 @@
-@use 'sass:map';
-@use 'sass:color';
-@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
-@mixin color($theme) {
-  $primary: map.get($theme, primary);
-  $accent: map.get($theme, accent);
-  $foreground: map.get($theme, foreground);
-  $background: map.get($theme, background);
-
-  .greyscale,
-  img {
-    filter: grayscale(60%);
-  }
-
-  img[src^='//via.placeholder.com'],
-  img[srcset^='//via.placeholder.com']
-  {
-    filter: invert(0.85);
-  }
-
-  img[src~='.svg'] {
-    $app-background: mat.get-color-from-palette($background, 'background');
-    $badge-color: mat.get-color-from-palette($foreground, 'disabled-text');
-
-    @if type-of($badge-color) == color and type-of($app-background) == color {
-      $badge-opacity: opacity($badge-color);
-
-      background-color: color.mix(
-        $app-background,
-        rgba($badge-color, 1),
-        (1 - $badge-opacity) * 100%
-      );
-    } @else {
-      background-color: $badge-color;
-    }
-  }
-
-  a {
-    color: mat.get-color-from-palette($primary);
-  }
-}
+$color: (
+  theme-type: dark,
+  primary: matx.$m3-cyan-palette,
+  tertiary: matx.$m3-violet-palette,
+);

@@ -1,20 +1,16 @@
-import { trigger } from '@angular/animations';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 import { Club } from '@data/types';
-import { enterDetailAnimation, routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components';
-import { StatePipe } from '@shared/pipes';
+import { ToolbartTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 import { LayoutService } from 'src/app/layout/services';
 
 @Component({
-  animations: [enterDetailAnimation, trigger('contextChange', routerTransition)],
+  animations: [],
   styleUrls: ['./club-detail.page.scss'],
   templateUrl: './club-detail.page.html',
   standalone: true,
-  imports: [NgIf, ParallaxHeaderComponent, RouterOutlet, AsyncPipe, StatePipe],
+  imports: [ParallaxHeaderComponent, ToolbartTabComponent],
 })
 export class ClubDetailPage {
   @Input({ required: true }) protected club!: Club;

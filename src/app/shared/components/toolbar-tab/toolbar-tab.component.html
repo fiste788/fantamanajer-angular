@@ -1,0 +1,33 @@
+<ng-template [cdkPortal]>
+  @if (tabs().length) {
+
+  <nav
+    fitInkBarToContent
+    mat-tab-nav-bar
+    [tabPanel]="tabPanel"
+  >
+    @for (tab of tabs(); track tab.link) {
+    <a
+      #rla="routerLinkActive"
+      mat-tab-link
+      routerLinkActive
+      [fragment]="fragment"
+      [active]="rla.isActive"
+      [routerLink]="tab.link"
+    >
+      {{tab.label}}
+    </a>
+    }
+  </nav>
+
+  }
+</ng-template>
+<ng-content />
+<div
+  #tabPanel
+  class="tabbed-container"
+  [@contextChange]="o | state"
+  [style.viewTransitionName]="viewTransitionName()"
+>
+  <router-outlet #o="outlet" />
+</div>

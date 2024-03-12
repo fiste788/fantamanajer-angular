@@ -1,25 +1,27 @@
+/* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
 // @use "@angular/flex-layout/mq";
-@mixin core($theme) {
+@mixin base($theme) {
   .mat-mdc-card {
-    margin: 1rem;
-  }
+    overflow-y: hidden;
 
-  .mat-mdc-card-header-text {
-    max-width: 100%;
-  }
+    .mat-mdc-card-header-text {
+      overflow: hidden;
+    }
 
-  @media (min-width: theme('screens.md')) {
-    // @include mq.layout-bp(gt-md) {
-    .mat-mdc-card {
-      margin-left: 0;
-      margin-right: 0;
+    .mdc-card__media:first-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
     }
   }
 }
 
 @mixin color($theme) {
+  .mat-mdc-card {
+    --mdc-outlined-card-container-color: #{mat.get-theme-color($theme, surface-container-low)};
+    --mat-expansion-container-background-color: transparent;
+  }
 }
 
 @mixin density($theme) {
@@ -29,23 +31,12 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'card') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
+    @include color($theme);
 
-    @if $color {
-      @include color($color);
-    }
+    @include density($theme);
 
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include typography($theme);
   }
 }

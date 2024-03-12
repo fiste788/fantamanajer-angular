@@ -1,0 +1,65 @@
+/* stylelint-disable selector-class-pattern */
+@use '@angular/material' as mat;
+
+@mixin base($theme) {
+  .bottom-bar {
+    .mat-mdc-list-item > .mat-mdc-focus-indicator,
+    .mat-mdc-list-item > .mat-ripple-element {
+      display: none;
+    }
+
+    .mdc-list-item__content {
+      display: flex;
+      margin-top: 0.25rem;
+    }
+
+    a.mdc-list-item.mdc-list-item--activated {
+      --mdc-list-list-item-label-text-weight: 700;
+
+      mat-icon {
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+  }
+}
+
+@mixin color($theme) {
+  .bottom-bar {
+    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
+    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
+
+    .mat-mdc-list-item,
+    .mat-mdc-list-option {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mat-mdc-list-item mat-icon,
+    .mat-mdc-list-option mat-icon {
+      -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+    }
+
+    a.mdc-list-item.mdc-list-item--activated {
+      --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
+    }
+  }
+}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+  .bottom-bar {
+    --mdc-list-list-item-label-text-size: 14px;
+    --mdc-list-list-item-label-text-line-height: 1rem;
+    --mdc-list-list-item-label-text-weight: 500;
+  }
+}
+
+@mixin theme($theme) {
+  @include mat.private-check-duplicate-theme-styles($theme, 'bottom-bar') {
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
+  }
+}

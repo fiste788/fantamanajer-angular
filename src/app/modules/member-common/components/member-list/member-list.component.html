@@ -1,7 +1,7 @@
 @if (dataSource$ | async; as dataSource) {
 
 @if (dataSource.data.length) {
-<div [ngClass]="'table-container mat-elevation-z' + elevation">
+<mat-card appearance="outlined">
   <table
     #table
     mat-table
@@ -300,7 +300,7 @@
       mat-footer-row
     ></tr>
   </table>
-</div>
+</mat-card>
 } @else {
 
 <app-mat-empty-state

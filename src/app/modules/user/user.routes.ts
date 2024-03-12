@@ -14,7 +14,7 @@ export default [
     canActivate: [authenticatedGuard],
     data: {
       breadcrumbs: 'Impostazioni',
-      state: 'user',
+      state: 'user-outlet',
     },
     children: [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },

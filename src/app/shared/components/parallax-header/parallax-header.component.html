@@ -1,19 +1,32 @@
 <!-- eslint-disable @angular-eslint/template/no-call-expression -->
-<div class="parallax-container">
+<div
+  class="parallax-container"
+  [style.viewTransitionName]="(isHandset$ | async) ? '' : viewTransitionName()"
+>
   <div
     #parallax
     class="parallax"
-    [style.viewTransitionName]="viewTransitionName()"
   >
-    <div class="parallax-header-img">
-      <div appRellax>
+    <div
+      class="parallax-header-img"
+      [style.viewTransitionName]="(isHandset$ | async) ? viewTransitionName() : ''"
+    >
+      <div
+        #rellax
+        appRellax
+      >
+        @if(backgroundImage) {
         <img
-          placeholder="//via.placeholder.com/1200x800"
           sizes=""
           [alt]="title"
           [appSrcset]="backgroundImage"
           (load)="imageLoad()"
         >
+        } @else {
+        <div class="placeholder">
+          <span>{{title}}</span>
+        </div>
+        }
       </div>
     </div>
     <div class="parallax-header-title-container">

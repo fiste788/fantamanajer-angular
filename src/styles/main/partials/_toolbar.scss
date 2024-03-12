@@ -1,7 +1,15 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
+  .mat-toolbar {
+    transition: background-color 0.6s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .mat-toolbar-multiple-rows {
+    min-height: unset;
+  }
+
   .mat-mdc-form-field-underline,
   .mat-mdc-form-field-ripple,
   .mat-mdc-focused .mat-mdc-form-field-ripple {
@@ -27,6 +35,9 @@
 }
 
 @mixin color($theme) {
+  .is-scrolled .mat-toolbar {
+    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container-high)};
+  }
 }
 
 @mixin density($theme) {
@@ -36,23 +47,12 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'toolbar') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
+    @include color($theme);
 
-    @if $color {
-      @include color($color);
-    }
+    @include density($theme);
 
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include typography($theme);
   }
 }

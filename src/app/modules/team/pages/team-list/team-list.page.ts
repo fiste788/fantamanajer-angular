@@ -13,7 +13,7 @@ import { cardCreationAnimation } from '@shared/animations';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [cardCreationAnimation],
+  animations: [],
   styleUrls: ['./team-list.page.scss'],
   templateUrl: './team-list.page.html',
   standalone: true,
@@ -39,11 +39,7 @@ export class TeamListPage {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  protected track(_: number, item: Team): number {
-    return item.id;
-  }
-
   protected viewTransitionName(team: Team) {
-    return this.transitionService.getViewTransitionName(team, 'team_id');
+    return this.transitionService.getViewTransitionName('banner-img', team, 'team_id');
   }
 }

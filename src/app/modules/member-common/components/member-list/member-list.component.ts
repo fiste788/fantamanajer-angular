@@ -11,6 +11,7 @@ import {
   booleanAttribute,
   numberAttribute,
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -56,6 +57,7 @@ type Stats = (typeof stats)[number];
     MatProgressSpinnerModule,
     AsyncPipe,
     DecimalPipe,
+    MatCardModule,
   ],
 })
 export class MemberListComponent implements OnInit {

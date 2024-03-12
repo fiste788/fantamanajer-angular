@@ -1,41 +1,34 @@
-import { trigger } from '@angular/animations';
-import { NgIf, NgFor } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { combineLatest, firstValueFrom, map } from 'rxjs';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { combineLatest, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
-import { routerTransition } from '@shared/animations';
-import { StatePipe } from '@shared/pipes';
+import { ToolbartTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition)],
   templateUrl: './championship.page.html',
   standalone: true,
-  imports: [NgIf, MatTabsModule, NgFor, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
+  imports: [ToolbartTabComponent],
 })
-export class ChampionshipPage implements OnInit {
-  protected tabs: Array<Tab> = [];
+export class ChampionshipPage {
+  protected tabs: Signal<Array<Tab>>;
 
   constructor(
     private readonly auth: AuthenticationService,
     private readonly app: ApplicationService,
-  ) {}
-
-  public async ngOnInit(): Promise<void> {
-    return firstValueFrom(
+  ) {
+    this.tabs = toSignal(
       combineLatest([this.auth.user$, this.app.team$]).pipe(
         map(([user, team]) => this.loadTab(user, team)),
       ),
-      { defaultValue: undefined },
+      { initialValue: [] },
     );
   }
 
-  protected loadTab(user?: User, team?: Team): void {
-    this.tabs = [
+  protected loadTab(user?: User, team?: Team): Array<Tab> {
+    const tabs: Array<Tab> = [
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },
       { label: 'Giocatori liberi', link: 'members/free' },
@@ -43,7 +36,9 @@ export class ChampionshipPage implements OnInit {
       { label: 'Attività', link: 'stream' },
     ];
     if (user?.admin ?? team?.admin) {
-      this.tabs.push({ label: 'Admin', link: 'admin' });
+      tabs.push({ label: 'Admin', link: 'admin' });
     }
+
+    return tabs;
   }
 }

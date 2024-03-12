@@ -1,91 +1,89 @@
 @if (dataSource$ | async; as dataSource) {
-<div>
-  @if (dataSource.data.length) {
-  <div class="table-container mat-elevation-z1">
-    <table
-      @tableRowAnimation
-      #table
-      mat-table
-      matSort
-      [dataSource]="dataSource"
-      [trackBy]="trackTransfert"
-      (matSortChange)="setSort(dataSource)"
-    >
-      <ng-container matColumnDef="old_member">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-          mat-sort-header
-        > Vecchio giocatore </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.full_name}}</a>
-        </td>
-      </ng-container>
+@if (dataSource.data.length) {
+<mat-card appearance="outlined">
+  <table
+    @tableRowAnimation
+    #table
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    [trackBy]="trackTransfert"
+    (matSortChange)="setSort(dataSource)"
+  >
+    <ng-container matColumnDef="old_member">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+        mat-sort-header
+      > Vecchio giocatore </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.full_name}}</a>
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="new_member">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-          mat-sort-header
-        > Nuovo giocatore </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.full_name}}</a>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="new_member">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+        mat-sort-header
+      > Nuovo giocatore </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.full_name}}</a>
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="constraint">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-        > Obbligato </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >
-          @if (row.constrained) {
-          <mat-icon>done</mat-icon>
-          }
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="constraint">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > Obbligato </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        @if (row.constrained) {
+        <mat-icon>done</mat-icon>
+        }
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="matchday">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-        > Giornata </th>
-        <td
-          *matCellDef="let row;"
-          mat-cell
-        >{{row.matchday.number}}</td>
-      </ng-container>
+    <ng-container matColumnDef="matchday">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > Giornata </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >{{row.matchday.number}}</td>
+    </ng-container>
 
-      <tr
-        *matHeaderRowDef="displayedColumns; sticky: true"
-        mat-header-row
-      ></tr>
-      <tr
-        *matRowDef="let row; columns: displayedColumns;"
-        mat-row
-      ></tr>
-    </table>
-  </div>
-  } @else {
+    <tr
+      *matHeaderRowDef="displayedColumns; sticky: true"
+      mat-header-row
+    ></tr>
+    <tr
+      *matRowDef="let row; columns: displayedColumns;"
+      mat-row
+    ></tr>
+  </table>
+</mat-card>
+} @else {
 
-  <app-mat-empty-state
-    icon="swap_vert"
-    label="Nessun trasferimento presente"
-    rounded
-    [size]="330"
-  />
+<app-mat-empty-state
+  icon="swap_vert"
+  label="Nessun trasferimento presente"
+  rounded
+  [size]="330"
+/>
 
-  }
-</div>
+}
 } @else {
 
 <mat-progress-spinner

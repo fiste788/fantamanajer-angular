@@ -1,6 +1,5 @@
 @if (team$ | async; as team) {
 <form
- 
   #teamForm="ngForm"
   (ngSubmit)="save(team)"
 >
@@ -31,7 +30,7 @@
   >Amministratore lega</mat-slide-toggle>
   <button
     color="accent"
-    mat-raised-button
+    mat-flat-button
     type="submit"
     [disabled]="!teamForm.form.valid"
   >SALVA</button>

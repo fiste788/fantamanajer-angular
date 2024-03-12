@@ -1,7 +1,8 @@
 import { trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { CurrentTransitionService } from '@app/services';
 import { routerTransition } from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
@@ -12,4 +13,10 @@ import { StatePipe } from '@shared/pipes';
   standalone: true,
   imports: [RouterOutlet, StatePipe],
 })
-export class RouterOutletComponent {}
+export class RouterOutletComponent {
+  private readonly transitionService = inject(CurrentTransitionService);
+
+  protected viewTransitionName(o: RouterOutlet) {
+    return o.isActivated && this.transitionService.isLastOutlet(o) ? 'main' : '';
+  }
+}

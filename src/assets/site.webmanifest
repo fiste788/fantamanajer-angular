@@ -7,56 +7,103 @@
   "orientation": "portrait",
   "screenshots": [
     {
-      "src": "/assets/screenshots/home.webp",
-      "sizes": "1920x644",
+      "src": "/assets/screenshots/home_narrow.webp",
+      "sizes": "1290x2796",
       "type": "image/webp",
-      "platform": "wide",
-      "label": "Homescreen of FantaManajer"
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/screenshots/team_narrow.webp",
+      "sizes": "1290x2796",
+      "type": "image/webp",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/screenshots/home_wide.webp",
+      "sizes": "2560x1232",
+      "type": "image/webp",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/screenshots/team_wide.webp",
+      "sizes": "2560x1232",
+      "type": "image/webp",
+      "form_factor": "wide"
     }
   ],
-  "categories": [
-    "sports",
-    "games"
-  ],
+  "categories": ["sports", "games"],
   "id": "/",
   "prefer_related_applications": false,
   "related_applications": [],
   "icons": [
     {
-      "src": "/assets/icons/maskable-icon.webp",
+      "src": "/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/assets/icons/icon-512-maskable.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-512x512.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/icons/icon-512x512.png",
+      "src": "/assets/icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-192x192.webp",
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-192-maskable.webp",
       "sizes": "192x192",
       "type": "image/webp",
-      "purpose": "any"
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
       "src": "/assets/icons/icon-monochrome.webp",
       "sizes": "72x72",
       "type": "image/webp",
       "purpose": "monochrome"
+    },
+    {
+      "src": "/assets/icons/icon-monochrome.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ],
-  "theme_color": "#00bcd4",
-  "background_color": "#fafafa",
+  "theme_color": "#fffbff",
+  "background_color": "#fffbff",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay"],
   "shortcuts": [
     {
       "name": "Inserisci formazione",
@@ -68,6 +115,11 @@
           "src": "/assets/icons/shortcuts/lineup.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/lineup.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
@@ -81,6 +133,11 @@
           "src": "/assets/icons/shortcuts/transfert.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/transfert.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     },
@@ -94,6 +151,11 @@
           "src": "/assets/icons/shortcuts/article.webp",
           "sizes": "96x96",
           "type": "image/webp"
+        },
+        {
+          "src": "/assets/icons/shortcuts/article.png",
+          "sizes": "96x96",
+          "type": "image/png"
         }
       ]
     }

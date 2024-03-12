@@ -1,40 +1,9 @@
-@use '@angular/material' as mat;
+eco-fab-speed-dial,
+eco-fab-speed-dial-trigger button {
+  flex-grow: 1;
+}
 
-:host {
-  animation: create-box 0.25s;
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 1;
+eco-fab-speed-dial-trigger {
   display: flex;
-  border-radius: 50%;
-
-  @include mat.elevation(6);
-}
-
-.mat-mdc-fab {
-  box-shadow: 0 0 0 !important;
-}
-
-@media (min-width: theme('screens.md')) {
-  :host {
-    left: 212px;
-    right: unset !important;
-
-    @include mat.elevation(2);
-  }
-}
-
-@keyframes create-box {
-  0% {
-    transform: scale(0);
-  }
-
-  80% {
-    transform: scale(1.1);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  width: 100%;
 }

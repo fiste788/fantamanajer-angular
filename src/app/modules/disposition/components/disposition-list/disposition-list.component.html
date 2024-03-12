@@ -1,8 +1,6 @@
 @if (dataSource) {
-<div class="table-container">
-  <div class="mat-mdc-table-header">
-    <span class="mat-mdc-table-title">{{caption}}</span>
-  </div>
+<h2>{{caption}}</h2>
+<mat-card appearance="outlined">
   <table
     #table
     mat-table
@@ -188,5 +186,5 @@
       mat-row
     ></tr>
   </table>
-</div>
+</mat-card>
 }

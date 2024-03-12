@@ -48,7 +48,7 @@ export class ThemeService {
       if (mainEl) {
         const isLoadedDark = mainEl.href.startsWith('dark');
         const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
-        let altEl = this.document.querySelector<HTMLLinkElement>('alternate-theme');
+        let altEl = this.document.querySelector<HTMLLinkElement>('#alternate-theme');
         if (isLoadedDark === isDark) {
           this.disableAlternate(altEl);
         } else if (altEl === null) {

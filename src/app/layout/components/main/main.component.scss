@@ -8,14 +8,23 @@ app-toolbar {
   will-change: transform;
 }
 
-.mat-sidenav {
-  width: 340px;
-  max-width: calc(100% - 54px);
-  display: none;
+.bottom {
+  position: fixed;
+  bottom: 0;
+  z-index: 102;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  max-height: 5rem;
+  view-transition-name: bottom-bar;
+}
 
-  .mat-toolbar {
-    background: inherit;
-  }
+.mat-sidenav {
+  view-transition-name: sidenav;
+}
+
+.mat-drawer-side {
+  border: 0 none;
 }
 
 .mat-drawer-content {
@@ -24,29 +33,53 @@ app-toolbar {
   overflow: visible;
 }
 
+.speed-dial {
+  position: absolute;
+  top: calc(-100% + 0.5rem);
+  right: 1rem;
+  z-index: 1;
+  transform-origin: right bottom;
+}
+
 main {
-  padding-bottom: 1rem;
+  margin: 1rem;
   position: relative;
 }
 
-.speed-dial {
-  transform: scale(0);
-}
-
-// @include mq.layout-bp(gt-sm) {
-@media (min-width: theme('screens.md')) {
-  main {
-    width: 90%;
-    max-width: 90%;
-    margin: 0 auto;
+@media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+  .rail {
+    transition-property: width, transform, background-color !important;
+    transform: translate3d(0, 0, 0);
   }
 
-  .mat-sidenav {
-    width: 15rem !important;
-    display: block;
+  .rail-closed {
+    width: 5rem !important; // Closed width - adjust as needed
+    transition-duration: 200ms !important;
+    transition-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15) !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .rail-opened {
+    transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+    transition-duration: 400ms;
   }
 
   .mat-drawer-content {
-    margin-left: 15rem;
+    margin-left: 5rem;
+  }
+}
+
+@media (min-width: theme('screens.lg')) {
+  main {
+    margin: 1rem 2rem 2rem;
+  }
+
+  .speed-dial {
+    display: none;
+  }
+
+  .mat-sidenav {
+    width: 18rem;
   }
 }

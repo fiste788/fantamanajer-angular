@@ -1,7 +1,11 @@
 @use 'app/app';
-@use './light/variables';
-@use './light/color';
+@use './light/theme';
+@use './light/styles';
 @use '../main/main';
-@include color.color(variables.$theme);
-@include main.color(variables.$theme);
-@include app.color(variables.$theme);
+
+@include styles.styles(theme.$theme);
+
+:root {
+  @include main.color(theme.$theme);
+  @include app.color(theme.$theme);
+}

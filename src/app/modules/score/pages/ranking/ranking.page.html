@@ -1,5 +1,8 @@
 @if ((ranking$ | async); as ranking) {
-<div class="mat-elevation-z1 ranking-container table-container">
+<mat-card
+  appearance="outlined"
+  class="ranking-container"
+>
   <table
     #table
     class="ranking"
@@ -64,8 +67,7 @@
       mat-row
     ></tr>
   </table>
-
-</div>
+</mat-card>
 } @else {
 
 <mat-progress-spinner

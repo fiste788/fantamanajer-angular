@@ -1,9 +1,6 @@
 <div class="flex-container">
   @if (user$ | async; as user) {
-<form
-   
-    ngForm
-  >
+  <form ngForm>
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>
@@ -14,6 +11,7 @@
         <mat-form-field>
           <mat-label>Nome</mat-label>
           <input
+            autocomplete="name"
             matInput
             name="name"
             placeholder="Nome"
@@ -25,6 +23,7 @@
         <mat-form-field>
           <mat-label>Cognome</mat-label>
           <input
+            autocomplete="family-name"
             matInput
             name="surname"
             placeholder="Cognome"
@@ -48,6 +47,7 @@
         <mat-form-field>
           <mat-label>Ripeti password</mat-label>
           <input
+            autocomplete="new-password"
             matInput
             name="repeatPassword"
             placeholder="Ripeti password"
@@ -69,7 +69,7 @@
       <mat-card-actions align="end">
         <button
           color="accent"
-          mat-raised-button
+          mat-flat-button
           type="submit"
           (click)="save(user)"
         >
@@ -78,5 +78,5 @@
       </mat-card-actions>
     </mat-card>
   </form>
-}
+  }
 </div>

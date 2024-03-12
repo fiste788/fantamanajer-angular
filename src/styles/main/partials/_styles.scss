@@ -1,13 +1,13 @@
+/* stylelint-disable selector-class-pattern */
 @use 'sass:map';
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 
-@mixin core($theme) {
-  body,
-  html {
+@mixin base($theme) {
+  body {
     margin: 0;
     height: 100%;
-
-    // font-family: Roboto, sans-serif;
+    font-family: 'Exo 2', sans-serif;
   }
 
   figure {
@@ -24,8 +24,8 @@
     transition: top 0.2s ease-in;
   }
 
-  .tabbed-container {
-    min-height: calc(100vh - 25rem);
+  .mat-drawer .mat-toolbar {
+    background-color: inherit;
   }
 
   .spacer {
@@ -34,6 +34,10 @@
 
   .mat-mdc-progress-spinner {
     margin: 3rem auto 5rem;
+  }
+
+  .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: nowrap;
   }
 
   a {
@@ -57,11 +61,6 @@
     background-color: red;
   }
 
-  app-main:not(:empty) + .pre-bootstrap {
-    background-color: transparent;
-    animation: leave-animation 0.2s ease-in-out forwards;
-  }
-
   content-loader svg {
     max-height: 100%;
   }
@@ -78,42 +77,42 @@
     align-items: center;
     justify-content: center;
   }
-
-  @keyframes leave-animation {
-    0% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
-      transform: scale(0);
-      display: none;
-    }
-  }
 }
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-  $accent: map.get($theme, accent);
-  $foreground: map.get($theme, foreground);
-  $background: map.get($theme, background);
+  .mat-drawer-over {
+    --mat-sidenav-container-background-color: #{mat.get-theme-color($theme, surface-container-low)};
+  }
 
   .mat-text-accent {
-    color: mat.get-color-from-palette($accent);
+    color: mat.get-theme-color($theme, tertiary);
   }
 
   .mat-text-primary {
-    color: mat.get-color-from-palette($primary);
+    color: mat.get-theme-color($theme, primary);
   }
 
   ::selection {
-    background: mat.get-color-from-palette($accent);
-    color: mat.get-color-from-palette($accent, default-contrast);
+    background: mat.get-theme-color($theme, tertiary);
+    color: mat.get-theme-color($theme, on-tertiary);
   }
 
   .placeholder {
-    background-color: mat.get-color-from-palette($background, 'status-bar');
-    color: mat.get-color-from-palette($foreground, 'secondary-text');
+    background-color: mat.get-theme-color($theme, surface-container-low);
+    color: mat.get-theme-color($theme, on-surface);
+  }
+
+  img[src~='.svg'] {
+    background-color: mat.get-theme-color($theme, surface-container-low);
+  }
+
+  a {
+    color: mat.get-theme-color($theme, on-primary-container);
+  }
+
+  .cdk-virtual-scroll-viewport {
+    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+    --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
   }
 }
 
@@ -124,23 +123,10 @@
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

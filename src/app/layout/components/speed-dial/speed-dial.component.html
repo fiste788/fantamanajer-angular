@@ -1,6 +1,7 @@
 <eco-fab-speed-dial
+  class="tertiary-fab"
   animationMode="scale"
-  direction="up"
+  [direction]="direction"
   [fixed]="false"
   [(open)]="openSpeeddial"
 >
@@ -9,8 +10,12 @@
       aria-label="Aggiungi"
       mat-fab
       type="button"
+      [extended]="extended"
     >
       <mat-icon class="spin360">add</mat-icon>
+      @if(extended) {
+      Aggiungi
+      }
     </button>
   </eco-fab-speed-dial-trigger>
 

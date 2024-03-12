@@ -16,13 +16,13 @@ import { MatIconModule } from '@angular/material/icon';
       transition(':enter', [
         style({ opacity: 0, transform: 'scale(0.4)' }),
         animate(
-          '350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
           style({ transform: 'scale(1)', opacity: 1 }),
         ),
       ]),
       transition(':leave', [
         animate(
-          '350ms cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          '350ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
           style({ transform: 'scale(0.4)', opacity: 0 }),
         ),
       ]),

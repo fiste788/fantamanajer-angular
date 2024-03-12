@@ -1,0 +1,51 @@
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
+
+@mixin base($theme) {
+}
+
+@mixin color($theme) {
+  .parallax-header-img {
+    background-color: mat.get-theme-color($theme, surface-container-low);
+  }
+
+  @media (min-width: theme('screens.sm')) {
+    .parallax {
+      background-color: mat.get-theme-color($theme, surface-container-low);
+    }
+
+    .parallax-header-title-container {
+      $dark-theme: matx.define-theme(
+        (
+          color: (
+            theme-type: dark,
+          ),
+        )
+      );
+
+      color: mat.get-theme-color($dark-theme, on-surface);
+      background-image: linear-gradient(
+        #{mat.get-theme-color($dark-theme, surface)}00,
+        #{mat.get-theme-color($dark-theme, surface)}e6
+      );
+
+      --mdc-icon-button-icon-color: #{mat.get-theme-color($dark-theme, on-surface)};
+    }
+  }
+}
+
+@mixin density($theme) {
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @include mat.private-check-duplicate-theme-styles($theme, 'parallax-header') {
+    @include base($theme);
+
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
+  }
+}

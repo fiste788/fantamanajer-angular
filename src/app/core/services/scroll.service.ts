@@ -18,14 +18,14 @@ import { Direction } from '@app/enums';
 export class ScrollService {
   public connectScrollAnimation(
     window: Window,
-    offset = 0,
+    offsetCallback = () => 0,
   ): { up: Observable<Direction>; down: Observable<Direction> } {
     const scrollObservable$ = fromEvent(window, 'scroll').pipe(
       throttleTime(15),
       map(() => window.scrollY),
-      filter((y) => y > offset),
+      filter((y) => y > offsetCallback()),
       pairwise(),
-      filter(([y1, y2]) => Math.abs(y2 - y1) > 5),
+      filter(([y1, y2]) => Math.abs(y2 - y1) > 3),
       map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
       distinctUntilChanged(),
       share(),

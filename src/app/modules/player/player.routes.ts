@@ -6,7 +6,7 @@ import { PlayerPage } from './pages/player/player.page';
 import { playerResolver } from './pages/player/player.resolver';
 
 export default [
-  { path: '', component: PlayerPage, data: { state: 'player' } },
+  { path: '', component: PlayerPage },
   {
     path: ':id',
     component: PlayerPage,

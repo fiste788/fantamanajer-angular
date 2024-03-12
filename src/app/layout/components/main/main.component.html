@@ -3,22 +3,41 @@
     #drawer
     fixedInViewport="true"
     [autoFocus]="false"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [mode]="(isHandset$ | async) ? 'over' : ( (isTablet$ | async) && (isOpen$ | async) ? 'over' : 'side')"
     [opened]="(isOpen$ | async)"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
+    [ngClass]="{
+      rail: (isTablet$ | async),
+      'rail-closed': (isTablet$ | async) && !drawer.opened,
+      'rail-opened': (isTablet$ | async) && drawer.opened
+      }"
   >
-    <app-navbar />
+    <app-navbar [sidenav]="drawer" />
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar [@scrollUpAnimation]="(showedToolbar$ | async)" />
-    <main [@contextChange]="o | state">
+    <app-toolbar
+      [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
+      [@scrollUpAnimation]="(isScrolled$ | async) === false || (showedToolbar$ | async)"
+      [showDrawerButton]="(isHandset$ | async) || false"
+    />
+    <main
+      [@contextChange]="o | state"
+      [style.viewTransitionName]="viewTransitionName()"
+    >
       <router-outlet #o="outlet" />
     </main>
+    <div
+      class="bottom"
+      [@scrollDownAnimation]="(showedToolbar$ | async)"
+    >
+      <app-bottom-bar class="bottom-bar" />
+      <app-speed-dial
+        #speedDial
+        class="speed-dial"
+        extended="false"
+        [@closeAnimation]="(showedSpeedDial$ | async)"
+      />
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<app-speed-dial
-  #speedDial
-  class="speed-dial"
-  [@closeAnimation]="(showedSpeedDial$ | async)"
-/>

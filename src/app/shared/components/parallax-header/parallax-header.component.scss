@@ -1,10 +1,22 @@
 @use '@angular/material' as mat;
 
+.parallax-container {
+  margin: -1rem -1rem 2rem;
+}
+
 .parallax-header-img {
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-  @include mat.elevation(2);
+
+  > div {
+    transition: all 200ms;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .no-animate {
+    transition: none !important;
+  }
 
   img {
     display: block;
@@ -41,38 +53,46 @@
   text-align: center;
 }
 
-.parallax-container {
-  margin: 0 0 2rem;
-}
-
 .parallax {
-  min-height: 300px;
+  min-height: 20rem;
   width: 100%;
   object-fit: cover;
 }
 
 a.anchor {
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   visibility: hidden;
 }
+
+.placeholder {
+  max-height: 33vh;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+
 @media (min-width: theme('screens.sm')) {
   a.anchor {
     position: relative;
-    top: -8rem;
+    top: -18rem;
+  }
+
+  .parallax-container {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .parallax-header-img {
     // height: 300px;
     max-height: unset;
-    @include mat.elevation(0);
 
     img {
       // position: absolute;
       height: auto;
       margin: auto;
       inset: 0;
+      contain: paint;
     }
   }
 
@@ -87,22 +107,19 @@ a.anchor {
     position: relative;
     background-position: center;
     background-size: cover;
-    border-radius: 0 0 4px 4px;
+    border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
+    border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
     overflow: hidden;
     max-height: 85vh;
-    @include mat.elevation(2);
   }
 
   .parallax-header-title-container {
-    color: #fff;
     position: absolute;
     flex-direction: row;
     padding: 64px 24px 24px;
     width: 100%;
     bottom: 0;
     align-items: flex-end;
-    background-color: rgb(0 0 0 / 0%);
-    background-image: linear-gradient(rgb(0 0 0 / 0%), rgb(0 0 0 / 80%));
 
     img {
       max-height: 128px;

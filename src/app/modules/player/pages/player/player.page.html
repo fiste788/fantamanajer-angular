@@ -42,7 +42,7 @@
 </div>
 }
 @if ((ratings$ | async); as ratings) {
-<div class="table-container">
+<mat-card appearance="outlined">
   <table
     #table
     mat-table
@@ -259,7 +259,7 @@
       mat-row
     ></tr>
   </table>
-</div>
+</mat-card>
 } @else {
 
 <mat-progress-spinner

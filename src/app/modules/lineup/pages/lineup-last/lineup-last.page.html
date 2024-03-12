@@ -1,46 +1,45 @@
 @if (!app.seasonEnded) {
-<div>
-  @if ((lineup$ | async); as lineup) {
-  <div>
-    @if (lineup.module || editMode) {
-    <form
-      #lineupForm="ngForm"
-      class="flex-container"
-      [appMemberAlreadySelected]="lineup"
-      (ngSubmit)="save(lineup)"
-    >
-      <app-lineup-detail
-        #lineupDetail
-        [benchs]="benchs"
-        [disabled]="!editMode"
-        [lineup]="lineup"
-      >
-        @if (editMode) {
-        <button
-          align="end"
-          buttons
-          color="accent"
-          mat-raised-button
-          type="submit"
-        >Salva</button>
-        }
-      </app-lineup-detail>
-    </form>
-    } @else {
 
-    <h3 class="subheading-1">Formazione non settata</h3>
+@if ((lineup$ | async); as lineup) {
 
+@if (lineup.module || editMode) {
+<form
+  #lineupForm="ngForm"
+  class="flex-container"
+  [appMemberAlreadySelected]="lineup"
+  (ngSubmit)="save(lineup)"
+>
+  <app-lineup-detail
+    #lineupDetail
+    [benchs]="benchs"
+    [disabled]="!editMode"
+    [lineup]="lineup"
+  >
+    @if (editMode) {
+    <button
+      align="end"
+      buttons
+      color="accent"
+      mat-flat-button
+      type="submit"
+    >Salva</button>
     }
-  </div>
-  } @else {
+  </app-lineup-detail>
+</form>
+} @else {
 
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
+<h3 class="subheading-1">Formazione non settata</h3>
 
-  }
-</div>
+}
+} @else {
+
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
+}
+
 } @else {
 
 <app-mat-empty-state

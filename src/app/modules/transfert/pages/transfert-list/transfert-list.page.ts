@@ -1,5 +1,6 @@
 import { NgIf, AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -33,6 +34,7 @@ import { SeasonActiveDirective } from '@shared/directives';
     SeasonActiveDirective,
     SelectionComponent,
     AsyncPipe,
+    MatCardModule,
   ],
 })
 export class TransfertListPage {

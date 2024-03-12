@@ -1,9 +1,26 @@
+<button
+  class="toggle"
+  aria-label="Toggle sidenav"
+  mat-icon-button
+  type="button"
+  (click)="clickNav()"
+>
+  <mat-icon aria-label="Side nav toggle icon">menu{{(openedSidebar$ | async) ? '_open' : ''}}</mat-icon>
+</button>
 <app-profile />
+@if ((loggedIn$ | async) && (showedSpeedDial$ | async)) {
+<app-speed-dial
+  #speedDial
+  class="speed-dial"
+  direction="down"
+  [extended]="sidenav.opened"
+/>
+}
 <mat-nav-list>
   @if (matchday$ | async; as matchday) {
   <h3 mat-subheader>
     <span>
-      @if (!matchday.season.ended && !matchday.season.started ) {
+      @if (!matchday.season.ended && matchday.season.started ) {
       Giornata {{matchday.number}}
       } @else {
       {{matchday.season.name}}
@@ -37,10 +54,7 @@
     [activated]="rla2.isActive"
     [routerLink]="['teams', team.id]"
   >
-    <mat-icon
-      matListItemIcon
-      svgIcon="team"
-    />{{team.name}}
+    <mat-icon matListItemIcon>groups_3</mat-icon>{{team.name}}
   </a>
   }
   @if (championship$ | async; as championship) {

@@ -1,16 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (app.team$ | async; as team) {
-<mat-toolbar
-  color="primary"
-  [style.background-image]="(photo$ | async) !== undefined ? 'url(' + ((photo$ | async) || '') + ')' : ''"
-  [class.greyscale-image]="(photo$ | async)"
-  [class.has-image]="(photo$ | async)"
->
+<mat-toolbar>
+  @if(photo$ | async; as photo) {
   <mat-toolbar-row>
-    <span></span>
+    <img
+      [src]="photo"
+      alt="Logo"
+    />
   </mat-toolbar-row>
+  }
   <mat-toolbar-row>
-
     @if ((auth.user$ | async)?.teams; as teams) {
     <mat-form-field appearance="fill">
       <mat-select
@@ -32,10 +31,22 @@
         </mat-option>
         }
       </mat-select>
+      @if(team === teams[0]) {
+      <button
+        aria-label="Settings"
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="openDialog($event, team)"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+      }
       <mat-hint>
         <span>{{team.championship.season.name}}</span>
       </mat-hint>
     </mat-form-field>
+
     }
 
   </mat-toolbar-row>

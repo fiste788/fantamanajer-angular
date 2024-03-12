@@ -1,0 +1,10 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin styles($theme) {
+  .greyscale,
+  img {
+    filter: grayscale(60%);
+  }
+}

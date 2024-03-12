@@ -1,10 +1,13 @@
 @use 'app/app';
-@use './dark/variables';
-@use './dark/color';
+@use './dark/theme';
+@use './dark/styles';
 @use '../main/main';
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@include color.color(variables.$theme);
-@include main.theme(variables.$theme);
-@include app.theme(variables.$theme);
+@import '../main/transition';
+
+@include styles.styles(theme.$theme);
+
+:root {
+  @include main.theme(theme.$theme);
+  @include app.theme(theme.$theme);
+}

@@ -1,7 +1,8 @@
 @use 'sass:map';
+@use 'sass:string';
 @use '@angular/material' as mat;
 
-@mixin core($theme) {
+@mixin base($theme) {
   .login {
     .mat-horizontal-stepper-header-container {
       display: none !important;
@@ -14,14 +15,12 @@
 }
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-  $foreground: map.get($theme, foreground);
-
   .login {
-    .mat-icon,
-    .mat-mdc-card-title {
-      color: mat.get-color-from-palette($foreground, 'icon');
+    .mat-icon {
+      color: mat.get-theme-color($theme, primary);
     }
+
+    --mat-stepper-container-color: transparent;
   }
 }
 
@@ -29,26 +28,18 @@
 }
 
 @mixin typography($theme) {
+  .username {
+    font: mat.get-theme-typography($theme, headline-small, font);
+    font-family: string.unquote(mat.get-theme-typography($theme, headline-small, font-family));
+  }
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'login') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+    @include base($theme);
 
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }

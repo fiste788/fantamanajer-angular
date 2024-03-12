@@ -4,16 +4,18 @@
 >
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
-      <app-player-image [member]="member || undefined" />
+      <div>
+        <app-player-image [member]="member || undefined" />
+      </div>
+      @if (member && member.likely_lineup) {
+      <app-member-icons
+        [captain]="captain"
+        circle
+        @createBox
+        [member]="member"
+      />
+      }
     </div>
-    @if (member && member.likely_lineup) {
-    <app-member-icons
-      [captain]="captain"
-      circle
-      @createBox
-      [member]="member"
-    />
-    }
   </div>
   <mat-select
     #memberSelection="ngModel"
@@ -57,7 +59,8 @@
   </mat-select>
   @if (memberSelection.errors?.['required']) {
   <mat-error>Seleziona il giocatore</mat-error>
-  } @if (member?.stats) {
+  }
+  @if (member?.stats) {
   <mat-hint>
     <span>Ø P.ti: {{ member?.stats?.avg_points | number: '1.1-1' }}</span> -
     <span>Ø Voti: {{ member?.stats?.avg_rating | number: '1.1-1' }}</span> -

@@ -1,0 +1,10 @@
+@use '@angular/material-experimental' as matx;
+@use '../main';
+@use './color';
+
+$theme: matx.define-theme(
+  (
+    color: color.$color,
+    typography: main.$typography,
+  )
+);

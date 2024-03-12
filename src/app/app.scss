@@ -1,60 +1,47 @@
 @use '@angular/material' as mat;
 @use 'layout/layout.scss-theme';
 @use 'modules/auth/pages/login/login.scss-theme';
-@use 'modules/lineup-common/components/lineup-detail/lineup-detail.scss-theme';
 @use 'modules/member-common/components/member-selection/member-selection.scss-theme';
 @use 'shared/components/mat-empty-state/mat-empty-state.scss-theme';
+@use 'shared/components/parallax-header/parallax-header.scss-theme';
 
-@mixin core($theme) {
-  @include layout.core($theme);
-  @include login.core($theme);
-  @include member-selection.core($theme);
-  @include lineup-detail.core($theme);
-  @include mat-empty-state.core($theme);
+@mixin base($theme) {
+  @include layout.base($theme);
+  @include login.base($theme);
+  @include member-selection.base($theme);
+  @include mat-empty-state.base($theme);
+  @include parallax-header.base($theme);
 }
 
 @mixin density($theme) {
   @include layout.density($theme);
   @include login.density($theme);
   @include member-selection.density($theme);
-  @include lineup-detail.density($theme);
   @include mat-empty-state.density($theme);
+  @include parallax-header.density($theme);
 }
 
 @mixin typography($theme) {
   @include layout.typography($theme);
   @include login.typography($theme);
   @include member-selection.typography($theme);
-  @include lineup-detail.typography($theme);
   @include mat-empty-state.typography($theme);
+  @include parallax-header.typography($theme);
 }
 
 @mixin color($theme) {
   @include layout.color($theme);
   @include login.color($theme);
   @include member-selection.color($theme);
-  @include lineup-detail.color($theme);
   @include mat-empty-state.color($theme);
+  @include parallax-header.color($theme);
 }
 
 @mixin theme($theme) {
-  @include core($theme);
-
   @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
-
-    @if $color {
-      @include color($color);
-    }
-
-    @if $density {
-      @include density($density);
-    }
-
-    @if $typography {
-      @include typography($typography);
-    }
+    @include base($theme);
+    @include color($theme);
+    @include density($theme);
+    @include typography($theme);
   }
 }
