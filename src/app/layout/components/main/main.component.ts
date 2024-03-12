@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,8 +15,8 @@ import {
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/operators';
 import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
