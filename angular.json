@@ -72,6 +72,11 @@
                 "inject": true
               },
               {
+                "input": "src/styles/themes/theme.scss",
+                "bundleName": "theme",
+                "inject": true
+              },
+              {
                 "input": "src/styles/themes/light-theme.scss",
                 "bundleName": "light-theme",
                 "inject": false
