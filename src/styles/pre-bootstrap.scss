@@ -80,10 +80,10 @@ body {
   .pre-bootstrap {
     background-color: mat.get-theme-color(dark.$theme, surface);
     color: mat.get-theme-color(dark.$theme, on-surface);
-  }
 
-  .error,
-  noscript h3 {
-    color: mat.get-theme-color(dark.$theme, error);
+    .error,
+    noscript h3 {
+      color: mat.get-theme-color(dark.$theme, error);
+    }
   }
 }
