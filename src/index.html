@@ -151,8 +151,14 @@
   >
   <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.head.insertAdjacentHTML('beforeend', '<link id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '-color-theme.css">');
+    document.head.insertAdjacentHTML('beforeend', '<link media="print" id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '-color-theme.css" onload="this.media="all">');
   </script>
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="light-color-theme.css"
+    >
+  </noscript>
 </head>
 
 <body>
