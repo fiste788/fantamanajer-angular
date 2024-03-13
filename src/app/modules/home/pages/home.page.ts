@@ -1,6 +1,14 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { NgIf, NgFor, AsyncPipe, isPlatformBrowser } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
@@ -40,17 +48,21 @@ interface BestPlayer {
     AsyncPipe,
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   protected matchday$ = inject(ApplicationService).matchday$;
   protected roles: Array<{ role: Role; best_players?: BestPlayer }>;
 
   constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: string,
     private readonly memberService: MemberService,
     private readonly roleService: RoleService,
     private readonly cd: ChangeDetectorRef,
   ) {
     this.roles = this.roleService.list().map((r) => ({ role: r }));
     addVisibleClassOnDestroy(cardCreationAnimation);
+  }
+
+  public ngOnInit(): void {
     this.loadBestPlayers();
   }
 
@@ -71,7 +83,9 @@ export class HomePage {
           for (const bp of bps) {
             this.roles.find((r) => r.role.singolar === bp.role)!.best_players = bp;
           }
-          this.cd.detectChanges();
+          if (isPlatformBrowser(this.platformId)) {
+            this.cd.detectChanges();
+          }
         }),
       )
       .subscribe();

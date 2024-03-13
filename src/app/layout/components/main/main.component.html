@@ -23,7 +23,7 @@
     />
     <main
       [@contextChange]="o | state"
-      [style.viewTransitionName]="viewTransitionName()"
+      [style.viewTransitionName]="(app.isStable | async) && viewTransitionName()"
     >
       <router-outlet #o="outlet" />
     </main>

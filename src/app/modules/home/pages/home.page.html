@@ -1,8 +1,5 @@
 @if (((matchday$ | async)?.number|| 0) > 1) {
-<div
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start"
-  @cardCreationAnimation
->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start">
   @for (role of roles; track role.role.id) {
 
   <mat-card appearance="outlined">

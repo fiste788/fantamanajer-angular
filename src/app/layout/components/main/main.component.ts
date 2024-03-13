@@ -3,6 +3,7 @@ import { trigger } from '@angular/animations';
 import { AsyncPipe, NgClass, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -79,6 +80,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   constructor(
     @Inject(WINDOW) private readonly window: Window,
     @Inject(PLATFORM_ID) private readonly platformId: string,
+    public readonly app: ApplicationRef,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -97,13 +99,13 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   public ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.drawer!._content.nativeElement.parentElement!.style.display = 'block';
+      if (this.container) {
+        this.setupScrollAnimation(this.window);
+      }
     }
     // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());
-    if (this.container) {
-      this.setupScrollAnimation(this.window);
-    }
     this.changeRef.detectChanges();
   }
 

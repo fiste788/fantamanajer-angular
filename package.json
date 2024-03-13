@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "npm run pages:build && wrangler pages dev dist/cloudflare --compatibility-date=2023-11-21",
-    "build": "ng build",
+    "start": "npm run build && wrangler pages dev dist/cloudflare --compatibility-date=2023-11-21",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
@@ -14,8 +13,8 @@
     "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
     "serve:ssr:fantamanajer-angular": "node dist/server/server.mjs",
     "process": "node ./tools/copy-files.mjs && node ./tools/alter-polyfills.mjs",
-    "pages:build": "ng build && npm run process",
-    "deploy": "npm run pages:build && wrangler pages deploy --project-name fantamanajer-angular-ssr dist/cloudflare"
+    "build": "ng build && npm run process",
+    "deploy": "npm run build && wrangler pages deploy --project-name fantamanajer-angular-ssr dist/cloudflare"
   },
   "private": true,
   "dependencies": {
