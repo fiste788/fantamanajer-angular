@@ -1,0 +1,22 @@
+@use '@angular/material-experimental' as matx;
+@use 'app/app';
+@use '../main/main';
+@use 'main' as config;
+@import 'tailwindcss/utilities';
+@import '../main/transition';
+
+$theme: matx.define-theme(
+  (
+    typography: config.$typography,
+  )
+);
+
+:root {
+  @include main.base($theme);
+  @include main.density($theme);
+  @include main.typography($theme);
+
+  @include app.base($theme);
+  @include app.density($theme);
+  @include app.typography($theme);
+}
