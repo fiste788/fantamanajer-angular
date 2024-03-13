@@ -41,6 +41,39 @@ body {
     line-height: 1.5rem;
     margin-top: 1.5rem;
   }
+
+  svg path {
+    fill: transparent;
+    transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+
+  svg {
+    .s-1 {
+      transition-delay: 0.1s;
+    }
+
+    .s-2 {
+      transition-duration: 0.2s;
+    }
+
+    .s-3 {
+      transition-duration: 0.3s;
+    }
+  }
+
+  svg.active {
+    .s-1 {
+      fill: rgb(228 0 217);
+    }
+
+    .s-2 {
+      fill: rgb(228 0 103);
+    }
+
+    .s-3 {
+      fill: rgb(246 73 73);
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,33 +86,4 @@ body {
   noscript h3 {
     color: mat.get-theme-color(dark.$theme, error);
   }
-}
-
-svg path {
-  fill: transparent;
-  transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
-}
-
-svg .s-1 {
-  transition-delay: 0.1s;
-}
-
-svg.active .s-1 {
-  fill: rgb(228 0 217);
-}
-
-svg .s-2 {
-  transition-duration: 0.2s;
-}
-
-svg.active .s-2 {
-  fill: rgb(228 0 103);
-}
-
-svg .s-3 {
-  transition-duration: 0.3s;
-}
-
-svg.active .s-3 {
-  fill: rgb(246 73 73);
 }
