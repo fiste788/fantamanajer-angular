@@ -70,18 +70,18 @@
                 "inject": true
               },
               {
-                "input": "src/styles/themes/theme.scss",
-                "bundleName": "theme",
+                "input": "src/styles/main.scss",
+                "bundleName": "main",
                 "inject": true
               },
               {
-                "input": "src/styles/themes/light-color-theme.scss",
-                "bundleName": "light-color-theme",
+                "input": "src/styles/themes/light/theme.scss",
+                "bundleName": "light",
                 "inject": false
               },
               {
-                "input": "src/styles/themes/dark-color-theme.scss",
-                "bundleName": "dark-color-theme",
+                "input": "src/styles/themes/dark/theme.scss",
+                "bundleName": "dark",
                 "inject": false
               }
             ],

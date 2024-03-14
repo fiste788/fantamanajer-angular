@@ -4,7 +4,6 @@
     // 👇️ add all the directories and files
     // that you want to lint here
     "src",
-    "esbuild",
     "tests",
     // add all files in which you see
     // the "parserOptions.project" error
