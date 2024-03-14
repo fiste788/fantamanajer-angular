@@ -1,11 +1,17 @@
+@use '@angular/material-experimental' as matx;
 @use 'app/app';
-@use './light/theme';
+@use './light/color';
 @use './light/styles';
 @use '../main/main';
 
-@include styles.styles(theme.$theme);
+$theme: matx.define-theme(
+  (
+    color: color.$color,
+  )
+);
 
 :root {
-  @include main.color(theme.$theme);
-  @include app.color(theme.$theme);
+  @include main.color($theme);
+  @include app.color($theme);
+  @include styles.styles($theme);
 }
