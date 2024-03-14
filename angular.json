@@ -77,18 +77,8 @@
                 "inject": true
               },
               {
-                "input": "src/styles/themes/light-theme.scss",
-                "bundleName": "light-theme",
-                "inject": false
-              },
-              {
                 "input": "src/styles/themes/light-color-theme.scss",
                 "bundleName": "light-color-theme",
-                "inject": false
-              },
-              {
-                "input": "src/styles/themes/dark-theme.scss",
-                "bundleName": "dark-theme",
                 "inject": false
               },
               {
