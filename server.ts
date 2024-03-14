@@ -6,6 +6,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { renderApplication } from '@angular/platform-server';
 
+import { REQUEST } from '@app/tokens';
+
 import bootstrap from './src/main.server';
 
 interface Env {
@@ -52,6 +54,12 @@ async function workerFetchHandler(request: Request, env: Env) {
   const content = await renderApplication(bootstrap, {
     document,
     url: url.pathname,
+    platformProviders: [
+      {
+        provide: REQUEST,
+        useValue: request,
+      },
+    ],
   });
 
   // console.log("rendered SSR", content);

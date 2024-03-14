@@ -47,7 +47,8 @@ app-breadcrumb {
   }
 }
 @media (min-width: theme('screens.md')) {
-  .drawer {
+  .drawer,
+  button {
     display: none;
   }
 }

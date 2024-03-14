@@ -4,9 +4,7 @@ import {
   Component,
   HostBinding,
   Inject,
-  Input,
   Signal,
-  booleanAttribute,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -41,7 +39,6 @@ import { NotificationComponent } from '../notification/notification.component';
   ],
 })
 export class ToolbarComponent {
-  @Input({ transform: booleanAttribute }) public showDrawerButton = false;
   @HostBinding('class.window-overlayed') get overlayed() {
     return this.isOverlayed();
   }

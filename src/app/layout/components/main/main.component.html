@@ -19,7 +19,6 @@
     <app-toolbar
       [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
       [@scrollUpAnimation]="(isScrolled$ | async) === false || (showedToolbar$ | async)"
-      [showDrawerButton]="(isHandset$ | async) || false"
     />
     <main
       [@contextChange]="o | state"
