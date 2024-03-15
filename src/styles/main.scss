@@ -1,15 +1,18 @@
 @use '@angular/material-experimental' as matx;
 @use 'app/app';
-@use '../main/main';
-@use 'main' as config;
-@import 'tailwindcss/utilities';
-@import '../main/transition';
+@use 'main/main';
 
 $theme: matx.define-theme(
   (
-    typography: config.$typography,
+    typography: (
+      plain-family: "'Exo 2'",
+      brand-family: "'Exo 2'",
+    ),
   )
 );
+
+@import 'main/transition';
+@import 'tailwindcss/utilities';
 
 :root {
   @include main.base($theme);

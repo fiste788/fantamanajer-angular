@@ -43,7 +43,7 @@ export class ThemeService {
   private async setThemeCss(isDark: boolean): Promise<void> {
     return new Promise((resolve) => {
       const mainEl = this.document.querySelector<HTMLLinkElement>('#main-theme');
-      const styleName = `${isDark ? 'dark' : 'light'}-color-theme.css`;
+      const styleName = `${isDark ? 'dark' : 'light'}.css`;
       this.renderer.setProperty(mainEl, 'href', styleName);
       this.renderer.setProperty(mainEl, 'onload', resolve);
     });
