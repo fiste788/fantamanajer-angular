@@ -71,7 +71,7 @@
               },
               {
                 "input": "src/styles/main.scss",
-                "bundleName": "main",
+                "bundleName": "styles",
                 "inject": true
               },
               {
