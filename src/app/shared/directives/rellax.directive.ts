@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Directive,
@@ -9,6 +9,7 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   Renderer2,
   booleanAttribute,
   numberAttribute,
@@ -71,18 +72,17 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private du?: () => void;
   private handler?: () => void;
 
-  private readonly loop: (callback: FrameRequestCallback) => number;
-  private readonly clearLoop: (handle: number) => void;
+  private readonly loop?: (callback: FrameRequestCallback) => number;
+  private readonly clearLoop?: (handle: number) => void;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     @Inject(WINDOW) private readonly window: Window,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly renderer: Renderer2,
     private readonly el: ElementRef<HTMLElement>,
     private readonly ngZone: NgZone,
   ) {
-    this.loop = this.window.requestAnimationFrame.bind(this);
-    this.clearLoop = this.window.cancelAnimationFrame.bind(this);
     this.options = {
       round: true,
       vertical: true,
@@ -93,25 +93,33 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       relativeToWrapper: this.relativeToWrapper,
       wrapperSelector: this.wrapper,
     };
+    if (isPlatformBrowser(this.platformId)) {
+      this.loop = this.window.requestAnimationFrame.bind(this);
+      this.clearLoop = this.window.cancelAnimationFrame.bind(this);
+    }
   }
 
   public ngOnInit(): void {
-    const w = this.document.querySelector(this.wrapper);
-    if (w !== null) {
-      this.options.wrapper = w as HTMLElement;
-    }
+    if (isPlatformBrowser(this.platformId)) {
+      const w = this.document.querySelector(this.wrapper);
+      if (w !== null) {
+        this.options.wrapper = w as HTMLElement;
+      }
 
-    this.clamp(this.options.speed, -10, 10);
+      this.clamp(this.options.speed, -10, 10);
+    }
   }
 
   public ngAfterViewInit(): void {
-    const target = this.el.nativeElement.querySelector('img');
-    if (target !== null) {
-      this.subscription = fromEvent(target, 'load').subscribe(() => {
-        this.ngZone.runOutsideAngular(() => {
-          this.init();
+    if (isPlatformBrowser(this.platformId)) {
+      const target = this.el.nativeElement.querySelector('img');
+      if (target !== null) {
+        this.subscription = fromEvent(target, 'load').subscribe(() => {
+          this.ngZone.runOutsideAngular(() => {
+            this.init();
+          });
         });
-      });
+      }
     }
   }
 
@@ -287,11 +295,13 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       (this.options.wrapper ?? this.document).removeEventListener('touchmove', this.du);
     }
     // loop again
-    this.loopId = this.loop(this.update.bind(this));
+    if (this.loop) {
+      this.loopId = this.loop(this.update.bind(this));
+    }
   }
 
   public update(): void {
-    if (this.setPosition() && !this.pause) {
+    if (this.setPosition() && !this.pause && this.loop) {
       this.animate();
 
       // loop again
@@ -370,7 +380,9 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // Clear the animation loop to prevent possible memory leak
-    this.clearLoop(this.loopId);
+    if (this.clearLoop) {
+      this.clearLoop(this.loopId);
+    }
     this.loopId = 0;
   }
 

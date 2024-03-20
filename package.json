@@ -56,7 +56,7 @@
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
     "@angular/language-service": "^17.3.0",
-    "@cloudflare/workers-types": "^4.20240222.0",
+    "@cloudflare/workers-types": "^4.20240314.0",
     "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@miniflare/tre": "^3.0.0-next.14",
     "@relative-ci/agent": "^4.2.5",
@@ -102,6 +102,6 @@
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
-    "wrangler": "^3.32.0"
+    "wrangler": "^3.34.2"
   }
 }

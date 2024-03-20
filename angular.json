@@ -46,11 +46,6 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               {
-                "glob": ".htaccess",
-                "input": "src/assets",
-                "output": "./"
-              },
-              {
                 "glob": "robots.txt",
                 "input": "src/assets",
                 "output": "./"
@@ -66,11 +61,6 @@
               "src/_routes.json"
             ],
             "styles": [
-              {
-                "input": "src/styles/pre-bootstrap.scss",
-                "bundleName": "pre-bootstrap",
-                "inject": true
-              },
               {
                 "input": "src/styles/main.scss",
                 "bundleName": "styles",
@@ -92,7 +82,10 @@
             },
             "serviceWorker": "ngsw-config.json",
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": {
+              "discoverRoutes": false,
+              "routesFile": "routes.txt"
+            },
             "ssr": {
               "entry": "server.ts"
             }
@@ -125,12 +118,12 @@
                 },
                 "fonts": true,
                 "scripts": true
-              }
+              },
+              "sourceMap": true
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"

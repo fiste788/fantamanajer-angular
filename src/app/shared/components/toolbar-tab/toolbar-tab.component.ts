@@ -1,13 +1,15 @@
 import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ApplicationRef,
   Component,
+  Inject,
   Injector,
   Input,
   OnDestroy,
+  PLATFORM_ID,
   input,
   viewChild,
 } from '@angular/core';
@@ -46,17 +48,20 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
   private portalHost?: PortalOutlet;
 
   constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
     private readonly transitionService: CurrentTransitionService,
   ) {}
 
   public ngAfterViewInit(): void {
-    // Create a portalHost from a DOM element
-    const element = document.querySelector('#toolbar-tab-container');
-    if (element) {
-      this.portalHost = new DomPortalOutlet(element, undefined, this.appRef, this.injector);
-      this.portalHost.attach(this.portal());
+    if (isPlatformBrowser(this.platformId)) {
+      // Create a portalHost from a DOM element
+      const element = document.querySelector('#toolbar-tab-container');
+      if (element) {
+        this.portalHost = new DomPortalOutlet(element, undefined, this.appRef, this.injector);
+        this.portalHost.attach(this.portal());
+      }
     }
   }
 

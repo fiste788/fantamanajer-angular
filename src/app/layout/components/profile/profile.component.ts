@@ -15,7 +15,7 @@ import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Team } from '@data/types';
-import { TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
+import { TeamEditModal, TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
 
 import { LayoutService } from '../../services';
 
@@ -66,14 +66,12 @@ export class ProfileComponent {
   protected async openDialog(event: Event, team: Team): Promise<boolean | undefined> {
     event.stopPropagation();
 
-    const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
-
     return firstValueFrom(
       this.app.matchday$.pipe(
         first(),
         switchMap((m) =>
           this.dialog
-            .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
+            .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team, showChangeTeamName: m.number <= 38 },
             })
             .afterClosed(),

@@ -6,13 +6,32 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { renderApplication } from '@angular/platform-server';
 
-import { REQUEST } from '@app/tokens';
+import { REQUEST, RESPONSE_INIT_OPTIONS } from '@app/tokens';
 
 import bootstrap from './src/main.server';
 
 interface Env {
   ASSETS: { fetch: typeof fetch };
   API?: { fetch: typeof fetch };
+}
+
+async function getSSGPage(url: URL, env: Env): Promise<Response | undefined> {
+  try {
+    const path = url.pathname === '/' || url.pathname === '' ? '/home' : url.pathname;
+    const ssg = `/ssg${path}/index.html`;
+    const asset = await env.ASSETS.fetch(new URL(ssg, url));
+    console.log(asset);
+    if (asset.status === 200) {
+      const resp = new Response(asset.body, asset);
+      resp.headers.append('ssg', '1');
+
+      return resp;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return undefined;
 }
 
 // We attach the Cloudflare `fetch()` handler to the global scope
@@ -25,23 +44,9 @@ async function workerFetchHandler(request: Request, env: Env) {
     return env.API?.fetch(request);
   }
 
-  try {
-    const path = url.pathname === '/' || url.pathname === '' ? '/home' : url.pathname;
-    const ssg = `/ssg${path}/index.html`;
-    console.log(`try to fetch asset`, ssg);
-
-    const asset = await env.ASSETS.fetch(new URL(ssg, url));
-    console.log(asset);
-    if (asset.status === 200) {
-      console.log('render SSG');
-
-      const resp = new Response(asset.body, asset);
-      resp.headers.append('ssg', '1');
-
-      return resp;
-    }
-  } catch (error) {
-    console.error(error);
+  const ssgPage = await getSSGPage(url, env);
+  if (ssgPage !== undefined) {
+    return ssgPage;
   }
 
   console.log('render SSR', url.href);
@@ -58,6 +63,10 @@ async function workerFetchHandler(request: Request, env: Env) {
       {
         provide: REQUEST,
         useValue: request,
+      },
+      {
+        provide: RESPONSE_INIT_OPTIONS,
+        useValue: indexResponse,
       },
     ],
   });

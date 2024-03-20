@@ -16,7 +16,7 @@ if (!fs.existsSync(ssg)) {
 const routes = JSON.parse(data).routes;
 routes
   .map((r) => (r.indexOf('/', 2) > 0 ? undefined : r.substring(1)))
-  .filter((r) => r !== undefined)
+  .filter((r) => r !== undefined && r !== '/' && r !== '')
   .forEach((path) => {
     fs.renameSync(join(cloudflare, path), join(ssg, path));
   });
