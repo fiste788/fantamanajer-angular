@@ -6,6 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { renderApplication } from '@angular/platform-server';
 
+import { ServerAuthInfo } from '@app/authentication';
 import { REQUEST, RESPONSE_INIT_OPTIONS } from '@app/tokens';
 
 import bootstrap from './src/main.server';
@@ -34,6 +35,17 @@ async function getSSGPage(url: URL, env: Env): Promise<Response | undefined> {
   return undefined;
 }
 
+async function setServerAuthentication(request: Request) {
+  const body = (await request.json()) as ServerAuthInfo;
+  // notice the HttpOnly
+  const response = new Response(undefined);
+  const newCookie = `${body.cookieName}=${JSON.stringify(body)}; path=/; SameSite=lax; expires=${new Date(body.expiresAt).toUTCString()}`;
+  response.headers.set('Set-Cookie', newCookie);
+
+  // silence is gold
+  return response;
+}
+
 // We attach the Cloudflare `fetch()` handler to the global scope
 // so that we can export it when we process the Angular output.
 // See tools/bundle.mjs
@@ -42,6 +54,13 @@ async function workerFetchHandler(request: Request, env: Env) {
 
   if (url.pathname.startsWith('/api/')) {
     return env.API?.fetch(request);
+  }
+
+  if (url.pathname.startsWith('/localdata/setsession')) {
+    console.log('set server authentication');
+    const resp = await setServerAuthentication(request);
+
+    return resp;
   }
 
   const ssgPage = await getSSGPage(url, env);

@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ServerAuthInfo } from '@app/authentication';
 import { noErrorIt } from '@app/errors/http-error.interceptor';
+import { noAuthIt, noPrefixIt } from '@app/interceptors';
 
 import { User } from '../types';
 
@@ -13,6 +15,7 @@ const routes = {
   login: `/${url}/login`,
   logout: `/${url}/logout`,
   update: (id: number) => `/${url}/${id}`,
+  local: 'localdata/setsession',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -45,5 +48,11 @@ export class UserService {
 
   public getCurrent(): Observable<User> {
     return this.http.get<User>(routes.current);
+  }
+
+  public setLocalSession(data: ServerAuthInfo): Observable<User> {
+    return this.http
+      .post<Record<string, never>>(routes.local, data, { context: noPrefixIt(noAuthIt()) })
+      .pipe(map(() => data.user!));
   }
 }
