@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
-import { LocalStorage } from '@app/types/local-storage';
-
-import { ApplicationService } from './application.service';
+import { CookieStorage } from './cookie-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +9,13 @@ import { ApplicationService } from './application.service';
 export class LocalstorageService implements Storage {
   [name: string]: unknown;
   public length = 0;
-  private storage: Storage;
+  private readonly storage: Storage;
 
-  constructor() {
-    this.storage = new LocalStorage();
-
-    void ApplicationService.isBrowser.subscribe((isBrowser) => {
-      if (isBrowser) {
-        this.storage = localStorage;
-      }
-    });
+  constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly cookieStorage: CookieStorage,
+  ) {
+    this.storage = isPlatformBrowser(this.platformId) ? localStorage : this.cookieStorage;
   }
 
   public clear(): void {

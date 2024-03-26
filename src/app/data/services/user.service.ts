@@ -15,7 +15,8 @@ const routes = {
   login: `/${url}/login`,
   logout: `/${url}/logout`,
   update: (id: number) => `/${url}/${id}`,
-  local: 'localdata/setsession',
+  setCookie: 'localdata/setsession',
+  deleteCookie: 'localdata/logout',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -50,9 +51,15 @@ export class UserService {
     return this.http.get<User>(routes.current);
   }
 
-  public setLocalSession(data: ServerAuthInfo): Observable<User> {
-    return this.http
-      .post<Record<string, never>>(routes.local, data, { context: noPrefixIt(noAuthIt()) })
-      .pipe(map(() => data.user!));
+  public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
+    return this.http.post<Record<string, never>>(routes.setCookie, data, {
+      context: noPrefixIt(noAuthIt()),
+    });
+  }
+
+  public deleteLocalSession(): Observable<Record<string, never>> {
+    return this.http.post<Record<string, never>>(routes.deleteCookie, undefined, {
+      context: noPrefixIt(noAuthIt()),
+    });
   }
 }

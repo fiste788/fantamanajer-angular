@@ -1,3 +1,4 @@
+import { isPlatformServer } from '@angular/common';
 import {
   HttpContext,
   HttpContextToken,
@@ -6,6 +7,7 @@ import {
   HttpResponse,
   HttpInterceptorFn,
 } from '@angular/common/http';
+import { PLATFORM_ID, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { ApiResponse } from '@data/types';
@@ -14,8 +16,8 @@ import { environment } from '@env';
 const NO_PREFIX_IT = new HttpContextToken<boolean>(() => false);
 const NO_HEADERS_IT = new HttpContextToken<boolean>(() => false);
 
-function setPrefix(req: HttpRequest<unknown>): HttpRequest<unknown> {
-  const url = req.url.startsWith('../') ? req.url : environment.apiEndpoint + req.url;
+function setPrefix(req: HttpRequest<unknown>, prefix: string): HttpRequest<unknown> {
+  const url = req.url.endsWith('.svg') ? req.url : prefix + req.url;
 
   return req.clone({
     url,
@@ -45,7 +47,8 @@ function setHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
 export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
   let newReq = req;
   if (!req.context.get(NO_PREFIX_IT)) {
-    newReq = setPrefix(newReq);
+    const isServer = isPlatformServer(inject(PLATFORM_ID));
+    newReq = setPrefix(newReq, isServer ? environment.serverApiEndpoint : environment.apiEndpoint);
   }
   if (!req.context.get(NO_HEADERS_IT)) {
     newReq = setHeaders(newReq);

@@ -7,4 +7,4 @@ export const client = path.resolve(root, 'dist/browser');
 export const ssr = path.resolve(root, 'dist/server');
 export const cloudflare = path.resolve(root, 'dist/cloudflare');
 export const worker = path.resolve(cloudflare, '_worker.js');
-export const ssg = path.resolve(cloudflare, 'ssg');
+export const ssg = path.resolve(cloudflare, 'static');

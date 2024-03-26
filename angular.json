@@ -82,10 +82,7 @@
             },
             "serviceWorker": "ngsw-config.json",
             "server": "src/main.server.ts",
-            "prerender": {
-              "discoverRoutes": false,
-              "routesFile": "routes.txt"
-            },
+            "prerender": false,
             "ssr": {
               "entry": "server.ts"
             }

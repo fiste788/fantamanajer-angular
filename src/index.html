@@ -140,7 +140,7 @@
   >
   <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.head.insertAdjacentHTML('beforeend', '<link media="print" id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '.css" onload="this.media=\'all\'">');
+    document.head.insertAdjacentHTML('beforeend', '<link id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '.css">');
   </script>
   <noscript>
     <link

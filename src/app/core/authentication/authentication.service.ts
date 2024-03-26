@@ -1,23 +1,19 @@
-import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
-import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
 import { LocalstorageService } from '@app/services/local-storage.service';
-import { REQUEST } from '@app/tokens';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
 import { TokenStorageService } from './token-storage.service';
 
 export interface ServerAuthInfo {
-  user?: User;
   accessToken: string;
   expiresAt: number;
-  cookieName: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -29,7 +25,6 @@ export class AuthenticationService {
   public user$: Observable<User | undefined>;
   public requireUser$: Observable<User>;
   public loggedIn$: Observable<boolean>;
-  public info?: ServerAuthInfo;
 
   private readonly jwtHelper = new JwtHelperService();
   private readonly adminRole = 'ROLE_ADMIN';
@@ -41,13 +36,10 @@ export class AuthenticationService {
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
     private readonly localStorage: LocalstorageService,
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    @Optional() @Inject(REQUEST) private readonly request?: Request,
   ) {
     this.user$ = this.userSubject.asObservable();
     this.requireUser$ = this.user$.pipe(filterNil());
     this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
-    this.info = this.getUserFromCookie();
     if (this.tokenStorageService.token && !this.loggedIn()) {
       void this.logout();
     }
@@ -86,11 +78,10 @@ export class AuthenticationService {
       user.roles = this.getRoles(user);
       if (token) {
         this.tokenStorageService.setToken(token);
-        this.setCookie(this.prepSetSession(user, token));
       }
       this.userSubject.next(user);
 
-      await firstValueFrom(this.userService.setLocalSession(this.prepSetSession(user, token)));
+      await firstValueFrom(this.userService.setLocalSession(this.prepSetSession(token)));
 
       return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
     }
@@ -99,10 +90,9 @@ export class AuthenticationService {
   }
 
   public async logout(): Promise<void> {
-    this.deleteCookie();
-
     return firstValueFrom(
       this.userService.logout().pipe(
+        switchMap(() => this.userService.deleteLocalSession()),
         catchError(() => EMPTY),
         map(() => this.logoutUI()),
       ),
@@ -120,7 +110,7 @@ export class AuthenticationService {
   public loggedIn(): boolean {
     return !this.jwtHelper.isTokenExpired(
       // eslint-disable-next-line unicorn/no-null
-      this.info?.accessToken ?? this.tokenStorageService.token ?? null,
+      this.tokenStorageService.token ?? null,
     );
   }
 
@@ -129,7 +119,7 @@ export class AuthenticationService {
   }
 
   public getCurrentUser(): Observable<User> {
-    return (this.info ? of(this.info.user!) : this.userService.getCurrent()).pipe(
+    return this.userService.getCurrent().pipe(
       tap((user) => {
         this.userSubject.next(user);
       }),
@@ -156,72 +146,10 @@ export class AuthenticationService {
     return roles;
   }
 
-  private prepSetSession(user: User, token: string): ServerAuthInfo {
-    // in real life, return only information the server might need
-    user.teams?.splice(1);
-
+  private prepSetSession(token: string): ServerAuthInfo {
     return {
-      user,
       accessToken: token,
       expiresAt: this.jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
-      cookieName: 'CrCookie', // this better be saved in external config
     };
-  }
-
-  private getUserFromCookie(): ServerAuthInfo | undefined {
-    if (isPlatformServer(this.platformId) && this.request) {
-      const serverCookie = this.request.headers.get('Cookie') ?? '';
-      const userCookie = this.getCookie(serverCookie, 'CrCookie');
-      if (userCookie) {
-        try {
-          const info = JSON.parse(userCookie) as ServerAuthInfo;
-
-          return info;
-        } catch {
-          // silence
-        }
-      }
-    }
-
-    return undefined;
-  }
-
-  private getCookie(cookies: string, name: string): string | undefined {
-    const nameLenPlus = name.length + 1;
-
-    return (
-      cookies
-        .split(';')
-        .map((c) => c.trim())
-        .filter((cookie) => {
-          return cookie.slice(0, Math.max(0, nameLenPlus)) === `${name}=`;
-        })
-        .map((cookie) => {
-          return decodeURIComponent(cookie.slice(Math.max(0, nameLenPlus)));
-        })[0] ?? undefined
-    );
-  }
-
-  private setCookie(user: ServerAuthInfo) {
-    // save cookie with user, be selective in real life as to what to save in cookie
-    let cookieStr = `${encodeURIComponent(user.cookieName)}=${encodeURIComponent(JSON.stringify(user))}`;
-
-    // use expiration tp expire the cookie
-    const dtExpires = new Date(user.expiresAt);
-
-    cookieStr += `;expires=${dtExpires.toUTCString()}`;
-    cookieStr += ';path=/';
-    // some good security measures:
-    cookieStr += ';samesite=lax';
-    // when in production
-    // cookieStr += ';secure';
-
-    // be strong:
-    document.cookie = cookieStr;
-  }
-
-  private deleteCookie(): void {
-    // void accessToken but more importantly expire
-    this.setCookie({ accessToken: '', expiresAt: 0, cookieName: 'CrCookie' });
   }
 }

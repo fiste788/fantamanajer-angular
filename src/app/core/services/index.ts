@@ -1,5 +1,7 @@
 export * from './application.service';
+export * from './cookie-storage.service';
 export * from './current-transition.service';
+export * from './icon.service';
 export * from './local-storage.service';
 export * from './native-navigator.service';
 export * from './native-window.service';

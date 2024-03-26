@@ -1,8 +1,9 @@
-import { ApplicationRef, Inject, Injectable, NgZone } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ApplicationRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { Observable, Subscription, timer } from 'rxjs';
-import { filter, map, switchMap, first } from 'rxjs/operators';
+import { Observable, Subscription, timer, fromEvent } from 'rxjs';
+import { filter, map, switchMap, first, tap } from 'rxjs/operators';
 
 import { WINDOW } from './window.service';
 
@@ -10,23 +11,26 @@ import { WINDOW } from './window.service';
   providedIn: 'root',
 })
 export class PwaService {
-  public readonly beforeInstall$!: Observable<BeforeInstallPromptEvent>;
+  public readonly beforeInstall$?: Observable<BeforeInstallPromptEvent>;
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly snackBar: MatSnackBar,
     private readonly swUpdate: SwUpdate,
     private readonly zone: NgZone,
     private readonly appRef: ApplicationRef,
   ) {
-    // this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
-    //   this.window,
-    //   'beforeinstallprompt',
-    // ).pipe(
-    //   tap((e) => {
-    //     e.preventDefault();
-    //   }),
-    // );
+    if (isPlatformBrowser(this.platformId)) {
+      this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
+        this.window,
+        'beforeinstallprompt',
+      ).pipe(
+        tap((e) => {
+          e.preventDefault();
+        }),
+      );
+    }
   }
 
   public init(): Observable<void> {
