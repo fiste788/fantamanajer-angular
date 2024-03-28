@@ -1,6 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
@@ -11,6 +10,7 @@ import {
   OnInit,
   PLATFORM_ID,
   Renderer2,
+  afterNextRender,
   booleanAttribute,
   numberAttribute,
 } from '@angular/core';
@@ -50,7 +50,7 @@ interface Block {
   selector: '[appRellax]',
   standalone: true,
 })
-export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
+export class RellaxDirective implements OnInit, OnDestroy {
   @HostBinding('style.will-change') public will = 'transform';
   // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   @Input({ transform: numberAttribute }) public speed = -3;
@@ -72,8 +72,8 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
   private du?: () => void;
   private handler?: () => void;
 
-  private readonly loop?: (callback: FrameRequestCallback) => number;
-  private readonly clearLoop?: (handle: number) => void;
+  private loop?: (callback: FrameRequestCallback) => number;
+  private clearLoop?: (handle: number) => void;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
@@ -93,10 +93,19 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       relativeToWrapper: this.relativeToWrapper,
       wrapperSelector: this.wrapper,
     };
-    if (isPlatformBrowser(this.platformId)) {
+    afterNextRender(() => {
       this.loop = this.window.requestAnimationFrame.bind(this);
       this.clearLoop = this.window.cancelAnimationFrame.bind(this);
-    }
+
+      const target = this.el.nativeElement.querySelector('img');
+      if (target !== null) {
+        this.subscription = fromEvent(target, 'load').subscribe(() => {
+          this.ngZone.runOutsideAngular(() => {
+            this.init();
+          });
+        });
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -107,19 +116,6 @@ export class RellaxDirective implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.clamp(this.options.speed, -10, 10);
-    }
-  }
-
-  public ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const target = this.el.nativeElement.querySelector('img');
-      if (target !== null) {
-        this.subscription = fromEvent(target, 'load').subscribe(() => {
-          this.ngZone.runOutsideAngular(() => {
-            this.init();
-          });
-        });
-      }
     }
   }
 

@@ -44,19 +44,47 @@ function setHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
   });
 }
 
+function logRequestTime(
+  request: HttpRequest<unknown>,
+  response: HttpResponse<unknown>,
+  startTime: Date,
+): Record<string, Date | number | string> | undefined {
+  if (!request.url) {
+    return undefined;
+  }
+  const endTime: Date = new Date();
+  const duration: number = endTime.valueOf() - startTime.valueOf();
+
+  return {
+    duration,
+    startTime,
+    endTime,
+    params: request.params.toString(),
+    method: request.method,
+    requestUrl: request.url,
+    // this is useful in cases of redirects
+    responseUrl: response.url ?? '',
+  };
+}
+
 export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
   let newReq = req;
+  const isServer = isPlatformServer(inject(PLATFORM_ID));
   if (!req.context.get(NO_PREFIX_IT)) {
-    const isServer = isPlatformServer(inject(PLATFORM_ID));
     newReq = setPrefix(newReq, isServer ? environment.serverApiEndpoint : environment.apiEndpoint);
   }
   if (!req.context.get(NO_HEADERS_IT)) {
     newReq = setHeaders(newReq);
   }
+  const startTime = new Date();
 
   return next(newReq).pipe(
     map((event: HttpEvent<unknown>) => {
       if (event instanceof HttpResponse) {
+        if (isServer) {
+          // eslint-disable-next-line no-console
+          console.log(logRequestTime(req, event, startTime));
+        }
         const body = event.body as ApiResponse | null;
         if (body && (!req.params.has('page') || body.pagination === undefined)) {
           return event.clone({
@@ -69,6 +97,7 @@ export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
     }),
   );
 };
+
 export function noHeadersIt(context?: HttpContext): HttpContext {
   return (context ?? new HttpContext()).set(NO_HEADERS_IT, true);
 }

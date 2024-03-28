@@ -70,7 +70,7 @@ export const appConfig: ApplicationConfig = {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
       useValue() {
-        //const pwa = inject(PwaService);
+        // const pwa = inject(PwaService);
         const push = inject(PushService);
         const theme = inject(ThemeService);
 

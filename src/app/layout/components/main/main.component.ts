@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass, isPlatformBrowser } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ApplicationRef,
@@ -11,8 +11,8 @@ import {
   Inject,
   NgZone,
   OnDestroy,
-  PLATFORM_ID,
   ViewChild,
+  afterNextRender,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
@@ -79,7 +79,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
-    @Inject(PLATFORM_ID) private readonly platformId: string,
     public readonly app: ApplicationRef,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
@@ -94,15 +93,16 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.isOpen$ = this.isOpenObservable();
     this.showedSpeedDial$ = this.isShowedSpeedDial();
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
-  }
 
-  public ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    afterNextRender(() => {
       this.drawer!._content.nativeElement.parentElement!.style.display = 'block';
       if (this.container) {
         this.setupScrollAnimation(this.window);
       }
-    }
+    });
+  }
+
+  public ngAfterViewInit(): void {
     // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());

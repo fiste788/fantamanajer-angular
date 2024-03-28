@@ -1,15 +1,14 @@
 import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import { AsyncPipe, NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
 import {
-  AfterViewInit,
   ApplicationRef,
   Component,
   Inject,
   Injector,
   Input,
   OnDestroy,
-  PLATFORM_ID,
+  afterNextRender,
   input,
   viewChild,
 } from '@angular/core';
@@ -40,7 +39,7 @@ import { StatePipe } from '@shared/pipes';
     NgClass,
   ],
 })
-export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
+export class ToolbarTabComponent implements OnDestroy {
   @Input() public fragment?: string;
   public tabs = input([] as Array<Tab>);
   protected portal = viewChild.required(CdkPortal);
@@ -48,21 +47,19 @@ export class ToolbartTabComponent implements AfterViewInit, OnDestroy {
   private portalHost?: PortalOutlet;
 
   constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
+    @Inject(DOCUMENT) private readonly document: Document,
     private readonly injector: Injector,
     private readonly appRef: ApplicationRef,
     private readonly transitionService: CurrentTransitionService,
-  ) {}
-
-  public ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+  ) {
+    afterNextRender(() => {
       // Create a portalHost from a DOM element
-      const element = document.querySelector('#toolbar-tab-container');
+      const element = this.document.querySelector('#toolbar-tab-container');
       if (element) {
         this.portalHost = new DomPortalOutlet(element, undefined, this.appRef, this.injector);
         this.portalHost.attach(this.portal());
       }
-    }
+    });
   }
 
   public ngOnDestroy(): void {

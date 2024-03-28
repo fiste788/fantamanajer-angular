@@ -2,7 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 
 import { Club } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components';
-import { ToolbartTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
+import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 import { LayoutService } from 'src/app/layout/services';
 
 @Component({
@@ -10,7 +10,7 @@ import { LayoutService } from 'src/app/layout/services';
   styleUrls: ['./club-detail.page.scss'],
   templateUrl: './club-detail.page.html',
   standalone: true,
-  imports: [ParallaxHeaderComponent, ToolbartTabComponent],
+  imports: [ParallaxHeaderComponent, ToolbarTabComponent],
 })
 export class ClubDetailPage {
   @Input({ required: true }) protected club!: Club;
