@@ -55,6 +55,8 @@
 
 ::view-transition-image-pair(banner-img) {
   isolation: none;
+  overflow: hidden;
+  border-radius: var(--mdc-outlined-card-container-shape, 12px);
 }
 
 @keyframes fade-in {
