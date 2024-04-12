@@ -18,7 +18,7 @@ interface Data {
   membersByRole: Map<Role, Array<Member>>;
 }
 @Component({
-  styleUrls: ['./edit-members.page.scss'],
+  styleUrl: './edit-members.page.scss',
   templateUrl: './edit-members.page.html',
   standalone: true,
   imports: [

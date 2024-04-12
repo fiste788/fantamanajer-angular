@@ -32,7 +32,7 @@ interface BestPlayer {
 @Component({
   animations: [cardCreationAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./home.page.scss'],
+  styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
   standalone: true,
   imports: [

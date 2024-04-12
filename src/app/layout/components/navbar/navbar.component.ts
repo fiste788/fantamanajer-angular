@@ -22,7 +22,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 @Component({
   animations: [closeAnimation],
   selector: 'app-navbar[sidenav]',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrl: './navbar.component.scss',
   templateUrl: './navbar.component.html',
   standalone: true,
   imports: [

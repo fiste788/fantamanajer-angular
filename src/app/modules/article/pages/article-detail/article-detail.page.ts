@@ -14,7 +14,7 @@ import { ArticleService } from '@data/services';
 import { Article } from '@data/types';
 
 @Component({
-  styleUrls: ['./article-detail.page.scss'],
+  styleUrl: './article-detail.page.scss',
   templateUrl: './article-detail.page.html',
   standalone: true,
   imports: [NgIf, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],

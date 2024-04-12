@@ -3,6 +3,7 @@ export * from './cookie-storage.service';
 export * from './current-transition.service';
 export * from './icon.service';
 export * from './local-storage.service';
+export * from './meta.service';
 export * from './native-navigator.service';
 export * from './native-window.service';
 export * from './navigator.service';

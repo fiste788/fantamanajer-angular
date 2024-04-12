@@ -26,11 +26,12 @@ import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
   PushService,
-  ThemeService,
   appInitializerProvider,
   NAVIGATOR_PROVIDERS,
   WINDOW_PROVIDERS,
   IconService,
+  PwaService,
+  MetaService,
 } from '@app/services';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
@@ -55,7 +56,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     provideServiceWorker('ngsw-worker.js', {
-      enabled: false && !isDevMode(),
+      enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
     importProvidersFrom(MatSnackBarModule),
@@ -70,18 +71,19 @@ export const appConfig: ApplicationConfig = {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,
       useValue() {
-        // const pwa = inject(PwaService);
+        const pwa = inject(PwaService);
         const push = inject(PushService);
-        const theme = inject(ThemeService);
+        // const theme = inject(ThemeService);
 
         inject(ApplicationService).connect();
+        inject(MetaService).connect();
         inject(BreadcrumbService).connect('FantaManajer');
         inject(IconService).init();
         void inject(LayoutService).init().subscribe();
         if (isPlatformBrowser(inject(PLATFORM_ID))) {
-          // pwa.connect();
+          pwa.connect();
           push.connect();
-          theme.connect();
+          // theme.connect();
         }
       },
     },

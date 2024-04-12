@@ -1,13 +1,27 @@
 @use '@angular/material-experimental' as matx;
 @use 'app/app';
 @use 'main/main';
+@use 'themes/light/color' as light-color;
+@use 'themes/light/styles' as light-styles;
+@use 'themes/dark/color' as dark-color;
+@use 'themes/dark/styles' as dark-styles;
 
 $theme: matx.define-theme(
   (
     typography: (
-      plain-family: "'Exo 2'",
-      brand-family: "'Exo 2'",
+      plain-family: "'Exo 2', sans-serif",
+      brand-family: "'Exo 2', sans-serif",
     ),
+  )
+);
+$light-theme: matx.define-theme(
+  (
+    color: light-color.$color,
+  )
+);
+$dark-theme: matx.define-theme(
+  (
+    color: dark-color.$color,
   )
 );
 
@@ -22,4 +36,16 @@ $theme: matx.define-theme(
   @include app.base($theme);
   @include app.density($theme);
   @include app.typography($theme);
+
+  @media (prefers-color-scheme: light) {
+    @include main.color($light-theme);
+    @include app.color($light-theme);
+    @include light-styles.styles($light-theme);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @include main.color($dark-theme);
+    @include app.color($dark-theme);
+    @include dark-styles.styles($dark-theme);
+  }
 }

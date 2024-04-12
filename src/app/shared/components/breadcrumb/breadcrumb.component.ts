@@ -42,7 +42,7 @@ const breadcrumbTransition = trigger('breadcrumbTransition', [
   animations: [breadcrumbTransition],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-breadcrumb',
-  styleUrls: ['./breadcrumb.component.scss'],
+  styleUrl: './breadcrumb.component.scss',
   templateUrl: './breadcrumb.component.html',
   standalone: true,
   imports: [NgIf, NgFor, MatIconModule, RouterLink, AsyncPipe],

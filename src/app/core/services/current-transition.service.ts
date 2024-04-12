@@ -96,7 +96,7 @@ export class CurrentTransitionService {
       return isSameContext;
     }
 
-    return false;
+    return true;
     // return outlet.isActivated ? transitionName : '';
   }
 

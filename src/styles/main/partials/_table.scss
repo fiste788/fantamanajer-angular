@@ -118,6 +118,10 @@
 }
 
 @mixin typography($theme) {
+  .mat-column-player,
+  .mat-column-points {
+    font-weight: 500;
+  }
 }
 
 @mixin theme($theme) {

@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mat-empty-state[label][icon]',
-  styleUrls: ['./mat-empty-state.component.scss'],
+  styleUrl: './mat-empty-state.component.scss',
   templateUrl: './mat-empty-state.component.html',
   standalone: true,
   imports: [NgIf, MatIconModule],

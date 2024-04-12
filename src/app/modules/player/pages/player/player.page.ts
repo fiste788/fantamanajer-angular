@@ -25,7 +25,7 @@ import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
-  styleUrls: ['./player.page.scss'],
+  styleUrl: './player.page.scss',
   templateUrl: './player.page.html',
   standalone: true,
   imports: [

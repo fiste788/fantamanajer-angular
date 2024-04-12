@@ -9,7 +9,7 @@ import { Member, Team } from '@data/types';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 
 @Component({
-  styleUrls: ['./team-members.page.scss'],
+  styleUrl: './team-members.page.scss',
   templateUrl: './team-members.page.html',
   standalone: true,
   imports: [NgIf, MemberListComponent],

@@ -28,13 +28,26 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
-    "lib": ["ES2022", "dom"],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "paths": {
-      "@app/*": ["src/app/core/*"],
-      "@modules/*": ["src/app/modules/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@env": ["src/environments/environment"],
-      "@data/*": ["src/app/data/*"]
+      "@app/*": [
+        "src/app/core/*"
+      ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@env": [
+        "src/environments/environment"
+      ],
+      "@data/*": [
+        "src/app/data/*"
+      ]
     },
     "useDefineForClassFields": false
   },
@@ -60,5 +73,8 @@
         "invalidBananaInBox": "error"
       }
     }
-  }
+  },
+  "ts-node": {
+    "esm": true, // «———— enabling ESM for ts-node
+  },
 }

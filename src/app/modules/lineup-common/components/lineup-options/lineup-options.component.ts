@@ -16,7 +16,7 @@ import { LineupService } from '../lineup.service';
 @Component({
   selector: 'app-lineup-options[lineup]',
   templateUrl: './lineup-options.component.html',
-  styleUrls: ['./lineup-options.component.scss'],
+  styleUrl: './lineup-options.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [

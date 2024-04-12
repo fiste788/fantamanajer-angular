@@ -1,6 +1,12 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
+  .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: nowrap;
+  }
+}
+
+@mixin color($theme) {
   .inherit-color {
     .mat-mdc-select-arrow,
     .mat-mdc-form-field-label,
@@ -10,9 +16,6 @@
       color: inherit;
     }
   }
-}
-
-@mixin color($theme) {
 }
 
 @mixin density($theme) {

@@ -7,7 +7,7 @@ import { Team } from '@data/types';
 import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
-  styleUrls: ['./team-stream.page.scss'],
+  styleUrl: './team-stream.page.scss',
   templateUrl: './team-stream.page.html',
   standalone: true,
   imports: [NgIf, StreamComponent, AsyncPipe],

@@ -76,7 +76,7 @@ async function workerFetchHandler(request: Request, env: Env) {
   const startAt = new Date();
 
   // Get the root `index.html` content.
-  const indexUrl = new URL('/', url);
+  const indexUrl = new URL('/index.html.html', url);
   const indexResponse = await env.ASSETS.fetch(new Request(indexUrl));
   const document = await indexResponse.text();
 

@@ -7,7 +7,7 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
 @Component({
   animations: [createBoxAnimation],
   selector: 'app-notification-list',
-  styleUrls: ['./notification-list.component.scss'],
+  styleUrl: './notification-list.component.scss',
   templateUrl: './notification-list.component.html',
   standalone: true,
 })

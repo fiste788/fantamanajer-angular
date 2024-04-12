@@ -25,7 +25,7 @@ import { NotificationComponent } from '../notification/notification.component';
   animations: [scrollUpAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-toolbar',
-  styleUrls: ['./toolbar.component.scss'],
+  styleUrl: './toolbar.component.scss',
   templateUrl: './toolbar.component.html',
   standalone: true,
   imports: [

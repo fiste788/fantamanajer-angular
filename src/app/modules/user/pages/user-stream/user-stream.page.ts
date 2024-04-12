@@ -6,7 +6,7 @@ import { AuthenticationService } from '@app/authentication';
 import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
-  styleUrls: ['./user-stream.page.scss'],
+  styleUrl: './user-stream.page.scss',
   templateUrl: './user-stream.page.html',
   standalone: true,
   imports: [StreamComponent, AsyncPipe],

@@ -28,7 +28,7 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   // providers: [LineupService],
   selector: 'app-lineup-detail',
-  styleUrls: ['./lineup-detail.component.scss'],
+  styleUrl: './lineup-detail.component.scss',
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [cardCreationAnimation],

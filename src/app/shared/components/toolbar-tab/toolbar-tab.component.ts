@@ -24,7 +24,7 @@ import { StatePipe } from '@shared/pipes';
   animations: [trigger('contextChange', routerTransition)],
   selector: 'app-toolbar-tab',
   templateUrl: './toolbar-tab.component.html',
-  styleUrls: ['./toolbar-tab.component.scss'],
+  styleUrl: './toolbar-tab.component.scss',
   standalone: true,
   imports: [
     CdkPortal,

@@ -19,7 +19,7 @@ import { Lineup, Score, Team } from '@data/types';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 
 @Component({
-  styleUrls: ['./score-edit.page.scss'],
+  styleUrl: './score-edit.page.scss',
   templateUrl: './score-edit.page.html',
   standalone: true,
   imports: [

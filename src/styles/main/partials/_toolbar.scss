@@ -38,6 +38,10 @@
   .is-scrolled .mat-toolbar {
     --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
   }
+
+  .mat-drawer .mat-toolbar {
+    background-color: inherit;
+  }
 }
 
 @mixin density($theme) {

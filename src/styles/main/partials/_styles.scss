@@ -1,5 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 @use 'sass:map';
+@use 'sass:string';
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
 
@@ -7,7 +8,6 @@
   body {
     margin: 0;
     height: 100%;
-    font-family: 'Exo 2', sans-serif;
   }
 
   figure {
@@ -24,20 +24,12 @@
     transition: top 0.2s ease-in;
   }
 
-  .mat-drawer .mat-toolbar {
-    background-color: inherit;
-  }
-
   .spacer {
     flex: 1 1 auto;
   }
 
   .mat-mdc-progress-spinner {
     margin: 3rem auto 5rem;
-  }
-
-  .mat-mdc-option .mdc-list-item__primary-text {
-    white-space: nowrap;
   }
 
   a {
@@ -71,7 +63,6 @@
   }
 
   .placeholder {
-    font-size: 2rem;
     display: flex;
     height: 100%;
     align-items: center;
@@ -120,6 +111,13 @@
 }
 
 @mixin typography($theme) {
+  body {
+    font-family: string.unquote(mat.get-theme-typography($theme, body-medium, font-family));
+  }
+
+  .placeholder {
+    font-size: 2rem;
+  }
 }
 
 @mixin theme($theme) {

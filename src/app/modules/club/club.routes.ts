@@ -34,6 +34,10 @@ export default [
           breadcrumbs: (data: { club: Club }): string => `${data.club.name}`,
           state: 'club-outlet',
           exit: true,
+          description: 'Club',
+          ogDescription: 'Club',
+          ogImage: (data: { club: Club }): string => `${data.club.photo_url}`,
+          ogTitle: (data: { club: Club }): string => `${data.club.name}`,
         },
         resolve: {
           club: clubResolver,
@@ -47,7 +51,7 @@ export default [
           {
             path: 'players',
             component: ClubMembersPage,
-            data: { state: 'players' },
+            data: { state: 'players', parent: true },
           },
           {
             path: 'stream',

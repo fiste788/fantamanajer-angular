@@ -9,6 +9,10 @@ export default [
     component: HomePage,
     data: {
       state: 'home',
+      description: "L'app per gestire al meglio la tua lega del fantacalcio",
+      ogDescription: "L'app per gestire al meglio la tua lega del fantacalcio",
+      ogImage: '/assets/icons/icon-180x180.webp',
+      ogTitle: 'FantaManajer',
     },
   },
 ] as Array<Route>;

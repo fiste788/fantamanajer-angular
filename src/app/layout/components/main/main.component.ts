@@ -45,7 +45,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
-  styleUrls: ['./main.component.scss'],
+  styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   standalone: true,
   imports: [

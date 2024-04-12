@@ -36,7 +36,7 @@ import { StreamDataSource } from './stream.datasource';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-stream[context][id]',
-  styleUrls: ['./stream.component.scss'],
+  styleUrl: './stream.component.scss',
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {

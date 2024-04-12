@@ -21,7 +21,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],
-  styleUrls: ['./team-detail.page.scss'],
+  styleUrl: './team-detail.page.scss',
   templateUrl: './team-detail.page.html',
   standalone: true,
   imports: [

@@ -18,7 +18,7 @@ import { Championship, League } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  styleUrls: ['./championship-detail.page.scss'],
+  styleUrl: './championship-detail.page.scss',
   templateUrl: './championship-detail.page.html',
   animations: [cardCreationAnimation],
   standalone: true,

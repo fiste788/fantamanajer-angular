@@ -7,7 +7,7 @@ import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
-  styleUrls: ['./home.page.scss'],
+  styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
   standalone: true,
   imports: [RouterLink, MatCardModule],

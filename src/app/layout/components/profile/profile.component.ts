@@ -15,13 +15,13 @@ import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Team } from '@data/types';
-import { TeamEditModal, TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
+import { TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
 
 import { LayoutService } from '../../services';
 
 @Component({
   selector: 'app-profile[sidenav]',
-  styleUrls: ['./profile.component.scss'],
+  styleUrl: './profile.component.scss',
   templateUrl: './profile.component.html',
   standalone: true,
   imports: [
@@ -66,18 +66,20 @@ export class ProfileComponent {
   protected async openDialog(event: Event, team: Team): Promise<boolean | undefined> {
     event.stopPropagation();
 
+    const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
+
     return firstValueFrom(
       this.app.matchday$.pipe(
         first(),
         switchMap((m) =>
           this.dialog
-            .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
+            .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team, showChangeTeamName: m.number <= 38 },
             })
             .afterClosed(),
         ),
       ),
-      { defaultValue: undefined },
+      { defaultValue: false },
     );
   }
 
