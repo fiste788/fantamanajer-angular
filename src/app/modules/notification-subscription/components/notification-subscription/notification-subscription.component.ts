@@ -20,7 +20,6 @@ import { Notification, notificationSubscriptions } from '../../types';
   standalone: true,
   imports: [MatSlideToggleModule, NgIf, FormsModule, KeyValuePipe, NgFor, MatListModule],
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
-  styleUrls: ['./notification-subscription.component.scss'],
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {

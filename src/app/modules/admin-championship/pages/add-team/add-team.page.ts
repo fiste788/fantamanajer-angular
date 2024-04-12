@@ -16,7 +16,7 @@ import { TeamService } from '@data/services';
 import { Championship, Team } from '@data/types';
 
 @Component({
-  styleUrls: ['./add-team.page.scss'],
+  styleUrl: './add-team.page.scss',
   templateUrl: './add-team.page.html',
   standalone: true,
   imports: [

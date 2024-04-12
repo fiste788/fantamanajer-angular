@@ -11,17 +11,6 @@
   <base href="/">
 
   <link
-    as="image"
-    href="/assets/svg/clubs.svg"
-    rel="preload"
-  >
-  <link
-    as="fetch"
-    crossorigin
-    href="/api/matchdays/current"
-    rel="preload"
-  >
-  <link
     href="//fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0..1,0&family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
   />
@@ -151,7 +140,7 @@
   >
   <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.head.insertAdjacentHTML('beforeend', '<link media="print" id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '.css" onload="this.media=\'all\'">');
+    document.head.insertAdjacentHTML('beforeend', '<link id="main-theme" rel="stylesheet" href="' + (isDark ? 'dark' : 'light') + '.css">');
   </script>
   <noscript>
     <link

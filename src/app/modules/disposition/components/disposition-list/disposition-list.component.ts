@@ -15,7 +15,7 @@ import { CaptainPipe } from '@shared/pipes';
   animations: [tableRowAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-disposition-list[caption]',
-  styleUrls: ['./disposition-list.component.scss'],
+  styleUrl: './disposition-list.component.scss',
   templateUrl: './disposition-list.component.html',
   standalone: true,
   imports: [

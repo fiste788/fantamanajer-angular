@@ -15,7 +15,6 @@ import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   animations: [cardCreationAnimation],
-  styleUrls: ['./article-list.page.scss'],
   templateUrl: './article-list.page.html',
   standalone: true,
   imports: [

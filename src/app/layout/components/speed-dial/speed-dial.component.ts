@@ -15,7 +15,7 @@ import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-speed-dial',
-  styleUrls: ['./speed-dial.component.scss'],
+  styleUrl: './speed-dial.component.scss',
   templateUrl: './speed-dial.component.html',
   standalone: true,
   imports: [

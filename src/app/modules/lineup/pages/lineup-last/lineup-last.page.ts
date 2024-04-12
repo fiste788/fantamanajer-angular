@@ -17,7 +17,7 @@ import { MemberAlreadySelectedValidator } from '@modules/lineup-common/component
 import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
-  styleUrls: ['./lineup-last.page.scss'],
+  styleUrl: './lineup-last.page.scss',
   templateUrl: './lineup-last.page.html',
   standalone: true,
   imports: [

@@ -14,7 +14,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   animations: [],
-  styleUrls: ['./club-list.page.scss'],
+  styleUrl: './club-list.page.scss',
   templateUrl: './club-list.page.html',
   standalone: true,
   imports: [

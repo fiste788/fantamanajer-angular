@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
+import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
@@ -25,7 +25,7 @@ import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
-  styleUrls: ['./player.page.scss'],
+  styleUrl: './player.page.scss',
   templateUrl: './player.page.html',
   standalone: true,
   imports: [
@@ -48,8 +48,8 @@ import { LayoutService } from 'src/app/layout/services';
   ],
 })
 export class PlayerPage implements OnInit {
-  @Input({ required: true }) protected readonly player!: Player;
-  protected firstMember!: Member;
+  @Input({ required: true }) protected readonly player?: Player;
+  protected firstMember?: Member;
   protected ratings$?: Observable<Array<Rating>>;
   protected readonly selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
   protected readonly displayedColumns = [
@@ -76,7 +76,7 @@ export class PlayerPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.firstMember = this.player.members[0]!;
+    this.firstMember = this.player?.members[0];
     this.selectedMember$.next(this.firstMember);
 
     this.ratings$ = this.getRatings();
@@ -86,6 +86,7 @@ export class PlayerPage implements OnInit {
     return this.selectedMember$.pipe(
       map((selected) => selected ?? this.firstMember),
       distinctUntilChanged(),
+      filterNil(),
       switchMap((member) => this.ratingService.getRatings(member.id)),
     );
   }

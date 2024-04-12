@@ -21,7 +21,7 @@ import { LayoutService } from '../../services';
 
 @Component({
   selector: 'app-profile[sidenav]',
-  styleUrls: ['./profile.component.scss'],
+  styleUrl: './profile.component.scss',
   templateUrl: './profile.component.html',
   standalone: true,
   imports: [
@@ -79,7 +79,7 @@ export class ProfileComponent {
             .afterClosed(),
         ),
       ),
-      { defaultValue: undefined },
+      { defaultValue: false },
     );
   }
 

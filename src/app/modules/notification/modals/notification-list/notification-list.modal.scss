@@ -24,6 +24,18 @@
   opacity: 1;
 }
 
+.mdc-dialog__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  height: 100%;
+  transform: scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .mat-mdc-dialog-content {
   display: block;
   margin: 0 -24px;

@@ -1,8 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
 import { map, share, switchMap } from 'rxjs/operators';
 
@@ -18,13 +16,7 @@ export class ThemeService {
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly rendererFactory: RendererFactory2,
     private readonly breakpointObserver: BreakpointObserver,
-    private readonly iconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer,
   ) {
-    this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
-    this.iconRegistry.addSvgIconSet(
-      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/svg/fantamanajer-icons.svg'),
-    );
     // eslint-disable-next-line unicorn/no-null
     this.renderer = this.rendererFactory.createRenderer(undefined, null);
     this.isDark$ = this.breakpointObserver

@@ -1,5 +1,12 @@
-import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { NgIf, AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  PLATFORM_ID,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +20,6 @@ import { createBoxAnimation } from '@shared/animations';
 @Component({
   animations: [createBoxAnimation],
   selector: 'app-notification',
-  styleUrls: ['./notification.component.scss'],
   templateUrl: './notification.component.html',
   standalone: true,
   imports: [NgIf, MatButtonModule, MatIconModule, MatBadgeModule, AsyncPipe, DecimalPipe],
@@ -21,13 +27,16 @@ import { createBoxAnimation } from '@shared/animations';
 export class NotificationComponent {
   @ViewChild('container', { read: ViewContainerRef }) protected container?: ViewContainerRef;
 
-  protected readonly stream$: Observable<Stream>;
+  protected readonly stream$?: Observable<Stream>;
 
   constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly notificationService: NotificationService,
     private readonly app: ApplicationService,
   ) {
-    this.stream$ = this.loadStream();
+    if (isPlatformBrowser(this.platformId)) {
+      this.stream$ = this.loadStream();
+    }
   }
 
   public loadStream(): Observable<Stream> {

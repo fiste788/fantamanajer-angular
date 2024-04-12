@@ -17,7 +17,7 @@ import { MatEmptyStateComponent } from '@shared/components';
 @Component({
   animations: [openOverlayAnimation, listItemAnimation],
   selector: 'app-notification-overlay',
-  styleUrls: ['./notification-list.modal.scss'],
+  styleUrl: './notification-list.modal.scss',
   templateUrl: './notification-list.modal.html',
   standalone: true,
   imports: [

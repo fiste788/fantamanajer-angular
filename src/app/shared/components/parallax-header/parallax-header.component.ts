@@ -23,7 +23,7 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-parallax-header,app-parallax-header[tabs][tabPanel]',
-  styleUrls: ['./parallax-header.component.scss'],
+  styleUrl: './parallax-header.component.scss',
   templateUrl: './parallax-header.component.html',
   standalone: true,
   imports: [

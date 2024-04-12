@@ -20,7 +20,7 @@ import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
-  styleUrls: ['./member-free.page.scss'],
+  styleUrl: './member-free.page.scss',
   templateUrl: './member-free.page.html',
   standalone: true,
   imports: [

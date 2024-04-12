@@ -14,6 +14,7 @@ app-breadcrumb {
 #toolbar-tab-container {
   padding: 0;
   height: auto;
+  view-transition-name: toolbar-tab-fixed;
 }
 
 .mat-toolbar-row {
@@ -44,5 +45,15 @@ app-breadcrumb {
       height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
       padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
     }
+  }
+}
+@media (min-width: theme('screens.md')) {
+  .drawer {
+    display: none;
+  }
+}
+@media (min-width: theme('screens.sm')) {
+  button {
+    display: none;
   }
 }

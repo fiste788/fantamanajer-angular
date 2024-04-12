@@ -1,27 +1,28 @@
-@if (((app.matchday$ | async)?.number|| 0) > 1) {
-
-@if ((bestPlayers$ | async); as bestPlayers) {
-
-<div
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start"
-  @cardCreationAnimation
->
-  @for (role of bestPlayers; track role.role) {
+@if (((matchday$ | async)?.number|| 0) > 1) {
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start">
+  @for (role of roles; track role.role.id) {
 
   <mat-card appearance="outlined">
     <app-player-image
       mat-card-image
       inCard
-      [member]="role.first"
+      [member]="role.best_players?.first"
     />
+    @if (!role.best_players) {
+    <mat-progress-bar mode="indeterminate" />
+    }
     <mat-card-header>
       <mat-card-title>
+        @if (role.best_players) {
         <span class="mat-text-primary">
-          {{role.first.ratings[0]?.points}}
+          {{role.best_players.first.ratings[0]?.points}}
         </span>
-        {{role.first.player.full_name}}
+        {{role.best_players.first.player.full_name}}
+        } @else {
+        <span class="mat-text-primary">-</span>
+        }
       </mat-card-title>
-      <mat-card-subtitle>{{role.role}}</mat-card-subtitle>
+      <mat-card-subtitle>{{role.role.singolar}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <mat-expansion-panel class="mat-elevation-z0">
@@ -30,9 +31,11 @@
             MOSTRA DI PIU'
           </mat-panel-title>
         </mat-expansion-panel-header>
+
         <ng-template matExpansionPanelContent>
+          @if (role.best_players) {
           <mat-list dense>
-            @for (member of role.others; track member.id) {
+            @for (member of role.best_players.others; track member.id) {
             <mat-list-item>
               <a
                 matLine
@@ -43,6 +46,7 @@
             </mat-list-item>
             }
           </mat-list>
+          }
         </ng-template>
       </mat-expansion-panel>
     </mat-card-content>
@@ -50,17 +54,6 @@
 
   }
 </div>
-
-} @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
-}
-
-
 } @else {
 
 <app-mat-empty-state

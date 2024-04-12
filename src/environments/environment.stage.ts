@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   apiEndpoint: '/api',
+  serverApiEndpoint: '/api',
   matchdaysCount: 38,
   gaCode: undefined,
   vapidPublicKey:

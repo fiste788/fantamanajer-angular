@@ -32,7 +32,7 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
 
 @Component({
   selector: 'app-module-area[module][dispositions]',
-  styleUrls: ['./module-area.component.scss'],
+  styleUrl: './module-area.component.scss',
   templateUrl: './module-area.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   standalone: true,

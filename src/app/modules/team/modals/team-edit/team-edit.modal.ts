@@ -21,7 +21,7 @@ export interface TeamEditModalData {
 
 @Component({
   animations: [createBoxAnimation],
-  styleUrls: ['./team-edit.modal.scss'],
+  styleUrl: './team-edit.modal.scss',
   templateUrl: './team-edit.modal.html',
   standalone: true,
   imports: [

@@ -19,7 +19,7 @@ import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
-  styleUrls: ['./settings.page.scss'],
+  styleUrl: './settings.page.scss',
   templateUrl: './settings.page.html',
   standalone: true,
   imports: [

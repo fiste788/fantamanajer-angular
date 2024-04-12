@@ -21,6 +21,7 @@ app-toolbar {
 
 .mat-sidenav {
   view-transition-name: sidenav;
+  display: none;
 }
 
 .mat-drawer-side {
@@ -81,5 +82,10 @@ main {
 
   .mat-sidenav {
     width: 18rem;
+    display: block;
+  }
+
+  .mat-drawer-content {
+    margin-left: 18rem;
   }
 }

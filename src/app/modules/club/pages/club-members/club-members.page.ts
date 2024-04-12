@@ -8,7 +8,6 @@ import { Club, Member } from '@data/types';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 
 @Component({
-  styleUrls: ['./club-members.page.scss'],
   templateUrl: './club-members.page.html',
   standalone: true,
   imports: [NgIf, MemberListComponent],

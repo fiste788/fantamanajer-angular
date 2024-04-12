@@ -20,7 +20,7 @@ import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   animations: [cardCreationAnimation],
-  styleUrls: ['./login.page.scss'],
+  styleUrl: './login.page.scss',
   templateUrl: './login.page.html',
   standalone: true,
   imports: [

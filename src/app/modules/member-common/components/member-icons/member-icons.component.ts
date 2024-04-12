@@ -14,7 +14,7 @@ import { Member } from '@data/types';
 
 @Component({
   selector: 'app-member-icons[member]',
-  styleUrls: ['./member-icons.component.scss'],
+  styleUrl: './member-icons.component.scss',
   templateUrl: './member-icons.component.html',
   standalone: true,
   imports: [

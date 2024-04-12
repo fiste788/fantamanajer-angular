@@ -7,7 +7,7 @@ import { Member } from '@data/types';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-player-image',
-  styleUrls: ['./player-image.component.scss'],
+  styleUrl: './player-image.component.scss',
   templateUrl: './player-image.component.html',
   standalone: true,
   imports: [LazyLoadImageModule, MatCardModule],

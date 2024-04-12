@@ -41,7 +41,7 @@ type Stats = (typeof stats)[number];
   animations: [tableRowAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-list[members]',
-  styleUrls: ['./member-list.component.scss'],
+  styleUrl: './member-list.component.scss',
   templateUrl: './member-list.component.html',
   standalone: true,
   imports: [

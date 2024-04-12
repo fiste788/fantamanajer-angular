@@ -31,7 +31,7 @@ import { Member, Role, Selection, Team } from '@data/types';
     AsyncPipe,
     KeyValuePipe,
   ],
-  styleUrls: ['./selection.component.scss'],
+  styleUrl: './selection.component.scss',
   templateUrl: './selection.component.html',
 })
 export class SelectionComponent {

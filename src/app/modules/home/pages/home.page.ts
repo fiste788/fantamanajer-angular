@@ -1,17 +1,26 @@
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+/* eslint-disable @angular-eslint/no-async-lifecycle-method */
+import { NgIf, NgFor, AsyncPipe, isPlatformBrowser } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
-import { MemberService } from '@data/services';
-import { Member } from '@data/types';
+import { MemberService, RoleService } from '@data/services';
+import { Member, Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent, PlayerImageComponent } from '@shared/components';
 
@@ -23,7 +32,7 @@ interface BestPlayer {
 @Component({
   animations: [cardCreationAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./home.page.scss'],
+  styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
   standalone: true,
   imports: [
@@ -35,32 +44,50 @@ interface BestPlayer {
     MatListModule,
     RouterLink,
     MatEmptyStateComponent,
-    MatProgressSpinnerModule,
+    MatProgressBarModule,
     AsyncPipe,
   ],
 })
-export class HomePage {
-  protected readonly bestPlayers$: Observable<Array<BestPlayer> | undefined>;
+export class HomePage implements OnInit {
+  protected matchday$ = inject(ApplicationService).matchday$;
+  protected roles: Array<{ role: Role; best_players?: BestPlayer }>;
 
   constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: string,
     private readonly memberService: MemberService,
-    public app: ApplicationService,
+    private readonly roleService: RoleService,
+    private readonly cd: ChangeDetectorRef,
   ) {
-    this.bestPlayers$ = this.loadBestPlayers();
+    this.roles = this.roleService.list().map((r) => ({ role: r }));
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  protected loadBestPlayers(): Observable<Array<BestPlayer>> {
-    return this.memberService.getBest().pipe(
-      map((role) =>
-        role
-          .filter((a) => a.best_players !== undefined)
-          .map((a) => ({
-            first: a.best_players!.shift()!,
-            others: a.best_players ?? [],
-            role: a.singolar,
-          })),
-      ),
-    );
+  public ngOnInit(): void {
+    this.loadBestPlayers();
+  }
+
+  protected loadBestPlayers(): Subscription {
+    return this.memberService
+      .getBest()
+      .pipe(
+        map((roles) =>
+          roles
+            .filter((a) => a.best_players !== undefined)
+            .map((a) => ({
+              first: a.best_players!.shift()!,
+              others: a.best_players ?? [],
+              role: a.singolar,
+            })),
+        ),
+        tap((bps) => {
+          for (const bp of bps) {
+            this.roles.find((r) => r.role.singolar === bp.role)!.best_players = bp;
+          }
+          if (isPlatformBrowser(this.platformId)) {
+            this.cd.detectChanges();
+          }
+        }),
+      )
+      .subscribe();
   }
 }

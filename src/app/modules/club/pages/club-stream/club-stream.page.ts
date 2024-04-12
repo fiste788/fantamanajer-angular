@@ -8,7 +8,6 @@ import { Club } from '@data/types';
 import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
-  styleUrls: ['./club-stream.page.scss'],
   templateUrl: './club-stream.page.html',
   standalone: true,
   imports: [NgIf, StreamComponent, AsyncPipe],

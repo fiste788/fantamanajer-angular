@@ -5,10 +5,16 @@ import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from '
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
+import { LocalstorageService } from '@app/services/local-storage.service';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
 import { TokenStorageService } from './token-storage.service';
+
+export interface ServerAuthInfo {
+  accessToken: string;
+  expiresAt: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -29,6 +35,7 @@ export class AuthenticationService {
     private readonly tokenStorageService: TokenStorageService,
     private readonly userService: UserService,
     private readonly webauthnService: WebauthnService,
+    private readonly localStorage: LocalstorageService,
   ) {
     this.user$ = this.userSubject.asObservable();
     this.requireUser$ = this.user$.pipe(filterNil());
@@ -74,6 +81,8 @@ export class AuthenticationService {
       }
       this.userSubject.next(user);
 
+      await firstValueFrom(this.userService.setLocalSession(this.prepSetSession(token)));
+
       return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
     }
 
@@ -83,6 +92,7 @@ export class AuthenticationService {
   public async logout(): Promise<void> {
     return firstValueFrom(
       this.userService.logout().pipe(
+        switchMap(() => this.userService.deleteLocalSession()),
         catchError(() => EMPTY),
         map(() => this.logoutUI()),
       ),
@@ -92,14 +102,16 @@ export class AuthenticationService {
 
   public logoutUI(): void {
     const user = undefined;
-    localStorage.removeItem(this.emailField);
+    this.localStorage.removeItem(this.emailField);
     this.tokenStorageService.deleteToken();
     this.userSubject.next(user);
   }
 
   public loggedIn(): boolean {
-    // eslint-disable-next-line unicorn/no-null
-    return !this.jwtHelper.isTokenExpired(this.tokenStorageService.token ?? null);
+    return !this.jwtHelper.isTokenExpired(
+      // eslint-disable-next-line unicorn/no-null
+      this.tokenStorageService.token ?? null,
+    );
   }
 
   public isAdmin(): Observable<boolean> {
@@ -132,5 +144,12 @@ export class AuthenticationService {
     }
 
     return roles;
+  }
+
+  private prepSetSession(token: string): ServerAuthInfo {
+    return {
+      accessToken: token,
+      expiresAt: this.jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
+    };
   }
 }

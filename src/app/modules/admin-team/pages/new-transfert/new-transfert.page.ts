@@ -18,7 +18,6 @@ import { Member, Role, Team, Transfert } from '@data/types';
 import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
 
 @Component({
-  styleUrls: ['./new-transfert.page.scss'],
   templateUrl: './new-transfert.page.html',
   standalone: true,
   imports: [

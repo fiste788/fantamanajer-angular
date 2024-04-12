@@ -38,7 +38,7 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
     },
   ],
   selector: 'app-member-selection[member][name]',
-  styleUrls: ['./member-selection.component.scss'],
+  styleUrl: './member-selection.component.scss',
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   standalone: true,

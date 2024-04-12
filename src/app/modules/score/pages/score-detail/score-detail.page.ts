@@ -12,7 +12,7 @@ import { DispositionListComponent } from '@modules/disposition/components/dispos
 import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
-  styleUrls: ['./score-detail.page.scss'],
+  styleUrl: './score-detail.page.scss',
   templateUrl: './score-detail.page.html',
   standalone: true,
   imports: [

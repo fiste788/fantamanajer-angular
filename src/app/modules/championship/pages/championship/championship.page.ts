@@ -5,12 +5,12 @@ import { combineLatest, map } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
-import { ToolbartTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
+import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 
 @Component({
   templateUrl: './championship.page.html',
   standalone: true,
-  imports: [ToolbartTabComponent],
+  imports: [ToolbarTabComponent],
 })
 export class ChampionshipPage {
   protected tabs: Signal<Array<Tab>>;

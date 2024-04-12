@@ -4,3 +4,7 @@ nav {
   --mdc-tab-indicator-active-indicator-height: 3px;
   --mdc-tab-indicator-active-indicator-shape: 3px 3px 0 0;
 }
+
+.tabbed-container {
+  min-height: calc(var(--tabbed-container-min-height, 100vh) - 7rem - 1px);
+}

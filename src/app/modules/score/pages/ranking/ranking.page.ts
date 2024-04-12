@@ -14,7 +14,7 @@ import { tableRowAnimation } from '@shared/animations';
 
 @Component({
   animations: [tableRowAnimation],
-  styleUrls: ['./ranking.page.scss'],
+  styleUrl: './ranking.page.scss',
   templateUrl: './ranking.page.html',
   standalone: true,
   imports: [

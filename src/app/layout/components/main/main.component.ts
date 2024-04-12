@@ -3,6 +3,7 @@ import { trigger } from '@angular/animations';
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewInit,
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,6 +12,7 @@ import {
   NgZone,
   OnDestroy,
   ViewChild,
+  afterNextRender,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
@@ -43,7 +45,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
-  styleUrls: ['./main.component.scss'],
+  styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   standalone: true,
   imports: [
@@ -77,6 +79,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
+    public readonly app: ApplicationRef,
     private readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly ngZone: NgZone,
@@ -90,14 +93,19 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.isOpen$ = this.isOpenObservable();
     this.showedSpeedDial$ = this.isShowedSpeedDial();
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
+
+    afterNextRender(() => {
+      this.drawer!._content.nativeElement.parentElement!.style.display = 'block';
+      if (this.container) {
+        this.setupScrollAnimation(this.window);
+      }
+    });
   }
 
   public ngAfterViewInit(): void {
+    // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.subscriptions.add(this.initDrawer().subscribe());
     this.subscriptions.add(this.layoutService.connectChangePageAnimation());
-    if (this.container) {
-      this.setupScrollAnimation(this.window);
-    }
     this.changeRef.detectChanges();
   }
 
