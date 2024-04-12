@@ -18,7 +18,6 @@ import { MatEmptyStateComponent } from '@shared/components';
 
 @Component({
   animations: [listItemAnimation],
-  styleUrl: './passkey-list.page.scss',
   templateUrl: './passkey-list.page.html',
   standalone: true,
   imports: [

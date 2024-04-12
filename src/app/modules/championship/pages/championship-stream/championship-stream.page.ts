@@ -7,7 +7,6 @@ import { Championship } from '@data/types';
 import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
-  styleUrl: './championship-stream.page.scss',
   templateUrl: './championship-stream.page.html',
   standalone: true,
   imports: [NgIf, StreamComponent, AsyncPipe],

@@ -20,7 +20,6 @@ import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
   animations: [tableRowAnimation],
-  styleUrl: './transfert-list.page.scss',
   templateUrl: './transfert-list.page.html',
   standalone: true,
   imports: [

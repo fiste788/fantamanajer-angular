@@ -20,7 +20,6 @@ import { createBoxAnimation } from '@shared/animations';
 @Component({
   animations: [createBoxAnimation],
   selector: 'app-notification',
-  styleUrl: './notification.component.scss',
   templateUrl: './notification.component.html',
   standalone: true,
   imports: [NgIf, MatButtonModule, MatIconModule, MatBadgeModule, AsyncPipe, DecimalPipe],
