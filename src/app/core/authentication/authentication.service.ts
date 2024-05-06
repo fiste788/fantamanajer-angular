@@ -41,7 +41,7 @@ export class AuthenticationService {
     this.requireUser$ = this.user$.pipe(filterNil());
     this.loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
     if (this.tokenStorageService.token && !this.loggedIn()) {
-      void this.logout();
+      this.logoutUI();
     }
   }
 
