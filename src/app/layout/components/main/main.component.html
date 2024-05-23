@@ -13,7 +13,9 @@
       'rail-opened': (isTablet$ | async) && drawer.opened
       }"
   >
+    @defer(on viewport(drawer)) {
     <app-navbar [sidenav]="drawer" />
+    }
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
