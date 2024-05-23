@@ -63,7 +63,6 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
 export class MainComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSidenav, { static: true }) protected drawer?: MatSidenav;
   @ViewChild(MatSidenavContent) protected container?: MatSidenavContent;
-  @ViewChild(SpeedDialComponent) protected speedDial?: SpeedDialComponent;
   @ViewChild(ToolbarComponent, { read: ElementRef }) protected toolbar?: ElementRef<HTMLElement>;
 
   protected readonly isReady$: Observable<boolean>;
@@ -141,7 +140,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private down(): void {
-    this.speedDial?.close();
+    // this.speedDial?.close();
   }
 
   private initDrawer(): Observable<void> {
