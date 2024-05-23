@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
 import { ClubService } from './club.service';
@@ -6,8 +7,12 @@ import { ClubService } from './club.service';
 describe('ClubService', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ClubService],
+      imports: [],
+      providers: [
+        ClubService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
   });
 

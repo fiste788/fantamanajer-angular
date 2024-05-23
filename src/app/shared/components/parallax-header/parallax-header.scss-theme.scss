@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@use '@angular/material-experimental' as matx;
 
 @mixin base($theme) {
 }
@@ -10,7 +9,7 @@
   }
 
   @media (min-width: theme('screens.sm')) {
-    $dark-theme: matx.define-theme(
+    $dark-theme: mat.define-theme(
       (
         color: (
           theme-type: dark,

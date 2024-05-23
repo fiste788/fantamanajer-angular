@@ -1,12 +1,9 @@
-@use '@angular/material-experimental' as matx;
+@use '@angular/material' as mat;
 @use 'app/app';
 @use 'main/main';
-@use 'themes/light/color' as light-color;
-@use 'themes/light/styles' as light-styles;
-@use 'themes/dark/color' as dark-color;
-@use 'themes/dark/styles' as dark-styles;
+@use 'themes/color' as color;
 
-$theme: matx.define-theme(
+$theme: mat.define-theme(
   (
     typography: (
       plain-family: "'Exo 2', sans-serif",
@@ -14,14 +11,14 @@ $theme: matx.define-theme(
     ),
   )
 );
-$light-theme: matx.define-theme(
+$light-theme: mat.define-theme(
   (
-    color: light-color.$color,
+    color: color.$light-color,
   )
 );
-$dark-theme: matx.define-theme(
+$dark-theme: mat.define-theme(
   (
-    color: dark-color.$color,
+    color: color.$dark-color,
   )
 );
 
@@ -40,12 +37,10 @@ $dark-theme: matx.define-theme(
   @media (prefers-color-scheme: light) {
     @include main.color($light-theme);
     @include app.color($light-theme);
-    @include light-styles.styles($light-theme);
   }
 
   @media (prefers-color-scheme: dark) {
     @include main.color($dark-theme);
     @include app.color($dark-theme);
-    @include dark-styles.styles($dark-theme);
   }
 }

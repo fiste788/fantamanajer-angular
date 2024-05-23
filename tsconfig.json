@@ -9,7 +9,6 @@
     "strictPropertyInitialization": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "emitDecoratorMetadata": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,

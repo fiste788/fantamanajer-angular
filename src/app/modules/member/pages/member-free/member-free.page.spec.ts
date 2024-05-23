@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MemberFreePage } from './member-free.page';
@@ -9,7 +10,8 @@ describe('MemberFreePage', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      imports: [MemberFreePage, HttpClientTestingModule],
+      imports: [MemberFreePage],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
   }));
 

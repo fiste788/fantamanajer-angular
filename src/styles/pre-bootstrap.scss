@@ -1,16 +1,15 @@
 @use '@angular/material-experimental' as matx;
 @use '@angular/material' as mat;
-@use './themes/dark/color' as dark;
-@use './themes/light/color' as light;
+@use './themes/color' as color;
 
-$light-theme: matx.define-theme(
+$light-theme: mat.define-theme(
   (
-    color: light.$color,
+    color: color.$light-color,
   )
 );
-$dark-theme: matx.define-theme(
+$dark-theme: mat.define-theme(
   (
-    color: dark.$color,
+    color: color.$dark-color,
   )
 );
 

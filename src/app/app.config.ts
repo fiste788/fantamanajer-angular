@@ -7,6 +7,7 @@ import {
   importProvidersFrom,
   isDevMode,
   PLATFORM_ID,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -49,6 +50,7 @@ export const appConfig: ApplicationConfig = {
         onViewTransitionCreated,
       }),
     ),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideClientHydration(),
     provideHttpClient(
       withFetch(),

@@ -105,6 +105,13 @@
     --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
     --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
   }
+
+  @media (prefers-color-scheme: dark) {
+    .greyscale,
+    img {
+      filter: grayscale(60%);
+    }
+  }
 }
 
 @mixin density($theme) {
