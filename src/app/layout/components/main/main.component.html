@@ -13,7 +13,7 @@
       'rail-opened': (isTablet$ | async) && drawer.opened
       }"
   >
-    @defer(on viewport(drawer)) {
+    @defer(when isOpen$ | async) {
     <app-navbar [sidenav]="drawer" />
     }
   </mat-sidenav>
@@ -28,6 +28,7 @@
     >
       <router-outlet #o="outlet" />
     </main>
+    @defer(when this.isHandset$ | async) {
     <div
       class="bottom"
       [@scrollDownAnimation]="(showedToolbar$ | async)"
@@ -40,5 +41,6 @@
         [@closeAnimation]="(showedSpeedDial$ | async)"
       />
     </div>
+    }
   </mat-sidenav-content>
 </mat-sidenav-container>
