@@ -24,7 +24,8 @@
       </mat-card-title>
       <mat-card-subtitle>{{role.role.singolar}}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content #content>
+      @defer (on viewport(content)) {
       <mat-expansion-panel class="mat-elevation-z0">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -49,6 +50,7 @@
           }
         </ng-template>
       </mat-expansion-panel>
+      }
     </mat-card-content>
   </mat-card>
 
