@@ -17,6 +17,8 @@ export class LayoutService {
   public isReady$: Observable<boolean>;
   public isShowSpeedDial$: Observable<VisibilityState>;
   public isShowToolbar$: Observable<VisibilityState>;
+  public readonly up = new BehaviorSubject<boolean>(false);
+  public readonly down = new BehaviorSubject<boolean>(false);
 
   private readonly isReadySubject = new BehaviorSubject<boolean>(false);
   private readonly openSidebarSubject = new BehaviorSubject<boolean>(false);
@@ -69,12 +71,7 @@ export class LayoutService {
       });
   }
 
-  public connectScrollAnimation(
-    window: Window,
-    upCallback?: () => void,
-    downCallback?: () => void,
-    offsetCallback = () => 0,
-  ): Subscription {
+  public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
     return this.isHandset$
       .pipe(
         tap((isHandset) => {
@@ -83,7 +80,7 @@ export class LayoutService {
             if (subscriptions === undefined) {
               this.scrollSubscription.set(
                 window,
-                this.applyScrollAnimation(window, upCallback, downCallback, offsetCallback),
+                this.applyScrollAnimation(window, offsetCallback),
               );
             }
           } else if (subscriptions) {
@@ -101,12 +98,7 @@ export class LayoutService {
     this.scrollSubscription.delete(window);
   }
 
-  public applyScrollAnimation(
-    window: Window,
-    upCallback?: () => void,
-    downCallback?: () => void,
-    offsetCallback = () => 0,
-  ): Subscription {
+  public applyScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
     const scroll$ = this.scrollService.connectScrollAnimation(window, offsetCallback);
 
     return combineLatest([
@@ -114,18 +106,14 @@ export class LayoutService {
         tap(() => {
           this.showSpeedDial();
           this.showToolbar();
-          if (upCallback) {
-            upCallback();
-          }
+          this.up.next(true);
         }),
       ),
       scroll$.down.pipe(
         tap(() => {
           this.hideSpeedDial();
           this.hideToolbar();
-          if (downCallback) {
-            downCallback();
-          }
+          this.down.next(true);
         }),
       ),
     ]).subscribe();

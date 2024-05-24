@@ -15,7 +15,7 @@ import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
 import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
 import { tableRowAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({

@@ -19,7 +19,8 @@ import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
-import { MatEmptyStateComponent, PlayerImageComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
+import { PlayerImageComponent } from '@shared/components/player-image';
 
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
 import { BestPlayer } from '../types/best-players';

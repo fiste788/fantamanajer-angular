@@ -33,13 +33,7 @@
       class="bottom"
       [@scrollDownAnimation]="(showedToolbar$ | async)"
     >
-      <app-bottom-bar class="bottom-bar" />
-      <app-speed-dial
-        #speedDial
-        class="speed-dial"
-        extended="false"
-        [@closeAnimation]="(showedSpeedDial$ | async)"
-      />
+      <app-bottom [visibility]="showedSpeedDialSignal()" />
     </div>
     }
   </mat-sidenav-content>

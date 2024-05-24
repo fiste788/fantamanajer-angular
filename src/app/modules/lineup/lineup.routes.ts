@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { RouterOutletComponent } from '@shared/components';
+import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { AddLineupShortcutPage } from './pages/add-lineup-shortcut/add-lineup-shortcut.page';
 import { LineupLastPage } from './pages/lineup-last/lineup-last.page';

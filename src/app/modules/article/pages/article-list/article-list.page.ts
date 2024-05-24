@@ -11,7 +11,7 @@ import { addVisibleClassOnDestroy } from '@app/functions';
 import { ArticleService } from '@data/services';
 import { Article, PagedResponse, Pagination } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
   animations: [cardCreationAnimation],

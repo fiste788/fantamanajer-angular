@@ -12,7 +12,7 @@ import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
 import { routerTransition } from '@shared/animations';
-import { ParallaxHeaderComponent } from '@shared/components';
+import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';

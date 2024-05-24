@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
-import { RouterOutletComponent } from '@shared/components';
+import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { MemberFreePage } from './pages/member-free/member-free.page';
 

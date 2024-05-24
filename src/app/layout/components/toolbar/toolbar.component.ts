@@ -16,7 +16,7 @@ import { Observable, debounceTime, distinctUntilChanged, fromEvent, map } from '
 import { AuthenticationService } from '@app/authentication';
 import { CurrentTransitionService, NAVIGATOR } from '@app/services';
 import { scrollUpAnimation } from '@shared/animations';
-import { BreadcrumbComponent } from '@shared/components';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 
 import { LayoutService } from '../../services';
 import { NotificationComponent } from '../notification/notification.component';

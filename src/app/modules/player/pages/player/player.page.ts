@@ -20,7 +20,7 @@ import { ApplicationService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
-import { ParallaxHeaderComponent } from '@shared/components';
+import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { LayoutService } from 'src/app/layout/services';
 
 @Component({

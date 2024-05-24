@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 
 import { Club } from '@data/types';
-import { ParallaxHeaderComponent } from '@shared/components';
+import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
 import { LayoutService } from 'src/app/layout/services';
 

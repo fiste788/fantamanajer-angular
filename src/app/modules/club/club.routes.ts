@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { Club } from '@data/types';
-import { RouterOutletComponent } from '@shared/components';
+import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { ClubDetailPage } from './pages/club-detail/club-detail.page';
 import { clubResolver } from './pages/club-detail/club.resolver';

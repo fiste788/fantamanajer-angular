@@ -14,7 +14,7 @@ import { addVisibleClassOnDestroy } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
 import { listItemAnimation, tableRowAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
   animations: [listItemAnimation],

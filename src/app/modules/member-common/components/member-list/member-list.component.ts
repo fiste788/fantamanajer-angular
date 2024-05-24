@@ -23,7 +23,7 @@ import { map, Observable, tap } from 'rxjs';
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { Member } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { StickyDirective } from '@shared/directives';
 
 const stats = [

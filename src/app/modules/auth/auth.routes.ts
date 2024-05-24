@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { authenticatedGuard, noAuthGuard } from '@app/guards';
-import { RouterOutletComponent } from '@shared/components';
+import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { LoginPage } from './pages/login/login.page';
 import { LogoutPage } from './pages/logout/logout.page';

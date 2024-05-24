@@ -9,7 +9,7 @@ import { filterNil, getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { Disposition, Lineup, Score, Team } from '@data/types';
 import { DispositionListComponent } from '@modules/disposition/components/disposition-list/disposition-list.component';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
   styleUrl: './score-detail.page.scss',

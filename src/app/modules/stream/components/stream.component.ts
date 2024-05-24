@@ -18,7 +18,7 @@ import { addVisibleClassOnDestroy } from '@app/functions';
 import { StreamService } from '@data/services';
 import { StreamActivity } from '@data/types';
 import { listItemAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components';
+import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 import { StreamDataSource } from './stream.datasource';
 

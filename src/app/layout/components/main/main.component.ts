@@ -11,9 +11,11 @@ import {
   Inject,
   NgZone,
   OnDestroy,
+  Signal,
   ViewChild,
   afterNextRender,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
@@ -31,9 +33,8 @@ import {
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
-import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
+import { BottomComponent } from '../bottom/bottom.component';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
@@ -53,8 +54,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     NavbarComponent,
     ToolbarComponent,
     RouterOutlet,
-    SpeedDialComponent,
-    BottomBarComponent,
+    BottomComponent,
     AsyncPipe,
     StatePipe,
     NgClass,
@@ -71,6 +71,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly isTablet$: Observable<boolean>;
   protected readonly openedSidebar$: Observable<boolean>;
   protected readonly showedSpeedDial$: Observable<VisibilityState>;
+  protected readonly showedSpeedDialSignal: Signal<VisibilityState>;
   protected readonly showedToolbar$: Observable<VisibilityState>;
   protected isScrolled$?: Observable<boolean>;
 
@@ -91,6 +92,9 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.openedSidebar$ = this.layoutService.openedSidebar$;
     this.isOpen$ = this.isOpenObservable();
     this.showedSpeedDial$ = this.isShowedSpeedDial();
+    this.showedSpeedDialSignal = toSignal(this.showedSpeedDial$, {
+      initialValue: VisibilityState.Hidden,
+    });
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
 
     afterNextRender(() => {
@@ -130,17 +134,8 @@ export class MainComponent implements OnDestroy, AfterViewInit {
         share(),
       );
 
-      this.layoutService.connectScrollAnimation(
-        window,
-        undefined,
-        this.down.bind(this),
-        this.getToolbarHeight.bind(this),
-      );
+      this.layoutService.connectScrollAnimation(window, this.getToolbarHeight.bind(this));
     });
-  }
-
-  private down(): void {
-    // this.speedDial?.close();
   }
 
   private initDrawer(): Observable<void> {

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { RouterOutletComponent } from '@shared/components';
+import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { ArticleDetailPage } from './pages/article-detail/article-detail.page';
 import { ArticleListPage } from './pages/article-list/article-list.page';
