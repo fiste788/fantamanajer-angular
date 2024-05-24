@@ -24,12 +24,7 @@ import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/o
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { CurrentTransitionService, WINDOW } from '@app/services';
-import {
-  closeAnimation,
-  routerTransition,
-  scrollDownAnimation,
-  scrollUpAnimation,
-} from '@shared/animations';
+import { routerTransition, scrollDownAnimation, scrollUpAnimation } from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
@@ -38,12 +33,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
-  animations: [
-    trigger('contextChange', routerTransition),
-    scrollUpAnimation,
-    scrollDownAnimation,
-    closeAnimation,
-  ],
+  animations: [trigger('contextChange', routerTransition), scrollUpAnimation, scrollDownAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
   styleUrl: './main.component.scss',
