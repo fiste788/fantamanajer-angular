@@ -28,13 +28,15 @@
     >
       <router-outlet #o="outlet" />
     </main>
-    @defer(when this.isHandset$ | async) {
+
     <div
       class="bottom"
       [@scrollDownAnimation]="(showedToolbar$ | async)"
     >
+      @defer(when this.isHandset$ | async) {
       <app-bottom [visibility]="showedSpeedDialSignal()" />
+      }
     </div>
-    }
+
   </mat-sidenav-content>
 </mat-sidenav-container>
