@@ -19,7 +19,7 @@ const routes = {
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
   public static cleanScore(score: Score): RecursivePartial<Score> {
-    const clonedScore = JSON.parse(JSON.stringify(score)) as Score;
+    const clonedScore = structuredClone(score);
     const cleanedScore: RecursivePartial<Score> = clonedScore;
     if (clonedScore.lineup) {
       cleanedScore.lineup = LineupService.cleanLineup(clonedScore.lineup);

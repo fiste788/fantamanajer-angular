@@ -10,25 +10,20 @@ import {
   inject,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
-import { Member, Role } from '@data/types';
+import { Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent, PlayerImageComponent } from '@shared/components';
 
-interface BestPlayer {
-  role: string;
-  first: Member;
-  others: Array<Member>;
-}
+import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
+import { BestPlayer } from '../types/best-players';
+
 @Component({
   animations: [cardCreationAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,9 +35,7 @@ interface BestPlayer {
     NgFor,
     MatCardModule,
     PlayerImageComponent,
-    MatExpansionModule,
-    MatListModule,
-    RouterLink,
+    BestPlayersListComponent,
     MatEmptyStateComponent,
     MatProgressBarModule,
     AsyncPipe,

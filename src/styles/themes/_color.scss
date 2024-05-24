@@ -11,7 +11,7 @@
 // Note: Color palettes are generated from primary: #f64949, tertiary: #e400d9
 $_palettes: (
   primary: (
-    0: #000000,
+    0: #000,
     10: #410004,
     20: #68000b,
     25: #7d000f,
@@ -26,10 +26,10 @@ $_palettes: (
     95: #ffedeb,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
   secondary: (
-    0: #000000,
+    0: #000,
     10: #2c1513,
     20: #442927,
     25: #503432,
@@ -44,10 +44,10 @@ $_palettes: (
     95: #ffedeb,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
   tertiary: (
-    0: #000000,
+    0: #000,
     10: #390035,
     20: #5c0057,
     25: #6f0069,
@@ -62,10 +62,10 @@ $_palettes: (
     95: #ffebf7,
     98: #fff7f9,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
   neutral: (
-    0: #000000,
+    0: #000,
     10: #201a1a,
     20: #362f2e,
     25: #413a39,
@@ -80,7 +80,7 @@ $_palettes: (
     95: #fbeeec,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
     4: #120d0c,
     6: #181211,
     12: #251e1d,
@@ -93,7 +93,7 @@ $_palettes: (
     96: #fef1ef,
   ),
   neutral-variant: (
-    0: #000000,
+    0: #000,
     10: #251918,
     20: #3b2d2c,
     25: #473837,
@@ -108,10 +108,10 @@ $_palettes: (
     95: #ffedeb,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
   error: (
-    0: #000000,
+    0: #000,
     10: #410002,
     20: #690005,
     25: #7e0007,
@@ -126,7 +126,7 @@ $_palettes: (
     95: #ffedea,
     98: #fff8f7,
     99: #fffbff,
-    100: #ffffff,
+    100: #fff,
   ),
 );
 $_rest: (

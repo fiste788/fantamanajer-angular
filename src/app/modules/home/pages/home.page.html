@@ -24,32 +24,11 @@
       </mat-card-title>
       <mat-card-subtitle>{{role.role.singolar}}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content #content>
-      @defer (on viewport(content)) {
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            MOSTRA DI PIU'
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          @if (role.best_players) {
-          <mat-list dense>
-            @for (member of role.best_players.others; track member.id) {
-            <mat-list-item>
-              <a
-                matLine
-                [routerLink]="['/players', member.player.id]"
-              >
-                {{member.player.full_name}}: {{member.ratings[0]?.points}}
-              </a>
-            </mat-list-item>
-            }
-          </mat-list>
-          }
-        </ng-template>
-      </mat-expansion-panel>
+    <mat-card-content>
+      @defer {
+      @if(role.best_players) {
+      <app-best-players-list [best_players]="role.best_players" />
+      }
       }
     </mat-card-content>
   </mat-card>
