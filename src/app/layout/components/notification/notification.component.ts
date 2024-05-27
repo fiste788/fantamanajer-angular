@@ -15,6 +15,7 @@ import { Observable, switchMap } from 'rxjs';
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
+import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
 import { createBoxAnimation } from '@shared/animations';
 
 @Component({
@@ -22,10 +23,20 @@ import { createBoxAnimation } from '@shared/animations';
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   standalone: true,
-  imports: [NgIf, MatButtonModule, MatIconModule, MatBadgeModule, AsyncPipe, DecimalPipe],
+  imports: [
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    MatBadgeModule,
+    AsyncPipe,
+    DecimalPipe,
+    NotificationListComponent,
+  ],
 })
 export class NotificationComponent {
   @ViewChild('container', { read: ViewContainerRef }) protected container?: ViewContainerRef;
+  @ViewChild('notList') protected notificationList?: NotificationListComponent;
+  @ViewChild('button', { read: ElementRef }) protected buttonRef!: ElementRef;
 
   protected readonly stream$?: Observable<Stream>;
 
@@ -43,16 +54,5 @@ export class NotificationComponent {
     return this.app.requireTeam$.pipe(
       switchMap((t) => this.notificationService.getNotificationCount(t.id)),
     );
-  }
-
-  public async open(el: EventTarget | null): Promise<void> {
-    if (this.container) {
-      const notificationList = await import(
-        '@modules/notification/components/notification-list/notification-list.component'
-      );
-
-      const componentRef = this.container.createComponent(notificationList.default);
-      componentRef.instance.open(new ElementRef(el));
-    }
   }
 }

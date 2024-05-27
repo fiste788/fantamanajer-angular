@@ -2,10 +2,11 @@
 
 <div @createBox>
   <button
+    #button
     aria-label="open"
     mat-icon-button
     type="button"
-    (click)="open($event.target)"
+    (click)="notificationList?.open?.emit()"
   >
     <mat-icon
       aria-hidden="false"
@@ -16,7 +17,12 @@
       [matBadge]="(stream.unseen | number: '1.0-0') || ''"
       [matBadgeHidden]="stream.unseen === 0"
     >notifications</mat-icon>
-    <ng-template #container />
+    @defer(on interaction(button)) {
+    <app-notification-list
+      [origin]="buttonRef"
+      #notList
+    />
+    }
   </button>
 </div>
 

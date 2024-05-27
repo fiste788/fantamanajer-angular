@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, input, output } from '@angular/core';
 
 import { createBoxAnimation } from '@shared/animations';
 
@@ -10,10 +10,17 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
   template: '',
   standalone: true,
 })
-export default class NotificationListComponent {
-  constructor(private readonly overlayService: NotificationOverlayService) {}
+export class NotificationListComponent implements OnInit {
+  public readonly origin = input.required<ElementRef>();
+  public readonly open = output();
+  private readonly overlayService = inject(NotificationOverlayService);
 
-  public open(el: ElementRef): void {
-    this.overlayService.open(el);
+  public ngOnInit(): void {
+    this.openDialog();
+    this.open.subscribe(() => this.openDialog());
+  }
+
+  private openDialog(): void {
+    this.overlayService.open(this.origin());
   }
 }
