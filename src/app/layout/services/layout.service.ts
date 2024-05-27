@@ -23,7 +23,7 @@ export class LayoutService {
   private readonly isReadySubject = new BehaviorSubject<boolean>(false);
   private readonly openSidebarSubject = new BehaviorSubject<boolean>(false);
   private readonly showSpeedDialSubject = new BehaviorSubject<boolean>(false);
-  private readonly showToolbarSubject = new BehaviorSubject<boolean>(false);
+  private readonly showToolbarSubject = new BehaviorSubject<boolean>(true);
   private readonly scrollSubscription = new Map<Window, Subscription | undefined>();
 
   constructor(

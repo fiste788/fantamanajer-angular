@@ -13,14 +13,14 @@
       'rail-opened': (isTablet$ | async) && drawer.opened
       }"
   >
-    @defer(when isOpen$ | async) {
+    @defer(when isOpen$ | async; on idle) {
     <app-navbar [sidenav]="drawer" />
     }
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
       [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
-      [@scrollUpAnimation]="(isScrolled$ | async) === false || (showedToolbar$ | async)"
+      [@scrollUpAnimation]="(showedToolbar$ | async)"
     />
     <main
       [@contextChange]="o | state"
