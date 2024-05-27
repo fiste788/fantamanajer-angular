@@ -6,7 +6,6 @@
     aria-label="open"
     mat-icon-button
     type="button"
-    (click)="notificationList?.open?.emit()"
   >
     <mat-icon
       aria-hidden="false"
@@ -20,7 +19,7 @@
     @defer(on interaction(button)) {
     <app-notification-list
       [origin]="buttonRef"
-      #notList
+      #notificationList
     />
     }
   </button>

@@ -35,7 +35,6 @@ import { createBoxAnimation } from '@shared/animations';
 })
 export class NotificationComponent {
   @ViewChild('container', { read: ViewContainerRef }) protected container?: ViewContainerRef;
-  @ViewChild('notList') protected notificationList?: NotificationListComponent;
   @ViewChild('button', { read: ElementRef }) protected buttonRef!: ElementRef;
 
   protected readonly stream$?: Observable<Stream>;
