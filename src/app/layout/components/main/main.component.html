@@ -20,7 +20,7 @@
   <mat-sidenav-content>
     <app-toolbar
       [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
-      [@scrollUpAnimation]="(showedToolbar$ | async)"
+      [@scrollUpAnimation]="(isScrolled$ | async) === false || (showedToolbar$ | async)"
     />
     <main
       [@contextChange]="o | state"
