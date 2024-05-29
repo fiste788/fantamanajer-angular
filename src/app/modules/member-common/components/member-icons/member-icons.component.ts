@@ -6,7 +6,7 @@ import {
   PercentPipe,
   TitleCasePipe,
 } from '@angular/common';
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -29,7 +29,7 @@ import { Member } from '@data/types';
   ],
 })
 export class MemberIconsComponent {
-  @Input({ required: true }) public member!: Member;
-  @Input({ transform: booleanAttribute }) public circle = false;
-  @Input({ transform: booleanAttribute }) public captain = false;
+  public member = input.required<Member>();
+  public circle = input(false, { transform: booleanAttribute });
+  public captain = input(false, { transform: booleanAttribute });
 }

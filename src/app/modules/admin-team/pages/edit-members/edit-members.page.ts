@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -30,8 +30,6 @@ interface Data {
   ],
 })
 export class EditMembersPage {
-  @ViewChild(NgForm) protected membersForm?: NgForm;
-
   protected readonly roles: Array<Role>;
   protected readonly module: Module;
   protected readonly data$: Observable<Data>;
@@ -71,13 +69,17 @@ export class EditMembersPage {
     );
   }
 
-  protected async save(team: Team, dispositions: Array<{ member: Member }>): Promise<void> {
-    if (this.membersForm?.valid) {
+  protected async save(
+    team: Team,
+    dispositions: Array<{ member: Member }>,
+    membersForm: NgForm,
+  ): Promise<void> {
+    if (membersForm.valid) {
       team.members = dispositions.map((m) => m.member);
 
       return save(this.teamService.update(team), undefined, this.snackbar, {
         message: 'Giocatori modificati',
-        form: this.membersForm,
+        form: membersForm,
       });
     }
 

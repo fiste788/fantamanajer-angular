@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +37,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   ],
 })
 export class TeamDetailPage implements OnInit {
-  @Input({ required: true }) protected team!: Team;
+  protected team = input.required<Team>();
 
   protected tabs$!: Observable<Array<Tab>>;
 
@@ -55,7 +55,7 @@ export class TeamDetailPage implements OnInit {
   public loadTabs(): Observable<Array<Tab>> {
     return combineLatest([this.auth.user$, this.app.requireTeam$]).pipe(
       map(([user, team]) => {
-        const { started } = this.team.championship;
+        const { started } = this.team().championship;
         const ended = this.app.seasonEnded;
 
         return [

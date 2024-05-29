@@ -4,8 +4,8 @@ import {
   ElementRef,
   Inject,
   PLATFORM_ID,
-  ViewChild,
   ViewContainerRef,
+  viewChild,
 } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,9 +34,11 @@ import { createBoxAnimation } from '@shared/animations';
   ],
 })
 export class NotificationComponent {
-  @ViewChild('container', { read: ViewContainerRef }) protected container?: ViewContainerRef;
-  @ViewChild('button', { read: ElementRef }) protected buttonRef!: ElementRef;
+  protected container = viewChild<unknown, ViewContainerRef>('container', {
+    read: ViewContainerRef,
+  });
 
+  protected buttonRef = viewChild.required<unknown, ElementRef>('button', { read: ElementRef });
   protected readonly stream$?: Observable<Stream>;
 
   constructor(

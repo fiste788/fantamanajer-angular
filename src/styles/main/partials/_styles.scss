@@ -93,7 +93,7 @@
     color: mat.get-theme-color($theme, on-surface);
   }
 
-  img[src~='.svg'] {
+  img[src*='.svg'] {
     background-color: mat.get-theme-color($theme, surface-container-low);
   }
 

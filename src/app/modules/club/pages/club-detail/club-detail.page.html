@@ -5,9 +5,9 @@
   <div class="animation-container">
     <app-parallax-header
       contextParam="id"
-      [backgroundImage]="club.background_url"
-      [image]="club.photo_url"
-      [title]="club.name"
+      [backgroundImage]="club().background_url"
+      [image]="club().photo_url"
+      [title]="club().name"
       (imageLoaded)="scrollTo($event)"
     />
   </div>

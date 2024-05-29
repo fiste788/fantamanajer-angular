@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,8 +35,6 @@ import { cardCreationAnimation } from '@shared/animations';
   ],
 })
 export class ChampionshipDetailPage {
-  @ViewChild(NgForm) protected championshipForm?: NgForm;
-
   protected readonly championship$: Observable<Partial<Championship>>;
   protected readonly league$: Observable<Partial<League>>;
 
@@ -52,6 +50,7 @@ export class ChampionshipDetailPage {
   protected async save(
     league: Partial<League>,
     championship: RecursivePartial<Championship>,
+    championshipForm: NgForm,
   ): Promise<void> {
     championship.league = league;
     const save$: Observable<AtLeast<Championship, 'id'>> = championship.id
@@ -60,7 +59,7 @@ export class ChampionshipDetailPage {
 
     return save(save$, undefined, this.snackbar, {
       message: 'Modifiche salvate',
-      form: this.championshipForm,
+      form: championshipForm,
     });
   }
 

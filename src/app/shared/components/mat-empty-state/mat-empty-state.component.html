@@ -1,20 +1,20 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <div
   class="mat-empty-state"
-  [style.height.px]="size"
-  [class.mat-rounded]="rounded"
-  [style.width.px]="size"
+  [style.height.px]="size()"
+  [class.mat-rounded]="rounded()"
+  [style.width.px]="size()"
 >
   <div class="mat-empty-state-container">
-    @if (icon) {
+    @if (icon()) {
     <mat-icon class="mat-empty-state-icon">
-      {{icon}}
+      {{icon()}}
     </mat-icon>
     }
-    <strong class="mat-empty-state-label">{{label}}</strong>
-    @if (description) {
+    <strong class="mat-empty-state-label">{{label()}}</strong>
+    @if (description()) {
     <p class="mat-empty-state-description">
-      {{description}}
+      {{description()}}
     </p>
     }
     <ng-content />

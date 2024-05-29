@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ import { Observable, switchMap } from 'rxjs';
 import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { ScoreService } from '@data/services';
-import { Lineup, Score, Team } from '@data/types';
+import { EmptyLineup, Lineup, Score, Team } from '@data/types';
 import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
 
 @Component({
@@ -38,9 +38,6 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
   ],
 })
 export class ScoreEditPage {
-  @ViewChild(NgForm) protected scoreForm?: NgForm;
-  @ViewChild(LineupDetailComponent) protected lineupDetail?: LineupDetailComponent;
-
   protected penality = false;
   protected score$?: Observable<Score>;
   protected readonly scores$: Observable<Array<Score>>;
@@ -62,16 +59,12 @@ export class ScoreEditPage {
     this.score$ = this.scoreService.getScore(score.id, true);
   }
 
-  protected async save(score: Score): Promise<void> {
-    if (this.lineupDetail) {
-      score.lineup = this.lineupDetail.getLineup() as Lineup;
+  protected async save(score: Score, scoreForm: NgForm, lineup?: EmptyLineup): Promise<void> {
+    score.lineup = lineup as Lineup;
 
-      return save(this.scoreService.update(score), undefined, this.snackbar, {
-        message: 'Punteggio modificato',
-        form: this.scoreForm,
-      });
-    }
-
-    return undefined;
+    return save(this.scoreService.update(score), undefined, this.snackbar, {
+      message: 'Punteggio modificato',
+      form: scoreForm,
+    });
   }
 }

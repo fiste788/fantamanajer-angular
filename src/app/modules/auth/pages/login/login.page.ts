@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -36,9 +36,9 @@ import { cardCreationAnimation } from '@shared/animations';
   ],
 })
 export class LoginPage implements OnInit {
-  @ViewChild('stepper') protected readonly stepper?: MatStepper;
-  @ViewChild('f') protected readonly form?: NgForm;
-  @ViewChild('userForm') protected readonly userForm?: NgForm;
+  protected readonly stepper = viewChild.required<MatStepper>('stepper');
+  protected readonly form = viewChild<NgForm>('f');
+  protected readonly userForm = viewChild<NgForm>('userForm');
   protected loginData: {
     email?: string;
     password?: string;
@@ -87,8 +87,9 @@ export class LoginPage implements OnInit {
         { defaultValue: false },
       );
     }
-    if (this.form) {
-      const { password } = this.form.controls;
+    const form = this.form();
+    if (form) {
+      const { password } = form.controls;
       password?.setErrors({ msg: 'Authentication failed' });
       this.cd.detectChanges();
 
@@ -99,9 +100,9 @@ export class LoginPage implements OnInit {
   }
 
   protected reset(): void {
-    this.form?.reset();
-    this.userForm?.resetForm();
-    this.stepper?.reset();
+    this.form()?.reset();
+    this.userForm()?.resetForm();
+    this.stepper().reset();
   }
 
   private getUrl(team: Team): string {

@@ -1,5 +1,5 @@
 @if (dataSource) {
-<h2>{{caption}}</h2>
+<h2>{{caption()}}</h2>
 <mat-card appearance="outlined">
   <table
     #table
@@ -21,7 +21,7 @@
         mat-cell
       >
 
-        @if (regular && row.consideration === 0) {
+        @if (regular() && row.consideration === 0) {
         <mat-icon>arrow_back</mat-icon>
         }
         @if (!regular && row.consideration === 1) {
@@ -32,8 +32,8 @@
         }
 
         <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.full_name}}</a>
-        @if (lineup) {
-        <span>&nbsp;{{row.member.id | captain: lineup}}</span>
+        @if (lineup()) {
+        <span>&nbsp;{{row.member.id | captain: lineup()!}}</span>
         }
 
       </td>
@@ -173,7 +173,7 @@
         class="mat-cell-numeric"
         mat-cell
       >
-        {{(row.points * (regular ? row.consideration : 1))}}
+        {{(row.points * (regular() ? row.consideration : 1))}}
       </td>
     </ng-container>
 

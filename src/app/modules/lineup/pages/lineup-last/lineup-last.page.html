@@ -7,7 +7,7 @@
   #lineupForm="ngForm"
   class="flex-container"
   [appMemberAlreadySelected]="lineup"
-  (ngSubmit)="save(lineup)"
+  (ngSubmit)="save(lineup, lineupForm)"
 >
   <app-lineup-detail
     #lineupDetail

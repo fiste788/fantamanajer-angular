@@ -12,8 +12,8 @@ import {
   NgZone,
   OnDestroy,
   Signal,
-  ViewChild,
   afterNextRender,
+  viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
@@ -51,9 +51,14 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   ],
 })
 export class MainComponent implements OnDestroy, AfterViewInit {
-  @ViewChild(MatSidenav, { static: true }) protected drawer?: MatSidenav;
-  @ViewChild(MatSidenavContent) protected container?: MatSidenavContent;
-  @ViewChild(ToolbarComponent, { read: ElementRef }) protected toolbar?: ElementRef<HTMLElement>;
+  protected drawer = viewChild.required(MatSidenav);
+  protected container = viewChild.required(MatSidenavContent);
+  protected toolbar = viewChild.required<ToolbarComponent, ElementRef<HTMLElement>>(
+    ToolbarComponent,
+    {
+      read: ElementRef,
+    },
+  );
 
   protected readonly isReady$: Observable<boolean>;
   protected readonly isOpen$: Observable<boolean>;
@@ -88,10 +93,8 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     this.showedToolbar$ = this.layoutService.isShowToolbar$;
 
     afterNextRender(() => {
-      this.drawer!._content.nativeElement.parentElement!.style.display = 'block';
-      if (this.container) {
-        this.setupScrollAnimation(this.window);
-      }
+      this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
+      this.setupScrollAnimation(this.window);
     });
   }
 
@@ -130,8 +133,8 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   private initDrawer(): Observable<void> {
     return (
-      this.drawer?.openedStart.pipe(
-        mergeMap(() => this.drawer?._animationEnd ?? EMPTY),
+      this.drawer().openedStart.pipe(
+        mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
         map(() => this.layoutService.setReady()),
       ) ?? EMPTY
     );
@@ -156,6 +159,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private getToolbarHeight(): number {
-    return this.toolbar?.nativeElement.clientHeight ?? 0;
+    return this.toolbar().nativeElement.clientHeight ?? 0;
   }
 }

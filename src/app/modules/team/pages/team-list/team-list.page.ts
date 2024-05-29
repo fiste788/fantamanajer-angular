@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -31,7 +31,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   ],
 })
 export class TeamListPage {
-  @Input({ required: true }) protected readonly teams?: Array<Team>;
+  protected readonly teams = input.required<Array<Team>>();
 
   private readonly transitionService = inject(CurrentTransitionService);
 

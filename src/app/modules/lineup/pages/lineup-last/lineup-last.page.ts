@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,8 +32,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class LineupLastPage {
-  @ViewChild(NgForm) public lineupForm?: NgForm;
-
   protected readonly lineup$: Observable<EmptyLineup>;
   protected editMode = false;
   protected benchs = environment.benchwarmersCount;
@@ -60,8 +58,8 @@ export class LineupLastPage {
     );
   }
 
-  protected async save(lineup: EmptyLineup): Promise<void> {
-    if (this.lineupForm?.valid) {
+  protected async save(lineup: EmptyLineup, lineupForm: NgForm): Promise<void> {
+    if (lineupForm.valid) {
       // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
@@ -76,7 +74,7 @@ export class LineupLastPage {
             }
             this.snackBar.open('Formazione salvata correttamente');
           }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, this.lineupForm)),
+          catchError((err: unknown) => getUnprocessableEntityErrors(err, lineupForm)),
         ),
         { defaultValue: undefined },
       );

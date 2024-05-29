@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, viewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -37,7 +37,7 @@ import { SeasonActiveDirective } from '@shared/directives';
   ],
 })
 export class TransfertListPage {
-  @ViewChild(MatSort) public sort?: MatSort;
+  public sort = viewChild(MatSort);
 
   protected readonly isMyTeam$: Observable<boolean>;
   protected readonly team$: Observable<Team>;
@@ -94,8 +94,9 @@ export class TransfertListPage {
   }
 
   protected setSort(ds: MatTableDataSource<Transfert>): void {
-    if (this.sort) {
-      ds.sort = this.sort;
+    const sort = this.sort();
+    if (sort) {
+      ds.sort = sort;
     }
   }
 }

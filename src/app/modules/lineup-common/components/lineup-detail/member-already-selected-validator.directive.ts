@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import {
   AbstractControl,
   NG_VALIDATORS,
@@ -35,7 +35,7 @@ export type ControlsOf<T extends Record<string, any>> = {
   standalone: true,
 })
 export class MemberAlreadySelectedValidator implements Validator {
-  @Input('appMemberAlreadySelected') public lineup!: Partial<Lineup>;
+  public lineup = input.required<Partial<Lineup>>({ alias: 'appMemberAlreadySelected' });
 
   public validate(formGroup: UntypedFormGroup): ValidationErrors | null {
     const disp = formGroup.controls['dispositions'] as FormGroup | undefined;

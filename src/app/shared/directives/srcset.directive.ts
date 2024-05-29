@@ -1,12 +1,12 @@
-import { Directive, ElementRef, Input, OnChanges, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, OnChanges, OnInit, Renderer2, input } from '@angular/core';
 
 @Directive({
   selector: '[appSrcset]',
   standalone: true,
 })
 export class SrcsetDirective implements OnInit, OnChanges {
-  @Input() public appSrcset?: Record<string, string> | string | null;
-  @Input() public placeholder = '';
+  public appSrcset = input<Record<string, string> | string | null>();
+  public placeholder = input('');
 
   constructor(
     private readonly renderer: Renderer2,
@@ -22,11 +22,12 @@ export class SrcsetDirective implements OnInit, OnChanges {
   }
 
   public init(): void {
-    if (this.appSrcset !== null && this.appSrcset !== undefined) {
-      if (typeof this.appSrcset === 'string') {
+    const srcset = this.appSrcset();
+    if (srcset !== null && srcset !== undefined) {
+      if (typeof srcset === 'string') {
         this.renderer.setProperty(this.el.nativeElement, 'srcset', this.appSrcset);
       } else {
-        this.processRecord(this.appSrcset);
+        this.processRecord(srcset);
       }
     } else {
       this.renderer.setProperty(this.el.nativeElement, 'src', this.placeholder);

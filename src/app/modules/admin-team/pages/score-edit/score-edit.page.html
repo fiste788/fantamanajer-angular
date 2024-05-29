@@ -20,7 +20,7 @@
     <form
       #scoreForm="ngForm"
       class="flex-container"
-      (ngSubmit)="save(score)"
+      (ngSubmit)="save(score, scoreForm, lineupDetail.getLineup())"
     >
       <mat-card appearance="outlined">
         <mat-form-field>
@@ -66,6 +66,7 @@
       </mat-card>
       <h4>Formazione</h4>
       <app-lineup-detail
+        #lineupDetail
         [benchs]="9"
         [lineup]="score.lineup"
       >

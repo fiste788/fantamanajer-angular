@@ -1,14 +1,14 @@
+/* eslint-disable unicorn/no-null */
 import { NgIf, NgFor, ViewportScroller, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
   OnDestroy,
-  Output,
-  ViewChild,
   inject,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLinkActive, RouterLink } from '@angular/router';
@@ -38,28 +38,31 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {
-  @ViewChild('rellax') public readonly rellax?: ElementRef<HTMLElement>;
-  @Input({ required: true }) public contextParam!: string;
-  @Input() public title = '';
-  @Input() public subtitle = '';
-  @Input() public image?: string | null;
-  @Input() public backgroundImage?: Record<string, string> | string | null;
-  @Input() public tabs: Array<Tab> = [];
-  @Input() public tabPanel?: MatTabNavPanel;
-  @Output() public readonly imageLoaded = new EventEmitter<number>();
+  public contextParam = input.required<string>();
+  public title = input('');
+  public subtitle = input('');
+  public image = input<string | null>(null);
+  public backgroundImage = input<Record<string, string> | string | null>(null);
+  public tabs = input<Array<Tab>>([]);
+  public tabPanel = input<MatTabNavPanel>();
+  public readonly imageLoaded = output<number>();
+
+  public readonly rellax = viewChild<RellaxDirective, ElementRef<HTMLElement>>('rellax', {
+    read: ElementRef<HTMLElement>,
+  });
 
   protected readonly isHandset$ = inject(LayoutService).isHandset$;
   private readonly transitionService = inject(CurrentTransitionService);
   private readonly viewportScroller = inject(ViewportScroller);
 
   public ngOnDestroy(): void {
-    this.rellax?.nativeElement.classList.remove('no-animate');
+    this.rellax()?.nativeElement.classList.remove('no-animate');
   }
 
   protected imageLoad(): void {
     // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
     this.viewportScroller.scrollToAnchor('tab');
-    this.rellax?.nativeElement.classList.add('no-animate');
+    this.rellax()?.nativeElement.classList.add('no-animate');
   }
 
   protected track(_: number, item: Tab): string {
@@ -67,6 +70,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isOutletChanged('banner-img', this.contextParam);
+    return this.transitionService.isOutletChanged('banner-img', this.contextParam());
   }
 }

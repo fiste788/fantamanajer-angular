@@ -1,7 +1,7 @@
 @if (!circle) {
-{{member.player.full_name}}
+{{member().player.full_name}}
 }
-@if (member.likely_lineup; as like) {
+@if (member().likely_lineup; as like) {
 <span [ngClass]="{'circle': circle, 'icon-container': true}">
   @if (like.regular) {
   <mat-icon matTooltip="Titolare">
@@ -31,7 +31,7 @@
     highlight_off
   </mat-icon>
   }
-  @if (captain) {
+  @if (captain()) {
   <mat-icon matTooltip="Capitano">
     copyright
   </mat-icon>

@@ -5,7 +5,7 @@
     <form
       #championshipForm="ngForm"
       class="flex flex-col justify-start align-start"
-      (ngSubmit)="save(league, championship)"
+      (ngSubmit)="save(league, championship, championshipForm)"
     >
       <mat-form-field>
         <mat-label>Nome lega</mat-label>

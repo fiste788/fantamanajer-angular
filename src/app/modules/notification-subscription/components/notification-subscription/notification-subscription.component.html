@@ -1,5 +1,5 @@
 <mat-list>
-  <h3 mat-subheader>{{label}}</h3>
+  <h3 mat-subheader>{{label()}}</h3>
   @for (notification of (map | keyvalue); track notification.key.name) {
   <mat-list-item>
     <mat-slide-toggle

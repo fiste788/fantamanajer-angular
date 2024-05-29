@@ -4,11 +4,11 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnDestroy,
   OnInit,
-  ViewChild,
+  input,
   numberAttribute,
+  viewChild,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -40,10 +40,10 @@ import { StreamDataSource } from './stream.datasource';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input({ required: true }) public context!: 'championships' | 'clubs' | 'teams' | 'users';
-  @Input({ required: true, transform: numberAttribute }) public id!: number;
+  public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
+  public id = input.required({ transform: numberAttribute });
 
-  @ViewChild(CdkVirtualScrollViewport) protected viewport?: CdkVirtualScrollViewport;
+  protected viewport = viewChild(CdkVirtualScrollViewport);
 
   protected backgroundColor = '';
   protected foregroundColor = '';
@@ -55,15 +55,16 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.streamService, this.context, this.id);
+    this.ds = new StreamDataSource(this.streamService, this.context(), this.id());
   }
 
   public ngAfterViewInit(): void {
-    if (this.viewport) {
-      const style = getComputedStyle(this.viewport?.elementRef.nativeElement);
+    const viewport = this.viewport();
+    if (viewport) {
+      const style = getComputedStyle(viewport.elementRef.nativeElement);
       this.backgroundColor = style.getPropertyValue('--mat-skeleton-background-color');
       this.foregroundColor = style.getPropertyValue('--mat-skeleton-foreground-color');
-      this.width = this.viewport.elementRef.nativeElement.clientWidth;
+      this.width = viewport.elementRef.nativeElement.clientWidth;
     }
   }
 

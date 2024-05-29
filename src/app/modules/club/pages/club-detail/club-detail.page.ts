@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 import { Club } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
@@ -13,7 +13,7 @@ import { LayoutService } from 'src/app/layout/services';
   imports: [ParallaxHeaderComponent, ToolbarTabComponent],
 })
 export class ClubDetailPage {
-  @Input({ required: true }) protected club!: Club;
+  protected club = input.required<Club>();
 
   protected readonly tabs: Array<{ label: string; link: string }> = [
     { label: 'Giocatori', link: 'players' },

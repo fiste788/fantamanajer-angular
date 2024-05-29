@@ -5,14 +5,14 @@
   <div class="photo-container">
     <div class="img-container mat-elevation-z2">
       <div>
-        <app-player-image [member]="member || undefined" />
+        <app-player-image [member]="member() || undefined" />
       </div>
-      @if (member && member.likely_lineup) {
+      @if (member() && member()!.likely_lineup) {
       <app-member-icons
         [captain]="captain"
         circle
         @createBox
-        [member]="member"
+        [member]="member()!"
       />
       }
     </div>
@@ -20,21 +20,21 @@
   <mat-select
     #memberSelection="ngModel"
     [compareWith]="compareFn"
-    [disabled]="disabled"
-    [name]="name"
-    [placeholder]="placeholder"
-    [required]="required"
+    [disabled]="disabled()"
+    [name]="name()"
+    [placeholder]="placeholder()"
+    [required]="required()"
     [typeaheadDebounceInterval]="350"
     [(ngModel)]="member"
     (selectionChange)="change($event.value)"
   >
-    <mat-option [value]="null">{{ placeholder }}</mat-option>
-    @if (member) {
+    <mat-option [value]="null">{{ placeholder() }}</mat-option>
+    @if (member()) {
     <mat-select-trigger>
-      {{ member.player.full_name }}
+      {{ member()!.player.full_name }}
     </mat-select-trigger>
-    } @if (memberList.length) {
-    @for (opt of memberList; track opt.member.id) {
+    } @if (memberList().length) {
+    @for (opt of memberList(); track opt.member.id) {
     <mat-option
       [disabled]="opt.disabled"
       [value]="opt.member"
@@ -42,8 +42,8 @@
       <app-member-icons [member]="opt.member" />
     </mat-option>
     }
-    } @if (memberMap) {
-    @for (role of (memberMap | keyvalue); track role.key.id) {
+    } @if (memberMap()) {
+    @for (role of (memberMap() | keyvalue); track role.key.id) {
     <mat-optgroup [label]="role.key.plural">
       @for (opt of role.value; track opt.member.id) {
       <mat-option
@@ -60,13 +60,13 @@
   @if (memberSelection.errors?.['required']) {
   <mat-error>Seleziona il giocatore</mat-error>
   }
-  @if (member?.stats) {
+  @if (member()?.stats) {
   <mat-hint>
-    <span>Ø P.ti: {{ member?.stats?.avg_points | number: '1.1-1' }}</span> -
-    <span>Ø Voti: {{ member?.stats?.avg_rating | number: '1.1-1' }}</span> -
+    <span>Ø P.ti: {{ member()?.stats?.avg_points | number: '1.1-1' }}</span> -
+    <span>Ø Voti: {{ member()?.stats?.avg_rating | number: '1.1-1' }}</span> -
     <span>Σ Gol:
       {{
-      member?.role_id !== 1 ? member?.stats?.sum_goals : member?.stats?.sum_goals_against
+      member()?.role_id !== 1 ? member()?.stats?.sum_goals : member()?.stats?.sum_goals_against
       }}</span>
   </mat-hint>
   }

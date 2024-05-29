@@ -3,9 +3,9 @@
   class="options"
 >
   <mat-card-header>
-    <mat-card-title>Giornata {{lineup.matchday?.number}}</mat-card-title>
-    @if (lineup.modified_at) {
-    <mat-card-subtitle>Aggiornata il: {{lineup.modified_at | date: 'dd/MM HH:mm'}}
+    <mat-card-title>Giornata {{lineup().matchday?.number}}</mat-card-title>
+    @if (lineup().modified_at) {
+    <mat-card-subtitle>Aggiornata il: {{lineup().modified_at | date: 'dd/MM HH:mm'}}
     </mat-card-subtitle>
     }
   </mat-card-header>
@@ -17,7 +17,7 @@
         #module="ngModel"
         name="module"
         placeholder="Modulo"
-        [disabled]="disabled"
+        [disabled]="disabled()"
         [(ngModel)]="lineupService.selectedModule"
         (selectionChange)="lineupService.moduleChange()"
       >
@@ -38,9 +38,9 @@
     </mat-form-field>
     <mat-checkbox
       name="jolly"
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [attr.value]="true"
-      [(ngModel)]="lineup.jolly"
+      [(ngModel)]="lineup().jolly"
     >Jolly</mat-checkbox>
     @if (module.errors?.['JollyAlreadyUsed']) {
     <mat-error>
@@ -54,10 +54,10 @@
         <mat-form-field>
           <mat-label>{{captain.key}}</mat-label>
           <mat-select
-            [disabled]="disabled"
+            [disabled]="disabled()"
             [name]="captain.key"
             [placeholder]="captain.key"
-            [(ngModel)]="lineup[captain.value]"
+            [(ngModel)]="lineup()[captain.value]"
             (selectionChange)="lineupService.captainSelectionChange()"
           >
             @for (c of lineupService.captainables; track c.member.id) {

@@ -3,10 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
-  ViewChild,
   booleanAttribute,
+  input,
   numberAttribute,
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
@@ -44,11 +43,9 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   ],
 })
 export class LineupDetailComponent implements OnInit {
-  @Input() public lineup?: EmptyLineup;
-  @Input({ transform: booleanAttribute }) public disabled = false;
-  @Input({ transform: numberAttribute }) public benchs = environment.benchwarmersCount;
-
-  @ViewChild(NgForm) protected lineupForm?: NgForm;
+  public lineup = input<EmptyLineup>();
+  public disabled = input(false, { transform: booleanAttribute });
+  public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
 
   constructor(
     protected readonly lineupService: LineupService,
@@ -67,9 +64,10 @@ export class LineupDetailComponent implements OnInit {
   }
 
   protected async loadLineup(): Promise<void> {
-    if (this.lineup?.team.members?.length) {
-      const lineup = this.lineupService.loadLineup(this.lineup, this.benchs);
-      if (!this.disabled) {
+    const mainLineup = this.lineup();
+    if (mainLineup?.team.members?.length) {
+      const lineup = this.lineupService.loadLineup(mainLineup, this.benchs());
+      if (!this.disabled()) {
         return this.loadLikely(lineup);
       }
     }

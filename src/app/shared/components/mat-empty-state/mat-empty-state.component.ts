@@ -4,8 +4,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  Input,
   booleanAttribute,
+  input,
   numberAttribute,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,11 +36,10 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [NgIf, MatIconModule],
 })
 export class MatEmptyStateComponent {
-  @Input({ required: true }) public label!: string;
-  @Input({ required: true }) public icon!: string;
-  @Input() public description?: string;
-  @Input({ transform: booleanAttribute }) public rounded = true;
-  @Input({ transform: numberAttribute }) public size = 492;
-
   @HostBinding('@createBox') protected createBox = true;
+  public label = input.required<string>();
+  public icon = input.required<string>();
+  public description = input<string>();
+  public rounded = input(true, { transform: booleanAttribute });
+  public size = input(492, { transform: numberAttribute });
 }

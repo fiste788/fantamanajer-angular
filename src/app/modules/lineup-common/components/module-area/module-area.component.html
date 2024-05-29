@@ -1,6 +1,6 @@
-@if (dispositions) {
+@if (dispositions()) {
 
-@for (area of module.areas; track area.role.id) {
+@for (area of module().areas; track area.role.id) {
 <div
   class="flex flex-row"
   [ngClass]="[area.role.abbreviation, 'area-container']"
@@ -15,12 +15,12 @@
   >
     @for (i of (area.toIndex | range: area.fromIndex); track i) {
     <ng-container [ngModelGroup]="i + ''">
-      @if (dispositions[i]; as disp) {
+      @if (dispositions()[i]; as disp) {
       <app-member-selection
         class="regular flex flex-row flex-md-column justify-start items-center"
         name="member"
-        [captain]="dispositions[i]?.member?.id === captain?.id"
-        [disabled]="disabled"
+        [captain]="dispositions()[i]?.member?.id === captain()?.id"
+        [disabled]="disabled()"
         [height]="450"
         [memberList]="area.options"
         [placeholder]="area.role.singolar"

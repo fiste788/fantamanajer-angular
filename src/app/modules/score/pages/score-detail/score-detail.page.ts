@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class ScoreDetailPage implements OnInit {
-  @Input() protected id = '';
+  protected id = input('');
   protected team$!: Observable<Team>;
   protected score$!: Observable<Score>;
   protected regular$!: Observable<Array<Disposition>>;

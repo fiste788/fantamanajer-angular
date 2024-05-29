@@ -1,3 +1,4 @@
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +24,7 @@ import { tableRowAnimation } from '@shared/animations';
     RouterLink,
     NgFor,
     MatProgressSpinnerModule,
+    CdkScrollableModule,
     AsyncPipe,
     MatCardModule,
   ],

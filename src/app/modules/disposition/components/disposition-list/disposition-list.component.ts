@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, booleanAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, booleanAttribute, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -29,10 +29,10 @@ import { CaptainPipe } from '@shared/pipes';
   ],
 })
 export class DispositionListComponent implements OnInit {
-  @Input() public caption!: string;
-  @Input() public lineup?: Lineup;
-  @Input() public dispositions?: Array<Disposition>;
-  @Input({ transform: booleanAttribute }) public regular = false;
+  public caption = input.required<string>();
+  public lineup = input<Lineup>();
+  public dispositions = input<Array<Disposition>>();
+  public regular = input(false, { transform: booleanAttribute });
 
   protected dataSource!: MatTableDataSource<Disposition>;
   protected readonly displayedColumns = [
@@ -52,7 +52,7 @@ export class DispositionListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.dispositions);
+    this.dataSource = new MatTableDataSource(this.dispositions());
   }
 
   protected trackDisposition(_: number, item: Disposition): number {

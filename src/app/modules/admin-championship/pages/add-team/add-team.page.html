@@ -1,7 +1,7 @@
 @if (team$ | async; as team) {
 <form
   #teamForm="ngForm"
-  (ngSubmit)="save(team)"
+  (ngSubmit)="save(team, teamForm)"
 >
   <mat-form-field>
     <mat-label>Nome squadra</mat-label>

@@ -1,5 +1,5 @@
 import { AsyncPipe, KeyValue, KeyValuePipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,7 @@ import { Member, Role, Selection, Team } from '@data/types';
   templateUrl: './selection.component.html',
 })
 export class SelectionComponent {
-  @ViewChild(NgForm) protected selectionForm?: NgForm;
+  protected selectionForm = viewChild(NgForm);
 
   protected readonly data$: Observable<{ selection: Selection; members: Map<Role, Array<Member>> }>;
   protected newMembers$?: Observable<Array<Member>>;
@@ -147,7 +147,7 @@ export class SelectionComponent {
   }
 
   protected async save(selection: Partial<Selection>): Promise<void> {
-    if (this.selectionForm?.valid) {
+    if (this.selectionForm()?.valid) {
       const save$ = this.app.requireTeam$.pipe(
         map((t) => {
           delete selection.id;
@@ -168,7 +168,7 @@ export class SelectionComponent {
             selection.id = res.id;
           }
         },
-        form: this.selectionForm,
+        form: this.selectionForm(),
       });
     }
 

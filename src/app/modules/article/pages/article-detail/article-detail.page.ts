@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,8 +20,6 @@ import { Article } from '@data/types';
   imports: [NgIf, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
 })
 export class ArticleDetailPage {
-  @ViewChild(NgForm) protected articleForm?: NgForm;
-
   protected readonly article$: Observable<AtLeast<Article, 'team_id'>>;
 
   constructor(
@@ -47,8 +45,11 @@ export class ArticleDetailPage {
     );
   }
 
-  protected async save(article: AtLeast<Article, 'team_id'>): Promise<boolean> {
-    if (this.articleForm?.valid) {
+  protected async save(
+    article: AtLeast<Article, 'team_id'>,
+    articleForm: NgForm,
+  ): Promise<boolean> {
+    if (articleForm?.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.articleService.update(article as AtLeast<Article, 'id'>)
         : this.articleService.create(article);

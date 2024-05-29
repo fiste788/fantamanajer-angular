@@ -3,7 +3,7 @@
 @if ((data$ | async); as data) {
 <form
   #lineupForm="ngForm"
-  (ngSubmit)="save(team, data.dispositions)"
+  (ngSubmit)="save(team, data.dispositions, lineupForm)"
 >
   <div ngModelGroup="members">
     <app-module-area

@@ -15,25 +15,25 @@
         #rellax
         appRellax
       >
-        @if(backgroundImage) {
+        @if(backgroundImage()) {
         <img
           sizes=""
-          [alt]="title"
-          [appSrcset]="backgroundImage"
+          [alt]="title()"
+          [appSrcset]="backgroundImage()"
           (load)="imageLoad()"
         >
         } @else {
         <div class="placeholder">
-          <span>{{title}}</span>
+          <span>{{title()}}</span>
         </div>
         }
       </div>
     </div>
     <div class="parallax-header-title-container">
-      @if (image) {
+      @if (image()) {
       <img
-        [alt]="title"
-        [src]="image"
+        [alt]="title()"
+        [src]="image()"
         [style.viewTransitionName]="'avatar-' + title"
       >
       }
@@ -46,10 +46,10 @@
         <h1
           class="mat-headline-4 title"
           [style.viewTransitionName]="'title-' + title"
-        >{{title}}</h1>
+        >{{title()}}</h1>
         <div class="subtitle">
-          @if (subtitle) {
-          <p class="mat-subtitle-2">{{subtitle}}
+          @if (subtitle()) {
+          <p class="mat-subtitle-2">{{subtitle()}}
             <ng-content select="subtitle" />
           </p>
           }
@@ -65,9 +65,9 @@
   @if (tabs.length) {
   <nav
     mat-tab-nav-bar
-    [tabPanel]="tabPanel"
+    [tabPanel]="tabPanel()"
   >
-    @for (tab of tabs; track track($index, tab)) {
+    @for (tab of tabs(); track track($index, tab)) {
 
     @if (!tab.hidden) {
     <a

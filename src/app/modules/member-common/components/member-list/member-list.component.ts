@@ -4,13 +4,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
-  Output,
-  ViewChild,
   booleanAttribute,
+  input,
   numberAttribute,
+  viewChild,
 } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -61,17 +61,21 @@ type Stats = (typeof stats)[number];
   ],
 })
 export class MemberListComponent implements OnInit {
-  @Input({ required: true }) public members!: Observable<Array<Member>>;
-  @Input({ transform: booleanAttribute }) public hideClub = false;
-  @Input({ transform: booleanAttribute }) public hideRole = false;
-  @Input({ transform: booleanAttribute }) public isSelectable = false;
-  @Input({ transform: booleanAttribute }) public multipleSelection = false;
-  @Input({ transform: numberAttribute }) public elevation = 1;
+  public members = input.required<Observable<Array<Member>>>();
+  public hideClub = input(false, { transform: booleanAttribute });
+  public hideRole = input(false, { transform: booleanAttribute });
+  public isSelectable = input(false, { transform: booleanAttribute });
+  public multipleSelection = input(false, { transform: booleanAttribute });
+  public elevation = input(1, { transform: numberAttribute });
 
-  @Output() public readonly selection: SelectionModel<Member>;
+  protected selection = new SelectionModel<Member>(this.multipleSelection(), [], true);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public readonly selectionChange = outputFromObservable<Array<Member>>(
+    this.selection.changed.pipe(map(() => this.selection.selected)),
+  );
 
-  @ViewChild(MatSort, { static: false }) protected sort?: MatSort;
-  @ViewChild(MatTable, { static: true }) protected table?: MatTable<Member>;
+  protected sort = viewChild(MatSort);
+  protected table = viewChild(MatTable<Member>);
 
   protected dataSource$?: Observable<MatTableDataSource<Member>>;
   protected displayedColumns = [
@@ -91,7 +95,6 @@ export class MemberListComponent implements OnInit {
   protected footer: Record<string, number> = {};
 
   constructor(private readonly changeRef: ChangeDetectorRef) {
-    this.selection = new SelectionModel<Member>(this.multipleSelection, [], true);
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
@@ -101,25 +104,26 @@ export class MemberListComponent implements OnInit {
   }
 
   protected setSort(ds: MatTableDataSource<Member>): void {
-    if (this.sort) {
-      ds.sort = this.sort;
+    const sort = this.sort();
+    if (sort) {
+      ds.sort = sort;
     }
   }
 
   protected fixColumns(): void {
-    if (this.hideClub) {
+    if (this.hideClub()) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
     }
-    if (this.hideRole) {
+    if (this.hideRole()) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('role'), 1);
     }
-    if (this.isSelectable) {
+    if (this.isSelectable()) {
       this.displayedColumns.unshift('select');
     }
   }
 
   protected dataSourceFromMembers(): Observable<MatTableDataSource<Member>> {
-    return this.members.pipe(
+    return this.members().pipe(
       map((data) => new MatTableDataSource<Member>(data)),
       tap((ds) => {
         if (ds.data.length > 0) {

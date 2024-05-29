@@ -4,7 +4,6 @@ import {
   ElementRef,
   HostBinding,
   Inject,
-  Input,
   NgZone,
   OnDestroy,
   OnInit,
@@ -12,6 +11,7 @@ import {
   Renderer2,
   afterNextRender,
   booleanAttribute,
+  input,
   numberAttribute,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
@@ -53,11 +53,11 @@ interface Block {
 export class RellaxDirective implements OnInit, OnDestroy {
   @HostBinding('style.will-change') public will = 'transform';
   // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
-  @Input({ transform: numberAttribute }) public speed = -3;
-  @Input({ transform: booleanAttribute }) public center = false;
-  @Input({ transform: numberAttribute }) public percentage = 0;
-  @Input({ transform: booleanAttribute }) public relativeToWrapper = false;
-  @Input() public wrapper = 'window';
+  public speed = input(-3, { transform: numberAttribute });
+  public center = input(false, { transform: booleanAttribute });
+  public percentage = input(0, { transform: numberAttribute });
+  public relativeToWrapper = input(false, { transform: booleanAttribute });
+  public wrapper = input('window');
 
   private readonly options: Options;
   private block?: Block;
@@ -87,11 +87,11 @@ export class RellaxDirective implements OnInit, OnDestroy {
       round: true,
       vertical: true,
       horizontal: true,
-      speed: this.speed,
-      center: this.center,
-      percentage: this.percentage,
-      relativeToWrapper: this.relativeToWrapper,
-      wrapperSelector: this.wrapper,
+      speed: this.speed(),
+      center: this.center(),
+      percentage: this.percentage(),
+      relativeToWrapper: this.relativeToWrapper(),
+      wrapperSelector: this.wrapper(),
     };
     afterNextRender(() => {
       this.loop = this.window.requestAnimationFrame.bind(this);
@@ -110,7 +110,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const w = this.document.querySelector(this.wrapper);
+      const w = this.document.querySelector(this.wrapper());
       if (w !== null) {
         this.options.wrapper = w as HTMLElement;
       }

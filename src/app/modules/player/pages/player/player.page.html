@@ -4,9 +4,9 @@
     <app-parallax-header
       contextParam="id"
       [backgroundImage]="selectedMember.club.background_url"
-      [image]="selectedMember.photo_url || player?.photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
+      [image]="selectedMember.photo_url || player().photo_url || '/assets/svg/clubs.svg#club-' + selectedMember.club_id"
       [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
-      [title]="player?.full_name ?? ''"
+      [title]="player().full_name"
       (imageLoaded)="scrollTo($event)"
     >
       <div
@@ -29,7 +29,7 @@
             [ngModel]="selectedMember"
             (selectionChange)="selectedMember$.next($event.value)"
           >
-            @for (member of player?.members; track member.id) {
+            @for (member of player().members; track member.id) {
             <mat-option [value]="member">
               {{ member.season.name }}
             </mat-option>

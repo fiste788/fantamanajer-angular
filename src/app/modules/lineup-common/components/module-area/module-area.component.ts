@@ -1,13 +1,12 @@
 import { NgIf, NgFor, NgClass, UpperCasePipe } from '@angular/common';
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
   OnInit,
-  Output,
   SimpleChange,
   booleanAttribute,
+  effect,
+  input,
+  output,
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -47,44 +46,37 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
     RangePipe,
   ],
 })
-export class ModuleAreaComponent implements OnInit, OnChanges {
-  @Input({ required: true }) public module!: Module;
-  @Input({ required: true }) public dispositions!: Array<{
-    member: Member | null;
-    position?: number;
-  }>;
+export class ModuleAreaComponent implements OnInit {
+  public module = input.required<Module>();
+  public dispositions = input.required<
+    Array<{
+      member: Member | null;
+      position?: number;
+    }>
+  >();
 
-  @Input({ transform: booleanAttribute }) public disabled = false;
-  @Input({ transform: booleanAttribute }) public wrap = false;
-  @Input() public captain?: Member;
-  @Input() public membersByRole?: Map<Role, Array<Member>>;
-
-  @Output() public readonly selectionChange: EventEmitter<{
-    role: Role;
-    member: Member | null;
-  }> = new EventEmitter<{ role: Role; member: Member | null }>();
-
-  public ngOnChanges(changes: NgChanges<ModuleAreaComponent>): void {
-    const change = changes.module;
-    if (!change?.isFirstChange() && change?.previousValue !== change?.currentValue) {
-      this.moduleChange();
-    }
-  }
+  public disabled = input(false, { transform: booleanAttribute });
+  public wrap = input(false, { transform: booleanAttribute });
+  public captain = input<Member>();
+  public membersByRole = input<Map<Role, Array<Member>>>();
+  public readonly selectionChange = output<{ role: Role; member: Member | null }>();
 
   public ngOnInit(): void {
-    this.moduleChange();
+    effect(() => {
+      this.moduleChange();
+    });
   }
 
   protected moduleChange(): void {
-    for (const area of this.module.areas) {
+    for (const area of this.module().areas) {
       for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
-        const disp = this.dispositions[i];
+        const disp = this.dispositions()[i];
         if (disp && disp.member?.role_id !== area.role.id) {
           // eslint-disable-next-line unicorn/no-null
           disp.member = null;
         }
       }
-      area.options = (this.membersByRole?.get(area.role) ?? []).map((member) => ({
+      area.options = (this.membersByRole()?.get(area.role) ?? []).map((member) => ({
         member,
         disabled: this.isRegular(member),
       }));
@@ -97,14 +89,14 @@ export class ModuleAreaComponent implements OnInit, OnChanges {
   }
 
   private isRegular(member: Member): boolean {
-    return this.dispositions
+    return this.dispositions()
       .filter((element) => element.position && element.position <= 11 && element.member !== null)
       .map((element) => element.member?.id)
       .includes(member.id);
   }
 
   private reloadRegularState(roleId?: number): void {
-    for (const v of this.module.areas.filter((a) => roleId === undefined || a.role.id === roleId))
+    for (const v of this.module().areas.filter((a) => roleId === undefined || a.role.id === roleId))
       for (const o of v.options) o.disabled = this.isRegular(o.member);
   }
 }

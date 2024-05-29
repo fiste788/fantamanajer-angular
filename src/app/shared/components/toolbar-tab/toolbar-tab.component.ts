@@ -6,7 +6,6 @@ import {
   Component,
   Inject,
   Injector,
-  Input,
   OnDestroy,
   afterNextRender,
   input,
@@ -40,7 +39,7 @@ import { StatePipe } from '@shared/pipes';
   ],
 })
 export class ToolbarTabComponent implements OnDestroy {
-  @Input() public fragment?: string;
+  public fragment = input<string>();
   public tabs = input([] as Array<Tab>);
   protected portal = viewChild.required(CdkPortal);
   protected tabBar = viewChild(MatTabNav);

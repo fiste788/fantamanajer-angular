@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -48,7 +48,7 @@ import { LayoutService } from 'src/app/layout/services';
   ],
 })
 export class PlayerPage implements OnInit {
-  @Input({ required: true }) protected readonly player?: Player;
+  protected readonly player = input.required<Player>();
   protected firstMember?: Member;
   protected ratings$?: Observable<Array<Rating>>;
   protected readonly selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
@@ -76,7 +76,7 @@ export class PlayerPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.firstMember = this.player?.members[0];
+    [this.firstMember] = this.player().members;
     this.selectedMember$.next(this.firstMember);
 
     this.ratings$ = this.getRatings();

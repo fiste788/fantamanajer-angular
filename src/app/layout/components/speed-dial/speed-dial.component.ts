@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -31,8 +31,8 @@ import { SeasonActiveDirective } from '@shared/directives';
   ],
 })
 export class SpeedDialComponent {
-  @Input({ transform: booleanAttribute }) public extended = false;
-  @Input() public direction: Direction = 'up';
+  public extended = input(false, { transform: booleanAttribute });
+  public direction = input<Direction>('up');
   protected openSpeeddial = false;
 
   constructor(private readonly router: Router) {}

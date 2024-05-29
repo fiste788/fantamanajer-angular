@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -33,8 +33,6 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
   ],
 })
 export class NewTransfertPage {
-  @ViewChild(NgForm) public transfertForm?: NgForm;
-
   protected readonly transfert: Partial<Transfert> = { constrained: false };
   protected readonly team$: Observable<Team>;
   protected readonly oldMembers$: Observable<Array<Member>>;
@@ -92,17 +90,17 @@ export class NewTransfertPage {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  protected async submit(team: Team): Promise<void> {
-    if (this.transfertForm?.valid) {
+  protected async submit(team: Team, transfertForm: NgForm): Promise<void> {
+    if (transfertForm.valid) {
       this.transfert.team_id = team.id;
 
-      return this.checkMember();
+      return this.checkMember(transfertForm);
     }
 
     return undefined;
   }
 
-  protected async checkMember(): Promise<void> {
+  protected async checkMember(transfertForm: NgForm): Promise<void> {
     const team = this.transfert.new_member?.teams[0];
     if (team) {
       const dialogRef = this.dialog.open<ConfirmationDialogModal, { text: string }, boolean>(
@@ -117,22 +115,22 @@ export class NewTransfertPage {
       return firstValueFrom(
         dialogRef.afterClosed().pipe(
           filter((r) => r === true),
-          switchMap(async () => this.save()),
+          switchMap(async () => this.save(transfertForm)),
         ),
         { defaultValue: undefined },
       );
     }
 
-    return this.save();
+    return this.save(transfertForm);
   }
 
-  protected async save(): Promise<void> {
+  protected async save(transfertForm: NgForm): Promise<void> {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     this.transfert.old_member_id = this.transfert.old_member?.id;
 
     return save(this.transfertService.create(this.transfert), undefined, this.snackbar, {
       message: 'Trasferimento effettuato',
-      form: this.transfertForm,
+      form: transfertForm,
     });
   }
 }

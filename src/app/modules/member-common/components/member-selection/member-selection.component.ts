@@ -2,13 +2,12 @@
 import { NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   HostBinding,
-  Input,
-  Output,
-  ViewChild,
   booleanAttribute,
+  input,
   numberAttribute,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   ControlContainer,
@@ -56,42 +55,40 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @Input({ required: true }) public member!: Member | null;
-  @Input({ required: true }) public name!: string;
-  @Input({ transform: booleanAttribute }) public disabled = false;
-  @Input({ transform: booleanAttribute }) public required = false;
-  @Input() public placeholder = '';
-  @Input() public memberList: Array<MemberOption> = [];
-  @Input() public memberMap?: Map<Role, Array<MemberOption>>;
-  @Input({ transform: numberAttribute }) public size = 100;
-  @Input({ transform: numberAttribute }) public width = 100;
-  @Input({ transform: numberAttribute }) public height = 100;
-  @Input({ transform: booleanAttribute }) public captain = false;
-
-  @Output()
-  public readonly memberChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
-
   @HostBinding('@lineupDisposition') protected lineupDisposition = '';
-  @ViewChild(NgModel, { static: true }) protected ngModelDirective?: NgModel;
+  public member = input.required<Member | null>();
+  public name = input.required<string>();
+  public disabled = input(false, { transform: booleanAttribute });
+  public required = input(false, { transform: booleanAttribute });
+  public placeholder = input('');
+  public memberList = input<Array<MemberOption>>([]);
+  public memberMap = input<Map<Role, Array<MemberOption>>>();
+  public size = input(100, { transform: numberAttribute });
+  public width = input(100, { transform: numberAttribute });
+  public height = input(100, { transform: numberAttribute });
+  public captain = input(false, { transform: booleanAttribute });
+  public readonly memberChange = output<Member | null>();
+
+  protected ngModelDirective = viewChild.required(NgModel);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public onChange = (_: Member | null): void => undefined;
   public onTouched = (): void => undefined;
 
   get value(): Member | null {
-    return (this.ngModelDirective?.value ?? null) as Member | null;
+    return (this.ngModelDirective().value ?? null) as Member | null;
   }
 
   set value(value: Member | null) {
-    this.ngModelDirective?.valueAccessor?.writeValue(value);
+    this.ngModelDirective().valueAccessor?.writeValue(value);
   }
 
   public registerOnChange(fn: (member: Member | undefined) => undefined): void {
-    this.ngModelDirective?.valueAccessor?.registerOnChange(fn);
+    this.ngModelDirective().valueAccessor?.registerOnChange(fn);
   }
 
   public registerOnTouched(fn: () => undefined): void {
-    this.ngModelDirective?.valueAccessor?.registerOnTouched(fn);
+    this.ngModelDirective().valueAccessor?.registerOnTouched(fn);
   }
 
   public change(event: Member | null): void {
@@ -100,7 +97,7 @@ export class MemberSelectionComponent implements ControlValueAccessor {
   }
 
   public writeValue(obj: Member | null): void {
-    this.ngModelDirective?.valueAccessor?.writeValue(obj);
+    this.ngModelDirective().valueAccessor?.writeValue(obj);
   }
 
   public compareFn(t1: Member | null, t2: Member | null): boolean {

@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,7 +39,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  @Input({ required: true }) public sidenav!: MatSidenav;
+  public sidenav = input.required<MatSidenav>();
 
   protected deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
   protected readonly loggedIn$: Observable<boolean>;
@@ -77,7 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.navStart$
         .pipe(
-          filter(() => this.sidenav.mode === 'over'),
+          filter(() => this.sidenav().mode === 'over'),
           map(() => this.layoutService.closeSidebar()),
         )
         .subscribe(),

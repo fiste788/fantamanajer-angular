@@ -18,7 +18,7 @@
     >notifications</mat-icon>
     @defer(on interaction(button)) {
     <app-notification-list
-      [origin]="buttonRef"
+      [origin]="buttonRef()"
       #notificationList
     />
     }

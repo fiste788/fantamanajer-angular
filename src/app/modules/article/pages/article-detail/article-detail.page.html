@@ -2,7 +2,7 @@
 @if ((article$ | async); as article) {
 <form
   #articleForm="ngForm"
-  (ngSubmit)="save(article)"
+  (ngSubmit)="save(article, articleForm)"
 >
   <mat-form-field>
     <mat-label>Titolo</mat-label>

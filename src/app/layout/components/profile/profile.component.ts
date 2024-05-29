@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -38,7 +38,7 @@ import { LayoutService } from '../../services';
   ],
 })
 export class ProfileComponent {
-  @Input({ required: true }) public sidenav!: MatSidenav;
+  public sidenav = input.required<MatSidenav>();
   protected readonly photo$: Observable<string | undefined>;
 
   constructor(
@@ -54,7 +54,7 @@ export class ProfileComponent {
   public change(team: Team): void {
     this.app.teamSubject$.next(team);
     void this.router.navigateByUrl(`/teams/${team.id}`);
-    if (this.sidenav.mode === 'over') {
+    if (this.sidenav().mode === 'over') {
       this.layoutService.closeSidebar();
     }
   }

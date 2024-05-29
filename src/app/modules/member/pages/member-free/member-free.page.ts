@@ -1,5 +1,5 @@
 import { NgFor, NgIf, AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, HostBinding, ViewChild } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
@@ -38,12 +38,11 @@ import { tableRowAnimation } from '@shared/animations';
     AsyncPipe,
   ],
 })
-export class MemberFreePage implements AfterViewInit {
+export class MemberFreePage {
   @HostBinding('@tableRowAnimation') protected tableRowAnimation = '';
-  @ViewChild(MemberListComponent) protected memberList?: MemberListComponent;
 
   public members$?: Observable<Array<Member>>;
-  public selectedMember$?: Observable<Member | undefined>;
+  public selectedMember?: Member | undefined;
   public role$: BehaviorSubject<Role>;
   protected readonly roles: Array<Role>;
   private readonly championship$: Observable<Championship>;
@@ -60,8 +59,8 @@ export class MemberFreePage implements AfterViewInit {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
-  public ngAfterViewInit(): void {
-    this.selectedMember$ = this.getSelectedMember();
+  protected setSelectedMember(member: Array<Member>): void {
+    [this.selectedMember] = member;
   }
 
   protected compareRole(role1?: Role, role2?: Role): boolean {
@@ -72,9 +71,5 @@ export class MemberFreePage implements AfterViewInit {
     return combineLatest([this.role$, this.championship$]).pipe(
       switchMap(([role, c]) => this.memberService.getFree(c.id, role.id)),
     );
-  }
-
-  private getSelectedMember(): Observable<Member | undefined> | undefined {
-    return this.memberList?.selection.changed.pipe(map((m) => m.source.selected[0]));
   }
 }

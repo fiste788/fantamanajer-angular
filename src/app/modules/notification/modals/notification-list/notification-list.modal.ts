@@ -1,6 +1,7 @@
 import { AnimationEvent } from '@angular/animations';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -25,6 +26,7 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
     MatListModule,
     NgFor,
     MatIconModule,
+    CdkScrollableModule,
     MatEmptyStateComponent,
     MatProgressSpinnerModule,
     AsyncPipe,
@@ -32,8 +34,8 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class NotificationListModal {
-  @Output() public readonly seen: EventEmitter<Stream> = new EventEmitter<Stream>();
-  @Output() public readonly animationStateChanged = new EventEmitter<AnimationEvent>();
+  public readonly seen = output<Stream>();
+  public readonly animationStateChanged = output<AnimationEvent>();
 
   protected readonly stream$: Observable<Stream>;
   protected animationState: 'enter' | 'leave' | 'void' = 'enter';
