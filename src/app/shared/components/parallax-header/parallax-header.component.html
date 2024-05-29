@@ -17,6 +17,8 @@
       >
         @if(backgroundImage()) {
         <img
+          fetchpriority="high"
+          loading="eager"
           sizes=""
           [alt]="title()"
           [appSrcset]="backgroundImage()"
