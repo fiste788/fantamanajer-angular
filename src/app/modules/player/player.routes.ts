@@ -18,7 +18,7 @@ export default [
       ogDescription: (data: { player: Player }): string =>
         `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,
       ogImage: (data: { player: Player }): string =>
-        `/assets/svg/clubs.svg#club-${data.player.members[0]!.club.id}`,
+        `/public/svg/clubs.svg#club-${data.player.members[0]!.club.id}`,
       ogTitle: (data: { player: Player }): string => `${data.player.full_name}`,
     },
     resolve: {

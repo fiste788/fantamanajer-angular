@@ -11,7 +11,7 @@ export default [
       state: 'home',
       description: "L'app per gestire al meglio la tua lega del fantacalcio",
       ogDescription: "L'app per gestire al meglio la tua lega del fantacalcio",
-      ogImage: '/assets/icons/icon-180x180.webp',
+      ogImage: '/public/icons/icon-180x180.webp',
       ogTitle: 'FantaManajer',
     },
   },

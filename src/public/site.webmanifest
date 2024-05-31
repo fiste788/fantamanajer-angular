@@ -7,25 +7,25 @@
   "orientation": "portrait",
   "screenshots": [
     {
-      "src": "/assets/screenshots/home_narrow.webp",
+      "src": "/public/screenshots/home_narrow.webp",
       "sizes": "1290x2796",
       "type": "image/webp",
       "form_factor": "narrow"
     },
     {
-      "src": "/assets/screenshots/team_narrow.webp",
+      "src": "/public/screenshots/team_narrow.webp",
       "sizes": "1290x2796",
       "type": "image/webp",
       "form_factor": "narrow"
     },
     {
-      "src": "/assets/screenshots/home_wide.webp",
+      "src": "/public/screenshots/home_wide.webp",
       "sizes": "2560x1232",
       "type": "image/webp",
       "form_factor": "wide"
     },
     {
-      "src": "/assets/screenshots/team_wide.webp",
+      "src": "/public/screenshots/team_wide.webp",
       "sizes": "2560x1232",
       "type": "image/webp",
       "form_factor": "wide"
@@ -42,58 +42,58 @@
       "sizes": "48x48"
     },
     {
-      "src": "/assets/icons/icon-512-maskable.webp",
+      "src": "/public/icons/icon-512-maskable.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-512-maskable.png",
+      "src": "/public/icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-512.webp",
+      "src": "/public/icons/icon-512.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-512.png",
+      "src": "/public/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/assets/icons/icon-192-maskable.webp",
+      "src": "/public/icons/icon-192-maskable.webp",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-192-maskable.png",
+      "src": "/public/icons/icon-192-maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-192.webp",
+      "src": "/public/icons/icon-192.webp",
       "sizes": "192x192",
       "type": "image/webp"
     },
     {
-      "src": "/assets/icons/icon-192.png",
+      "src": "/public/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/assets/icons/icon-monochrome.webp",
+      "src": "/public/icons/icon-monochrome.webp",
       "sizes": "72x72",
       "type": "image/webp",
       "purpose": "monochrome"
     },
     {
-      "src": "/assets/icons/icon-monochrome.png",
+      "src": "/public/icons/icon-monochrome.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "monochrome"
@@ -112,12 +112,12 @@
       "url": "/lineups/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/lineup.webp",
+          "src": "/public/icons/shortcuts/lineup.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/assets/icons/shortcuts/lineup.png",
+          "src": "/public/icons/shortcuts/lineup.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -130,12 +130,12 @@
       "url": "/transferts/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/transfert.webp",
+          "src": "/public/icons/shortcuts/transfert.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/assets/icons/shortcuts/transfert.png",
+          "src": "/public/icons/shortcuts/transfert.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -148,12 +148,12 @@
       "url": "/articles/new",
       "icons": [
         {
-          "src": "/assets/icons/shortcuts/article.webp",
+          "src": "/public/icons/shortcuts/article.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/assets/icons/shortcuts/article.png",
+          "src": "/public/icons/shortcuts/article.png",
           "sizes": "96x96",
           "type": "image/png"
         }

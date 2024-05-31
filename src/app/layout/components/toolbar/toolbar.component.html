@@ -11,7 +11,11 @@
     <app-breadcrumb />
     <span class="spacer"></span>
     @if (loggedIn$ | async) {
+    @defer () {
     <app-notification />
+    } @placeholder {
+    <mat-icon aria-hidden="false">notifications</mat-icon>
+    }
     }
   </mat-toolbar-row>
   <mat-toolbar-row

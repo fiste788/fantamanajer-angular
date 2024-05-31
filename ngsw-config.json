@@ -9,7 +9,7 @@
         "files": [
           "/favicon.ico",
           "/index.html.html",
-          "/assets/site.webmanifest",
+          "/public/site.webmanifest",
           "/*.css",
           "/common.*.js",
           "/main.*.js",
@@ -23,7 +23,7 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/assets/**", "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"],
+        "files": ["/public/**", "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"],
         "urls": ["https://fonts.googleapis.com/**", "https://fonts.gstatic.com/**"]
       }
     },
