@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +35,7 @@ import { LayoutService } from '../../services';
     AsyncPipe,
     MatIcon,
     MatButtonModule,
+    NgOptimizedImage,
   ],
 })
 export class ProfileComponent {

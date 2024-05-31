@@ -4,7 +4,10 @@
   @if(photo$ | async; as photo) {
   <mat-toolbar-row>
     <img
-      [src]="photo"
+      [ngSrc]="photo"
+      priority
+      width="245"
+      height="138"
       alt="Logo"
     />
   </mat-toolbar-row>

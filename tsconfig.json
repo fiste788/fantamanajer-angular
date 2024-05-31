@@ -14,7 +14,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noImplicitOverride": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,

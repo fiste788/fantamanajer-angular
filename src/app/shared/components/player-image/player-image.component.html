@@ -5,5 +5,5 @@
   disableOptimizedSrcset
   [alt]="member()?.player?.full_name"
   [ngSrc]="'/assets/svg/clubs.svg' + (member() ? ('#club-' + member()?.club_id) : '')"
-  [class.mat-card-image]="inCard"
+  [class.mat-card-image]="inCard()"
 />
