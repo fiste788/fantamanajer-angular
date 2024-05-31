@@ -6,6 +6,7 @@
   <div class="animation-container">
     <app-parallax-header
       contextParam="team_id"
+      [placeholder]="placeholder"
       [backgroundImage]="team().photo_url"
       [subtitle]="team().user.name + ' ' + team().user.surname"
       [title]="team().name"

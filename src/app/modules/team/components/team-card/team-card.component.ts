@@ -1,37 +1,35 @@
-import { NgIf, NgFor } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { CurrentTransitionService } from '@app/services';
-import { Club } from '@data/types';
+import { Team } from '@data/types';
 import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [],
-  styleUrl: './club-list.page.scss',
-  templateUrl: './club-list.page.html',
+  selector: 'app-team-card',
   standalone: true,
   imports: [
     NgIf,
-    NgFor,
     MatCardModule,
     LazyLoadImageModule,
     MatButtonModule,
     RouterLink,
-    MatProgressSpinnerModule,
     PlaceholderPipe,
     SrcsetPipe,
   ],
+  templateUrl: './team-card.component.html',
+  styleUrl: './team-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClubListPage {
-  protected clubs = input.required<Array<Club>>();
+export class TeamCardComponent {
+  public team = input.required<Team>();
   private readonly transitionService = inject(CurrentTransitionService);
 
-  protected viewTransitionName(club: Club) {
-    return this.transitionService.getViewTransitionName('banner-img', club);
+  protected viewTransitionName(team: Team) {
+    return this.transitionService.getViewTransitionName('banner-img', team, 'team_id');
   }
 }

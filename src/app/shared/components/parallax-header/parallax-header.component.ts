@@ -1,5 +1,12 @@
 /* eslint-disable unicorn/no-null */
-import { NgIf, NgFor, ViewportScroller, AsyncPipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  ViewportScroller,
+  AsyncPipe,
+  NgStyle,
+  NgOptimizedImage,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,6 +22,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
+import { SrcsetPipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
@@ -31,7 +39,10 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
     SrcsetDirective,
     NgIf,
     MatTabsModule,
+    NgOptimizedImage,
     NgFor,
+    NgStyle,
+    SrcsetPipe,
     RouterLinkActive,
     RouterLink,
     AsyncPipe,
@@ -39,6 +50,7 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
 })
 export class ParallaxHeaderComponent implements OnDestroy {
   public contextParam = input.required<string>();
+  public placeholder = input<string>();
   public title = input('');
   public subtitle = input('');
   public image = input<string | null>(null);

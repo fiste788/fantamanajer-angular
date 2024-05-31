@@ -17,11 +17,13 @@
       >
         @if(backgroundImage()) {
         <img
-          fetchpriority="high"
-          loading="eager"
-          sizes=""
+          fill
+          priority
+          disableOptimizedSrcset
+          [ngSrc]="backgroundImage() | srcset: true"
+          [attr.srcset]="backgroundImage() | srcset"
+          [style.background-image]="placeholder()"
           [alt]="title()"
-          [appSrcset]="backgroundImage()"
           (load)="imageLoad()"
         >
         } @else {

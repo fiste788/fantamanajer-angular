@@ -1,0 +1,51 @@
+<mat-card appearance="outlined">
+  <figure
+    class="aspect-ratio-box"
+    mat-card-image
+    [style.viewTransitionName]="viewTransitionName(team())"
+  >
+    @if (team().photo_url) {
+    <a
+      [routerLink]="['/teams/',team().id]"
+      [state]="{img: 'url(\'' + listImg.currentSrc + '\')'}"
+    >
+      <img
+        #listImg
+        height="337"
+        sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+        width="600"
+        [alt]="team().name"
+        [class.has-image]="team().photo_url !== null"
+        [lazyLoad]="(team().photo_url | srcset)"
+        [useSrcset]="true"
+      >
+    </a>
+    } @else {
+    <div class="placeholder">
+      <span>{{team().name}}</span>
+    </div>
+    }
+    <ng-template #placeholder>
+      <div class="placeholder">
+        <span>{{team().name}}</span>
+      </div>
+    </ng-template>
+  </figure>
+
+  <mat-card-header>
+    <mat-card-title [style.viewTransitionName]="'title-' + team().name">{{team().name}}</mat-card-title>
+    <mat-card-subtitle>{{team().user.email}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <a
+      color="primary"
+      mat-button
+      [routerLink]="['/teams/',team().id]"
+    >DETTAGLI</a>
+    <a
+      color="primary"
+      mat-button
+      [routerLink]="['/teams/',team().id, 'scores','last']"
+    >PUNTEGGIO</a>
+  </mat-card-actions>
+</mat-card>

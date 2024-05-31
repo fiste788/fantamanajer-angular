@@ -19,8 +19,13 @@
   }
 
   img {
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    position: static !important;
     display: block;
     width: 100%;
+    min-height: 20rem;
   }
 }
 

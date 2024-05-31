@@ -6,7 +6,7 @@ import { Directive, ElementRef, OnChanges, OnInit, Renderer2, input } from '@ang
 })
 export class SrcsetDirective implements OnInit, OnChanges {
   public appSrcset = input<Record<string, string> | string | null>();
-  public placeholder = input('');
+  public placeholder = input<string>();
 
   constructor(
     private readonly renderer: Renderer2,

@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, afterNextRender, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,6 +38,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
 })
 export class TeamDetailPage implements OnInit {
   protected team = input.required<Team>();
+  protected placeholder?: string;
 
   protected tabs$!: Observable<Array<Tab>>;
 
@@ -46,7 +47,12 @@ export class TeamDetailPage implements OnInit {
     protected readonly auth: AuthenticationService,
     private readonly layoutService: LayoutService,
     private readonly dialog: MatDialog,
-  ) {}
+  ) {
+    afterNextRender(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this.placeholder = history.state?.img as string;
+    });
+  }
 
   public ngOnInit(): void {
     this.tabs$ = this.loadTabs();
