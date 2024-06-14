@@ -1,10 +1,11 @@
-import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { Route, Router } from '@angular/router';
 
-import { authenticatedGuard, noAuthGuard } from '@app/guards';
+import { AuthenticationService } from '@app/authentication';
+import { noAuthGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { LoginPage } from './pages/login/login.page';
-import { LogoutPage } from './pages/logout/logout.page';
 
 export default [
   {
@@ -21,8 +22,16 @@ export default [
       },
       {
         path: 'logout',
-        component: LogoutPage,
-        canActivate: [authenticatedGuard],
+        canActivate: [
+          async () => {
+            const authService = inject(AuthenticationService);
+            const router = inject(Router);
+
+            await authService.logout();
+
+            return router.navigate(['/']);
+          },
+        ],
         data: {
           state: 'logout',
         },

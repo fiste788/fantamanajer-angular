@@ -1,11 +1,11 @@
 import { NgIf, NgFor, DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
-import { firstValueFrom, map } from 'rxjs';
+import { Subscription, firstValueFrom, from, map } from 'rxjs';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ArticleService } from '@data/services';
@@ -28,11 +28,13 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
     DatePipe,
   ],
 })
-export class ArticleListPage implements OnInit {
+export class ArticleListPage implements OnInit, OnDestroy {
   protected articles: Array<Article> = [];
   protected pagination?: Pagination;
   protected isLoading = false;
   private page = 1;
+
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly snackBar: MatSnackBar,
@@ -42,8 +44,12 @@ export class ArticleListPage implements OnInit {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  public async ngOnInit(): Promise<void> {
-    return this.loadData();
+  public ngOnInit(): void {
+    this.subscription.add(from(this.loadData()).subscribe());
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   protected async loadData(page = 1): Promise<void> {

@@ -1,6 +1,9 @@
-import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { RedirectCommand, Route, Router } from '@angular/router';
+import { map } from 'rxjs';
 
-import { AddTransfertShortcutPage } from './pages/add-transfert-shortcut/add-transfert-shortcut.page';
+import { ApplicationService } from '@app/services';
+
 import { TransfertListPage } from './pages/transfert-list/transfert-list.page';
 
 export default [
@@ -11,6 +14,16 @@ export default [
   },
   {
     path: 'new',
-    component: AddTransfertShortcutPage,
+    canActivate: [
+      () => {
+        const app = inject(ApplicationService);
+        const router = inject(Router);
+
+        return app.requireTeam$.pipe(
+          map((t) => router.createUrlTree(['teams', t.id, 'transferts'])),
+          map((urlTree) => new RedirectCommand(urlTree, { skipLocationChange: true })),
+        );
+      },
+    ],
   },
 ] as Array<Route>;

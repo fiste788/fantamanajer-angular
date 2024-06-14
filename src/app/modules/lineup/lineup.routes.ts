@@ -1,8 +1,10 @@
-import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { RedirectCommand, Route, Router } from '@angular/router';
+import { map } from 'rxjs';
 
+import { ApplicationService } from '@app/services';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
-import { AddLineupShortcutPage } from './pages/add-lineup-shortcut/add-lineup-shortcut.page';
 import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
 
 export default [
@@ -19,7 +21,17 @@ export default [
       },
       {
         path: 'new',
-        component: AddLineupShortcutPage,
+        canActivate: [
+          () => {
+            const app = inject(ApplicationService);
+            const router = inject(Router);
+
+            return app.requireTeam$.pipe(
+              map((t) => router.createUrlTree(['teams', t.id, 'lineup', 'current'])),
+              map((urlTree) => new RedirectCommand(urlTree, { skipLocationChange: true })),
+            );
+          },
+        ],
       },
     ],
   },

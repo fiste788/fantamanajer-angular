@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { finalize, firstValueFrom, map } from 'rxjs';
+import { Subscription, finalize, firstValueFrom, from, map } from 'rxjs';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { LineupService as LineupHttpService } from '@data/services';
@@ -42,10 +42,12 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
     MemberSelectionComponent,
   ],
 })
-export class LineupDetailComponent implements OnInit {
+export class LineupDetailComponent implements OnInit, OnDestroy {
   public lineup = input<EmptyLineup>();
   public disabled = input(false, { transform: booleanAttribute });
   public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
+
+  private readonly subscription = new Subscription();
 
   constructor(
     protected readonly lineupService: LineupService,
@@ -55,8 +57,12 @@ export class LineupDetailComponent implements OnInit {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  public async ngOnInit(): Promise<void> {
-    return this.loadLineup();
+  public ngOnInit(): void {
+    this.subscription.add(from(this.loadLineup()).subscribe());
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public getLineup(): EmptyLineup {

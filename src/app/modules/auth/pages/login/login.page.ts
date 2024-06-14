@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,8 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription, firstValueFrom, from } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';
@@ -35,7 +35,7 @@ import { cardCreationAnimation } from '@shared/animations';
     MatCheckboxModule,
   ],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
   protected readonly stepper = viewChild.required<MatStepper>('stepper');
   protected readonly form = viewChild<NgForm>('f');
   protected readonly userForm = viewChild<NgForm>('userForm');
@@ -43,6 +43,8 @@ export class LoginPage implements OnInit {
     email?: string;
     password?: string;
   } = {};
+
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -54,10 +56,12 @@ export class LoginPage implements OnInit {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  public async ngOnInit(): Promise<boolean> {
-    const result = await this.authService.authenticatePasskey();
+  public ngOnInit(): void {
+    this.subscription.add(this.connectLoginPasskey());
+  }
 
-    return this.postLogin(result);
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   protected async login(): Promise<boolean> {
@@ -103,6 +107,12 @@ export class LoginPage implements OnInit {
     this.form()?.reset();
     this.userForm()?.resetForm();
     this.stepper().reset();
+  }
+
+  private connectLoginPasskey(): Subscription {
+    return from(this.authService.authenticatePasskey())
+      .pipe(switchMap(async (result) => this.postLogin(result)))
+      .subscribe();
   }
 
   private getUrl(team: Team): string {
