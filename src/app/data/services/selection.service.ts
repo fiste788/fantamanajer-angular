@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,10 +14,10 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getSelections(id: number): Observable<Array<Selection>> {
-    return this.http.get<Array<Selection>>(routes.selection(id));
+    return this.#http.get<Array<Selection>>(routes.selection(id));
   }
 
   public getLastOrNewSelection(id: number): Observable<Selection> {
@@ -25,13 +25,13 @@ export class SelectionService {
   }
 
   public update(selection: Selection): Observable<Pick<Selection, 'id'>> {
-    return this.http.put<Pick<Selection, 'id'>>(
+    return this.#http.put<Pick<Selection, 'id'>>(
       `${routes.selection(selection.team_id)}/${selection.id}`,
       selection,
     );
   }
 
   public create(selection: AtLeast<Selection, 'team_id'>): Observable<AtLeast<Selection, 'id'>> {
-    return this.http.post<Selection>(routes.selection(selection.team_id), selection);
+    return this.#http.post<Selection>(routes.selection(selection.team_id), selection);
   }
 }

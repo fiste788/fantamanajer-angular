@@ -1,10 +1,10 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';
-import { Club, Member } from '@data/types';
+import { Club } from '@data/types';
 import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
 
 @Component({
@@ -13,11 +13,9 @@ import { MemberListComponent } from '@modules/member-common/components/member-li
   imports: [NgIf, MemberListComponent],
 })
 export class ClubMembersPage {
-  protected readonly members$: Observable<Array<Member>>;
+  readonly #clubService = inject(MemberService);
 
-  constructor(private readonly memberService: MemberService) {
-    this.members$ = getRouteData<Club>('club').pipe(
-      switchMap((club) => this.memberService.getByClubId(club.id)),
-    );
-  }
+  protected readonly members$ = getRouteData<Club>('club').pipe(
+    switchMap((club) => this.#clubService.getByClubId(club.id)),
+  );
 }

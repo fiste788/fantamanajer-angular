@@ -6,6 +6,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
   input,
   numberAttribute,
   viewChild,
@@ -40,22 +41,23 @@ import { StreamDataSource } from './stream.datasource';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
+  readonly #streamService = inject(StreamService);
+
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
   protected viewport = viewChild(CdkVirtualScrollViewport);
-
+  protected ds!: StreamDataSource;
   protected backgroundColor = '';
   protected foregroundColor = '';
-  protected ds!: StreamDataSource;
   protected width!: number;
 
-  constructor(private readonly streamService: StreamService) {
+  constructor() {
     addVisibleClassOnDestroy(listItemAnimation);
   }
 
   public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.streamService, this.context(), this.id());
+    this.ds = new StreamDataSource(this.#streamService, this.context(), this.id());
   }
 
   public ngAfterViewInit(): void {

@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -48,6 +48,10 @@ import { LayoutService } from 'src/app/layout/services';
   ],
 })
 export class PlayerPage implements OnInit {
+  readonly #ratingService = inject(RatingService);
+  readonly #layoutService = inject(LayoutService);
+
+  protected readonly app = inject(ApplicationService);
   protected readonly player = input.required<Player>();
   protected firstMember?: Member;
   protected ratings$?: Observable<Array<Rating>>;
@@ -67,11 +71,7 @@ export class PlayerPage implements OnInit {
     'quotation',
   ];
 
-  constructor(
-    private readonly ratingService: RatingService,
-    private readonly layoutService: LayoutService,
-    protected readonly app: ApplicationService,
-  ) {
+  constructor() {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
@@ -87,7 +87,7 @@ export class PlayerPage implements OnInit {
       map((selected) => selected ?? this.firstMember),
       distinctUntilChanged(),
       filterNil(),
-      switchMap((member) => this.ratingService.getRatings(member.id)),
+      switchMap((member) => this.#ratingService.getRatings(member.id)),
     );
   }
 
@@ -100,6 +100,6 @@ export class PlayerPage implements OnInit {
   }
 
   protected scrollTo(height: number): void {
-    this.layoutService.scrollTo(0, height - 300);
+    this.#layoutService.scrollTo(0, height - 300);
   }
 }

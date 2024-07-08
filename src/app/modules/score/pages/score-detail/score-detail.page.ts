@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -24,18 +24,14 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class ScoreDetailPage implements OnInit {
+  readonly #route = inject(ActivatedRoute);
+  readonly #scoreService = inject(ScoreService);
+
   protected id = input('');
-  protected team$!: Observable<Team>;
+  protected team$ = getRouteData<Team>('team');
   protected score$!: Observable<Score>;
   protected regular$!: Observable<Array<Disposition>>;
   protected notRegular$!: Observable<Array<Disposition>>;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly scoreService: ScoreService,
-  ) {
-    this.team$ = getRouteData<Team>('team');
-  }
 
   public ngOnInit(): void {
     this.score$ = this.getScore().pipe(shareReplay({ bufferSize: 0, refCount: true }));
@@ -48,8 +44,8 @@ export class ScoreDetailPage implements OnInit {
   }
 
   protected getScore(): Observable<Score> {
-    return this.route.snapshot.url.pop()?.path === 'last'
-      ? this.team$.pipe(switchMap((team) => this.scoreService.getLastScore(team.id)))
-      : this.scoreService.getScore(+this.id);
+    return this.#route.snapshot.url.pop()?.path === 'last'
+      ? this.team$.pipe(switchMap((team) => this.#scoreService.getLastScore(team.id)))
+      : this.#scoreService.getScore(+this.id);
   }
 }

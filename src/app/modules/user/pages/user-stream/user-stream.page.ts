@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { StreamComponent } from '@modules/stream/components/stream.component';
@@ -11,9 +11,5 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
   imports: [StreamComponent, AsyncPipe],
 })
 export class UserStreamPage {
-  protected readonly id$: Observable<number>;
-
-  constructor(private readonly auth: AuthenticationService) {
-    this.id$ = this.auth.requireUser$.pipe(map((u) => u.id));
-  }
+  protected readonly id$ = inject(AuthenticationService).requireUser$.pipe(map((u) => u.id));
 }

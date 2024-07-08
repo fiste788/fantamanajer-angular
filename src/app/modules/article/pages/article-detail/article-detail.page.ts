@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,29 +20,25 @@ import { Article } from '@data/types';
   imports: [NgIf, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
 })
 export class ArticleDetailPage {
-  protected readonly article$: Observable<AtLeast<Article, 'team_id'>>;
+  readonly #snackBar = inject(MatSnackBar);
+  readonly #app = inject(ApplicationService);
+  readonly #router = inject(Router);
+  readonly #articleService = inject(ArticleService);
 
-  constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly app: ApplicationService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly articleService: ArticleService,
-  ) {
-    const id = this.route.snapshot.params['id'] as string | undefined;
-    this.article$ = id === undefined ? this.new() : this.load(+id);
+  protected readonly article$ = this.getArticle();
+
+  protected getArticle(): Observable<Article> {
+    const id = inject(ActivatedRoute).snapshot.params['id'] as string | undefined;
+
+    return id === undefined ? this.new() : this.load(+id);
   }
 
   protected load(id: number): Observable<Article> {
-    return this.articleService.getArticle(id);
+    return this.#articleService.getArticle(id);
   }
 
-  protected new(): Observable<Pick<Article, 'team_id'>> {
-    return this.app.requireTeam$.pipe(
-      map((t) => ({
-        team_id: t.id,
-      })),
-    );
+  protected new(): Observable<Article> {
+    return this.#app.requireTeam$.pipe(map((t) => ({ team_id: t.id }) as Article));
   }
 
   protected async save(
@@ -51,15 +47,15 @@ export class ArticleDetailPage {
   ): Promise<boolean> {
     if (articleForm?.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
-        ? this.articleService.update(article as AtLeast<Article, 'id'>)
-        : this.articleService.create(article);
+        ? this.#articleService.update(article as AtLeast<Article, 'id'>)
+        : this.#articleService.create(article);
 
       return firstValueFrom(
         save$.pipe(
           map(async (a: AtLeast<Article, 'id'>) => {
-            this.snackBar.open('Articolo salvato correttamente');
+            this.#snackBar.open('Articolo salvato correttamente');
 
-            return this.router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
+            return this.#router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
           }),
         ),
         { defaultValue: false },

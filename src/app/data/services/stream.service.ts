@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Stream } from '../types';
@@ -15,10 +15,10 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class StreamService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getByChampionship(championshipsId: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(routes.championships(championshipsId), {
+    return this.#http.get<Stream>(routes.championships(championshipsId), {
       params: {
         page: [`${page}`],
       },
@@ -26,7 +26,7 @@ export class StreamService {
   }
 
   public getByTeam(teamId: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(routes.team(teamId), {
+    return this.#http.get<Stream>(routes.team(teamId), {
       params: {
         page: [`${page}`],
       },
@@ -34,7 +34,7 @@ export class StreamService {
   }
 
   public getByClub(clubId: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(routes.club(clubId), {
+    return this.#http.get<Stream>(routes.club(clubId), {
       params: {
         page: [`${page}`],
       },
@@ -42,7 +42,7 @@ export class StreamService {
   }
 
   public getByUser(userId: number, page = 1): Observable<Stream> {
-    return this.http.get<Stream>(routes.user(userId), {
+    return this.#http.get<Stream>(routes.user(userId), {
       params: {
         page: [`${page}`],
       },
@@ -54,7 +54,7 @@ export class StreamService {
     id: number,
     page = 1,
   ): Observable<Stream> {
-    return this.http.get<Stream>(routes.get(context, id), {
+    return this.#http.get<Stream>(routes.get(context, id), {
       params: {
         page: [`${page}`],
       },

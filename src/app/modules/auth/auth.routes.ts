@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { RedirectCommand, Route, Router } from '@angular/router';
 
 import { AuthenticationService } from '@app/authentication';
 import { noAuthGuard } from '@app/guards';
@@ -22,6 +22,7 @@ export default [
       },
       {
         path: 'logout',
+        children: [],
         canActivate: [
           async () => {
             const authService = inject(AuthenticationService);
@@ -29,12 +30,9 @@ export default [
 
             await authService.logout();
 
-            return router.navigate(['/']);
+            return new RedirectCommand(router.createUrlTree(['/']), { skipLocationChange: false });
           },
         ],
-        data: {
-          state: 'logout',
-        },
       },
     ],
   },

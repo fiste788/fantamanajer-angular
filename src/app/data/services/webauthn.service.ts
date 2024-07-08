@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   create,
   get,
@@ -22,28 +22,32 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class WebauthnService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
-  public login(
-    credential: PublicKeyCredentialWithAssertionJSON,
-  ): Observable<{ user: User; token: string }> {
-    return this.http.post<{ user: User; token: string }>(routes.login, credential);
+  public login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{
+    user: User;
+    token: string;
+  }> {
+    return this.#http.post<{
+      user: User;
+      token: string;
+    }>(routes.login, credential);
   }
 
   public register(
     credential: PublicKeyCredentialWithAttestationJSON,
   ): Observable<PublicKeyCredentialSource> {
-    return this.http.post<PublicKeyCredentialSource>(routes.register, credential);
+    return this.#http.post<PublicKeyCredentialSource>(routes.register, credential);
   }
 
   public get(email?: string): Observable<CredentialRequestOptionsJSON> {
     const params = email ? new HttpParams().set('email', email) : new HttpParams();
 
-    return this.http.get<CredentialRequestOptionsJSON>(routes.login, { params });
+    return this.#http.get<CredentialRequestOptionsJSON>(routes.login, { params });
   }
 
   public create(): Observable<CredentialCreationOptionsJSON> {
-    return this.http.get<CredentialCreationOptionsJSON>(routes.register);
+    return this.#http.get<CredentialCreationOptionsJSON>(routes.register);
   }
 
   public async isSupported(): Promise<boolean> {
@@ -75,9 +79,13 @@ export class WebauthnService {
     return undefined;
   }
 
-  public async loginPasskey(
-    cred: CredentialRequestOptionsJSON,
-  ): Promise<{ user: User; token: string } | undefined> {
+  public async loginPasskey(cred: CredentialRequestOptionsJSON): Promise<
+    | {
+        user: User;
+        token: string;
+      }
+    | undefined
+  > {
     const assertion = await get(cred);
 
     return firstValueFrom(this.login(assertion), { defaultValue: undefined });

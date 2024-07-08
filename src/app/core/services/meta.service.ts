@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { NavigationEnd, ActivatedRoute, Router, Data } from '@angular/router';
 import { Subscription, filter, map } from 'rxjs';
@@ -16,24 +16,22 @@ interface SEOData {
   providedIn: 'root',
 })
 export class MetaService {
-  constructor(
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly metaService: Meta,
-  ) {}
+  readonly #router = inject(Router);
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #metaService = inject(Meta);
 
   public connect(): Subscription {
-    return this.router.events
+    return this.#router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        map(() => this.getChild(this.activatedRoute).snapshot),
+        map(() => this.getChild(this.#activatedRoute).snapshot),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         map((route) => (route.data['parent'] ? route.parent!.data : route.data)),
       )
       .subscribe((data) => {
         this.setTag('description', data, 'description');
         this.setTag('robots', data, 'robots', 'follow,index');
-        this.setTag('og:url', data, 'ogUrl', this.router.url);
+        this.setTag('og:url', data, 'ogUrl', this.#router.url);
         this.setTag('og:title', data, 'ogTitle');
         this.setTag('og:description', data, 'ogDescription');
         this.setTag('og:image', data, 'ogImage');
@@ -43,11 +41,11 @@ export class MetaService {
   private setTag(property: string, data: Data, key: keyof SEOData, defaultValue?: string): void {
     const meta = (data as SEOData)[key];
     if (meta !== undefined) {
-      this.metaService.updateTag({ property, content: this.getLabel(meta, data) });
+      this.#metaService.updateTag({ property, content: this.getLabel(meta, data) });
     } else if (defaultValue) {
-      this.metaService.updateTag({ property, content: defaultValue });
+      this.#metaService.updateTag({ property, content: defaultValue });
     } else {
-      this.metaService.removeTag(`property='${property}'`);
+      this.#metaService.removeTag(`property='${property}'`);
     }
   }
 

@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,17 +32,12 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class LineupLastPage {
-  protected readonly lineup$: Observable<EmptyLineup>;
+  readonly #snackBar = inject(MatSnackBar);
+  readonly #lineupService = inject(LineupService);
+  protected readonly app = inject(ApplicationService);
+  protected readonly lineup$ = this.loadData();
   protected editMode = false;
   protected benchs = environment.benchwarmersCount;
-
-  constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly lineupService: LineupService,
-    protected readonly app: ApplicationService,
-  ) {
-    this.lineup$ = this.loadData();
-  }
 
   protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
@@ -54,7 +49,7 @@ export class LineupLastPage {
 
         return team;
       }),
-      switchMap((team) => this.lineupService.getLineup(team.id)),
+      switchMap((team) => this.#lineupService.getLineup(team.id)),
     );
   }
 
@@ -63,8 +58,8 @@ export class LineupLastPage {
       // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
-        ? this.lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
-        : this.lineupService.create(lineup);
+        ? this.#lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
+        : this.#lineupService.create(lineup);
 
       return firstValueFrom(
         save$.pipe(
@@ -72,14 +67,14 @@ export class LineupLastPage {
             if (response.id) {
               lineup.id = response.id;
             }
-            this.snackBar.open('Formazione salvata correttamente');
+            this.#snackBar.open('Formazione salvata correttamente');
           }),
           catchError((err: unknown) => getUnprocessableEntityErrors(err, lineupForm)),
         ),
         { defaultValue: undefined },
       );
     }
-    this.snackBar.open('Si sono verificati errori di validazione');
+    this.#snackBar.open('Si sono verificati errori di validazione');
 
     return undefined;
   }

@@ -1,99 +1,90 @@
 <div @cardCreationAnimation>
   @if ((league$ | async); as league) {
   <mat-card appearance="outlined">
-    @if ((championship$ | async); as championship ) {
-    <form
-      #championshipForm="ngForm"
-      class="flex flex-col justify-start align-start"
-      (ngSubmit)="save(league, championship, championshipForm)"
-    >
-      <mat-form-field>
-        <mat-label>Nome lega</mat-label>
-        <input
-          matInput
-          name="name"
-          placeholder="Nome lega"
-          required
-          [(ngModel)]="league.name"
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Numero max trasferimenti</mat-label>
-        <input
-          matInput
-          name="number_transferts"
-          placeholder="Numero max trasferimenti"
-          required
-          type="number"
-          [(ngModel)]="championship.number_transferts"
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Numero max cambi selezione</mat-label>
-        <input
-          matInput
-          name="number_selections"
-          placeholder="Numero max cambi selezione"
-          required
-          type="number"
-          [(ngModel)]="championship.number_selections"
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Minuti anticipo formazione</mat-label>
-        <input
-          matInput
-          name="minute_lineup"
-          placeholder="Minuti anticipo formazione"
-          required
-          type="number"
-          [(ngModel)]="championship.minute_lineup"
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Percentuale formazione mancante</mat-label>
-        <input
-          matInput
-          max="100"
-          min="0"
-          name="points_missed_lineup"
-          placeholder="Percentuale formazione mancante"
-          required
-          type="number"
-          [(ngModel)]="championship.points_missed_lineup"
-        >
-      </mat-form-field>
-      <mat-slider
-        max="100"
-        min="0"
-        name="points_missed_lineup"
-        placeholder="Percentuale formazione mancante"
-        showTickMarks
-        step="0.5"
-        thumbLabel
-        [displayWith]="formatLabel"
-        [(ngModel)]="championship.points_missed_lineup"
-      ><input matSliderThumb /></mat-slider>
-      <mat-slide-toggle
-        name="captain"
-        [(ngModel)]="championship.captain"
-      >Capitano</mat-slide-toggle>
-      <mat-slide-toggle
-        name="captain_missed_lineup"
-        [(ngModel)]="championship.captain_missed_lineup"
-      >Capitano formazione mancante</mat-slide-toggle>
-      <mat-slide-toggle
-        name="jolly"
-        [(ngModel)]="championship.jolly"
-      >Jolly</mat-slide-toggle>
-      <button
-        color="accent"
-        mat-flat-button
-        type="submit"
-        [disabled]="!championshipForm.form.valid"
-      >SALVA</button>
-    </form>
-    }
+    <mat-card-content>
+      @if ((championship$ | async); as championship ) {
+      <form
+        #championshipForm="ngForm"
+        class="flex flex-col justify-start align-start"
+        (ngSubmit)="save(league, championship, championshipForm)"
+      >
+        <mat-form-field>
+          <mat-label>Nome lega</mat-label>
+          <input
+            matInput
+            name="name"
+            placeholder="Nome lega"
+            required
+            [(ngModel)]="league.name"
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Numero max trasferimenti</mat-label>
+          <input
+            matInput
+            name="number_transferts"
+            placeholder="Numero max trasferimenti"
+            required
+            type="number"
+            [(ngModel)]="championship.number_transferts"
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Numero max cambi selezione</mat-label>
+          <input
+            matInput
+            name="number_selections"
+            placeholder="Numero max cambi selezione"
+            required
+            type="number"
+            [(ngModel)]="championship.number_selections"
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Minuti anticipo formazione</mat-label>
+          <input
+            matInput
+            name="minute_lineup"
+            placeholder="Minuti anticipo formazione"
+            required
+            type="number"
+            [(ngModel)]="championship.minute_lineup"
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Percentuale formazione mancante</mat-label>
+          <input
+            matInput
+            max="100"
+            min="0"
+            name="points_missed_lineup"
+            placeholder="Percentuale formazione mancante"
+            required
+            type="number"
+            [(ngModel)]="championship.points_missed_lineup"
+          >
+        </mat-form-field>
+        <mat-slide-toggle
+          name="captain"
+          [(ngModel)]="championship.captain"
+        >Capitano</mat-slide-toggle>
+        <mat-slide-toggle
+          name="captain_missed_lineup"
+          [(ngModel)]="championship.captain_missed_lineup"
+        >Capitano formazione mancante</mat-slide-toggle>
+        <mat-slide-toggle
+          name="jolly"
+          [(ngModel)]="championship.jolly"
+        >Jolly</mat-slide-toggle>
+        <button
+          color="accent"
+          mat-flat-button
+          type="submit"
+          [disabled]="!championshipForm.form.valid"
+        >SALVA</button>
+      </form>
+      }
+    </mat-card-content>
   </mat-card>
   }
 </div>

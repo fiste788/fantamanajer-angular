@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Club } from '../types';
@@ -12,13 +12,13 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ClubService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getClubs(): Observable<Array<Club>> {
-    return this.http.get<Array<Club>>(routes.clubs);
+    return this.#http.get<Array<Club>>(routes.clubs);
   }
 
   public getClub(id: number): Observable<Club> {
-    return this.http.get<Club>(routes.club(id));
+    return this.#http.get<Club>(routes.club(id));
   }
 }

@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/no-useless-undefined */
 
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { MatTabNav } from '@angular/material/tabs';
 import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 
@@ -10,13 +10,24 @@ import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } fro
   providedIn: 'root',
 })
 export class CurrentTransitionService {
+  readonly #document = inject<Document>(DOCUMENT);
+
   public readonly currentTransition = signal<
-    { transition: ViewTransitionInfo; previousUrl?: UrlTree; finalUrl?: UrlTree } | undefined
+    | {
+        transition: ViewTransitionInfo;
+        previousUrl?: UrlTree;
+        finalUrl?: UrlTree;
+      }
+    | undefined
   >(undefined);
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document) {}
-
-  public getViewTransitionName(transitionName: string, entity: { id: number }, param = 'id') {
+  public getViewTransitionName(
+    transitionName: string,
+    entity: {
+      id: number;
+    },
+    param = 'id',
+  ) {
     const info = this.currentTransition();
     if (info) {
       // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
@@ -26,8 +37,8 @@ export class CurrentTransitionService {
         this.getOutlet(info.transition?.from)?.firstChild?.params[param] === `${entity.id}`;
 
       if (isBannerImg) {
-        this.document.documentElement.classList.remove('list-to-detail');
-        this.document.documentElement.classList.add('detail-to-list');
+        this.#document.documentElement.classList.remove('list-to-detail');
+        this.#document.documentElement.classList.add('detail-to-list');
       }
 
       return isBannerImg ? transitionName : '';
@@ -53,8 +64,8 @@ export class CurrentTransitionService {
           this.getOutlet(info.transition?.from)?.firstChild?.params[param];
 
         if (isBannerImg) {
-          this.document.documentElement.classList.remove('detail-to-list');
-          this.document.documentElement.classList.add('list-to-detail');
+          this.#document.documentElement.classList.remove('detail-to-list');
+          this.#document.documentElement.classList.add('list-to-detail');
         }
 
         return isBannerImg ? transitionName : '';
@@ -86,9 +97,9 @@ export class CurrentTransitionService {
         const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
         if (pre > -1 && post > -1) {
           if (pre > post) {
-            this.document.documentElement.classList.add('direction-right');
+            this.#document.documentElement.classList.add('direction-right');
           } else {
-            this.document.documentElement.classList.add('direction-left');
+            this.#document.documentElement.classList.add('direction-left');
           }
         }
       }

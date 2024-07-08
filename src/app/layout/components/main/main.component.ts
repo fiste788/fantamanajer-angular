@@ -3,17 +3,15 @@ import { trigger } from '@angular/animations';
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewInit,
-  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   NgZone,
   OnDestroy,
-  Signal,
   afterNextRender,
   viewChild,
+  inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
@@ -51,6 +49,14 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   ],
 })
 export class MainComponent implements OnDestroy, AfterViewInit {
+  readonly #subscriptions = new Subscription();
+  readonly #layoutService = inject(LayoutService);
+  readonly #ngZone = inject(NgZone);
+  readonly #transitionService = inject(CurrentTransitionService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #window = inject<Window>(WINDOW);
+  readonly #auth = inject(AuthenticationService);
+
   protected drawer = viewChild.required(MatSidenav);
   protected container = viewChild.required(MatSidenavContent);
   protected toolbar = viewChild.required<ToolbarComponent, ElementRef<HTMLElement>>(
@@ -60,65 +66,47 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     },
   );
 
-  protected readonly isReady$: Observable<boolean>;
-  protected readonly isOpen$: Observable<boolean>;
-  protected readonly isHandset$: Observable<boolean>;
-  protected readonly isTablet$: Observable<boolean>;
-  protected readonly openedSidebar$: Observable<boolean>;
-  protected readonly showedSpeedDial$: Observable<VisibilityState>;
-  protected readonly showedSpeedDialSignal: Signal<VisibilityState>;
-  protected readonly showedToolbar$: Observable<VisibilityState>;
+  protected readonly isReady$ = inject(LayoutService).isReady$;
+  protected readonly isHandset$ = inject(LayoutService).isHandset$;
+  protected readonly isTablet$ = inject(LayoutService).isTablet$;
+  protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
+  protected readonly isOpen$ = this.isOpenObservable();
+  protected readonly showedSpeedDial$ = this.isShowedSpeedDial();
+  protected readonly showedSpeedDialSignal = toSignal(this.showedSpeedDial$, {
+    initialValue: VisibilityState.Hidden,
+  });
+
+  protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
 
-  private readonly subscriptions = new Subscription();
-
-  constructor(
-    @Inject(WINDOW) private readonly window: Window,
-    public readonly app: ApplicationRef,
-    private readonly auth: AuthenticationService,
-    private readonly layoutService: LayoutService,
-    private readonly ngZone: NgZone,
-    private readonly transitionService: CurrentTransitionService,
-    private readonly changeRef: ChangeDetectorRef,
-  ) {
-    this.isReady$ = this.layoutService.isReady$;
-    this.isHandset$ = this.layoutService.isHandset$;
-    this.isTablet$ = this.layoutService.isTablet$;
-    this.openedSidebar$ = this.layoutService.openedSidebar$;
-    this.isOpen$ = this.isOpenObservable();
-    this.showedSpeedDial$ = this.isShowedSpeedDial();
-    this.showedSpeedDialSignal = toSignal(this.showedSpeedDial$, {
-      initialValue: VisibilityState.Hidden,
-    });
-    this.showedToolbar$ = this.layoutService.isShowToolbar$;
-
+  constructor() {
     afterNextRender(() => {
       this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
-      this.setupScrollAnimation(this.window);
+      this.setupScrollAnimation(this.#window);
     });
   }
 
   public ngAfterViewInit(): void {
     // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
-    this.subscriptions.add(this.initDrawer().subscribe());
-    this.subscriptions.add(this.layoutService.connectChangePageAnimation());
-    this.changeRef.detectChanges();
+    this.#subscriptions.add(this.initDrawer().subscribe());
+    this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
+    this.#changeRef.detectChanges();
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.#subscriptions.unsubscribe();
   }
 
   protected open(open: boolean): void {
-    this.layoutService.toggleSidebar(open);
+    this.#layoutService.toggleSidebar(open);
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isRootOutlet() ? 'main' : '';
+    return this.#transitionService.isRootOutlet() ? 'main' : '';
   }
 
   private setupScrollAnimation(window: Window): void {
-    this.ngZone.runOutsideAngular(() => {
+    this.#ngZone.runOutsideAngular(() => {
       this.isScrolled$ = fromEvent(window, 'scroll').pipe(
         throttleTime(15),
         map(() => window.scrollY),
@@ -127,7 +115,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
         share(),
       );
 
-      this.layoutService.connectScrollAnimation(window, this.getToolbarHeight.bind(this));
+      this.#layoutService.connectScrollAnimation(window, this.getToolbarHeight.bind(this));
     });
   }
 
@@ -135,7 +123,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     return (
       this.drawer().openedStart.pipe(
         mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
-        map(() => this.layoutService.setReady()),
+        map(() => this.#layoutService.setReady()),
       ) ?? EMPTY
     );
   }
@@ -153,7 +141,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   private isShowedSpeedDial(): Observable<VisibilityState> {
-    return combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$]).pipe(
+    return combineLatest([this.#layoutService.isShowSpeedDial$, this.#auth.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
     );
   }

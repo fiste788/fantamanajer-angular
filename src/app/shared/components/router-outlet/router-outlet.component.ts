@@ -14,9 +14,9 @@ import { StatePipe } from '@shared/pipes';
   imports: [RouterOutlet, StatePipe],
 })
 export class RouterOutletComponent {
-  private readonly transitionService = inject(CurrentTransitionService);
+  readonly #transitionService = inject(CurrentTransitionService);
 
   protected viewTransitionName(o: RouterOutlet) {
-    return o.isActivated && this.transitionService.isLastOutlet(o) ? 'main' : '';
+    return o.isActivated && this.#transitionService.isLastOutlet(o) ? 'main' : '';
   }
 }

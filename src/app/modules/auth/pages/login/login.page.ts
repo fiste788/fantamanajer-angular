@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, viewChild, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +36,13 @@ import { cardCreationAnimation } from '@shared/animations';
   ],
 })
 export class LoginPage implements OnInit, OnDestroy {
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #authService = inject(AuthenticationService);
+  readonly #app = inject(ApplicationService);
+  readonly #cd = inject(ChangeDetectorRef);
+  readonly #subscription = new Subscription();
+
   protected readonly stepper = viewChild.required<MatStepper>('stepper');
   protected readonly form = viewChild<NgForm>('f');
   protected readonly userForm = viewChild<NgForm>('userForm');
@@ -44,31 +51,23 @@ export class LoginPage implements OnInit, OnDestroy {
     password?: string;
   } = {};
 
-  private readonly subscription = new Subscription();
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly authService: AuthenticationService,
-    private readonly app: ApplicationService,
-    private readonly cd: ChangeDetectorRef,
-  ) {
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   public ngOnInit(): void {
-    this.subscription.add(this.connectLoginPasskey());
+    this.#subscription.add(this.connectLoginPasskey());
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.#subscription.unsubscribe();
   }
 
   protected async login(): Promise<boolean> {
     if (this.loginData.email && this.loginData.password) {
       try {
         const result = await firstValueFrom(
-          this.authService.authenticate(this.loginData.email, this.loginData.password),
+          this.#authService.authenticate(this.loginData.email, this.loginData.password),
           { defaultValue: false },
         );
 
@@ -84,9 +83,9 @@ export class LoginPage implements OnInit, OnDestroy {
   protected async postLogin(result: boolean): Promise<boolean> {
     if (result) {
       return firstValueFrom(
-        this.app.requireTeam$.pipe(
+        this.#app.requireTeam$.pipe(
           map((t) => this.getUrl(t)),
-          map(async (url) => this.router.navigateByUrl(url)),
+          map(async (url) => this.#router.navigateByUrl(url)),
         ),
         { defaultValue: false },
       );
@@ -95,7 +94,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if (form) {
       const { password } = form.controls;
       password?.setErrors({ msg: 'Authentication failed' });
-      this.cd.detectChanges();
+      this.#cd.detectChanges();
 
       return false;
     }
@@ -110,14 +109,14 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private connectLoginPasskey(): Subscription {
-    return from(this.authService.authenticatePasskey())
+    return from(this.#authService.authenticatePasskey())
       .pipe(switchMap(async (result) => this.postLogin(result)))
       .subscribe();
   }
 
   private getUrl(team: Team): string {
     return (
-      (this.route.snapshot.queryParams['returnUrl'] as string | undefined) ??
+      (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
       `/championships/${team.championship.id}`
     );
   }

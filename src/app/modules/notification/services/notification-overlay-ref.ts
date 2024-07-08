@@ -4,10 +4,10 @@ import { Observable, Subject } from 'rxjs';
 import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
 
 export class NotificationOverlayRef {
-  public componentInstance?: NotificationListModal;
+  readonly #beforeCloseVar = new Subject<void>();
+  readonly #afterClosedVar = new Subject<void>();
 
-  private readonly beforeCloseVar = new Subject<void>();
-  private readonly afterClosedVar = new Subject<void>();
+  public componentInstance?: NotificationListModal;
 
   constructor(private readonly overlayRef: OverlayRef) {}
 
@@ -15,8 +15,8 @@ export class NotificationOverlayRef {
     // Listen for animation 'start' events
     this.componentInstance?.animationStateChanged.subscribe((event) => {
       if (event.phaseName === 'start') {
-        this.beforeCloseVar.next();
-        this.beforeCloseVar.complete();
+        this.#beforeCloseVar.next();
+        this.#beforeCloseVar.complete();
         this.overlayRef.detachBackdrop();
       }
     });
@@ -25,8 +25,8 @@ export class NotificationOverlayRef {
     this.componentInstance?.animationStateChanged.subscribe((event) => {
       if (event.phaseName === 'done' && event.toState === 'leave') {
         this.overlayRef.dispose();
-        this.afterClosedVar.next();
-        this.afterClosedVar.complete();
+        this.#afterClosedVar.next();
+        this.#afterClosedVar.complete();
       }
 
       // Make sure to also clear the reference to the
@@ -39,10 +39,10 @@ export class NotificationOverlayRef {
   }
 
   public afterClosed(): Observable<void> {
-    return this.afterClosedVar.asObservable();
+    return this.#afterClosedVar.asObservable();
   }
 
   public beforeClose(): Observable<void> {
-    return this.beforeCloseVar.asObservable();
+    return this.#beforeCloseVar.asObservable();
   }
 }

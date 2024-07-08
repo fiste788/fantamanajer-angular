@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PublicKeyCredentialSource } from '../types';
@@ -12,13 +12,13 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class PublicKeyCredentialSourceService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public index(userId: number): Observable<Array<PublicKeyCredentialSource>> {
-    return this.http.get<Array<PublicKeyCredentialSource>>(routes.index(userId));
+    return this.#http.get<Array<PublicKeyCredentialSource>>(routes.index(userId));
   }
 
   public delete(userId: number, id: string): Observable<Record<string, never>> {
-    return this.http.delete<Record<string, never>>(routes.delete(userId, id));
+    return this.#http.delete<Record<string, never>>(routes.delete(userId, id));
   }
 }

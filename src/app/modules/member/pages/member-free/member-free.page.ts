@@ -1,5 +1,5 @@
 import { NgFor, NgIf, AsyncPipe } from '@angular/common';
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -39,23 +39,20 @@ import { tableRowAnimation } from '@shared/animations';
   ],
 })
 export class MemberFreePage {
-  @HostBinding('@tableRowAnimation') protected tableRowAnimation = '';
+  readonly #memberService = inject(MemberService);
+  readonly #championship$ = getRouteData<Championship>('championship');
 
-  public members$?: Observable<Array<Member>>;
+  @HostBinding('@tableRowAnimation')
+  protected tableRowAnimation = '';
+
+  public readonly roles = inject(RoleService).list();
+  public role$ = new BehaviorSubject(this.roles[0]!);
+  public members$ = this.getMembers();
   public selectedMember?: Member | undefined;
-  public role$: BehaviorSubject<Role>;
-  protected readonly roles: Array<Role>;
-  private readonly championship$: Observable<Championship>;
 
-  constructor(
-    protected readonly app: ApplicationService,
-    private readonly memberService: MemberService,
-    private readonly roleService: RoleService,
-  ) {
-    this.championship$ = getRouteData<Championship>('championship');
-    this.roles = this.roleService.list();
-    this.role$ = new BehaviorSubject(this.roles[0]!);
-    this.members$ = this.getMembers();
+  protected readonly app = inject(ApplicationService);
+
+  constructor() {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
@@ -68,8 +65,8 @@ export class MemberFreePage {
   }
 
   private getMembers(): Observable<Array<Member>> {
-    return combineLatest([this.role$, this.championship$]).pipe(
-      switchMap(([role, c]) => this.memberService.getFree(c.id, role.id)),
+    return combineLatest([this.role$, this.#championship$]).pipe(
+      switchMap(([role, c]) => this.#memberService.getFree(c.id, role.id)),
     );
   }
 }

@@ -11,9 +11,10 @@ import { NotificationOverlayService } from '../../services/notification-overlay.
   standalone: true,
 })
 export class NotificationListComponent implements OnInit {
+  readonly #overlayService = inject(NotificationOverlayService);
+
   public readonly origin = input.required<ElementRef>();
   public readonly open = output();
-  private readonly overlayService = inject(NotificationOverlayService);
 
   public ngOnInit(): void {
     this.openDialog();
@@ -21,6 +22,6 @@ export class NotificationListComponent implements OnInit {
   }
 
   private openDialog(): void {
-    this.overlayService.open(this.origin());
+    this.#overlayService.open(this.origin());
   }
 }

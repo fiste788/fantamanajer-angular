@@ -8,6 +8,7 @@ import {
   booleanAttribute,
   input,
   numberAttribute,
+  inject,
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -44,26 +45,26 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   ],
 })
 export class LineupDetailComponent implements OnInit, OnDestroy {
+  readonly #lineupHttpService = inject(LineupHttpService);
+  readonly #cd = inject(ChangeDetectorRef);
+  readonly #subscription = new Subscription();
+
   public lineup = input<EmptyLineup>();
   public disabled = input(false, { transform: booleanAttribute });
   public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
 
-  private readonly subscription = new Subscription();
+  protected readonly lineupService = inject(LineupService);
 
-  constructor(
-    protected readonly lineupService: LineupService,
-    private readonly lineupHttpService: LineupHttpService,
-    private readonly cd: ChangeDetectorRef,
-  ) {
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   public ngOnInit(): void {
-    this.subscription.add(from(this.loadLineup()).subscribe());
+    this.#subscription.add(from(this.loadLineup()).subscribe());
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.#subscription.unsubscribe();
   }
 
   public getLineup(): EmptyLineup {
@@ -84,7 +85,7 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
 
   protected async loadLikely(lineup: EmptyLineup): Promise<void> {
     return firstValueFrom(
-      this.lineupHttpService.getLikelyLineup(lineup).pipe(
+      this.#lineupHttpService.getLikelyLineup(lineup).pipe(
         map((members) => {
           for (const member of members) {
             const m = this.lineupService.membersById?.get(member.id);
@@ -93,7 +94,7 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
             }
           }
         }),
-        finalize(() => this.cd.detectChanges()),
+        finalize(() => this.#cd.detectChanges()),
       ),
       { defaultValue: undefined },
     );

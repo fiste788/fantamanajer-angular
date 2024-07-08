@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AtLeast, RecursivePartial } from '@app/types';
@@ -14,16 +14,16 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ChampionshipService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'>> {
-    return this.http.put<Pick<Championship, 'id'>>(
+    return this.#http.put<Pick<Championship, 'id'>>(
       routes.championship(championship.id),
       championship,
     );
   }
 
   public create(championship: RecursivePartial<Championship>): Observable<Championship> {
-    return this.http.post<Championship>(routes.championships, championship);
+    return this.#http.post<Championship>(routes.championships, championship);
   }
 }

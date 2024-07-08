@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -10,11 +10,13 @@ import { map, switchMap } from 'rxjs/operators';
 import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TeamService } from '@data/services';
-import { Member, Module, Role, Team } from '@data/types';
+import { Member, Role, Team } from '@data/types';
 import { ModuleAreaComponent } from '@modules/lineup-common/components/module-area/module-area.component';
 
 interface Data {
-  dispositions: Array<{ member: Member }>;
+  dispositions: Array<{
+    member: Member;
+  }>;
   membersByRole: Map<Role, Array<Member>>;
 }
 @Component({
@@ -30,34 +32,27 @@ interface Data {
   ],
 })
 export class EditMembersPage {
-  protected readonly roles: Array<Role>;
-  protected readonly module: Module;
-  protected readonly data$: Observable<Data>;
-  protected readonly team$: Observable<Team>;
+  readonly #roleService = inject(RoleService);
+  readonly #teamService = inject(TeamService);
+  readonly #memberService = inject(MemberService);
+  readonly #snackbar = inject(MatSnackBar);
 
-  constructor(
-    private readonly roleService: RoleService,
-    private readonly teamService: TeamService,
-    private readonly memberService: MemberService,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.team$ = getRouteData<Team>('team');
-    this.roles = this.roleService.list();
-    this.module = this.roleService.getModule();
-    this.data$ = this.team$.pipe(switchMap((team) => this.loadData(team)));
-  }
+  protected readonly roles = inject(RoleService).list();
+  protected readonly module = inject(RoleService).getModule();
+  protected readonly team$ = getRouteData<Team>('team');
+  protected readonly data$ = this.team$.pipe(switchMap((team) => this.loadData(team)));
 
   protected loadData(team: Team): Observable<Data> {
     return forkJoin([
-      this.memberService.getByTeamId(team.id),
-      this.memberService.getAllFree(team.championship_id),
+      this.#memberService.getByTeamId(team.id),
+      this.#memberService.getAllFree(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
         const members = this.fixMissingMembers(teamMembers);
         const dispositions = members.map((member) => ({ member }));
 
         // eslint-disable-next-line unicorn/no-array-reduce
-        const membersByRole = this.roleService.list().reduce((m, c) => {
+        const membersByRole = this.roles.reduce((m, c) => {
           return m.set(c, [
             ...members.filter((entry) => entry.role_id === c.id),
             ...allMembers[c.id]!,
@@ -71,13 +66,15 @@ export class EditMembersPage {
 
   protected async save(
     team: Team,
-    dispositions: Array<{ member: Member }>,
+    dispositions: Array<{
+      member: Member;
+    }>,
     membersForm: NgForm,
   ): Promise<void> {
     if (membersForm.valid) {
       team.members = dispositions.map((m) => m.member);
 
-      return save(this.teamService.update(team), undefined, this.snackbar, {
+      return save(this.#teamService.update(team), undefined, this.#snackbar, {
         message: 'Giocatori modificati',
         form: membersForm,
       });
@@ -95,7 +92,7 @@ export class EditMembersPage {
   }
 
   private fixMissingMembers(teamMembers: Array<Member>): Array<Member> {
-    const membersCount = this.roleService.totalMembers();
+    const membersCount = this.#roleService.totalMembers();
     const members = teamMembers.slice(0, membersCount);
     if (members.length < membersCount) {
       const missing = Array.from<Member>({

@@ -1,18 +1,17 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, input } from '@angular/core';
+import { Component, OnDestroy, OnInit, input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Event, NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { ApplicationService, PwaService } from '@app/services';
-import { Championship, Matchday, Team } from '@data/types';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
@@ -39,46 +38,33 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  readonly #subscriptions = new Subscription();
+  readonly #layoutService = inject(LayoutService);
+
   public sidenav = input.required<MatSidenav>();
 
-  protected deferredPrompt$?: Observable<BeforeInstallPromptEvent>;
-  protected readonly loggedIn$: Observable<boolean>;
-  protected readonly team$: Observable<Team | undefined>;
-  protected readonly matchday$: Observable<Matchday | undefined>;
-  protected readonly championship$: Observable<Championship | undefined>;
-  protected readonly navStart$: Observable<Event>;
-  protected readonly openedSidebar$: Observable<boolean>;
-  protected readonly showedSpeedDial$: Observable<VisibilityState>;
+  protected deferredPrompt$ = inject(PwaService).beforeInstall$;
+  protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
+  protected readonly team$ = inject(ApplicationService).team$;
+  protected readonly matchday$ = inject(ApplicationService).matchday$;
+  protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
+  protected readonly navStart$ = inject(Router).events.pipe(
+    filter((evt) => evt instanceof NavigationStart),
+  );
 
-  private readonly subscriptions = new Subscription();
-
-  constructor(
-    private readonly layoutService: LayoutService,
-    private readonly auth: AuthenticationService,
-    private readonly pwa: PwaService,
-    private readonly app: ApplicationService,
-    private readonly router: Router,
-  ) {
-    this.deferredPrompt$ = this.pwa.beforeInstall$;
-    this.showedSpeedDial$ = this.isShowedSpeedDial();
-    this.loggedIn$ = this.auth.loggedIn$;
-    this.matchday$ = this.app.matchday$;
-    this.team$ = this.app.team$;
-    this.openedSidebar$ = this.layoutService.openedSidebar$;
-    this.championship$ = this.app.team$.pipe(map((t) => t?.championship));
-    this.navStart$ = this.router.events.pipe(filter((evt) => evt instanceof NavigationStart));
-  }
+  protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
+  protected readonly showedSpeedDial$ = this.isShowedSpeedDial();
 
   public ngOnInit(): void {
     this.init();
   }
 
   public init(): void {
-    this.subscriptions.add(
+    this.#subscriptions.add(
       this.navStart$
         .pipe(
           filter(() => this.sidenav().mode === 'over'),
-          map(() => this.layoutService.closeSidebar()),
+          map(() => this.#layoutService.closeSidebar()),
         )
         .subscribe(),
     );
@@ -96,15 +82,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.#subscriptions.unsubscribe();
   }
 
   public clickNav(): void {
-    this.layoutService.toggleSidebar();
+    this.#layoutService.toggleSidebar();
   }
 
   private isShowedSpeedDial(): Observable<VisibilityState> {
-    return combineLatest([this.layoutService.isShowSpeedDial$, this.auth.loggedIn$]).pipe(
+    return combineLatest([this.#layoutService.isShowSpeedDial$, this.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
     );
   }

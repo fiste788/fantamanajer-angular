@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, OnInit, afterNextRender, input } from '@angular/core';
+import { Component, OnInit, afterNextRender, input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,17 +37,17 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   ],
 })
 export class TeamDetailPage implements OnInit {
+  readonly #layoutService = inject(LayoutService);
+  readonly #dialog = inject(MatDialog);
+
   protected team = input.required<Team>();
   protected placeholder?: string;
-
   protected tabs$!: Observable<Array<Tab>>;
 
-  constructor(
-    protected readonly app: ApplicationService,
-    protected readonly auth: AuthenticationService,
-    private readonly layoutService: LayoutService,
-    private readonly dialog: MatDialog,
-  ) {
+  protected readonly app = inject(ApplicationService);
+  protected readonly auth = inject(AuthenticationService);
+
+  constructor() {
     afterNextRender(() => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.placeholder = history.state?.img as string;
@@ -94,7 +94,7 @@ export class TeamDetailPage implements OnInit {
       this.app.matchday$.pipe(
         first(),
         switchMap((m) =>
-          this.dialog
+          this.#dialog
             .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team, showChangeTeamName: m.number <= 38 },
             })
@@ -106,6 +106,6 @@ export class TeamDetailPage implements OnInit {
   }
 
   protected scrollTo(height: number): void {
-    this.layoutService.scrollTo(0, height - 300);
+    this.#layoutService.scrollTo(0, height - 300);
   }
 }

@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -39,24 +39,20 @@ import { LayoutService } from '../../services';
   ],
 })
 export class ProfileComponent {
-  public sidenav = input.required<MatSidenav>();
-  protected readonly photo$: Observable<string | undefined>;
+  readonly #router = inject(Router);
+  readonly #layoutService = inject(LayoutService);
+  readonly #dialog = inject(MatDialog);
 
-  constructor(
-    protected readonly app: ApplicationService,
-    protected readonly auth: AuthenticationService,
-    private readonly router: Router,
-    private readonly layoutService: LayoutService,
-    private readonly dialog: MatDialog,
-  ) {
-    this.photo$ = this.loadPhoto();
-  }
+  public sidenav = input.required<MatSidenav>();
+  protected readonly app = inject(ApplicationService);
+  protected readonly auth = inject(AuthenticationService);
+  protected readonly photo$ = this.loadPhoto();
 
   public change(team: Team): void {
     this.app.teamSubject$.next(team);
-    void this.router.navigateByUrl(`/teams/${team.id}`);
+    void this.#router.navigateByUrl(`/teams/${team.id}`);
     if (this.sidenav().mode === 'over') {
-      this.layoutService.closeSidebar();
+      this.#layoutService.closeSidebar();
     }
   }
 
@@ -73,7 +69,7 @@ export class ProfileComponent {
       this.app.matchday$.pipe(
         first(),
         switchMap((m) =>
-          this.dialog
+          this.#dialog
             .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team, showChangeTeamName: m.number <= 38 },
             })

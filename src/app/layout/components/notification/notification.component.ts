@@ -2,10 +2,10 @@ import { NgIf, AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common
 import {
   Component,
   ElementRef,
-  Inject,
   PLATFORM_ID,
   ViewContainerRef,
   viewChild,
+  inject,
 } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,26 +34,20 @@ import { createBoxAnimation } from '@shared/animations';
   ],
 })
 export class NotificationComponent {
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #notificationService = inject(NotificationService);
+  readonly #app = inject(ApplicationService);
+
   protected container = viewChild<unknown, ViewContainerRef>('container', {
     read: ViewContainerRef,
   });
 
   protected buttonRef = viewChild.required<unknown, ElementRef>('button', { read: ElementRef });
-  protected readonly stream$?: Observable<Stream>;
-
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly notificationService: NotificationService,
-    private readonly app: ApplicationService,
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.stream$ = this.loadStream();
-    }
-  }
+  protected readonly stream$? = isPlatformBrowser(this.#platformId) ? this.loadStream() : undefined;
 
   public loadStream(): Observable<Stream> {
-    return this.app.requireTeam$.pipe(
-      switchMap((t) => this.notificationService.getNotificationCount(t.id)),
+    return this.#app.requireTeam$.pipe(
+      switchMap((t) => this.#notificationService.getNotificationCount(t.id)),
     );
   }
 }

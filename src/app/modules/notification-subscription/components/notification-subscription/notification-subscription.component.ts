@@ -16,6 +16,7 @@ import { Notification, notificationSubscriptions } from '../../types';
   templateUrl: './notification-subscription.component.html',
 })
 export class NotificationSubscriptionComponent implements OnInit {
+  #keys?: Array<Notification>;
   public type = input.required<NotificationSubscriptionsKeys>();
   public label = input.required<string>();
   public subscriptions = input.required<Array<NotificationSubscription>>();
@@ -23,15 +24,14 @@ export class NotificationSubscriptionComponent implements OnInit {
   public readonly subscriptionsChange = output<Array<NotificationSubscription>>();
 
   protected map = new Map<Notification, NotificationSubscription>();
-  private keys?: Array<Notification>;
 
   public ngOnInit(): void {
     this.load();
   }
 
   protected load(): void {
-    this.keys = notificationSubscriptions[this.type()];
-    for (const element of this.keys) {
+    this.#keys = notificationSubscriptions[this.type()];
+    for (const element of this.#keys) {
       let sub = this.subscriptions().find((subscription) => subscription.name === element.name);
       if (!sub) {
         sub = {

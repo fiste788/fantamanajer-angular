@@ -5,8 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class PlaceholderPipe implements PipeTransform {
-  // private placeholderService = require('placeholder.js');
-
   public opts = {
     bgcolor: '#ccc',
     color: '#969696',
@@ -21,7 +19,6 @@ export class PlaceholderPipe implements PipeTransform {
   public transform(size: string, text: string): string {
     this.opts.text = text;
     this.opts.size = size;
-    // return this.placeholderService.getData(this.opts);
 
     return '';
   }

@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,31 +38,27 @@ import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-
   ],
 })
 export class ScoreEditPage {
+  readonly #scoreService = inject(ScoreService);
+  readonly #snackbar = inject(MatSnackBar);
+
   protected penality = false;
   protected score$?: Observable<Score>;
-  protected readonly scores$: Observable<Array<Score>>;
-
-  constructor(
-    private readonly scoreService: ScoreService,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.scores$ = this.loadData();
-  }
+  protected readonly scores$ = this.loadData();
 
   protected loadData(): Observable<Array<Score>> {
     return getRouteData<Team>('team').pipe(
-      switchMap((team) => this.scoreService.getScoresByTeam(team.id)),
+      switchMap((team) => this.#scoreService.getScoresByTeam(team.id)),
     );
   }
 
   protected getScore(score: Score): void {
-    this.score$ = this.scoreService.getScore(score.id, true);
+    this.score$ = this.#scoreService.getScore(score.id, true);
   }
 
   protected async save(score: Score, scoreForm: NgForm, lineup?: EmptyLineup): Promise<void> {
     score.lineup = lineup as Lineup;
 
-    return save(this.scoreService.update(score), undefined, this.snackbar, {
+    return save(this.#scoreService.update(score), undefined, this.#snackbar, {
       message: 'Punteggio modificato',
       form: scoreForm,
     });

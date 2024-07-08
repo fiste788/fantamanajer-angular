@@ -1,6 +1,6 @@
 import { NgIf, AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { Championship } from '@data/types';
@@ -12,9 +12,5 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
   imports: [NgIf, StreamComponent, AsyncPipe],
 })
 export class ChampionshipStreamPage {
-  protected readonly id$: Observable<number>;
-
-  constructor() {
-    this.id$ = getRouteData<Championship>('championship').pipe(map((c) => c.id));
-  }
+  protected readonly id$ = getRouteData<Championship>('championship').pipe(map((c) => c.id));
 }

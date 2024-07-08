@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, inject } from '@angular/core';
 
 import { flatGroupBy } from '@app/functions';
 import { RoleService } from '@data/services';
@@ -10,6 +10,8 @@ import { environment } from '@env';
   providedIn: 'any',
 })
 export class LineupService {
+  readonly #roleService = inject(RoleService);
+
   public lineup!: EmptyLineup;
 
   public benchOptions: Map<Role, Array<MemberOption>> = new Map<Role, Array<MemberOption>>();
@@ -27,8 +29,6 @@ export class LineupService {
   public membersByRole?: Map<Role, Array<Member>>;
   public selectionChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
 
-  constructor(private readonly roleService: RoleService) {}
-
   public loadLineup(
     lineup: EmptyLineup,
     benchs: number = environment.benchwarmersCount,
@@ -39,7 +39,7 @@ export class LineupService {
       .map((_, i) => i + 11);
 
     this.membersById = flatGroupBy(lineup.team.members ?? [], ({ id }) => id);
-    this.membersByRole = this.roleService.groupMembersByRole(lineup.team.members ?? []);
+    this.membersByRole = this.#roleService.groupMembersByRole(lineup.team.members ?? []);
     this.lineup = lineup;
     this.lineup.dispositions = this.loadDispositions(lineup);
     this.loadModules();
@@ -88,7 +88,7 @@ export class LineupService {
   }
 
   private loadModules(): void {
-    this.modules = this.lineup.modules.map((mod) => new Module(mod, this.roleService.list()));
+    this.modules = this.lineup.modules.map((mod) => new Module(mod, this.#roleService.list()));
     const module = this.modules.find((e) => e.key === this.lineup.module);
     this.selectedModule = module ?? this.modules[0];
     this.moduleChange();

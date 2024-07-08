@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
@@ -18,6 +18,8 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
+  readonly #http = inject(HttpClient);
+
   public static cleanScore(score: Score): RecursivePartial<Score> {
     const clonedScore = structuredClone(score);
     const cleanedScore: RecursivePartial<Score> = clonedScore;
@@ -31,10 +33,8 @@ export class ScoreService {
     return cleanedScore;
   }
 
-  constructor(private readonly http: HttpClient) {}
-
   public getRanking(championshipId: number): Observable<Array<RankingPosition>> {
-    return this.http.get<Array<RankingPosition>>(routes.ranking(championshipId));
+    return this.#http.get<Array<RankingPosition>>(routes.ranking(championshipId));
   }
 
   public getScore(id: number, members = false): Observable<Score> {
@@ -43,19 +43,19 @@ export class ScoreService {
       params = params.set('members', '1');
     }
 
-    return this.http.get<Score>(routes.score(id), { params });
+    return this.#http.get<Score>(routes.score(id), { params });
   }
 
   public getLastScore(teamId: number): Observable<Score> {
-    return this.http.get<Score>(`${routes.team(teamId)}/last`);
+    return this.#http.get<Score>(`${routes.team(teamId)}/last`);
   }
 
   public getScoresByTeam(teamId: number): Observable<Array<Score>> {
-    return this.http.get<Array<Score>>(routes.team(teamId));
+    return this.#http.get<Array<Score>>(routes.team(teamId));
   }
 
   public update(score: Score): Observable<Pick<Score, 'id'>> {
-    return this.http.put<Pick<Score, 'id'>>(
+    return this.#http.put<Pick<Score, 'id'>>(
       routes.update(score.id),
       ScoreService.cleanScore(score),
     );

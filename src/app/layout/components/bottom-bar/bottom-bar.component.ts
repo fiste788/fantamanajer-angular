@@ -1,15 +1,14 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
-import { Championship, Team } from '@data/types';
 
 @Component({
   selector: 'app-bottom-bar',
@@ -29,16 +28,7 @@ import { Championship, Team } from '@data/types';
   styleUrl: './bottom-bar.component.scss',
 })
 export class BottomBarComponent {
-  protected readonly loggedIn$: Observable<boolean>;
-  protected readonly team$: Observable<Team | undefined>;
-  protected readonly championship$: Observable<Championship | undefined>;
-
-  constructor(
-    private readonly auth: AuthenticationService,
-    private readonly app: ApplicationService,
-  ) {
-    this.loggedIn$ = this.auth.loggedIn$;
-    this.team$ = this.app.team$;
-    this.championship$ = this.app.team$.pipe(map((t) => t?.championship));
-  }
+  protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
+  protected readonly team$ = inject(ApplicationService).team$;
+  protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
 }

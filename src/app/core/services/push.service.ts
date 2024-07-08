@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
 import { EMPTY, firstValueFrom, from, merge, Observable, of, Subscription } from 'rxjs';
@@ -11,16 +11,14 @@ import { environment } from '@env';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
-  constructor(
-    private readonly subscription: PushSubscriptionService,
-    private readonly swPush: SwPush,
-    private readonly snackBar: MatSnackBar,
-    private readonly notificationService: NotificationService,
-    private readonly auth: AuthenticationService,
-  ) {}
+  readonly #subscription = inject(PushSubscriptionService);
+  readonly #swPush = inject(SwPush);
+  readonly #snackBar = inject(MatSnackBar);
+  readonly #notificationService = inject(NotificationService);
+  readonly #auth = inject(AuthenticationService);
 
   public init(): Observable<void> {
-    return this.auth.requireUser$.pipe(
+    return this.#auth.requireUser$.pipe(
       filter(() => environment.production),
       switchMap((user) => this.initializeUser(user)),
     );
@@ -36,7 +34,7 @@ export class PushService {
       mergeMap(async () => this.requestSubscription(user)),
       filter((s) => s),
       map(() => {
-        this.snackBar.open('Now you are subscribed', undefined, {
+        this.#snackBar.open('Now you are subscribed', undefined, {
           duration: 2000,
         });
       }),
@@ -47,7 +45,7 @@ export class PushService {
     return from(this.cancelSubscription()).pipe(
       filter((r) => r),
       map(() => {
-        this.snackBar.open('Now you are unsubscribed', undefined, {
+        this.#snackBar.open('Now you are unsubscribed', undefined, {
           duration: 2000,
         });
       }),
@@ -55,14 +53,14 @@ export class PushService {
   }
 
   public isSubscribed(): Observable<boolean> {
-    return this.swPush.subscription.pipe(
+    return this.#swPush.subscription.pipe(
       map((e) => e !== null),
       share(),
     );
   }
 
   public isEnabled(): boolean {
-    return this.swPush.isEnabled;
+    return this.#swPush.isEnabled;
   }
 
   public async convertNativeSubscription(
@@ -106,22 +104,24 @@ export class PushService {
   }
 
   private showMessages(): Observable<void> {
-    return this.swPush.messages.pipe(
+    return this.#swPush.messages.pipe(
       map((obj) => {
-        const message = obj as { notification: Notification };
-        this.notificationService.broadcast(message.notification.title, '');
+        const message = obj as {
+          notification: Notification;
+        };
+        this.#notificationService.broadcast(message.notification.title, '');
       }),
     );
   }
 
   private async requestSubscription(user: User): Promise<boolean> {
-    const pushSubscription = await this.swPush.requestSubscription({
+    const pushSubscription = await this.#swPush.requestSubscription({
       serverPublicKey: environment.vapidPublicKey,
     });
     const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), user.id);
     if (sub) {
       return firstValueFrom(
-        this.subscription.add(sub).pipe(
+        this.#subscription.add(sub).pipe(
           map(() => true),
           catchError(() => {
             void pushSubscription.unsubscribe();
@@ -138,7 +138,7 @@ export class PushService {
 
   private async cancelSubscription(): Promise<boolean> {
     // Get active subscription
-    const pushSubscription = await firstValueFrom(this.swPush.subscription.pipe(take(1)), {
+    const pushSubscription = await firstValueFrom(this.#swPush.subscription.pipe(take(1)), {
       defaultValue: undefined,
     });
     if (pushSubscription) {
@@ -146,7 +146,7 @@ export class PushService {
       const sub = await this.sha256(pushSubscription.endpoint);
 
       return firstValueFrom(
-        this.subscription.delete(sub).pipe(
+        this.#subscription.delete(sub).pipe(
           map(() => {
             void pushSubscription.unsubscribe().then().catch();
 

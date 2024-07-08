@@ -26,15 +26,15 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BottomComponent implements OnInit, OnDestroy {
-  public readonly visibility = input.required<VisibilityState>();
+  readonly #layoutService = inject(LayoutService);
+  readonly #subscriptions = new Subscription();
 
-  private readonly layoutService = inject(LayoutService);
-  private readonly speedDial = viewChild<SpeedDialComponent>('speedDial');
-  private readonly subscriptions = new Subscription();
+  public readonly visibility = input.required<VisibilityState>();
+  protected readonly speedDial = viewChild<SpeedDialComponent>('speedDial');
 
   public ngOnInit(): void {
-    this.subscriptions.add(
-      this.layoutService.down
+    this.#subscriptions.add(
+      this.#layoutService.down
         .pipe(
           filter((down) => down),
           tap(() => this.speedDial()?.close()),
@@ -44,6 +44,6 @@ export class BottomComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.#subscriptions.unsubscribe();
   }
 }

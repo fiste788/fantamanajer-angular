@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -7,22 +7,20 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root',
 })
 export class IconService {
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly iconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer,
-  ) {}
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #iconRegistry = inject(MatIconRegistry);
+  readonly #sanitizer = inject(DomSanitizer);
 
   public init() {
-    this.iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
-    if (isPlatformBrowser(this.platformId)) {
-      this.iconRegistry.addSvgIconSet(
-        this.sanitizer.bypassSecurityTrustResourceUrl('/public/svg/fantamanajer-icons.svg'),
+    this.#iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+    if (isPlatformBrowser(this.#platformId)) {
+      this.#iconRegistry.addSvgIconSet(
+        this.#sanitizer.bypassSecurityTrustResourceUrl('/public/svg/fantamanajer-icons.svg'),
       );
     } else {
-      this.iconRegistry.addSvgIconLiteral(
+      this.#iconRegistry.addSvgIconLiteral(
         'soccer_field',
-        this.sanitizer.bypassSecurityTrustHtml('<svg></svg>'),
+        this.#sanitizer.bypassSecurityTrustHtml('<svg></svg>'),
       );
     }
   }

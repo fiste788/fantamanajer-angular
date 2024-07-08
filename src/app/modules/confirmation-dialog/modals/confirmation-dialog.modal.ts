@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -9,9 +9,6 @@ import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './confirmation-dialog.modal.html',
 })
 export class ConfirmationDialogModal {
-  protected text: string;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { text?: string }) {
-    this.text = this.data.text ?? 'Sei sicuro?';
-  }
+  public data = inject<{ text?: string }>(MAT_DIALOG_DATA);
+  protected text = this.data.text ?? 'Sei sicuro?';
 }

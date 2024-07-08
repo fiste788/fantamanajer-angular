@@ -1,14 +1,6 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  ApplicationRef,
-  APP_INITIALIZER,
-  Inject,
-  Injectable,
-  Provider,
-  inject,
-  PLATFORM_ID,
-} from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, Subject, Subscription, interval } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { ApplicationRef, APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
+import { BehaviorSubject, forkJoin, Observable, Subscription, interval } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -28,37 +20,25 @@ import { Matchday, Team } from '@data/types';
   providedIn: 'root',
 })
 export class ApplicationService {
-  public static isBrowser = new BehaviorSubject<boolean | undefined>(undefined);
+  readonly #document = inject<Document>(DOCUMENT);
+  readonly #authService = inject(AuthenticationService);
+  readonly #matchdayService = inject(MatchdayService);
+  readonly #matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
 
   public seasonEnded = false;
   public seasonStarted = true;
-  public readonly teamSubject$: BehaviorSubject<Team | undefined>;
-  public readonly team$: Observable<Team | undefined>;
-  public readonly requireTeam$: Observable<Team>;
-  public readonly matchday$: Observable<Matchday>;
-  private readonly matchdaySubject$: Subject<Matchday | undefined>;
-
-  constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly authService: AuthenticationService,
-    private readonly matchdayService: MatchdayService,
-  ) {
-    ApplicationService.isBrowser.next(isPlatformBrowser(this.platformId));
-    this.teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
-    this.team$ = this.teamSubject$.pipe(distinctUntilChanged());
-    this.requireTeam$ = this.team$.pipe(filterNil());
-    this.matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
-    this.matchday$ = this.matchdaySubject$.pipe(
-      filterNil(),
-      distinctUntilChanged((prev, cur) => prev.id === cur.id),
-    );
-  }
+  public readonly teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
+  public readonly team$ = this.teamSubject$.pipe(distinctUntilChanged());
+  public readonly requireTeam$ = this.team$.pipe(filterNil());
+  public readonly matchday$ = this.#matchdaySubject$.pipe(
+    filterNil(),
+    distinctUntilChanged((prev, cur) => prev.id === cur.id),
+  );
 
   public bootstrap(): Observable<unknown> {
     const bootstrap$: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
-    if (this.authService.loggedIn()) {
-      bootstrap$.push(this.authService.getCurrentUser());
+    if (this.#authService.loggedIn()) {
+      bootstrap$.push(this.#authService.getCurrentUser());
     }
 
     return forkJoin(bootstrap$).pipe(
@@ -70,10 +50,10 @@ export class ApplicationService {
   }
 
   public loadCurrentMatchday(): Observable<Matchday> {
-    return this.matchdayService.getCurrentMatchday().pipe(
+    return this.#matchdayService.getCurrentMatchday().pipe(
       tap((m) => {
         this.recalcSeason(m);
-        this.matchdaySubject$.next(m);
+        this.#matchdaySubject$.next(m);
       }),
     );
   }
@@ -88,7 +68,7 @@ export class ApplicationService {
   }
 
   private refreshUser(): Subscription {
-    return this.authService.user$
+    return this.#authService.user$
       .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
       .subscribe();
   }
@@ -108,7 +88,7 @@ export class ApplicationService {
         switchMap(() => this.loadCurrentMatchday()),
         share(),
       )
-      .subscribe(this.matchdaySubject$);
+      .subscribe(this.#matchdaySubject$);
   }
 
   private recalcSeason(matchday: Matchday): void {
@@ -117,7 +97,7 @@ export class ApplicationService {
   }
 
   private writeError(e: Error): void {
-    const el = this.document.querySelector('#error');
+    const el = this.#document.querySelector('#error');
     if (el !== null) {
       el.innerHTML =
         '<h3 class="error">Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare</h3>';

@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -30,32 +30,28 @@ import { Championship, Team } from '@data/types';
   ],
 })
 export class AddTeamPage {
-  protected readonly team$: Observable<Partial<Team>>;
+  readonly #teamService = inject(TeamService);
+  readonly #router = inject(Router);
+  readonly #snackbar = inject(MatSnackBar);
+
+  protected readonly team$ = this.loadData();
   protected email = '';
 
-  constructor(
-    private readonly teamService: TeamService,
-    private readonly router: Router,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.team$ = this.loadData();
-  }
-
-  protected loadData(): Observable<{ championship_id: number }> {
+  protected loadData(): Observable<Partial<Team>> {
     return getRouteData<Championship>('championship').pipe(map((t) => ({ championship_id: t.id })));
   }
 
   protected async save(team: RecursivePartial<Team>, teamForm: NgForm): Promise<boolean> {
     team.user = { email: this.email };
     const save$: Observable<AtLeast<Team, 'id'>> = team.id
-      ? this.teamService.update(team as AtLeast<Team, 'id'>)
-      : this.teamService.create(team);
+      ? this.#teamService.update(team as AtLeast<Team, 'id'>)
+      : this.#teamService.create(team);
 
-    return save(save$, false, this.snackbar, {
+    return save(save$, false, this.#snackbar, {
       message: 'Modifiche salvate',
       form: teamForm,
       callback: async (response) =>
-        this.router.navigateByUrl(`/teams/${response.id}/admin/members`),
+        this.#router.navigateByUrl(`/teams/${response.id}/admin/members`),
     });
   }
 }

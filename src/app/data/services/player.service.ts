@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Player } from '../types';
@@ -12,10 +12,10 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getPlayers(): Observable<Array<Player>> {
-    return this.http.get<Array<Player>>(routes.players);
+    return this.#http.get<Array<Player>>(routes.players);
   }
 
   public getPlayer(id: number, championshipId?: number): Observable<Player> {
@@ -24,6 +24,6 @@ export class PlayerService {
       params = params.set('championshipId', `${championshipId}`);
     }
 
-    return this.http.get<Player>(routes.player(id), { params });
+    return this.#http.get<Player>(routes.player(id), { params });
   }
 }

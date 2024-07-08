@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { noErrorIt } from '@app/errors/http-error.interceptor';
@@ -15,7 +15,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class MatchdayService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getCurrentMatchday(): Observable<Matchday> {
     class HackyHttpHeaders extends HttpHeaders {
@@ -25,7 +25,7 @@ export class MatchdayService {
       }
     }
 
-    return this.http.get<Matchday>(routes.current, {
+    return this.#http.get<Matchday>(routes.current, {
       context: noErrorIt(noHeadersIt(noAuthIt())),
       withCredentials: false,
       headers: new HackyHttpHeaders(),

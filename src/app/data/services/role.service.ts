@@ -6,7 +6,7 @@ import { Member, Module, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
-  private readonly roles = [
+  readonly #roles = [
     { id: 1, singolar: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' },
     { id: 2, singolar: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' },
     { id: 3, singolar: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
@@ -18,22 +18,22 @@ export class RoleService {
   }
 
   public list(): Array<Role> {
-    return this.roles;
+    return this.#roles;
   }
 
   public get(role_id: number): Role {
-    return this.roles.find((r) => r.id === role_id)!;
+    return this.#roles.find((r) => r.id === role_id)!;
   }
 
   public totalMembers(): number {
-    return this.roles.reduce((acc, c) => acc + c.count, 0);
+    return this.#roles.reduce((acc, c) => acc + c.count, 0);
   }
 
   public getModuleKey(): string {
-    return this.roles.map((r) => r.count).join('-');
+    return this.#roles.map((r) => r.count).join('-');
   }
 
   public getModule(): Module {
-    return new Module(this.getModuleKey(), this.roles);
+    return new Module(this.getModuleKey(), this.#roles);
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AtLeast } from '@app/types';
@@ -16,18 +16,18 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
+    return this.#http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
   }
 
   public getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
+    return this.#http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
   public getArticlesByChampionship(
@@ -36,25 +36,25 @@ export class ArticleService {
   ): Observable<PagedResponse<Array<Article>>> {
     const params = new HttpParams().set('page', `${page}`);
 
-    return this.http.get<PagedResponse<Array<Article>>>(
+    return this.#http.get<PagedResponse<Array<Article>>>(
       routes.championshipArticles(championshipId),
       { params },
     );
   }
 
   public getArticle(id: number): Observable<Article> {
-    return this.http.get<Article>(routes.article(id));
+    return this.#http.get<Article>(routes.article(id));
   }
 
   public update(article: AtLeast<Article, 'id'>): Observable<Pick<Article, 'id'>> {
-    return this.http.put<Pick<Article, 'id'>>(routes.article(article.id), article);
+    return this.#http.put<Pick<Article, 'id'>>(routes.article(article.id), article);
   }
 
   public create(article: Partial<Article>): Observable<AtLeast<Article, 'id'>> {
-    return this.http.post<AtLeast<Article, 'id'>>(routes.articles, article);
+    return this.#http.post<AtLeast<Article, 'id'>>(routes.articles, article);
   }
 
   public delete(id: number): Observable<Record<string, never>> {
-    return this.http.delete<Record<string, never>>(routes.article(id));
+    return this.#http.delete<Record<string, never>>(routes.article(id));
   }
 }

@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -37,34 +37,32 @@ import { SeasonActiveDirective } from '@shared/directives';
   ],
 })
 export class TransfertListPage {
-  public sort = viewChild(MatSort);
+  readonly #transfertService = inject(TransfertService);
+  readonly #ref = inject(ChangeDetectorRef);
 
-  protected readonly isMyTeam$: Observable<boolean>;
-  protected readonly team$: Observable<Team>;
-  protected readonly dataSource$: Observable<MatTableDataSource<Transfert>>;
+  public sort = viewChild(MatSort);
+  protected readonly app = inject(ApplicationService);
+
+  protected readonly team$ = getRouteData<Team>('team');
+  protected readonly dataSource$ = this.loadData();
+  protected readonly isMyTeam$ = combineLatest([this.team$, this.app.requireTeam$]).pipe(
+    map(([cur, my]) => cur.id === my.id),
+  );
+
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
-  constructor(
-    protected readonly app: ApplicationService,
-    private readonly transfertService: TransfertService,
-    private readonly ref: ChangeDetectorRef,
-  ) {
-    this.team$ = getRouteData<Team>('team');
-    this.isMyTeam$ = combineLatest([this.team$, app.requireTeam$]).pipe(
-      map(([cur, my]) => cur.id === my.id),
-    );
-    this.dataSource$ = this.loadData();
+  constructor() {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected loadData(): Observable<MatTableDataSource<Transfert>> {
     return this.team$.pipe(
-      switchMap((team) => this.transfertService.getTransfert(team.id)),
+      switchMap((team) => this.#transfertService.getTransfert(team.id)),
       map((data) => {
         const ds = new MatTableDataSource<Transfert>(data);
         if (data.length > 0) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-          this.ref.detectChanges();
+          this.#ref.detectChanges();
         }
 
         return ds;

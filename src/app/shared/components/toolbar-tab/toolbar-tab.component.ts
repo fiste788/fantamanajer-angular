@@ -4,12 +4,12 @@ import { AsyncPipe, DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ApplicationRef,
   Component,
-  Inject,
   Injector,
   OnDestroy,
   afterNextRender,
   input,
   viewChild,
+  inject,
 } from '@angular/core';
 import { MatTabNav, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -39,33 +39,33 @@ import { StatePipe } from '@shared/pipes';
   ],
 })
 export class ToolbarTabComponent implements OnDestroy {
+  readonly #document = inject(DOCUMENT);
+  readonly #injector = inject(Injector);
+  readonly #appRef = inject(ApplicationRef);
+  readonly #transitionService = inject(CurrentTransitionService);
+  #portalHost?: PortalOutlet;
+
   public fragment = input<string>();
   public tabs = input([] as Array<Tab>);
   protected portal = viewChild.required(CdkPortal);
   protected tabBar = viewChild(MatTabNav);
-  private portalHost?: PortalOutlet;
 
-  constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    private readonly injector: Injector,
-    private readonly appRef: ApplicationRef,
-    private readonly transitionService: CurrentTransitionService,
-  ) {
+  constructor() {
     afterNextRender(() => {
       // Create a portalHost from a DOM element
-      const element = this.document.querySelector('#toolbar-tab-container');
+      const element = this.#document.querySelector('#toolbar-tab-container');
       if (element) {
-        this.portalHost = new DomPortalOutlet(element, undefined, this.appRef, this.injector);
-        this.portalHost.attach(this.portal());
+        this.#portalHost = new DomPortalOutlet(element, undefined, this.#appRef, this.#injector);
+        this.#portalHost.attach(this.portal());
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this.portalHost?.detach();
+    this.#portalHost?.detach();
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isTabChanged(this.tabBar()) ? 'tab' : '';
+    return this.#transitionService.isTabChanged(this.tabBar()) ? 'tab' : '';
   }
 }

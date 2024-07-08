@@ -1,5 +1,5 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
@@ -34,34 +34,31 @@ import { cardCreationAnimation } from '@shared/animations';
   ],
 })
 export class SettingsPage {
-  @HostBinding('@cardCreationAnimation') public a = '';
+  readonly #snackBar = inject(MatSnackBar);
+  readonly #auth = inject(AuthenticationService);
+  readonly #userService = inject(UserService);
+  readonly #pushService = inject(PushService);
 
-  protected readonly user$: Observable<User>;
-  protected readonly push$: Observable<boolean>;
-  protected readonly enabled: boolean;
-  protected repeatPassword: string;
+  @HostBinding('@cardCreationAnimation')
+  public a = '';
 
-  constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly auth: AuthenticationService,
-    private readonly userService: UserService,
-    private readonly pushService: PushService,
-  ) {
-    this.user$ = this.auth.requireUser$;
-    this.repeatPassword = '';
-    this.enabled = this.pushService.isEnabled();
-    this.push$ = this.pushService.isSubscribed();
+  protected readonly user$ = this.#auth.requireUser$;
+  protected readonly push$ = this.#pushService.isSubscribed();
+  protected readonly enabled = this.#pushService.isEnabled();
+  protected repeatPassword = '';
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
   protected async save(user: User): Promise<void> {
     if (user.password === this.repeatPassword) {
       return firstValueFrom(
-        this.userService.update(user).pipe(
+        this.#userService.update(user).pipe(
           share(),
           map((res) => {
-            this.auth.userSubject.next(res);
-            this.snackBar.open('Modifiche salvate');
+            this.#auth.userSubject.next(res);
+            this.#snackBar.open('Modifiche salvate');
           }),
         ),
         { defaultValue: undefined },
@@ -73,7 +70,7 @@ export class SettingsPage {
 
   protected async togglePush(user: User, checked: boolean): Promise<void> {
     return firstValueFrom(
-      checked ? this.pushService.subscribeToPush(user) : this.pushService.unsubscribeFromPush(),
+      checked ? this.#pushService.subscribeToPush(user) : this.#pushService.unsubscribeFromPush(),
       { defaultValue: undefined },
     );
   }

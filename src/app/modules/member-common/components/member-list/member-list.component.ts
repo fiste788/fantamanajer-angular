@@ -9,6 +9,7 @@ import {
   input,
   numberAttribute,
   viewChild,
+  inject,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
@@ -61,6 +62,8 @@ type Stats = (typeof stats)[number];
   ],
 })
 export class MemberListComponent implements OnInit {
+  readonly #changeRef = inject(ChangeDetectorRef);
+
   public members = input.required<Observable<Array<Member>>>();
   public hideClub = input(false, { transform: booleanAttribute });
   public hideRole = input(false, { transform: booleanAttribute });
@@ -94,7 +97,7 @@ export class MemberListComponent implements OnInit {
 
   protected footer: Record<string, number> = {};
 
-  constructor(private readonly changeRef: ChangeDetectorRef) {
+  constructor() {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
@@ -130,7 +133,7 @@ export class MemberListComponent implements OnInit {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.calcSummary(ds.data);
         }
-        this.changeRef.detectChanges();
+        this.#changeRef.detectChanges();
       }),
     );
   }

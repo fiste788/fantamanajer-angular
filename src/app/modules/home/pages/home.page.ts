@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   OnInit,
   PLATFORM_ID,
   inject,
@@ -43,16 +42,14 @@ import { BestPlayer } from '../types/best-players';
   ],
 })
 export class HomePage implements OnInit {
-  protected matchday$ = inject(ApplicationService).matchday$;
-  protected roles: Array<{ role: Role; best_players?: BestPlayer }>;
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #memberService = inject(MemberService);
+  readonly #cd = inject(ChangeDetectorRef);
 
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: string,
-    private readonly memberService: MemberService,
-    private readonly roleService: RoleService,
-    private readonly cd: ChangeDetectorRef,
-  ) {
-    this.roles = this.roleService.list().map((r) => ({ role: r }));
+  protected matchday$ = inject(ApplicationService).matchday$;
+  protected roles = this.toModel();
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
@@ -61,7 +58,7 @@ export class HomePage implements OnInit {
   }
 
   protected loadBestPlayers(): Subscription {
-    return this.memberService
+    return this.#memberService
       .getBest()
       .pipe(
         map((roles) =>
@@ -77,11 +74,17 @@ export class HomePage implements OnInit {
           for (const bp of bps) {
             this.roles.find((r) => r.role.singolar === bp.role)!.best_players = bp;
           }
-          if (isPlatformBrowser(this.platformId)) {
-            this.cd.detectChanges();
+          if (isPlatformBrowser(this.#platformId)) {
+            this.#cd.detectChanges();
           }
         }),
       )
       .subscribe();
+  }
+
+  private toModel(): Array<{ role: Role; best_players?: BestPlayer }> {
+    return inject(RoleService)
+      .list()
+      .map((r) => ({ role: r }));
   }
 }

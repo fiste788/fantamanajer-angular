@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/no-null */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 import { REQUEST } from '@app/tokens';
 
@@ -10,9 +10,12 @@ import { REQUEST } from '@app/tokens';
   providedIn: 'root',
 })
 export class CookieStorage implements Storage {
+  readonly #document = inject(DOCUMENT);
+  readonly #request = inject(REQUEST, { optional: true });
+  readonly #documentIsAccessible = isPlatformBrowser(inject(PLATFORM_ID));
+
   [name: string]: unknown;
   public readonly length = 0;
-  private readonly documentIsAccessible: boolean;
 
   /**
    * Get cookie Regular Expression
@@ -100,15 +103,6 @@ export class CookieStorage implements Storage {
     return cookieString;
   }
 
-  constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    // Get the `PLATFORM_ID` so we can check if we're in a browser.
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    @Optional() @Inject(REQUEST) private readonly request: Request,
-  ) {
-    this.documentIsAccessible = isPlatformBrowser(this.platformId);
-  }
-
   /**
    * Return `true` if {@link Document} is accessible, otherwise return `false`
    *
@@ -123,7 +117,9 @@ export class CookieStorage implements Storage {
     const regExp: RegExp = CookieStorage.getCookieRegExp(nameEncoded);
 
     return regExp.test(
-      this.documentIsAccessible ? this.document.cookie : this.request?.headers.get('cookie') ?? '',
+      this.#documentIsAccessible
+        ? this.#document.cookie
+        : this.#request?.headers.get('cookie') ?? '',
     );
   }
 
@@ -142,9 +138,9 @@ export class CookieStorage implements Storage {
 
       const regExp: RegExp = CookieStorage.getCookieRegExp(nameEncoded);
       const result: RegExpExecArray | null = regExp.exec(
-        this.documentIsAccessible
-          ? this.document.cookie
-          : this.request?.headers.get('cookie') ?? '',
+        this.#documentIsAccessible
+          ? this.#document.cookie
+          : this.#request?.headers.get('cookie') ?? '',
       );
 
       return result?.[1] ? CookieStorage.safeDecodeURIComponent(result?.[1]) : '';
@@ -165,11 +161,11 @@ export class CookieStorage implements Storage {
       partitioned?: boolean;
     },
   ): void {
-    if (!this.documentIsAccessible) {
+    if (!this.#documentIsAccessible) {
       return;
     }
 
-    this.document.cookie = CookieStorage.cookieString(name, value, options);
+    this.#document.cookie = CookieStorage.cookieString(name, value, options);
   }
 
   /**
@@ -191,7 +187,7 @@ export class CookieStorage implements Storage {
     secure?: boolean,
     sameSite: 'Lax' | 'None' | 'Strict' = 'Lax',
   ): void {
-    if (!this.documentIsAccessible) {
+    if (!this.#documentIsAccessible) {
       return;
     }
     const expiresDate = new Date('Thu, 01 Jan 1970 00:00:01 GMT');

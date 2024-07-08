@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import { ApplicationRef, Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { Observable, Subscription, timer, fromEvent } from 'rxjs';
@@ -11,27 +11,14 @@ import { WINDOW } from './window.service';
   providedIn: 'root',
 })
 export class PwaService {
-  public readonly beforeInstall$?: Observable<BeforeInstallPromptEvent>;
+  readonly #window = inject<Window>(WINDOW);
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #snackBar = inject(MatSnackBar);
+  readonly #swUpdate = inject(SwUpdate);
+  readonly #zone = inject(NgZone);
+  readonly #appRef = inject(ApplicationRef);
 
-  constructor(
-    @Inject(WINDOW) private readonly window: Window,
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly snackBar: MatSnackBar,
-    private readonly swUpdate: SwUpdate,
-    private readonly zone: NgZone,
-    private readonly appRef: ApplicationRef,
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.beforeInstall$ = fromEvent<BeforeInstallPromptEvent>(
-        this.window,
-        'beforeinstallprompt',
-      ).pipe(
-        tap((e) => {
-          e.preventDefault();
-        }),
-      );
-    }
-  }
+  public readonly beforeInstall$? = this.getBeforeInstall();
 
   public init(): Observable<void> {
     return this.checkForUpdates().pipe(
@@ -44,28 +31,38 @@ export class PwaService {
     return this.init().subscribe();
   }
 
+  private getBeforeInstall(): Observable<BeforeInstallPromptEvent> | undefined {
+    return isPlatformBrowser(this.#platformId)
+      ? fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
+          tap((e) => {
+            e.preventDefault();
+          }),
+        )
+      : undefined;
+  }
+
   private checkForUpdates(): Observable<boolean> {
-    const appIsStable$ = this.appRef.isStable.pipe(
+    const appIsStable$ = this.#appRef.isStable.pipe(
       filter((isStable) => isStable),
       first((isStable) => isStable),
     );
     const everySixHours$ = timer(0, 6 * 60 * 60 * 1000);
 
     return appIsStable$.pipe(
-      filter(() => this.swUpdate.isEnabled),
+      filter(() => this.#swUpdate.isEnabled),
       switchMap(() => everySixHours$),
-      switchMap(async () => this.swUpdate.checkForUpdate()),
+      switchMap(async () => this.#swUpdate.checkForUpdate()),
     );
   }
 
   private promptUpdate(): Observable<void> {
-    return this.zone.run(() => {
-      return this.snackBar
+    return this.#zone.run(() => {
+      return this.#snackBar
         .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
         .onAction()
         .pipe(
-          switchMap(async () => this.swUpdate.activateUpdate()),
-          map(() => this.window.location.reload()),
+          switchMap(async () => this.#swUpdate.activateUpdate()),
+          map(() => this.#window.location.reload()),
         );
     });
   }

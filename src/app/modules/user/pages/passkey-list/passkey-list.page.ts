@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -35,30 +35,27 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   ],
 })
 export class PasskeyListPage {
-  protected readonly passkeys$: Observable<Array<PublicKeyCredentialSource>>;
-  protected readonly refresh$: BehaviorSubject<true>;
-  protected readonly isSupported$: Promise<boolean>;
+  readonly #webauthnService = inject(WebauthnService);
+  readonly #pbcsService = inject(PublicKeyCredentialSourceService);
+  readonly #auth = inject(AuthenticationService);
+
+  protected readonly refresh$ = new BehaviorSubject(true);
+  protected readonly passkeys$ = this.getDataSource();
+  protected readonly isSupported$ = this.#webauthnService.isSupported();
   // protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
 
-  constructor(
-    private readonly webauthnService: WebauthnService,
-    private readonly pbcsService: PublicKeyCredentialSourceService,
-    private readonly auth: AuthenticationService,
-  ) {
-    this.refresh$ = new BehaviorSubject(true);
-    this.passkeys$ = this.getDataSource();
-    this.isSupported$ = this.webauthnService.isSupported();
+  constructor() {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected getDataSource(): Observable<Array<PublicKeyCredentialSource>> {
-    return combineLatest([this.auth.requireUser$, this.refresh$]).pipe(
-      switchMap(([user]) => this.pbcsService.index(user.id)),
+    return combineLatest([this.#auth.requireUser$, this.refresh$]).pipe(
+      switchMap(([user]) => this.#pbcsService.index(user.id)),
     );
   }
 
   protected async register(): Promise<void> {
-    const passkey = await this.webauthnService.createPasskey();
+    const passkey = await this.#webauthnService.createPasskey();
     if (passkey) {
       this.refresh$.next(true);
     }
@@ -66,8 +63,8 @@ export class PasskeyListPage {
 
   protected async unregister(publicKey: PublicKeyCredentialSource): Promise<void> {
     return firstValueFrom(
-      this.auth.requireUser$.pipe(
-        switchMap((user) => this.pbcsService.delete(user.id, publicKey.id)),
+      this.#auth.requireUser$.pipe(
+        switchMap((user) => this.#pbcsService.delete(user.id, publicKey.id)),
         map(() => this.refresh$.next(true)),
       ),
       { defaultValue: undefined },

@@ -13,6 +13,7 @@ import { LayoutService } from 'src/app/layout/services';
   imports: [ParallaxHeaderComponent, ToolbarTabComponent],
 })
 export class ClubDetailPage {
+  readonly #layoutService = inject(LayoutService);
   protected club = input.required<Club>();
   protected placeholder?: string;
 
@@ -20,8 +21,6 @@ export class ClubDetailPage {
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' },
   ];
-
-  private readonly layoutService = inject(LayoutService);
 
   constructor() {
     afterNextRender(() => {
@@ -31,6 +30,6 @@ export class ClubDetailPage {
   }
 
   protected scrollTo(height: number): void {
-    this.layoutService.scrollTo(0, height - 300);
+    this.#layoutService.scrollTo(0, height - 300);
   }
 }

@@ -1,5 +1,5 @@
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -33,38 +33,27 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
   ],
 })
 export class NewTransfertPage {
+  readonly #transfertService = inject(TransfertService);
+  readonly #roleService = inject(RoleService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #memberService = inject(MemberService);
+  readonly #dialog = inject(MatDialog);
+  readonly #snackbar = inject(MatSnackBar);
+  readonly #roleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
+  readonly #role$ = this.#roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+
   protected readonly transfert: Partial<Transfert> = { constrained: false };
-  protected readonly team$: Observable<Team>;
-  protected readonly oldMembers$: Observable<Array<Member>>;
-  protected readonly newMembers$?: Observable<Array<Member>>;
+  protected readonly team$ = getRouteData<Team>('team');
+  protected readonly oldMembers$ = this.loadMembers(this.team$);
+  protected readonly newMembers$? = this.getNewMembers();
   protected newMemberDisabled = false;
 
-  private readonly roleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
-    Role | undefined
-  >(undefined);
-
-  private readonly role$: Observable<Role | undefined>;
-
-  constructor(
-    private readonly transfertService: TransfertService,
-    private readonly roleService: RoleService,
-    private readonly changeRef: ChangeDetectorRef,
-    private readonly memberService: MemberService,
-    private readonly dialog: MatDialog,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.team$ = getRouteData<Team>('team');
-    this.oldMembers$ = this.loadMembers(this.team$);
-    this.role$ = this.roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
-    this.newMembers$ = this.getNewMembers();
-  }
-
   protected loadMembers(team$: Observable<Team>): Observable<Array<Member>> {
-    return team$.pipe(switchMap((t) => this.memberService.getByTeamId(t.id)));
+    return team$.pipe(switchMap((t) => this.#memberService.getByTeamId(t.id)));
   }
 
   protected getNewMembers(): Observable<Array<Member>> {
-    const newMember$ = this.role$.pipe(
+    const newMember$ = this.#role$.pipe(
       filterNil(),
       tap(() => {
         this.newMemberDisabled = true;
@@ -72,9 +61,9 @@ export class NewTransfertPage {
     );
 
     return combineLatest([newMember$, this.team$]).pipe(
-      switchMap(([role, team]) => this.memberService.getNotMine(team.id, role.id)),
+      switchMap(([role, team]) => this.#memberService.getNotMine(team.id, role.id)),
       tap(() => {
-        this.changeRef.detectChanges();
+        this.#changeRef.detectChanges();
         this.newMemberDisabled = false;
       }),
     );
@@ -82,12 +71,12 @@ export class NewTransfertPage {
 
   protected playerChange(oldMember?: Member): void {
     if (oldMember) {
-      this.roleSubject$.next(this.roleService.get(oldMember.role_id));
+      this.#roleSubject$.next(this.#roleService.get(oldMember.role_id));
     }
   }
 
-  protected compareFn(c1: Member | null, c2: Member | null): boolean {
-    return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
+  protected compareFn(c1?: Member | null, c2?: Member | null): boolean {
+    return c1 !== null && c2 !== null ? c1?.id === c2?.id : c1 === c2;
   }
 
   protected async submit(team: Team, transfertForm: NgForm): Promise<void> {
@@ -103,14 +92,17 @@ export class NewTransfertPage {
   protected async checkMember(transfertForm: NgForm): Promise<void> {
     const team = this.transfert.new_member?.teams[0];
     if (team) {
-      const dialogRef = this.dialog.open<ConfirmationDialogModal, { text: string }, boolean>(
+      const dialogRef = this.#dialog.open<
         ConfirmationDialogModal,
         {
-          data: {
-            text: `Il giocatore appartiene alla squadra ${team.name}. Vuoi effettuare lo scambio?`,
-          },
+          text: string;
         },
-      );
+        boolean
+      >(ConfirmationDialogModal, {
+        data: {
+          text: `Il giocatore appartiene alla squadra ${team.name}. Vuoi effettuare lo scambio?`,
+        },
+      });
 
       return firstValueFrom(
         dialogRef.afterClosed().pipe(
@@ -128,7 +120,7 @@ export class NewTransfertPage {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     this.transfert.old_member_id = this.transfert.old_member?.id;
 
-    return save(this.transfertService.create(this.transfert), undefined, this.snackbar, {
+    return save(this.#transfertService.create(this.transfert), undefined, this.#snackbar, {
       message: 'Trasferimento effettuato',
       form: transfertForm,
     });

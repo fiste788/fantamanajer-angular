@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Transfert } from '../types';
@@ -12,13 +12,13 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class TransfertService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getTransfert(id: number): Observable<Array<Transfert>> {
-    return this.http.get<Array<Transfert>>(routes.transferts(id));
+    return this.#http.get<Array<Transfert>>(routes.transferts(id));
   }
 
   public create(transfert: Partial<Transfert>): Observable<Partial<Transfert>> {
-    return this.http.post<Transfert>(routes.create, transfert);
+    return this.#http.post<Transfert>(routes.create, transfert);
   }
 }

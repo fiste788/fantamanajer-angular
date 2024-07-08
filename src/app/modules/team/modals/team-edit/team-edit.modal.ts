@@ -1,5 +1,5 @@
 import { NgIf, NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -37,22 +37,17 @@ export interface TeamEditModalData {
   ],
 })
 export class TeamEditModal {
+  readonly #data = inject<TeamEditModalData>(MAT_DIALOG_DATA);
+  readonly #teamService = inject(TeamService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #dialogRef = inject<MatDialogRef<TeamEditModal>>(MatDialogRef);
+
   protected validComboDrag = false;
   protected invalidComboDrag = false;
   protected file!: File;
-  protected readonly team: Team;
-  protected readonly showChangeTeamName?: boolean;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data: TeamEditModalData,
-    protected readonly app: ApplicationService,
-    private readonly teamService: TeamService,
-    private readonly changeRef: ChangeDetectorRef,
-    private readonly dialogRef: MatDialogRef<TeamEditModal>,
-  ) {
-    this.team = data.team;
-    this.showChangeTeamName = data.showChangeTeamName;
-  }
+  protected readonly team = this.#data.team;
+  protected readonly showChangeTeamName? = this.#data.showChangeTeamName;
+  protected readonly app = inject(ApplicationService);
 
   protected async save(): Promise<void> {
     const fd = new FormData();
@@ -67,13 +62,13 @@ export class TeamEditModal {
       fd.append(it.name, it.value);
 
     return firstValueFrom(
-      this.teamService.upload(this.team.id, fd).pipe(
+      this.#teamService.upload(this.team.id, fd).pipe(
         tap((team) => (this.team.photo_url = team.photo_url)),
         map(() => {
           this.app.teamSubject$.next(this.team);
-          this.changeRef.detectChanges();
+          this.#changeRef.detectChanges();
         }),
-        map(() => this.dialogRef.close(true)),
+        map(() => this.#dialogRef.close(true)),
       ),
       { defaultValue: undefined },
     );
@@ -82,7 +77,10 @@ export class TeamEditModal {
   private objectToPostParams(
     team: Team,
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
-  ): Array<{ name: string; value: string }> {
+  ): Array<{
+    name: string;
+    value: string;
+  }> {
     return team[fieldName]
       .filter((element) => element.enabled)
       .flatMap((element: NotificationSubscription, i) =>

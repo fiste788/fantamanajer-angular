@@ -1,6 +1,6 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
@@ -30,18 +30,19 @@ import { tableRowAnimation } from '@shared/animations';
   ],
 })
 export class RankingPage {
-  protected readonly ranking$: Observable<Array<RankingPosition>>;
+  readonly #scoreService = inject(ScoreService);
+  readonly #rankingDisplayedColumns = ['team-name', 'points'];
+
+  protected readonly ranking$ = this.loadRanking();
   protected readonly rankingDisplayedColumns$: Observable<Array<string>>;
   protected readonly matchdays$: Observable<Array<number>>;
-  private readonly rankingDisplayedColumns = ['team-name', 'points'];
 
-  constructor(private readonly scoreService: ScoreService) {
-    this.ranking$ = this.loadRanking();
+  constructor() {
     const matchdays$ = this.loadMatchdays();
     this.matchdays$ = matchdays$.pipe(map((ms) => ms.map((m) => +m)));
     this.rankingDisplayedColumns$ = matchdays$.pipe(
       map((c) => {
-        c.unshift(...this.rankingDisplayedColumns);
+        c.unshift(...this.#rankingDisplayedColumns);
 
         return c;
       }),
@@ -66,7 +67,7 @@ export class RankingPage {
   }
 
   protected getRanking(championship: Championship): Observable<Array<RankingPosition>> {
-    return this.scoreService.getRanking(championship.id);
+    return this.#scoreService.getRanking(championship.id);
   }
 
   protected trackRanking(idx: number): number {

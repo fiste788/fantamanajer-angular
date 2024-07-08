@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, map } from 'rxjs';
 
@@ -13,19 +13,15 @@ import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.
   imports: [ToolbarTabComponent],
 })
 export class ChampionshipPage {
-  protected tabs: Signal<Array<Tab>>;
+  readonly #auth = inject(AuthenticationService);
+  readonly #app = inject(ApplicationService);
 
-  constructor(
-    private readonly auth: AuthenticationService,
-    private readonly app: ApplicationService,
-  ) {
-    this.tabs = toSignal(
-      combineLatest([this.auth.user$, this.app.team$]).pipe(
-        map(([user, team]) => this.loadTab(user, team)),
-      ),
-      { initialValue: [] },
-    );
-  }
+  protected tabs = toSignal(
+    combineLatest([this.#auth.user$, this.#app.team$]).pipe(
+      map(([user, team]) => this.loadTab(user, team)),
+    ),
+    { initialValue: [] },
+  );
 
   protected loadTab(user?: User, team?: Team): Array<Tab> {
     const tabs: Array<Tab> = [

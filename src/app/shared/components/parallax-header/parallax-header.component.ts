@@ -49,6 +49,9 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {
+  readonly #transitionService = inject(CurrentTransitionService);
+  readonly #viewportScroller = inject(ViewportScroller);
+
   public contextParam = input.required<string>();
   public placeholder = input<string>();
   public title = input('');
@@ -64,8 +67,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   });
 
   protected readonly isHandset$ = inject(LayoutService).isHandset$;
-  private readonly transitionService = inject(CurrentTransitionService);
-  private readonly viewportScroller = inject(ViewportScroller);
 
   public ngOnDestroy(): void {
     this.rellax()?.nativeElement.classList.remove('no-animate');
@@ -73,7 +74,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
 
   protected imageLoad(): void {
     // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
-    this.viewportScroller.scrollToAnchor('tab');
+    this.#viewportScroller.scrollToAnchor('tab');
     this.rellax()?.nativeElement.classList.add('no-animate');
   }
 
@@ -82,6 +83,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   }
 
   protected viewTransitionName() {
-    return this.transitionService.isOutletChanged('banner-img', this.contextParam());
+    return this.#transitionService.isOutletChanged('banner-img', this.contextParam());
   }
 }

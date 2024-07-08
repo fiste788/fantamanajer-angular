@@ -28,10 +28,11 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   ],
 })
 export class ClubListPage {
+  readonly #transitionService = inject(CurrentTransitionService);
+
   protected clubs = input.required<Array<Club>>();
-  private readonly transitionService = inject(CurrentTransitionService);
 
   protected viewTransitionName(club: Club) {
-    return this.transitionService.getViewTransitionName('banner-img', club);
+    return this.#transitionService.getViewTransitionName('banner-img', club);
   }
 }

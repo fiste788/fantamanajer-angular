@@ -14,6 +14,7 @@ export default [
   },
   {
     path: 'new',
+    children: [],
     canActivate: [
       () => {
         const app = inject(ApplicationService);

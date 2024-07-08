@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 
@@ -16,22 +16,20 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
+  readonly #navigator = inject<Navigator>(NAVIGATOR);
+  readonly #http = inject(HttpClient);
+
   public notifications: Subject<Notification> = new Subject<Notification>();
 
-  constructor(
-    @Inject(NAVIGATOR) private readonly navigator: Navigator,
-    private readonly http: HttpClient,
-  ) {}
-
   public getNotifications(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(routes.notifications(teamId)).pipe(share());
+    return this.#http.get<Stream>(routes.notifications(teamId)).pipe(share());
   }
 
   public getNotificationCount(teamId: number): Observable<Stream> {
-    return this.http.get<Stream>(`${routes.notifications(teamId)}/count`).pipe(
+    return this.#http.get<Stream>(`${routes.notifications(teamId)}/count`).pipe(
       tap((s) => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        void this.navigator.setAppBadge?.(s.unseen);
+        void this.#navigator.setAppBadge?.(s.unseen);
       }),
     );
   }

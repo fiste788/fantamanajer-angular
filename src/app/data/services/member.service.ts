@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Member, Role } from '../types';
@@ -17,7 +17,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class MemberService {
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
     let params = new HttpParams();
@@ -26,34 +26,34 @@ export class MemberService {
     }
     const path = roleId ? routes.freeByRole(championshipId, roleId) : routes.free(championshipId);
 
-    return this.http.get<Array<Member>>(path, { params });
+    return this.#http.get<Array<Member>>(path, { params });
   }
 
   public getAllFree(championshipId: number): Observable<Record<Role['id'], Array<Member>>> {
     const params = new HttpParams().set('stats', '0');
 
-    return this.http.get<Record<Role['id'], Array<Member>>>(routes.free(championshipId), {
+    return this.#http.get<Record<Role['id'], Array<Member>>>(routes.free(championshipId), {
       params,
     });
   }
 
   public getBest(): Observable<Array<Role>> {
-    return this.http.get<Array<Role>>(routes.best);
+    return this.#http.get<Array<Role>>(routes.best);
   }
 
   public getByTeamId(teamId: number): Observable<Array<Member>> {
-    return this.http.get<Array<Member>>(routes.team(teamId));
+    return this.#http.get<Array<Member>>(routes.team(teamId));
   }
 
   public getNotMine(teamId: number, roleId: number): Observable<Array<Member>> {
-    return this.http.get<Array<Member>>(routes.notMine(teamId, roleId));
+    return this.#http.get<Array<Member>>(routes.notMine(teamId, roleId));
   }
 
   public getByClubId(clubId: number): Observable<Array<Member>> {
-    return this.http.get<Array<Member>>(routes.club(clubId));
+    return this.#http.get<Array<Member>>(routes.club(clubId));
   }
 
   public getById(id: number): Observable<Member> {
-    return this.http.get<Member>(routes.member(id));
+    return this.#http.get<Member>(routes.member(id));
   }
 }

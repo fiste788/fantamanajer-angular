@@ -1,11 +1,9 @@
 import { animate, query, sequence, style, transition, trigger } from '@angular/animations';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { Breadcrumb } from './breadcrumb.model';
 import { BreadcrumbService } from './breadcrumb.service';
 
 const breadcrumbTransition = trigger('breadcrumbTransition', [
@@ -48,9 +46,5 @@ const breadcrumbTransition = trigger('breadcrumbTransition', [
   imports: [NgIf, NgFor, MatIconModule, RouterLink, AsyncPipe],
 })
 export class BreadcrumbComponent {
-  protected breadcrumbs$: Observable<Array<Breadcrumb>>;
-
-  constructor(breadcrumbService: BreadcrumbService) {
-    this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
-  }
+  protected breadcrumbs$ = inject(BreadcrumbService).breadcrumbs$;
 }

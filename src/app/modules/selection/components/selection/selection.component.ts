@@ -1,5 +1,5 @@
 import { AsyncPipe, KeyValue, KeyValuePipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectorRef, Component, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,35 +35,26 @@ import { Member, Role, Selection, Team } from '@data/types';
   templateUrl: './selection.component.html',
 })
 export class SelectionComponent {
-  protected selectionForm = viewChild(NgForm);
+  readonly #selectionService = inject(SelectionService);
+  readonly #app = inject(ApplicationService);
+  readonly #roleService = inject(RoleService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #memberService = inject(MemberService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #snackbar = inject(MatSnackBar);
+  readonly #roleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
+  readonly #role$ = this.#roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
 
-  protected readonly data$: Observable<{ selection: Selection; members: Map<Role, Array<Member>> }>;
+  protected readonly data$ = this.loadData();
+  protected readonly newMemberRoleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
+  protected selectionForm = viewChild(NgForm);
   protected newMembers$?: Observable<Array<Member>>;
   protected newMemberDisabled = false;
-  protected readonly newMemberRoleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
-    Role | undefined
-  >(undefined);
 
-  private readonly roleSubject$: BehaviorSubject<Role | undefined> = new BehaviorSubject<
-    Role | undefined
-  >(undefined);
-
-  private readonly role$: Observable<Role | undefined>;
-
-  constructor(
-    private readonly selectionService: SelectionService,
-    private readonly app: ApplicationService,
-    private readonly roleService: RoleService,
-    private readonly changeRef: ChangeDetectorRef,
-    private readonly memberService: MemberService,
-    private readonly route: ActivatedRoute,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.role$ = this.roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
-    this.data$ = this.loadData();
-  }
-
-  protected loadData(): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
+  protected loadData(): Observable<{
+    selection: Selection;
+    members: Map<Role, Array<Member>>;
+  }> {
     return getRouteData<Team>('team').pipe(
       filterNil(),
       switchMap((team) => this.loadTeamData(team)),
@@ -71,12 +62,13 @@ export class SelectionComponent {
     );
   }
 
-  protected loadTeamData(
-    team: Team,
-  ): Observable<{ selection: Selection; members: Map<Role, Array<Member>> }> {
+  protected loadTeamData(team: Team): Observable<{
+    selection: Selection;
+    members: Map<Role, Array<Member>>;
+  }> {
     return forkJoin({
       members: this.getTeamMembers(team),
-      selection: this.selectionService.getLastOrNewSelection(team.id),
+      selection: this.#selectionService.getLastOrNewSelection(team.id),
       newMember: this.getSelectedMember(),
     }).pipe(
       map(({ members, selection, newMember }) => {
@@ -85,11 +77,11 @@ export class SelectionComponent {
             // eslint-disable-next-line unicorn/no-null
             selection.old_member = null;
           }
-          this.newMemberRoleSubject$.next(this.roleService.get(newMember.role_id));
-          this.roleSubject$.next(this.roleService.get(newMember.role_id));
+          this.newMemberRoleSubject$.next(this.#roleService.get(newMember.role_id));
+          this.#roleSubject$.next(this.#roleService.get(newMember.role_id));
           selection.new_member = newMember;
           selection.new_member_id = newMember.id;
-          this.changeRef.detectChanges();
+          this.#changeRef.detectChanges();
         }
         this.oldMemberChange(selection.old_member);
         this.newMemberChange(selection.new_member);
@@ -100,45 +92,47 @@ export class SelectionComponent {
   }
 
   protected setupEvents(): void {
-    const role$: Observable<Role> = this.role$.pipe(
+    const role$: Observable<Role> = this.#role$.pipe(
       filterNil(),
       tap(() => {
         this.newMemberDisabled = true;
       }),
     );
-    this.newMembers$ = combineLatest([role$, this.app.requireTeam$]).pipe(
-      switchMap(([role, team]) => this.memberService.getFree(team.championship.id, role.id, false)),
+    this.newMembers$ = combineLatest([role$, this.#app.requireTeam$]).pipe(
+      switchMap(([role, team]) =>
+        this.#memberService.getFree(team.championship.id, role.id, false),
+      ),
       tap(() => {
-        this.changeRef.detectChanges();
+        this.#changeRef.detectChanges();
         this.newMemberDisabled = false;
       }),
     );
   }
 
   protected getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
-    return this.memberService
+    return this.#memberService
       .getByTeamId(team.id)
-      .pipe(map((data) => this.roleService.groupMembersByRole(data)));
+      .pipe(map((data) => this.#roleService.groupMembersByRole(data)));
   }
 
   protected getSelectedMember(): Observable<Member | undefined> {
-    return this.route.queryParamMap.pipe(
+    return this.#route.queryParamMap.pipe(
       map((params) => params.get('new_member_id')),
       // eslint-disable-next-line unicorn/no-useless-undefined
-      switchMap((id) => (id ? this.memberService.getById(+id) : of(undefined))),
+      switchMap((id) => (id ? this.#memberService.getById(+id) : of(undefined))),
       first(),
     );
   }
 
   protected oldMemberChange(member: Member | null): void {
     if (member) {
-      this.roleSubject$.next(this.roleService.get(member.role_id));
+      this.#roleSubject$.next(this.#roleService.get(member.role_id));
     }
   }
 
   protected newMemberChange(member: Member | null): void {
     if (member) {
-      this.newMemberRoleSubject$.next(this.roleService.get(member.role_id));
+      this.newMemberRoleSubject$.next(this.#roleService.get(member.role_id));
     }
   }
 
@@ -148,7 +142,7 @@ export class SelectionComponent {
 
   protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm()?.valid) {
-      const save$ = this.app.requireTeam$.pipe(
+      const save$ = this.#app.requireTeam$.pipe(
         map((t) => {
           delete selection.id;
           delete selection.team;
@@ -158,10 +152,10 @@ export class SelectionComponent {
 
           return selection as AtLeast<Selection, 'team_id'>;
         }),
-        switchMap((sel) => this.selectionService.create(sel)),
+        switchMap((sel) => this.#selectionService.create(sel)),
       );
 
-      return save(save$, undefined, this.snackbar, {
+      return save(save$, undefined, this.#snackbar, {
         message: 'Selezione salvata correttamento',
         callback: (res: Partial<Selection>) => {
           if (res.id) {
@@ -181,7 +175,7 @@ export class SelectionComponent {
 
   protected reset(): void {
     const role = undefined;
-    this.roleSubject$.next(role);
+    this.#roleSubject$.next(role);
     this.newMemberRoleSubject$.next(role);
   }
 }

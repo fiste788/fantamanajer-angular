@@ -1,12 +1,11 @@
 import { NgIf, AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { defaultIfEmpty, map, Observable } from 'rxjs';
 
@@ -28,22 +27,22 @@ import { cardCreationAnimation } from '@shared/animations';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSliderModule,
     MatSlideToggleModule,
     MatButtonModule,
     AsyncPipe,
   ],
 })
 export class ChampionshipDetailPage {
-  protected readonly championship$: Observable<Partial<Championship>>;
-  protected readonly league$: Observable<Partial<League>>;
+  readonly #championshipService = inject(ChampionshipService);
+  readonly #snackbar = inject(MatSnackBar);
 
-  constructor(
-    private readonly championshipService: ChampionshipService,
-    private readonly snackbar: MatSnackBar,
-  ) {
-    this.championship$ = getRouteData<Championship>('championship').pipe(defaultIfEmpty({}));
-    this.league$ = this.championship$.pipe(map((c) => c.league ?? {}));
+  protected readonly championship$ = getRouteData<Championship>('championship').pipe(
+    defaultIfEmpty({} as Championship),
+  );
+
+  protected readonly league$ = this.championship$.pipe(map((c) => c.league ?? {}));
+
+  constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
@@ -54,10 +53,10 @@ export class ChampionshipDetailPage {
   ): Promise<void> {
     championship.league = league;
     const save$: Observable<AtLeast<Championship, 'id'>> = championship.id
-      ? this.championshipService.update(championship as AtLeast<Championship, 'id'>)
-      : this.championshipService.create(championship);
+      ? this.#championshipService.update(championship as AtLeast<Championship, 'id'>)
+      : this.#championshipService.create(championship);
 
-    return save(save$, undefined, this.snackbar, {
+    return save(save$, undefined, this.#snackbar, {
       message: 'Modifiche salvate',
       form: championshipForm,
     });

@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ElementRef, Injectable, Injector } from '@angular/core';
+import { ElementRef, Injectable, Injector, inject } from '@angular/core';
 import { firstValueFrom, tap } from 'rxjs';
 
 import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
@@ -11,10 +11,8 @@ import { NotificationOverlayRef } from './notification-overlay-ref';
   providedIn: 'any',
 })
 export class NotificationOverlayService {
-  constructor(
-    private readonly overlay: Overlay,
-    private readonly injector: Injector,
-  ) {}
+  readonly #overlay = inject(Overlay);
+  readonly #injector = inject(Injector);
 
   public open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)
@@ -40,7 +38,7 @@ export class NotificationOverlayService {
   }
 
   private getOverlayConfig(origin: ElementRef): OverlayConfig {
-    const positionStrategy = this.overlay
+    const positionStrategy = this.#overlay
       .position()
       .flexibleConnectedTo(origin)
       .withFlexibleDimensions(true)
@@ -59,7 +57,7 @@ export class NotificationOverlayService {
     return new OverlayConfig({
       hasBackdrop: true,
       positionStrategy,
-      scrollStrategy: this.overlay.scrollStrategies.block(),
+      scrollStrategy: this.#overlay.scrollStrategies.block(),
       width: '599px',
     });
   }
@@ -69,7 +67,7 @@ export class NotificationOverlayService {
     const overlayConfig = this.getOverlayConfig(origin);
 
     // Returns an OverlayRef
-    return this.overlay.create(overlayConfig);
+    return this.#overlay.create(overlayConfig);
   }
 
   private attachDialogContainer(
@@ -92,7 +90,7 @@ export class NotificationOverlayService {
           useValue: dialogRef,
         },
       ],
-      parent: this.injector,
+      parent: this.#injector,
     });
   }
 }

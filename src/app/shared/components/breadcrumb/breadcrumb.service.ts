@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, Data, Event, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -10,29 +10,25 @@ import { Breadcrumb } from './breadcrumb.model';
   providedIn: 'root',
 })
 export class BreadcrumbService {
-  public readonly breadcrumbs$: Observable<Array<Breadcrumb>>;
-  private readonly _breadcrumbs$ = new BehaviorSubject<Array<Breadcrumb>>([]);
+  readonly #router = inject(Router);
+  readonly #title = inject(Title);
+  readonly #breadcrumbs$ = new BehaviorSubject<Array<Breadcrumb>>([]);
 
-  constructor(
-    private readonly router: Router,
-    private readonly title: Title,
-  ) {
-    this.breadcrumbs$ = this._breadcrumbs$.asObservable();
-  }
+  public readonly breadcrumbs$ = this.#breadcrumbs$.asObservable();
 
   public init(defaultTitle?: string): Observable<Event> {
-    return this.router.events.pipe(
+    return this.#router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       tap(() => {
         // Construct the breadcrumb hierarchy
-        const { root } = this.router.routerState.snapshot;
+        const { root } = this.#router.routerState.snapshot;
         const breadcrumbs: Array<Breadcrumb> = [];
         this.addBreadcrumb(root, [], breadcrumbs);
         const array = [];
         if (defaultTitle) {
           array.push(defaultTitle);
         }
-        this.title.setTitle([...array, ...breadcrumbs.map((b) => b.label)].join(' - '));
+        this.#title.setTitle([...array, ...breadcrumbs.map((b) => b.label)].join(' - '));
 
         if (breadcrumbs.length === 0 && defaultTitle) {
           breadcrumbs.push({
@@ -41,7 +37,7 @@ export class BreadcrumbService {
           });
         }
         // Emit the new hierarchy
-        this._breadcrumbs$.next(breadcrumbs);
+        this.#breadcrumbs$.next(breadcrumbs);
       }),
     );
   }

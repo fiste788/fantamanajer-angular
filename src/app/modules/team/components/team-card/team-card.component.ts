@@ -26,10 +26,10 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamCardComponent {
+  readonly #transitionService = inject(CurrentTransitionService);
   public team = input.required<Team>();
-  private readonly transitionService = inject(CurrentTransitionService);
 
   protected viewTransitionName(team: Team) {
-    return this.transitionService.getViewTransitionName('banner-img', team, 'team_id');
+    return this.#transitionService.getViewTransitionName('banner-img', team, 'team_id');
   }
 }

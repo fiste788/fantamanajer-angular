@@ -1,13 +1,5 @@
 import { NgIf, NgFor, NgClass, UpperCasePipe } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  SimpleChange,
-  booleanAttribute,
-  effect,
-  input,
-  output,
-} from '@angular/core';
+import { Component, SimpleChange, booleanAttribute, effect, input, output } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -46,7 +38,7 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
     RangePipe,
   ],
 })
-export class ModuleAreaComponent implements OnInit {
+export class ModuleAreaComponent {
   public module = input.required<Module>();
   public dispositions = input.required<
     Array<{
@@ -61,7 +53,7 @@ export class ModuleAreaComponent implements OnInit {
   public membersByRole = input<Map<Role, Array<Member>>>();
   public readonly selectionChange = output<{ role: Role; member: Member | null }>();
 
-  public ngOnInit(): void {
+  constructor() {
     effect(() => {
       this.moduleChange();
     });

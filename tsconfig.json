@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -27,26 +26,13 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "paths": {
-      "@app/*": [
-        "src/app/core/*"
-      ],
-      "@modules/*": [
-        "src/app/modules/*"
-      ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
-      "@env": [
-        "src/environments/environment"
-      ],
-      "@data/*": [
-        "src/app/data/*"
-      ]
+      "@app/*": ["src/app/core/*"],
+      "@data/*": ["src/app/data/*"],
+      "@env": ["src/environments/environment"],
+      "@modules/*": ["src/app/modules/*"],
+      "@shared/*": ["src/app/shared/*"]
     },
     "useDefineForClassFields": false
   },
@@ -74,6 +60,6 @@
     }
   },
   "ts-node": {
-    "esm": true, // «———— enabling ESM for ts-node
-  },
+    "esm": true
+  }
 }
