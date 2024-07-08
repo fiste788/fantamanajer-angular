@@ -58,7 +58,7 @@ export class TeamEditModal {
     fd.set('name', this.team.name);
     for (const it of notificationSubscriptionsKeys
       .map((key) => `${key}_notification_subscriptions` as const)
-      .flatMap((field) => this.objectToPostParams(this.team, field)))
+      .flatMap((field) => this.#objectToPostParams(this.team, field)))
       fd.append(it.name, it.value);
 
     return firstValueFrom(
@@ -74,7 +74,7 @@ export class TeamEditModal {
     );
   }
 
-  private objectToPostParams(
+  #objectToPostParams(
     team: Team,
     fieldName: 'email_notification_subscriptions' | 'push_notification_subscriptions',
   ): Array<{

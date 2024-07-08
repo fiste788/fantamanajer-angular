@@ -70,25 +70,25 @@ export class ModuleAreaComponent {
       }
       area.options = (this.membersByRole()?.get(area.role) ?? []).map((member) => ({
         member,
-        disabled: this.isRegular(member),
+        disabled: this.#isRegular(member),
       }));
     }
   }
 
   protected memberSelectionChange(role: Role, member: Member | null): void {
-    this.reloadRegularState(role.id);
+    this.#reloadRegularState(role.id);
     this.selectionChange.emit({ role, member });
   }
 
-  private isRegular(member: Member): boolean {
+  #isRegular(member: Member): boolean {
     return this.dispositions()
       .filter((element) => element.position && element.position <= 11 && element.member !== null)
       .map((element) => element.member?.id)
       .includes(member.id);
   }
 
-  private reloadRegularState(roleId?: number): void {
+  #reloadRegularState(roleId?: number): void {
     for (const v of this.module().areas.filter((a) => roleId === undefined || a.role.id === roleId))
-      for (const o of v.options) o.disabled = this.isRegular(o.member);
+      for (const o of v.options) o.disabled = this.#isRegular(o.member);
   }
 }

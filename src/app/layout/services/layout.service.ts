@@ -57,7 +57,7 @@ export class LayoutService {
   }
 
   public connectChangePageAnimation(): Subscription {
-    return this.isRouteContextChanged()
+    return this.#isRouteContextChanged()
       .pipe(filter((c) => c))
       .subscribe(() => {
         this.showToolbar();
@@ -150,7 +150,7 @@ export class LayoutService {
     this.#isReadySubject.next(true);
   }
 
-  private isRouteContextChanged(): Observable<boolean> {
+  #isRouteContextChanged(): Observable<boolean> {
     return this.#router.events.pipe(
       filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
       pairwise(),

@@ -47,7 +47,7 @@ export class MemberFreePage {
 
   public readonly roles = inject(RoleService).list();
   public role$ = new BehaviorSubject(this.roles[0]!);
-  public members$ = this.getMembers();
+  public members$ = this.#getMembers();
   public selectedMember?: Member | undefined;
 
   protected readonly app = inject(ApplicationService);
@@ -64,7 +64,7 @@ export class MemberFreePage {
     return role1?.id === role2?.id;
   }
 
-  private getMembers(): Observable<Array<Member>> {
+  #getMembers(): Observable<Array<Member>> {
     return combineLatest([this.role$, this.#championship$]).pipe(
       switchMap(([role, c]) => this.#memberService.getFree(c.id, role.id)),
     );

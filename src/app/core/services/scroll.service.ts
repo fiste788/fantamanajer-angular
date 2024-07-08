@@ -32,19 +32,19 @@ export class ScrollService {
     );
 
     return {
-      up: this.getGoingUp(scrollObservable$),
-      down: this.getGoingDown(scrollObservable$),
+      up: this.#getGoingUp(scrollObservable$),
+      down: this.#getGoingDown(scrollObservable$),
     };
   }
 
-  private getGoingUp(scrollObservable$: Observable<Direction>): Observable<Direction> {
+  #getGoingUp(scrollObservable$: Observable<Direction>): Observable<Direction> {
     return scrollObservable$.pipe(
       filter((direction) => direction === Direction.Up),
       auditTime(300),
     );
   }
 
-  private getGoingDown(scrollObservable$: Observable<Direction>): Observable<Direction> {
+  #getGoingDown(scrollObservable$: Observable<Direction>): Observable<Direction> {
     return scrollObservable$.pipe(filter((direction) => direction === Direction.Down));
   }
 }

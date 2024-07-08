@@ -16,12 +16,12 @@ export class NotificationOverlayService {
 
   public open(origin: ElementRef): NotificationOverlayRef {
     // Returns an OverlayRef (which is a PortalHost)
-    const overlayRef = this.createOverlay(origin);
+    const overlayRef = this.#createOverlay(origin);
 
     // Instantiate remote control
     const dialogRef = new NotificationOverlayRef(overlayRef);
 
-    const overlayComponent = this.attachDialogContainer(overlayRef, dialogRef);
+    const overlayComponent = this.#attachDialogContainer(overlayRef, dialogRef);
 
     dialogRef.componentInstance = overlayComponent;
 
@@ -37,7 +37,7 @@ export class NotificationOverlayService {
     return dialogRef;
   }
 
-  private getOverlayConfig(origin: ElementRef): OverlayConfig {
+  #getOverlayConfig(origin: ElementRef): OverlayConfig {
     const positionStrategy = this.#overlay
       .position()
       .flexibleConnectedTo(origin)
@@ -62,19 +62,19 @@ export class NotificationOverlayService {
     });
   }
 
-  private createOverlay(origin: ElementRef): OverlayRef {
+  #createOverlay(origin: ElementRef): OverlayRef {
     // Returns an OverlayConfig
-    const overlayConfig = this.getOverlayConfig(origin);
+    const overlayConfig = this.#getOverlayConfig(origin);
 
     // Returns an OverlayRef
     return this.#overlay.create(overlayConfig);
   }
 
-  private attachDialogContainer(
+  #attachDialogContainer(
     overlayRef: OverlayRef,
     dialogRef: NotificationOverlayRef,
   ): NotificationListModal {
-    const injector = this.createInjector(dialogRef);
+    const injector = this.#createInjector(dialogRef);
 
     const containerPortal = new ComponentPortal(NotificationListModal, undefined, injector);
     const containerRef = overlayRef.attach(containerPortal);
@@ -82,7 +82,7 @@ export class NotificationOverlayService {
     return containerRef.instance;
   }
 
-  private createInjector(dialogRef: NotificationOverlayRef): Injector {
+  #createInjector(dialogRef: NotificationOverlayRef): Injector {
     return Injector.create({
       providers: [
         {

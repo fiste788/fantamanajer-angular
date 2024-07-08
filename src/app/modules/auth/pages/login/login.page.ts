@@ -56,7 +56,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.#subscription.add(this.connectLoginPasskey());
+    this.#subscription.add(this.#connectLoginPasskey());
   }
 
   public ngOnDestroy(): void {
@@ -84,7 +84,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if (result) {
       return firstValueFrom(
         this.#app.requireTeam$.pipe(
-          map((t) => this.getUrl(t)),
+          map((t) => this.#getUrl(t)),
           map(async (url) => this.#router.navigateByUrl(url)),
         ),
         { defaultValue: false },
@@ -108,13 +108,13 @@ export class LoginPage implements OnInit, OnDestroy {
     this.stepper().reset();
   }
 
-  private connectLoginPasskey(): Subscription {
+  #connectLoginPasskey(): Subscription {
     return from(this.#authService.authenticatePasskey())
       .pipe(switchMap(async (result) => this.postLogin(result)))
       .subscribe();
   }
 
-  private getUrl(team: Team): string {
+  #getUrl(team: Team): string {
     return (
       (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
       `/championships/${team.championship.id}`

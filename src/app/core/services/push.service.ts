@@ -20,7 +20,7 @@ export class PushService {
   public init(): Observable<void> {
     return this.#auth.requireUser$.pipe(
       filter(() => environment.production),
-      switchMap((user) => this.initializeUser(user)),
+      switchMap((user) => this.#initializeUser(user)),
     );
   }
 
@@ -31,7 +31,7 @@ export class PushService {
   public subscribeToPush(user: User): Observable<void> {
     return this.isSubscribed().pipe(
       filter((s) => !s),
-      mergeMap(async () => this.requestSubscription(user)),
+      mergeMap(async () => this.#requestSubscription(user)),
       filter((s) => s),
       map(() => {
         this.#snackBar.open('Now you are subscribed', undefined, {
@@ -42,7 +42,7 @@ export class PushService {
   }
 
   public unsubscribeFromPush(): Observable<void> {
-    return from(this.cancelSubscription()).pipe(
+    return from(this.#cancelSubscription()).pipe(
       filter((r) => r),
       map(() => {
         this.#snackBar.open('Now you are unsubscribed', undefined, {
@@ -99,11 +99,11 @@ export class PushService {
     return hashArray.map((b) => `00${b.toString(16)}`.slice(-2)).join('');
   }
 
-  private initializeUser(user: User): Observable<void> {
-    return merge(this.subscribeToPush(user).pipe(catchError(() => EMPTY)), this.showMessages());
+  #initializeUser(user: User): Observable<void> {
+    return merge(this.subscribeToPush(user).pipe(catchError(() => EMPTY)), this.#showMessages());
   }
 
-  private showMessages(): Observable<void> {
+  #showMessages(): Observable<void> {
     return this.#swPush.messages.pipe(
       map((obj) => {
         const message = obj as {
@@ -114,7 +114,7 @@ export class PushService {
     );
   }
 
-  private async requestSubscription(user: User): Promise<boolean> {
+  async #requestSubscription(user: User): Promise<boolean> {
     const pushSubscription = await this.#swPush.requestSubscription({
       serverPublicKey: environment.vapidPublicKey,
     });
@@ -136,7 +136,7 @@ export class PushService {
     return false;
   }
 
-  private async cancelSubscription(): Promise<boolean> {
+  async #cancelSubscription(): Promise<boolean> {
     // Get active subscription
     const pushSubscription = await firstValueFrom(this.#swPush.subscription.pipe(take(1)), {
       defaultValue: undefined,

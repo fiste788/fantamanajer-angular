@@ -46,7 +46,7 @@ export class ProfileComponent {
   public sidenav = input.required<MatSidenav>();
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
-  protected readonly photo$ = this.loadPhoto();
+  protected readonly photo$ = this.#loadPhoto();
 
   public change(team: Team): void {
     this.app.teamSubject$.next(team);
@@ -80,7 +80,7 @@ export class ProfileComponent {
     );
   }
 
-  private loadPhoto(): Observable<string | undefined> {
+  #loadPhoto(): Observable<string | undefined> {
     return this.app.requireTeam$.pipe(
       map((team) => (team.photo_url ? team.photo_url['240w'] : undefined)),
     );

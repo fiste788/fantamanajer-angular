@@ -17,11 +17,11 @@ export class NotificationListComponent implements OnInit {
   public readonly open = output();
 
   public ngOnInit(): void {
-    this.openDialog();
-    this.open.subscribe(() => this.openDialog());
+    this.#openDialog();
+    this.open.subscribe(() => this.#openDialog());
   }
 
-  private openDialog(): void {
+  #openDialog(): void {
     this.#overlayService.open(this.origin());
   }
 }

@@ -16,7 +16,7 @@ export class ThemeService {
     .pipe(map((result) => result.matches));
 
   readonly #theme$ = this.#isDark$.pipe(
-    switchMap(async (dark) => this.setThemeCss(dark)),
+    switchMap(async (dark) => this.#setThemeCss(dark)),
     share(),
   );
 
@@ -24,7 +24,7 @@ export class ThemeService {
     return this.#theme$.subscribe();
   }
 
-  private async setThemeCss(isDark: boolean): Promise<void> {
+  async #setThemeCss(isDark: boolean): Promise<void> {
     return new Promise((resolve) => {
       const mainEl = this.#document.querySelector<HTMLLinkElement>('#main-theme');
       const styleName = `${isDark ? 'dark' : 'light'}.css`;

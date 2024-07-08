@@ -1,3 +1,4 @@
+/* eslint-disable @rdlabo/rules/deny-soft-private-modifier */
 import { OverlayRef } from '@angular/cdk/overlay';
 import { Observable, Subject } from 'rxjs';
 

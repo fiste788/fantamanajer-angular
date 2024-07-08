@@ -1,3 +1,4 @@
+/* eslint-disable @rdlabo/rules/deny-soft-private-modifier */
 import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
 import {
   BehaviorSubject,
@@ -28,7 +29,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     private readonly id: number,
   ) {
     super();
-    this.addPlaceholder();
+    this.#addPlaceholder();
 
     this.#dataStream.next(this.#cachedData);
   }
@@ -39,9 +40,9 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     this.#subscription.add(
       collectionViewer.viewChange
         .pipe(
-          concatMap((r) => this.getRange(r)),
+          concatMap((r) => this.#getRange(r)),
           filter((page) => !this.#fetchedPages.has(page)),
-          mergeMap((page) => this.fetchPage(page)),
+          mergeMap((page) => this.#fetchPage(page)),
         )
         .subscribe((res) => this.#dataStream.next(res)),
     );
@@ -57,18 +58,18 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     return this.#cachedData.length === 0;
   }
 
-  private getPageForIndex(index: number): number {
+  #getPageForIndex(index: number): number {
     return Math.floor(index / this.#pageSize) + 1;
   }
 
-  private getRange(r: ListRange): Observable<number> {
-    const startPage = this.getPageForIndex(r.start);
-    const endPage = this.getPageForIndex(r.end - 1);
+  #getRange(r: ListRange): Observable<number> {
+    const startPage = this.#getPageForIndex(r.start);
+    const endPage = this.#getPageForIndex(r.end - 1);
 
     return range(startPage, endPage - startPage + 1);
   }
 
-  private fetchPage(page: number): Observable<Array<StreamActivity | undefined>> {
+  #fetchPage(page: number): Observable<Array<StreamActivity | undefined>> {
     if (this.#fetchedPages.has(page)) {
       return EMPTY;
     }
@@ -79,7 +80,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
       map((res) => {
         this.#cachedData = [...this.#cachedData.filter((cd) => cd !== undefined), ...res];
         if (res.length === this.#pageSize) {
-          this.addPlaceholder();
+          this.#addPlaceholder();
         }
 
         return this.#cachedData;
@@ -87,7 +88,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     );
   }
 
-  private addPlaceholder(): void {
+  #addPlaceholder(): void {
     this.#cachedData = [...this.#cachedData, ...Array.from<undefined>({ length: this.#pageSize })];
   }
 }

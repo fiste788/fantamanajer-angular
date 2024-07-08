@@ -18,12 +18,12 @@ export class PwaService {
   readonly #zone = inject(NgZone);
   readonly #appRef = inject(ApplicationRef);
 
-  public readonly beforeInstall$? = this.getBeforeInstall();
+  public readonly beforeInstall$? = this.#getBeforeInstall();
 
   public init(): Observable<void> {
-    return this.checkForUpdates().pipe(
+    return this.#checkForUpdates().pipe(
       filter((u) => u),
-      switchMap(() => this.promptUpdate()),
+      switchMap(() => this.#promptUpdate()),
     );
   }
 
@@ -31,7 +31,7 @@ export class PwaService {
     return this.init().subscribe();
   }
 
-  private getBeforeInstall(): Observable<BeforeInstallPromptEvent> | undefined {
+  #getBeforeInstall(): Observable<BeforeInstallPromptEvent> | undefined {
     return isPlatformBrowser(this.#platformId)
       ? fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
           tap((e) => {
@@ -41,7 +41,7 @@ export class PwaService {
       : undefined;
   }
 
-  private checkForUpdates(): Observable<boolean> {
+  #checkForUpdates(): Observable<boolean> {
     const appIsStable$ = this.#appRef.isStable.pipe(
       filter((isStable) => isStable),
       first((isStable) => isStable),
@@ -55,7 +55,7 @@ export class PwaService {
     );
   }
 
-  private promptUpdate(): Observable<void> {
+  #promptUpdate(): Observable<void> {
     return this.#zone.run(() => {
       return this.#snackBar
         .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })

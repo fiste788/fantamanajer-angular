@@ -23,7 +23,7 @@ export class BreadcrumbService {
         // Construct the breadcrumb hierarchy
         const { root } = this.#router.routerState.snapshot;
         const breadcrumbs: Array<Breadcrumb> = [];
-        this.addBreadcrumb(root, [], breadcrumbs);
+        this.#addBreadcrumb(root, [], breadcrumbs);
         const array = [];
         if (defaultTitle) {
           array.push(defaultTitle);
@@ -46,7 +46,7 @@ export class BreadcrumbService {
     return this.init(defaultTitle).subscribe();
   }
 
-  private addBreadcrumb(
+  #addBreadcrumb(
     route: ActivatedRouteSnapshot | null,
     parentUrl: Array<string>,
     breadcrumbs: Array<Breadcrumb>,
@@ -58,18 +58,18 @@ export class BreadcrumbService {
       // Add an element for the current route part
       if (route.data['breadcrumbs'] !== undefined) {
         const breadcrumb = {
-          label: this.getLabel(route.data),
+          label: this.#getLabel(route.data),
           url: `/${routeUrl.join('/')}`,
         };
         breadcrumbs.push(breadcrumb);
       }
 
       // Add another element for the next route part
-      this.addBreadcrumb(route.firstChild, routeUrl, breadcrumbs);
+      this.#addBreadcrumb(route.firstChild, routeUrl, breadcrumbs);
     }
   }
 
-  private getLabel(data: Data): string {
+  #getLabel(data: Data): string {
     // The breadcrumb can be defined as a static string or as a function to construct the breadcrumb element out of the route data
     const breadcrumb = data['breadcrumbs'] as string | ((data: Data) => string);
 

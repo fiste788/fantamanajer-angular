@@ -70,8 +70,8 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly isHandset$ = inject(LayoutService).isHandset$;
   protected readonly isTablet$ = inject(LayoutService).isTablet$;
   protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
-  protected readonly isOpen$ = this.isOpenObservable();
-  protected readonly showedSpeedDial$ = this.isShowedSpeedDial();
+  protected readonly isOpen$ = this.#isOpenObservable();
+  protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
   protected readonly showedSpeedDialSignal = toSignal(this.showedSpeedDial$, {
     initialValue: VisibilityState.Hidden,
   });
@@ -82,13 +82,13 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   constructor() {
     afterNextRender(() => {
       this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
-      this.setupScrollAnimation(this.#window);
+      this.#setupScrollAnimation(this.#window);
     });
   }
 
   public ngAfterViewInit(): void {
     // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
-    this.#subscriptions.add(this.initDrawer().subscribe());
+    this.#subscriptions.add(this.#initDrawer().subscribe());
     this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
     this.#changeRef.detectChanges();
   }
@@ -105,7 +105,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     return this.#transitionService.isRootOutlet() ? 'main' : '';
   }
 
-  private setupScrollAnimation(window: Window): void {
+  #setupScrollAnimation(window: Window): void {
     this.#ngZone.runOutsideAngular(() => {
       this.isScrolled$ = fromEvent(window, 'scroll').pipe(
         throttleTime(15),
@@ -115,11 +115,11 @@ export class MainComponent implements OnDestroy, AfterViewInit {
         share(),
       );
 
-      this.#layoutService.connectScrollAnimation(window, this.getToolbarHeight.bind(this));
+      this.#layoutService.connectScrollAnimation(window, this.#getToolbarHeight.bind(this));
     });
   }
 
-  private initDrawer(): Observable<void> {
+  #initDrawer(): Observable<void> {
     return (
       this.drawer().openedStart.pipe(
         mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
@@ -128,7 +128,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  private isOpenObservable(): Observable<boolean> {
+  #isOpenObservable(): Observable<boolean> {
     return combineLatest([
       this.isReady$,
       this.isHandset$,
@@ -140,13 +140,13 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  private isShowedSpeedDial(): Observable<VisibilityState> {
+  #isShowedSpeedDial(): Observable<VisibilityState> {
     return combineLatest([this.#layoutService.isShowSpeedDial$, this.#auth.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
     );
   }
 
-  private getToolbarHeight(): number {
+  #getToolbarHeight(): number {
     return this.toolbar().nativeElement.clientHeight ?? 0;
   }
 }

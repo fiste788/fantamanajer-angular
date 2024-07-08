@@ -68,13 +68,13 @@ export class AuthenticationService {
   public async postLogin(res: { user: User; token: string }): Promise<boolean> {
     if (res.token) {
       const { user, token } = res;
-      user.roles = this.getRoles(user);
+      user.roles = this.#getRoles(user);
       if (token) {
         this.#tokenStorageService.setToken(token);
       }
       this.userSubject.next(user);
 
-      await firstValueFrom(this.#userService.setLocalSession(this.prepSetSession(token)));
+      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
 
       return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
     }
@@ -130,7 +130,7 @@ export class AuthenticationService {
     );
   }
 
-  private getRoles(user: User): Array<string> {
+  #getRoles(user: User): Array<string> {
     const roles = [this.#userRole];
     if (user.admin) {
       roles.push(this.#adminRole);
@@ -139,7 +139,7 @@ export class AuthenticationService {
     return roles;
   }
 
-  private prepSetSession(token: string): ServerAuthInfo {
+  #prepSetSession(token: string): ServerAuthInfo {
     return {
       accessToken: token,
       expiresAt: this.#jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,

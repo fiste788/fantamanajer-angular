@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
   readonly #cd = inject(ChangeDetectorRef);
 
   protected matchday$ = inject(ApplicationService).matchday$;
-  protected roles = this.toModel();
+  protected roles = this.#toModel();
 
   constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
@@ -82,7 +82,7 @@ export class HomePage implements OnInit {
       .subscribe();
   }
 
-  private toModel(): Array<{ role: Role; best_players?: BestPlayer }> {
+  #toModel(): Array<{ role: Role; best_players?: BestPlayer }> {
     return inject(RoleService)
       .list()
       .map((r) => ({ role: r }));

@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   );
 
   protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
-  protected readonly showedSpeedDial$ = this.isShowedSpeedDial();
+  protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
 
   public ngOnInit(): void {
     this.init();
@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.#layoutService.toggleSidebar();
   }
 
-  private isShowedSpeedDial(): Observable<VisibilityState> {
+  #isShowedSpeedDial(): Observable<VisibilityState> {
     return combineLatest([this.#layoutService.isShowSpeedDial$, this.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
     );

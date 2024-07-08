@@ -43,7 +43,7 @@ export class ApplicationService {
 
     return forkJoin(bootstrap$).pipe(
       catchError((e: unknown) => {
-        this.writeError(e as Error);
+        this.#writeError(e as Error);
         throw e;
       }),
     );
@@ -52,7 +52,7 @@ export class ApplicationService {
   public loadCurrentMatchday(): Observable<Matchday> {
     return this.#matchdayService.getCurrentMatchday().pipe(
       tap((m) => {
-        this.recalcSeason(m);
+        this.#recalcSeason(m);
         this.#matchdaySubject$.next(m);
       }),
     );
@@ -60,26 +60,26 @@ export class ApplicationService {
 
   public connect(): Subscription {
     const subscriptions = new Subscription();
-    subscriptions.add(this.refreshMatchday(inject(ApplicationRef)));
-    subscriptions.add(this.refreshUser());
-    subscriptions.add(this.refreshTeam());
+    subscriptions.add(this.#refreshMatchday(inject(ApplicationRef)));
+    subscriptions.add(this.#refreshUser());
+    subscriptions.add(this.#refreshTeam());
 
     return subscriptions;
   }
 
-  private refreshUser(): Subscription {
+  #refreshUser(): Subscription {
     return this.#authService.user$
       .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
       .subscribe();
   }
 
-  private refreshTeam(): Subscription {
+  #refreshTeam(): Subscription {
     return forkJoin([this.team$, this.matchday$])
-      .pipe(tap(([teamSubject, matchday]) => this.setTeam(matchday, teamSubject)))
+      .pipe(tap(([teamSubject, matchday]) => this.#setTeam(matchday, teamSubject)))
       .subscribe();
   }
 
-  private refreshMatchday(appRef: ApplicationRef): Subscription {
+  #refreshMatchday(appRef: ApplicationRef): Subscription {
     return appRef.isStable
       .pipe(
         filter((isStable) => isStable),
@@ -91,12 +91,12 @@ export class ApplicationService {
       .subscribe(this.#matchdaySubject$);
   }
 
-  private recalcSeason(matchday: Matchday): void {
+  #recalcSeason(matchday: Matchday): void {
     this.seasonStarted = matchday.season.started;
     this.seasonEnded = matchday.season.ended;
   }
 
-  private writeError(e: Error): void {
+  #writeError(e: Error): void {
     const el = this.#document.querySelector('#error');
     if (el !== null) {
       el.innerHTML =
@@ -105,9 +105,9 @@ export class ApplicationService {
     throw e;
   }
 
-  private setTeam(matchday: Matchday, teamSubject?: Team): void {
+  #setTeam(matchday: Matchday, teamSubject?: Team): void {
     if (teamSubject?.championship.season_id === matchday.season_id) {
-      this.recalcSeason(matchday);
+      this.#recalcSeason(matchday);
     } else {
       this.seasonStarted = false;
       this.seasonEnded = true;

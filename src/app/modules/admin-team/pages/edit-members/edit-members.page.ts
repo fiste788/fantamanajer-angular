@@ -48,7 +48,7 @@ export class EditMembersPage {
       this.#memberService.getAllFree(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
-        const members = this.fixMissingMembers(teamMembers);
+        const members = this.#fixMissingMembers(teamMembers);
         const dispositions = members.map((member) => ({ member }));
 
         // eslint-disable-next-line unicorn/no-array-reduce
@@ -91,7 +91,7 @@ export class EditMembersPage {
     return c1 !== null && c2 !== null ? c1.id === c2.id : c1 === c2;
   }
 
-  private fixMissingMembers(teamMembers: Array<Member>): Array<Member> {
+  #fixMissingMembers(teamMembers: Array<Member>): Array<Member> {
     const membersCount = this.#roleService.totalMembers();
     const members = teamMembers.slice(0, membersCount);
     if (members.length < membersCount) {
