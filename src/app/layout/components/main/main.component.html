@@ -1,26 +1,31 @@
+@let isTablet = isTablet$ | async;
+@let isHandset = isHandset$ | async;
+@let isOpen = isOpen$ | async;
+@let isScrolled = isScrolled$ | async;
+@let showedToolbar = showedToolbar$ | async;
 <mat-sidenav-container>
   <mat-sidenav
     #drawer
     fixedInViewport="true"
     [autoFocus]="false"
-    [mode]="(isHandset$ | async) ? 'over' : ( (isTablet$ | async) && (isOpen$ | async) ? 'over' : 'side')"
-    [opened]="(isOpen$ | async)"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="isHandset ? 'over' : ( isTablet && isOpen ? 'over' : 'side')"
+    [opened]="isOpen"
+    [attr.role]="isHandset ? 'dialog' : 'navigation'"
     (openedChange)="open($event)"
     [ngClass]="{
-      rail: (isTablet$ | async),
-      'rail-closed': (isTablet$ | async) && !drawer.opened,
-      'rail-opened': (isTablet$ | async) && drawer.opened
+      rail: isTablet,
+      'rail-closed': isTablet && !drawer.opened,
+      'rail-opened': isTablet && drawer.opened
       }"
   >
-    @defer(when isOpen$ | async; on idle) {
+    @defer(when isOpen; on idle) {
     <app-navbar [sidenav]="drawer" />
     }
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
-      [ngClass]="{'is-scrolled': (isScrolled$ | async)}"
-      [@scrollUpAnimation]="(isScrolled$ | async) === false || (showedToolbar$ | async)"
+      [ngClass]="{'is-scrolled': isScrolled}"
+      [@scrollUpAnimation]="isScrolled === false || showedToolbar"
     />
     <main
       [@contextChange]="o | state"
@@ -31,9 +36,9 @@
 
     <div
       class="bottom"
-      [@scrollDownAnimation]="(showedToolbar$ | async)"
+      [@scrollDownAnimation]="showedToolbar"
     >
-      @defer(when this.isHandset$ | async) {
+      @defer(when isHandset) {
       <app-bottom [visibility]="showedSpeedDialSignal()" />
       }
     </div>
