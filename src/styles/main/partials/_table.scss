@@ -80,7 +80,8 @@
 }
 
 @mixin color($theme) {
-  .mat-mdc-cell {
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
     border-color: mat.get-theme-color($theme, outline-variant);
   }
 
