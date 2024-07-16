@@ -80,6 +80,10 @@
 }
 
 @mixin color($theme) {
+  .mat-mdc-cell {
+    border-color: mat.get-theme-color($theme, outline-variant);
+  }
+
   .mat-mdc-table {
     background-color: inherit;
 
