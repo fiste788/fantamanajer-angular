@@ -161,7 +161,7 @@ export class MemberListComponent implements OnInit {
     if (sortHeaderId === 'player' || stats.some((s) => s === sortHeaderId)) {
       const id = sortHeaderId as Stats | 'player';
 
-      const value = id === 'player' ? data.player.full_name : data.stats?.[id] ?? 0;
+      const value = id === 'player' ? data.player.full_name : (data.stats?.[id] ?? 0);
       if (typeof value === 'string' && !value.trim()) {
         return value;
       }

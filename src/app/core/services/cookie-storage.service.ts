@@ -119,7 +119,7 @@ export class CookieStorage implements Storage {
     return regExp.test(
       this.#documentIsAccessible
         ? this.#document.cookie
-        : this.#request?.headers.get('cookie') ?? '',
+        : (this.#request?.headers.get('cookie') ?? ''),
     );
   }
 
@@ -140,7 +140,7 @@ export class CookieStorage implements Storage {
       const result: RegExpExecArray | null = regExp.exec(
         this.#documentIsAccessible
           ? this.#document.cookie
-          : this.#request?.headers.get('cookie') ?? '',
+          : (this.#request?.headers.get('cookie') ?? ''),
       );
 
       return result?.[1] ? CookieStorage.safeDecodeURIComponent(result?.[1]) : '';
