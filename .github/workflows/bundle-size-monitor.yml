@@ -6,10 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/checkout@v4.1.7
+      - uses: actions/setup-node@v4.0.3
         with:
-          node-version: '18.x'
+          node-version: '20.x'
 
       # Install dependencies
       - run: npm ci --force
@@ -19,7 +19,7 @@ jobs:
 
       # Send webpack stats and build information to RelativeCI
       - name: Send webpack stats to RelativeCI
-        uses: relative-ci/agent-action@v2.1.10
+        uses: relative-ci/agent-action@v2.1.11
         with:
-          webpackStatsFile: ./dist/fantamanajer-angular/stats.json
+          webpackStatsFile: ./dist/stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
