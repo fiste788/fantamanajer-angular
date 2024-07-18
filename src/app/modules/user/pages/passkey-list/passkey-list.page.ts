@@ -41,7 +41,7 @@ export class PasskeyListPage {
 
   protected readonly refresh$ = new BehaviorSubject(true);
   protected readonly passkeys$ = this.getDataSource();
-  protected readonly isSupported$ = this.#webauthnService.isSupported();
+  protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
   // protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
 
   constructor() {
@@ -55,7 +55,7 @@ export class PasskeyListPage {
   }
 
   protected async register(): Promise<void> {
-    const passkey = await this.#webauthnService.createPasskey();
+    const passkey = await this.#webauthnService.startRegistration();
     if (passkey) {
       this.refresh$.next(true);
     }

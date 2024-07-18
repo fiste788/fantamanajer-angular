@@ -12,45 +12,41 @@ import {
 } from '@github/webauthn-json';
 import { firstValueFrom, Observable } from 'rxjs';
 
-import { PublicKeyCredentialSource, User } from '../types';
+import { AuthenticationDto } from '@app/authentication';
+
+import { PublicKeyCredentialSource } from '../types';
 
 const url = 'passkeys';
 const routes = {
-  login: `/${url}/login`,
-  register: `/${url}/register`,
+  authentication: `/${url}/login`,
+  registration: `/${url}/register`,
 };
 
 @Injectable({ providedIn: 'root' })
 export class WebauthnService {
   readonly #http = inject(HttpClient);
 
-  public login(credential: PublicKeyCredentialWithAssertionJSON): Observable<{
-    user: User;
-    token: string;
-  }> {
-    return this.#http.post<{
-      user: User;
-      token: string;
-    }>(routes.login, credential);
+  #authentication(credential: PublicKeyCredentialWithAssertionJSON): Observable<AuthenticationDto> {
+    return this.#http.post<AuthenticationDto>(routes.authentication, credential);
   }
 
-  public register(
+  #registration(
     credential: PublicKeyCredentialWithAttestationJSON,
   ): Observable<PublicKeyCredentialSource> {
-    return this.#http.post<PublicKeyCredentialSource>(routes.register, credential);
+    return this.#http.post<PublicKeyCredentialSource>(routes.registration, credential);
   }
 
-  public get(email?: string): Observable<CredentialRequestOptionsJSON> {
+  #generateAuthentication(email?: string): Observable<CredentialRequestOptionsJSON> {
     const params = email ? new HttpParams().set('email', email) : new HttpParams();
 
-    return this.#http.get<CredentialRequestOptionsJSON>(routes.login, { params });
+    return this.#http.get<CredentialRequestOptionsJSON>(routes.authentication, { params });
   }
 
-  public create(): Observable<CredentialCreationOptionsJSON> {
-    return this.#http.get<CredentialCreationOptionsJSON>(routes.register);
+  #generateRegistration(): Observable<CredentialCreationOptionsJSON> {
+    return this.#http.get<CredentialCreationOptionsJSON>(routes.registration);
   }
 
-  public async isSupported(): Promise<boolean> {
+  public async browserSupportsWebAuthn(): Promise<boolean> {
     if (
       supported() &&
       PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
@@ -68,26 +64,30 @@ export class WebauthnService {
     return false;
   }
 
-  public async createPasskey(): Promise<PublicKeyCredentialSource | undefined> {
-    const req = await firstValueFrom(this.create(), { defaultValue: undefined });
+  public async startRegistration(): Promise<PublicKeyCredentialSource | undefined> {
+    const req = await firstValueFrom(this.#generateRegistration(), { defaultValue: undefined });
     if (req) {
       const cred = await create(req);
 
-      return firstValueFrom(this.register(cred), { defaultValue: undefined });
+      return firstValueFrom(this.#registration(cred), { defaultValue: undefined });
     }
 
     return undefined;
   }
 
-  public async loginPasskey(cred: CredentialRequestOptionsJSON): Promise<
-    | {
-        user: User;
-        token: string;
-      }
-    | undefined
-  > {
-    const assertion = await get(cred);
+  public async startAuthentication(
+    mediation: CredentialMediationRequirement = 'conditional',
+  ): Promise<AuthenticationDto | undefined> {
+    const req = await firstValueFrom(this.#generateAuthentication(), {
+      defaultValue: undefined,
+    });
+    if (req) {
+      req.mediation = mediation;
+      const cred = await get(req);
 
-    return firstValueFrom(this.login(assertion), { defaultValue: undefined });
+      return firstValueFrom(this.#authentication(cred), { defaultValue: undefined });
+    }
+
+    return undefined;
   }
 }

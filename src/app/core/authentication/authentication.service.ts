@@ -9,12 +9,9 @@ import { LocalstorageService } from '@app/services/local-storage.service';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
+import { AuthenticationDto } from './authentication-dto.model';
+import { ServerAuthInfo } from './server-auth-info.model';
 import { TokenStorageService } from './token-storage.service';
-
-export interface ServerAuthInfo {
-  accessToken: string;
-  expiresAt: number;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -49,13 +46,9 @@ export class AuthenticationService {
   ): Promise<boolean> {
     try {
       if (supported()) {
-        const cred = await firstValueFrom(this.#webauthnService.get(), { defaultValue: undefined });
-        if (cred) {
-          cred.mediation = mediation;
-          const res = await this.#webauthnService.loginPasskey(cred);
-          if (res) {
-            return await this.postLogin(res);
-          }
+        const res = await this.#webauthnService.startAuthentication(mediation);
+        if (res) {
+          return await this.postLogin(res);
         }
       }
     } catch {
@@ -65,21 +58,15 @@ export class AuthenticationService {
     return false;
   }
 
-  public async postLogin(res: { user: User; token: string }): Promise<boolean> {
-    if (res.token) {
-      const { user, token } = res;
-      user.roles = this.#getRoles(user);
-      if (token) {
-        this.#tokenStorageService.setToken(token);
-      }
-      this.userSubject.next(user);
+  public async postLogin(res: AuthenticationDto): Promise<boolean> {
+    const { user, token } = res;
+    user.roles = this.#getRoles(user);
+    this.#tokenStorageService.setToken(token);
+    this.userSubject.next(user);
 
-      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
+    await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
 
-      return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
-    }
-
-    return false;
+    return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
   }
 
   public async logout(): Promise<void> {

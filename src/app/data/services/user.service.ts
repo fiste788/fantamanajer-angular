@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ServerAuthInfo } from '@app/authentication';
+import { AuthenticationDto, ServerAuthInfo } from '@app/authentication';
 import { noErrorIt } from '@app/errors/http-error.interceptor';
 import { noAuthIt, noPrefixIt } from '@app/interceptors';
 
@@ -23,24 +23,14 @@ const routes = {
 export class UserService {
   readonly #http = inject(HttpClient);
 
-  public login(
-    email: string,
-    password: string,
-    rememberMe = false,
-  ): Observable<{
-    user: User;
-    token: string;
-  }> {
+  public login(email: string, password: string, rememberMe = false): Observable<AuthenticationDto> {
     const body = {
       email,
       password,
       rememberMe,
     };
 
-    return this.#http.post<{
-      user: User;
-      token: string;
-    }>(routes.login, body);
+    return this.#http.post<AuthenticationDto>(routes.login, body);
   }
 
   public logout(): Observable<Record<string, never>> {
