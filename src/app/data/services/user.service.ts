@@ -49,13 +49,13 @@ export class UserService {
 
   public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
     return this.#http.post<Record<string, never>>(routes.setCookie, data, {
-      context: noPrefixIt(noAuthIt()),
+      context: noPrefixIt(noAuthIt(noErrorIt())),
     });
   }
 
   public deleteLocalSession(): Observable<Record<string, never>> {
     return this.#http.post<Record<string, never>>(routes.deleteCookie, undefined, {
-      context: noPrefixIt(noAuthIt()),
+      context: noPrefixIt(noAuthIt(noErrorIt())),
     });
   }
 }

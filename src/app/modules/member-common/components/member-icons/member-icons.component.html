@@ -1,8 +1,9 @@
-@if (!circle) {
-{{member().player.full_name}}
-}
-@if (member().likely_lineup; as like) {
-<span [ngClass]="{'circle': circle, 'icon-container': true}">
+@let _member = member();
+
+{{_member.player.full_name}}
+
+@if (_member.likely_lineup; as like) {
+<span [ngClass]="{'circle': circle(), 'icon-container': true}">
   @if (like.regular) {
   <mat-icon matTooltip="Titolare">
     verified_user

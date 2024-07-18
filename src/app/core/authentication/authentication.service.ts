@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
 import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 
 import { filterNil } from '@app/functions';
 import { LocalstorageService } from '@app/services/local-storage.service';
@@ -64,17 +64,20 @@ export class AuthenticationService {
     this.#tokenStorageService.setToken(token);
     this.userSubject.next(user);
 
-    await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
+    try {
+      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
+      // eslint-disable-next-line no-empty
+    } catch {}
 
     return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
   }
 
-  public async logout(): Promise<void> {
+  public async logout(): Promise<unknown> {
     return firstValueFrom(
       this.#userService.logout().pipe(
         switchMap(() => this.#userService.deleteLocalSession()),
         catchError(() => EMPTY),
-        map(() => this.logoutUI()),
+        finalize(() => this.logoutUI()),
       ),
       { defaultValue: undefined },
     );

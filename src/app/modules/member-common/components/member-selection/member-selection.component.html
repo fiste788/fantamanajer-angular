@@ -1,18 +1,19 @@
+@let _member = member();
 <mat-form-field
   floatLabel="always"
   hideRequiredMarker="true"
 >
   <div class="photo-container">
-    <div class="img-container mat-elevation-z2">
+    <div class="img-container">
       <div>
-        <app-player-image [member]="member() || undefined" />
+        <app-player-image [member]="_member || undefined" />
       </div>
-      @if (member() && member()!.likely_lineup) {
+      @if (_member && _member.likely_lineup) {
       <app-member-icons
         [captain]="captain"
         circle
         @createBox
-        [member]="member()!"
+        [member]="_member"
       />
       }
     </div>
@@ -26,12 +27,11 @@
     [required]="required()"
     [typeaheadDebounceInterval]="350"
     [(ngModel)]="member"
-    (selectionChange)="change($event.value)"
   >
     <mat-option [value]="null">{{ placeholder() }}</mat-option>
-    @if (member()) {
+    @if (_member) {
     <mat-select-trigger>
-      {{ member()!.player.full_name }}
+      {{ _member!.player.full_name }}
     </mat-select-trigger>
     } @if (memberList().length) {
     @for (opt of memberList(); track opt.member.id) {
@@ -60,13 +60,13 @@
   @if (memberSelection.errors?.['required']) {
   <mat-error>Seleziona il giocatore</mat-error>
   }
-  @if (member()?.stats) {
+  @if (_member?.stats) {
   <mat-hint>
-    <span>Ø P.ti: {{ member()?.stats?.avg_points | number: '1.1-1' }}</span> -
-    <span>Ø Voti: {{ member()?.stats?.avg_rating | number: '1.1-1' }}</span> -
+    <span>Ø P.ti: {{ _member?.stats?.avg_points | number: '1.1-1' }}</span> -
+    <span>Ø Voti: {{ _member?.stats?.avg_rating | number: '1.1-1' }}</span> -
     <span>Σ Gol:
       {{
-      member()?.role_id !== 1 ? member()?.stats?.sum_goals : member()?.stats?.sum_goals_against
+      _member?.role_id !== 1 ? _member?.stats?.sum_goals : _member?.stats?.sum_goals_against
       }}</span>
   </mat-hint>
   }
