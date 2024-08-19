@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
 import { AsyncPipe, NgClass } from '@angular/common';
 import {

@@ -1,6 +1,6 @@
 import { Matchday } from './matchday.model';
 import { Member } from './member.model';
-/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
+
 export interface Rating {
   id: number;
   valued: boolean;

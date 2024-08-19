@@ -1,6 +1,5 @@
 import { User } from './user.model';
 
-/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface PushSubscription {
   id: string;
   endpoint: string;

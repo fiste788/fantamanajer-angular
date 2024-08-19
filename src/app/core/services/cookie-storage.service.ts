@@ -63,7 +63,7 @@ export class CookieStorage implements Storage {
       partitioned?: boolean;
     },
   ) {
-    let cookieString: string = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
+    let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
 
     if (options?.expires !== undefined) {
       const dateExpires =

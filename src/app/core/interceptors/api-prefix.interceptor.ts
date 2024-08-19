@@ -82,7 +82,6 @@ export const apiPrefixInterceptor: HttpInterceptorFn = (req, next) => {
     map((event: HttpEvent<unknown>) => {
       if (event instanceof HttpResponse) {
         if (isServer) {
-          // eslint-disable-next-line no-console
           console.log(logRequestTime(req, event, startTime));
         }
         const body = event.body as ApiResponse | null;

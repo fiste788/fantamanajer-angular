@@ -28,7 +28,6 @@ export class NotificationService {
   public getNotificationCount(teamId: number): Observable<Stream> {
     return this.#http.get<Stream>(`${routes.notifications(teamId)}/count`).pipe(
       tap((s) => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         void this.#navigator.setAppBadge?.(s.unseen);
       }),
     );

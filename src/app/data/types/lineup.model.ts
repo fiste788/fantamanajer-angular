@@ -3,7 +3,6 @@ import { Matchday } from './matchday.model';
 import { Member } from './member.model';
 import { Team } from './team.model';
 
-/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export interface Lineup {
   id: number;
   module: string;
