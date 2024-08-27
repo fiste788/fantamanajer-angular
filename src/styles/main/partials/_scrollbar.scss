@@ -6,12 +6,14 @@
 }
 
 @mixin color($theme) {
-  scrollbar-width: thin;
-  scrollbar-color: mat.get-theme-color($theme, secondary-fixed-dim) transparent;
-
-  [cdkscrollable] {
+  & {
     scrollbar-width: thin;
     scrollbar-color: mat.get-theme-color($theme, secondary-fixed-dim) transparent;
+
+    [cdkscrollable] {
+      scrollbar-width: thin;
+      scrollbar-color: mat.get-theme-color($theme, secondary-fixed-dim) transparent;
+    }
   }
 }
 

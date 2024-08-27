@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "isolatedModules": true,
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "noImplicitOverride": true,
@@ -26,15 +27,28 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
-    "lib": ["ES2022", "dom"],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "paths": {
-      "@app/*": ["src/app/core/*"],
-      "@data/*": ["src/app/data/*"],
-      "@env": ["src/environments/environment"],
-      "@modules/*": ["src/app/modules/*"],
-      "@shared/*": ["src/app/shared/*"]
+      "@app/*": [
+        "src/app/core/*"
+      ],
+      "@data/*": [
+        "src/app/data/*"
+      ],
+      "@env": [
+        "src/environments/environment"
+      ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
