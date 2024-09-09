@@ -6,16 +6,7 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/favicon.ico",
-          "/index.html.html",
-          "/public/site.webmanifest",
-          "/*.css",
-          "/common.*.js",
-          "/main.*.js",
-          "/runtime.*.js",
-          "/polyfills.*.js"
-        ]
+        "files": ["/favicon.ico", "/index.html.html", "/public/site.webmanifest", "/*.css", "/*.js"]
       }
     },
     {
@@ -23,16 +14,12 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/public/**", "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"],
+        "files": [
+          "/cf-fonts/**",
+          "/public/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ],
         "urls": ["https://fonts.googleapis.com/**", "https://fonts.gstatic.com/**"]
-      }
-    },
-    {
-      "name": "modules",
-      "installMode": "lazy",
-      "updateMode": "lazy",
-      "resources": {
-        "files": ["/(!common.)|(!main.)*.js"]
       }
     },
     {

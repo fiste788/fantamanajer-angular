@@ -31,7 +31,7 @@
     <mat-option [value]="null">{{ placeholder() }}</mat-option>
     @if (_member) {
     <mat-select-trigger>
-      {{ _member!.player.full_name }}
+      {{ _member?.player?.full_name }}
     </mat-select-trigger>
     } @if (memberList().length) {
     @for (opt of memberList(); track opt.member.id) {

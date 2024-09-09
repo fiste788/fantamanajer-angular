@@ -9,5 +9,6 @@
     "/src/app/core/authentication",
     "/src/app/data/services",
     "/src/app/core/tokens"
-  ]
+  ],
+  "npm.packageManager": "bun"
 }
