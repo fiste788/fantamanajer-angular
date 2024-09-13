@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { defaultIfEmpty, map, Observable } from 'rxjs';
+import { defaultIfEmpty, map, Observable, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
@@ -37,6 +37,7 @@ export class ChampionshipDetailPage {
   readonly #snackbar = inject(MatSnackBar);
 
   protected readonly championship$ = getRouteData<Championship>('championship').pipe(
+    switchMap((c) => this.#championshipService.get(c.id)),
     defaultIfEmpty({} as Championship),
   );
 

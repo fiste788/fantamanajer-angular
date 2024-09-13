@@ -23,6 +23,10 @@ export class ChampionshipService {
     );
   }
 
+  public get(championshipId: number): Observable<Championship> {
+    return this.#http.get<Championship>(routes.championship(championshipId));
+  }
+
   public create(championship: RecursivePartial<Championship>): Observable<Championship> {
     return this.#http.post<Championship>(routes.championships, championship);
   }
