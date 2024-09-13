@@ -1,7 +1,7 @@
 @let _member = member();
-
+@if (!circle) {
 {{_member.player.full_name}}
-
+}
 @if (_member.likely_lineup; as like) {
 <span [ngClass]="{'circle': circle(), 'icon-container': true}">
   @if (like.regular) {
