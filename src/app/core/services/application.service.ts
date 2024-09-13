@@ -1,6 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, Subscription, interval } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  Observable,
+  Subscription,
+  interval,
+  firstValueFrom,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -13,7 +20,7 @@ import {
 
 import { AuthenticationService, TokenStorageService } from '@app/authentication';
 import { filterNil } from '@app/functions';
-import { MatchdayService } from '@data/services';
+import { MatchdayService, TeamService } from '@data/services';
 import { Matchday, Team } from '@data/types';
 
 @Injectable({
@@ -23,12 +30,13 @@ export class ApplicationService {
   readonly #document = inject<Document>(DOCUMENT);
   readonly #authService = inject(AuthenticationService);
   readonly #matchdayService = inject(MatchdayService);
+  readonly #teamService = inject(TeamService);
   readonly #matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
+  readonly #teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
 
   public seasonEnded = false;
   public seasonStarted = true;
-  public readonly teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
-  public readonly team$ = this.teamSubject$.pipe(distinctUntilChanged());
+  public readonly team$ = this.#teamSubject$.pipe(distinctUntilChanged());
   public readonly requireTeam$ = this.team$.pipe(filterNil());
   public readonly matchday$ = this.#matchdaySubject$.pipe(
     filterNil(),
@@ -67,9 +75,16 @@ export class ApplicationService {
     return subscriptions;
   }
 
+  public async changeTeam(team: Team): Promise<Team> {
+    const res = await firstValueFrom(this.#teamService.getTeam(team.id));
+    this.#teamSubject$.next(res);
+
+    return res;
+  }
+
   #refreshUser(): Subscription {
     return this.#authService.user$
-      .pipe(tap((u) => this.teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
+      .pipe(tap((u) => this.#teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
       .subscribe();
   }
 

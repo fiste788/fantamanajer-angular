@@ -64,8 +64,8 @@ export class TeamEditModal {
     return firstValueFrom(
       this.#teamService.upload(this.team.id, fd).pipe(
         tap((team) => (this.team.photo_url = team.photo_url)),
-        map(() => {
-          this.app.teamSubject$.next(this.team);
+        map(async () => {
+          await this.app.changeTeam(this.team);
           this.#changeRef.detectChanges();
         }),
         map(() => this.#dialogRef.close(true)),

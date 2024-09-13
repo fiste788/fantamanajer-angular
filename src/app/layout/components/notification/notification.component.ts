@@ -10,7 +10,7 @@ import {
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, switchMap } from 'rxjs';
+import { filter, forkJoin, Observable, switchMap } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
@@ -46,8 +46,9 @@ export class NotificationComponent {
   protected readonly stream$? = isPlatformBrowser(this.#platformId) ? this.loadStream() : undefined;
 
   public loadStream(): Observable<Stream> {
-    return this.#app.requireTeam$.pipe(
-      switchMap((t) => this.#notificationService.getNotificationCount(t.id)),
+    return forkJoin([this.#app.requireTeam$, this.#app.matchday$]).pipe(
+      filter(([team, matchday]) => team.championship.season_id === matchday.season_id),
+      switchMap(([team]) => this.#notificationService.getNotificationCount(team.id)),
     );
   }
 }

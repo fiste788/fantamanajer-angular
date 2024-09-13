@@ -10,10 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { first, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { first, firstValueFrom, forkJoin, map, Observable, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
+import { TeamService } from '@data/services';
 import { Team } from '@data/types';
 import { TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
 
@@ -42,15 +43,17 @@ export class ProfileComponent {
   readonly #router = inject(Router);
   readonly #layoutService = inject(LayoutService);
   readonly #dialog = inject(MatDialog);
+  readonly #teamService = inject(TeamService);
 
   public sidenav = input.required<MatSidenav>();
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
   protected readonly photo$ = this.#loadPhoto();
 
-  public change(team: Team): void {
-    this.app.teamSubject$.next(team);
-    void this.#router.navigateByUrl(`/teams/${team.id}`);
+  public async change(team: Team): Promise<void> {
+    void this.#router.navigateByUrl(`/teams/${team.id}`, {
+      state: { team: await this.app.changeTeam(team) },
+    });
     if (this.sidenav().mode === 'over') {
       this.#layoutService.closeSidebar();
     }
@@ -66,12 +69,11 @@ export class ProfileComponent {
     const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
 
     return firstValueFrom(
-      this.app.matchday$.pipe(
-        first(),
-        switchMap((m) =>
+      forkJoin([this.app.matchday$.pipe(first()), this.#teamService.getTeam(team.id)]).pipe(
+        switchMap(([m, t]) =>
           this.#dialog
             .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
-              data: { team, showChangeTeamName: m.number <= 38 },
+              data: { team: t, showChangeTeamName: m.number <= 38 },
             })
             .afterClosed(),
         ),
