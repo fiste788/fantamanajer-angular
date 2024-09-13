@@ -28,6 +28,7 @@ export class ChampionshipPage {
       { label: 'Squadre', link: 'teams' },
       { label: 'Classifica', link: 'ranking' },
       { label: 'Giocatori liberi', link: 'members/free' },
+      { label: "Albo d'oro", link: 'roll-of-honor' },
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
     ];

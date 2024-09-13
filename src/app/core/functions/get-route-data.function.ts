@@ -14,11 +14,8 @@ export function getRouteData<T>(param: string): Observable<T> {
   return EMPTY;
 }
 
-export function getRouteDataSnapshot<T>(
-  param: string,
-  route: ActivatedRouteSnapshot,
-): T | undefined {
-  let current: ActivatedRouteSnapshot | null = route ?? inject(ActivatedRoute);
+export function getRouteParam<T>(param: string, route?: ActivatedRouteSnapshot): T | undefined {
+  let current: ActivatedRouteSnapshot | null = route ?? inject(ActivatedRoute).snapshot;
   while (current !== null) {
     if (current.params[param] !== undefined) {
       return current.params[param] as T;

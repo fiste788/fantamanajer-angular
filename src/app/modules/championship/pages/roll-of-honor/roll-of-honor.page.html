@@ -1,0 +1,158 @@
+@if (dataSource$ | async; as dataSource) {
+<mat-card appearance="outlined">
+  <table
+    #table
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    @tableRowAnimation
+    [trackBy]="trackRollOfHonor"
+  >
+
+    <ng-container
+      matColumnDef="season"
+      sticky
+    >
+      <th
+        *matHeaderCellDef
+        appSticky
+        mat-header-cell
+        mat-sort-header
+      > Stagione </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        <a [routerLink]="['/championships', row.id, 'ranking']">{{row.season.name}}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="first">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > 1° </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        @let data = row.roll_of_honor[0];
+        @let team = data.team;
+        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{team.user.surname}})
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="second">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > 2° </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        @let data = row.roll_of_honor[1];
+        @let team = data.team;
+        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{team.user.surname}})
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="thirth">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > 3° </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        @let data = row.roll_of_honor[2];
+        @let team = data.team;
+        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{team.user.surname}})
+      </td>
+    </ng-container>
+
+    <tr
+      *matHeaderRowDef="displayedColumns"
+      mat-header-row
+    ></tr>
+    <tr
+      *matRowDef="let row; columns: displayedColumns;"
+      mat-row
+    ></tr>
+  </table>
+</mat-card>
+
+} @else {
+
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
+}
+
+@if (dataSourceByUser$ | async | keyvalue: victoryOrder; as dataSource) {
+<h2>Albo d'oro per utente</h2>
+
+<mat-card appearance="outlined">
+  <table
+    #table
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    @tableRowAnimation
+  >
+
+    <ng-container
+      matColumnDef="user"
+      sticky
+    >
+      <th
+        *matHeaderCellDef
+        appSticky
+        mat-header-cell
+      > Utente </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        {{row.key}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="victory">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+      > Vittorie </th>
+      <td
+        *matCellDef="let row;"
+        mat-cell
+      >
+        {{row.value.length}} - ({{row.value.join(', ')}})
+      </td>
+    </ng-container>
+
+    <tr
+      *matHeaderRowDef="displayedColumnsByUser"
+      mat-header-row
+    ></tr>
+    <tr
+      *matRowDef="let row; columns: displayedColumnsByUser;"
+      mat-row
+    ></tr>
+  </table>
+</mat-card>
+
+} @else {
+
+<mat-progress-spinner
+  color="accent"
+  mode="indeterminate"
+/>
+
+}

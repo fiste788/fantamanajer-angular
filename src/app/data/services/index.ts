@@ -1,6 +1,7 @@
 export * from './article.service';
 export * from './championship.service';
 export * from './club.service';
+export * from './league.service';
 export * from './lineup.service';
 export * from './matchday.service';
 export * from './member.service';

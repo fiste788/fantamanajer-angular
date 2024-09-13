@@ -6,11 +6,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay } from 'rxjs/operators';
 
-import { addVisibleClassOnDestroy, filterNil, getRouteData } from '@app/functions';
+import { addVisibleClassOnDestroy, filterNil, getRouteParam } from '@app/functions';
 import { ScoreService } from '@data/services';
-import { Championship, RankingPosition } from '@data/types';
+import { RankingPosition } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
 
 @Component({
@@ -51,8 +51,7 @@ export class RankingPage {
   }
 
   protected loadRanking(): Observable<Array<RankingPosition>> {
-    return getRouteData<Championship>('championship').pipe(
-      switchMap((championship) => this.getRanking(championship)),
+    return this.getRanking(+getRouteParam<string>('championship_id')!).pipe(
       shareReplay({ bufferSize: 0, refCount: true }),
     );
   }
@@ -66,8 +65,8 @@ export class RankingPage {
     );
   }
 
-  protected getRanking(championship: Championship): Observable<Array<RankingPosition>> {
-    return this.#scoreService.getRanking(championship.id);
+  protected getRanking(championshipId: number): Observable<Array<RankingPosition>> {
+    return this.#scoreService.getRanking(championshipId);
   }
 
   protected trackRanking(idx: number): number {

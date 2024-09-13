@@ -23,6 +23,7 @@ export * from './push-subscription.model';
 export * from './ranking-position.model';
 export * from './rating.model';
 export * from './role.model';
+export * from './roll-of-honor.model';
 export * from './score.model';
 export * from './season.model';
 export * from './selection.model';

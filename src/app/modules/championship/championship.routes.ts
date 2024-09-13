@@ -6,6 +6,7 @@ import { Championship } from '@data/types';
 import { ChampionshipPage } from './pages/championship/championship.page';
 import { championshipResolver } from './pages/championship/championship.resolver';
 import { ChampionshipStreamPage } from './pages/championship-stream/championship-stream.page';
+import { RollOfHonorPage } from './pages/roll-of-honor/roll-of-honor.page';
 
 export default [
   {
@@ -45,6 +46,11 @@ export default [
         path: 'ranking',
         data: { state: 'ranking' },
         loadChildren: async () => import('@modules/score/score.routes'),
+      },
+      {
+        path: 'roll-of-honor',
+        data: { state: 'roll-of-honor' },
+        component: RollOfHonorPage,
       },
       {
         path: 'stream',
