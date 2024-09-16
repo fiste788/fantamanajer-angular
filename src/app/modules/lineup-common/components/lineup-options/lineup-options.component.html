@@ -36,6 +36,7 @@
       </mat-error>
       }
     </mat-form-field>
+    @if(jolly()) {
     <mat-checkbox
       name="jolly"
       [disabled]="disabled()"
@@ -47,6 +48,8 @@
       {{module.errors?.['JollyAlreadyUsed']}}
     </mat-error>
     }
+    }
+    @if(captain()) {
     <mat-expansion-panel class="mat-elevation-z0">
       <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
@@ -72,6 +75,7 @@
         }
       </ng-template>
     </mat-expansion-panel>
+    }
 
   </mat-card-content>
   <mat-divider />

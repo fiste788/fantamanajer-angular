@@ -38,6 +38,8 @@ export class LineupLastPage {
   protected readonly lineup$ = this.loadData();
   protected editMode = false;
   protected benchs = environment.benchwarmersCount;
+  protected captain = true;
+  protected jolly = true;
 
   protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
@@ -46,6 +48,8 @@ export class LineupLastPage {
       map(([team, currentTeam]) => {
         this.benchs = currentTeam.championship.number_benchwarmers;
         this.editMode = currentTeam.id === team.id;
+        this.captain = currentTeam.championship.captain;
+        this.jolly = currentTeam.championship.jolly;
 
         return team;
       }),

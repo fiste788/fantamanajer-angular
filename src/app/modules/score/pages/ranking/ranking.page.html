@@ -38,7 +38,7 @@
       <td
         *matCellDef="let row;"
         mat-cell
-      > {{row.sum_points}} </td>
+      > {{row.sum_points | number}} </td>
     </ng-container>
 
     @for (matchday of matchdays$ | async; track matchday) {
@@ -53,7 +53,7 @@
         class="matchday"
         mat-cell
       >
-        <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points}}</a>
+        <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points | number}}</a>
       </td>
     </ng-container>
     }

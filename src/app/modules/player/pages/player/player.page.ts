@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, OnInit, input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -45,6 +45,7 @@ import { LayoutService } from 'src/app/layout/services';
     MatProgressSpinnerModule,
     AsyncPipe,
     MatCardModule,
+    DecimalPipe,
   ],
 })
 export class PlayerPage implements OnInit {

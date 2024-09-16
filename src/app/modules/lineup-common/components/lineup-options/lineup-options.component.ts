@@ -36,6 +36,8 @@ import { LineupService } from '../lineup.service';
 })
 export class LineupOptionsComponent {
   public lineup = input.required<Partial<Lineup>>();
+  public captain = input(true, { transform: booleanAttribute });
+  public jolly = input(true, { transform: booleanAttribute });
   public disabled = input(false, { transform: booleanAttribute });
   protected readonly lineupService = inject(LineupService);
 }

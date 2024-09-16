@@ -52,6 +52,8 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
   public lineup = input<EmptyLineup>();
   public disabled = input(false, { transform: booleanAttribute });
   public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
+  public captain = input(true, { transform: booleanAttribute });
+  public jolly = input(true, { transform: booleanAttribute });
 
   protected readonly lineupService = inject(LineupService);
 

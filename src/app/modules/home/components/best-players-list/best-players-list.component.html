@@ -14,7 +14,7 @@
           matLine
           [routerLink]="['/players', member.player.id]"
         >
-          {{member.player.full_name}}: {{member.ratings[0]?.points}}
+          {{member.player.full_name}}: {{member.ratings[0]?.points | number}}
         </a>
       </mat-list-item>
       }

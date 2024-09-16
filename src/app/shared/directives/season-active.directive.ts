@@ -1,5 +1,5 @@
 import { Directive, TemplateRef, ViewContainerRef, OnInit, OnDestroy, inject } from '@angular/core';
-import { Subscription, first } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 
@@ -15,7 +15,7 @@ export class SeasonActiveDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#subscriptions.add(
-      this.#app.requireTeam$.pipe(first()).subscribe(() => {
+      this.#app.requireTeam$.subscribe(() => {
         if (this.#app.seasonStarted && !this.#app.seasonEnded) {
           this.#viewContainer.createEmbeddedView(this.#templateRef);
         } else {

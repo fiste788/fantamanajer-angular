@@ -15,7 +15,7 @@
       <mat-card-title>
         @if (role.best_players) {
         <span class="mat-text-primary">
-          {{role.best_players.first.ratings[0]?.points}}
+          {{role.best_players.first.ratings[0]?.points | number}}
         </span>
         {{role.best_players.first.player.full_name}}
         } @else {

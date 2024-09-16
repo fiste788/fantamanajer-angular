@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, booleanAttribute, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +26,7 @@ import { CaptainPipe } from '@shared/pipes';
     MatTooltipModule,
     CaptainPipe,
     MatCardModule,
+    DecimalPipe,
   ],
 })
 export class DispositionListComponent implements OnInit {

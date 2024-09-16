@@ -1,5 +1,6 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, registerLocaleData } from '@angular/common';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
+import localeIt from '@angular/common/locales/it';
 import {
   ApplicationConfig,
   ENVIRONMENT_INITIALIZER,
@@ -8,6 +9,7 @@ import {
   isDevMode,
   PLATFORM_ID,
   provideZoneChangeDetection,
+  LOCALE_ID,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -38,6 +40,8 @@ import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.serv
 
 import routes from './app.routes';
 import { LayoutService } from './layout/services';
+
+registerLocaleData(localeIt, 'it');
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -88,6 +92,10 @@ export const appConfig: ApplicationConfig = {
           // theme.connect();
         }
       },
+    },
+    {
+      provide: LOCALE_ID,
+      useValue: 'it-IT',
     },
     // globalErrorHandlerProvider,
     appInitializerProvider,

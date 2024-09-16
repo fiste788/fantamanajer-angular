@@ -2,6 +2,8 @@
 <div @cardCreationAnimation>
   <app-lineup-options
     [disabled]="disabled()"
+    [captain]="captain()"
+    [jolly]="jolly()"
     [lineup]="lineup()!"
   >
     <ng-content

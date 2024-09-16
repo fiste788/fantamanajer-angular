@@ -4,7 +4,7 @@
   <div>
     @if (regular$ | async; as regular) {
     <app-disposition-list
-      [caption]="'Punteggio: ' + score.points"
+      [caption]="'Punteggio: ' + (score.points | number)"
       [dispositions]="regular"
       [lineup]="score.lineup"
       regular
@@ -22,7 +22,7 @@
   <app-mat-empty-state
     description="Formazione non presente"
     icon="mood_bad"
-    [label]="'Punteggio: ' + score.points"
+    [label]="'Punteggio: ' + (score.points | number)"
   />
 
   }

@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, OnInit, input, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
@@ -21,6 +21,7 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
     MatEmptyStateComponent,
     MatProgressSpinnerModule,
     AsyncPipe,
+    DecimalPipe,
   ],
 })
 export class ScoreDetailPage implements OnInit {

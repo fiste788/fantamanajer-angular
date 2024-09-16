@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
-import { NgIf, NgFor, AsyncPipe, isPlatformBrowser } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, isPlatformBrowser, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -39,6 +39,7 @@ import { BestPlayer } from '../types/best-players';
     MatEmptyStateComponent,
     MatProgressBarModule,
     AsyncPipe,
+    DecimalPipe,
   ],
 })
 export class HomePage implements OnInit {

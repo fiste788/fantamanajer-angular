@@ -38,7 +38,7 @@
       >
         @let data = row.roll_of_honor[0];
         @let team = data.team;
-        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>
@@ -54,7 +54,7 @@
       >
         @let data = row.roll_of_honor[1];
         @let team = data.team;
-        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>
@@ -70,7 +70,7 @@
       >
         @let data = row.roll_of_honor[2];
         @let team = data.team;
-        {{data.points}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>

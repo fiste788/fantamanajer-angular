@@ -42,6 +42,6 @@ export class SpeedDialComponent {
   }
 
   public async navigate(url: string): Promise<boolean> {
-    return this.#router.navigateByUrl(url);
+    return this.#router.navigate([url]);
   }
 }

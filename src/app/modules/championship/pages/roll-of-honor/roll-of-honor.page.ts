@@ -1,4 +1,4 @@
-import { AsyncPipe, KeyValue, KeyValuePipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, KeyValue, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -17,6 +17,7 @@ import { tableRowAnimation } from '@shared/animations';
   standalone: true,
   imports: [
     AsyncPipe,
+    DecimalPipe,
     KeyValuePipe,
     MatCardModule,
     RouterModule,

@@ -22,7 +22,7 @@ export default [
 
         return app.requireTeam$.pipe(
           map((t) => router.createUrlTree(['teams', t.id, 'transferts'])),
-          map((urlTree) => new RedirectCommand(urlTree, { skipLocationChange: true })),
+          map((urlTree) => new RedirectCommand(urlTree)),
         );
       },
     ],

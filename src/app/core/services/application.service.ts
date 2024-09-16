@@ -7,6 +7,7 @@ import {
   Subscription,
   interval,
   firstValueFrom,
+  combineLatest,
 } from 'rxjs';
 import {
   catchError,
@@ -89,7 +90,7 @@ export class ApplicationService {
   }
 
   #refreshTeam(): Subscription {
-    return forkJoin([this.team$, this.matchday$])
+    return combineLatest([this.team$, this.matchday$])
       .pipe(tap(([teamSubject, matchday]) => this.#setTeam(matchday, teamSubject)))
       .subscribe();
   }

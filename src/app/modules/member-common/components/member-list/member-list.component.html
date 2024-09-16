@@ -130,7 +130,7 @@
         class="mat-cell-numeric"
         mat-cell
       >
-        {{row.stats?.avg_points}}
+        {{row.stats?.avg_points|number:'1.2-2'}}
       </td>
       <td
         *matFooterCellDef
@@ -158,7 +158,7 @@
         class="mat-cell-numeric"
         mat-cell
       >
-        {{row.stats?.avg_rating}}
+        {{row.stats?.avg_rating|number:'1.2-2'}}
       </td>
       <td
         *matFooterCellDef

@@ -173,7 +173,7 @@
         class="mat-cell-numeric"
         mat-cell
       >
-        {{(row.points * (regular() ? row.consideration : 1))}}
+        {{(row.points * (regular() ? row.consideration : 1)) | number}}
       </td>
     </ng-container>
 
