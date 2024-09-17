@@ -2,7 +2,11 @@
 import { minify } from 'html-minifier';
 
 const minifyHtml = (indexHtml: string): string => {
-  const minified = minify(indexHtml, {
+  const fixed = indexHtml.replaceAll(
+    '<link rel="modulepreload" href="chunk-',
+    '<link rel="modulepreload" href="/chunk-',
+  );
+  const minified = minify(fixed, {
     collapseWhitespace: true,
     minifyJS: true,
     removeAttributeQuotes: true,
