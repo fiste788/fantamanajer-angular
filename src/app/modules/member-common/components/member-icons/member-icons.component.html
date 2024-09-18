@@ -1,5 +1,5 @@
 @let _member = member();
-@if (!circle) {
+@if (!circle()) {
 {{_member.player.full_name}}
 }
 @if (_member.likely_lineup; as like) {
