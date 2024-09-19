@@ -69,6 +69,7 @@
     "extendedDiagnostics": {
       "checks": {
         "nullishCoalescingNotNullable": "error",
+        "interpolatedSignalNotInvoked": "error",
         "invalidBananaInBox": "error"
       }
     }
