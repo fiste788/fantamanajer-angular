@@ -66,13 +66,10 @@ export class CookieStorage implements Storage {
     let cookieString: string = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
 
     if (options?.expires !== undefined) {
-      if (typeof options.expires === 'number') {
-        const dateExpires: Date = new Date(options.expires);
+      const dateExpires =
+        typeof options.expires === 'number' ? new Date(options.expires) : options.expires;
 
-        cookieString += `expires=${dateExpires.toUTCString()};`;
-      } else {
-        cookieString += `expires=${options.expires.toUTCString()};`;
-      }
+      cookieString += `expires=${dateExpires.toUTCString()};`;
     }
 
     if (options?.path) {

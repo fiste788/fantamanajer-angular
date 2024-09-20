@@ -1,33 +1,34 @@
 @if (((matchday$ | async)?.number|| 0) > 1) {
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start">
-  @for (role of roles; track role.role.id) {
-
+  @let bestPlayers = bestPlayers$ | async;
+  @for (role of roles; track role.id) {
+  @let roleBest = bestPlayers?.get(role.singolar);
   <mat-card appearance="outlined">
     <app-player-image
       mat-card-image
       inCard
-      [member]="role.best_players?.first"
+      [member]="roleBest?.first"
     />
-    @if (!role.best_players) {
+    @if (!bestPlayers) {
     <mat-progress-bar mode="indeterminate" />
     }
     <mat-card-header>
       <mat-card-title>
-        @if (role.best_players) {
+        @if (roleBest) {
         <span class="mat-text-primary">
-          {{role.best_players.first.ratings[0]?.points | number}}
+          {{roleBest.first.ratings[0]?.points | number}}
         </span>
-        {{role.best_players.first.player.full_name}}
+        {{roleBest.first.player.full_name}}
         } @else {
         <span class="mat-text-primary">-</span>
         }
       </mat-card-title>
-      <mat-card-subtitle>{{role.role.singolar}}</mat-card-subtitle>
+      <mat-card-subtitle>{{role.singolar}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       @defer {
-      @if(role.best_players) {
-      <app-best-players-list [best_players]="role.best_players" />
+      @if(roleBest) {
+      <app-best-players-list [best_players]="roleBest" />
       }
       }
     </mat-card-content>

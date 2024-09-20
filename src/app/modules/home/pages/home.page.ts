@@ -1,22 +1,14 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
-import { NgIf, NgFor, AsyncPipe, isPlatformBrowser, DecimalPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  PLATFORM_ID,
-  inject,
-} from '@angular/core';
+import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
-import { Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
@@ -42,50 +34,33 @@ import { BestPlayer } from '../types/best-players';
     DecimalPipe,
   ],
 })
-export class HomePage implements OnInit {
-  readonly #platformId = inject(PLATFORM_ID);
+export class HomePage {
   readonly #memberService = inject(MemberService);
-  readonly #cd = inject(ChangeDetectorRef);
 
   protected matchday$ = inject(ApplicationService).matchday$;
-  protected roles = this.#toModel();
+  protected roles = inject(RoleService).list();
+  protected bestPlayers$ = this.loadBestPlayers();
 
   constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  public ngOnInit(): void {
-    this.loadBestPlayers();
-  }
-
-  protected loadBestPlayers(): Subscription {
-    return this.#memberService
-      .getBest()
-      .pipe(
-        map((roles) =>
-          roles
-            .filter((a) => a.best_players !== undefined)
-            .map((a) => ({
-              first: a.best_players!.shift()!,
-              others: a.best_players ?? [],
-              role: a.singolar,
-            })),
-        ),
-        tap((bps) => {
-          for (const bp of bps) {
-            this.roles.find((r) => r.role.singolar === bp.role)!.best_players = bp;
-          }
-          if (isPlatformBrowser(this.#platformId)) {
-            this.#cd.detectChanges();
-          }
-        }),
-      )
-      .subscribe();
-  }
-
-  #toModel(): Array<{ role: Role; best_players?: BestPlayer }> {
-    return inject(RoleService)
-      .list()
-      .map((r) => ({ role: r }));
+  protected loadBestPlayers(): Observable<Map<string, BestPlayer>> {
+    return this.#memberService.getBest().pipe(
+      map(
+        (roles) =>
+          new Map(
+            roles
+              .filter((a) => a.best_players !== undefined)
+              .map((a) => [
+                a.singolar,
+                {
+                  first: a.best_players!.shift()!,
+                  others: a.best_players ?? [],
+                },
+              ]),
+          ),
+      ),
+    );
   }
 }

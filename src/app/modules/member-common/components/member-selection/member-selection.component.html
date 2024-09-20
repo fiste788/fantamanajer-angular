@@ -10,7 +10,7 @@
       </div>
       @if (_member && _member.likely_lineup) {
       <app-member-icons
-        [captain]="captain"
+        [captain]="captain()"
         circle
         @createBox
         [member]="_member"

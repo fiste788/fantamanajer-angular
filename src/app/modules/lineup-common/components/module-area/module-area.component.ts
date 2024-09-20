@@ -49,7 +49,7 @@ export class ModuleAreaComponent {
 
   public disabled = input(false, { transform: booleanAttribute });
   public wrap = input(false, { transform: booleanAttribute });
-  public captain = input<Member>();
+  public captain = input<number>();
   public membersByRole = input<Map<Role, Array<Member>>>();
   public readonly selectionChange = output<{ role: Role; member: Member | null }>();
 

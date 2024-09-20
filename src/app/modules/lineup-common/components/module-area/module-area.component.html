@@ -1,5 +1,5 @@
-@if (dispositions()) {
-
+@if (dispositions(); as _dispositions) {
+@let _captain = captain();
 @for (area of module().areas; track area.role.id) {
 <div
   class="flex flex-row"
@@ -15,11 +15,11 @@
   >
     @for (i of (area.toIndex | range: area.fromIndex); track i) {
     <ng-container [ngModelGroup]="i + ''">
-      @if (dispositions()[i]; as disp) {
+      @if (_dispositions[i]; as disp) {
       <app-member-selection
         class="regular flex flex-row flex-md-column justify-start items-center"
         name="member"
-        [captain]="dispositions()[i]?.member?.id === captain()?.id"
+        [captain]="_captain && _dispositions[i].member?.id === _captain"
         [disabled]="disabled()"
         [height]="450"
         [memberList]="area.options"

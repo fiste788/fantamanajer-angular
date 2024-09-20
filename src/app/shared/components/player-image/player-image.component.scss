@@ -1,13 +1,31 @@
 :host {
   display: block;
   overflow: hidden;
+  background-image: url('/public/svg/clubs.svg');
+  background-size: contain;
 }
 
 img {
   height: 100%;
   width: 100%;
+  opacity: 0;
+  transition: opacity 0.6s;
 
   &:not(.mat-mdc-card-image) {
     max-width: 100%;
+  }
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
