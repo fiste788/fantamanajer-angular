@@ -19,14 +19,14 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.5",
-    "@angular/cdk": "^18.2.4",
-    "@angular/cdk-experimental": "^18.2.4",
+    "@angular/cdk": "^18.2.5",
+    "@angular/cdk-experimental": "^18.2.5",
     "@angular/common": "^18.2.5",
     "@angular/compiler": "^18.2.5",
     "@angular/core": "^18.2.5",
     "@angular/forms": "^18.2.5",
-    "@angular/material": "^18.2.4",
-    "@angular/material-experimental": "^18.2.4",
+    "@angular/material": "^18.2.5",
+    "@angular/material-experimental": "^18.2.5",
     "@angular/platform-browser": "^18.2.5",
     "@angular/platform-browser-dynamic": "^18.2.5",
     "@angular/platform-server": "^18.2.5",
@@ -34,7 +34,7 @@
     "@angular/service-worker": "^18.2.5",
     "@angular/ssr": "^18.2.5",
     "@auth0/angular-jwt": "^5.2.0",
-    "@cloudflare/workers-types": "^4.20240909.0",
+    "@cloudflare/workers-types": "^4.20240919.0",
     "@ecodev/fab-speed-dial": "^17.0.0",
     "@github/webauthn-json": "^2.1.1",
     "@ngneat/content-loader": "^7.0.0",
@@ -104,6 +104,6 @@
     "tailwindcss": "^3.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "wrangler": "^3.78.5"
+    "wrangler": "^3.78.6"
   }
 }

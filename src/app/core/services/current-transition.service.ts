@@ -118,7 +118,9 @@ export class CurrentTransitionService {
       const outletFrom = this.#getOutlet(info?.transition?.from);
       const outletTo = this.#getOutlet(info?.transition?.to);
 
-      return outletFrom === undefined || outletTo === undefined;
+      return outletFrom === undefined && outletTo === undefined
+        ? false
+        : outletFrom === undefined || outletTo === undefined;
     }
 
     return false;
