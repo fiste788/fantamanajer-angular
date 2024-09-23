@@ -102,7 +102,10 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   protected viewTransitionName() {
-    return this.#transitionService.isRootOutlet() ? 'main' : '';
+    return this.#transitionService.currentTransition()?.previousUrl !== undefined &&
+      this.#transitionService.isRootOutlet()
+      ? 'main'
+      : '';
   }
 
   #setupScrollAnimation(window: Window): void {

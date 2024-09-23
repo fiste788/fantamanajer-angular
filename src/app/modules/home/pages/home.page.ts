@@ -13,6 +13,7 @@ import { Member, Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
+import { ServerSidePreventAnimationReplayDirective } from '@shared/directives/server-side-prevent-replay-animation.directive';
 
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
 

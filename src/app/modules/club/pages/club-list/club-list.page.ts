@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -25,6 +25,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     MatProgressSpinnerModule,
     PlaceholderPipe,
     SrcsetPipe,
+    NgOptimizedImage,
   ],
 })
 export class ClubListPage {
