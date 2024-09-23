@@ -13,6 +13,6 @@ import { Member } from '@data/types';
   imports: [MatCardModule, NgOptimizedImage],
 })
 export class PlayerImageComponent {
-  public member = input<Member>();
+  public member = input<Member | undefined>();
   public inCard = input(false, { transform: booleanAttribute });
 }

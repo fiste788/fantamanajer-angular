@@ -1,20 +1,20 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
-import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
+import { addVisibleClassOnDestroy, groupBy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
+import { Member, Role } from '@data/types';
 import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
 
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
-import { BestPlayer } from '../types/best-players';
 
 @Component({
   animations: [cardCreationAnimation],
@@ -31,6 +31,7 @@ import { BestPlayer } from '../types/best-players';
     MatEmptyStateComponent,
     MatProgressBarModule,
     AsyncPipe,
+    SlicePipe,
     DecimalPipe,
   ],
 })
@@ -38,29 +39,19 @@ export class HomePage {
   readonly #memberService = inject(MemberService);
 
   protected matchday$ = inject(ApplicationService).matchday$;
-  protected roles = inject(RoleService).list();
+  protected roleService = inject(RoleService);
+  protected roles = this.roleService.list();
   protected bestPlayers$ = this.loadBestPlayers();
 
   constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  protected loadBestPlayers(): Observable<Map<string, BestPlayer>> {
-    return this.#memberService.getBest().pipe(
-      map(
-        (roles) =>
-          new Map(
-            roles
-              .filter((a) => a.best_players !== undefined)
-              .map((a) => [
-                a.singolar,
-                {
-                  first: a.best_players!.shift()!,
-                  others: a.best_players ?? [],
-                },
-              ]),
-          ),
-      ),
+  protected loadBestPlayers(): Observable<Map<Role, Array<Member>>> {
+    return this.matchday$.pipe(
+      first(),
+      switchMap((matchday) => this.#memberService.getBest(matchday.id)),
+      map((members) => groupBy(members, (member) => this.roleService.get(member.role_id))),
     );
   }
 }

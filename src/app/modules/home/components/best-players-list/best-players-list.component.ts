@@ -4,7 +4,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
 
-import { BestPlayer } from '@modules/home/types/best-players';
+import { Member } from '@data/types';
 
 @Component({
   selector: 'app-best-players-list',
@@ -14,5 +14,5 @@ import { BestPlayer } from '@modules/home/types/best-players';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BestPlayersListComponent {
-  public best_players = input.required<BestPlayer>();
+  public best_players = input.required<Array<Member>>();
 }

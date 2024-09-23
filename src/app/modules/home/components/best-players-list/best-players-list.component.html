@@ -8,7 +8,7 @@
   <ng-template matExpansionPanelContent>
 
     <mat-list dense>
-      @for (member of best_players().others; track member.id) {
+      @for (member of best_players(); track member.id) {
       <mat-list-item>
         <a
           matLine

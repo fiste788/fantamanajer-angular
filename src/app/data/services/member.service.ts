@@ -6,7 +6,7 @@ import { Member, Role } from '../types';
 
 const url = 'members';
 const routes = {
-  best: `/${url}/best`,
+  best: (id: number) => `/${url}/matchdays/${id}/best`,
   club: (id: number) => `/clubs/${id}/${url}`,
   free: (id: number) => `/championships/${id}/${url}/free`,
   freeByRole: (id: number, role: number) => `/championships/${id}/${url}/free/${role}`,
@@ -37,8 +37,8 @@ export class MemberService {
     });
   }
 
-  public getBest(): Observable<Array<Role>> {
-    return this.#http.get<Array<Role>>(routes.best);
+  public getBest(matchdayId: number): Observable<Array<Member>> {
+    return this.#http.get<Array<Member>>(routes.best(matchdayId));
   }
 
   public getByTeamId(teamId: number): Observable<Array<Member>> {
