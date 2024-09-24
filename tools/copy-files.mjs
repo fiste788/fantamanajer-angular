@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import { join } from 'node:path';
 import { client, cloudflare, worker, ssr, ssg } from './paths.mjs';
+import * as cheerio from 'cheerio';
 
 fs.cpSync(client, cloudflare, { recursive: true });
 fs.cpSync(ssr, worker, { recursive: true });
@@ -14,6 +15,14 @@ if (fs.existsSync(ngswConf)) {
   const json = JSON.parse(data);
   json.index = json.index + '.html';
   //fs.writeFileSync(ngswConf, JSON.stringify(json, null, 2), 'utf8');
+}
+
+const index = join(worker, 'index.server.html');
+if (fs.existsSync(index)) {
+  const indexData = fs.readFileSync(index);
+  const $ = cheerio.load(indexData);
+  $('link[href^=pre-bootstrap]').prop('disabled', true);
+  fs.writeFileSync(index, $.html());
 }
 
 if (fs.existsSync(join(ssr, '../prerendered-routes.json'))) {

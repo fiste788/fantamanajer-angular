@@ -71,6 +71,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "autoprefixer": "^10.4.20",
     "brotli-cli": "^2.1.0",
+    "cheerio": "^1.0.0",
     "eslint": "^8.57.1",
     "eslint-config-angular-strict": "^1.1.1",
     "eslint-config-prettier": "^9.1.0",
