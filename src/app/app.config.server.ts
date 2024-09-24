@@ -2,6 +2,8 @@ import { HTTP_TRANSFER_CACHE_ORIGIN_MAP } from '@angular/common/http';
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
 
+import { environment } from '@env';
+
 import { appConfig } from './app.config';
 
 const serverConfig: ApplicationConfig = {
@@ -10,7 +12,7 @@ const serverConfig: ApplicationConfig = {
     {
       provide: HTTP_TRANSFER_CACHE_ORIGIN_MAP,
       useValue: {
-        'https://api.fantamanajer.it': '/api',
+        [environment.serverApiEndpoint]: environment.apiEndpoint,
       },
     },
   ],

@@ -7,7 +7,7 @@
     <app-parallax-header
       contextParam="team_id"
       [placeholder]="placeholder"
-      [backgroundImage]="team().photo_url"
+      [backgroundImage]="team().photo_url ?? undefined"
       [subtitle]="team().user.name + ' ' + team().user.surname"
       [title]="team().name"
       (imageLoaded)="scrollTo($event)"

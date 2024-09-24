@@ -3,7 +3,7 @@
   <div class="animation-container">
     <app-parallax-header
       contextParam="id"
-      [backgroundImage]="selectedMember.club.background_url"
+      [backgroundImage]="selectedMember.club.background_url ?? undefined"
       [image]="selectedMember.photo_url || player().photo_url || '/public/svg/clubs.svg#club-' + selectedMember.club_id"
       [subtitle]="selectedMember.role.singolar + ' - ' + selectedMember.club.name"
       [title]="player().full_name"

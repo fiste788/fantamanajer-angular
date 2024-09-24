@@ -6,7 +6,7 @@
     <app-parallax-header
       contextParam="id"
       [placeholder]="placeholder"
-      [backgroundImage]="club().background_url"
+      [backgroundImage]="club().background_url ?? undefined"
       [image]="club().photo_url"
       [title]="club().name"
       (imageLoaded)="scrollTo($event)"

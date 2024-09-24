@@ -57,7 +57,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
   public title = input('');
   public subtitle = input('');
   public image = input<string | null>(null);
-  public backgroundImage = input<Record<string, string> | string | null>(null);
+  public backgroundImage = input<Record<string, string> | undefined>();
   public tabs = input<Array<Tab>>([]);
   public tabPanel = input<MatTabNavPanel>();
   public readonly imageLoaded = output<number>();

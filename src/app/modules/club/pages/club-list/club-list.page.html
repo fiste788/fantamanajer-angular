@@ -17,11 +17,11 @@
           height="337"
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
-          [alt]="club.name"
           priority
-          disableOptimizedSrcset
+          ngSrcset="600w, 1280w"
           [ngSrc]="club.background_url | srcset: true"
-          [attr.srcset]="club.background_url | srcset"
+          [alt]="club.name"
+          [loaderParams]="club.background_url"
         >
       </a>
       } @else {
@@ -42,9 +42,11 @@
       <img
         class="club-header-image"
         loading="lazy"
+        height="40"
+        width="40"
         mat-card-avatar
         [alt]="club.name"
-        [src]="club.photo_url || ''"
+        [ngSrc]="club.photo_url || ''"
         [style.viewTransitionName]="'avatar-' + club.name"
       >
       <mat-card-title [style.viewTransitionName]="'title-' + club.name">{{club.name}}</mat-card-title>

@@ -1,4 +1,9 @@
-import { isPlatformBrowser, registerLocaleData } from '@angular/common';
+import {
+  IMAGE_LOADER,
+  ImageLoaderConfig,
+  isPlatformBrowser,
+  registerLocaleData,
+} from '@angular/common';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import localeIt from '@angular/common/locales/it';
 import {
@@ -96,6 +101,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LOCALE_ID,
       useValue: 'it-IT',
+    },
+    {
+      provide: IMAGE_LOADER,
+      useValue: (config: ImageLoaderConfig) => {
+        return (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+      },
     },
     // globalErrorHandlerProvider,
     appInitializerProvider,

@@ -19,9 +19,9 @@
         <img
           fill
           priority
-          disableOptimizedSrcset
+          ngSrcset="600w, 1280w"
           [ngSrc]="backgroundImage() | srcset: true"
-          [attr.srcset]="backgroundImage() | srcset"
+          [loaderParams]="backgroundImage()"
           [style.background-image]="placeholder()"
           [alt]="title()"
           (load)="imageLoad()"
@@ -34,10 +34,10 @@
       </div>
     </div>
     <div class="parallax-header-title-container">
-      @if (image()) {
+      @if (image(); as _image) {
       <img
         [alt]="title()"
-        [src]="image()"
+        [ngSrc]="_image"
         [style.viewTransitionName]="'avatar-' + title"
       >
       }

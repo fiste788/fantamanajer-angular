@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgIf, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     RouterLink,
     PlaceholderPipe,
     SrcsetPipe,
+    NgOptimizedImage,
   ],
   templateUrl: './team-card.component.html',
   styleUrl: './team-card.component.scss',
