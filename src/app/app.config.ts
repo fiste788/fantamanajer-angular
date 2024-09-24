@@ -12,7 +12,7 @@ import {
   LOCALE_ID,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
@@ -55,7 +55,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideClientHydration(),
+    provideClientHydration(withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true })),
     provideHttpClient(
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
