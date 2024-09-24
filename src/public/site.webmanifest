@@ -99,8 +99,8 @@
       "purpose": "monochrome"
     }
   ],
-  "theme_color": "#fffbff",
-  "background_color": "#fffbff",
+  "theme_color": "#fff8f7",
+  "background_color": "#fff8f7",
   "start_url": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay"],

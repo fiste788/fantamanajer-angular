@@ -1,4 +1,4 @@
-<!-- eslint-disable @angular-eslint/template/no-call-expression -->
+@let _title = title();
 <div
   class="parallax-container"
   [style.viewTransitionName]="(isHandset$ | async) ? '' : viewTransitionName()"
@@ -15,20 +15,20 @@
         #rellax
         appRellax
       >
-        @if(backgroundImage()) {
+        @if(backgroundImage(); as _backgroundImage) {
         <img
           fill
           priority
-          ngSrcset="600w, 1280w"
-          [ngSrc]="backgroundImage() | srcset: true"
-          [loaderParams]="backgroundImage()"
+          ngSrcset="600w, 1280w, 1920w"
+          [ngSrc]="_backgroundImage | srcset: true"
+          [loaderParams]="_backgroundImage"
           [style.background-image]="placeholder()"
-          [alt]="title()"
+          [alt]="_title"
           (load)="imageLoad()"
         >
         } @else {
         <div class="placeholder">
-          <span>{{title()}}</span>
+          <span>{{_title}}</span>
         </div>
         }
       </div>
@@ -36,11 +36,9 @@
     <div class="parallax-header-title-container">
       @if (image(); as _image) {
       <img
-        [alt]="title()"
-        [ngSrc]="_image"
-        height="40"
-        width="40"
-        [style.viewTransitionName]="'avatar-' + title"
+        [alt]="_title"
+        [src]="_image"
+        [style.viewTransitionName]="'avatar-' + _title"
       >
       }
       <div class="parallax-header-title">
@@ -51,11 +49,11 @@
         >Anchor</a>
         <h1
           class="mat-headline-4 title"
-          [style.viewTransitionName]="'title-' + title"
-        >{{title()}}</h1>
+          [style.viewTransitionName]="'title-' + _title"
+        >{{_title}}</h1>
         <div class="subtitle">
-          @if (subtitle()) {
-          <p class="mat-subtitle-2">{{subtitle()}}
+          @if (subtitle(); as _subtitle) {
+          <p class="mat-subtitle-2">{{_subtitle}}
             <ng-content select="subtitle" />
           </p>
           }

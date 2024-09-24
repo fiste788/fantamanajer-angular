@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, isPlatformServer, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,6 +12,7 @@ import {
   afterNextRender,
   viewChild,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
@@ -52,6 +53,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
   readonly #ngZone = inject(NgZone);
+  readonly #platformId = inject(PLATFORM_ID);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
@@ -102,8 +104,9 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   protected viewTransitionName() {
-    return this.#transitionService.currentTransition()?.previousUrl !== undefined &&
-      this.#transitionService.isRootOutlet()
+    return isPlatformServer(this.#platformId) ||
+      (this.#transitionService.currentTransition()?.previousUrl !== undefined &&
+        this.#transitionService.isRootOutlet())
       ? 'main'
       : '';
   }

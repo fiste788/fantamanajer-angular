@@ -33,6 +33,8 @@
       @if(bestPlayer) {
       <app-best-players-list [best_players]="bestPlayer | slice: 1" />
       }
+      } @placeholder {
+      <div class="more">MOSTRA DI PIÚ</div>
       }
     </mat-card-content>
   </mat-card>
