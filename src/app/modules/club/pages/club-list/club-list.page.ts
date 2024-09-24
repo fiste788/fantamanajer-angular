@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { CurrentTransitionService } from '@app/services';
 import { Club } from '@data/types';
@@ -19,7 +18,6 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     NgIf,
     NgFor,
     MatCardModule,
-    LazyLoadImageModule,
     MatButtonModule,
     RouterLink,
     MatProgressSpinnerModule,

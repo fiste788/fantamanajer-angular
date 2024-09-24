@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { CurrentTransitionService } from '@app/services';
 import { Team } from '@data/types';
@@ -15,7 +14,6 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   imports: [
     NgIf,
     MatCardModule,
-    LazyLoadImageModule,
     MatButtonModule,
     RouterLink,
     PlaceholderPipe,
