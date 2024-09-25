@@ -1,4 +1,6 @@
-@if (((matchday$ | async)?.number|| 0) > 1) {
+@let matchday = matchday$ | async;
+@let number = matchday?.number ?? 0;
+@if (number > 1) {
 @let bestPlayers = bestPlayers$ | async;
 <div
   @cardCreationAnimation
@@ -42,12 +44,15 @@
   }
 </div>
 } @else {
-
-<app-mat-empty-state
+@defer(when number
+<=
+  1)
+  {
+  <app-mat-empty-state
   description="Buona asta!"
   icon="wb_sunny"
   label="La stagione non è ancora iniziata"
   rounded
 />
-
+}
 }

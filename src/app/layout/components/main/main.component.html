@@ -39,7 +39,7 @@
       [@scrollDownAnimation]="showedToolbar"
     >
       @defer(when isHandset) {
-      <app-bottom [visibility]="showedSpeedDialSignal()" />
+      <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
       }
     </div>
 

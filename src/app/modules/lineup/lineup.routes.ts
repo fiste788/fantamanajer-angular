@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { RedirectCommand, Route, Router } from '@angular/router';
 import { map } from 'rxjs';
 
+import { authenticatedGuard } from '@app/guards';
 import { ApplicationService } from '@app/services';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
@@ -10,6 +11,7 @@ import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
 export default [
   {
     path: '',
+    canActivate: [authenticatedGuard],
     component: RouterOutletComponent,
     children: [
       {

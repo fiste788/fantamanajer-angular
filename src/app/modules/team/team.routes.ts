@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { championshipAdminGuard } from '@app/guards';
+import { authenticatedGuard, championshipAdminGuard } from '@app/guards';
 import { Team } from '@data/types';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
@@ -15,6 +15,7 @@ export default [
   {
     path: '',
     component: RouterOutletComponent,
+    canActivate: [authenticatedGuard],
     data: { state: 'team-outlet', viewTransitionOutlet: 'championship-outlet' },
     children: [
       {

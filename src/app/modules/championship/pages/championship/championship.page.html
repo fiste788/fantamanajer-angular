@@ -1,1 +1,1 @@
-<app-toolbar-tab [tabs]="tabs()" />
+<app-toolbar-tab [tabs]="(tabs$ | async) || []" />

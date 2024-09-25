@@ -1,5 +1,5 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -10,17 +10,14 @@ import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.
 @Component({
   templateUrl: './championship.page.html',
   standalone: true,
-  imports: [ToolbarTabComponent],
+  imports: [ToolbarTabComponent, AsyncPipe],
 })
 export class ChampionshipPage {
   readonly #auth = inject(AuthenticationService);
   readonly #app = inject(ApplicationService);
 
-  protected tabs = toSignal(
-    combineLatest([this.#auth.user$, this.#app.team$]).pipe(
-      map(([user, team]) => this.loadTab(user, team)),
-    ),
-    { initialValue: [] },
+  protected tabs$ = combineLatest([this.#auth.user$, this.#app.team$]).pipe(
+    map(([user, team]) => this.loadTab(user, team)),
   );
 
   protected loadTab(user?: User, team?: Team): Array<Tab> {

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { adminGuard } from '@app/guards';
+import { adminGuard, authenticatedGuard } from '@app/guards';
 import { Championship } from '@data/types';
 
 import { ChampionshipPage } from './pages/championship/championship.page';
@@ -18,6 +18,7 @@ export default [
       state: 'championship-outlet',
       viewTransitionOutlet: 'team-outlet',
     },
+    canActivate: [authenticatedGuard],
     resolve: {
       championship: championshipResolver,
     },

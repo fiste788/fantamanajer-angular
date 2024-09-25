@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import { trigger } from '@angular/animations';
-import { AsyncPipe, isPlatformServer, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,9 +12,7 @@ import {
   afterNextRender,
   viewChild,
   inject,
-  PLATFORM_ID,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
@@ -53,7 +51,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
   readonly #ngZone = inject(NgZone);
-  readonly #platformId = inject(PLATFORM_ID);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
@@ -74,12 +71,9 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
   protected readonly isOpen$ = this.#isOpenObservable();
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
-  protected readonly showedSpeedDialSignal = toSignal(this.showedSpeedDial$, {
-    initialValue: VisibilityState.Hidden,
-  });
-
   protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
+  protected hidden = VisibilityState.Hidden;
 
   constructor() {
     afterNextRender(() => {
@@ -104,9 +98,8 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   protected viewTransitionName() {
-    return isPlatformServer(this.#platformId) ||
-      (this.#transitionService.currentTransition()?.previousUrl !== undefined &&
-        this.#transitionService.isRootOutlet())
+    return this.#transitionService.currentTransition()?.previousUrl !== undefined &&
+      this.#transitionService.isRootOutlet()
       ? 'main'
       : '';
   }
