@@ -40,6 +40,7 @@
   .yellow-card {
     width: 0.75rem;
     height: 1rem;
+    border-radius: 3px;
     display: inline-block;
 
     @include mat.elevation(1);

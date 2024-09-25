@@ -29,6 +29,8 @@
     font-size: 10px;
     line-height: 20px;
     font-weight: bold;
+    overflow: hidden;
+    letter-spacing: -1px;
   }
 
   &:nth-child(1) {
