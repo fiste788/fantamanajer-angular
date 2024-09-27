@@ -36,7 +36,7 @@ export class MemberAlreadySelectedValidator implements Validator {
           control.setErrors({ duplicate: true });
         } else if (control.hasError('duplicate') && control.errors) {
           delete control.errors['duplicate'];
-          control.updateValueAndValidity({ onlySelf: true });
+          control.updateValueAndValidity();
         }
       }
     }
