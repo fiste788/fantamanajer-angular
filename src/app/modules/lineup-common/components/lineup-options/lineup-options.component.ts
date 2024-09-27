@@ -1,6 +1,6 @@
 import { NgIf, NgFor, DatePipe, KeyValuePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy, booleanAttribute, input, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
@@ -18,6 +18,7 @@ import { LineupService } from '../lineup.service';
   templateUrl: './lineup-options.component.html',
   styleUrl: './lineup-options.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   standalone: true,
   imports: [
     MatCardModule,

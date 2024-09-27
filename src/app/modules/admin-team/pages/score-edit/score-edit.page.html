@@ -20,7 +20,7 @@
     <form
       #scoreForm="ngForm"
       class="flex-container"
-      [appMemberAlreadySelected]="score.lineup!"
+      appMemberAlreadySelected
       (ngSubmit)="save(score, scoreForm, lineupDetail.getLineup())"
     >
       <mat-card appearance="outlined">

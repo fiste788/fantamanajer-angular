@@ -27,7 +27,7 @@ export class LineupService {
   public benchs?: Array<number>;
   public captainables?: Array<MemberOption>;
   public membersByRole?: Map<Role, Array<Member>>;
-  public selectionChange: EventEmitter<Member | null> = new EventEmitter<Member | null>();
+  public selectionChange: EventEmitter<Member | undefined> = new EventEmitter<Member | undefined>();
 
   public loadLineup(
     lineup: EmptyLineup,
@@ -62,7 +62,7 @@ export class LineupService {
     this.lineup.module = this.selectedModule?.key;
   }
 
-  public memberSelectionChange(role: Role, member?: Member | null): void {
+  public memberSelectionChange(role: Role, member?: Member): void {
     this.#reloadBenchwarmerState();
     if (['P', 'D'].includes(role.abbreviation)) {
       this.captainSelectionChange();
@@ -73,7 +73,7 @@ export class LineupService {
     this.selectionChange.emit(member);
   }
 
-  public benchwarmerSelectionChange(member: Member | null): void {
+  public benchwarmerSelectionChange(member?: Member): void {
     this.selectionChange.emit(member);
   }
 
@@ -102,7 +102,7 @@ export class LineupService {
       length,
     }).map((_, i) => {
       const disp = dispositions.get(i) ?? this.#createEmptyDisposition(i);
-      disp.member = this.membersById?.get(disp.member_id ?? 0) ?? null;
+      disp.member = this.membersById?.get(disp.member_id ?? 0) ?? undefined;
 
       return disp;
     });
@@ -125,7 +125,7 @@ export class LineupService {
       (element) => element.position > 11 && element.member?.id === member.id,
     );
     for (const element of dispositions) {
-      element.member = null;
+      element.member = undefined;
       element.member_id = null;
     }
   }
@@ -152,6 +152,6 @@ export class LineupService {
     return this.lineup.dispositions
       .filter((disp) => disp.position <= 11)
       .map((disp) => disp.member)
-      .filter((member): member is Member => member !== null);
+      .filter((member): member is Member => member !== undefined);
   }
 }

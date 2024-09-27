@@ -71,7 +71,7 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public trackList(index: number, _item: StreamActivity | undefined): number {
+  public trackList(index: number, _item?: StreamActivity): number {
     return index;
   }
 

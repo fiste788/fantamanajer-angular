@@ -1,27 +1,13 @@
-/* eslint-disable unicorn/no-null */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Directive, input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  ValidationErrors,
-  Validator,
-  FormGroup,
-  FormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { Directive } from '@angular/core';
+import { NG_VALIDATORS, ValidationErrors, Validator, FormGroup, FormControl } from '@angular/forms';
 
-import { Lineup, Member } from '@data/types';
+import { Member } from '@data/types';
 
-type NonUndefined<T> = T extends undefined ? never : T;
-
-export type ControlsOf<T extends Record<string, any>> = {
-  [K in keyof T]: NonUndefined<T[K]> extends AbstractControl
-    ? T[K]
-    : NonUndefined<T[K]> extends Record<any, any>
-      ? FormGroup<ControlsOf<T[K]>>
-      : FormControl<T[K]>;
-};
+type LineupForm = FormGroup<{
+  dispositions?: FormGroup<{
+    [key: number]: FormGroup<{ member?: FormControl<Member | undefined> }>;
+  }>;
+}>;
 
 @Directive({
   providers: [
@@ -35,34 +21,27 @@ export type ControlsOf<T extends Record<string, any>> = {
   standalone: true,
 })
 export class MemberAlreadySelectedValidator implements Validator {
-  public lineup = input.required<Partial<Lineup>>({ alias: 'appMemberAlreadySelected' });
-
-  public validate(formGroup: UntypedFormGroup): ValidationErrors | null {
-    const disp = formGroup.controls['dispositions'] as FormGroup | undefined;
-    if (disp) {
-      const ids = Object.values(disp.controls)
-        .filter((v): v is FormGroup => v instanceof FormGroup)
-        .map((v: FormGroup) => {
-          const control = v.controls['member']?.value as Member | null | undefined;
-
-          return control?.id;
-        });
+  public validate(formGroup: LineupForm): ValidationErrors | null {
+    const disps = formGroup.controls.dispositions;
+    if (disps) {
+      const controls = Object.values(disps.controls)
+        .map((disp) => disp.controls.member)
+        .filter((c) => c !== undefined);
+      const ids = controls.map((m) => m?.value?.id);
       const dup = new Set(ids.filter((item, index) => ids.indexOf(item) !== index));
-      Object.values(disp.controls)
-        .filter((c): c is FormGroup => c instanceof FormGroup)
-        .map((c) => {
-          const member = c.controls['member']?.value as Member | null | undefined;
-          if (member && dup.has(member.id)) {
-            c.controls['member']?.setErrors({ duplicate: true });
-
-            return { duplicate: true };
-          }
-          c.controls['member']?.setErrors(null);
-
-          return null;
-        });
+      for (const control of controls) {
+        const member = control.value;
+        if (member && dup.has(member.id)) {
+          control.markAsTouched();
+          control.setErrors({ duplicate: true });
+        } else if (control.hasError('duplicate') && control.errors) {
+          delete control.errors['duplicate'];
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      }
     }
 
+    // eslint-disable-next-line unicorn/no-null
     return null;
   }
 }

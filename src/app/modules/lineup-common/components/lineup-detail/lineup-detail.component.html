@@ -13,16 +13,14 @@
   </app-lineup-options>
   @if (lineupService.selectedModule) {
 
-  <div ngModelGroup="dispositions">
-    <app-module-area
-      [disabled]="disabled()"
-      [captain]="lineupService.lineup.captain_id ?? undefined"
-      [dispositions]="lineupService.lineup.dispositions"
-      [membersByRole]="lineupService.membersByRole"
-      [module]="lineupService.selectedModule"
-      (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
-    />
-  </div>
+  <app-module-area
+    [disabled]="disabled()"
+    [captain]="lineupService.lineup.captain_id ?? undefined"
+    [dispositions]="lineupService.lineup.dispositions"
+    [membersByRole]="lineupService.membersByRole"
+    [module]="lineupService.selectedModule"
+    (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
+  />
 
   } @if (_lineup.dispositions.length) {
   <fieldset

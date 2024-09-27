@@ -6,7 +6,7 @@
 <form
   #lineupForm="ngForm"
   class="flex-container"
-  [appMemberAlreadySelected]="lineup"
+  appMemberAlreadySelected
   (ngSubmit)="save(lineup, lineupForm)"
 >
   <app-lineup-detail
@@ -18,7 +18,6 @@
   >
     @if (editMode) {
     <button
-      align="end"
       buttons
       color="accent"
       mat-flat-button

@@ -1,7 +1,9 @@
 @if (dispositions(); as _dispositions) {
 @let _captain = captain();
+
 @for (area of module().areas; track area.role.id) {
 <div
+  ngModelGroup="dispositions"
   class="flex flex-row"
   [ngClass]="[area.role.abbreviation, 'area-container']"
 >

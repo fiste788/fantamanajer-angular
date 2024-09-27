@@ -25,7 +25,6 @@
     position: static !important;
     display: block;
     width: 100%;
-    min-height: 20rem;
   }
 }
 
@@ -98,6 +97,7 @@ a.anchor {
       margin: auto;
       inset: 0;
       contain: paint;
+      min-height: 20rem;
     }
   }
 

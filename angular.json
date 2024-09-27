@@ -109,7 +109,8 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "serviceWorker": false
+              "serviceWorker": false,
+              "ssr": true
             }
           },
           "defaultConfiguration": "production"

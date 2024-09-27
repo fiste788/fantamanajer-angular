@@ -8,5 +8,5 @@ export interface Disposition {
   lineup_id: number;
   member_id: number | null;
   lineup: Lineup;
-  member: Member | null;
+  member?: Member;
 }

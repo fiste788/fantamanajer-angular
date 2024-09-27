@@ -6,7 +6,7 @@
   <div class="photo-container">
     <div class="img-container">
       <div>
-        <app-player-image [member]="_member || undefined" />
+        <app-player-image [member]="_member" />
       </div>
       @if (_member && _member.likely_lineup) {
       <app-member-icons
@@ -27,8 +27,9 @@
     [required]="required()"
     [typeaheadDebounceInterval]="350"
     [(ngModel)]="member"
+    (selectionChange)="change($event.value)"
   >
-    <mat-option [value]="null">{{ placeholder() }}</mat-option>
+    <mat-option [value]="undefined">{{ placeholder() }}</mat-option>
     @if (_member) {
     <mat-select-trigger>
       {{ _member?.player?.full_name }}

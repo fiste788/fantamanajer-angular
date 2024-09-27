@@ -9,29 +9,6 @@
   .mat-toolbar-multiple-rows {
     min-height: unset;
   }
-
-  .mat-mdc-form-field-underline,
-  .mat-mdc-form-field-ripple,
-  .mat-mdc-focused .mat-mdc-form-field-ripple {
-    background-color: currentcolor !important;
-  }
-
-  .mat-mdc-form-field-label,
-  .mat-mdc-focused .mat-mdc-form-field-label,
-  .mat-mdc-select-value,
-  .mat-mdc-select-arrow,
-  .mat-mdc-form-field.mat-mdc-focused .mat-mdc-select-arrow {
-    color: inherit !important;
-  }
-
-  .mat-mdc-input-element {
-    caret-color: currentcolor !important;
-  }
-
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
-    border-bottom-color: currentcolor !important;
-    opacity: 0.42;
-  }
 }
 
 @mixin color($theme) {
@@ -41,6 +18,31 @@
 
   .mat-drawer .mat-toolbar {
     background-color: inherit;
+  }
+
+  .mat-toolbar {
+    .mat-mdc-form-field-underline,
+    .mat-mdc-form-field-ripple,
+    .mat-mdc-focused .mat-mdc-form-field-ripple {
+      background-color: currentcolor !important;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+      border-bottom-color: currentcolor !important;
+      opacity: 0.42;
+    }
+
+    .mat-mdc-form-field-label,
+    .mat-mdc-focused .mat-mdc-form-field-label,
+    .mat-mdc-select-value,
+    .mat-mdc-select-arrow,
+    .mat-mdc-form-field.mat-mdc-focused .mat-mdc-select-arrow {
+      color: inherit !important;
+    }
+
+    .mat-mdc-input-element {
+      caret-color: currentcolor !important;
+    }
   }
 }
 

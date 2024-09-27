@@ -42,7 +42,7 @@ export class ModuleAreaComponent {
   public module = input.required<Module>();
   public dispositions = input.required<
     Array<{
-      member: Member | null;
+      member?: Member;
       position?: number;
     }>
   >();
@@ -51,7 +51,7 @@ export class ModuleAreaComponent {
   public wrap = input(false, { transform: booleanAttribute });
   public captain = input<number>();
   public membersByRole = input<Map<Role, Array<Member>>>();
-  public readonly selectionChange = output<{ role: Role; member: Member | null }>();
+  public readonly selectionChange = output<{ role: Role; member?: Member }>();
 
   constructor() {
     effect(() => {
@@ -64,8 +64,7 @@ export class ModuleAreaComponent {
       for (let i = area.fromIndex; i < area.fromIndex + area.toIndex; i += 1) {
         const disp = this.dispositions()[i];
         if (disp && disp.member?.role_id !== area.role.id) {
-          // eslint-disable-next-line unicorn/no-null
-          disp.member = null;
+          disp.member = undefined;
         }
       }
       area.options = (this.membersByRole()?.get(area.role) ?? []).map((member) => ({
@@ -75,14 +74,14 @@ export class ModuleAreaComponent {
     }
   }
 
-  protected memberSelectionChange(role: Role, member: Member | null): void {
+  protected memberSelectionChange(role: Role, member: Member | undefined): void {
     this.#reloadRegularState(role.id);
     this.selectionChange.emit({ role, member });
   }
 
   #isRegular(member: Member): boolean {
     return this.dispositions()
-      .filter((element) => element.position && element.position <= 11 && element.member !== null)
+      .filter((element) => element.position && element.position <= 11 && element.member)
       .map((element) => element.member?.id)
       .includes(member.id);
   }
