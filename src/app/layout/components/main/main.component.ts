@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/operators';
 
@@ -41,6 +42,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     NavbarComponent,
     ToolbarComponent,
     RouterOutlet,
+    ContentLoaderModule,
     BottomComponent,
     AsyncPipe,
     StatePipe,
