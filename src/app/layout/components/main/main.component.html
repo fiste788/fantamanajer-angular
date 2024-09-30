@@ -21,8 +21,9 @@
     @defer(when isOpen; on idle) {
     <app-navbar [sidenav]="drawer" />
     } @placeholder (minimum 500ms) {
+    @if(isOpen) {
     <content-loader
-      viewBox="0 0 277 560"
+      viewBox="0 0 277 590"
       backgroundColor="#e7bdb9"
       foregroundColor="#ffdad7"
     >
@@ -36,7 +37,7 @@
       />
       <svg:rect
         x="16"
-        y="220"
+        y="250"
         rx="16"
         ry="16"
         width="245"
@@ -44,7 +45,7 @@
       />
       <svg:rect
         x="16"
-        y="337"
+        y="367"
         rx="26"
         ry="26"
         width="245"
@@ -52,7 +53,7 @@
       />
       <svg:rect
         x="16"
-        y="393"
+        y="423"
         rx="26"
         ry="26"
         width="245"
@@ -60,7 +61,7 @@
       />
       <svg:rect
         x="16"
-        y="449"
+        y="479"
         rx="26"
         ry="26"
         width="245"
@@ -68,13 +69,14 @@
       />
       <svg:rect
         x="16"
-        y="505"
+        y="535"
         rx="26"
         ry="26"
         width="245"
         height="54"
       />
     </content-loader>
+    }
     }
   </mat-sidenav>
   <mat-sidenav-content>
