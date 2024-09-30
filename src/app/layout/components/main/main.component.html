@@ -21,7 +21,7 @@
     @defer(when isOpen; on idle) {
     <app-navbar [sidenav]="drawer" />
     } @placeholder (minimum 500ms) {
-    @if(isOpen) {
+    @if(!isHandset && !isTablet) {
     <content-loader
       viewBox="0 0 277 590"
       backgroundColor="#e7bdb9"
