@@ -36,9 +36,10 @@
     <div class="parallax-header-title-container">
       @if (image(); as _image) {
       <img
-        width="128"
-        height="128"
+        [width]="width()"
+        [height]="height()"
         priority
+        disableOptimizedSrcset
         [alt]="_title"
         [ngSrc]="_image"
         [style.viewTransitionName]="'avatar-' + _title"

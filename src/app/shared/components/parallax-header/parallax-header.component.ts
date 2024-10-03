@@ -14,6 +14,7 @@ import {
   OnDestroy,
   inject,
   input,
+  numberAttribute,
   output,
   viewChild,
 } from '@angular/core';
@@ -54,6 +55,8 @@ export class ParallaxHeaderComponent implements OnDestroy {
 
   public contextParam = input.required<string>();
   public placeholder = input<string>();
+  public width = input(undefined, { transform: numberAttribute });
+  public height = input(undefined, { transform: numberAttribute });
   public title = input('');
   public subtitle = input('');
   public image = input<string | null>(null);
