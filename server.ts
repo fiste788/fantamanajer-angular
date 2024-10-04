@@ -19,25 +19,6 @@ interface Env {
   API?: { fetch: typeof fetch };
 }
 
-// async function getSSGPage(url: URL, env: Env): Promise<Response | undefined> {
-//   try {
-//     const path = url.pathname === '/' || url.pathname === '' ? '/home' : url.pathname;
-//     const ssg = `/ssg${path}/index.html`;
-//     const asset = await env.ASSETS.fetch(new URL(ssg, url));
-//     console.log(asset);
-//     if (asset.status === 200) {
-//       const resp = new Response(asset.body, asset);
-//       resp.headers.append('ssg', '1');
-
-//       return resp;
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-
-//   return undefined;
-// }
-
 function setServerAuthentication(body: ServerAuthInfo) {
   const response = new Response(undefined);
   const newCookie = CookieStorage.cookieString('token', body.accessToken, {
@@ -68,19 +49,11 @@ async function workerFetchHandler(request: Request, env: Env) {
     return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
   }
 
-  // const staticPage = await getStaticPage(url, env);
-  // if (staticPage !== undefined) {
-  //  return staticPage;
-  // }
-
-  const startAt = new Date();
-
   // Get the root `index.html` content.
-  const indexUrl = new URL('/index.html.html', url);
+  const indexUrl = new URL('/index.csr', url);
   const indexResponse = await env.ASSETS.fetch(new Request(indexUrl));
   const document = await indexResponse.text();
 
-  console.log('get index', Date.now() - startAt.getTime());
   const content = await renderApplication(bootstrap, {
     document,
     url: url.pathname,
@@ -96,8 +69,6 @@ async function workerFetchHandler(request: Request, env: Env) {
       { provide: APP_BASE_HREF, useValue: indexUrl.toString() },
     ],
   });
-
-  console.log('render SSR', url.href, Date.now() - startAt.getTime());
 
   // console.log("rendered SSR", content);
   return new Response(content, indexResponse);
