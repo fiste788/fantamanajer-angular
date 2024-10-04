@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build && wrangler pages dev dist/cloudflare --compatibility-date=2023-11-21",
+    "start": "npm run build && wrangler dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "npm run lint:scss && npm run prettier && npm run lint:ts",
@@ -16,12 +16,10 @@
     "prettier": "prettier --check \"src/**/*.{scss,html}\" --loglevel warn",
     "prettier:fix": "prettier --write \"src/**/*.{scss,html}\" --loglevel warn",
     "build:stats": "ng build --stats-json",
-    "bundle-report": "webpack-bundle-analyzer dist/fantamanajer-angular/stats.json",
-    "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
     "serve:ssr:fantamanajer-angular": "node dist/server/server.mjs",
-    "process": "node ./tools/copy-files.mjs && node ./tools/alter-polyfills.mjs",
+    "process": "node ./tools/alter-polyfills.mjs",
     "build": "ng build && npm run process",
-    "deploy": "npm run build && wrangler pages deploy --project-name fantamanajer-angular-ssr dist/cloudflare"
+    "deploy": "npm run build && wrangler deploy"
   },
   "private": true,
   "dependencies": {
