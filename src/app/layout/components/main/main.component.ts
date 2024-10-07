@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -54,6 +54,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
+  readonly #document = inject<Document>(DOCUMENT);
   readonly #auth = inject(AuthenticationService);
 
   protected drawer = viewChild.required(MatSidenav);
@@ -74,11 +75,13 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
   protected hidden = VisibilityState.Hidden;
+  protected skeletonColors = this.#layoutService.skeletonColors;
 
   constructor() {
     afterNextRender(() => {
       this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
       this.#setupScrollAnimation(this.#window);
+      this.#setSkeletonColors();
     });
   }
 
@@ -147,5 +150,12 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   #getToolbarHeight(): number {
     return this.toolbar().nativeElement.clientHeight ?? 0;
+  }
+
+  #setSkeletonColors() {
+    const style = getComputedStyle(this.#document.body);
+    const background = style.getPropertyValue('--mat-skeleton-background-color');
+    const foreground = style.getPropertyValue('--mat-skeleton-foreground-color');
+    this.skeletonColors.set({ background, foreground });
   }
 }

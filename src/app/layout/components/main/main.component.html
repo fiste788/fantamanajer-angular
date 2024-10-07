@@ -19,62 +19,62 @@
     (openedChange)="open($event)"
   >
     @defer (when isOpen; on idle) {
-      <app-navbar [sidenav]="drawer" />
+    <app-navbar [sidenav]="drawer" />
     } @placeholder (minimum 500ms) {
-      <content-loader
-        backgroundColor="#e7bdb9"
-        foregroundColor="#ffdad7"
-        viewBox="0 0 277 590"
-      >
-        <svg:rect
-          height="138"
-          rx="16"
-          ry="16"
-          width="245"
-          x="16"
-          y="16"
-        />
-        <svg:rect
-          height="56"
-          rx="16"
-          ry="16"
-          width="245"
-          x="16"
-          y="250"
-        />
-        <svg:rect
-          height="52"
-          rx="26"
-          ry="26"
-          width="245"
-          x="16"
-          y="367"
-        />
-        <svg:rect
-          height="52"
-          rx="26"
-          ry="26"
-          width="245"
-          x="16"
-          y="423"
-        />
-        <svg:rect
-          height="52"
-          rx="26"
-          ry="26"
-          width="245"
-          x="16"
-          y="479"
-        />
-        <svg:rect
-          height="54"
-          rx="26"
-          ry="26"
-          width="245"
-          x="16"
-          y="535"
-        />
-      </content-loader>
+    <content-loader
+      backgroundColor="#e7bdb9"
+      foregroundColor="#ffdad7"
+      viewBox="0 0 277 590"
+    >
+      <svg:rect
+        height="138"
+        rx="16"
+        ry="16"
+        width="245"
+        x="16"
+        y="16"
+      />
+      <svg:rect
+        height="56"
+        rx="16"
+        ry="16"
+        width="245"
+        x="16"
+        y="250"
+      />
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="245"
+        x="16"
+        y="367"
+      />
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="245"
+        x="16"
+        y="423"
+      />
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="245"
+        x="16"
+        y="479"
+      />
+      <svg:rect
+        height="54"
+        rx="26"
+        ry="26"
+        width="245"
+        x="16"
+        y="535"
+      />
+    </content-loader>
     }
   </mat-sidenav>
   <mat-sidenav-content>
@@ -94,7 +94,7 @@
       [@scrollDownAnimation]="showedToolbar"
     >
       @defer (when isHandset) {
-        <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
+      <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
       }
     </div>
   </mat-sidenav-content>
