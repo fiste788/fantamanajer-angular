@@ -42,7 +42,7 @@ async function workerFetchHandler(request: Request, env: Env) {
   }
 
   if (url.pathname.startsWith('/localdata/setsession')) {
-    return setServerAuthentication((await request.json()) as ServerAuthInfo);
+    return setServerAuthentication(await request.json());
   }
 
   if (url.pathname.startsWith('/localdata/logout')) {
@@ -70,7 +70,8 @@ async function workerFetchHandler(request: Request, env: Env) {
     ],
   });
 
-  // console.log("rendered SSR", content);
+  console.log('render SSR', url.href);
+
   return new Response(content, indexResponse);
 }
 
