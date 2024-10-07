@@ -72,6 +72,11 @@
 }
 
 @mixin color($theme) {
+  body {
+    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
+    --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
+  }
+
   .mat-drawer-over {
     --mat-sidenav-container-background-color: #{mat.get-theme-color($theme, surface-container-low)};
   }
@@ -100,11 +105,6 @@
 
   a {
     color: mat.get-theme-color($theme, on-primary-container);
-  }
-
-  .cdk-virtual-scroll-viewport {
-    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
-    --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
   }
 
   @media (prefers-color-scheme: dark) {

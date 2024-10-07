@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
@@ -38,6 +38,7 @@ export class LayoutService {
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
   );
 
+  public readonly skeletonColors = signal({ foreground: '#e7bdb9', background: '#ffdad7' });
   public readonly up = new BehaviorSubject<boolean>(false);
   public readonly down = new BehaviorSubject<boolean>(false);
 
