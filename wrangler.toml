@@ -5,6 +5,7 @@ main = "./dist/server/server.mjs"
 assets = { directory = "./dist/browser", binding = "ASSETS", not_found_handling = "single-page-application" }
 services = [{ binding = "API", service = "reverse-proxy-fantamanajer" }]
 routes = [{ pattern = "c3.fantamanajer.it", custom_domain = true }]
+upload_source_maps = true
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
