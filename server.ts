@@ -49,10 +49,14 @@ async function workerFetchHandler(request: Request, env: Env) {
     return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
   }
 
+  const startAt = new Date();
+
   // Get the root `index.html` content.
   const indexUrl = new URL('/index.csr', url);
   const indexResponse = await env.ASSETS.fetch(new Request(indexUrl));
   const document = await indexResponse.text();
+
+  console.log('get index', Date.now() - startAt.getTime());
 
   const content = await renderApplication(bootstrap, {
     document,
@@ -70,7 +74,7 @@ async function workerFetchHandler(request: Request, env: Env) {
     ],
   });
 
-  console.log('render SSR', url.href);
+  console.log('render SSR', url.href, Date.now() - startAt.getTime());
 
   return new Response(content, indexResponse);
 }
