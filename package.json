@@ -52,7 +52,7 @@
     "@angular/cli": "^18.2.8",
     "@angular/compiler-cli": "^18.2.8",
     "@angular/language-service": "^18.2.8",
-    "@cloudflare/workers-types": "^4.20241004.0",
+    "@cloudflare/workers-types": "^4.20241011.0",
     "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@rdlabo/eslint-plugin-rules": "^0.4.0",
     "@relative-ci/agent": "^4.2.12",
@@ -90,7 +90,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "rollup-plugin-webpack-stats": "^1.1.0",
-    "stylelint": "^16.9.0",
+    "stylelint": "^16.10.0",
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^13.1.0",
@@ -99,6 +99,6 @@
     "tailwindcss": "^3.4.13",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
-    "wrangler": "^3.80.3"
+    "wrangler": "^3.80.4"
   }
 }
