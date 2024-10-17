@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,6 @@ import { ApplicationService } from '@app/services';
   imports: [
     MatToolbarModule,
     MatIcon,
-    NgIf,
     MatIconModule,
     MatListModule,
     RouterLink,

@@ -1,4 +1,4 @@
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +12,6 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   selector: 'app-team-card',
   standalone: true,
   imports: [
-    NgIf,
     MatCardModule,
     MatButtonModule,
     RouterLink,

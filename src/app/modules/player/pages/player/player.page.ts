@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, OnInit, input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,14 +29,12 @@ import { LayoutService } from 'src/app/layout/services';
   templateUrl: './player.page.html',
   standalone: true,
   imports: [
-    NgIf,
     ParallaxHeaderComponent,
     MatButtonModule,
     RouterLink,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    NgFor,
     MatOptionModule,
     MatTableModule,
     MatSortModule,

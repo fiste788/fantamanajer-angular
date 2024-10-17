@@ -1,11 +1,4 @@
-import {
-  NgIf,
-  NgClass,
-  UpperCasePipe,
-  SlicePipe,
-  PercentPipe,
-  TitleCasePipe,
-} from '@angular/common';
+import { NgClass, UpperCasePipe, SlicePipe, PercentPipe, TitleCasePipe } from '@angular/common';
 import { Component, booleanAttribute, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,7 +11,6 @@ import { Member } from '@data/types';
   templateUrl: './member-icons.component.html',
   standalone: true,
   imports: [
-    NgIf,
     NgClass,
     MatIconModule,
     MatTooltipModule,

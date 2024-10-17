@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +21,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   templateUrl: './lineup-last.page.html',
   standalone: true,
   imports: [
-    NgIf,
     FormsModule,
     MemberAlreadySelectedValidator,
     LineupDetailComponent,

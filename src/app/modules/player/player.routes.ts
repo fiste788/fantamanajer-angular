@@ -25,4 +25,4 @@ export default [
       player: playerResolver,
     },
   },
-] as Array<Route>;
+] satisfies Array<Route>;

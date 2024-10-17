@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 import { Team } from '@data/types';
@@ -9,7 +8,7 @@ import { TeamCardComponent } from '@modules/team/components/team-card/team-card.
   styleUrl: './team-list.page.scss',
   templateUrl: './team-list.page.html',
   standalone: true,
-  imports: [NgFor, TeamCardComponent],
+  imports: [TeamCardComponent],
 })
 export class TeamListPage {
   protected readonly teams = input.required<Array<Team>>();

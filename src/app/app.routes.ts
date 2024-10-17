@@ -61,4 +61,4 @@ export default [
     data: { state: 'transferts' },
     loadChildren: async () => import('./modules/transfert/transfert.routes'),
   },
-] as Array<Route>;
+] satisfies Array<Route>;

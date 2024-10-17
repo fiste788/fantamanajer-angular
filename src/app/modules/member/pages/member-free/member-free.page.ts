@@ -1,4 +1,4 @@
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, HostBinding, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,9 +27,7 @@ import { tableRowAnimation } from '@shared/animations';
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    NgFor,
     MatOptionModule,
-    NgIf,
     MatButtonModule,
     MatTooltipModule,
     RouterLink,

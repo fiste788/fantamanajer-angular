@@ -1,4 +1,4 @@
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,8 +18,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   templateUrl: './article-list.page.html',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     MatCardModule,
     MatButtonModule,
     RouterLink,

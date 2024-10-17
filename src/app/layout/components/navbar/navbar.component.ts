@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -27,7 +27,6 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   imports: [
     ProfileComponent,
     MatListModule,
-    NgIf,
     MatIconModule,
     RouterLink,
     MatButtonModule,

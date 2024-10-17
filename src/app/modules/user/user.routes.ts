@@ -23,4 +23,4 @@ export default [
       { path: 'passkeys', component: PasskeyListPage, data: { state: 'passkeys' } },
     ],
   },
-] as Array<Route>;
+] satisfies Array<Route>;

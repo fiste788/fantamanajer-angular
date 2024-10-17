@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +17,7 @@ import { Article } from '@data/types';
   styleUrl: './article-detail.page.scss',
   templateUrl: './article-detail.page.html',
   standalone: true,
-  imports: [NgIf, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
 })
 export class ArticleDetailPage {
   readonly #snackBar = inject(MatSnackBar);

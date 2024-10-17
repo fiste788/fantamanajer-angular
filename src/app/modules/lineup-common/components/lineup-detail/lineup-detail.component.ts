@@ -1,4 +1,4 @@
-import { KeyValue, NgIf, NgFor } from '@angular/common';
+import { KeyValue } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,12 +35,10 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   animations: [cardCreationAnimation],
   standalone: true,
   imports: [
-    NgIf,
     LineupOptionsComponent,
     FormsModule,
     ModuleAreaComponent,
     MatCardModule,
-    NgFor,
     MemberSelectionComponent,
   ],
 })

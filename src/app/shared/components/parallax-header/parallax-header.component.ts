@@ -1,12 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import {
-  NgIf,
-  NgFor,
-  ViewportScroller,
-  AsyncPipe,
-  NgStyle,
-  NgOptimizedImage,
-} from '@angular/common';
+import { ViewportScroller, AsyncPipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,7 +20,6 @@ import { SrcsetPipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
-import { SrcsetDirective } from '../../directives/srcset.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,12 +29,8 @@ import { SrcsetDirective } from '../../directives/srcset.directive';
   standalone: true,
   imports: [
     RellaxDirective,
-    SrcsetDirective,
-    NgIf,
     MatTabsModule,
     NgOptimizedImage,
-    NgFor,
-    NgStyle,
     SrcsetPipe,
     RouterLinkActive,
     RouterLink,
@@ -76,7 +64,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   }
 
   protected imageLoad(): void {
-    // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
     this.#viewportScroller.scrollToAnchor('tab');
     this.rellax()?.nativeElement.classList.add('no-animate');
   }

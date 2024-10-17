@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, UpperCasePipe } from '@angular/common';
+import { NgClass, UpperCasePipe } from '@angular/common';
 import { Component, SimpleChange, booleanAttribute, effect, input, output } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -28,8 +28,6 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     StickyDirective,
     FormsModule,

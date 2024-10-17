@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +22,6 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
   standalone: true,
   imports: [
-    NgIf,
     MatCardModule,
     FormsModule,
     MatFormFieldModule,

@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +30,6 @@ import { NotificationComponent } from '../notification/notification.component';
   standalone: true,
   imports: [
     MatToolbarModule,
-    NgIf,
     MatButtonModule,
     MatIconModule,
     BreadcrumbComponent,

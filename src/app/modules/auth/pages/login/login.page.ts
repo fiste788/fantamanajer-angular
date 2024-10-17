@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, viewChild, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,7 +29,6 @@ import { cardCreationAnimation } from '@shared/animations';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgIf,
     MatButtonModule,
     MatCheckboxModule,
   ],

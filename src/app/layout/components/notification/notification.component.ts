@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
+import { AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -25,7 +25,6 @@ import { SeasonActiveDirective } from '@shared/directives';
   templateUrl: './notification.component.html',
   standalone: true,
   imports: [
-    NgIf,
     MatButtonModule,
     MatIconModule,
     MatBadgeModule,

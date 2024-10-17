@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-async-lifecycle-method */
-import { NgIf, NgFor, AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -23,8 +23,6 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
   templateUrl: './home.page.html',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     MatCardModule,
     PlayerImageComponent,
     BestPlayersListComponent,

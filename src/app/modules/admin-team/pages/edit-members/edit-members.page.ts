@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,14 +22,7 @@ interface Data {
 @Component({
   templateUrl: './edit-members.page.html',
   standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    ModuleAreaComponent,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    AsyncPipe,
-  ],
+  imports: [FormsModule, ModuleAreaComponent, MatButtonModule, MatProgressSpinnerModule, AsyncPipe],
 })
 export class EditMembersPage {
   readonly #roleService = inject(RoleService);

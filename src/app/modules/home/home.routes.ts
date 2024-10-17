@@ -15,4 +15,4 @@ export default [
       ogTitle: 'FantaManajer',
     },
   },
-] as Array<Route>;
+] satisfies Array<Route>;
