@@ -2,14 +2,17 @@ import { HTTP_TRANSFER_CACHE_ORIGIN_MAP } from '@angular/common/http';
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideServerRendering } from '@angular/platform-server';
+import { provideServerRoutesConfig } from '@angular/ssr';
 
 import { environment } from '@env';
 
 import { appConfig } from './app.config';
+import routes from './app.routes.server';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideNoopAnimations(),
+    provideServerRoutesConfig(routes),
     provideServerRendering(),
     {
       provide: HTTP_TRANSFER_CACHE_ORIGIN_MAP,
