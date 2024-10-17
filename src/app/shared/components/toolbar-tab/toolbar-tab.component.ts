@@ -35,7 +35,7 @@ export class ToolbarTabComponent implements OnDestroy {
   #portalHost?: PortalOutlet;
 
   public fragment = input<string>();
-  public tabs = input([] as Array<Tab>);
+  public tabs = input<Array<Tab>>([]);
   protected portal = viewChild.required(CdkPortal);
   protected tabBar = viewChild(MatTabNav);
 

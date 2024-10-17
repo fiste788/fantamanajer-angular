@@ -64,7 +64,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   }
 
   protected imageLoad(): void {
-    // this.imageLoaded.emit((event.target as HTMLElement).clientHeight);
     this.#viewportScroller.scrollToAnchor('tab');
     this.rellax()?.nativeElement.classList.add('no-animate');
   }

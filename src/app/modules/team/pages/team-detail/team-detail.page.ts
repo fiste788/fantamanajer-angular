@@ -45,7 +45,7 @@ export class TeamDetailPage implements OnInit {
   constructor() {
     afterNextRender(() => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.placeholder = history.state?.img as string;
+      this.placeholder = history.state?.img as string | undefined;
     });
   }
 
