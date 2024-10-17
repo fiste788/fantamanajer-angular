@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +23,6 @@ import { SeasonActiveDirective } from '@shared/directives';
   templateUrl: './transfert-list.page.html',
   standalone: true,
   imports: [
-    NgIf,
     MatTableModule,
     MatSortModule,
     RouterLink,

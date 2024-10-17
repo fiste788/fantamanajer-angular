@@ -1,4 +1,4 @@
-import { NgIf, NgFor, DatePipe, KeyValuePipe } from '@angular/common';
+import { DatePipe, KeyValuePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy, booleanAttribute, input, inject } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -22,11 +22,9 @@ import { LineupService } from '../lineup.service';
   standalone: true,
   imports: [
     MatCardModule,
-    NgIf,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    NgFor,
     MatOptionModule,
     MatCheckboxModule,
     MatExpansionModule,

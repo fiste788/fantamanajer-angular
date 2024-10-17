@@ -1,4 +1,4 @@
-import { DecimalPipe, NgIf } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, booleanAttribute, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +19,6 @@ import { CaptainPipe } from '@shared/pipes';
   templateUrl: './disposition-list.component.html',
   standalone: true,
   imports: [
-    NgIf,
     MatTableModule,
     MatIconModule,
     RouterLink,

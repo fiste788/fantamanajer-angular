@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { NgIf, NgFor, DecimalPipe, KeyValuePipe } from '@angular/common';
+import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
   HostBinding,
@@ -45,12 +45,10 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   imports: [
     MatFormFieldModule,
     PlayerImageComponent,
-    NgIf,
     MemberIconsComponent,
     MatSelectModule,
     FormsModule,
     MatOptionModule,
-    NgFor,
     DecimalPipe,
     KeyValuePipe,
   ],

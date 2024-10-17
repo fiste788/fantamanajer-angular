@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import { AsyncPipe, DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   Component,
@@ -25,18 +25,7 @@ import { StatePipe } from '@shared/pipes';
   templateUrl: './toolbar-tab.component.html',
   styleUrl: './toolbar-tab.component.scss',
   standalone: true,
-  imports: [
-    CdkPortal,
-    NgIf,
-    MatTabsModule,
-    NgFor,
-    RouterLinkActive,
-    RouterLink,
-    RouterOutlet,
-    StatePipe,
-    AsyncPipe,
-    NgClass,
-  ],
+  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
 })
 export class ToolbarTabComponent implements OnDestroy {
   readonly #document = inject(DOCUMENT);

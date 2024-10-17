@@ -1,4 +1,4 @@
-import { AsyncPipe, KeyValue, KeyValuePipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, KeyValue, KeyValuePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,8 +26,6 @@ import { Member, Role, Selection, Team } from '@data/types';
     MatSelectModule,
     FormsModule,
     MatButtonModule,
-    NgIf,
-    NgFor,
     AsyncPipe,
     KeyValuePipe,
   ],

@@ -1,5 +1,5 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { NgIf, NgFor, AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -19,10 +19,8 @@ import { tableRowAnimation } from '@shared/animations';
   templateUrl: './ranking.page.html',
   standalone: true,
   imports: [
-    NgIf,
     MatTableModule,
     RouterLink,
-    NgFor,
     MatProgressSpinnerModule,
     CdkScrollableModule,
     AsyncPipe,

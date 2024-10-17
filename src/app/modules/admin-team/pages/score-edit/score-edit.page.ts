@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,10 +23,8 @@ import { MemberAlreadySelectedValidator } from '@modules/lineup-common/component
   templateUrl: './score-edit.page.html',
   standalone: true,
   imports: [
-    NgIf,
     MatFormFieldModule,
     MatSelectModule,
-    NgFor,
     MatOptionModule,
     FormsModule,
     MatCardModule,

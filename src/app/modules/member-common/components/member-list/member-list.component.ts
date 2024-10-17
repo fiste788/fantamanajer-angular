@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { NgIf, NgClass, AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -46,8 +46,6 @@ type Stats = (typeof stats)[number];
   templateUrl: './member-list.component.html',
   standalone: true,
   imports: [
-    NgIf,
-    NgClass,
     MatTableModule,
     MatSortModule,
     StickyDirective,

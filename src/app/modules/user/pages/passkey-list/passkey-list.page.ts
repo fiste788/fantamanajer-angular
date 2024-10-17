@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,8 +21,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   templateUrl: './passkey-list.page.html',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     MatIconModule,
     MatListModule,
     MatTableModule,

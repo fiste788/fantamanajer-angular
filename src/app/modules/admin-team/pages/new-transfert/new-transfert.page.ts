@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,11 +21,9 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
   templateUrl: './new-transfert.page.html',
   standalone: true,
   imports: [
-    NgIf,
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    NgFor,
     MatOptionModule,
     MatSlideToggleModule,
     MatButtonModule,

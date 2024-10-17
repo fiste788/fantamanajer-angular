@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,7 +26,6 @@ export interface TeamEditModalData {
   standalone: true,
   imports: [
     MatDialogModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

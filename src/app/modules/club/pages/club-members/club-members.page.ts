@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { switchMap } from 'rxjs';
 
@@ -10,7 +9,7 @@ import { MemberListComponent } from '@modules/member-common/components/member-li
 @Component({
   templateUrl: './club-members.page.html',
   standalone: true,
-  imports: [NgIf, MemberListComponent],
+  imports: [MemberListComponent],
 })
 export class ClubMembersPage {
   readonly #clubService = inject(MemberService);

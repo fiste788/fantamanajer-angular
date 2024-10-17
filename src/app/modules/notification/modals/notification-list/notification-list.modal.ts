@@ -1,6 +1,6 @@
 import { AnimationEvent } from '@angular/animations';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, output, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -22,9 +22,7 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   templateUrl: './notification-list.modal.html',
   standalone: true,
   imports: [
-    NgIf,
     MatListModule,
-    NgFor,
     MatIconModule,
     CdkScrollableModule,
     MatEmptyStateComponent,

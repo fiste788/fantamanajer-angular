@@ -1,4 +1,4 @@
-import { KeyValuePipe, NgFor, NgIf } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
@@ -11,7 +11,7 @@ import { Notification, notificationSubscriptions } from '../../types';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatSlideToggleModule, NgIf, FormsModule, KeyValuePipe, NgFor, MatListModule],
+  imports: [MatSlideToggleModule, FormsModule, KeyValuePipe, MatListModule],
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
   templateUrl: './notification-subscription.component.html',
 })

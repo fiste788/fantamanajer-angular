@@ -21,8 +21,7 @@ export default [
       {
         path: '',
         component: ClubListPage,
-        data: { state: 'club-list', exit: true },
-        breadcrumbs: 'Club',
+        data: { state: 'club-list', exit: true, breadcrumbs: 'Club' },
         resolve: {
           clubs: clubsResolver,
         },
@@ -62,4 +61,4 @@ export default [
       },
     ],
   },
-] as Array<Route>;
+] satisfies Array<Route>;

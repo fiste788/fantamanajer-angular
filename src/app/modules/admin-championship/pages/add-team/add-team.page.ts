@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +20,6 @@ import { Championship, Team } from '@data/types';
   templateUrl: './add-team.page.html',
   standalone: true,
   imports: [
-    NgIf,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

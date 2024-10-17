@@ -20,4 +20,4 @@ export default [
       },
     ],
   },
-] as Array<Route>;
+] satisfies Array<Route>;

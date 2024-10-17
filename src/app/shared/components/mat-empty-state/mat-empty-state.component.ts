@@ -1,5 +1,4 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './mat-empty-state.component.scss',
   templateUrl: './mat-empty-state.component.html',
   standalone: true,
-  imports: [NgIf, MatIconModule],
+  imports: [MatIconModule],
 })
 export class MatEmptyStateComponent {
   @HostBinding('@createBox') protected createBox = true;

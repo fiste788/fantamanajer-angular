@@ -1,10 +1,9 @@
 import { trigger } from '@angular/animations';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, afterNextRender, input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterOutlet } from '@angular/router';
 import { Observable, combineLatest, firstValueFrom } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
@@ -14,7 +13,6 @@ import { Tab, Team } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
-import { StatePipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
@@ -25,13 +23,10 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   templateUrl: './team-detail.page.html',
   standalone: true,
   imports: [
-    NgIf,
     ParallaxHeaderComponent,
     MatButtonModule,
     MatIconModule,
-    RouterOutlet,
     AsyncPipe,
-    StatePipe,
     MatDialogModule,
     ToolbarTabComponent,
   ],

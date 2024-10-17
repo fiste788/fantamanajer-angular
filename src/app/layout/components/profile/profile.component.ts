@@ -1,4 +1,4 @@
-import { NgIf, NgFor, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Component, input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,12 +26,10 @@ import { LayoutService } from '../../services';
   templateUrl: './profile.component.html',
   standalone: true,
   imports: [
-    NgIf,
     MatToolbarModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    NgFor,
     MatOptionModule,
     AsyncPipe,
     MatIcon,

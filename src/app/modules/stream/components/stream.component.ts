@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -29,7 +29,6 @@ import { StreamDataSource } from './stream.datasource';
   imports: [
     ContentLoaderModule,
     ScrollingModule,
-    NgIf,
     MatListModule,
     MatIconModule,
     DatePipe,

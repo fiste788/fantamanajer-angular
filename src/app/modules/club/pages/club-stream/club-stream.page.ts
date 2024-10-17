@@ -1,4 +1,4 @@
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 
@@ -9,7 +9,7 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
 @Component({
   templateUrl: './club-stream.page.html',
   standalone: true,
-  imports: [NgIf, StreamComponent, AsyncPipe],
+  imports: [StreamComponent, AsyncPipe],
 })
 export class ClubStreamPage {
   protected readonly id$ = getRouteData<Club>('club').pipe(map((team) => team.id));
