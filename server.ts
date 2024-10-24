@@ -83,4 +83,4 @@ const bootstrapExport = {
   fetch: (request: Request, env: Env) =>
     (globalThis as any).__zone_symbol__Promise.resolve(workerFetchHandler(request, env)),
 };
-export default bootstrapExport;
+export default bootstrapExport satisfies ExportedHandler<Env>;
