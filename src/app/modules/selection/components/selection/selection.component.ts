@@ -43,6 +43,7 @@ export class SelectionComponent {
   readonly #roleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
   readonly #role$ = this.#roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
 
+  #savedSelection?: Selection;
   protected readonly data$ = this.loadData();
   protected readonly newMemberRoleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
   protected selectionForm = viewChild(NgForm);
@@ -70,6 +71,9 @@ export class SelectionComponent {
       newMember: this.getSelectedMember(),
     }).pipe(
       map(({ members, selection, newMember }) => {
+        if (selection.id) {
+          this.#savedSelection = Object.freeze(selection);
+        }
         if (newMember) {
           if (selection.old_member?.role_id !== newMember.role_id) {
             // eslint-disable-next-line unicorn/no-null
@@ -141,16 +145,18 @@ export class SelectionComponent {
   protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm()?.valid) {
       const save$ = this.#app.requireTeam$.pipe(
-        map((t) => {
-          delete selection.id;
-          delete selection.team;
+        switchMap((t) => {
           selection.team_id = t.id;
           selection.old_member_id = selection.old_member?.id ?? 0;
           selection.new_member_id = selection.new_member?.id ?? 0;
+          delete selection.team;
+          if (this.#savedSelection?.new_member_id != selection.new_member_id) {
+            delete selection.id;
+            return this.#selectionService.create(selection as AtLeast<Selection, 'team_id'>);
+          }
 
-          return selection as AtLeast<Selection, 'team_id'>;
+          return this.#selectionService.update(selection as Selection);
         }),
-        switchMap((sel) => this.#selectionService.create(sel)),
       );
 
       return save(save$, undefined, this.#snackbar, {
