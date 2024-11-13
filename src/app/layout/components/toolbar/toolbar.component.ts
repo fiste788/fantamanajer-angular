@@ -1,12 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Signal,
-  signal,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +21,9 @@ import { NotificationComponent } from '../notification/notification.component';
   styleUrl: './toolbar.component.scss',
   templateUrl: './toolbar.component.html',
   standalone: true,
+  host: {
+    '[class.window-overlayed]': 'isOverlayed()',
+  },
   imports: [
     MatToolbarModule,
     MatButtonModule,
@@ -42,11 +38,6 @@ export class ToolbarComponent {
   readonly #layoutService = inject(LayoutService);
   readonly #auth = inject(AuthenticationService);
   readonly #transitionService = inject(CurrentTransitionService);
-
-  @HostBinding('class.window-overlayed')
-  get overlayed() {
-    return this.isOverlayed();
-  }
 
   protected readonly loggedIn$ = this.#auth.loggedIn$;
   protected readonly isOverlayed = this.getOverlayedSignal();

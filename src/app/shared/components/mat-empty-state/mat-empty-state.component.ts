@@ -2,7 +2,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   booleanAttribute,
   input,
   numberAttribute,
@@ -27,6 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
       ]),
     ]),
   ],
+  host: {
+    '[@createBox]': '',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mat-empty-state[label][icon]',
   styleUrl: './mat-empty-state.component.scss',
@@ -35,7 +37,6 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatIconModule],
 })
 export class MatEmptyStateComponent {
-  @HostBinding('@createBox') protected createBox = true;
   public label = input.required<string>();
   public icon = input.required<string>();
   public description = input<string>();

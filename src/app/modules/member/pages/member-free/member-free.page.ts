@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostBinding, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -39,9 +39,6 @@ import { tableRowAnimation } from '@shared/animations';
 export class MemberFreePage {
   readonly #memberService = inject(MemberService);
   readonly #championship$ = getRouteData<Championship>('championship');
-
-  @HostBinding('@tableRowAnimation')
-  protected tableRowAnimation = '';
 
   public readonly roles = inject(RoleService).list();
   public role$ = new BehaviorSubject(this.roles[0]!);

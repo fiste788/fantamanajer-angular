@@ -2,7 +2,6 @@
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
-  HostBinding,
   booleanAttribute,
   input,
   model,
@@ -42,6 +41,9 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   standalone: true,
+  host: {
+    '[@lineupDisposition]': '',
+  },
   imports: [
     MatFormFieldModule,
     PlayerImageComponent,
@@ -54,7 +56,6 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  @HostBinding('@lineupDisposition') protected lineupDisposition = '';
   public member = model<Member>();
   public name = input.required<string>();
   public disabled = input(false, { transform: booleanAttribute });

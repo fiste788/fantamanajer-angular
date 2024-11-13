@@ -2,7 +2,6 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  HostBinding,
   NgZone,
   OnDestroy,
   OnInit,
@@ -49,6 +48,9 @@ interface Block {
 @Directive({
   selector: '[appRellax]',
   standalone: true,
+  host: {
+    '[style.will-change]': 'transform',
+  },
 })
 export class RellaxDirective implements OnInit, OnDestroy {
   readonly #document = inject<Document>(DOCUMENT);
@@ -58,10 +60,6 @@ export class RellaxDirective implements OnInit, OnDestroy {
   readonly #el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #ngZone = inject(NgZone);
 
-  @HostBinding('style.will-change')
-  public will = 'transform';
-
-  // @HostBinding('style.transform') transform = 'translate3d(0,0,0)';
   public speed = input(-3, { transform: numberAttribute });
   public center = input(false, { transform: booleanAttribute });
   public percentage = input(0, { transform: numberAttribute });

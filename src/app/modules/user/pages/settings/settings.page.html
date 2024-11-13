@@ -1,6 +1,9 @@
 <div class="flex-container">
   @if (user$ | async; as user) {
-  <form ngForm>
+  <form
+    ngForm
+    @cardCreationAnimation
+  >
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>

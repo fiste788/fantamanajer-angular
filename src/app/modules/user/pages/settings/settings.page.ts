@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostBinding, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -37,9 +37,6 @@ export class SettingsPage {
   readonly #auth = inject(AuthenticationService);
   readonly #userService = inject(UserService);
   readonly #pushService = inject(PushService);
-
-  @HostBinding('@cardCreationAnimation')
-  public a = '';
 
   protected readonly user$ = this.#auth.requireUser$;
   protected readonly push$ = this.#pushService.isSubscribed();
