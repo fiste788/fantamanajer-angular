@@ -9,11 +9,12 @@ import tseslint from 'typescript-eslint';
 // Allows us to bring in the recommended rules for Angular projects from angular-eslint
 import angular from 'angular-eslint';
 
-import { fixupPluginRules } from '@eslint/compat';
-
-import rxjs from 'eslint-plugin-rxjs';
+import rxjsX from 'eslint-plugin-rxjs-x';
 
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+
+// @ts-ignore
+import importPlugin from 'eslint-plugin-import';
 
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
@@ -24,11 +25,9 @@ export default tseslint.config(
     files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {
-        project: 'tsconfig.json',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
-    },
-    plugins: {
-      rxjs: fixupPluginRules(rxjs),
     },
     extends: [
       // Apply the recommended core rules
@@ -40,12 +39,26 @@ export default tseslint.config(
       // Apply the recommended Angular rules
       ...angular.configs.tsRecommended,
 
+      rxjsX.configs.recommended,
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
+
       eslintPluginUnicorn.configs['flat/recommended'],
       eslintPluginPrettierRecommended,
     ],
     // Set the custom processor which will allow us to have our inline Component templates extracted
     // and treated as if they are HTML files (and therefore have the .html config below applied to them)
     processor: angular.processInlineTemplates,
+    settings: {
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
+    },
     // Override specific rules for TypeScript files (these will take priority over the extended configs above)
     rules: {
       '@angular-eslint/component-class-suffix': [
@@ -208,12 +221,12 @@ export default tseslint.config(
       ],
       'prefer-object-spread': 'error',
       'prefer-template': 'error',
-      'rxjs/no-async-subscribe': 'error',
-      'rxjs/no-ignored-observable': 'error',
-      'rxjs/no-ignored-subscription': 'warn',
-      'rxjs/no-nested-subscribe': 'error',
-      'rxjs/no-unbound-methods': 'error',
-      'rxjs/throw-error': 'error',
+      'rxjs-x/no-async-subscribe': 'error',
+      'rxjs-x/no-ignored-observable': 'error',
+      'rxjs-x/no-ignored-subscription': 'warn',
+      'rxjs-x/no-nested-subscribe': 'error',
+      'rxjs-x/no-unbound-methods': 'error',
+      'rxjs-x/throw-error': 'error',
       'sort-keys': 'off',
       'space-in-parens': ['error', 'never'],
       'unicorn/filename-case': 'error',
@@ -226,6 +239,12 @@ export default tseslint.config(
     // Everything in this config object targets our HTML files (external templates,
     // and inline templates as long as we have the `processor` set on our TypeScript config above)
     files: ['**/*.html'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     extends: [
       // Apply the recommended Angular template rules
       ...angular.configs.templateRecommended,
