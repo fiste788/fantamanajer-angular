@@ -123,7 +123,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       return min;
     }
 
-    return num >= max ? max : num;
+    return Math.min(num, max);
   }
 
   public init(): void {
@@ -240,7 +240,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       const delimiter = trimmedStyle.indexOf(';');
 
       // Remove "transform" string and save the attribute
-      transform = trimmedStyle.slice(11, delimiter >= 0 ? delimiter : undefined);
+      transform = trimmedStyle.slice(11, delimiter === -1 ? undefined : delimiter);
       transform = ` ${transform}`.replaceAll(/\s/g, '');
     }
 
@@ -313,8 +313,8 @@ export class RellaxDirective implements OnInit, OnDestroy {
       this.#du = this.deferredUpdate.bind(this);
       // Don't animate until we get a position updating event
       window.addEventListener('resize', this.#du);
-      window.addEventListener('orientationchange', this.#du);
-      (this.#options.wrapper ?? window).addEventListener('scroll', this.#du, {
+      globalThis.addEventListener('orientationchange', this.#du);
+      (this.#options.wrapper ?? globalThis).addEventListener('scroll', this.#du, {
         passive: true,
       });
       (this.#options.wrapper ?? document).addEventListener('touchmove', this.#du, {
@@ -344,20 +344,20 @@ export class RellaxDirective implements OnInit, OnDestroy {
       // Check if a min limit is defined
       if (this.#options.min) {
         if (this.#options.vertical && !this.#options.horizontal) {
-          positionY = positionY <= this.#options.min ? this.#options.min : positionY;
+          positionY = Math.max(positionY, this.#options.min);
         }
         if (this.#options.horizontal && !this.#options.vertical) {
-          positionX = positionX <= this.#options.min ? this.#options.min : positionX;
+          positionX = Math.max(positionX, this.#options.min);
         }
       }
 
       // Check if a max limit is defined
       if (this.#options.max) {
         if (this.#options.vertical && !this.#options.horizontal) {
-          positionY = positionY >= this.#options.max ? this.#options.max : positionY;
+          positionY = Math.min(positionY, this.#options.max);
         }
         if (this.#options.horizontal && !this.#options.vertical) {
-          positionX = positionX >= this.#options.max ? this.#options.max : positionX;
+          positionX = Math.min(positionX, this.#options.max);
         }
       }
 

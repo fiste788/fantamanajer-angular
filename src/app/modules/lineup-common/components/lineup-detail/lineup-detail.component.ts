@@ -100,6 +100,6 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
   }
 
   protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
-    return a.key < b.key ? b.key : a.key;
+    return Math.max(a.key, b.key);
   }
 }

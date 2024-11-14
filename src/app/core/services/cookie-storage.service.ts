@@ -191,7 +191,9 @@ export class CookieStorage implements Storage {
     this.setItem(name, '', { expires: expiresDate, path, domain, secure, sameSite });
   }
 
-  public clear(): void {}
+  public clear(): void {
+    void 0;
+  }
 
   public key(_index: number): string | null {
     return null;

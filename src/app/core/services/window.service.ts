@@ -12,7 +12,7 @@ import { WindowRef } from './native-window.service';
 @Injectable({ providedIn: 'root' })
 export class BrowserWindowRef extends WindowRef {
   override get nativeWindow(): Window | object {
-    return window;
+    return globalThis;
   }
 }
 

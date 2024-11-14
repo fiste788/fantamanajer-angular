@@ -174,7 +174,7 @@ export class SelectionComponent {
   }
 
   protected descOrder(a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number {
-    return a.key.id < b.key.id ? b.key.id : a.key.id;
+    return Math.max(a.key.id, b.key.id);
   }
 
   protected reset(): void {
