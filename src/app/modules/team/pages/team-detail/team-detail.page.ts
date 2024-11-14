@@ -21,7 +21,6 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   animations: [trigger('contextChange', routerTransition)],
   styleUrl: './team-detail.page.scss',
   templateUrl: './team-detail.page.html',
-  standalone: true,
   imports: [
     ParallaxHeaderComponent,
     MatButtonModule,

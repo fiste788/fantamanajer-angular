@@ -12,7 +12,6 @@ import { ApplicationService } from '@app/services';
 
 @Component({
   selector: 'app-bottom-bar',
-  standalone: true,
   imports: [
     MatToolbarModule,
     MatIcon,

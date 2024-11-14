@@ -26,7 +26,6 @@ type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
   styleUrl: './module-area.component.scss',
   templateUrl: './module-area.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  standalone: true,
   imports: [
     NgClass,
     StickyDirective,

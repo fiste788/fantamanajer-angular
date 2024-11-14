@@ -15,51 +15,55 @@
         #rellax
         appRellax
       >
-        @if(backgroundImage(); as _backgroundImage) {
-        <img
-          fill
-          priority
-          ngSrcset="600w, 1280w, 1920w"
-          [ngSrc]="_backgroundImage | srcset: true"
-          [loaderParams]="_backgroundImage"
-          [style.background-image]="placeholder()"
-          [alt]="_title"
-          (load)="imageLoad()"
-        >
+        @if (backgroundImage(); as _backgroundImage) {
+          <img
+            fill
+            ngSrcset="600w, 1280w, 1920w"
+            priority
+            [alt]="_title"
+            [loaderParams]="_backgroundImage"
+            [ngSrc]="_backgroundImage | srcset: true"
+            [style.background-image]="placeholder()"
+            (load)="imageLoad()"
+          />
         } @else {
-        <div class="placeholder">
-          <span>{{_title}}</span>
-        </div>
+          <div class="placeholder">
+            <span>{{ _title }}</span>
+          </div>
         }
       </div>
     </div>
     <div class="parallax-header-title-container">
       @if (image(); as _image) {
-      <img
-        [width]="width()"
-        [height]="height()"
-        priority
-        disableOptimizedSrcset
-        [alt]="_title"
-        [ngSrc]="_image"
-        [style.viewTransitionName]="'avatar-' + _title"
-      >
+        <img
+          disableOptimizedSrcset
+          priority
+          [alt]="_title"
+          [height]="height()"
+          [ngSrc]="_image"
+          [style.viewTransitionName]="'avatar-' + _title"
+          [width]="width()"
+        />
       }
       <div class="parallax-header-title">
         <a
           class="anchor"
-          name="tab"
           id="tab"
-        >Anchor</a>
+          name="tab"
+          >Anchor</a
+        >
         <h1
           class="mat-headline-4 title"
           [style.viewTransitionName]="'title-' + _title"
-        >{{_title}}</h1>
+        >
+          {{ _title }}
+        </h1>
         <div class="subtitle">
           @if (subtitle(); as _subtitle) {
-          <p class="mat-subtitle-2">{{_subtitle}}
-            <ng-content select="subtitle" />
-          </p>
+            <p class="mat-subtitle-2">
+              {{ _subtitle }}
+              <ng-content select="subtitle" />
+            </p>
           }
         </div>
       </div>
@@ -71,26 +75,24 @@
   </div>
 
   @if (tabs.length) {
-  <nav
-    mat-tab-nav-bar
-    [tabPanel]="tabPanel()"
-  >
-    @for (tab of tabs(); track track($index, tab)) {
-
-    @if (!tab.hidden) {
-    <a
-      #rla="routerLinkActive"
-      mat-tab-link
-      routerLinkActive
-      fragment="tab"
-      [active]="rla.isActive"
-      [routerLink]="tab.link"
+    <nav
+      mat-tab-nav-bar
+      [tabPanel]="tabPanel()"
     >
-      {{tab.label}}
-    </a>
-    }
-
-    }
-  </nav>
+      @for (tab of tabs(); track track($index, tab)) {
+        @if (!tab.hidden) {
+          <a
+            #rla="routerLinkActive"
+            fragment="tab"
+            mat-tab-link
+            routerLinkActive
+            [active]="rla.isActive"
+            [routerLink]="tab.link"
+          >
+            {{ tab.label }}
+          </a>
+        }
+      }
+    </nav>
   }
 </div>

@@ -1,57 +1,55 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (app.team$ | async; as team) {
-<mat-toolbar>
-  @if(photo$ | async; as photo) {
-  <mat-toolbar-row>
-    <img
-      [ngSrc]="photo"
-      priority
-      width="245"
-      height="138"
-      alt="Logo"
-    />
-  </mat-toolbar-row>
-  }
-  <mat-toolbar-row>
-    @if ((auth.user$ | async)?.teams; as teams) {
-    <mat-form-field appearance="fill">
-      <mat-select
-        aria-label="Squadra selezionata"
-        panelClass="teams-panel"
-        [compareWith]="compareFn"
-        [ngModel]="team"
-        (ngModelChange)="change($event)"
-      >
-        @if (team) {
-        <mat-select-trigger>
-          <h3>{{team.name}}</h3>
-        </mat-select-trigger>
-        }
-        @for (_team of teams; track _team.id) {
-        <mat-option [value]="_team">
-          {{_team.name}}<br />
-          <small>{{_team.championship.season.name}}</small>
-        </mat-option>
-        }
-      </mat-select>
-      @if(team === teams[0]) {
-      <button
-        aria-label="Settings"
-        mat-icon-button
-        matSuffix
-        type="button"
-        (click)="openDialog($event, team)"
-      >
-        <mat-icon>settings</mat-icon>
-      </button>
-      }
-      <mat-hint>
-        <span>{{team.championship.season.name}}</span>
-      </mat-hint>
-    </mat-form-field>
-
+  <mat-toolbar>
+    @if (photo$ | async; as photo) {
+      <mat-toolbar-row>
+        <img
+          alt="Logo"
+          height="138"
+          priority
+          width="245"
+          [ngSrc]="photo"
+        />
+      </mat-toolbar-row>
     }
-
-  </mat-toolbar-row>
-</mat-toolbar>
+    <mat-toolbar-row>
+      @if ((auth.user$ | async)?.teams; as teams) {
+        <mat-form-field appearance="fill">
+          <mat-select
+            aria-label="Squadra selezionata"
+            panelClass="teams-panel"
+            [compareWith]="compareFn"
+            [ngModel]="team"
+            (ngModelChange)="change($event)"
+          >
+            @if (team) {
+              <mat-select-trigger>
+                <h3>{{ team.name }}</h3>
+              </mat-select-trigger>
+            }
+            @for (_team of teams; track _team.id) {
+              <mat-option [value]="_team">
+                {{ _team.name }}<br />
+                <small>{{ _team.championship.season.name }}</small>
+              </mat-option>
+            }
+          </mat-select>
+          @if (team === teams[0]) {
+            <button
+              aria-label="Settings"
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="openDialog($event, team)"
+            >
+              <mat-icon>settings</mat-icon>
+            </button>
+          }
+          <mat-hint>
+            <span>{{ team.championship.season.name }}</span>
+          </mat-hint>
+        </mat-form-field>
+      }
+    </mat-toolbar-row>
+  </mat-toolbar>
 }

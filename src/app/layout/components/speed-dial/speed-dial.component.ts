@@ -16,7 +16,6 @@ import { SeasonActiveDirective } from '@shared/directives';
   selector: 'app-speed-dial',
   styleUrl: './speed-dial.component.scss',
   templateUrl: './speed-dial.component.html',
-  standalone: true,
   imports: [
     EcoFabSpeedDialComponent,
     EcoFabSpeedDialTriggerComponent,

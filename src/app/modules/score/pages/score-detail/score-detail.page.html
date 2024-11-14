@@ -4,13 +4,12 @@
   <div>
     @if (regular$ | async; as regular) {
     <app-disposition-list
+      regular
       [caption]="'Punteggio: ' + (score.points | number)"
       [dispositions]="regular"
       [lineup]="score.lineup"
-      regular
     />
-    }
-    @if (notRegular$ | async; as notRegular) {
+    } @if (notRegular$ | async; as notRegular) {
     <app-disposition-list
       caption="Panchinari"
       [dispositions]="notRegular"

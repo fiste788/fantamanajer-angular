@@ -16,7 +16,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 @Component({
   animations: [cardCreationAnimation],
   templateUrl: './article-list.page.html',
-  standalone: true,
   imports: [
     MatCardModule,
     MatButtonModule,

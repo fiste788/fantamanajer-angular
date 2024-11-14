@@ -19,7 +19,6 @@ import { LineupService } from '../lineup.service';
   styleUrl: './lineup-options.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  standalone: true,
   imports: [
     MatCardModule,
     MatFormFieldModule,

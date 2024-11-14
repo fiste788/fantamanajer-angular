@@ -13,7 +13,6 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
   animations: [],
   styleUrl: './club-list.page.scss',
   templateUrl: './club-list.page.html',
-  standalone: true,
   imports: [
     MatCardModule,
     MatButtonModule,

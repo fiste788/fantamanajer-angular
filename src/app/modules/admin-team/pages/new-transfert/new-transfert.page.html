@@ -1,7 +1,7 @@
 @if (team$ | async; as team) {
 <form
   #transfertForm="ngForm"
-  class="flex flex-col justify-start items-start"
+  class="flex flex-col items-start justify-start"
   (ngSubmit)="submit(team, transfertForm)"
 >
   <mat-form-field>
@@ -35,12 +35,15 @@
   <mat-slide-toggle
     name="constrained"
     [(ngModel)]="transfert.constrained"
-  >Obbligato</mat-slide-toggle>
+    >Obbligato</mat-slide-toggle
+  >
   <button
     color="accent"
     mat-flat-button
     type="submit"
     [disabled]="!transfertForm.form.valid"
-  >SALVA</button>
+  >
+    SALVA
+  </button>
 </form>
 }

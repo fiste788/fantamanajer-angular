@@ -19,7 +19,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 @Component({
   styleUrl: './lineup-last.page.scss',
   templateUrl: './lineup-last.page.html',
-  standalone: true,
   imports: [
     FormsModule,
     MemberAlreadySelectedValidator,

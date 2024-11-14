@@ -33,7 +33,6 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-mat-empty-state[label][icon]',
   styleUrl: './mat-empty-state.component.scss',
   templateUrl: './mat-empty-state.component.html',
-  standalone: true,
   imports: [MatIconModule],
 })
 export class MatEmptyStateComponent {

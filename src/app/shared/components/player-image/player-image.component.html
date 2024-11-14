@@ -1,11 +1,11 @@
 @let _member = member();
 <img
-  height="256"
-  width="181"
-  priority
   disableOptimizedSrcset
+  height="256"
+  priority
+  width="181"
   [alt]="_member?.player?.full_name"
-  [ngSrc]="'/public/svg/clubs.svg' + (_member ? ('#club-' + _member?.club_id) : '')"
-  [class.mat-card-image]="inCard()"
   [class.fade-in]="_member !== null"
+  [class.mat-card-image]="inCard()"
+  [ngSrc]="'/public/svg/clubs.svg' + (_member ? '#club-' + _member?.club_id : '')"
 />

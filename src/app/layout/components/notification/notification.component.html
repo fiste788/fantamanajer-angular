@@ -1,31 +1,30 @@
-@if ((stream$ | async); as stream) {
-
-<div
-  @createBox
-  *appSeasonActive
->
-  <button
-    #button
-    aria-label="open"
-    mat-icon-button
-    type="button"
+@if (stream$ | async; as stream) {
+  <div
+    *appSeasonActive
+    @createBox
   >
-    <mat-icon
-      aria-hidden="false"
-      matBadgeColor="accent"
-      matBadgeOverlap="true"
-      matBadgePosition="above after"
-      matBadgeSize="small"
-      [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
-      [matBadgeHidden]="stream.unseen === 0"
-    >notifications</mat-icon>
-    @defer(on interaction(button)) {
-    <app-notification-list
-      [origin]="buttonRef()"
-      #notificationList
-    />
-    }
-  </button>
-</div>
-
+    <button
+      #button
+      aria-label="open"
+      mat-icon-button
+      type="button"
+    >
+      <mat-icon
+        aria-hidden="false"
+        matBadgeColor="accent"
+        matBadgeOverlap="true"
+        matBadgePosition="above after"
+        matBadgeSize="small"
+        [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
+        [matBadgeHidden]="stream.unseen === 0"
+        >notifications</mat-icon
+      >
+      @defer (on interaction(button)) {
+        <app-notification-list
+          #notificationList
+          [origin]="buttonRef()"
+        />
+      }
+    </button>
+  </div>
 }

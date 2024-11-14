@@ -8,7 +8,6 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
   templateUrl: './team-stream.page.html',
-  standalone: true,
   imports: [StreamComponent, AsyncPipe],
 })
 export class TeamStreamPage {

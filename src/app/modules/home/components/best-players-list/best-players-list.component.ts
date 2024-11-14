@@ -8,7 +8,6 @@ import { Member } from '@data/types';
 
 @Component({
   selector: 'app-best-players-list',
-  standalone: true,
   imports: [MatExpansionModule, MatListModule, RouterLink, DecimalPipe],
   templateUrl: './best-players-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

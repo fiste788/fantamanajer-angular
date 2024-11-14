@@ -1,8 +1,7 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  @include mat.core;
-  @include mat.core-base($theme);
+  @include mat.elevation-classes;
   @include mat.badge-base($theme);
   @include mat.button-base($theme);
   @include mat.card-base($theme);
@@ -32,7 +31,7 @@
 }
 
 @mixin color($theme) {
-  @include mat.core-color($theme);
+  @include mat.app-background;
   @include mat.badge-color($theme);
   @include mat.button-color($theme);
   @include mat.fab-color($theme);
@@ -66,7 +65,6 @@
 }
 
 @mixin density($theme) {
-  @include mat.core-density($theme);
   @include mat.badge-density($theme);
   @include mat.button-density($theme);
   @include mat.fab-density($theme);
@@ -96,7 +94,6 @@
 }
 
 @mixin typography($theme) {
-  @include mat.core-typography($theme);
   @include mat.badge-typography($theme);
   @include mat.button-typography($theme);
   @include mat.fab-typography($theme);

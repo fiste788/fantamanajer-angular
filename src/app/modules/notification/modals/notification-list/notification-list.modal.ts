@@ -20,7 +20,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
   selector: 'app-notification-overlay',
   styleUrl: './notification-list.modal.scss',
   templateUrl: './notification-list.modal.html',
-  standalone: true,
   imports: [
     MatListModule,
     MatIconModule,

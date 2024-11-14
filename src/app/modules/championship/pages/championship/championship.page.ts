@@ -9,7 +9,6 @@ import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.
 
 @Component({
   templateUrl: './championship.page.html',
-  standalone: true,
   imports: [ToolbarTabComponent, AsyncPipe],
 })
 export class ChampionshipPage {

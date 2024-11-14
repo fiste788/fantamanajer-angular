@@ -21,7 +21,6 @@ import { SeasonActiveDirective } from '@shared/directives';
 @Component({
   animations: [tableRowAnimation],
   templateUrl: './transfert-list.page.html',
-  standalone: true,
   imports: [
     MatTableModule,
     MatSortModule,

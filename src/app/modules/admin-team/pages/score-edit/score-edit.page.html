@@ -19,8 +19,8 @@
     @if ((score$ | async); as score) {
     <form
       #scoreForm="ngForm"
-      class="flex-container"
       appMemberAlreadySelected
+      class="flex-container"
       (ngSubmit)="save(score, scoreForm, lineupDetail.getLineup())"
     >
       <mat-card appearance="outlined">
@@ -34,12 +34,13 @@
             step="0.5"
             type="number"
             [(ngModel)]="score.points"
-          >
+          />
         </mat-form-field>
         <mat-slide-toggle
           name="penality"
           [(ngModel)]="penality"
-        >Penalità</mat-slide-toggle>
+          >Penalità</mat-slide-toggle
+        >
         @if (penality) {
         <div>
           <mat-form-field>
@@ -51,7 +52,7 @@
               step="0.5"
               type="number"
               [(ngModel)]="score.penality_points"
-            >
+            />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Motivazione penalità</mat-label>
@@ -60,7 +61,7 @@
               name="penality"
               placeholder="Motivazione penalità"
               [(ngModel)]="score.penality"
-            >
+            />
           </mat-form-field>
         </div>
         }
@@ -76,7 +77,9 @@
           color="accent"
           mat-flat-button
           type="submit"
-        >Salva</button>
+        >
+          Salva
+        </button>
       </app-lineup-detail>
     </form>
     } @else {

@@ -19,7 +19,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 @Component({
   animations: [listItemAnimation],
   templateUrl: './passkey-list.page.html',
-  standalone: true,
   imports: [
     MatIconModule,
     MatListModule,

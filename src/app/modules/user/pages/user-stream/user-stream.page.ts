@@ -7,7 +7,6 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
   templateUrl: './user-stream.page.html',
-  standalone: true,
   imports: [StreamComponent, AsyncPipe],
 })
 export class UserStreamPage {

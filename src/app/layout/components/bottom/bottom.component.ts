@@ -19,7 +19,6 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 @Component({
   animations: [closeAnimation],
   selector: 'app-bottom',
-  standalone: true,
   imports: [SpeedDialComponent, BottomBarComponent],
   templateUrl: './bottom.component.html',
   styleUrl: './bottom.component.scss',

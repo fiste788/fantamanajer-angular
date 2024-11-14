@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-4 md:gap-6 lg:gap-8">
+<div class="grid grid-cols-1 grid-rows-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
   @for (club of clubs(); track club.id; let i = $index) {
   <mat-card appearance="outlined">
     <figure
@@ -15,13 +15,13 @@
           #listImg
           class="card-img"
           height="337"
+          ngSrcset="600w, 1280w"
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
-          ngSrcset="600w, 1280w"
-          [ngSrc]="club.background_url | srcset: true"
           [alt]="club.name"
           [loaderParams]="club.background_url"
-        >
+          [ngSrc]="club.background_url | srcset: true"
+        />
       </a>
       } @else {
 
@@ -40,15 +40,17 @@
     <mat-card-header>
       <img
         class="club-header-image"
-        loading="lazy"
         height="40"
-        width="40"
+        loading="lazy"
         mat-card-avatar
+        width="40"
         [alt]="club.name"
         [ngSrc]="club.photo_url || ''"
         [style.viewTransitionName]="'avatar-' + club.name"
+      />
+      <mat-card-title [style.viewTransitionName]="'title-' + club.name"
+        >{{club.name}}</mat-card-title
       >
-      <mat-card-title [style.viewTransitionName]="'title-' + club.name">{{club.name}}</mat-card-title>
       <mat-card-subtitle>Club</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
@@ -56,14 +58,15 @@
         color="primary"
         mat-button
         [routerLink]="[club.id, 'players']"
-      >DETTAGLI</a>
+        >DETTAGLI</a
+      >
       <a
         color="primary"
         mat-button
         [routerLink]="[club.id, 'stream']"
-      >ATTIVITÀ</a>
+        >ATTIVITÀ</a
+      >
     </mat-card-actions>
   </mat-card>
   }
-
 </div>

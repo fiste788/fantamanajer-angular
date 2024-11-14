@@ -33,7 +33,6 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [cardCreationAnimation],
-  standalone: true,
   imports: [
     LineupOptionsComponent,
     FormsModule,

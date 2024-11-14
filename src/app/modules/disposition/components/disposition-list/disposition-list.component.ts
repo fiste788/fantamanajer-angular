@@ -17,7 +17,6 @@ import { CaptainPipe } from '@shared/pipes';
   selector: 'app-disposition-list[caption]',
   styleUrl: './disposition-list.component.scss',
   templateUrl: './disposition-list.component.html',
-  standalone: true,
   imports: [
     MatTableModule,
     MatIconModule,

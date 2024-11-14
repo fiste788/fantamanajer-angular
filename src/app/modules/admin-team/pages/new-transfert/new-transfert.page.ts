@@ -19,7 +19,6 @@ import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/con
 
 @Component({
   templateUrl: './new-transfert.page.html',
-  standalone: true,
   imports: [
     FormsModule,
     MatFormFieldModule,

@@ -1,6 +1,4 @@
-@if (team$ | async; as team) {
-
-@if ((data$ | async); as data) {
+@if (team$ | async; as team) { @if ((data$ | async); as data) {
 <form
   #lineupForm="ngForm"
   (ngSubmit)="save(team, data.dispositions, lineupForm)"
@@ -17,7 +15,9 @@
     color="accent"
     mat-flat-button
     type="submit"
-  >SALVA</button>
+  >
+    SALVA
+  </button>
 </form>
 } @else {
 
@@ -26,6 +26,4 @@
   mode="indeterminate"
 />
 
-}
-
-}
+} }

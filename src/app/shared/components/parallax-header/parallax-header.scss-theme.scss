@@ -28,6 +28,7 @@
 
       --mdc-icon-button-icon-color: #{mat.get-theme-color($dark-theme, on-surface)};
     }
+
     @keyframes gradient {
       0% {
         background-position: 0 180px;
@@ -49,7 +50,6 @@
 @mixin theme($theme) {
   @include mat.private-check-duplicate-theme-styles($theme, 'parallax-header') {
     @include base($theme);
-
     @include color($theme);
     @include density($theme);
     @include typography($theme);

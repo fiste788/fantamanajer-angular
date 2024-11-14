@@ -36,7 +36,6 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   selector: 'app-main',
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
-  standalone: true,
   imports: [
     MatSidenavModule,
     NavbarComponent,

@@ -29,9 +29,7 @@
   @include mat.private-check-duplicate-theme-styles($theme, 'form') {
     @include base($theme);
     @include color($theme);
-
     @include density($theme);
-
     @include typography($theme);
   }
 }

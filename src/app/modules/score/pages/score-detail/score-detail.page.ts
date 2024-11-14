@@ -14,7 +14,6 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 @Component({
   styleUrl: './score-detail.page.scss',
   templateUrl: './score-detail.page.html',
-  standalone: true,
   imports: [
     DispositionListComponent,
     MatEmptyStateComponent,

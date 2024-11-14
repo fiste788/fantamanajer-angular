@@ -1,190 +1,205 @@
 @if (dataSource) {
-<h2>{{caption()}}</h2>
-<mat-card appearance="outlined">
-  <table
-    #table
-    mat-table
-    [dataSource]="dataSource"
-    @tableRowAnimation
-    [trackBy]="trackDisposition"
-  >
-    <ng-container
-      matColumnDef="player"
-      sticky
+  <h2>{{ caption() }}</h2>
+  <mat-card appearance="outlined">
+    <table
+      #table
+      mat-table
+      @tableRowAnimation
+      [dataSource]="dataSource"
+      [trackBy]="trackDisposition"
     >
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      > Giocatore </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
+      <ng-container
+        matColumnDef="player"
+        sticky
       >
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Giocatore
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (regular() && row.consideration === 0) {
+            <mat-icon>arrow_back</mat-icon>
+          }
+          @if (!regular && row.consideration === 1) {
+            <mat-icon>arrow_forward</mat-icon>
+          }
+          @if (row.consideration === 2) {
+            <mat-icon>copyright</mat-icon>
+          }
 
-        @if (regular() && row.consideration === 0) {
-        <mat-icon>arrow_back</mat-icon>
-        }
-        @if (!regular && row.consideration === 1) {
-        <mat-icon>arrow_forward</mat-icon>
-        }
-        @if (row.consideration === 2) {
-        <mat-icon>copyright</mat-icon>
-        }
+          <a [routerLink]="['/players', row.member.player.id]">{{ row.member.player.full_name }}</a>
+          @if (lineup()) {
+            <span>&nbsp;{{ row.member.id | captain: lineup()! }}</span>
+          }
+        </td>
+      </ng-container>
 
-        <a [routerLink]="['/players',row.member.player.id]">{{row.member.player.full_name}}</a>
-        @if (lineup()) {
-        <span>&nbsp;{{row.member.id | captain: lineup()!}}</span>
-        }
+      <ng-container matColumnDef="role">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Ruolo
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.member.role.abbreviation }}
+        </td>
+      </ng-container>
 
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="club">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Club
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          <a [routerLink]="['/clubs', row.member.club.id]">{{ row.member.club.name }}</a>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="role">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      > Ruolo </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >{{row.member.role.abbreviation}}</td>
-    </ng-container>
+      <ng-container matColumnDef="regular">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          <span
+            matTooltip="Titolare"
+            matTooltipPosition="above"
+            >Tit</span
+          >
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.member.ratings.length && row.member.ratings[0].regular) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="club">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      > Club </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
+      <ng-container matColumnDef="yellow-card">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          <span
+            class="yellow-card"
+            matTooltip="Ammonizioni"
+            matTooltipPosition="above"
+          ></span>
+        </th>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Amm
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.member.ratings.length && row.member.ratings[0].yellow_card) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="red-card">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          <span
+            class="red-card"
+            matTooltip="Espulsioni"
+            matTooltipPosition="above"
+          ></span>
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.member.ratings.length && row.member.ratings[0].red_card) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="assist">
+        <th
+          *matHeaderCellDef
+          class="mat-cell-numeric"
+          mat-header-cell
+        >
+          Assist
+        </th>
+        <td
+          *matCellDef="let row"
+          class="mat-cell-numeric"
+          mat-cell
+        >
+          {{ row.member.ratings.length ? row.member.ratings[0].assist : '' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="goals">
+        <th
+          *matHeaderCellDef
+          class="mat-cell-numeric"
+          mat-header-cell
+        >
+          Gol
+        </th>
+        <td
+          *matCellDef="let row"
+          class="mat-cell-numeric"
+          mat-cell
+        >
+          {{ row.member.ratings.length ? row.member.ratings[0].goals : '' }}
+        </td>
+      </ng-container>
+
+      <ng-container
+        matColumnDef="points"
+        stickyEnd
       >
-        <a [routerLink]="['/clubs',row.member.club.id]">{{row.member.club.name}}</a>
-      </td>
-    </ng-container>
+        <th
+          *matHeaderCellDef
+          class="mat-cell-numeric"
+          mat-header-cell
+        >
+          Punti
+        </th>
+        <td
+          *matCellDef="let row"
+          class="mat-cell-numeric"
+          mat-cell
+        >
+          {{ row.points * (regular() ? row.consideration : 1) | number }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="regular">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        <span
-          matTooltip="Titolare"
-          matTooltipPosition="above"
-        >Tit</span>
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.member.ratings.length && row.member.ratings[0].regular) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="yellow-card">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        <span
-          class="yellow-card"
-          matTooltip="Ammonizioni"
-          matTooltipPosition="above"
-        ></span>
-      </th>
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      > Amm </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.member.ratings.length && row.member.ratings[0].yellow_card) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="red-card">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        <span
-          class="red-card"
-          matTooltip="Espulsioni"
-          matTooltipPosition="above"
-        ></span>
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.member.ratings.length && row.member.ratings[0].red_card) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="assist">
-      <th
-        *matHeaderCellDef
-        class="mat-cell-numeric"
-        mat-header-cell
-      > Assist </th>
-      <td
-        *matCellDef="let row;"
-        class="mat-cell-numeric"
-        mat-cell
-      >
-        {{row.member.ratings.length ? row.member.ratings[0].assist : ''}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="goals">
-      <th
-        *matHeaderCellDef
-        class="mat-cell-numeric"
-        mat-header-cell
-      > Gol </th>
-      <td
-        *matCellDef="let row;"
-        class="mat-cell-numeric"
-        mat-cell
-      >
-        {{row.member.ratings.length ? row.member.ratings[0].goals : ''}}
-      </td>
-    </ng-container>
-
-    <ng-container
-      matColumnDef="points"
-      stickyEnd
-    >
-      <th
-        *matHeaderCellDef
-        class="mat-cell-numeric"
-        mat-header-cell
-      > Punti </th>
-      <td
-        *matCellDef="let row;"
-        class="mat-cell-numeric"
-        mat-cell
-      >
-        {{(row.points * (regular() ? row.consideration : 1)) | number}}
-      </td>
-    </ng-container>
-
-    <tr
-      *matHeaderRowDef="displayedColumns; sticky: true"
-      mat-header-row
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: displayedColumns;"
-      mat-row
-    ></tr>
-  </table>
-</mat-card>
+      <tr
+        *matHeaderRowDef="displayedColumns; sticky: true"
+        mat-header-row
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns"
+        mat-row
+      ></tr>
+    </table>
+  </mat-card>
 }

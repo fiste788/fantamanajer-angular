@@ -1,5 +1,5 @@
 <div
-  class="login flex flex-col flex-wrap justify-around items-center"
+  class="login flex flex-col flex-wrap items-center justify-around"
   @cardCreationAnimation
 >
   <mat-card appearance="outlined">
@@ -26,27 +26,26 @@
                 required
                 type="email"
                 [(ngModel)]="loginData.email"
-              >
+              />
               @if (username.errors?.['email']) {
-              <mat-error>
-                Please enter a valid email address
-              </mat-error>
-              }
-              @if (username.errors?.['required']) {
+              <mat-error> Please enter a valid email address </mat-error>
+              } @if (username.errors?.['required']) {
               <mat-error>
                 Email is
                 <strong>required</strong>
               </mat-error>
               }
             </mat-form-field>
-            <div class="items-end align-end">
+            <div class="align-end items-end">
               <button
                 color="accent"
                 mat-flat-button
                 matStepperNext
                 type="submit"
                 [disabled]="username.errors !== null"
-              >Avanti</button>
+              >
+                Avanti
+              </button>
             </div>
           </form>
         </mat-step>
@@ -56,15 +55,15 @@
             (ngSubmit)="f.valid && login()"
           >
             <input
-              placeholder="Email"
               autocomplete="username"
               class="username"
               name="email"
+              placeholder="Email"
               readonly
               required
               type="email"
               [(ngModel)]="loginData.email"
-            >
+            />
             <mat-form-field>
               <mat-label>Password</mat-label>
               <input
@@ -76,11 +75,9 @@
                 required
                 type="password"
                 [(ngModel)]="loginData.password"
-              >
+              />
               @if (password.errors) {
-              <mat-error>
-                {{password.errors['msg']}}
-              </mat-error>
+              <mat-error> {{password.errors['msg']}} </mat-error>
               }
             </mat-form-field>
 
@@ -91,12 +88,16 @@
                 matStepperPrevious
                 type="reset"
                 (click)="reset()"
-              >Cambia account</button>
+              >
+                Cambia account
+              </button>
               <button
                 color="accent"
                 mat-flat-button
                 type="submit"
-              >Accedi</button>
+              >
+                Accedi
+              </button>
             </div>
           </form>
         </mat-step>

@@ -3,14 +3,14 @@
   class="options"
 >
   <mat-card-header>
-    <mat-card-title>Giornata {{lineup().matchday?.number}}</mat-card-title>
+    <mat-card-title>Giornata {{ lineup().matchday?.number }}</mat-card-title>
     @if (lineup().modified_at) {
-    <mat-card-subtitle>Aggiornata il: {{lineup().modified_at | date: 'dd/MM HH:mm'}}
-    </mat-card-subtitle>
+      <mat-card-subtitle
+        >Aggiornata il: {{ lineup().modified_at | date: 'dd/MM HH:mm' }}
+      </mat-card-subtitle>
     }
   </mat-card-header>
   <mat-card-content>
-
     <mat-form-field class="module">
       <mat-label>Modulo</mat-label>
       <mat-select
@@ -22,61 +22,61 @@
         (selectionChange)="lineupService.moduleChange()"
       >
         @for (m of lineupService.modules; track m.key) {
-        <mat-option [value]="m">{{m.label}}</mat-option>
+          <mat-option [value]="m">{{ m.label }}</mat-option>
         }
       </mat-select>
       @if (module.errors?.['Expired']) {
-      <mat-error>
-        {{module.errors?.['Expired']}}
-      </mat-error>
+        <mat-error>
+          {{ module.errors?.['Expired'] }}
+        </mat-error>
       }
       @if (module.errors?.['MissingPlayer']) {
-      <mat-error>
-        {{module.errors?.['MissingPlayer']}}
-      </mat-error>
+        <mat-error>
+          {{ module.errors?.['MissingPlayer'] }}
+        </mat-error>
       }
     </mat-form-field>
-    @if(jolly()) {
-    <mat-checkbox
-      name="jolly"
-      [disabled]="disabled()"
-      [attr.value]="true"
-      [(ngModel)]="lineup().jolly"
-    >Jolly</mat-checkbox>
-    @if (module.errors?.['JollyAlreadyUsed']) {
-    <mat-error>
-      {{module.errors?.['JollyAlreadyUsed']}}
-    </mat-error>
+    @if (jolly()) {
+      <mat-checkbox
+        name="jolly"
+        [attr.value]="true"
+        [disabled]="disabled()"
+        [(ngModel)]="lineup().jolly"
+        >Jolly</mat-checkbox
+      >
+      @if (module.errors?.['JollyAlreadyUsed']) {
+        <mat-error>
+          {{ module.errors?.['JollyAlreadyUsed'] }}
+        </mat-error>
+      }
     }
+    @if (captain()) {
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          @for (captain of lineupService.captains | keyvalue; track captain.key) {
+            <mat-form-field>
+              <mat-label>{{ captain.key }}</mat-label>
+              <mat-select
+                [disabled]="disabled()"
+                [name]="captain.key"
+                [placeholder]="captain.key"
+                [(ngModel)]="lineup()[captain.value]"
+                (selectionChange)="lineupService.captainSelectionChange()"
+              >
+                @for (c of lineupService.captainables; track c.member.id) {
+                  <mat-option
+                    [disabled]="c.disabled"
+                    [value]="c.member.id"
+                    >{{ c.member.player.full_name }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          }
+        </ng-template>
+      </mat-expansion-panel>
     }
-    @if(captain()) {
-    <mat-expansion-panel class="mat-elevation-z0">
-      <mat-expansion-panel-header>Capitani</mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        @for (captain of (lineupService.captains | keyvalue); track captain.key) {
-        <mat-form-field>
-          <mat-label>{{captain.key}}</mat-label>
-          <mat-select
-            [disabled]="disabled()"
-            [name]="captain.key"
-            [placeholder]="captain.key"
-            [(ngModel)]="lineup()[captain.value]"
-            (selectionChange)="lineupService.captainSelectionChange()"
-          >
-            @for (c of lineupService.captainables; track c.member.id) {
-            <mat-option
-              [disabled]="c.disabled"
-              [value]="c.member.id"
-            >{{c.member.player.full_name}}
-            </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        }
-      </ng-template>
-    </mat-expansion-panel>
-    }
-
   </mat-card-content>
   <mat-divider />
   <mat-card-actions>

@@ -29,7 +29,6 @@
 @mixin theme($theme) {
   @include mat.private-check-duplicate-theme-styles($theme, 'layout') {
     @include base($theme);
-
     @include color($theme);
     @include density($theme);
     @include typography($theme);

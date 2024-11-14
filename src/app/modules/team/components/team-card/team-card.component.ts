@@ -10,7 +10,6 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-team-card',
-  standalone: true,
   imports: [
     MatCardModule,
     MatButtonModule,

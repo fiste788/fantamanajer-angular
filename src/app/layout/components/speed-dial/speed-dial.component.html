@@ -1,6 +1,6 @@
 <eco-fab-speed-dial
-  class="tertiary-fab"
   animationMode="scale"
+  class="tertiary-fab"
   [direction]="direction()"
   [fixed]="false"
   [(open)]="openSpeeddial"
@@ -13,8 +13,8 @@
       [extended]="extended()"
     >
       <mat-icon class="spin360">add</mat-icon>
-      @if(extended()) {
-      Aggiungi
+      @if (extended()) {
+        Aggiungi
       }
     </button>
   </eco-fab-speed-dial-trigger>
@@ -24,9 +24,9 @@
       *appSeasonActive
       class="mat-accent"
       mat-mini-fab
-      title="Inserisci formazione"
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
+      title="Inserisci formazione"
       type="button"
       (click)="navigate('/lineups/new')"
     >

@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   IMAGE_LOADER,
   ImageLoaderConfig,
@@ -8,16 +10,20 @@ import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/
 import localeIt from '@angular/common/locales/it';
 import {
   ApplicationConfig,
-  ENVIRONMENT_INITIALIZER,
   inject,
   importProvidersFrom,
   isDevMode,
   PLATFORM_ID,
   provideZoneChangeDetection,
   LOCALE_ID,
+  provideEnvironmentInitializer,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
+import {
+  provideClientHydration,
+  withEventReplay,
+  withHttpTransferCacheOptions,
+} from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
@@ -60,7 +66,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideClientHydration(withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true })),
+    provideClientHydration(
+      withEventReplay(),
+      withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
+    ),
     provideHttpClient(
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
@@ -79,26 +88,6 @@ export const appConfig: ApplicationConfig = {
       },
     },
     {
-      provide: ENVIRONMENT_INITIALIZER,
-      multi: true,
-      useValue() {
-        const pwa = inject(PwaService);
-        const push = inject(PushService);
-        // const theme = inject(ThemeService);
-
-        inject(ApplicationService).connect();
-        inject(MetaService).connect();
-        inject(BreadcrumbService).connect('FantaManajer');
-        inject(IconService).init();
-        void inject(LayoutService).init().subscribe();
-        if (isPlatformBrowser(inject(PLATFORM_ID))) {
-          pwa.connect();
-          push.connect();
-          // theme.connect();
-        }
-      },
-    },
-    {
       provide: LOCALE_ID,
       useValue: 'it-IT',
     },
@@ -109,6 +98,22 @@ export const appConfig: ApplicationConfig = {
       },
     },
     // globalErrorHandlerProvider,
+    provideEnvironmentInitializer(() => {
+      const pwa = inject(PwaService);
+      const push = inject(PushService);
+      // const theme = inject(ThemeService);
+
+      inject(ApplicationService).connect();
+      inject(MetaService).connect();
+      inject(BreadcrumbService).connect('FantaManajer');
+      inject(IconService).init();
+      void inject(LayoutService).init().subscribe();
+      if (isPlatformBrowser(inject(PLATFORM_ID))) {
+        pwa.connect();
+        push.connect();
+        // theme.connect();
+      }
+    }),
     appInitializerProvider,
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,

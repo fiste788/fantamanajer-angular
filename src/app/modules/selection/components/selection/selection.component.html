@@ -1,87 +1,93 @@
 <h3>Selezione giocatori</h3>
-<p>Quì è possibile selezionare il giocatore che si vuole acquistare. Se il giocatore risulta già selezionato da
-  una squadra inferiore alla tua in classifica allora riceverai un messaggio di errore. Al contrario il giocatore
-  sarà selezionato per la tua squadra.<br />Se successivamento il proprietario di una squadra inferiore alla tua
-  seleziona il tuo stesso giocatore perderai la priorità e una notifica ti avviserà dell'accaduto in modo che tu possa
-  selezionare un nuovo giocatore.<br />I trasferimenti saranno eseguiti nella nottata del giorno di inizio della
-  giornata (ad esempio se la giornata è il 25/12 saranno attivi dalle ore 02:00 del 25/12).<br />Se il giocatore
-  svincolato è già stato schierato in formazione verrà sostituito automaticamente con il nuovo giocatore.<br />E'
-  possibile cambiare il giocatore selezionato 2 volte.</p>
-@if ((data$ | async); as data) {
-<form
-  #selectionForm="ngForm"
-  (ngSubmit)="save(data.selection)"
->
-  <div class="row">
-    <mat-form-field>
-      <mat-label>Vecchio giocatore</mat-label>
-      <mat-select
-        name="old_member"
-        placeholder="Vecchio giocatore"
-        required
-        [compareWith]="compareFn"
-        [(ngModel)]="data.selection.old_member"
-        (selectionChange)="oldMemberChange($event.value)"
-      >
-        @if (data.members; as members;) {
-
-        @for (role of (members | keyvalue: descOrder); track role.key.id) {
-        <mat-optgroup
-          [disabled]="(newMemberRoleSubject$ | async) && role.key.id !== (newMemberRoleSubject$ | async)?.id"
-          [label]="role.key.plural"
+<p>
+  Quì è possibile selezionare il giocatore che si vuole acquistare. Se il giocatore risulta già
+  selezionato da una squadra inferiore alla tua in classifica allora riceverai un messaggio di
+  errore. Al contrario il giocatore sarà selezionato per la tua squadra.<br />Se successivamento il
+  proprietario di una squadra inferiore alla tua seleziona il tuo stesso giocatore perderai la
+  priorità e una notifica ti avviserà dell'accaduto in modo che tu possa selezionare un nuovo
+  giocatore.<br />I trasferimenti saranno eseguiti nella nottata del giorno di inizio della giornata
+  (ad esempio se la giornata è il 25/12 saranno attivi dalle ore 02:00 del 25/12).<br />Se il
+  giocatore svincolato è già stato schierato in formazione verrà sostituito automaticamente con il
+  nuovo giocatore.<br />E' possibile cambiare il giocatore selezionato 2 volte.
+</p>
+@if (data$ | async; as data) {
+  <form
+    #selectionForm="ngForm"
+    (ngSubmit)="save(data.selection)"
+  >
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Vecchio giocatore</mat-label>
+        <mat-select
+          name="old_member"
+          placeholder="Vecchio giocatore"
+          required
+          [compareWith]="compareFn"
+          [(ngModel)]="data.selection.old_member"
+          (selectionChange)="oldMemberChange($event.value)"
         >
-          @for (member of role.value; track member.id) {
-          <mat-option [value]="member">{{ member.player.full_name }}</mat-option>
+          @if (data.members; as members) {
+            @for (role of members | keyvalue: descOrder; track role.key.id) {
+              <mat-optgroup
+                [disabled]="
+                  (newMemberRoleSubject$ | async) &&
+                  role.key.id !== (newMemberRoleSubject$ | async)?.id
+                "
+                [label]="role.key.plural"
+              >
+                @for (member of role.value; track member.id) {
+                  <mat-option [value]="member">{{ member.player.full_name }}</mat-option>
+                }
+              </mat-optgroup>
+            }
           }
-        </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nuovo giocatore</mat-label>
+        <mat-select
+          #newMember="ngModel"
+          name="new_member"
+          placeholder="Nuovo giocatore"
+          required
+          [compareWith]="compareFn"
+          [disabled]="newMemberDisabled"
+          [(ngModel)]="data.selection.new_member"
+        >
+          @for (member of newMembers$ | async; track member.id) {
+            <mat-option [value]="member">
+              {{ member.player.full_name }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (newMember.errors?.['TeamReachedMaximum']) {
+          <mat-error>
+            {{ newMember.errors?.['TeamReachedMaximum'] }}
+          </mat-error>
         }
-
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Nuovo giocatore</mat-label>
-      <mat-select
-        #newMember="ngModel"
-        name="new_member"
-        placeholder="Nuovo giocatore"
-        required
-        [compareWith]="compareFn"
-        [disabled]="newMemberDisabled"
-        [(ngModel)]="data.selection.new_member"
+      </mat-form-field>
+    </div>
+    <div class="row center">
+      <button
+        color="accent"
+        mat-flat-button
+        type="submit"
+        [disabled]="!selectionForm.form.valid"
       >
-        @for (member of (newMembers$ | async); track member.id) {
-        <mat-option [value]="member">
-          {{ member.player.full_name }}
-        </mat-option>
-        }
-      </mat-select>
-      @if (newMember.errors?.['TeamReachedMaximum']) {
-      <mat-error>
-        {{newMember.errors?.['TeamReachedMaximum']}}
-      </mat-error>
-      }
-    </mat-form-field>
-  </div>
-  <div class="row center">
-    <button
-      color="accent"
-      mat-flat-button
-      type="submit"
-      [disabled]="!selectionForm.form.valid"
-    >SALVA</button>
-    <button
-      mat-flat-button
-      type="reset"
-      (click)="reset()"
-    >SVUOTA</button>
-  </div>
-</form>
+        SALVA
+      </button>
+      <button
+        mat-flat-button
+        type="reset"
+        (click)="reset()"
+      >
+        SVUOTA
+      </button>
+    </div>
+  </form>
 } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }

@@ -1,13 +1,13 @@
 @if(tabs$ | async; as tabs) {
 <app-toolbar-tab
-  [tabs]="tabs"
   fragment="tab"
+  [tabs]="tabs"
 >
   <div class="animation-container">
     <app-parallax-header
       contextParam="team_id"
-      [placeholder]="placeholder"
       [backgroundImage]="team().photo_url ?? undefined"
+      [placeholder]="placeholder"
       [subtitle]="team().user.name + ' ' + team().user.surname"
       [title]="team().name"
       (imageLoaded)="scrollTo($event)"

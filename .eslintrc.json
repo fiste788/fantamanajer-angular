@@ -76,6 +76,7 @@
           }
         ],
         "@angular-eslint/no-attribute-decorator": "error",
+        "@angular-eslint/prefer-standalone": "off",
         "@angular-eslint/no-forward-ref": "error",
         "@angular-eslint/no-lifecycle-call": "error",
         "@angular-eslint/no-pipe-impure": "error",
@@ -324,10 +325,10 @@
             "allowBindToStyle": true
           }
         ],
-        "@angular-eslint/template/attributes-order": "off",
+        "@angular-eslint/template/attributes-order": "error",
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/no-call-expression": "off",
-        "@angular-eslint/template/prefer-ngsrc": "off",
+        "@angular-eslint/template/prefer-ngsrc": "warn",
         "@angular-eslint/template/cyclomatic-complexity": [
           "warn",
           {

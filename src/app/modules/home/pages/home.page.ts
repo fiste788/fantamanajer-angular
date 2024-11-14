@@ -21,7 +21,6 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
-  standalone: true,
   imports: [
     MatCardModule,
     PlayerImageComponent,

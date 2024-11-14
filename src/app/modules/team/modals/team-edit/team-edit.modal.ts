@@ -23,7 +23,6 @@ export interface TeamEditModalData {
   animations: [createBoxAnimation],
   styleUrl: './team-edit.modal.scss',
   templateUrl: './team-edit.modal.html',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatFormFieldModule,

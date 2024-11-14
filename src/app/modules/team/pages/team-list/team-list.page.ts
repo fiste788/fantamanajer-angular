@@ -5,9 +5,7 @@ import { TeamCardComponent } from '@modules/team/components/team-card/team-card.
 
 @Component({
   animations: [],
-  styleUrl: './team-list.page.scss',
   templateUrl: './team-list.page.html',
-  standalone: true,
   imports: [TeamCardComponent],
 })
 export class TeamListPage {

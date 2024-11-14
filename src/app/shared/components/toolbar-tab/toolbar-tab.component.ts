@@ -24,7 +24,6 @@ import { StatePipe } from '@shared/pipes';
   selector: 'app-toolbar-tab',
   templateUrl: './toolbar-tab.component.html',
   styleUrl: './toolbar-tab.component.scss',
-  standalone: true,
   imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
 })
 export class ToolbarTabComponent implements OnDestroy {
