@@ -3,7 +3,7 @@ name = "fantamanajer-angular-dev"
 compatibility_date = "2024-09-25"
 main = "./dist/server/server.mjs"
 assets = { directory = "./dist/browser", binding = "ASSETS", not_found_handling = "single-page-application" }
-services = [{ binding = "API", service = "reverse-proxy-fantamanajer" }]
+services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
 routes = [{ pattern = "c3.fantamanajer.it", custom_domain = true }]
 upload_source_maps = true
 
