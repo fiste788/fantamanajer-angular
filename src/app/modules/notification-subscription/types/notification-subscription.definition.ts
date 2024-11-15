@@ -2,9 +2,10 @@ import { NotificationSubscriptionsKeys } from '@data/types';
 
 import { Notification } from './notification';
 
-export const notificationSubscriptions: {
-  [K in NotificationSubscriptionsKeys]: Array<Notification>;
-} = {
+export const notificationSubscriptions: Record<
+  NotificationSubscriptionsKeys,
+  Array<Notification>
+> = {
   email: [
     { name: 'score', label: 'Punteggio giornata' },
     { name: 'lost_member', label: 'Giocatore rubato' },

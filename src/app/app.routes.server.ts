@@ -1,6 +1,6 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
-export const serverRoutes: Array<ServerRoute> = [
+export default [
   {
     path: '**',
     renderMode: RenderMode.Server,
@@ -9,4 +9,4 @@ export const serverRoutes: Array<ServerRoute> = [
     path: '/clubs',
     renderMode: RenderMode.Prerender,
   },
-];
+] satisfies Array<ServerRoute>;

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-async-lifecycle-method */
 import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';

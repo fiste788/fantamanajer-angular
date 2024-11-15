@@ -184,13 +184,13 @@ export default tseslint.config(
       complexity: [
         'error',
         {
-          max: 20,
+          max: 22,
         },
       ],
       'default-case': 'error',
       'max-lines': ['error', 400],
       'new-parens': 'error',
-      'newline-per-chained-call': 'error',
+      'newline-per-chained-call': 'off',
       'no-constant-condition': 'error',
       'no-duplicate-case': 'error',
       'no-duplicate-imports': 'error',

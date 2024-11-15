@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-null */
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,

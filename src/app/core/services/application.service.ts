@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, Injectable, inject, provideAppInitializer } from '@angular/core';
 import {

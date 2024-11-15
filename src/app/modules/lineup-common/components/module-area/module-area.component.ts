@@ -13,7 +13,7 @@ export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
 };
 
 type MarkFunctionPropertyNames<Component> = {
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   [Key in keyof Component]: Component[Key] extends Function | Subject<unknown> ? never : Key;
 };
 
