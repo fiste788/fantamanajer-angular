@@ -12,9 +12,10 @@ import {
   importProvidersFrom,
   isDevMode,
   PLATFORM_ID,
-  provideZoneChangeDetection,
   LOCALE_ID,
   provideEnvironmentInitializer,
+  provideZoneChangeDetection,
+  provideExperimentalCheckNoChangesForDebug,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
@@ -22,7 +23,7 @@ import {
   withEventReplay,
   withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -68,11 +69,12 @@ export const appConfig: ApplicationConfig = {
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
     ),
+    provideExperimentalCheckNoChangesForDebug({ interval: 1 }),
     provideHttpClient(
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
     ),
-    provideAnimationsAsync(),
+    provideAnimations(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',

@@ -1,7 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-// @use "@angular/flex-layout/mq";
 @mixin base($theme) {
   .mat-mdc-card {
     overflow-y: hidden;

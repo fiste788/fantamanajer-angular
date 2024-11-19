@@ -1,67 +1,67 @@
 @if (!ds.isEmpty) {
-<cdk-virtual-scroll-viewport
-  class="viewport"
-  itemSize="88"
-  scrollWindow
->
-  <mat-list @listItemAnimation>
-    <ng-container *cdkVirtualFor="let activity of ds; templateCacheSize: 0; trackBy: trackList">
-      @if (activity) {
-      <mat-list-item>
-        <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
-        <h3 matListItemTitle>{{ activity.title }}</h3>
-        <span
-          matListItemLine
-          [title]="activity.time | date: 'dd/MM/y HH:mm'"
-        >
-          {{ activity.humanTime }}
-        </span>
-        <span matListItemLine> {{ activity.body }} </span>
-      </mat-list-item>
-      } @else {
-      <content-loader
-        [backgroundColor]="skeletonColors().background"
-        [foregroundColor]="skeletonColors().foreground"
-        [viewBox]="'0 0 ' + width + ' 88'"
-      >
-        <svg:rect
-          height="15"
-          rx="3"
-          ry="3"
-          width="100%"
-          x="66"
-          y="17"
-        />
-        <svg:rect
-          height="10"
-          rx="3"
-          ry="3"
-          width="30%"
-          x="66"
-          y="42"
-        />
-        <svg:rect
-          height="10"
-          rx="3"
-          ry="3"
-          width="80%"
-          x="66"
-          y="62"
-        />
-        <svg:circle
-          cx="33"
-          cy="44"
-          r="20"
-        />
-      </content-loader>
-      }
-    </ng-container>
-  </mat-list>
-</cdk-virtual-scroll-viewport>
+  <cdk-virtual-scroll-viewport
+    class="viewport"
+    itemSize="88"
+    scrollWindow
+  >
+    <mat-list @listItemAnimation>
+      <ng-container *cdkVirtualFor="let activity of ds; templateCacheSize: 0; trackBy: trackList">
+        @if (activity) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
+            <h3 matListItemTitle>{{ activity.title }}</h3>
+            <span
+              matListItemLine
+              [title]="activity.time | date: 'dd/MM/y HH:mm'"
+            >
+              {{ activity.humanTime }}
+            </span>
+            <span matListItemLine> {{ activity.body }} </span>
+          </mat-list-item>
+        } @else {
+          <content-loader
+            [backgroundColor]="skeletonColors().background"
+            [foregroundColor]="skeletonColors().foreground"
+            [viewBox]="'0 0 ' + width + ' 88'"
+          >
+            <svg:rect
+              height="15"
+              rx="3"
+              ry="3"
+              width="100%"
+              x="66"
+              y="17"
+            />
+            <svg:rect
+              height="10"
+              rx="3"
+              ry="3"
+              width="30%"
+              x="66"
+              y="42"
+            />
+            <svg:rect
+              height="10"
+              rx="3"
+              ry="3"
+              width="80%"
+              x="66"
+              y="62"
+            />
+            <svg:circle
+              cx="33"
+              cy="44"
+              r="20"
+            />
+          </content-loader>
+        }
+      </ng-container>
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
 }
 @if (ds.isEmpty) {
-<app-mat-empty-state
-  icon="message"
-  label="Ancora nessuna attività"
-/>
+  <app-mat-empty-state
+    icon="message"
+    label="Ancora nessuna attività"
+  />
 }

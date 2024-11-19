@@ -14,7 +14,7 @@
     "importHelpers": true,
     "isolatedModules": true,
     "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "noImplicitOverride": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
