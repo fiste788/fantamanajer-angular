@@ -139,6 +139,7 @@ export default tseslint.config(
           ],
         },
       ],
+      '@typescript-eslint/no-deprecated': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-extraneous-class': [
         'error',
