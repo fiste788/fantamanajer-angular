@@ -60,6 +60,7 @@
     "strictContextGenerics": true,
     "strictLiteralTypes": true,
     "strictAttributeTypes": true,
+    "strictStandalone": true,
     "disableTypeScriptVersionCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "extendedDiagnostics": {
