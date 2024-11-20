@@ -2,11 +2,11 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export default [
   {
-    path: '**',
-    renderMode: RenderMode.Server,
+    path: 'clubs',
+    renderMode: RenderMode.Prerender,
   },
   {
-    path: '/clubs',
-    renderMode: RenderMode.Prerender,
+    path: '**',
+    renderMode: RenderMode.Server,
   },
 ] satisfies Array<ServerRoute>;
