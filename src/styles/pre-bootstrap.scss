@@ -1,4 +1,3 @@
-@use '@angular/material-experimental' as matx;
 @use '@angular/material' as mat;
 @use './themes/color' as color;
 
@@ -12,10 +11,6 @@ $dark-theme: mat.define-theme(
     color: color.$dark-color,
   )
 );
-
-body {
-  margin: 0;
-}
 
 .pre-bootstrap {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,

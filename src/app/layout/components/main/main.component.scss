@@ -31,6 +31,7 @@ app-toolbar {
   display: flex;
   flex-direction: column;
   overflow: visible;
+  opacity: 1 !important;
 }
 
 main {
@@ -74,5 +75,9 @@ main {
 
   .mat-drawer-content {
     margin-left: 18rem;
+
+    .mat-drawer-content-hidden {
+      opacity: 0 !important;
+    }
   }
 }

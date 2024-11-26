@@ -1,5 +1,5 @@
-@let isTablet = isTablet$ | async;
-@let isHandset = isHandset$ | async;
+@let isTablet = (isTablet$ | async)!;
+@let isHandset = (isHandset$ | async)!;
 @let isOpen = isOpen$ | async;
 @let isScrolled = isScrolled$ | async;
 @let showedToolbar = showedToolbar$ | async;
@@ -7,6 +7,7 @@
   <mat-sidenav
     #drawer
     fixedInViewport="true"
+    [attr.isHandset]="isHandset"
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [autoFocus]="false"
     [mode]="isHandset ? 'over' : isTablet && isOpen ? 'over' : 'side'"

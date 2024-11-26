@@ -77,13 +77,11 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   constructor() {
     afterNextRender(() => {
-      this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
       this.#setupScrollAnimation(this.#window);
     });
   }
 
   public ngAfterViewInit(): void {
-    // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
     this.#subscriptions.add(this.#initDrawer().subscribe());
     this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
     this.#changeRef.detectChanges();
