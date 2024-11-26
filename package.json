@@ -19,8 +19,8 @@
     "bundle-report": "webpack-bundle-analyzer dist/fantamanajer-angular/stats.json",
     "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
     "serve:ssr:fantamanajer-angular": "node dist/server/server.mjs",
-    "process": "node ./tools/copy-files.mjs && npm run type-check",
-    "build": "ng build && npm run process",
+    "process": "node ./tools/copy-files.mjs",
+    "build": "npm run type-check && ng build && npm run process",
     "deploy": "npm run build && wrangler pages deploy --branch fear-angular19bis dist/cloudflare",
     "type-check": "wrangler types --experimental-include-runtime && tsc"
   },
