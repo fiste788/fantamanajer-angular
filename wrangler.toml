@@ -4,9 +4,3 @@ compatibility_date = "2023-11-22"
 pages_build_output_dir = "dist/cloudflare"
 services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
 upload_source_maps = true
-
-# Workers Logs
-# Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
-# Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
-[observability]
-enabled = true
