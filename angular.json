@@ -28,7 +28,13 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/public", "src/favicon.ico", "src/robots.txt", "src/_headers"],
+            "assets": [
+              "src/public",
+              "src/favicon.ico",
+              "src/robots.txt",
+              "src/_headers",
+              "src/_routes.json"
+            ],
             "styles": [
               {
                 "input": "src/styles/pre-bootstrap.scss",
