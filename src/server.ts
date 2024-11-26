@@ -4,8 +4,8 @@ import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
 
 interface Env {
-  ASSETS: { fetch: typeof fetch };
-  API?: { fetch: typeof fetch };
+  ASSETS: Fetcher;
+  API?: Fetcher;
 }
 
 function setServerAuthentication(body: ServerAuthInfo) {
@@ -19,25 +19,25 @@ function setServerAuthentication(body: ServerAuthInfo) {
   return response;
 }
 
-const bootstrap = {
-  async fetch(request: Request, env: Env, ctx: unknown): Promise<Response> {
-    const url = new URL(request.url);
-    if (url.pathname.startsWith('/api/')) {
-      return env.API?.fetch(request) ?? new Response();
-    }
+const angularApp = new AngularAppEngine();
 
-    if (url.pathname.startsWith('/localdata/setsession')) {
-      return setServerAuthentication((await request.json()) as ServerAuthInfo);
-    }
+const reqHandler = async (request: Request, env: Env, ctx: unknown): Promise<Response> => {
+  const url = new URL(request.url);
+  if (url.pathname.startsWith('/api/')) {
+    return env.API?.fetch(request) ?? new Response();
+  }
 
-    if (url.pathname.startsWith('/localdata/logout')) {
-      return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
-    }
+  if (url.pathname.startsWith('/localdata/setsession')) {
+    return setServerAuthentication(await request.json());
+  }
 
-    const response = await new AngularAppEngine().handle(request, ctx);
+  if (url.pathname.startsWith('/localdata/logout')) {
+    return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
+  }
 
-    return response ?? env.ASSETS.fetch(request);
-  },
+  const res = await angularApp.handle(request, ctx);
+
+  return res ?? new Response('Page not found.', { status: 404 });
 };
 
-export default bootstrap;
+export default { fetch: reqHandler } satisfies ExportedHandler<Env>;

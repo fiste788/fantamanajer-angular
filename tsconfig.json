@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "noImplicitOverride": true,
@@ -44,7 +45,10 @@
         "src/app/shared/*"
       ]
     },
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "types": [
+      "./.wrangler/types/runtime.d.ts"
+    ]
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,

@@ -19,9 +19,10 @@
     "bundle-report": "webpack-bundle-analyzer dist/fantamanajer-angular/stats.json",
     "build-sw": "ngsw-config dist/fantamanajer-angular ngsw-config.json",
     "serve:ssr:fantamanajer-angular": "node dist/server/server.mjs",
-    "process": "node ./tools/copy-files.mjs && node ./tools/alter-polyfills.mjs",
+    "process": "node ./tools/copy-files.mjs",
     "build": "ng build && npm run process",
-    "deploy": "npm run build && wrangler pages deploy --project-name fantamanajer-angular-ssr dist/cloudflare"
+    "deploy": "npm run build && wrangler pages deploy --branch fear-angular19bis dist/cloudflare",
+    "type-check": "wrangler types --experimental-include-runtime && tsc"
   },
   "private": true,
   "dependencies": {
@@ -39,7 +40,7 @@
     "@angular/platform-server": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@angular/service-worker": "^19.0.0",
-    "@angular/ssr": "^19.0.0",
+    "@angular/ssr": "^19.0.2",
     "@auth0/angular-jwt": "^5.2.0",
     "@ecodev/fab-speed-dial": "^17.0.0",
     "@github/webauthn-json": "^2.1.1",
@@ -52,23 +53,22 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^18.0.0",
-    "@angular-devkit/build-angular": "^19.0.0",
-    "@angular/cli": "^19.0.0",
+    "@angular-devkit/build-angular": "^19.0.2",
+    "@angular/cli": "^19.0.2",
     "@angular/compiler-cli": "^19.0.0",
-    "@cloudflare/workers-types": "^4.20241112.0",
-    "@relative-ci/agent": "^4.2.13",
+    "@relative-ci/agent": "^4.2.14",
     "@types/html-minifier": "^4.0.5",
     "@types/jasmine": "5.1.4",
-    "@types/node": "^22.9.1",
-    "angular-eslint": "18.4.0",
+    "@types/node": "^20.8.3",
+    "angular-eslint": "18.4.2",
     "eslint": "^9.15.0",
     "eslint-config-angular-strict": "^1.1.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-rxjs-x": "^0.2.4",
-    "eslint-plugin-unicorn": "56.0.0",
+    "eslint-plugin-rxjs-x": "^0.4.0",
+    "eslint-plugin-unicorn": "56.0.1",
     "html-minifier": "^4.0.0",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.4",
@@ -76,19 +76,22 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "stylelint": "^16.10.0",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-prettier": "^5.0.2",
-    "stylelint-scss": "^6.9.0",
+    "stylelint-scss": "^6.10.0",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "8.14.0",
-    "wrangler": "^3.88.0"
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.15.0",
+    "wrangler": "^3.90.0"
   },
   "volta": {
     "node": "22.11.0"
+  },
+  "overrides": {
+    "@types/node": "20.8.3"
   }
 }
