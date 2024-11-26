@@ -11,7 +11,7 @@
       placeholder="Nome squadra"
       required
       [(ngModel)]="team.name"
-    >
+    />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Email</mat-label>
@@ -22,17 +22,20 @@
       required
       type="email"
       [(ngModel)]="email"
-    >
+    />
   </mat-form-field>
   <mat-slide-toggle
     name="admin"
     [(ngModel)]="team.admin"
-  >Amministratore lega</mat-slide-toggle>
+    >Amministratore lega</mat-slide-toggle
+  >
   <button
     color="accent"
     mat-flat-button
     type="submit"
     [disabled]="!teamForm.form.valid"
-  >SALVA</button>
+  >
+    SALVA
+  </button>
 </form>
 }

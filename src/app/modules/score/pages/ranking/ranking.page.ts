@@ -17,7 +17,6 @@ import { tableRowAnimation } from '@shared/animations';
   animations: [tableRowAnimation],
   styleUrl: './ranking.page.scss',
   templateUrl: './ranking.page.html',
-  standalone: true,
   imports: [
     MatTableModule,
     RouterLink,

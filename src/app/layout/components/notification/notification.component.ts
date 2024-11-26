@@ -23,7 +23,6 @@ import { SeasonActiveDirective } from '@shared/directives';
   animations: [createBoxAnimation],
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatIconModule,

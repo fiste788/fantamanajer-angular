@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/attributes-order -->
 <div
   class="mat-mdc-dialog-container mdc-dialog cdk-dialog-container mdc-dialog--open"
   [@openOverlayAnimation]="animationState"
@@ -10,23 +9,25 @@
       <h3
         class="mat-mdc-dialog-title title"
         mat-dialog-title
-      >Notifiche</h3>
+      >
+        Notifiche
+      </h3>
       <div
         class="content mat-mdc-dialog-content"
         cdkScrollable
       >
-        @if ((stream$ | async); as stream) {
-
-        @if (stream.results.length) {
+        @if ((stream$ | async); as stream) { @if (stream.results.length) {
         <mat-list @listItemAnimation>
           @for (activity of stream.results; track $index) {
           <mat-list-item>
             <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
-            <h3 matListItemTitle> {{activity.title}} </h3>
+            <h3 matListItemTitle>{{activity.title}}</h3>
             <span
               matListItemLine
               [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-            > {{activity.humanTime}} </span>
+            >
+              {{activity.humanTime}}
+            </span>
             <span matListItemLine> {{activity.body}} </span>
           </mat-list-item>
           }
@@ -38,9 +39,7 @@
           label="Nessuna notifica presente"
         />
 
-        }
-
-        } @else {
+        } } @else {
 
         <mat-progress-spinner
           color="accent"

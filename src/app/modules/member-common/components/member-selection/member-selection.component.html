@@ -9,12 +9,12 @@
         <app-player-image [member]="_member" />
       </div>
       @if (_member && _member.likely_lineup) {
-      <app-member-icons
-        [captain]="captain()"
-        circle
-        @createBox
-        [member]="_member"
-      />
+        <app-member-icons
+          circle
+          @createBox
+          [captain]="captain()"
+          [member]="_member"
+        />
       }
     </div>
   </div>
@@ -31,44 +31,48 @@
   >
     <mat-option [value]="undefined">{{ placeholder() }}</mat-option>
     @if (_member) {
-    <mat-select-trigger>
-      {{ _member?.player?.full_name }}
-    </mat-select-trigger>
-    } @if (memberList().length) {
-    @for (opt of memberList(); track opt.member.id) {
-    <mat-option
-      [disabled]="opt.disabled"
-      [value]="opt.member"
-    >
-      <app-member-icons [member]="opt.member" />
-    </mat-option>
+      <mat-select-trigger>
+        {{ _member?.player?.full_name }}
+      </mat-select-trigger>
     }
-    } @if (memberMap()) {
-    @for (role of (memberMap() | keyvalue); track role.key.id) {
-    <mat-optgroup [label]="role.key.plural">
-      @for (opt of role.value; track opt.member.id) {
-      <mat-option
-        [disabled]="opt.disabled"
-        [value]="opt.member"
-      >
-        <app-member-icons [member]="opt.member" />
-      </mat-option>
+    @if (memberList().length) {
+      @for (opt of memberList(); track opt.member.id) {
+        <mat-option
+          [disabled]="opt.disabled"
+          [value]="opt.member"
+        >
+          <app-member-icons [member]="opt.member" />
+        </mat-option>
       }
-    </mat-optgroup>
     }
+    @if (memberMap()) {
+      @for (role of memberMap() | keyvalue; track role.key.id) {
+        <mat-optgroup [label]="role.key.plural">
+          @for (opt of role.value; track opt.member.id) {
+            <mat-option
+              [disabled]="opt.disabled"
+              [value]="opt.member"
+            >
+              <app-member-icons [member]="opt.member" />
+            </mat-option>
+          }
+        </mat-optgroup>
+      }
     }
   </mat-select>
   @if (memberSelection.errors?.['required']) {
-  <mat-error>Seleziona il giocatore</mat-error>
+    <mat-error>Seleziona il giocatore</mat-error>
   }
   @if (_member?.stats) {
-  <mat-hint>
-    <span>Ø P.ti: {{ _member?.stats?.avg_points | number: '1.1-1' }}</span> -
-    <span>Ø Voti: {{ _member?.stats?.avg_rating | number: '1.1-1' }}</span> -
-    <span>Σ Gol:
-      {{
-      _member?.role_id !== 1 ? _member?.stats?.sum_goals : _member?.stats?.sum_goals_against
-      }}</span>
-  </mat-hint>
+    <mat-hint>
+      <span>Ø P.ti: {{ _member?.stats?.avg_points | number: '1.1-1' }}</span> -
+      <span>Ø Voti: {{ _member?.stats?.avg_rating | number: '1.1-1' }}</span> -
+      <span
+        >Σ Gol:
+        {{
+          _member?.role_id !== 1 ? _member?.stats?.sum_goals : _member?.stats?.sum_goals_against
+        }}</span
+      >
+    </mat-hint>
   }
 </mat-form-field>

@@ -1,11 +1,10 @@
-@if (dataSource$ | async; as dataSource) {
-@if (dataSource.data.length) {
+@if (dataSource$ | async; as dataSource) { @if (dataSource.data.length) {
 <mat-card appearance="outlined">
   <table
-    @tableRowAnimation
     #table
     mat-table
     matSort
+    @tableRowAnimation
     [dataSource]="dataSource"
     [trackBy]="trackTransfert"
     (matSortChange)="setSort(dataSource)"
@@ -15,12 +14,16 @@
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Vecchio giocatore </th>
+      >
+        Vecchio giocatore
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
-        <a [routerLink]="['/players', row.old_member.player.id]">{{row.old_member.player.full_name}}</a>
+        <a [routerLink]="['/players', row.old_member.player.id]"
+          >{{row.old_member.player.full_name}}</a
+        >
       </td>
     </ng-container>
 
@@ -29,12 +32,16 @@
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Nuovo giocatore </th>
+      >
+        Nuovo giocatore
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
-        <a [routerLink]="['/players', row.new_member.player.id]">{{row.new_member.player.full_name}}</a>
+        <a [routerLink]="['/players', row.new_member.player.id]"
+          >{{row.new_member.player.full_name}}</a
+        >
       </td>
     </ng-container>
 
@@ -42,7 +49,9 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Obbligato </th>
+      >
+        Obbligato
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
@@ -57,11 +66,15 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Giornata </th>
+      >
+        Giornata
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
-      >{{row.matchday.number}}</td>
+      >
+        {{row.matchday.number}}
+      </td>
     </ng-container>
 
     <tr
@@ -83,8 +96,7 @@
   [size]="330"
 />
 
-}
-} @else {
+} } @else {
 
 <mat-progress-spinner
   color="accent"

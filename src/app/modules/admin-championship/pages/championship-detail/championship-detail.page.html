@@ -5,7 +5,7 @@
       @if ((championship$ | async); as championship ) {
       <form
         #championshipForm="ngForm"
-        class="flex flex-col justify-start align-start"
+        class="align-start flex flex-col justify-start"
         (ngSubmit)="save(league, championship, championshipForm)"
       >
         <mat-form-field>
@@ -16,7 +16,7 @@
             placeholder="Nome lega"
             required
             [(ngModel)]="league.name"
-          >
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Numero max trasferimenti</mat-label>
@@ -27,7 +27,7 @@
             required
             type="number"
             [(ngModel)]="championship.number_transferts"
-          >
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Numero max cambi selezione</mat-label>
@@ -38,7 +38,7 @@
             required
             type="number"
             [(ngModel)]="championship.number_selections"
-          >
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Minuti anticipo formazione</mat-label>
@@ -49,7 +49,7 @@
             required
             type="number"
             [(ngModel)]="championship.minute_lineup"
-          >
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Percentuale formazione mancante</mat-label>
@@ -62,26 +62,31 @@
             required
             type="number"
             [(ngModel)]="championship.points_missed_lineup"
-          >
+          />
         </mat-form-field>
         <mat-slide-toggle
           name="captain"
           [(ngModel)]="championship.captain"
-        >Capitano</mat-slide-toggle>
+          >Capitano</mat-slide-toggle
+        >
         <mat-slide-toggle
           name="captain_missed_lineup"
           [(ngModel)]="championship.captain_missed_lineup"
-        >Capitano formazione mancante</mat-slide-toggle>
+          >Capitano formazione mancante</mat-slide-toggle
+        >
         <mat-slide-toggle
           name="jolly"
           [(ngModel)]="championship.jolly"
-        >Jolly</mat-slide-toggle>
+          >Jolly</mat-slide-toggle
+        >
         <button
           color="accent"
           mat-flat-button
           type="submit"
           [disabled]="!championshipForm.form.valid"
-        >SALVA</button>
+        >
+          SALVA
+        </button>
       </form>
       }
     </mat-card-content>

@@ -2,9 +2,7 @@
 /* eslint-disable unicorn/no-null */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-
-import { REQUEST } from '@app/tokens';
+import { Injectable, PLATFORM_ID, REQUEST, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -63,7 +61,7 @@ export class CookieStorage implements Storage {
       partitioned?: boolean;
     },
   ) {
-    let cookieString: string = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
+    let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
 
     if (options?.expires !== undefined) {
       const dateExpires =
@@ -191,7 +189,9 @@ export class CookieStorage implements Storage {
     this.setItem(name, '', { expires: expiresDate, path, domain, secure, sameSite });
   }
 
-  public clear(): void {}
+  public clear(): void {
+    void 0;
+  }
 
   public key(_index: number): string | null {
     return null;

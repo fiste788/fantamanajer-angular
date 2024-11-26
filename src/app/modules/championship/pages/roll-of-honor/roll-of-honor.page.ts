@@ -14,7 +14,6 @@ import { tableRowAnimation } from '@shared/animations';
 @Component({
   animations: [tableRowAnimation],
   selector: 'app-roll-of-honor',
-  standalone: true,
   imports: [
     AsyncPipe,
     DecimalPipe,

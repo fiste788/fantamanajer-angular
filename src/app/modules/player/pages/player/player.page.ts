@@ -27,7 +27,6 @@ import { LayoutService } from 'src/app/layout/services';
   animations: [tableRowAnimation, enterDetailAnimation],
   styleUrl: './player.page.scss',
   templateUrl: './player.page.html',
-  standalone: true,
   imports: [
     ParallaxHeaderComponent,
     MatButtonModule,

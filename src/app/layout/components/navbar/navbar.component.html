@@ -1,41 +1,43 @@
 <button
-  class="toggle"
   aria-label="Toggle sidenav"
+  class="toggle"
   mat-icon-button
   type="button"
   (click)="clickNav()"
 >
-  <mat-icon aria-label="Side nav toggle icon">menu{{(openedSidebar$ | async) ? '_open' : ''}}</mat-icon>
+  <mat-icon aria-label="Side nav toggle icon"
+    >menu{{ (openedSidebar$ | async) ? '_open' : '' }}</mat-icon
+  >
 </button>
 <app-profile [sidenav]="sidenav()" />
 @if ((loggedIn$ | async) && (showedSpeedDial$ | async)) {
-<app-speed-dial
-  #speedDial
-  class="speed-dial"
-  direction="down"
-  [extended]="sidenav().opened"
-/>
+  <app-speed-dial
+    #speedDial
+    class="speed-dial"
+    direction="down"
+    [extended]="sidenav().opened"
+  />
 }
 <mat-nav-list>
   @if (matchday$ | async; as matchday) {
-  <h3 mat-subheader>
-    <span>
-      @if (!matchday.season.ended && matchday.season.started ) {
-      Giornata {{matchday.number}}
-      } @else {
-      {{matchday.season.name}}
-      }
-    </span>
-  </h3>
+    <h3 mat-subheader>
+      <span>
+        @if (!matchday.season.ended && matchday.season.started) {
+          Giornata {{ matchday.number }}
+        } @else {
+          {{ matchday.season.name }}
+        }
+      </span>
+    </h3>
   }
   @if (deferredPrompt$ | async; as prompt) {
-  <a
-    href="#install"
-    mat-list-item
-    (click)="install(prompt, $event)"
-  >
-    <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
-  </a>
+    <a
+      href="#install"
+      mat-list-item
+      (click)="install(prompt, $event)"
+    >
+      <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
+    </a>
   }
   <a
     #rla1="routerLinkActive"
@@ -47,26 +49,26 @@
     <mat-icon matListItemIcon>home</mat-icon>Home
   </a>
   @if (team$ | async; as team) {
-  <a
-    #rla2="routerLinkActive"
-    mat-list-item
-    routerLinkActive
-    [activated]="rla2.isActive"
-    [routerLink]="['teams', team.id]"
-  >
-    <mat-icon matListItemIcon>groups_3</mat-icon>{{team.name}}
-  </a>
+    <a
+      #rla2="routerLinkActive"
+      mat-list-item
+      routerLinkActive
+      [activated]="rla2.isActive"
+      [routerLink]="['teams', team.id]"
+    >
+      <mat-icon matListItemIcon>groups_3</mat-icon>{{ team.name }}
+    </a>
   }
   @if (championship$ | async; as championship) {
-  <a
-    #rla3="routerLinkActive"
-    mat-list-item
-    routerLinkActive
-    [activated]="rla3.isActive"
-    [routerLink]="['championships', championship.id]"
-  >
-    <mat-icon matListItemIcon>emoji_events</mat-icon>{{championship.league.name}}
-  </a>
+    <a
+      #rla3="routerLinkActive"
+      mat-list-item
+      routerLinkActive
+      [activated]="rla3.isActive"
+      [routerLink]="['championships', championship.id]"
+    >
+      <mat-icon matListItemIcon>emoji_events</mat-icon>{{ championship.league.name }}
+    </a>
   }
   <a
     #rla4="routerLinkActive"
@@ -80,37 +82,33 @@
   <mat-divider />
   <h3 mat-subheader>Account</h3>
   @if (loggedIn$ | async) {
-
-  <a
-    #rla5="routerLinkActive"
-    mat-list-item
-    routerLink="/user"
-    routerLinkActive
-    [activated]="rla5.isActive"
-  >
-    <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
-  </a>
-  <a
-    #rla6="routerLinkActive"
-    mat-list-item
-    routerLink="/auth/logout"
-    routerLinkActive
-    [activated]="rla6.isActive"
-  >
-    <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
-  </a>
-
+    <a
+      #rla5="routerLinkActive"
+      mat-list-item
+      routerLink="/user"
+      routerLinkActive
+      [activated]="rla5.isActive"
+    >
+      <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
+    </a>
+    <a
+      #rla6="routerLinkActive"
+      mat-list-item
+      routerLink="/auth/logout"
+      routerLinkActive
+      [activated]="rla6.isActive"
+    >
+      <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
+    </a>
   } @else {
-
-  <a
-    #rla7="routerLinkActive"
-    mat-list-item
-    routerLink="/auth/login"
-    routerLinkActive
-    [activated]="rla7.isActive"
-  >
-    <mat-icon matListItemIcon>input</mat-icon>Log In
-  </a>
-
+    <a
+      #rla7="routerLinkActive"
+      mat-list-item
+      routerLink="/auth/login"
+      routerLinkActive
+      [activated]="rla7.isActive"
+    >
+      <mat-icon matListItemIcon>input</mat-icon>Log In
+    </a>
   }
 </mat-nav-list>

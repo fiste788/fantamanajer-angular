@@ -4,7 +4,7 @@ import { catchError, ObservableInput, ObservedValueOf, OperatorFunction } from '
 import { getUnprocessableEntityErrors } from './get-unprocessable-entity-errors.function';
 
 export function catchUnprocessableEntityErrors<T, O extends ObservableInput<never>>(
-  form?: NgForm | UntypedFormArray | undefined,
+  form?: NgForm | UntypedFormArray,
 ): OperatorFunction<T, ObservedValueOf<O> | T> {
   return catchError((err: unknown) => getUnprocessableEntityErrors(err, form));
 }

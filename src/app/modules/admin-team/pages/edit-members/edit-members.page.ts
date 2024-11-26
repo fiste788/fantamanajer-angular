@@ -21,7 +21,6 @@ interface Data {
 }
 @Component({
   templateUrl: './edit-members.page.html',
-  standalone: true,
   imports: [FormsModule, ModuleAreaComponent, MatButtonModule, MatProgressSpinnerModule, AsyncPipe],
 })
 export class EditMembersPage {

@@ -8,7 +8,6 @@ import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.
 @Component({
   animations: [trigger('contextChange', routerTransition)],
   templateUrl: './user.page.html',
-  standalone: true,
   imports: [ToolbarTabComponent],
 })
 export class UserPage {

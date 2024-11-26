@@ -1,18 +1,14 @@
-@if (!app.seasonEnded) {
-
-@if ((lineup$ | async); as lineup) {
-
-@if (lineup.module || editMode) {
+@if (!app.seasonEnded) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
 <form
   #lineupForm="ngForm"
-  class="flex-container"
   appMemberAlreadySelected
+  class="flex-container"
   (ngSubmit)="save(lineup, lineupForm)"
 >
   <app-lineup-detail
     #lineupDetail
-    [captain]=""
     [benchs]="benchs"
+    [captain]=""
     [disabled]="!editMode"
     [lineup]="lineup"
   >
@@ -22,7 +18,9 @@
       color="accent"
       mat-flat-button
       type="submit"
-    >Salva</button>
+    >
+      Salva
+    </button>
     }
   </app-lineup-detail>
 </form>
@@ -30,23 +28,20 @@
 
 <h3 class="subheading-1">Formazione non settata</h3>
 
-}
-} @else {
+} } @else {
 
 <mat-progress-spinner
   color="accent"
   mode="indeterminate"
 />
 
-}
-
-} @else {
+} } @else {
 
 <app-mat-empty-state
   description="Goditi l'estate e tieniti pronto per la prossima stagione"
   icon="wb_sunny"
-  [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
   rounded
+  [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
 />
 
 }
@@ -54,7 +49,7 @@
   <app-mat-empty-state
     description="Goditi l'estate e tieniti pronto per la prossima stagione"
     icon="wb_sunny"
-    [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
     rounded
+    [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
   />
 </ng-template>

@@ -30,9 +30,7 @@
             (selectionChange)="selectedMember$.next($event.value)"
           >
             @for (member of player().members; track member.id) {
-            <mat-option [value]="member">
-              {{ member.season.name }}
-            </mat-option>
+            <mat-option [value]="member"> {{ member.season.name }} </mat-option>
             }
           </mat-select>
         </mat-form-field>
@@ -40,15 +38,14 @@
     </app-parallax-header>
   </div>
 </div>
-}
-@if ((ratings$ | async); as ratings) {
+} @if ((ratings$ | async); as ratings) {
 <mat-card appearance="outlined">
   <table
     #table
     mat-table
     matSort
-    [dataSource]="ratings"
     @tableRowAnimation
+    [dataSource]="ratings"
     [trackBy]="trackRating"
   >
     <ng-container matColumnDef="matchday">
@@ -59,112 +56,143 @@
         <span
           matTooltip="Giornata"
           matTooltipPosition="above"
-        >#</span>
+          >#</span
+        >
       </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.matchday.number}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="rating">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Voto </th>
+      >
+        Voto
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.rating}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="points">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Punti </th>
+      >
+        Punti
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.points | number}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="goals">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Gol </th>
+      >
+        Gol
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.goals}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="goals_against">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Gol s </th>
+      >
+        Gol s
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.goals_against}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="assist">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Assist </th>
+      >
+        Assist
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.assist}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="penalities_scored">
       <th
         *matHeaderCellDef
         mat-header-cell
         mat-sort-header
-      > Rig </th>
+      >
+        Rig
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.penalities_scored}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="penalities_taken">
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Rig s </th>
+      >
+        Rig s
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.penalities_taken}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="regular">
       <th
@@ -175,7 +203,8 @@
         <span
           matTooltip="Titolare"
           matTooltipPosition="above"
-        >Tit</span>
+          >Tit</span
+        >
       </th>
       <td
         *matCellDef="let row;"
@@ -184,8 +213,10 @@
         @if (row.regular) {
         <mat-icon>done</mat-icon>
         }
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="yellow_card">
       <th
@@ -206,8 +237,10 @@
         @if (row.yellow_card) {
         <mat-icon>done</mat-icon>
         }
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="red_card">
       <th
@@ -228,8 +261,10 @@
         @if (row.red_card) {
         <mat-icon>done</mat-icon>
         }
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <ng-container matColumnDef="quotation">
       <th
@@ -240,15 +275,18 @@
         <span
           matTooltip="Quotazione"
           matTooltipPosition="above"
-        >Q.</span>
+          >Q.</span
+        >
       </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
         {{row.quotation}}
-      <td>
-    </ng-container>
+      </td>
+
+      <td></td
+    ></ng-container>
 
     <tr
       *matHeaderRowDef="displayedColumns; sticky: true"

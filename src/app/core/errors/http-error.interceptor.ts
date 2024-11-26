@@ -27,7 +27,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
             duration: 5000,
           });
         }
-        // eslint-disable-next-line no-console
+
         console.error(environment.production ? message : err);
 
         return EMPTY;

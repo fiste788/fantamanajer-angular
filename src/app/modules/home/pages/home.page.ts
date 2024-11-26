@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-async-lifecycle-method */
 import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -21,7 +20,6 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
-  standalone: true,
   imports: [
     MatCardModule,
     PlayerImageComponent,

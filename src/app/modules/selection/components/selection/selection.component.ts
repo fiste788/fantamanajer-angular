@@ -19,7 +19,6 @@ import { Member, Role, Selection, Team } from '@data/types';
 
 @Component({
   selector: 'app-selection',
-  standalone: true,
   imports: [
     MatProgressSpinnerModule,
     MatFormFieldModule,
@@ -150,8 +149,9 @@ export class SelectionComponent {
           selection.old_member_id = selection.old_member?.id ?? 0;
           selection.new_member_id = selection.new_member?.id ?? 0;
           delete selection.team;
-          if (this.#savedSelection?.new_member_id != selection.new_member_id) {
+          if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
             delete selection.id;
+
             return this.#selectionService.create(selection as AtLeast<Selection, 'team_id'>);
           }
 
@@ -174,7 +174,7 @@ export class SelectionComponent {
   }
 
   protected descOrder(a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number {
-    return a.key.id < b.key.id ? b.key.id : a.key.id;
+    return Math.max(a.key.id, b.key.id);
   }
 
   protected reset(): void {

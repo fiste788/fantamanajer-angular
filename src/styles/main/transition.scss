@@ -57,6 +57,7 @@
   isolation: none;
   overflow: hidden;
   transition: border-radius;
+
   @media (min-width: theme('screens.sm')) {
     border-radius: var(--mdc-outlined-card-container-shape, 12px);
   }

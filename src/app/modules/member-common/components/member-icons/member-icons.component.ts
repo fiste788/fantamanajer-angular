@@ -9,7 +9,6 @@ import { Member } from '@data/types';
   selector: 'app-member-icons[member]',
   styleUrl: './member-icons.component.scss',
   templateUrl: './member-icons.component.html',
-  standalone: true,
   imports: [
     NgClass,
     MatIconModule,

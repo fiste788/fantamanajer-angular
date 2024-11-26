@@ -1,4 +1,3 @@
-/* eslint-disable @rdlabo/rules/deny-soft-private-modifier */
 import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
 import {
   BehaviorSubject,

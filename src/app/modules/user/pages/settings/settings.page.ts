@@ -21,7 +21,6 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
   styleUrl: './settings.page.scss',
   templateUrl: './settings.page.html',
-  standalone: true,
   imports: [
     FormsModule,
     MatCardModule,

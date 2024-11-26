@@ -20,7 +20,6 @@ import { NotificationComponent } from '../notification/notification.component';
   selector: 'app-toolbar',
   styleUrl: './toolbar.component.scss',
   templateUrl: './toolbar.component.html',
-  standalone: true,
   host: {
     '[class.window-overlayed]': 'isOverlayed()',
   },

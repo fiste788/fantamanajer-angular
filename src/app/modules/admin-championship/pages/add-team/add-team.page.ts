@@ -18,7 +18,6 @@ import { Championship, Team } from '@data/types';
 @Component({
   styleUrl: './add-team.page.scss',
   templateUrl: './add-team.page.html',
-  standalone: true,
   imports: [
     FormsModule,
     MatFormFieldModule,

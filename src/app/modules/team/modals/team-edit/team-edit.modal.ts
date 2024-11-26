@@ -23,7 +23,6 @@ export interface TeamEditModalData {
   animations: [createBoxAnimation],
   styleUrl: './team-edit.modal.scss',
   templateUrl: './team-edit.modal.html',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatFormFieldModule,
@@ -50,7 +49,7 @@ export class TeamEditModal {
 
   protected async save(): Promise<void> {
     const fd = new FormData();
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
     if (this.file !== undefined) {
       fd.set('photo', this.file);
     }

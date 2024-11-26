@@ -22,14 +22,13 @@ $dark-theme: mat.define-theme(
   )
 );
 
-@import 'main/transition';
-@import 'tailwindcss/utilities';
+@forward 'main/transition';
+@forward 'tailwindcss/utilities';
 
 :root {
   @include main.base($theme);
   @include main.density($theme);
   @include main.typography($theme);
-
   @include app.base($theme);
   @include app.density($theme);
   @include app.typography($theme);

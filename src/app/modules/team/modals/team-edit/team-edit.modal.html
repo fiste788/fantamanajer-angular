@@ -10,7 +10,7 @@
         placeholder="Nome"
         required
         [(ngModel)]="team.name"
-      >
+      />
     </mat-form-field>
   </div>
   }
@@ -19,8 +19,8 @@
     accept="image/*"
     class="my-drop-zone"
     ngfDrop
-    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
     selectable
+    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
     [(file)]="file"
     [(invalidDrag)]="invalidComboDrag"
     [(validDrag)]="validComboDrag"
@@ -59,11 +59,15 @@
     tabindex="-1"
     type="reset"
     [mat-dialog-close]="undefined"
-  >ANNULLA</button>
+  >
+    ANNULLA
+  </button>
   <button
     cdkFocusInitial
     mat-button
     type="submit"
     (click)="save()"
-  >SALVA</button>
+  >
+    SALVA
+  </button>
 </div>

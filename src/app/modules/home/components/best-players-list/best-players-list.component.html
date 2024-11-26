@@ -1,24 +1,20 @@
 <mat-expansion-panel class="mat-elevation-z0">
   <mat-expansion-panel-header>
-    <mat-panel-title>
-      MOSTRA DI PIÚ
-    </mat-panel-title>
+    <mat-panel-title> MOSTRA DI PIÚ </mat-panel-title>
   </mat-expansion-panel-header>
 
   <ng-template matExpansionPanelContent>
-
     <mat-list dense>
       @for (member of best_players(); track member.id) {
-      <mat-list-item>
-        <a
-          matLine
-          [routerLink]="['/players', member.player.id]"
-        >
-          {{member.player.full_name}}: {{member.ratings[0]?.points | number}}
-        </a>
-      </mat-list-item>
+        <mat-list-item>
+          <a
+            matLine
+            [routerLink]="['/players', member.player.id]"
+          >
+            {{ member.player.full_name }}: {{ member.ratings[0]?.points | number }}
+          </a>
+        </mat-list-item>
       }
     </mat-list>
-
   </ng-template>
 </mat-expansion-panel>

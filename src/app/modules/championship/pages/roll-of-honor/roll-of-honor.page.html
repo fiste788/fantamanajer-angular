@@ -4,11 +4,10 @@
     #table
     mat-table
     matSort
-    [dataSource]="dataSource"
     @tableRowAnimation
+    [dataSource]="dataSource"
     [trackBy]="trackRollOfHonor"
   >
-
     <ng-container
       matColumnDef="season"
       sticky
@@ -18,7 +17,9 @@
         appSticky
         mat-header-cell
         mat-sort-header
-      > Stagione </th>
+      >
+        Stagione
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
@@ -31,14 +32,15 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > 1° </th>
+      >
+        1°
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
-        @let data = row.roll_of_honor[0];
-        @let team = data.team;
-        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        @let data = row.roll_of_honor[0]; @let team = data.team; {{data.points | number}} -
+        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>
@@ -47,14 +49,15 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > 2° </th>
+      >
+        2°
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
-        @let data = row.roll_of_honor[1];
-        @let team = data.team;
-        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        @let data = row.roll_of_honor[1]; @let team = data.team; {{data.points | number}} -
+        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>
@@ -63,14 +66,15 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > 3° </th>
+      >
+        3°
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
       >
-        @let data = row.roll_of_honor[2];
-        @let team = data.team;
-        {{data.points | number}} - <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
+        @let data = row.roll_of_honor[2]; @let team = data.team; {{data.points | number}} -
+        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
         {{team.user.surname}})
       </td>
     </ng-container>
@@ -93,9 +97,7 @@
   mode="indeterminate"
 />
 
-}
-
-@if (dataSourceByUser$ | async | keyvalue: victoryOrder; as dataSource) {
+} @if (dataSourceByUser$ | async | keyvalue: victoryOrder; as dataSource) {
 <h2>Albo d'oro per utente</h2>
 
 <mat-card appearance="outlined">
@@ -103,10 +105,9 @@
     #table
     mat-table
     matSort
-    [dataSource]="dataSource"
     @tableRowAnimation
+    [dataSource]="dataSource"
   >
-
     <ng-container
       matColumnDef="user"
       sticky
@@ -115,7 +116,9 @@
         *matHeaderCellDef
         appSticky
         mat-header-cell
-      > Utente </th>
+      >
+        Utente
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
@@ -128,7 +131,9 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Vittorie </th>
+      >
+        Vittorie
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell

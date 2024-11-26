@@ -26,7 +26,6 @@ import { RellaxDirective } from '../../directives/rellax.directive';
   selector: 'app-parallax-header,app-parallax-header[tabs][tabPanel]',
   styleUrl: './parallax-header.component.scss',
   templateUrl: './parallax-header.component.html',
-  standalone: true,
   imports: [
     RellaxDirective,
     MatTabsModule,

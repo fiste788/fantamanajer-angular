@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
+import { ApplicationRef, Injectable, inject, provideAppInitializer } from '@angular/core';
 import {
   BehaviorSubject,
   forkJoin,
@@ -19,7 +19,7 @@ import {
   share,
 } from 'rxjs/operators';
 
-import { AuthenticationService, TokenStorageService } from '@app/authentication';
+import { AuthenticationService } from '@app/authentication';
 import { filterNil } from '@app/functions';
 import { MatchdayService, TeamService } from '@data/services';
 import { Matchday, Team } from '@data/types';
@@ -131,9 +131,6 @@ export class ApplicationService {
   }
 }
 
-export const appInitializerProvider: Provider = {
-  deps: [ApplicationService, TokenStorageService],
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (app: ApplicationService) => (): Observable<unknown> => app.bootstrap(),
-};
+export const appInitializerProvider = provideAppInitializer(() =>
+  inject(ApplicationService).bootstrap(),
+);

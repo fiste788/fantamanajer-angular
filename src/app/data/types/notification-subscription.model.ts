@@ -10,5 +10,4 @@ export interface NotificationSubscription {
 }
 export type NotificationSubscriptionsKeys = (typeof notificationSubscriptionsKeys)[number];
 
-/* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
 export const notificationSubscriptionsKeys = ['email', 'push'] as const;

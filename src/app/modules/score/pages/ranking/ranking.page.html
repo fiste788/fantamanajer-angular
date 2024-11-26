@@ -1,14 +1,14 @@
 @if ((ranking$ | async); as ranking) {
 <mat-card
-  cdkScrollable
   appearance="outlined"
+  cdkScrollable
 >
   <table
     #table
     class="ranking"
     mat-table
-    [dataSource]="ranking"
     @tableRowAnimation
+    [dataSource]="ranking"
     [trackBy]="trackRanking"
   >
     <ng-container
@@ -18,7 +18,9 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Squadra </th>
+      >
+        Squadra
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
@@ -34,11 +36,15 @@
       <th
         *matHeaderCellDef
         mat-header-cell
-      > Punti </th>
+      >
+        Punti
+      </th>
       <td
         *matCellDef="let row;"
         mat-cell
-      > {{row.sum_points | number}} </td>
+      >
+        {{row.sum_points | number}}
+      </td>
     </ng-container>
 
     @for (matchday of matchdays$ | async; track matchday) {
@@ -47,13 +53,17 @@
         *matHeaderCellDef
         class="matchday"
         mat-header-cell
-      > {{matchday}} </th>
+      >
+        {{matchday}}
+      </th>
       <td
         *matCellDef="let row;"
         class="matchday"
         mat-cell
       >
-        <a [routerLink]="'/scores/' + row.scores[matchday].id">{{row.scores[matchday].points | number}}</a>
+        <a [routerLink]="'/scores/' + row.scores[matchday].id"
+          >{{row.scores[matchday].points | number}}</a
+        >
       </td>
     </ng-container>
     }

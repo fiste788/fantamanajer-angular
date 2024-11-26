@@ -24,7 +24,6 @@ import { LayoutService } from '../../services';
   selector: 'app-profile[sidenav]',
   styleUrl: './profile.component.scss',
   templateUrl: './profile.component.html',
-  standalone: true,
   imports: [
     MatToolbarModule,
     MatFormFieldModule,

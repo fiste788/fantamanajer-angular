@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "noImplicitOverride": true,
@@ -27,10 +28,6 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
     "paths": {
       "@app/*": [
         "src/app/core/*"
@@ -48,7 +45,10 @@
         "src/app/shared/*"
       ]
     },
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "types": [
+      "./.wrangler/types/runtime.d.ts"
+    ]
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
@@ -64,6 +64,7 @@
     "strictContextGenerics": true,
     "strictLiteralTypes": true,
     "strictAttributeTypes": true,
+    "strictStandalone": true,
     "disableTypeScriptVersionCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "extendedDiagnostics": {
@@ -74,7 +75,4 @@
       }
     }
   },
-  "ts-node": {
-    "esm": true
-  }
 }

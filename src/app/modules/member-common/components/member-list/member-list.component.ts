@@ -44,7 +44,6 @@ type Stats = (typeof stats)[number];
   selector: 'app-member-list[members]',
   styleUrl: './member-list.component.scss',
   templateUrl: './member-list.component.html',
-  standalone: true,
   imports: [
     MatTableModule,
     MatSortModule,

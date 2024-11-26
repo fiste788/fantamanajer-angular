@@ -42,7 +42,6 @@ const breadcrumbTransition = trigger('breadcrumbTransition', [
   selector: 'app-breadcrumb',
   styleUrl: './breadcrumb.component.scss',
   templateUrl: './breadcrumb.component.html',
-  standalone: true,
   imports: [MatIconModule, RouterLink, AsyncPipe],
 })
 export class BreadcrumbComponent {

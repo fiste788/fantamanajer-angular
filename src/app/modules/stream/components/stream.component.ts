@@ -25,7 +25,6 @@ import { StreamDataSource } from './stream.datasource';
 
 @Component({
   animations: [listItemAnimation],
-  standalone: true,
   imports: [
     ContentLoaderModule,
     ScrollingModule,

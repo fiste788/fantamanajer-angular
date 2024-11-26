@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-null */
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
@@ -40,7 +39,6 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   styleUrl: './member-selection.component.scss',
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
-  standalone: true,
   host: {
     '[@lineupDisposition]': '',
   },

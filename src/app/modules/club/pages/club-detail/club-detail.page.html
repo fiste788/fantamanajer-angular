@@ -1,15 +1,15 @@
 <app-toolbar-tab
-  [tabs]="tabs"
   fragment="tab"
+  [tabs]="tabs"
 >
   <div class="animation-container">
     <app-parallax-header
       contextParam="id"
-      [placeholder]="placeholder"
-      [backgroundImage]="club().background_url ?? undefined"
-      width="128"
       height="128"
+      width="128"
+      [backgroundImage]="club().background_url ?? undefined"
       [image]="club().photo_url"
+      [placeholder]="placeholder"
       [title]="club().name"
       (imageLoaded)="scrollTo($event)"
     />

@@ -7,80 +7,80 @@
   <mat-sidenav
     #drawer
     fixedInViewport="true"
-    [autoFocus]="false"
-    [mode]="isHandset ? 'over' : ( isTablet && isOpen ? 'over' : 'side')"
-    [opened]="isOpen"
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
-    (openedChange)="open($event)"
+    [autoFocus]="false"
+    [mode]="isHandset ? 'over' : isTablet && isOpen ? 'over' : 'side'"
     [ngClass]="{
       rail: isTablet,
       'rail-closed': isTablet && !drawer.opened,
-      'rail-opened': isTablet && drawer.opened
-      }"
+      'rail-opened': isTablet && drawer.opened,
+    }"
+    [opened]="isOpen"
+    (openedChange)="open($event)"
   >
-    @defer(when isOpen; on idle) {
-    <app-navbar [sidenav]="drawer" />
+    @defer (when isOpen; on idle) {
+      <app-navbar [sidenav]="drawer" />
     } @placeholder (minimum 500ms) {
-    <content-loader
-      viewBox="0 0 277 590"
-      backgroundColor="#e7bdb9"
-      foregroundColor="#ffdad7"
-    >
-      <svg:rect
-        x="16"
-        y="16"
-        rx="16"
-        ry="16"
-        width="245"
-        height="138"
-      />
-      <svg:rect
-        x="16"
-        y="250"
-        rx="16"
-        ry="16"
-        width="245"
-        height="56"
-      />
-      <svg:rect
-        x="16"
-        y="367"
-        rx="26"
-        ry="26"
-        width="245"
-        height="52"
-      />
-      <svg:rect
-        x="16"
-        y="423"
-        rx="26"
-        ry="26"
-        width="245"
-        height="52"
-      />
-      <svg:rect
-        x="16"
-        y="479"
-        rx="26"
-        ry="26"
-        width="245"
-        height="52"
-      />
-      <svg:rect
-        x="16"
-        y="535"
-        rx="26"
-        ry="26"
-        width="245"
-        height="54"
-      />
-    </content-loader>
+      <content-loader
+        backgroundColor="#e7bdb9"
+        foregroundColor="#ffdad7"
+        viewBox="0 0 277 590"
+      >
+        <svg:rect
+          height="138"
+          rx="16"
+          ry="16"
+          width="245"
+          x="16"
+          y="16"
+        />
+        <svg:rect
+          height="56"
+          rx="16"
+          ry="16"
+          width="245"
+          x="16"
+          y="250"
+        />
+        <svg:rect
+          height="52"
+          rx="26"
+          ry="26"
+          width="245"
+          x="16"
+          y="367"
+        />
+        <svg:rect
+          height="52"
+          rx="26"
+          ry="26"
+          width="245"
+          x="16"
+          y="423"
+        />
+        <svg:rect
+          height="52"
+          rx="26"
+          ry="26"
+          width="245"
+          x="16"
+          y="479"
+        />
+        <svg:rect
+          height="54"
+          rx="26"
+          ry="26"
+          width="245"
+          x="16"
+          y="535"
+        />
+      </content-loader>
     }
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
-      [ngClass]="{'is-scrolled': isScrolled}"
       [@scrollUpAnimation]="isScrolled === false || showedToolbar"
+      [ngClass]="{ 'is-scrolled': isScrolled }"
     />
     <main
       [@contextChange]="o | state"
@@ -93,10 +93,9 @@
       class="bottom"
       [@scrollDownAnimation]="showedToolbar"
     >
-      @defer(when isHandset) {
-      <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
+      @defer (when isHandset) {
+        <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
       }
     </div>
-
   </mat-sidenav-content>
 </mat-sidenav-container>

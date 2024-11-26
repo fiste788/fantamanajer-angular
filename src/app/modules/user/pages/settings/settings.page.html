@@ -6,9 +6,7 @@
   >
     <mat-card appearance="outlined">
       <mat-card-header>
-        <mat-card-title>
-          Profilo utente
-        </mat-card-title>
+        <mat-card-title> Profilo utente </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <mat-form-field>
@@ -20,7 +18,7 @@
             placeholder="Nome"
             required
             [(ngModel)]="user.name"
-          >
+          />
         </mat-form-field>
 
         <mat-form-field>
@@ -32,7 +30,7 @@
             placeholder="Cognome"
             required
             [(ngModel)]="user.surname"
-          >
+          />
         </mat-form-field>
 
         <mat-form-field>
@@ -44,7 +42,7 @@
             placeholder="Password"
             type="password"
             [(ngModel)]="user.password"
-          >
+          />
         </mat-form-field>
 
         <mat-form-field>
@@ -57,7 +55,7 @@
             type="password"
             [required]="user.password !== undefined && user.password !== ''"
             [(ngModel)]="repeatPassword"
-          >
+          />
         </mat-form-field>
 
         <mat-slide-toggle

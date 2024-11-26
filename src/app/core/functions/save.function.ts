@@ -24,7 +24,7 @@ export async function save<T, R>(
       }
     }),
     mergeMap<T, ObservableInput<R>>((result) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-misused-promises
       const func = bindCallback(async (_callback: (res1: R) => any) =>
         options?.callback ? options.callback(result) : of(defaultValue),
       );

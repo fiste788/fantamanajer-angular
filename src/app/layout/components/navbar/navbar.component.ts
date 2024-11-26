@@ -23,7 +23,6 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   selector: 'app-navbar[sidenav]',
   styleUrl: './navbar.component.scss',
   templateUrl: './navbar.component.html',
-  standalone: true,
   imports: [
     ProfileComponent,
     MatListModule,

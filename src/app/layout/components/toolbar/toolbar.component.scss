@@ -40,6 +40,7 @@ app-breadcrumb {
       padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
     }
   }
+
   @media (min-width: theme('screens.lg')) {
     .mat-toolbar-row:first-child {
       height: env(titlebar-area-height, var(--mat-toolbar-standard-height));
@@ -47,11 +48,13 @@ app-breadcrumb {
     }
   }
 }
+
 @media (min-width: theme('screens.md')) {
   .drawer {
     display: none;
   }
 }
+
 @media (min-width: theme('screens.sm')) {
   button {
     display: none;

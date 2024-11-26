@@ -34,9 +34,7 @@
   @include mat.private-check-duplicate-theme-styles($theme, 'card') {
     @include base($theme);
     @include color($theme);
-
     @include density($theme);
-
     @include typography($theme);
   }
 }

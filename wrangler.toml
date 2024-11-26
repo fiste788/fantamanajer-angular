@@ -1,0 +1,13 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "fantamanajer-angular"
+compatibility_date = "2023-11-22"
+main = "./dist/server/server.mjs"
+services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
+routes = [{ pattern = "fantamanajer.it", custom_domain = true }]
+upload_source_maps = true
+
+# Workers Logs
+# Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+# Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
+[observability]
+enabled = true

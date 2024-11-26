@@ -4,9 +4,7 @@ import { NG_VALIDATORS, ValidationErrors, Validator, FormGroup, FormControl } fr
 import { Member } from '@data/types';
 
 type LineupForm = FormGroup<{
-  dispositions?: FormGroup<{
-    [key: number]: FormGroup<{ member?: FormControl<Member | undefined> }>;
-  }>;
+  dispositions?: FormGroup<Record<number, FormGroup<{ member?: FormControl<Member | undefined> }>>>;
 }>;
 
 @Directive({

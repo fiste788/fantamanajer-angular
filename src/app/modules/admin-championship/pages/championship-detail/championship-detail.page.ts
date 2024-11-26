@@ -20,7 +20,6 @@ import { cardCreationAnimation } from '@shared/animations';
   styleUrl: './championship-detail.page.scss',
   templateUrl: './championship-detail.page.html',
   animations: [cardCreationAnimation],
-  standalone: true,
   imports: [
     MatCardModule,
     FormsModule,

@@ -8,7 +8,6 @@ import { MemberListComponent } from '@modules/member-common/components/member-li
 
 @Component({
   templateUrl: './club-members.page.html',
-  standalone: true,
   imports: [MemberListComponent],
 })
 export class ClubMembersPage {

@@ -13,9 +13,7 @@
         (selectionChange)="role$.next($event.value)"
       >
         @for (role of (roles); track role.id) {
-        <mat-option [value]="role">
-          {{role.singolar}}
-        </mat-option>
+        <mat-option [value]="role"> {{role.singolar}} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -35,8 +33,8 @@
   </div>
   @if (members$ && (app.team$ | async); as team) {
   <app-member-list
-    [elevation]="0"
     hideRole
+    [elevation]="0"
     [isSelectable]="team.championship.started && !app.seasonEnded || false"
     [members]="members$!"
     (selectionChange)="setSelectedMember($event)"

@@ -21,7 +21,6 @@ import { cardCreationAnimation } from '@shared/animations';
   animations: [cardCreationAnimation],
   styleUrl: './login.page.scss',
   templateUrl: './login.page.html',
-  standalone: true,
   imports: [
     MatCardModule,
     MatIconModule,

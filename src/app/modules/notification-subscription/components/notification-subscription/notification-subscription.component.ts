@@ -10,7 +10,6 @@ import { Notification, notificationSubscriptions } from '../../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatSlideToggleModule, FormsModule, KeyValuePipe, MatListModule],
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
   templateUrl: './notification-subscription.component.html',

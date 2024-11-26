@@ -10,7 +10,6 @@ import { StatePipe } from '@shared/pipes';
   animations: [trigger('contextChange', routerTransition)],
   selector: 'app-router-outlet',
   templateUrl: './router-outlet.component.html',
-  standalone: true,
   imports: [RouterOutlet, StatePipe],
 })
 export class RouterOutletComponent {

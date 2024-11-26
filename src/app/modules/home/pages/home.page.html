@@ -1,17 +1,14 @@
-@let matchday = matchday$ | async;
-@let number = matchday?.number ?? 0;
-@if (number > 1) {
-@let bestPlayers = bestPlayers$ | async;
+@let matchday = matchday$ | async; @let number = matchday?.number ?? 0; @if (number > 1) { @let
+bestPlayers = bestPlayers$ | async;
 <div
+  class="grid grid-cols-1 grid-rows-1 items-start gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-8"
   @cardCreationAnimation
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4 md:gap-6 lg:gap-8 items-start"
 >
-  @for (role of roles; track role.id) {
-  @let bestPlayer = bestPlayers?.get(role);
+  @for (role of roles; track role.id) { @let bestPlayer = bestPlayers?.get(role);
   <mat-card appearance="outlined">
     <app-player-image
-      mat-card-image
       inCard
+      mat-card-image
       [member]="bestPlayer?.[0]"
     />
     @if (!bestPlayer) {
@@ -20,11 +17,8 @@
     <mat-card-header>
       <mat-card-title>
         @if (bestPlayer?.[0]) {
-        <span class="mat-text-primary">
-          {{bestPlayer![0]!.ratings[0]?.points | number}}
-        </span>
-        {{bestPlayer![0]!.player.full_name}}
-        } @else {
+        <span class="mat-text-primary"> {{bestPlayer![0]!.ratings[0]?.points | number}} </span>
+        {{bestPlayer![0]!.player.full_name}} } @else {
         <span class="mat-text-primary">-</span>
         }
       </mat-card-title>
@@ -36,16 +30,11 @@
   </mat-card>
   }
 </div>
-} @else {
-@defer(when number
-<=
-  1)
-  {
-  <app-mat-empty-state
+} @else { @defer(when number <= 1) {
+<app-mat-empty-state
   description="Buona asta!"
   icon="wb_sunny"
   label="La stagione non è ancora iniziata"
   rounded
 />
-}
-}
+} }

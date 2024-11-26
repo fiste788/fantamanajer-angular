@@ -8,7 +8,6 @@ import { cardCreationAnimation } from '@shared/animations';
 @Component({
   animations: [cardCreationAnimation],
   templateUrl: './home.page.html',
-  standalone: true,
   imports: [RouterLink, MatCardModule],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class

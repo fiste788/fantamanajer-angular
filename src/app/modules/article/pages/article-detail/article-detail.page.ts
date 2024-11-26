@@ -16,7 +16,6 @@ import { Article } from '@data/types';
 @Component({
   styleUrl: './article-detail.page.scss',
   templateUrl: './article-detail.page.html',
-  standalone: true,
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
 })
 export class ArticleDetailPage {

@@ -22,7 +22,6 @@ import { tableRowAnimation } from '@shared/animations';
   animations: [tableRowAnimation],
   styleUrl: './member-free.page.scss',
   templateUrl: './member-free.page.html',
-  standalone: true,
   imports: [
     MatFormFieldModule,
     MatSelectModule,

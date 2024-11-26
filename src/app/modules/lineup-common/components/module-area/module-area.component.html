@@ -1,41 +1,42 @@
 @if (dispositions(); as _dispositions) {
-@let _captain = captain();
+  @let _captain = captain();
 
-@for (area of module().areas; track area.role.id) {
-<div
-  ngModelGroup="dispositions"
-  class="flex flex-row"
-  [ngClass]="[area.role.abbreviation, 'area-container']"
->
-  <h5
-    appSticky
-    [title]="area.role.plural"
-  >{{area.role.plural | uppercase}}</h5>
-  <div
-    class="area flex flex-col justify-around md:flex-row "
-    [ngClass]="{'md:flex-wrap': wrap}"
-  >
-    @for (i of (area.toIndex | range: area.fromIndex); track i) {
-    <ng-container [ngModelGroup]="i + ''">
-      @if (_dispositions[i]; as disp) {
-      <app-member-selection
-        class="regular flex flex-row flex-md-column justify-start items-center"
-        name="member"
-        [captain]="_captain && _dispositions[i].member?.id === _captain"
-        [disabled]="disabled()"
-        [height]="450"
-        [memberList]="area.options"
-        [placeholder]="area.role.singolar"
-        required
-        [width]="320"
-        [(member)]="disp.member"
-        (memberChange)="memberSelectionChange(area.role, $event)"
-      />
-      }
-    </ng-container>
-    }
-  </div>
-</div>
-}
-
+  @for (area of module().areas; track area.role.id) {
+    <div
+      class="flex flex-row"
+      ngModelGroup="dispositions"
+      [ngClass]="[area.role.abbreviation, 'area-container']"
+    >
+      <h5
+        appSticky
+        [title]="area.role.plural"
+      >
+        {{ area.role.plural | uppercase }}
+      </h5>
+      <div
+        class="area flex flex-col justify-around md:flex-row"
+        [ngClass]="{ 'md:flex-wrap': wrap }"
+      >
+        @for (i of area.toIndex | range: area.fromIndex; track i) {
+          <ng-container [ngModelGroup]="i + ''">
+            @if (_dispositions[i]; as disp) {
+              <app-member-selection
+                class="regular flex-md-column flex flex-row items-center justify-start"
+                name="member"
+                required
+                [captain]="_captain && _dispositions[i].member?.id === _captain"
+                [disabled]="disabled()"
+                [height]="450"
+                [memberList]="area.options"
+                [placeholder]="area.role.singolar"
+                [width]="320"
+                [(member)]="disp.member"
+                (memberChange)="memberSelectionChange(area.role, $event)"
+              />
+            }
+          </ng-container>
+        }
+      </div>
+    </div>
+  }
 }

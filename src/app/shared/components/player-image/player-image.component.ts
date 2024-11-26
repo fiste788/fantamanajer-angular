@@ -9,7 +9,6 @@ import { Member } from '@data/types';
   selector: 'app-player-image',
   styleUrl: './player-image.component.scss',
   templateUrl: './player-image.component.html',
-  standalone: true,
   imports: [MatCardModule, NgOptimizedImage],
 })
 export class PlayerImageComponent {

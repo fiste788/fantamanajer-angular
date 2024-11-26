@@ -33,7 +33,6 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   animations: [cardCreationAnimation],
-  standalone: true,
   imports: [
     LineupOptionsComponent,
     FormsModule,
@@ -101,6 +100,6 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
   }
 
   protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
-    return a.key < b.key ? b.key : a.key;
+    return Math.max(a.key, b.key);
   }
 }

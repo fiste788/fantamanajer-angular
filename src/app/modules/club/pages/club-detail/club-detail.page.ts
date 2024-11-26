@@ -9,7 +9,6 @@ import { LayoutService } from 'src/app/layout/services';
   animations: [],
   styleUrl: './club-detail.page.scss',
   templateUrl: './club-detail.page.html',
-  standalone: true,
   imports: [ParallaxHeaderComponent, ToolbarTabComponent],
 })
 export class ClubDetailPage {

@@ -21,7 +21,6 @@ import { MemberAlreadySelectedValidator } from '@modules/lineup-common/component
 
 @Component({
   templateUrl: './score-edit.page.html',
-  standalone: true,
   imports: [
     MatFormFieldModule,
     MatSelectModule,
