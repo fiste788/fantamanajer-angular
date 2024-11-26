@@ -22,7 +22,7 @@ import {
   withEventReplay,
   withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -72,7 +72,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
     ),
-    provideAnimations(),
+    provideAnimationsAsync(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
