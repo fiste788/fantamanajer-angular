@@ -188,6 +188,49 @@ export default tseslint.config(
         },
       ],
       'default-case': 'error',
+      'import/no-cycle': ['off'],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'object', 'type'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+          pathGroups: [
+            {
+              pattern: '@angular/**',
+              group: 'external',
+            },
+            {
+              pattern: 'rxjs**',
+              group: 'external',
+            },
+            {
+              pattern: '@app/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@data/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@env/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@modules/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@shared/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: [],
+        },
+      ],
       'max-lines': ['error', 400],
       'new-parens': 'error',
       'newline-per-chained-call': 'off',
