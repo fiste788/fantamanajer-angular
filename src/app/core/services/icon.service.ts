@@ -15,7 +15,7 @@ export class IconService {
     this.#iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     if (isPlatformBrowser(this.#platformId)) {
       this.#iconRegistry.addSvgIconSet(
-        this.#sanitizer.bypassSecurityTrustResourceUrl('/public/svg/fantamanajer-icons.svg'),
+        this.#sanitizer.bypassSecurityTrustResourceUrl('/svg/fantamanajer-icons.svg'),
       );
     } else {
       this.#iconRegistry.addSvgIconLiteral(

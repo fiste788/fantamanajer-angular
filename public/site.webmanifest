@@ -7,25 +7,25 @@
   "orientation": "portrait",
   "screenshots": [
     {
-      "src": "/public/screenshots/home_narrow.webp",
+      "src": "/screenshots/home_narrow.webp",
       "sizes": "1290x2796",
       "type": "image/webp",
       "form_factor": "narrow"
     },
     {
-      "src": "/public/screenshots/team_narrow.webp",
+      "src": "/screenshots/team_narrow.webp",
       "sizes": "1290x2796",
       "type": "image/webp",
       "form_factor": "narrow"
     },
     {
-      "src": "/public/screenshots/home_wide.webp",
+      "src": "/screenshots/home_wide.webp",
       "sizes": "2560x1232",
       "type": "image/webp",
       "form_factor": "wide"
     },
     {
-      "src": "/public/screenshots/team_wide.webp",
+      "src": "/screenshots/team_wide.webp",
       "sizes": "2560x1232",
       "type": "image/webp",
       "form_factor": "wide"
@@ -42,58 +42,58 @@
       "sizes": "48x48"
     },
     {
-      "src": "/public/icons/icon-512-maskable.webp",
+      "src": "/icons/icon-512-maskable.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/public/icons/icon-512-maskable.png",
+      "src": "/icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/public/icons/icon-512.webp",
+      "src": "/icons/icon-512.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "/public/icons/icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/public/icons/icon-192-maskable.webp",
+      "src": "/icons/icon-192-maskable.webp",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "/public/icons/icon-192-maskable.png",
+      "src": "/icons/icon-192-maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/public/icons/icon-192.webp",
+      "src": "/icons/icon-192.webp",
       "sizes": "192x192",
       "type": "image/webp"
     },
     {
-      "src": "/public/icons/icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/public/icons/icon-monochrome.webp",
+      "src": "/icons/icon-monochrome.webp",
       "sizes": "72x72",
       "type": "image/webp",
       "purpose": "monochrome"
     },
     {
-      "src": "/public/icons/icon-monochrome.png",
+      "src": "/icons/icon-monochrome.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "monochrome"
@@ -112,12 +112,12 @@
       "url": "/lineups/new",
       "icons": [
         {
-          "src": "/public/icons/shortcuts/lineup.webp",
+          "src": "/icons/shortcuts/lineup.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/public/icons/shortcuts/lineup.png",
+          "src": "/icons/shortcuts/lineup.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -130,12 +130,12 @@
       "url": "/transferts/new",
       "icons": [
         {
-          "src": "/public/icons/shortcuts/transfert.webp",
+          "src": "/icons/shortcuts/transfert.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/public/icons/shortcuts/transfert.png",
+          "src": "/icons/shortcuts/transfert.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -148,12 +148,12 @@
       "url": "/articles/new",
       "icons": [
         {
-          "src": "/public/icons/shortcuts/article.webp",
+          "src": "/icons/shortcuts/article.webp",
           "sizes": "96x96",
           "type": "image/webp"
         },
         {
-          "src": "/public/icons/shortcuts/article.png",
+          "src": "/icons/shortcuts/article.png",
           "sizes": "96x96",
           "type": "image/png"
         }

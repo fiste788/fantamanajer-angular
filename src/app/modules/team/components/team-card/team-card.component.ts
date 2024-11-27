@@ -25,6 +25,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
 export class TeamCardComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   public team = input.required<Team>();
+  public priority = input(false);
 
   protected viewTransitionName(team: Team) {
     return this.#transitionService.getViewTransitionName('banner-img', team, 'team_id');

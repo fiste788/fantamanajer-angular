@@ -21,6 +21,7 @@
           [alt]="club.name"
           [loaderParams]="club.background_url"
           [ngSrc]="club.background_url | srcset: true"
+          [priority]="i === 0"
         />
       </a>
       } @else {
