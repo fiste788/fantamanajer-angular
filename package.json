@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "serve": "ng serve",
     "start": "npm run build && wrangler pages dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

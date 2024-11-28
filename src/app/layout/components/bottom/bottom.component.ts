@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
+  effect,
   inject,
   input,
   viewChild,
 } from '@angular/core';
-import { Subscription, filter, tap } from 'rxjs';
 
 import { VisibilityState } from '@app/enums';
 import { closeAnimation } from '@shared/animations';
@@ -24,25 +22,17 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   styleUrl: './bottom.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BottomComponent implements OnInit, OnDestroy {
+export class BottomComponent {
   readonly #layoutService = inject(LayoutService);
-  readonly #subscriptions = new Subscription();
 
   public readonly visibility = input.required<VisibilityState>();
   protected readonly speedDial = viewChild<SpeedDialComponent>('speedDial');
 
-  public ngOnInit(): void {
-    this.#subscriptions.add(
-      this.#layoutService.down
-        .pipe(
-          filter((down) => down),
-          tap(() => this.speedDial()?.close()),
-        )
-        .subscribe(),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
+  constructor() {
+    effect(() => {
+      if (this.#layoutService.down()) {
+        this.speedDial()?.close();
+      }
+    });
   }
 }

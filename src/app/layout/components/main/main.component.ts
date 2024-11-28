@@ -1,9 +1,7 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, isPlatformBrowser, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -11,13 +9,12 @@ import {
   afterNextRender,
   viewChild,
   inject,
-  PLATFORM_ID,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, mergeMap, share, throttleTime } from 'rxjs/operators';
+import { combineLatest, fromEvent, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, share, throttleTime } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -48,13 +45,11 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     NgClass,
   ],
 })
-export class MainComponent implements OnDestroy, AfterViewInit {
+export class MainComponent implements OnDestroy {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
   readonly #ngZone = inject(NgZone);
-  readonly #platform = inject(PLATFORM_ID);
   readonly #transitionService = inject(CurrentTransitionService);
-  readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
   readonly #auth = inject(AuthenticationService);
 
@@ -67,11 +62,9 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     },
   );
 
-  protected readonly isReady$ = inject(LayoutService).isReady$;
   protected readonly isHandset$ = inject(LayoutService).isHandset$;
   protected readonly isTablet$ = inject(LayoutService).isTablet$;
-  protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
-  protected readonly isOpen$ = this.#isOpenObservable();
+  protected readonly openSidebar = inject(LayoutService).openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
   protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
@@ -80,25 +73,12 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   constructor() {
     afterNextRender(() => {
       this.#setupScrollAnimation(this.#window);
-      setTimeout(() => {
-        this.#layoutService.setReady();
-        this.#changeRef.detectChanges();
-      }, 200);
+      this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
     });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#subscriptions.add(this.#initDrawer().subscribe());
-    this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
-    this.#changeRef.detectChanges();
   }
 
   public ngOnDestroy(): void {
     this.#subscriptions.unsubscribe();
-  }
-
-  protected open(open: boolean): void {
-    this.#layoutService.toggleSidebar(open);
   }
 
   protected viewTransitionName() {
@@ -106,6 +86,12 @@ export class MainComponent implements OnDestroy, AfterViewInit {
       this.#transitionService.isRootOutlet()
       ? 'main'
       : '';
+  }
+
+  protected openedChange(): void {
+    if (this.drawer().mode !== 'over') {
+      this.#layoutService.openSidebar.set(true);
+    }
   }
 
   #setupScrollAnimation(window: Window): void {
@@ -120,28 +106,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
       this.#layoutService.connectScrollAnimation(window, this.#getToolbarHeight.bind(this));
     });
-  }
-
-  #initDrawer(): Observable<void> {
-    return (
-      this.drawer().openedStart.pipe(
-        filter(() => isPlatformBrowser(this.#platform)),
-        mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
-        map(() => this.#layoutService.setReady()),
-      ) ?? EMPTY
-    );
-  }
-
-  #isOpenObservable(): Observable<boolean> {
-    return combineLatest([
-      this.isReady$,
-      this.isHandset$,
-      this.isTablet$,
-      this.openedSidebar$,
-    ]).pipe(
-      map(([r, h, t, o]) => o || (!h && !t && r)),
-      distinctUntilChanged(),
-    );
   }
 
   #isShowedSpeedDial(): Observable<VisibilityState> {

@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://api.fantamanajer.it/",
+    "target": "http://localhost/",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

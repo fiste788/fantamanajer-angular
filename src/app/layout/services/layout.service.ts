@@ -1,8 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, inject } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, pairwise, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { filter, map, pairwise, tap } from 'rxjs/operators';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
@@ -14,42 +16,38 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
-  readonly #isReadySubject = new BehaviorSubject<boolean>(false);
-  readonly #openSidebarSubject = new BehaviorSubject<boolean>(false);
-  readonly #showSpeedDialSubject = new BehaviorSubject<boolean>(false);
-  readonly #showToolbarSubject = new BehaviorSubject<boolean>(true);
+  readonly #platform = inject(PLATFORM_ID);
+
   readonly #scrollSubscription = new Map<Window, Subscription | undefined>();
+  public readonly showSpeedDial = signal(false);
+  public readonly showToolbar = signal(true);
 
-  public isHandset$ = this.#breakpointObserver
-    .observe(Breakpoints.XSmall)
-    .pipe(map((result) => result.matches));
+  public readonly isHandset$ = isPlatformServer(this.#platform)
+    ? of(true)
+    : this.#breakpointObserver.observe(Breakpoints.XSmall).pipe(map((result) => result.matches));
 
-  public isTablet$ = this.#breakpointObserver
+  public readonly isTablet$ = this.#breakpointObserver
     .observe([Breakpoints.Small, Breakpoints.Medium])
     .pipe(map((result) => result.matches));
 
-  public openedSidebar$ = this.#openSidebarSubject.asObservable();
-  public isReady$ = this.#isReadySubject.pipe(distinctUntilChanged());
-  public isShowSpeedDial$ = this.#showSpeedDialSubject.pipe(
+  public readonly openSidebar = signal(false);
+  public readonly isShowSpeedDial$ = toObservable(this.showSpeedDial).pipe(
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
   );
 
-  public isShowToolbar$ = this.#showToolbarSubject.pipe(
+  public readonly isShowToolbar$ = toObservable(this.showToolbar).pipe(
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
   );
 
-  public readonly up = new BehaviorSubject<boolean>(false);
-  public readonly down = new BehaviorSubject<boolean>(false);
+  public readonly up = signal(false);
+  public readonly down = signal(false);
 
   public init(): Observable<boolean> {
     return combineLatest([this.isHandset$, this.isTablet$]).pipe(
       map(([h, t]) => {
-        this.#openSidebarSubject.next(!h && !t);
-        this.#showSpeedDialSubject.next(this.#showSpeedDialSubject.value || h);
-        this.#showToolbarSubject.next(true);
-        if (h) {
-          this.setReady();
-        }
+        this.openSidebar.set(!h && !t);
+        this.showSpeedDial.set(this.showSpeedDial() || h);
+        this.showToolbar.set(true);
 
         return true;
       }),
@@ -98,16 +96,16 @@ export class LayoutService {
     return combineLatest([
       scroll$.up.pipe(
         tap(() => {
-          this.showSpeedDial();
-          this.showToolbar();
-          this.up.next(true);
+          this.showSpeedDial.set(true);
+          this.showToolbar.set(true);
+          this.up.set(true);
         }),
       ),
       scroll$.down.pipe(
         tap(() => {
-          this.hideSpeedDial();
-          this.hideToolbar();
-          this.down.next(true);
+          this.showSpeedDial.set(false);
+          this.showToolbar.set(false);
+          this.down.set(true);
         }),
       ),
     ]).subscribe();
@@ -118,36 +116,14 @@ export class LayoutService {
     (window ?? windows.shift())?.scrollTo({ top: y, left: x });
   }
 
-  public openSidebar(): void {
-    this.#openSidebarSubject.next(true);
-  }
-
   public closeSidebar(): void {
-    this.#openSidebarSubject.next(false);
+    if (toSignal(this.isHandset$)() || toSignal(this.isTablet$)()) {
+      this.openSidebar.set(false);
+    }
   }
 
   public toggleSidebar(value?: boolean): void {
-    this.#openSidebarSubject.next(value ?? !this.#openSidebarSubject.value);
-  }
-
-  public showSpeedDial(): void {
-    this.#showSpeedDialSubject.next(true);
-  }
-
-  public hideSpeedDial(): void {
-    this.#showSpeedDialSubject.next(false);
-  }
-
-  public showToolbar(): void {
-    this.#showToolbarSubject.next(true);
-  }
-
-  public hideToolbar(): void {
-    this.#showToolbarSubject.next(false);
-  }
-
-  public setReady(): void {
-    this.#isReadySubject.next(true);
+    this.openSidebar.set(value ?? !this.openSidebar());
   }
 
   #isRouteContextChanged(): Observable<boolean> {
