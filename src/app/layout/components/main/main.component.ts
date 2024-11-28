@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser, NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,12 +11,13 @@ import {
   afterNextRender,
   viewChild,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mergeMap, share, throttleTime } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -51,6 +52,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
   readonly #ngZone = inject(NgZone);
+  readonly #platform = inject(PLATFORM_ID);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
@@ -78,6 +80,10 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   constructor() {
     afterNextRender(() => {
       this.#setupScrollAnimation(this.#window);
+      setTimeout(() => {
+        this.#layoutService.setReady();
+        this.#changeRef.detectChanges();
+      }, 200);
     });
   }
 
@@ -119,6 +125,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   #initDrawer(): Observable<void> {
     return (
       this.drawer().openedStart.pipe(
+        filter(() => isPlatformBrowser(this.#platform)),
         mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
         map(() => this.#layoutService.setReady()),
       ) ?? EMPTY

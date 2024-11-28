@@ -12,6 +12,7 @@
     [autoFocus]="false"
     [mode]="isHandset ? 'over' : isTablet && isOpen ? 'over' : 'side'"
     [ngClass]="{
+      'is-ready': isReady$ | async,
       rail: isTablet,
       'rail-closed': isTablet && !drawer.opened,
       'rail-opened': isTablet && drawer.opened,

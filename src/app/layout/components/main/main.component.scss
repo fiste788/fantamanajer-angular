@@ -20,7 +20,10 @@ app-toolbar {
 
 .mat-sidenav {
   view-transition-name: sidenav;
-  display: none;
+
+  &:not(.is-ready) {
+    display: none;
+  }
 }
 
 .mat-drawer-side {
@@ -70,7 +73,7 @@ main {
 
   .mat-sidenav {
     width: 18rem;
-    display: block;
+    display: block !important;
   }
 
   .mat-drawer-content {

@@ -15,6 +15,7 @@ import {
   provideZoneChangeDetection,
   LOCALE_ID,
   provideEnvironmentInitializer,
+  //provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
