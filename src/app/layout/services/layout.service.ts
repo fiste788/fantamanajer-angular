@@ -30,6 +30,10 @@ export class LayoutService {
     .observe([Breakpoints.Small, Breakpoints.Medium])
     .pipe(map((result) => result.matches));
 
+  public readonly isDesktop = toSignal(
+    combineLatest([this.isHandset$, this.isTablet$]).pipe(map(([h, t]) => !h && !t)),
+  );
+
   public readonly openSidebar = signal(false);
   public readonly isShowSpeedDial$ = toObservable(this.showSpeedDial).pipe(
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
@@ -117,7 +121,7 @@ export class LayoutService {
   }
 
   public closeSidebar(): void {
-    if (toSignal(this.isHandset$)() || toSignal(this.isTablet$)()) {
+    if (!this.isDesktop()) {
       this.openSidebar.set(false);
     }
   }

@@ -1,7 +1,7 @@
 import { AnimationEvent } from '@angular/animations';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, output, inject } from '@angular/core';
+import { Component, output, inject, ChangeDetectorRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -33,6 +33,7 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 export class NotificationListModal {
   readonly #notificationService = inject(NotificationService);
   readonly #app = inject(ApplicationService);
+  readonly #cd = inject(ChangeDetectorRef);
 
   public readonly seen = output<Stream>();
   public readonly animationStateChanged = output<AnimationEvent>();
@@ -55,10 +56,12 @@ export class NotificationListModal {
 
   public onAnimationStart(event: AnimationEvent): void {
     this.animationStateChanged.emit(event);
+    this.#cd.detectChanges();
   }
 
   public onAnimationDone(event: AnimationEvent): void {
     this.animationStateChanged.emit(event);
+    this.#cd.detectChanges();
   }
 
   public startExitAnimation(): void {

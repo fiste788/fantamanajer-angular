@@ -25,6 +25,7 @@ import { StatePipe } from '@shared/pipes';
 import { LayoutService } from '../../services';
 import { BottomComponent } from '../bottom/bottom.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarSkeletonComponent } from '../navbar-skeleton/navbar-skeleton.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
@@ -43,6 +44,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     AsyncPipe,
     StatePipe,
     NgClass,
+    NavbarSkeletonComponent,
   ],
 })
 export class MainComponent implements OnDestroy {

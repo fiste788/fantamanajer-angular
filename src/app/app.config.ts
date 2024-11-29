@@ -12,10 +12,9 @@ import {
   importProvidersFrom,
   isDevMode,
   PLATFORM_ID,
-  provideZoneChangeDetection,
   LOCALE_ID,
   provideEnvironmentInitializer,
-  //provideExperimentalZonelessChangeDetection,
+  provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
@@ -64,7 +63,7 @@ export const appConfig: ApplicationConfig = {
         onViewTransitionCreated,
       }),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),

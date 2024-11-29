@@ -93,8 +93,8 @@ export class RellaxDirective implements OnInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      this.#loop = this.#window.requestAnimationFrame.bind(this);
-      this.#clearLoop = this.#window.cancelAnimationFrame.bind(this);
+      this.#loop = this.#window.requestAnimationFrame.bind(this.#window);
+      this.#clearLoop = this.#window.cancelAnimationFrame.bind(this.#window);
 
       const target = this.#el.nativeElement.querySelector('img');
       if (target !== null) {
@@ -297,7 +297,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
     }
     // loop again
     if (this.#loop) {
-      this.#loopId = this.#loop(this.update.bind(this));
+      this.#loopId = this.#loop(() => this.update());
     }
   }
 
@@ -306,7 +306,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       this.animate();
 
       // loop again
-      this.#loopId = this.#loop(this.update.bind(this));
+      this.#loopId = this.#loop(() => this.update());
     } else {
       this.#loopId = 0;
 

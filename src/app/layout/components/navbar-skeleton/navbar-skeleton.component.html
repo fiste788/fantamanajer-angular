@@ -1,0 +1,65 @@
+<div class="hidden lg:block">
+  <content-loader
+    backgroundColor="#e7bdb9"
+    foregroundColor="#ffdad7"
+    viewBox="0 0 277 790"
+  >
+    @if (loggedIn) {
+      <svg:rect
+        height="138"
+        rx="16"
+        ry="16"
+        width="245"
+        x="16"
+        y="16"
+      />
+      <svg:rect
+        height="56"
+        rx="16"
+        ry="16"
+        width="245"
+        x="16"
+        y="250"
+      />
+    }
+    @for (it of items | range; track it; let idx = $index) {
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="245"
+        x="16"
+        [attr.y]="(loggedIn ? 367 : 43) + 56 * idx"
+      />
+    }
+  </content-loader>
+</div>
+<div class="hidden md:block lg:hidden">
+  <content-loader
+    backgroundColor="#e7bdb9"
+    foregroundColor="#ffdad7"
+    viewBox="0 0 80 540"
+  >
+    @if (loggedIn) {
+      <svg:rect
+        x="12"
+        y="96"
+        rx="16"
+        ry="16"
+        width="56"
+        height="56"
+      />
+    }
+    @for (it of items | range; track it; let idx = $index) {
+      <svg:rect
+        x="12"
+        [attr.y]="(loggedIn ? 200 : 140) + 56 * idx"
+        y="200"
+        rx="26"
+        ry="26"
+        width="52"
+        height="52"
+      />
+    }
+  </content-loader>
+</div>
