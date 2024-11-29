@@ -3,8 +3,7 @@ import { isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { filter, map, pairwise, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subscription, filter, map, pairwise, tap } from 'rxjs';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';

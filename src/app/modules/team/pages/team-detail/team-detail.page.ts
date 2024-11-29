@@ -4,8 +4,7 @@ import { Component, OnInit, afterNextRender, input, inject } from '@angular/core
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, combineLatest, firstValueFrom } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, firstValueFrom, first, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';

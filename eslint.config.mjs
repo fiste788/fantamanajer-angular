@@ -265,7 +265,7 @@ export default tseslint.config(
       'prefer-object-spread': 'error',
       'prefer-template': 'error',
       'rxjs-x/no-async-subscribe': 'error',
-      'rxjs-x/no-ignored-observable': 'error',
+      'rxjs-x/no-floating-observables': 'error',
       'rxjs-x/no-ignored-subscription': 'warn',
       'rxjs-x/no-nested-subscribe': 'error',
       'rxjs-x/no-unbound-methods': 'error',

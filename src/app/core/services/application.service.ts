@@ -8,8 +8,6 @@ import {
   interval,
   firstValueFrom,
   combineLatest,
-} from 'rxjs';
-import {
   catchError,
   distinctUntilChanged,
   filter,
@@ -17,7 +15,7 @@ import {
   first,
   switchMap,
   share,
-} from 'rxjs/operators';
+} from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { filterNil } from '@app/functions';

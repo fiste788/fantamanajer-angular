@@ -5,8 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { Observable, filter, map, shareReplay } from 'rxjs';
 
 import { addVisibleClassOnDestroy, filterNil, getRouteParam } from '@app/functions';
 import { ScoreService } from '@data/services';

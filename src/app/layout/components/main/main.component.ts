@@ -13,8 +13,16 @@ import {
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import { combineLatest, fromEvent, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, share, throttleTime } from 'rxjs/operators';
+import {
+  combineLatest,
+  fromEvent,
+  Observable,
+  Subscription,
+  distinctUntilChanged,
+  map,
+  share,
+  throttleTime,
+} from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';

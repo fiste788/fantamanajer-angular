@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { share, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription, share, tap } from 'rxjs';
 
 import { NAVIGATOR } from '@app/services/navigator.service';
 

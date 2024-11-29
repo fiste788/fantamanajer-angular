@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 import { AuthenticationDto, ServerAuthInfo } from '@app/authentication';
 import { noErrorIt } from '@app/errors/http-error.interceptor';

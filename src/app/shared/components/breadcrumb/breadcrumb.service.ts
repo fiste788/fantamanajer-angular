@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, Data, Event, NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, filter, tap } from 'rxjs';
 
 import { Breadcrumb } from './breadcrumb.model';
 

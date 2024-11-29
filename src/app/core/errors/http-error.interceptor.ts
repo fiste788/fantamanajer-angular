@@ -6,8 +6,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { EMPTY, catchError } from 'rxjs';
 
 import { ErrorResponse } from '@data/types';
 import { environment } from '@env';

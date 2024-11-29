@@ -8,8 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';

@@ -8,8 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  firstValueFrom,
+  Observable,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { filterNil, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';

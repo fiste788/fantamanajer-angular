@@ -7,8 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { firstValueFrom, map, share } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';

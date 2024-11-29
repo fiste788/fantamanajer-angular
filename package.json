@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve",
-    "start": "npm run build && wrangler pages dev",
+    "start": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "npm run lint:scss && npm run prettier && npm run lint:ts",
@@ -19,6 +18,7 @@
     "build:stats": "ng build --stats-json",
     "process": "node ./tools/copy-files.mjs",
     "build": "ng build && npm run process",
+    "dev": "npm run build && wrangler pages dev",
     "deploy": "npm run build && wrangler pages deploy",
     "type-check": "wrangler types --experimental-include-runtime && tsc"
   },

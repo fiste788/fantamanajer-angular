@@ -8,8 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, firstValueFrom, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Subscription, firstValueFrom, from, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';

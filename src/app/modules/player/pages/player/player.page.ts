@@ -12,8 +12,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { BehaviorSubject, Observable, map, switchMap, distinctUntilChanged } from 'rxjs';
 
 import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
 import { ApplicationService } from '@app/services';

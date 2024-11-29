@@ -8,7 +8,7 @@ import {
   HttpInterceptorFn,
 } from '@angular/common/http';
 import { PLATFORM_ID, inject } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs';
 
 import { ApiResponse } from '@data/types';
 import { environment } from '@env';

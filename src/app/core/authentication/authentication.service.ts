@@ -1,8 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
-import { BehaviorSubject, firstValueFrom, Observable, catchError, EMPTY } from 'rxjs';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  catchError,
+  EMPTY,
+  finalize,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { filterNil } from '@app/functions';
 import { LocalstorageService } from '@app/services/local-storage.service';

@@ -6,8 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { BehaviorSubject, combineLatest, firstValueFrom, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, firstValueFrom, Observable, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';

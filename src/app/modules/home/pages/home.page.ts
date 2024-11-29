@@ -2,8 +2,7 @@ import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { Observable, first, map, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, groupBy } from '@app/functions';
 import { ApplicationService } from '@app/services';

@@ -5,8 +5,7 @@ import { Component, output, inject, ChangeDetectorRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, switchMap, tap } from 'rxjs';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';

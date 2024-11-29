@@ -7,8 +7,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
-import { distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  Observable,
+  of,
+  distinctUntilChanged,
+  first,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { filterNil, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
