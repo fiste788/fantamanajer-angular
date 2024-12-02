@@ -1,12 +1,13 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { BehaviorSubject, combineLatest, firstValueFrom, Observable, map, switchMap } from 'rxjs';
+import { combineLatest, firstValueFrom, Observable, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';
@@ -35,7 +36,8 @@ export class PasskeyListPage {
   readonly #pbcsService = inject(PublicKeyCredentialSourceService);
   readonly #auth = inject(AuthenticationService);
 
-  protected readonly refresh$ = new BehaviorSubject(true);
+  protected readonly refresh = signal<boolean>(true);
+  protected readonly refresh$ = toObservable(this.refresh);
   protected readonly passkeys$ = this.getDataSource();
   protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
   // protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
@@ -53,7 +55,7 @@ export class PasskeyListPage {
   protected async register(): Promise<void> {
     const passkey = await this.#webauthnService.startRegistration();
     if (passkey) {
-      this.refresh$.next(true);
+      this.refresh.set(true);
     }
   }
 
@@ -61,7 +63,7 @@ export class PasskeyListPage {
     return firstValueFrom(
       this.#auth.requireUser$.pipe(
         switchMap((user) => this.#pbcsService.delete(user.id, publicKey.id)),
-        map(() => this.refresh$.next(true)),
+        map(() => this.refresh.set(true)),
       ),
       { defaultValue: undefined },
     );

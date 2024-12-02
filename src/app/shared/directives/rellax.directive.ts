@@ -13,7 +13,7 @@ import {
   numberAttribute,
   inject,
 } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription, tap } from 'rxjs';
 
 import { WINDOW } from '@app/services';
 
@@ -98,11 +98,15 @@ export class RellaxDirective implements OnInit, OnDestroy {
 
       const target = this.#el.nativeElement.querySelector('img');
       if (target !== null) {
-        this.#subscription = fromEvent(target, 'load').subscribe(() => {
-          this.#ngZone.runOutsideAngular(() => {
-            this.init();
-          });
-        });
+        this.#subscription = fromEvent(target, 'load')
+          .pipe(
+            tap(() =>
+              this.#ngZone.runOutsideAngular(() => {
+                this.init();
+              }),
+            ),
+          )
+          .subscribe();
       }
     });
   }

@@ -3,13 +3,13 @@
   "version": 1,
   "cli": {
     "analytics": "2c669fec-8a87-4f51-b703-4509caf7aa22",
-    "packageManager": "npm",
+    "packageManager": "bun",
     "cache": {
       "enabled": true,
       "path": ".angular/cache",
       "environment": "all"
     },
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["angular-eslint"]
   },
   "newProjectRoot": "projects",
   "projects": {

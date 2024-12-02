@@ -34,7 +34,7 @@ function handleErrors(
       }
 
       // rethrow error
-      return throwError(() => error);
+      return throwError(() => new Error(error as string));
     }),
   );
 }

@@ -51,7 +51,7 @@ export class SettingsPage {
         this.#userService.update(user).pipe(
           share(),
           map((res) => {
-            this.#auth.userSubject.next(res);
+            this.#auth.user.set(res);
             this.#snackBar.open('Modifiche salvate');
           }),
         ),

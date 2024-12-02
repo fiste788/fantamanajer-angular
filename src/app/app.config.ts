@@ -20,7 +20,6 @@ import {
   provideClientHydration,
   withEventReplay,
   withHttpTransferCacheOptions,
-  withIncrementalHydration,
 } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
@@ -65,7 +64,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
-      withIncrementalHydration(),
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
     ),

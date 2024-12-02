@@ -1,5 +1,4 @@
 /* eslint-disable unicorn/prefer-spread */
-/* eslint-disable unicorn/no-useless-undefined */
 
 import { DOCUMENT } from '@angular/common';
 import { Injectable, signal, inject } from '@angular/core';

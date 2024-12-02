@@ -1,17 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  Observable,
-  catchError,
-  EMPTY,
-  finalize,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { firstValueFrom, Observable, catchError, EMPTY, finalize, map, switchMap, tap } from 'rxjs';
 
 import { filterNil } from '@app/functions';
 import { LocalstorageService } from '@app/services/local-storage.service';
@@ -33,8 +24,8 @@ export class AuthenticationService {
   readonly #userRole = 'ROLE_USER';
   readonly #emailField = 'user';
 
-  public userSubject = new BehaviorSubject<User | undefined>(undefined);
-  public user$ = this.userSubject.asObservable();
+  public user = signal<User | undefined>(undefined);
+  public user$ = toObservable(this.user);
   public requireUser$ = this.user$.pipe(filterNil());
   public loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
 
@@ -71,10 +62,12 @@ export class AuthenticationService {
     const { user, token } = res;
     user.roles = this.#getRoles(user);
     this.#tokenStorageService.setToken(token);
-    this.userSubject.next(user);
+    this.user.set(user);
 
     try {
-      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)));
+      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)), {
+        defaultValue: false,
+      });
       // eslint-disable-next-line no-empty
     } catch {}
 
@@ -96,7 +89,7 @@ export class AuthenticationService {
     const user = undefined;
     this.#localStorage.removeItem(this.#emailField);
     this.#tokenStorageService.deleteToken();
-    this.userSubject.next(user);
+    this.user.set(user);
   }
 
   public loggedIn(): boolean {
@@ -113,7 +106,7 @@ export class AuthenticationService {
   public getCurrentUser(): Observable<User> {
     return this.#userService.getCurrent().pipe(
       tap((user) => {
-        this.userSubject.next(user);
+        this.user.set(user);
       }),
     );
   }

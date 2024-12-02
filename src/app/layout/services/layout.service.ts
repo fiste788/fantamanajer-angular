@@ -59,11 +59,14 @@ export class LayoutService {
 
   public connectChangePageAnimation(): Subscription {
     return this.#isRouteContextChanged()
-      .pipe(filter((c) => c))
-      .subscribe(() => {
-        this.showToolbar();
-        this.showSpeedDial();
-      });
+      .pipe(
+        filter((c) => c),
+        tap(() => {
+          this.showToolbar();
+          this.showSpeedDial();
+        }),
+      )
+      .subscribe();
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {

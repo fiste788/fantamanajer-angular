@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, Injectable, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationRef, Injectable, inject, provideAppInitializer, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
-  BehaviorSubject,
   forkJoin,
   Observable,
   Subscription,
@@ -30,14 +30,14 @@ export class ApplicationService {
   readonly #authService = inject(AuthenticationService);
   readonly #matchdayService = inject(MatchdayService);
   readonly #teamService = inject(TeamService);
-  readonly #matchdaySubject$ = new BehaviorSubject<Matchday | undefined>(undefined);
-  readonly #teamSubject$ = new BehaviorSubject<Team | undefined>(undefined);
+  readonly #matchday = signal<Matchday | undefined>(undefined);
+  readonly #team = signal<Team | undefined>(undefined);
 
   public seasonEnded = false;
   public seasonStarted = true;
-  public readonly team$ = this.#teamSubject$.pipe(distinctUntilChanged());
+  public readonly team$ = toObservable(this.#team).pipe(distinctUntilChanged());
   public readonly requireTeam$ = this.team$.pipe(filterNil());
-  public readonly matchday$ = this.#matchdaySubject$.pipe(
+  public readonly matchday$ = toObservable(this.#matchday).pipe(
     filterNil(),
     distinctUntilChanged((prev, cur) => prev.id === cur.id),
   );
@@ -60,7 +60,7 @@ export class ApplicationService {
     return this.#matchdayService.getCurrentMatchday().pipe(
       tap((m) => {
         this.#recalcSeason(m);
-        this.#matchdaySubject$.next(m);
+        this.#matchday.set(m);
       }),
     );
   }
@@ -74,22 +74,24 @@ export class ApplicationService {
     return subscriptions;
   }
 
-  public async changeTeam(team: Team): Promise<Team> {
-    const res = await firstValueFrom(this.#teamService.getTeam(team.id));
-    this.#teamSubject$.next(res);
+  public async changeTeam(team: Team): Promise<Team | undefined> {
+    const res = await firstValueFrom(this.#teamService.getTeam(team.id), {
+      defaultValue: undefined,
+    });
+    this.#team.set(res);
 
     return res;
   }
 
   #refreshUser(): Subscription {
     return this.#authService.user$
-      .pipe(tap((u) => this.#teamSubject$.next(u?.teams?.length ? u.teams[0] : undefined)))
+      .pipe(tap((u) => this.#team.set(u?.teams?.length ? u.teams[0] : undefined)))
       .subscribe();
   }
 
   #refreshTeam(): Subscription {
     return combineLatest([this.team$, this.matchday$])
-      .pipe(tap(([teamSubject, matchday]) => this.#setTeam(matchday, teamSubject)))
+      .pipe(tap(([team, matchday]) => this.#setTeam(matchday, team)))
       .subscribe();
   }
 
@@ -101,8 +103,9 @@ export class ApplicationService {
         switchMap(() => interval(5 * 60 * 1000)),
         switchMap(() => this.loadCurrentMatchday()),
         share(),
+        tap((matchday) => this.#matchday.set(matchday)),
       )
-      .subscribe(this.#matchdaySubject$);
+      .subscribe();
   }
 
   #recalcSeason(matchday: Matchday): void {
@@ -119,8 +122,8 @@ export class ApplicationService {
     throw e;
   }
 
-  #setTeam(matchday: Matchday, teamSubject?: Team): void {
-    if (teamSubject?.championship.season_id === matchday.season_id) {
+  #setTeam(matchday: Matchday, team?: Team): void {
+    if (team?.championship.season_id === matchday.season_id) {
       this.#recalcSeason(matchday);
     } else {
       this.seasonStarted = false;

@@ -9,7 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { first, firstValueFrom, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { firstValueFrom, forkJoin, map, Observable, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -62,11 +62,14 @@ export class ProfileComponent {
     const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
 
     return firstValueFrom(
-      forkJoin([this.app.matchday$.pipe(first()), this.#teamService.getTeam(team.id)]).pipe(
+      forkJoin([
+        firstValueFrom(this.app.matchday$, { defaultValue: undefined }),
+        this.#teamService.getTeam(team.id),
+      ]).pipe(
         switchMap(([m, t]) =>
           this.#dialog
             .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
-              data: { team: t, showChangeTeamName: m.number <= 38 },
+              data: { team: t, showChangeTeamName: (m?.number ?? 0) <= 38 },
             })
             .afterClosed(),
         ),

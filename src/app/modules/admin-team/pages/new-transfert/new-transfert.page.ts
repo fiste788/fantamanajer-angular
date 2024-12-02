@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -9,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  BehaviorSubject,
   combineLatest,
   firstValueFrom,
   Observable,
@@ -44,8 +44,8 @@ export class NewTransfertPage {
   readonly #memberService = inject(MemberService);
   readonly #dialog = inject(MatDialog);
   readonly #snackbar = inject(MatSnackBar);
-  readonly #roleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
-  readonly #role$ = this.#roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+  readonly #role = signal<Role | undefined>(undefined);
+  readonly #role$ = toObservable(this.#role).pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
 
   protected readonly transfert: Partial<Transfert> = { constrained: false };
   protected readonly team$ = getRouteData<Team>('team');
@@ -76,7 +76,7 @@ export class NewTransfertPage {
 
   protected playerChange(oldMember?: Member): void {
     if (oldMember) {
-      this.#roleSubject$.next(this.#roleService.get(oldMember.role_id));
+      this.#role.set(this.#roleService.get(oldMember.role_id));
     }
   }
 

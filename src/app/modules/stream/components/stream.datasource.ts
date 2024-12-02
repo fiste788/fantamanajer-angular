@@ -1,6 +1,7 @@
 import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
+import { signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
-  BehaviorSubject,
   Observable,
   Subscription,
   map,
@@ -9,6 +10,7 @@ import {
   filter,
   EMPTY,
   concatMap,
+  tap,
 } from 'rxjs';
 
 import { StreamService } from '@data/services';
@@ -19,7 +21,8 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   #cachedData = Array.from<StreamActivity | undefined>({ length: this.#length });
   readonly #pageSize = 10;
   readonly #fetchedPages = new Set<number>();
-  readonly #dataStream = new BehaviorSubject<Array<StreamActivity | undefined>>(this.#cachedData);
+  readonly #dataStream = signal<Array<StreamActivity | undefined>>(this.#cachedData);
+  readonly #dataStream$ = toObservable(this.#dataStream);
   readonly #subscription = new Subscription();
 
   constructor(
@@ -29,8 +32,6 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   ) {
     super();
     this.#addPlaceholder();
-
-    this.#dataStream.next(this.#cachedData);
   }
 
   public connect(
@@ -42,11 +43,12 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
           concatMap((r) => this.#getRange(r)),
           filter((page) => !this.#fetchedPages.has(page)),
           mergeMap((page) => this.#fetchPage(page)),
+          tap((res) => this.#dataStream.set(res)),
         )
-        .subscribe((res) => this.#dataStream.next(res)),
+        .subscribe(),
     );
 
-    return this.#dataStream;
+    return this.#dataStream$;
   }
 
   public disconnect(): void {

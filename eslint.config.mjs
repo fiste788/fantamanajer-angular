@@ -39,7 +39,7 @@ export default tseslint.config(
       // Apply the recommended Angular rules
       ...angular.configs.tsRecommended,
 
-      rxjsX.configs.recommended,
+      rxjsX.configs.strict,
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
 
@@ -273,7 +273,9 @@ export default tseslint.config(
       'sort-keys': 'off',
       'space-in-parens': ['error', 'never'],
       'unicorn/filename-case': 'error',
+      'unicorn/no-useless-undefined': 'off',
       'unicorn/prevent-abbreviations': 'off',
+      'unicorn/consistent-function-scoping': 'off',
       'unicorn/prefer-event-target': 'off',
       yoda: 'error',
     },

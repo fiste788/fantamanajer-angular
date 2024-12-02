@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable, Subject, Subscription, share, tap } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, share, tap } from 'rxjs';
 
 import { NAVIGATOR } from '@app/services/navigator.service';
 
 import { Notification, Stream } from '../types';
-
-type MessageCallback = (payload: unknown) => void;
 
 const url = 'notifications';
 const routes = {
@@ -18,7 +16,7 @@ export class NotificationService {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
   readonly #http = inject(HttpClient);
 
-  public notifications: Subject<Notification> = new Subject<Notification>();
+  public notifications = signal<Notification | undefined>(undefined);
 
   public getNotifications(teamId: number): Observable<Stream> {
     return this.#http.get<Stream>(routes.notifications(teamId)).pipe(share());
@@ -33,10 +31,6 @@ export class NotificationService {
   }
 
   public broadcast(title: string, uri: string, severity?: number): void {
-    this.notifications.next({ title, url: uri, severity: severity ?? 0 });
-  }
-
-  public subscribe(callback: MessageCallback): Subscription {
-    return this.notifications.subscribe(callback);
+    this.notifications.set({ title, url: uri, severity: severity ?? 0 });
   }
 }

@@ -1,5 +1,6 @@
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, OnInit, input, inject } from '@angular/core';
+import { Component, input, inject, linkedSignal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +13,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { BehaviorSubject, Observable, map, switchMap, distinctUntilChanged } from 'rxjs';
+import { Observable, switchMap, distinctUntilChanged } from 'rxjs';
 
 import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
 import { ApplicationService } from '@app/services';
@@ -44,15 +45,14 @@ import { LayoutService } from 'src/app/layout/services';
     DecimalPipe,
   ],
 })
-export class PlayerPage implements OnInit {
+export class PlayerPage {
   readonly #ratingService = inject(RatingService);
   readonly #layoutService = inject(LayoutService);
 
   protected readonly app = inject(ApplicationService);
   protected readonly player = input.required<Player>();
-  protected firstMember?: Member;
-  protected ratings$?: Observable<Array<Rating>>;
-  protected readonly selectedMember$ = new BehaviorSubject<Member | undefined>(undefined);
+  protected selectedMember = linkedSignal(() => this.player().members[0]!);
+  protected ratings$ = this.getRatings(toObservable(this.selectedMember));
   protected readonly displayedColumns = [
     'matchday',
     'rating',
@@ -72,16 +72,8 @@ export class PlayerPage implements OnInit {
     addVisibleClassOnDestroy(tableRowAnimation);
   }
 
-  public ngOnInit(): void {
-    [this.firstMember] = this.player().members;
-    this.selectedMember$.next(this.firstMember);
-
-    this.ratings$ = this.getRatings();
-  }
-
-  protected getRatings(): Observable<Array<Rating>> {
-    return this.selectedMember$.pipe(
-      map((selected) => selected ?? this.firstMember),
+  protected getRatings(selectedMember$: Observable<Member>): Observable<Array<Rating>> {
+    return selectedMember$.pipe(
       distinctUntilChanged(),
       filterNil(),
       switchMap((member) => this.#ratingService.getRatings(member.id)),

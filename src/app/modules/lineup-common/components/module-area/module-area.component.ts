@@ -1,7 +1,6 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
 import { Component, SimpleChange, booleanAttribute, effect, input, output } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
 
 import { Member, Module, Role } from '@data/types';
 import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
@@ -14,7 +13,7 @@ export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
 
 type MarkFunctionPropertyNames<Component> = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  [Key in keyof Component]: Component[Key] extends Function | Subject<unknown> ? never : Key;
+  [Key in keyof Component]: Component[Key] extends Function ? never : Key;
 };
 
 type ExcludeFunctionPropertyNames<T> = MarkFunctionPropertyNames<T>[keyof T];
