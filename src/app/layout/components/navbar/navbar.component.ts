@@ -5,8 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';

@@ -1,5 +1,6 @@
 import { AsyncPipe, KeyValue, KeyValuePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, viewChild, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,8 +8,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
-import { distinctUntilChanged, first, map, switchMap, tap } from 'rxjs/operators';
+import {
+  combineLatest,
+  forkJoin,
+  Observable,
+  of,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+  firstValueFrom,
+} from 'rxjs';
 
 import { filterNil, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
@@ -39,12 +49,12 @@ export class SelectionComponent {
   readonly #memberService = inject(MemberService);
   readonly #route = inject(ActivatedRoute);
   readonly #snackbar = inject(MatSnackBar);
-  readonly #roleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
-  readonly #role$ = this.#roleSubject$.pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+  readonly #role = signal<Role | undefined>(undefined);
+  readonly #role$ = toObservable(this.#role).pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
 
   #savedSelection?: Selection;
   protected readonly data$ = this.loadData();
-  protected readonly newMemberRoleSubject$ = new BehaviorSubject<Role | undefined>(undefined);
+  protected readonly newMemberRole = signal<Role | undefined>(undefined);
   protected selectionForm = viewChild(NgForm);
   protected newMembers$?: Observable<Array<Member>>;
   protected newMemberDisabled = false;
@@ -78,8 +88,8 @@ export class SelectionComponent {
             // eslint-disable-next-line unicorn/no-null
             selection.old_member = null;
           }
-          this.newMemberRoleSubject$.next(this.#roleService.get(newMember.role_id));
-          this.#roleSubject$.next(this.#roleService.get(newMember.role_id));
+          this.newMemberRole.set(this.#roleService.get(newMember.role_id));
+          this.#role.set(this.#roleService.get(newMember.role_id));
           selection.new_member = newMember;
           selection.new_member_id = newMember.id;
           this.#changeRef.detectChanges();
@@ -116,24 +126,25 @@ export class SelectionComponent {
       .pipe(map((data) => this.#roleService.groupMembersByRole(data)));
   }
 
-  protected getSelectedMember(): Observable<Member | undefined> {
-    return this.#route.queryParamMap.pipe(
-      map((params) => params.get('new_member_id')),
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      switchMap((id) => (id ? this.#memberService.getById(+id) : of(undefined))),
-      first(),
+  protected async getSelectedMember(): Promise<Member | undefined> {
+    return firstValueFrom(
+      this.#route.queryParamMap.pipe(
+        map((params) => params.get('new_member_id')),
+        switchMap((id) => (id ? this.#memberService.getById(+id) : of(undefined))),
+      ),
+      { defaultValue: undefined },
     );
   }
 
   protected oldMemberChange(member: Member | null): void {
     if (member) {
-      this.#roleSubject$.next(this.#roleService.get(member.role_id));
+      this.#role.set(this.#roleService.get(member.role_id));
     }
   }
 
   protected newMemberChange(member: Member | null): void {
     if (member) {
-      this.newMemberRoleSubject$.next(this.#roleService.get(member.role_id));
+      this.newMemberRole.set(this.#roleService.get(member.role_id));
     }
   }
 
@@ -179,7 +190,7 @@ export class SelectionComponent {
 
   protected reset(): void {
     const role = undefined;
-    this.#roleSubject$.next(role);
-    this.newMemberRoleSubject$.next(role);
+    this.#role.set(role);
+    this.newMemberRole.set(role);
   }
 }

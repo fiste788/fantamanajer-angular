@@ -1,8 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Injectable, RendererFactory2, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { map, share, switchMap } from 'rxjs/operators';
+import { Subscription, map, share, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

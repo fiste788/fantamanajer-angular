@@ -4,10 +4,11 @@
     @createBox
   >
     <button
-      #button
+      #button=""
       aria-label="open"
       mat-icon-button
       type="button"
+      (click)="notificationList.open.emit()"
     >
       <mat-icon
         aria-hidden="false"
@@ -19,12 +20,10 @@
         [matBadgeHidden]="stream.unseen === 0"
         >notifications</mat-icon
       >
-      @defer (on interaction(button)) {
-        <app-notification-list
-          #notificationList
-          [origin]="buttonRef()"
-        />
-      }
+      <app-notification-list
+        #notificationList
+        [origin]="button._elementRef"
+      />
     </button>
   </div>
 }

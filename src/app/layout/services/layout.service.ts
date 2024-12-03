@@ -3,8 +3,19 @@ import { isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { filter, map, pairwise, tap } from 'rxjs/operators';
+import {
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+  filter,
+  map,
+  pairwise,
+  tap,
+  switchMap,
+  startWith,
+  first,
+} from 'rxjs';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
@@ -46,6 +57,18 @@ export class LayoutService {
   public readonly up = signal(false);
   public readonly down = signal(false);
 
+  public stable = toSignal(
+    this.#router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      // eslint-disable-next-line unicorn/no-null
+      first(null, undefined),
+      switchMap(async () => new Promise((r) => setTimeout(r))),
+      map(() => true),
+      startWith(false),
+    ),
+    { requireSync: true },
+  );
+
   public init(): Observable<boolean> {
     return combineLatest([this.isHandset$, this.isTablet$]).pipe(
       map(([h, t]) => {
@@ -60,11 +83,14 @@ export class LayoutService {
 
   public connectChangePageAnimation(): Subscription {
     return this.#isRouteContextChanged()
-      .pipe(filter((c) => c))
-      .subscribe(() => {
-        this.showToolbar();
-        this.showSpeedDial();
-      });
+      .pipe(
+        filter((c) => c),
+        tap(() => {
+          this.showToolbar();
+          this.showSpeedDial();
+        }),
+      )
+      .subscribe();
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {

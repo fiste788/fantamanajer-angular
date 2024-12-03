@@ -78,7 +78,7 @@ export class CookieStorage implements Storage {
       cookieString += `domain=${options.domain};`;
     }
 
-    if (options?.secure === false && options?.sameSite === 'None') {
+    if (options?.secure === false && options.sameSite === 'None') {
       options.secure = true;
     }
     if (options?.secure) {
@@ -138,7 +138,7 @@ export class CookieStorage implements Storage {
           : (this.#request?.headers.get('cookie') ?? ''),
       );
 
-      return result?.[1] ? CookieStorage.safeDecodeURIComponent(result?.[1]) : '';
+      return result?.[1] ? CookieStorage.safeDecodeURIComponent(result[1]) : '';
     }
 
     return '';

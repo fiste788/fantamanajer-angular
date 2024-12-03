@@ -36,10 +36,12 @@ export class ChampionshipDetailPage {
 
   protected readonly championship$ = getRouteData<Championship>('championship').pipe(
     switchMap((c) => this.#championshipService.get(c.id)),
-    defaultIfEmpty({} as Championship),
+    defaultIfEmpty({} as Partial<Championship>),
   );
 
-  protected readonly league$ = this.championship$.pipe(map((c) => c.league ?? {}));
+  protected readonly league$ = this.championship$.pipe(
+    map((c) => c.league ?? ({} as Partial<League>)),
+  );
 
   constructor() {
     addVisibleClassOnDestroy(cardCreationAnimation);

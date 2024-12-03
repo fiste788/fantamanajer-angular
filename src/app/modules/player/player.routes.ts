@@ -11,7 +11,7 @@ export default [
     path: ':id',
     component: PlayerPage,
     data: {
-      breadcrumbs: (data: { player: Player }): string => `${data.player.full_name}`,
+      breadcrumbs: (data: { player: Player }): string => data.player.full_name,
       state: 'player-detail',
       description: (data: { player: Player }): string =>
         `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,
@@ -19,7 +19,7 @@ export default [
         `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,
       ogImage: (data: { player: Player }): string =>
         `/svg/clubs.svg#club-${data.player.members[0]!.club.id}`,
-      ogTitle: (data: { player: Player }): string => `${data.player.full_name}`,
+      ogTitle: (data: { player: Player }): string => data.player.full_name,
     },
     resolve: {
       player: playerResolver,

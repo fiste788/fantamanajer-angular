@@ -1,12 +1,5 @@
 import { AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  PLATFORM_ID,
-  ViewContainerRef,
-  viewChild,
-  inject,
-} from '@angular/core';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,11 +31,6 @@ export class NotificationComponent {
   readonly #notificationService = inject(NotificationService);
   readonly #app = inject(ApplicationService);
 
-  protected container = viewChild<unknown, ViewContainerRef>('container', {
-    read: ViewContainerRef,
-  });
-
-  protected buttonRef = viewChild.required<unknown, ElementRef>('button', { read: ElementRef });
   protected readonly stream$ = this.#isBrowser ? this.loadStream() : EMPTY;
 
   public loadStream(): Observable<Stream> {

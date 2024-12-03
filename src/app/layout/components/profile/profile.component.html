@@ -33,7 +33,7 @@
               </mat-option>
             }
           </mat-select>
-          @if (team === teams[0]) {
+          @if (team?.id === teams[0]?.id) {
             <button
               aria-label="Settings"
               mat-icon-button

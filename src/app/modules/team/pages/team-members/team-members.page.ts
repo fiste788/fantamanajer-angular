@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { MemberService } from '@data/services';

@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { Club } from '@data/types';

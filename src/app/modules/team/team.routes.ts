@@ -30,7 +30,7 @@ export default [
         path: ':team_id',
         component: TeamDetailPage,
         data: {
-          breadcrumbs: (data: { team: Team }): string => `${data.team.name}`,
+          breadcrumbs: (data: { team: Team }): string => data.team.name,
           state: 'team-detail',
         },
         resolve: {

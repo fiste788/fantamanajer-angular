@@ -30,13 +30,13 @@ export default [
         path: ':id',
         component: ClubDetailPage,
         data: {
-          breadcrumbs: (data: { club: Club }): string => `${data.club.name}`,
+          breadcrumbs: (data: { club: Club }): string => data.club.name,
           state: 'club-outlet',
           exit: true,
           description: 'Club',
           ogDescription: 'Club',
           ogImage: (data: { club: Club }): string => `${data.club.photo_url}`,
-          ogTitle: (data: { club: Club }): string => `${data.club.name}`,
+          ogTitle: (data: { club: Club }): string => data.club.name,
         },
         resolve: {
           club: clubResolver,

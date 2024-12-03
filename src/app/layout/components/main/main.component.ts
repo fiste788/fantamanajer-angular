@@ -13,8 +13,16 @@ import {
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import { combineLatest, fromEvent, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, share, throttleTime } from 'rxjs/operators';
+import {
+  combineLatest,
+  fromEvent,
+  Observable,
+  Subscription,
+  distinctUntilChanged,
+  map,
+  share,
+  throttleTime,
+} from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -25,12 +33,14 @@ import { StatePipe } from '@shared/pipes';
 import { LayoutService } from '../../services';
 import { BottomComponent } from '../bottom/bottom.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarSkeletonComponent } from '../navbar-skeleton/navbar-skeleton.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   animations: [trigger('contextChange', routerTransition), scrollUpAnimation, scrollDownAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
+  host: { '[@.disabled]': '!stable()' },
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   imports: [
@@ -43,6 +53,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     AsyncPipe,
     StatePipe,
     NgClass,
+    NavbarSkeletonComponent,
   ],
 })
 export class MainComponent implements OnDestroy {
@@ -62,11 +73,12 @@ export class MainComponent implements OnDestroy {
     },
   );
 
-  protected readonly isHandset$ = inject(LayoutService).isHandset$;
-  protected readonly isTablet$ = inject(LayoutService).isTablet$;
-  protected readonly openSidebar = inject(LayoutService).openSidebar;
+  protected readonly stable = this.#layoutService.stable;
+  protected readonly isHandset$ = this.#layoutService.isHandset$;
+  protected readonly isTablet$ = this.#layoutService.isTablet$;
+  protected readonly openSidebar = this.#layoutService.openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
-  protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
+  protected readonly showedToolbar$ = this.#layoutService.isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
   protected hidden = VisibilityState.Hidden;
 
@@ -115,6 +127,6 @@ export class MainComponent implements OnDestroy {
   }
 
   #getToolbarHeight(): number {
-    return this.toolbar().nativeElement.clientHeight ?? 0;
+    return this.toolbar().nativeElement.clientHeight;
   }
 }

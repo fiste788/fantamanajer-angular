@@ -1,6 +1,6 @@
 import { NgForm, UntypedFormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { bindCallback, firstValueFrom, mergeMap, Observable, ObservableInput, of, tap } from 'rxjs';
+import { bindCallback, firstValueFrom, mergeMap, Observable, of, tap } from 'rxjs';
 
 import { catchUnprocessableEntityErrors } from './catch-unprocessable-entity-errors.functions';
 
@@ -23,7 +23,7 @@ export async function save<T, R>(
         snackbar.open(options.message);
       }
     }),
-    mergeMap<T, ObservableInput<R>>((result) => {
+    mergeMap((result) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-misused-promises
       const func = bindCallback(async (_callback: (res1: R) => any) =>
         options?.callback ? options.callback(result) : of(defaultValue),

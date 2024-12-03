@@ -9,8 +9,7 @@
       <mat-select
         placeholder="Seleziona il ruolo"
         [compareWith]="compareRole"
-        [ngModel]="role$ | async"
-        (selectionChange)="role$.next($event.value)"
+        [(ngModel)]="role"
       >
         @for (role of (roles); track role.id) {
         <mat-option [value]="role"> {{role.singolar}} </mat-option>
