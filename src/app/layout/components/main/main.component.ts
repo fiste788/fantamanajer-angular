@@ -40,6 +40,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   animations: [trigger('contextChange', routerTransition), scrollUpAnimation, scrollDownAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
+  host: { '[@.disabled]': '!stable()' },
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   imports: [
@@ -72,11 +73,12 @@ export class MainComponent implements OnDestroy {
     },
   );
 
-  protected readonly isHandset$ = inject(LayoutService).isHandset$;
-  protected readonly isTablet$ = inject(LayoutService).isTablet$;
-  protected readonly openSidebar = inject(LayoutService).openSidebar;
+  protected readonly stable = this.#layoutService.stable;
+  protected readonly isHandset$ = this.#layoutService.isHandset$;
+  protected readonly isTablet$ = this.#layoutService.isTablet$;
+  protected readonly openSidebar = this.#layoutService.openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
-  protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
+  protected readonly showedToolbar$ = this.#layoutService.isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
   protected hidden = VisibilityState.Hidden;
 
@@ -125,6 +127,6 @@ export class MainComponent implements OnDestroy {
   }
 
   #getToolbarHeight(): number {
-    return this.toolbar().nativeElement.clientHeight ?? 0;
+    return this.toolbar().nativeElement.clientHeight;
   }
 }

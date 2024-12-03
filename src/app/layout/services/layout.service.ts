@@ -3,7 +3,19 @@ import { isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, Observable, of, Subscription, filter, map, pairwise, tap } from 'rxjs';
+import {
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+  filter,
+  map,
+  pairwise,
+  tap,
+  switchMap,
+  startWith,
+  first,
+} from 'rxjs';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
@@ -44,6 +56,18 @@ export class LayoutService {
 
   public readonly up = signal(false);
   public readonly down = signal(false);
+
+  public stable = toSignal(
+    this.#router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      // eslint-disable-next-line unicorn/no-null
+      first(null, undefined),
+      switchMap(async () => new Promise((r) => setTimeout(r))),
+      map(() => true),
+      startWith(false),
+    ),
+    { requireSync: true },
+  );
 
   public init(): Observable<boolean> {
     return combineLatest([this.isHandset$, this.isTablet$]).pipe(

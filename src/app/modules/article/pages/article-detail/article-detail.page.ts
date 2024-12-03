@@ -44,7 +44,7 @@ export class ArticleDetailPage {
     article: AtLeast<Article, 'team_id'>,
     articleForm: NgForm,
   ): Promise<boolean> {
-    if (articleForm?.valid) {
+    if (articleForm.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.#articleService.update(article as AtLeast<Article, 'id'>)
         : this.#articleService.create(article);
