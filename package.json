@@ -17,8 +17,8 @@
     "prettier:fix": "prettier --write \"src/**/*.{scss,html}\" --log-level warn",
     "build": "ng build",
     "build:stats": "ng build --stats-json",
-    "dev": "npm run build && wrangler pages dev",
-    "deploy": "npm run build && wrangler pages deploy",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
     "type-check": "wrangler types --experimental-include-runtime && tsc"
   },
   "private": true,

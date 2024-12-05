@@ -33,7 +33,9 @@
       class="bottom"
       [@scrollDownAnimation]="showedToolbar"
     >
-      <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
+      @defer (when isHandset) {
+        <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
+      }
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
