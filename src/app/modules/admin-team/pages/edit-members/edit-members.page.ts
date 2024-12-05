@@ -4,8 +4,7 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable, map, switchMap } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';

@@ -28,17 +28,16 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 .wrangler/*
+!.wrangler/types/*
 
 # Miscellaneous
 /.angular/cache
-/.wrangler
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
 testem.log
 /typings
-/.wrangler
 
 # System files
 .DS_Store

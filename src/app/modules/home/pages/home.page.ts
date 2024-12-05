@@ -2,8 +2,7 @@ import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Observable } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { firstValueFrom, map, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, groupBy } from '@app/functions';
 import { ApplicationService } from '@app/services';
@@ -43,11 +42,13 @@ export class HomePage {
     addVisibleClassOnDestroy(cardCreationAnimation);
   }
 
-  protected loadBestPlayers(): Observable<Map<Role, Array<Member>>> {
-    return this.matchday$.pipe(
-      first(),
-      switchMap((matchday) => this.#memberService.getBest(matchday.id)),
-      map((members) => groupBy(members, (member) => this.roleService.get(member.role_id))),
+  protected async loadBestPlayers(): Promise<Map<Role, Array<Member>>> {
+    return firstValueFrom(
+      this.matchday$.pipe(
+        switchMap((matchday) => this.#memberService.getBest(matchday.id)),
+        map((members) => groupBy(members, (member) => this.roleService.get(member.role_id))),
+      ),
+      { defaultValue: new Map() },
     );
   }
 }

@@ -42,7 +42,7 @@ export class TeamEditModal {
 
   protected validComboDrag = false;
   protected invalidComboDrag = false;
-  protected file!: File;
+  protected file?: File;
   protected readonly team = this.#data.team;
   protected readonly showChangeTeamName? = this.#data.showChangeTeamName;
   protected readonly app = inject(ApplicationService);

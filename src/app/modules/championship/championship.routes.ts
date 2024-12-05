@@ -13,8 +13,7 @@ export default [
     path: ':championship_id',
     component: ChampionshipPage,
     data: {
-      breadcrumbs: (data: { championship: Championship }): string =>
-        `${data.championship.league.name}`,
+      breadcrumbs: (data: { championship: Championship }): string => data.championship.league.name,
       state: 'championship-outlet',
       viewTransitionOutlet: 'team-outlet',
     },

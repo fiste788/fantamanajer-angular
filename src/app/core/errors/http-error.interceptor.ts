@@ -6,8 +6,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { EMPTY, catchError } from 'rxjs';
 
 import { ErrorResponse } from '@data/types';
 import { environment } from '@env';
@@ -20,8 +19,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse) {
-        const error = err.error as ErrorResponse;
-        const message = error.data?.message ?? err.message;
+        const error = err.error as ErrorResponse | null;
+        const message = error?.data?.message ?? err.message;
         if (!req.context.get(NO_ERROR_IT)) {
           snackbar.open(message, 'CLOSE', {
             duration: 5000,

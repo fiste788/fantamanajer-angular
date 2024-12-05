@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { NavigationEnd, ActivatedRoute, Router, Data } from '@angular/router';
-import { Subscription, filter, map } from 'rxjs';
+import { Subscription, filter, map, tap } from 'rxjs';
 
 interface SEOData {
   description?: string | ((data: Data) => string);
@@ -27,15 +27,16 @@ export class MetaService {
         map(() => this.#getChild(this.#activatedRoute).snapshot),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         map((route) => (route.data['parent'] ? route.parent!.data : route.data)),
+        tap((data) => {
+          this.#setTag('description', data, 'description');
+          this.#setTag('robots', data, 'robots', 'follow,index');
+          this.#setTag('og:url', data, 'ogUrl', this.#router.url);
+          this.#setTag('og:title', data, 'ogTitle');
+          this.#setTag('og:description', data, 'ogDescription');
+          this.#setTag('og:image', data, 'ogImage');
+        }),
       )
-      .subscribe((data) => {
-        this.#setTag('description', data, 'description');
-        this.#setTag('robots', data, 'robots', 'follow,index');
-        this.#setTag('og:url', data, 'ogUrl', this.#router.url);
-        this.#setTag('og:title', data, 'ogTitle');
-        this.#setTag('og:description', data, 'ogDescription');
-        this.#setTag('og:image', data, 'ogImage');
-      });
+      .subscribe();
   }
 
   #setTag(property: string, data: Data, key: keyof SEOData, defaultValue?: string): void {

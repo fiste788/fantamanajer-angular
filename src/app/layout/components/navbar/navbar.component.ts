@@ -1,13 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, input, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -20,7 +18,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
   animations: [closeAnimation],
-  selector: 'app-navbar[sidenav]',
+  selector: 'app-navbar',
   styleUrl: './navbar.component.scss',
   templateUrl: './navbar.component.html',
   imports: [
@@ -39,9 +37,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
 
-  public sidenav = input.required<MatSidenav>();
-
   protected deferredPrompt$ = inject(PwaService).beforeInstall$;
+  protected readonly opensidebar = this.#layoutService.openSidebar;
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
   protected readonly team$ = inject(ApplicationService).team$;
   protected readonly matchday$ = inject(ApplicationService).matchday$;
@@ -50,7 +47,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     filter((evt) => evt instanceof NavigationStart),
   );
 
-  protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
+  protected readonly openSidebar = inject(LayoutService).openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
 
   public ngOnInit(): void {
@@ -59,12 +56,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   public init(): void {
     this.#subscriptions.add(
-      this.navStart$
-        .pipe(
-          filter(() => this.sidenav().mode === 'over'),
-          map(() => this.#layoutService.closeSidebar()),
-        )
-        .subscribe(),
+      this.navStart$.pipe(map(() => this.#layoutService.closeSidebar())).subscribe(),
     );
   }
 
@@ -72,11 +64,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     event.preventDefault();
     await prompt.prompt();
 
-    return prompt.userChoice.then(() => {
+    const choice = await prompt.userChoice;
+    if (choice.outcome === 'accepted') {
       delete this.deferredPrompt$;
 
       return true;
-    });
+    }
+
+    return false;
   }
 
   public ngOnDestroy(): void {

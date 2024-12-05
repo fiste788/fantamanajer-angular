@@ -6,8 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, map, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';

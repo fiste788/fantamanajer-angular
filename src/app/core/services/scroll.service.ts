@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, fromEvent } from 'rxjs';
 import {
+  Observable,
+  fromEvent,
   auditTime,
   distinctUntilChanged,
   filter,
@@ -8,7 +9,7 @@ import {
   pairwise,
   share,
   throttleTime,
-} from 'rxjs/operators';
+} from 'rxjs';
 
 import { Direction } from '@app/enums';
 

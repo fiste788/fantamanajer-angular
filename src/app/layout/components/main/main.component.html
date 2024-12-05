@@ -1,6 +1,5 @@
-@let isTablet = isTablet$ | async;
-@let isHandset = isHandset$ | async;
-@let isOpen = isOpen$ | async;
+@let isTablet = (isTablet$ | async)!;
+@let isHandset = (isHandset$ | async)!;
 @let isScrolled = isScrolled$ | async;
 @let showedToolbar = showedToolbar$ | async;
 <mat-sidenav-container>
@@ -9,16 +8,14 @@
     fixedInViewport="true"
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [autoFocus]="false"
-    [mode]="isHandset ? 'over' : isTablet && isOpen ? 'over' : 'side'"
-    [ngClass]="{
-      rail: isTablet,
-      'rail-closed': isTablet && !drawer.opened,
-      'rail-opened': isTablet && drawer.opened,
-    }"
-    [opened]="isOpen"
-    (openedChange)="open($event)"
+    [(opened)]="openSidebar"
+    [mode]="isHandset || isTablet ? 'over' : 'side'"
   >
-    <app-navbar [sidenav]="drawer" />
+    @defer (on viewport) {
+      <app-navbar />
+    } @placeholder (minimum 500ms) {
+      <app-navbar-skeleton />
+    }
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar

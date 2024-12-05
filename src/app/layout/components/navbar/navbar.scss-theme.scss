@@ -2,52 +2,6 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  .rail-closed {
-    .mat-mdc-subheader,
-    app-profile {
-      max-height: 0;
-      margin: 0;
-      transform: translateZ(0);
-    }
-
-    a.mdc-list-item.mdc-list-item--activated {
-      mat-icon {
-        font-variation-settings: 'FILL' 1;
-      }
-    }
-
-    .speed-dial {
-      padding: 0;
-      margin: 0.5rem 0.75rem;
-    }
-
-    .toggle {
-      display: block;
-      margin: 3rem 1.25rem 0;
-    }
-
-    .mat-mdc-nav-list {
-      margin-top: 3rem;
-    }
-
-    .mat-mdc-list-item {
-      padding: 0 !important;
-    }
-  }
-
-  .rail-opened {
-    .mat-mdc-subheader,
-    app-profile {
-      max-height: 300px;
-    }
-
-    .toggle {
-      display: block;
-      margin-top: 1rem;
-      margin-left: 1rem;
-    }
-  }
-
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
     .mat-sidenav-container .mat-drawer-backdrop {
       margin-left: 5rem;
@@ -67,23 +21,69 @@
       display: block;
     }
 
-    .mat-sidenav.ng-animating {
-      .speed-dial {
-        overflow: hidden;
-      }
-
-      &.rail-opened {
-        eco-fab-speed-dial {
-          max-width: 100%;
-        }
-      }
-    }
-
     .mat-mdc-nav-list,
     .mat-mdc-subheader,
     app-profile,
     .toggle {
       overflow: hidden;
+    }
+
+    .mat-drawer-opened {
+      .mat-mdc-subheader,
+      app-profile {
+        max-height: 300px;
+      }
+
+      .toggle {
+        display: block;
+        margin-top: 1rem;
+        margin-left: 1rem;
+      }
+    }
+
+    .mat-drawer:not(.mat-drawer-opened) {
+      .mat-mdc-subheader,
+      app-profile {
+        max-height: 0;
+        margin: 0;
+        transform: translateZ(0);
+      }
+
+      a.mdc-list-item.mdc-list-item--activated {
+        mat-icon {
+          font-variation-settings: 'FILL' 1;
+        }
+      }
+
+      .speed-dial {
+        padding: 0;
+        margin: 0.5rem 0.75rem;
+      }
+
+      .toggle {
+        display: block;
+        margin: 3rem 1.25rem 0;
+      }
+
+      .mat-mdc-nav-list {
+        margin-top: 3rem;
+      }
+
+      .mat-mdc-list-item {
+        padding: 0 !important;
+      }
+    }
+
+    .mat-drawer.ng-animating {
+      .speed-dial {
+        overflow: hidden;
+      }
+
+      &.mat-drawer-opened {
+        eco-fab-speed-dial {
+          max-width: 100%;
+        }
+      }
     }
   }
 }

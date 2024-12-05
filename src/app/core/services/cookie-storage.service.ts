@@ -2,9 +2,7 @@
 /* eslint-disable unicorn/no-null */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-
-import { REQUEST } from '@app/tokens';
+import { Injectable, PLATFORM_ID, REQUEST, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +78,7 @@ export class CookieStorage implements Storage {
       cookieString += `domain=${options.domain};`;
     }
 
-    if (options?.secure === false && options?.sameSite === 'None') {
+    if (options?.secure === false && options.sameSite === 'None') {
       options.secure = true;
     }
     if (options?.secure) {
@@ -140,7 +138,7 @@ export class CookieStorage implements Storage {
           : (this.#request?.headers.get('cookie') ?? ''),
       );
 
-      return result?.[1] ? CookieStorage.safeDecodeURIComponent(result?.[1]) : '';
+      return result?.[1] ? CookieStorage.safeDecodeURIComponent(result[1]) : '';
     }
 
     return '';

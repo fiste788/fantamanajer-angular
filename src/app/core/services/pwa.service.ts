@@ -2,8 +2,17 @@ import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { Observable, Subscription, timer, fromEvent } from 'rxjs';
-import { filter, map, switchMap, first, tap } from 'rxjs/operators';
+import {
+  Observable,
+  Subscription,
+  timer,
+  fromEvent,
+  filter,
+  map,
+  switchMap,
+  first,
+  tap,
+} from 'rxjs';
 
 import { WINDOW } from './window.service';
 

@@ -2,8 +2,7 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, OnInit, input, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap, map, shareReplay } from 'rxjs/operators';
+import { Observable, switchMap, map, shareReplay } from 'rxjs';
 
 import { filterNil, getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';

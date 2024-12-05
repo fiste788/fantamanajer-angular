@@ -9,7 +9,7 @@
       "path": ".angular/cache",
       "environment": "all"
     },
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["angular-eslint"]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -25,24 +25,17 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/public",
-              "src/favicon.ico",
-              "src/robots.txt",
-              "src/_headers",
-              "src/_routes.json"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               {
-                "input": "src/styles/pre-bootstrap.scss",
-                "bundleName": "pre-bootstrap",
-                "inject": true
-              },
-              {
-                "input": "src/styles/main.scss",
+                "input": "src/styles/styles.scss",
                 "bundleName": "styles",
                 "inject": true
               }
@@ -103,18 +96,23 @@
           },
           "defaultConfiguration": "development"
         },
+        "serve-local": {
+          "builder": "@angular-builders/custom-esbuild:dev-server",
+          "options": {
+            "proxyConfig": "proxy.local.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "fantamanajer-angular:build:production"
+            },
+            "development": {
+              "buildTarget": "fantamanajer-angular:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/public"],
-            "scripts": []
-          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
@@ -133,7 +131,8 @@
       "setParserOptionsProject": true
     },
     "@schematics/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "inlineTemplate": false
     },
     "@schematics/angular:application": {
       "strict": true

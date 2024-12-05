@@ -1,53 +1,56 @@
+@let _team = team();
 <mat-card appearance="outlined">
   <figure
     class="aspect-ratio-box"
     mat-card-image
-    [style.viewTransitionName]="viewTransitionName(team())"
+    [style.viewTransitionName]="viewTransitionName(_team)"
   >
-    @if (team().photo_url) {
+    @if (_team.photo_url) {
       <a
-        [routerLink]="['/teams/', team().id]"
+        [routerLink]="['/teams/', _team.id]"
         [state]="{ img: 'url(\'' + listImg.currentSrc + '\')' }"
       >
         <img
           #listImg
           height="337"
+          ngSrcset="240w, 600w, 1280w"
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
-          [alt]="team().name"
-          [loaderParams]="team().photo_url ?? undefined"
-          [ngSrc]="team().photo_url | srcset: true"
+          [alt]="_team.name"
+          [loaderParams]="_team.photo_url"
+          [ngSrc]="_team.photo_url | srcset: true"
+          [priority]="priority()"
         />
       </a>
     } @else {
       <div class="placeholder">
-        <span>{{ team().name }}</span>
+        <span>{{ _team.name }}</span>
       </div>
     }
     <ng-template #placeholder>
       <div class="placeholder">
-        <span>{{ team().name }}</span>
+        <span>{{ _team.name }}</span>
       </div>
     </ng-template>
   </figure>
 
   <mat-card-header>
-    <mat-card-title [style.viewTransitionName]="'title-' + team().name">{{
-      team().name
+    <mat-card-title [style.viewTransitionName]="'title-' + _team.name">{{
+      _team.name
     }}</mat-card-title>
-    <mat-card-subtitle>{{ team().user.email }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ _team.user.email }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
     <a
       color="primary"
       mat-button
-      [routerLink]="['/teams/', team().id]"
+      [routerLink]="['/teams/', _team.id]"
       >DETTAGLI</a
     >
     <a
       color="primary"
       mat-button
-      [routerLink]="['/teams/', team().id, 'scores', 'last']"
+      [routerLink]="['/teams/', _team.id, 'scores', 'last']"
       >PUNTEGGIO</a
     >
   </mat-card-actions>

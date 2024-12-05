@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "module": "ES2022",
     "moduleResolution": "bundler",
     "noImplicitOverride": true,
@@ -44,7 +45,10 @@
         "src/app/shared/*"
       ]
     },
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "types": [
+      "./.wrangler/types/runtime.d.ts"
+    ]
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
@@ -60,6 +64,7 @@
     "strictContextGenerics": true,
     "strictLiteralTypes": true,
     "strictAttributeTypes": true,
+    "strictStandalone": true,
     "disableTypeScriptVersionCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "extendedDiagnostics": {

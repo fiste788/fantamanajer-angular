@@ -1,9 +1,7 @@
 import { trigger } from '@angular/animations';
 import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -15,8 +13,16 @@ import {
 import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import { combineLatest, EMPTY, fromEvent, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, share, throttleTime } from 'rxjs/operators';
+import {
+  combineLatest,
+  fromEvent,
+  Observable,
+  Subscription,
+  distinctUntilChanged,
+  map,
+  share,
+  throttleTime,
+} from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
@@ -27,12 +33,14 @@ import { StatePipe } from '@shared/pipes';
 import { LayoutService } from '../../services';
 import { BottomComponent } from '../bottom/bottom.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarSkeletonComponent } from '../navbar-skeleton/navbar-skeleton.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   animations: [trigger('contextChange', routerTransition), scrollUpAnimation, scrollDownAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
+  host: { '[@.disabled]': '!stable()' },
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   imports: [
@@ -45,14 +53,14 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     AsyncPipe,
     StatePipe,
     NgClass,
+    NavbarSkeletonComponent,
   ],
 })
-export class MainComponent implements OnDestroy, AfterViewInit {
+export class MainComponent implements OnDestroy {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
   readonly #ngZone = inject(NgZone);
   readonly #transitionService = inject(CurrentTransitionService);
-  readonly #changeRef = inject(ChangeDetectorRef);
   readonly #window = inject<Window>(WINDOW);
   readonly #document = inject<Document>(DOCUMENT);
   readonly #auth = inject(AuthenticationService);
@@ -66,38 +74,26 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     },
   );
 
-  protected readonly isReady$ = inject(LayoutService).isReady$;
-  protected readonly isHandset$ = inject(LayoutService).isHandset$;
-  protected readonly isTablet$ = inject(LayoutService).isTablet$;
-  protected readonly openedSidebar$ = inject(LayoutService).openedSidebar$;
-  protected readonly isOpen$ = this.#isOpenObservable();
+  protected readonly stable = this.#layoutService.stable;
+  protected readonly isHandset$ = this.#layoutService.isHandset$;
+  protected readonly isTablet$ = this.#layoutService.isTablet$;
+  protected readonly openSidebar = this.#layoutService.openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
-  protected readonly showedToolbar$ = inject(LayoutService).isShowToolbar$;
+  protected readonly showedToolbar$ = this.#layoutService.isShowToolbar$;
   protected isScrolled$?: Observable<boolean>;
   protected hidden = VisibilityState.Hidden;
   protected skeletonColors = this.#layoutService.skeletonColors;
 
   constructor() {
     afterNextRender(() => {
-      this.drawer()._content.nativeElement.parentElement!.style.display = 'block';
       this.#setupScrollAnimation(this.#window);
       this.#setSkeletonColors();
+      this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
     });
-  }
-
-  public ngAfterViewInit(): void {
-    // this.subscriptions.add(this.preBootstrapExitAnimation().subscribe());
-    this.#subscriptions.add(this.#initDrawer().subscribe());
-    this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
-    this.#changeRef.detectChanges();
   }
 
   public ngOnDestroy(): void {
     this.#subscriptions.unsubscribe();
-  }
-
-  protected open(open: boolean): void {
-    this.#layoutService.toggleSidebar(open);
   }
 
   protected viewTransitionName() {
@@ -105,6 +101,12 @@ export class MainComponent implements OnDestroy, AfterViewInit {
       this.#transitionService.isRootOutlet()
       ? 'main'
       : '';
+  }
+
+  protected openedChange(): void {
+    if (this.drawer().mode !== 'over') {
+      this.#layoutService.openSidebar.set(true);
+    }
   }
 
   #setupScrollAnimation(window: Window): void {
@@ -121,27 +123,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  #initDrawer(): Observable<void> {
-    return (
-      this.drawer().openedStart.pipe(
-        mergeMap(() => this.drawer()._animationEnd ?? EMPTY),
-        map(() => this.#layoutService.setReady()),
-      ) ?? EMPTY
-    );
-  }
-
-  #isOpenObservable(): Observable<boolean> {
-    return combineLatest([
-      this.isReady$,
-      this.isHandset$,
-      this.isTablet$,
-      this.openedSidebar$,
-    ]).pipe(
-      map(([r, h, t, o]) => o || (!h && !t && r)),
-      distinctUntilChanged(),
-    );
-  }
-
   #isShowedSpeedDial(): Observable<VisibilityState> {
     return combineLatest([this.#layoutService.isShowSpeedDial$, this.#auth.loggedIn$]).pipe(
       map(([v, u]) => (u ? v : VisibilityState.Hidden)),
@@ -149,7 +130,7 @@ export class MainComponent implements OnDestroy, AfterViewInit {
   }
 
   #getToolbarHeight(): number {
-    return this.toolbar().nativeElement.clientHeight ?? 0;
+    return this.toolbar().nativeElement.clientHeight;
   }
 
   #setSkeletonColors() {

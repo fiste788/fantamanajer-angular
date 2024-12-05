@@ -1,8 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
-import { EMPTY, firstValueFrom, from, merge, Observable, of, Subscription } from 'rxjs';
-import { catchError, filter, map, mergeMap, share, switchMap, take } from 'rxjs/operators';
+import {
+  EMPTY,
+  firstValueFrom,
+  from,
+  merge,
+  Observable,
+  of,
+  Subscription,
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  share,
+  switchMap,
+  take,
+} from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { NotificationService, PushSubscriptionService } from '@data/services';

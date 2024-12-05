@@ -39,7 +39,7 @@ export default tseslint.config(
       // Apply the recommended Angular rules
       ...angular.configs.tsRecommended,
 
-      rxjsX.configs.recommended,
+      rxjsX.configs.strict,
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
 
@@ -189,6 +189,49 @@ export default tseslint.config(
         },
       ],
       'default-case': 'error',
+      'import/no-cycle': ['off'],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'object', 'type'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+          pathGroups: [
+            {
+              pattern: '@angular/**',
+              group: 'external',
+            },
+            {
+              pattern: 'rxjs**',
+              group: 'external',
+            },
+            {
+              pattern: '@app/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@data/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@env/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@modules/**',
+              group: 'internal',
+            },
+            {
+              pattern: '@shared/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: [],
+        },
+      ],
       'max-lines': ['error', 400],
       'new-parens': 'error',
       'newline-per-chained-call': 'off',
@@ -223,7 +266,7 @@ export default tseslint.config(
       'prefer-object-spread': 'error',
       'prefer-template': 'error',
       'rxjs-x/no-async-subscribe': 'error',
-      'rxjs-x/no-ignored-observable': 'error',
+      'rxjs-x/no-floating-observables': 'error',
       'rxjs-x/no-ignored-subscription': 'warn',
       'rxjs-x/no-nested-subscribe': 'error',
       'rxjs-x/no-unbound-methods': 'error',
@@ -231,7 +274,9 @@ export default tseslint.config(
       'sort-keys': 'off',
       'space-in-parens': ['error', 'never'],
       'unicorn/filename-case': 'error',
+      'unicorn/no-useless-undefined': 'off',
       'unicorn/prevent-abbreviations': 'off',
+      'unicorn/consistent-function-scoping': 'off',
       'unicorn/prefer-event-target': 'off',
       yoda: 'error',
     },

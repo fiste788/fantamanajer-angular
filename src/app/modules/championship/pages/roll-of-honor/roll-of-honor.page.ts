@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-null */
 import { AsyncPipe, DecimalPipe, KeyValue, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -6,7 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { first, map, share, switchMap } from 'rxjs';
 
-import { getRouteData, groupBy } from '@app/functions';
+import { filterNil, getRouteData, groupBy } from '@app/functions';
 import { LeagueService } from '@data/services';
 import { Championship, RollOfHonor } from '@data/types';
 import { tableRowAnimation } from '@shared/animations';
@@ -35,11 +36,12 @@ export class RollOfHonorPage {
 
   protected readonly dataSource$ = getRouteData<Championship>('championship').pipe(
     switchMap((championship) => this.#leagueService.getRollOfHonor(championship.league_id)),
-    first(),
+    first(null, undefined),
     share(),
   );
 
   protected readonly dataSourceByUser$ = this.dataSource$.pipe(
+    filterNil(),
     map((res) => {
       const group = groupBy(
         res,

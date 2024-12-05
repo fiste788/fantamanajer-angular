@@ -9,15 +9,13 @@ import localeIt from '@angular/common/locales/it';
 import {
   ApplicationConfig,
   inject,
-  importProvidersFrom,
   isDevMode,
   PLATFORM_ID,
   LOCALE_ID,
   provideEnvironmentInitializer,
-  provideZoneChangeDetection,
-  provideExperimentalCheckNoChangesForDebug,
+  provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
   provideClientHydration,
   withEventReplay,
@@ -64,12 +62,11 @@ export const appConfig: ApplicationConfig = {
         onViewTransitionCreated,
       }),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideExperimentalZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
     ),
-    provideExperimentalCheckNoChangesForDebug({ interval: 1 }),
     provideHttpClient(
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
@@ -79,9 +76,7 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    importProvidersFrom(MatSnackBarModule),
     {
-      deps: [LayoutService],
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {
         duration: 3000,
