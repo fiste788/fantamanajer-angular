@@ -35,12 +35,7 @@
             ],
             "styles": [
               {
-                "input": "src/styles/pre-bootstrap.scss",
-                "bundleName": "pre-bootstrap",
-                "inject": true
-              },
-              {
-                "input": "src/styles/main.scss",
+                "input": "src/styles/styles.scss",
                 "bundleName": "styles",
                 "inject": true
               }

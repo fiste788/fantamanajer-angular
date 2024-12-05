@@ -26,6 +26,7 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
   const url = new URL(request.url);
 
   if (url.pathname.startsWith(environment.apiEndpoint)) {
+    console.log('Fetching from service binding: ' + request.url);
     return env.API.fetch(request);
   }
 
