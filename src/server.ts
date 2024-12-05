@@ -2,16 +2,17 @@ import { AngularAppEngine } from '@angular/ssr';
 
 import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
+import { environment } from '@env';
 
 interface Env {
   ASSETS: Fetcher;
-  API?: Fetcher;
+  API: Fetcher;
 }
 
 function setServerAuthentication(body: ServerAuthInfo) {
   const response = new Response(undefined);
   const newCookie = CookieStorage.cookieString('token', body.accessToken, {
-    expires: body.expiresAt ?? undefined,
+    expires: body.expiresAt,
     path: '/',
   });
   response.headers.set('Set-Cookie', newCookie);
@@ -21,10 +22,11 @@ function setServerAuthentication(body: ServerAuthInfo) {
 
 const angularApp = new AngularAppEngine();
 
-const reqHandler = async (request: Request, env: Env, ctx: unknown): Promise<Response> => {
+const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
   const url = new URL(request.url);
-  if (url.pathname.startsWith('/api/')) {
-    return env.API?.fetch(request) ?? new Response();
+
+  if (url.pathname.startsWith(environment.apiEndpoint)) {
+    return env.API.fetch(request);
   }
 
   if (url.pathname.startsWith('/localdata/setsession')) {
