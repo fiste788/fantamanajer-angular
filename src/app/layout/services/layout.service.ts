@@ -54,6 +54,7 @@ export class LayoutService {
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
   );
 
+  public readonly skeletonColors = signal({ foreground: '#e7bdb9', background: '#ffdad7' });
   public readonly up = signal(false);
   public readonly down = signal(false);
 

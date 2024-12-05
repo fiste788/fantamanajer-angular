@@ -80,9 +80,9 @@ export class MainComponent implements OnDestroy {
   protected readonly openSidebar = this.#layoutService.openSidebar;
   protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
   protected readonly showedToolbar$ = this.#layoutService.isShowToolbar$;
+  protected readonly skeletonColors = this.#layoutService.skeletonColors;
   protected isScrolled$?: Observable<boolean>;
   protected hidden = VisibilityState.Hidden;
-  protected skeletonColors = this.#layoutService.skeletonColors;
 
   constructor() {
     afterNextRender(() => {
