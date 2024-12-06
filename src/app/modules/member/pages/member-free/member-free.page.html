@@ -1,3 +1,4 @@
+@let members = members$ | async; @let team = (app.team$ | async);
 <div
   class="table-container"
   @tableRowAnimation
@@ -16,26 +17,26 @@
         }
       </mat-select>
     </mat-form-field>
-    @if (selectedMember) {
+    @if (selectedMember && team) {
     <div class="mat-mdc-table-header-selected flex flex-row">
       <span class="mat-mdc-table-title">Selezionato {{selectedMember.player.full_name}}</span>
       <a
         mat-button
         matTooltip="Acquista"
         [queryParams]="{new_member_id: selectedMember.id}"
-        [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
+        [routerLink]="'/teams/' + team.id + '/transferts'"
       >
         <mat-icon>add_shopping_cart</mat-icon>
       </a>
     </div>
     }
   </div>
-  @if (members$ && (app.team$ | async); as team) {
+  @if (members && team) {
   <app-member-list
     hideRole
     [elevation]="0"
     [isSelectable]="team.championship.started && !app.seasonEnded || false"
-    [members]="members$!"
+    [members]="members"
     (selectionChange)="setSelectedMember($event)"
   />
   }

@@ -1,14 +1,15 @@
-@if (dataSource$ | async; as dataSource) {
-  @if (dataSource.data.length) {
+@if (dataSource(); as _dataSource) {
+  @if (_dataSource.data.length) {
     <mat-card appearance="outlined">
       <table
         #table
+        #sort="matSort"
         mat-table
         matSort
         @tableRowAnimation
-        [dataSource]="dataSource"
+        [dataSource]="_dataSource"
         [trackBy]="trackMember"
-        (matSortChange)="setSort(dataSource)"
+        (matSortChange)="_dataSource.sort = sort"
       >
         <ng-container
           matColumnDef="select"

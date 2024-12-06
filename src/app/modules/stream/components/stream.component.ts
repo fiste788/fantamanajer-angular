@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  Injector,
   OnDestroy,
   OnInit,
   inject,
@@ -16,7 +17,6 @@ import { MatListModule } from '@angular/material/list';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
-import { StreamService } from '@data/services';
 import { StreamActivity } from '@data/types';
 import { listItemAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
@@ -39,8 +39,7 @@ import { StreamDataSource } from './stream.datasource';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly #streamService = inject(StreamService);
-
+  readonly #injector = inject(Injector);
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
@@ -55,7 +54,7 @@ export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.#streamService, this.context(), this.id());
+    this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
   }
 
   public ngAfterViewInit(): void {

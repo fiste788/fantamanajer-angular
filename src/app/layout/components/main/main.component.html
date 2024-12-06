@@ -2,6 +2,7 @@
 @let isHandset = (isHandset$ | async)!;
 @let isScrolled = isScrolled$ | async;
 @let showedToolbar = showedToolbar$ | async;
+@let showedSpeedDial = showedSpeedDial$ | async;
 <mat-sidenav-container>
   <mat-sidenav
     #drawer
@@ -29,13 +30,12 @@
       <router-outlet #o="outlet" />
     </main>
 
-    <div
-      class="bottom"
-      [@scrollDownAnimation]="showedToolbar"
-    >
-      @defer (when isHandset) {
-        <app-bottom [visibility]="(showedSpeedDial$ | async) ?? hidden" />
-      }
-    </div>
+    @defer (when isHandset$) {
+      <app-bottom
+        class="bottom"
+        [@scrollDownAnimation]="stable() && showedToolbar ? showedToolbar : hidden"
+        [visibilitySpeedDial]="stable() && showedSpeedDial ? showedSpeedDial : hidden"
+      />
+    }
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -28,15 +28,6 @@
       </span>
     </h3>
   }
-  @if (deferredPrompt$ | async; as prompt) {
-    <a
-      href="#install"
-      mat-list-item
-      (click)="install(prompt, $event)"
-    >
-      <mat-icon matListItemIcon>get_app</mat-icon>Installa l'app
-    </a>
-  }
   <a
     #rla1="routerLinkActive"
     mat-list-item

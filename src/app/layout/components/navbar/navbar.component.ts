@@ -9,7 +9,7 @@ import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { ApplicationService, PwaService } from '@app/services';
+import { ApplicationService } from '@app/services';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
 
-  protected deferredPrompt$ = inject(PwaService).beforeInstall$;
   protected readonly opensidebar = this.#layoutService.openSidebar;
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
   protected readonly team$ = inject(ApplicationService).team$;
@@ -58,20 +57,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.#subscriptions.add(
       this.navStart$.pipe(map(() => this.#layoutService.closeSidebar())).subscribe(),
     );
-  }
-
-  public async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
-    event.preventDefault();
-    await prompt.prompt();
-
-    const choice = await prompt.userChoice;
-    if (choice.outcome === 'accepted') {
-      delete this.deferredPrompt$;
-
-      return true;
-    }
-
-    return false;
   }
 
   public ngOnDestroy(): void {

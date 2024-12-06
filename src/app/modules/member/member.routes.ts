@@ -3,8 +3,6 @@ import { Route } from '@angular/router';
 import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
-import { MemberFreePage } from './pages/member-free/member-free.page';
-
 export default [
   {
     path: '',
@@ -12,7 +10,8 @@ export default [
     children: [
       {
         path: 'free',
-        component: MemberFreePage,
+        loadComponent: async () =>
+          import('./pages/member-free/member-free.page').then((c) => c.MemberFreePage),
         canActivate: [authenticatedGuard],
         data: {
           state: 'free',

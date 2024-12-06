@@ -1,5 +1,5 @@
 import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
-import { signal } from '@angular/core';
+import { inject, Injector, runInInjectionContext, signal, WritableSignal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   Observable,
@@ -21,17 +21,22 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
   #cachedData = Array.from<StreamActivity | undefined>({ length: this.#length });
   readonly #pageSize = 10;
   readonly #fetchedPages = new Set<number>();
-  readonly #dataStream = signal<Array<StreamActivity | undefined>>(this.#cachedData);
-  readonly #dataStream$ = toObservable(this.#dataStream);
+  readonly #streamService: StreamService;
+  readonly #dataStream: WritableSignal<Array<StreamActivity | undefined>>;
+  readonly #dataStream$: Observable<Array<StreamActivity | undefined>>;
   readonly #subscription = new Subscription();
 
   constructor(
-    private readonly streamService: StreamService,
+    private readonly injector: Injector,
     private readonly name: 'championships' | 'clubs' | 'teams' | 'users',
     private readonly id: number,
   ) {
     super();
+
     this.#addPlaceholder();
+    this.#dataStream = signal(this.#cachedData);
+    this.#streamService = runInInjectionContext(this.injector, () => inject(StreamService));
+    this.#dataStream$ = runInInjectionContext(this.injector, () => toObservable(this.#dataStream));
   }
 
   public connect(
@@ -76,7 +81,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     }
     this.#fetchedPages.add(page);
 
-    return this.streamService.get(this.name, this.id, page).pipe(
+    return this.#streamService.get(this.name, this.id, page).pipe(
       map((data) => data.results),
       map((res) => {
         this.#cachedData = [...this.#cachedData.filter((cd) => cd !== undefined), ...res];

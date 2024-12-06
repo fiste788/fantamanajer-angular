@@ -10,7 +10,7 @@ import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TeamService } from '@data/services';
 import { Member, Role, Team } from '@data/types';
-import { ModuleAreaComponent } from '@modules/lineup-common/components/module-area/module-area.component';
+import { ModuleAreaComponent } from '@modules/lineup/components/module-area/module-area.component';
 
 interface Data {
   dispositions: Array<{

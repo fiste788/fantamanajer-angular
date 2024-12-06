@@ -2,7 +2,7 @@
   <content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    viewBox="0 0 288 790"
+    [viewBox]="'0 0 288 ' + (loggedIn ? 745 : 245)"
   >
     @if (loggedIn) {
       <svg:rect

@@ -3,7 +3,7 @@ import { Component, SimpleChange, booleanAttribute, effect, input, output } from
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 
 import { Member, Module, Role } from '@data/types';
-import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
+import { MemberSelectionComponent } from '@modules/member/components/member-selection/member-selection.component';
 import { StickyDirective } from '@shared/directives';
 import { RangePipe } from '@shared/pipes';
 
