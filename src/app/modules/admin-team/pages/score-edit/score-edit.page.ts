@@ -16,8 +16,8 @@ import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { ScoreService } from '@data/services';
 import { EmptyLineup, Lineup, Score, Team } from '@data/types';
-import { LineupDetailComponent } from '@modules/lineup-common/components/lineup-detail/lineup-detail.component';
-import { MemberAlreadySelectedValidator } from '@modules/lineup-common/components/lineup-detail/member-already-selected-validator.directive';
+import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
+import { MemberAlreadySelectedValidator } from '@modules/lineup/components/lineup-detail/member-already-selected-validator.directive';
 
 @Component({
   templateUrl: './score-edit.page.html',

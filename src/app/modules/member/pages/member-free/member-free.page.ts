@@ -15,7 +15,7 @@ import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Championship, Member, Role } from '@data/types';
-import { MemberListComponent } from '@modules/member-common/components/member-list/member-list.component';
+import { MemberListComponent } from '@modules/member/components/member-list/member-list.component';
 import { tableRowAnimation } from '@shared/animations';
 
 @Component({

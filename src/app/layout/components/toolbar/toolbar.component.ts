@@ -7,15 +7,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { CurrentTransitionService, NAVIGATOR } from '@app/services';
-import { scrollUpAnimation } from '@shared/animations';
+import { CurrentTransitionService, NAVIGATOR, PwaService } from '@app/services';
+import { createBoxAnimation, scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 
 import { LayoutService } from '../../services';
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
-  animations: [scrollUpAnimation],
+  animations: [scrollUpAnimation, createBoxAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-toolbar',
   styleUrl: './toolbar.component.scss',
@@ -39,10 +39,25 @@ export class ToolbarComponent {
   readonly #transitionService = inject(CurrentTransitionService);
 
   protected readonly loggedIn$ = this.#auth.loggedIn$;
+  protected deferredPrompt$ = inject(PwaService).beforeInstall$;
   protected readonly isOverlayed = this.getOverlayedSignal();
 
-  public clickNav(): void {
+  protected clickNav(): void {
     this.#layoutService.toggleSidebar();
+  }
+
+  protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
+    event.preventDefault();
+    await prompt.prompt();
+
+    const choice = await prompt.userChoice;
+    if (choice.outcome === 'accepted') {
+      delete this.deferredPrompt$;
+
+      return true;
+    }
+
+    return false;
   }
 
   protected getOverlayedSignal(): Signal<boolean> {

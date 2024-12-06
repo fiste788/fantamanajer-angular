@@ -1,4 +1,4 @@
-@if(tabs$ | async; as tabs) {
+@if(tabs$ | async; as tabs) { @let _team = team();
 <app-toolbar-tab
   fragment="tab"
   [tabs]="tabs"
@@ -6,19 +6,19 @@
   <div class="animation-container">
     <app-parallax-header
       contextParam="team_id"
-      [backgroundImage]="team().photo_url ?? undefined"
+      [backgroundImage]="_team.photo_url ?? undefined"
       [placeholder]="placeholder"
-      [subtitle]="team().user.name + ' ' + team().user.surname"
-      [title]="team().name"
+      [subtitle]="_team.user.name + ' ' + _team.user.surname"
+      [title]="_team.name"
       (imageLoaded)="scrollTo($event)"
     >
-      @if (team().user.id === (auth.user$ | async)?.id && !app.seasonEnded) {
+      @if (_team.user.id === (auth.user$ | async)?.id && !app.seasonEnded) {
       <div parallax-header-right>
         <button
           aria-label="Settings"
           mat-icon-button
           type="button"
-          (click)="openDialog(team())"
+          (click)="openDialog(_team)"
         >
           <mat-icon>settings</mat-icon>
         </button>

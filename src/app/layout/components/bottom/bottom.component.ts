@@ -25,7 +25,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 export class BottomComponent {
   readonly #layoutService = inject(LayoutService);
 
-  public readonly visibility = input.required<VisibilityState>();
+  public readonly visibilitySpeedDial = input.required<VisibilityState>();
   protected readonly speedDial = viewChild<SpeedDialComponent>('speedDial');
 
   constructor() {

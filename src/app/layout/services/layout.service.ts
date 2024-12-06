@@ -28,10 +28,13 @@ export class LayoutService {
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
   readonly #platform = inject(PLATFORM_ID);
-
   readonly #scrollSubscription = new Map<Window, Subscription | undefined>();
+
+  public readonly openSidebar = signal(false);
   public readonly showSpeedDial = signal(false);
-  public readonly showToolbar = signal(true);
+  public readonly showToolbar = signal(false);
+  public readonly up = signal(false);
+  public readonly down = signal(false);
 
   public readonly isHandset$ = isPlatformServer(this.#platform)
     ? of(true)
@@ -45,7 +48,6 @@ export class LayoutService {
     combineLatest([this.isHandset$, this.isTablet$]).pipe(map(([h, t]) => !h && !t)),
   );
 
-  public readonly openSidebar = signal(false);
   public readonly isShowSpeedDial$ = toObservable(this.showSpeedDial).pipe(
     map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
   );
@@ -55,8 +57,6 @@ export class LayoutService {
   );
 
   public readonly skeletonColors = signal({ foreground: '#e7bdb9', background: '#ffdad7' });
-  public readonly up = signal(false);
-  public readonly down = signal(false);
 
   public stable = toSignal(
     this.#router.events.pipe(

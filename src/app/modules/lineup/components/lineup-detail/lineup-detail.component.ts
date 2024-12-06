@@ -18,7 +18,7 @@ import { addVisibleClassOnDestroy } from '@app/functions';
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
-import { MemberSelectionComponent } from '@modules/member-common/components/member-selection/member-selection.component';
+import { MemberSelectionComponent } from '@modules/member/components/member-selection/member-selection.component';
 import { cardCreationAnimation } from '@shared/animations';
 
 import { LineupOptionsComponent } from '../lineup-options/lineup-options.component';

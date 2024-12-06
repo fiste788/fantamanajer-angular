@@ -1,25 +1,23 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit,
   booleanAttribute,
   input,
   numberAttribute,
-  viewChild,
-  inject,
+  linkedSignal,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { map } from 'rxjs';
 
 import { addVisibleClassOnDestroy } from '@app/functions';
 import { Member } from '@data/types';
@@ -53,15 +51,12 @@ type Stats = (typeof stats)[number];
     MatTooltipModule,
     MatEmptyStateComponent,
     MatProgressSpinnerModule,
-    AsyncPipe,
     DecimalPipe,
     MatCardModule,
   ],
 })
 export class MemberListComponent implements OnInit {
-  readonly #changeRef = inject(ChangeDetectorRef);
-
-  public members = input.required<Observable<Array<Member>>>();
+  public members = input.required<Array<Member>>();
   public hideClub = input(false, { transform: booleanAttribute });
   public hideRole = input(false, { transform: booleanAttribute });
   public isSelectable = input(false, { transform: booleanAttribute });
@@ -74,10 +69,16 @@ export class MemberListComponent implements OnInit {
     this.selection.changed.pipe(map(() => this.selection.selected)),
   );
 
-  protected sort = viewChild(MatSort);
-  protected table = viewChild(MatTable<Member>);
+  protected dataSource = linkedSignal(() => {
+    const ds = new MatTableDataSource<Member>(this.members());
+    if (ds.data.length > 0) {
+      ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
+      this.calcSummary(ds.data);
+    }
 
-  protected dataSource$?: Observable<MatTableDataSource<Member>>;
+    return ds;
+  });
+
   protected displayedColumns = [
     'player',
     'role',
@@ -100,14 +101,6 @@ export class MemberListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.fixColumns();
-    this.dataSource$ = this.dataSourceFromMembers();
-  }
-
-  protected setSort(ds: MatTableDataSource<Member>): void {
-    const sort = this.sort();
-    if (sort) {
-      ds.sort = sort;
-    }
   }
 
   protected fixColumns(): void {
@@ -120,19 +113,6 @@ export class MemberListComponent implements OnInit {
     if (this.isSelectable()) {
       this.displayedColumns.unshift('select');
     }
-  }
-
-  protected dataSourceFromMembers(): Observable<MatTableDataSource<Member>> {
-    return this.members().pipe(
-      map((data) => new MatTableDataSource<Member>(data)),
-      tap((ds) => {
-        if (ds.data.length > 0) {
-          ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
-          this.calcSummary(ds.data);
-        }
-        this.#changeRef.detectChanges();
-      }),
-    );
   }
 
   protected calcSummary(data: Array<Member>): void {

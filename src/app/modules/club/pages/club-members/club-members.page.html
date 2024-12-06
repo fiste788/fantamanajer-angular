@@ -1,6 +1,6 @@
-@if (members$) {
+@if (members$ | async; as members) {
 <app-member-list
   hideClub
-  [members]="members$"
+  [members]="members"
 />
 }

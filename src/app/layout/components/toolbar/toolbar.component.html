@@ -10,11 +10,25 @@
     </button>
     <app-breadcrumb />
     <span class="spacer"></span>
-    @if (loggedIn$ | async) {
-      @defer {
-        <app-notification />
+    <div
+      @createBox
+      class="flex"
+    >
+      @if (deferredPrompt$ | async; as prompt) {
+        <a
+          mat-icon-button
+          href="#install"
+          (click)="install(prompt, $event)"
+        >
+          <mat-icon>get_app</mat-icon>
+        </a>
       }
-    }
+      @if (loggedIn$ | async) {
+        @defer {
+          <app-notification />
+        }
+      }
+    </div>
   </mat-toolbar-row>
   <mat-toolbar-row
     id="toolbar-tab-container"
