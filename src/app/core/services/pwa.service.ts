@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { ApplicationRef, Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import {
@@ -24,7 +24,6 @@ export class PwaService {
   readonly #platformId = inject(PLATFORM_ID);
   readonly #snackBar = inject(MatSnackBar);
   readonly #swUpdate = inject(SwUpdate);
-  readonly #zone = inject(NgZone);
   readonly #appRef = inject(ApplicationRef);
 
   public readonly beforeInstall$? = this.#getBeforeInstall();
@@ -65,14 +64,12 @@ export class PwaService {
   }
 
   #promptUpdate(): Observable<void> {
-    return this.#zone.run(() => {
-      return this.#snackBar
-        .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
-        .onAction()
-        .pipe(
-          switchMap(async () => this.#swUpdate.activateUpdate()),
-          map(() => this.#window.location.reload()),
-        );
-    });
+    return this.#snackBar
+      .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
+      .onAction()
+      .pipe(
+        switchMap(async () => this.#swUpdate.activateUpdate()),
+        map(() => this.#window.location.reload()),
+      );
   }
 }
