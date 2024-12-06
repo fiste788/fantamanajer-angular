@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  NgZone,
   OnDestroy,
   afterNextRender,
   viewChild,
@@ -59,7 +58,6 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
 export class MainComponent implements OnDestroy {
   readonly #subscriptions = new Subscription();
   readonly #layoutService = inject(LayoutService);
-  readonly #ngZone = inject(NgZone);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #window = inject<Window>(WINDOW);
   readonly #auth = inject(AuthenticationService);
@@ -107,17 +105,15 @@ export class MainComponent implements OnDestroy {
   }
 
   #setupScrollAnimation(window: Window): void {
-    this.#ngZone.runOutsideAngular(() => {
-      this.isScrolled$ = fromEvent(window, 'scroll').pipe(
-        throttleTime(15),
-        map(() => window.scrollY),
-        map((y) => y > 48),
-        distinctUntilChanged(),
-        share(),
-      );
+    this.isScrolled$ = fromEvent(window, 'scroll').pipe(
+      throttleTime(15),
+      map(() => window.scrollY),
+      map((y) => y > 48),
+      distinctUntilChanged(),
+      share(),
+    );
 
-      this.#layoutService.connectScrollAnimation(window, this.#getToolbarHeight.bind(this));
-    });
+    this.#layoutService.connectScrollAnimation(window, this.#getToolbarHeight.bind(this));
   }
 
   #isShowedSpeedDial(): Observable<VisibilityState> {

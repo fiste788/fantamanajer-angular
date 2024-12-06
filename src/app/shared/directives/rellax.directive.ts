@@ -2,7 +2,6 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  NgZone,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
@@ -58,7 +57,6 @@ export class RellaxDirective implements OnInit, OnDestroy {
   readonly #platformId = inject(PLATFORM_ID);
   readonly #renderer = inject(Renderer2);
   readonly #el = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly #ngZone = inject(NgZone);
 
   public speed = input(-3, { transform: numberAttribute });
   public center = input(false, { transform: booleanAttribute });
@@ -99,13 +97,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       const target = this.#el.nativeElement.querySelector('img');
       if (target !== null) {
         this.#subscription = fromEvent(target, 'load')
-          .pipe(
-            tap(() =>
-              this.#ngZone.runOutsideAngular(() => {
-                this.init();
-              }),
-            ),
-          )
+          .pipe(tap(() => this.init()))
           .subscribe();
       }
     });
@@ -113,9 +105,9 @@ export class RellaxDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     if (isPlatformBrowser(this.#platformId)) {
-      const w = this.#document.querySelector(this.wrapper());
+      const w = this.#document.querySelector<HTMLElement>(this.wrapper());
       if (w !== null) {
-        this.#options.wrapper = w as HTMLElement;
+        this.#options.wrapper = w;
       }
 
       this.clamp(this.#options.speed, -10, 10);
