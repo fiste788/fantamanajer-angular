@@ -4,12 +4,12 @@ export default [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/home',
+    data: { state: 'home' },
+    loadChildren: async () => import('./modules/home/home.routes'),
   },
   {
     path: 'home',
-    data: { state: 'home' },
-    loadChildren: async () => import('./modules/home/home.routes'),
+    redirectTo: '',
   },
   {
     path: 'auth',

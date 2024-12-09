@@ -1,12 +1,14 @@
-<button
-  aria-label="Toggle sidenav"
-  class="toggle"
-  mat-icon-button
-  type="button"
-  (click)="clickNav()"
->
-  <mat-icon aria-label="Side nav toggle icon">menu{{ openSidebar() ? '_open' : '' }}</mat-icon>
-</button>
+@defer {
+  <button
+    aria-label="Toggle sidenav"
+    class="toggle"
+    mat-icon-button
+    type="button"
+    (click)="clickNav()"
+  >
+    <mat-icon aria-label="Side nav toggle icon">menu{{ openSidebar() ? '_open' : '' }}</mat-icon>
+  </button>
+}
 <app-profile />
 @if ((loggedIn$ | async) && (showedSpeedDial$ | async)) {
   <app-speed-dial
@@ -31,8 +33,9 @@
   <a
     #rla1="routerLinkActive"
     mat-list-item
-    routerLink="/home"
+    routerLink="/"
     routerLinkActive
+    [routerLinkActiveOptions]="{ exact: true }"
     [activated]="rla1.isActive"
   >
     <mat-icon matListItemIcon>home</mat-icon>Home
