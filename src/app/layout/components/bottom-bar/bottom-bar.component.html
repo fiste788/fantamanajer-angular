@@ -4,8 +4,9 @@
       <a
         #rla1="routerLinkActive"
         mat-list-item
-        routerLink="/home"
+        routerLink="/"
         routerLinkActive
+        [routerLinkActiveOptions]="{ exact: true }"
         [activated]="rla1.isActive"
       >
         <mat-icon
