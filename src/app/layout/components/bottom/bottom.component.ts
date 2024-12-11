@@ -1,16 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  input,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { VisibilityState } from '@app/enums';
 import { closeAnimation } from '@shared/animations';
 
-import { LayoutService } from '../../services';
 import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
@@ -23,16 +15,5 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BottomComponent {
-  readonly #layoutService = inject(LayoutService);
-
   public readonly visibilitySpeedDial = input.required<VisibilityState>();
-  protected readonly speedDial = viewChild<SpeedDialComponent>('speedDial');
-
-  constructor() {
-    effect(() => {
-      if (this.#layoutService.down()) {
-        this.speedDial()?.close();
-      }
-    });
-  }
 }

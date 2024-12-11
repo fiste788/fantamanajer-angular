@@ -127,6 +127,7 @@ export class LayoutService {
         tap(() => {
           this.showSpeedDial.set(true);
           this.showToolbar.set(true);
+          this.down.set(false);
           this.up.set(true);
         }),
       ),
@@ -134,6 +135,7 @@ export class LayoutService {
         tap(() => {
           this.showSpeedDial.set(false);
           this.showToolbar.set(false);
+          this.up.set(false);
           this.down.set(true);
         }),
       ),
