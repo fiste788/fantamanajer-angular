@@ -9,24 +9,24 @@ import { ApplicationService } from '@app/services';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
-import { NavbarListComponent } from '../navbar-list/navbar-list.component';
-import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
+import { NavigationListComponent } from '../navigation-list/navigation-list.component';
+import { FabComponent } from '../fab/fab.component';
 
 @Component({
   animations: [closeAnimation],
-  selector: 'app-bottom-bar',
-  imports: [MatToolbarModule, NavbarListComponent, AsyncPipe, SpeedDialComponent],
-  templateUrl: './bottom-bar.component.html',
-  styleUrl: './bottom-bar.component.scss',
+  selector: 'app-navigation-bar',
+  imports: [MatToolbarModule, NavigationListComponent, AsyncPipe, FabComponent],
+  templateUrl: './navigation-bar.component.html',
+  styleUrl: './navigation-bar.component.scss',
 })
-export class BottomBarComponent {
+export class NavigationBarComponent {
   readonly #layoutService = inject(LayoutService);
 
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
   protected readonly team$ = inject(ApplicationService).team$;
   protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
-  protected readonly openSpeedDial = this.#layoutService.openSpeedDial;
-  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
+  protected readonly openFab = this.#layoutService.openFab;
+  protected readonly showFab = this.#layoutService.showFab;
   protected readonly stable = this.#layoutService.stable;
   protected readonly hidden = VisibilityState.Hidden;
 }

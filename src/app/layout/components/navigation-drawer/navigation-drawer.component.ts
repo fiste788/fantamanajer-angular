@@ -18,9 +18,9 @@ import { AuthenticationService } from '@app/authentication';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
-import { NavbarListComponent } from '../navbar-list/navbar-list.component';
+import { FabComponent } from '../fab/fab.component';
+import { NavigationListComponent } from '../navigation-list/navigation-list.component';
 import { ProfileComponent } from '../profile/profile.component';
-import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
   animations: [
@@ -28,7 +28,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
     trigger('listItemAnimation', [
       transition('* => tablet, * => web', [
         query(
-          '.web app-profile, .toggle, .speed-dial',
+          '.web app-profile, .toggle, .fab',
           style({ opacity: 0, transform: 'translateX(-5rem)' }),
           {
             optional: true,
@@ -37,7 +37,7 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
         sequence([
           query(
-            '.web app-profile, .toggle, .speed-dial',
+            '.web app-profile, .toggle, .fab',
             stagger(20, [
               animate(
                 '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
@@ -47,14 +47,14 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
             { optional: true },
           ),
-          query('app-navbar-list @*', animateChild(), { optional: true }),
+          query('app-navigation-list @*', animateChild(), { optional: true }),
         ]),
       ]),
     ]),
   ],
-  selector: 'app-navbar',
-  styleUrl: './navbar.component.scss',
-  templateUrl: './navbar.component.html',
+  selector: 'app-navigation-drawer',
+  styleUrl: './navigation-drawer.component.scss',
+  templateUrl: './navigation-drawer.component.html',
   host: {
     '[@listItemAnimation]': 'size()',
     '[class]': 'size()',
@@ -64,18 +64,18 @@ import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
     MatIconModule,
     MatButtonModule,
     AsyncPipe,
-    SpeedDialComponent,
-    NavbarListComponent,
+    FabComponent,
+    NavigationListComponent,
   ],
 })
-export class NavbarComponent {
+export class NavigationDrawerComponent {
   readonly #layoutService = inject(LayoutService);
 
   protected readonly openSidebar = this.#layoutService.openSidebar;
   protected readonly size = this.#layoutService.size;
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
 
-  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
+  protected readonly showFab = this.#layoutService.showFab;
 
   protected clickNav(): void {
     this.#layoutService.toggleSidebar();

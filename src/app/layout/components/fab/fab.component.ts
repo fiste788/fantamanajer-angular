@@ -13,9 +13,9 @@ import {
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  selector: 'app-speed-dial',
-  styleUrl: './speed-dial.component.scss',
-  templateUrl: './speed-dial.component.html',
+  selector: 'app-fab',
+  styleUrl: './fab.component.scss',
+  templateUrl: './fab.component.html',
   imports: [
     EcoFabSpeedDialComponent,
     EcoFabSpeedDialTriggerComponent,
@@ -26,7 +26,7 @@ import { SeasonActiveDirective } from '@shared/directives';
     MatTooltipModule,
   ],
 })
-export class SpeedDialComponent {
+export class FabComponent {
   readonly #router = inject(Router);
 
   public extended = input(false, { transform: booleanAttribute });

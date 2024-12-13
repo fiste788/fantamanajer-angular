@@ -54,16 +54,16 @@ import { LayoutService } from '../../services';
       ]),
     ]),
   ],
-  selector: 'app-navbar-list',
+  selector: 'app-navigation-list',
   imports: [AsyncPipe, RouterModule, MatListModule, MatRippleModule, MatIconModule, NgClass],
-  styleUrl: './navbar-list.component.scss',
+  styleUrl: './navigation-list.component.scss',
   host: {
     '[class]': 'mode()',
   },
-  templateUrl: './navbar-list.component.html',
+  templateUrl: './navigation-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarListComponent {
+export class NavigationListComponent {
   public mode = input.required<'drawer' | 'rail' | 'bar'>();
 
   readonly #applicationService = inject(ApplicationService);

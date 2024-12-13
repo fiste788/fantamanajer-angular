@@ -138,11 +138,11 @@
   z-index: 3;
 }
 
-::view-transition-group(toolbar) {
+::view-transition-group(top-app-bar) {
   z-index: 2;
 }
 
-::view-transition-group(bottom-bar) {
+::view-transition-group(navigation-bar) {
   z-index: 2;
 }
 

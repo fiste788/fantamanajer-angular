@@ -41,17 +41,17 @@ export class LayoutService {
 
   public readonly size = toSignal(this.#size$, { initialValue: 'handset' });
   public readonly openSidebar = linkedSignal(() => this.size() === 'web');
-  public readonly showSpeedDial = linkedSignal(() =>
+  public readonly showFab = linkedSignal(() =>
     this.size() === 'handset' || this.routeContextChanged()
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
-  public readonly showToolbar = linkedSignal(() =>
+  public readonly showTopAppBar = linkedSignal(() =>
     this.size().length > 0 || this.routeContextChanged()
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
-  public readonly openSpeedDial = signal(false);
+  public readonly openFab = signal(false);
   public readonly up = signal(false);
   public readonly down = signal(false);
   public readonly routeContextChanged = this.#isRouteContextChanged();
@@ -95,19 +95,19 @@ export class LayoutService {
     return combineLatest([
       scroll$.up.pipe(
         tap(() => {
-          this.showSpeedDial.set(VisibilityState.Visible);
-          this.showToolbar.set(VisibilityState.Visible);
+          this.showFab.set(VisibilityState.Visible);
+          this.showTopAppBar.set(VisibilityState.Visible);
           this.down.set(false);
           this.up.set(true);
         }),
       ),
       scroll$.down.pipe(
         tap(() => {
-          this.showSpeedDial.set(VisibilityState.Hidden);
-          this.showToolbar.set(VisibilityState.Hidden);
+          this.showFab.set(VisibilityState.Hidden);
+          this.showTopAppBar.set(VisibilityState.Hidden);
           this.up.set(false);
           this.down.set(true);
-          this.openSpeedDial.set(false);
+          this.openFab.set(false);
         }),
       ),
     ]).subscribe();

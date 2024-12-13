@@ -11,10 +11,10 @@ app-breadcrumb {
   -webkit-app-region: drag;
 }
 
-#toolbar-tab-container {
+#top-app-bar-tab-container {
   padding: 0;
   height: auto;
-  view-transition-name: toolbar-tab-fixed;
+  view-transition-name: top-app-bar-tab-fixed;
 }
 
 .mat-toolbar-row {
@@ -22,7 +22,7 @@ app-breadcrumb {
 }
 
 .mat-toolbar-row:first-child {
-  view-transition-name: toolbar;
+  view-transition-name: top-app-bar;
 }
 
 :host-context(.window-overlayed) {

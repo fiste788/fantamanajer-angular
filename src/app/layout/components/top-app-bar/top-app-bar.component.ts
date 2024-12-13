@@ -17,9 +17,9 @@ import { NotificationComponent } from '../notification/notification.component';
 @Component({
   animations: [scrollUpAnimation, createBoxAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-toolbar',
-  styleUrl: './toolbar.component.scss',
-  templateUrl: './toolbar.component.html',
+  selector: 'app-top-app-bar',
+  styleUrl: './top-app-bar.component.scss',
+  templateUrl: './top-app-bar.component.html',
   host: {
     '[class.window-overlayed]': 'isOverlayed()',
   },
@@ -32,7 +32,7 @@ import { NotificationComponent } from '../notification/notification.component';
     AsyncPipe,
   ],
 })
-export class ToolbarComponent {
+export class TopAppBarComponent {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
   readonly #layoutService = inject(LayoutService);
   readonly #auth = inject(AuthenticationService);

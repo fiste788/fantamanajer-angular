@@ -1,6 +1,6 @@
 @let _size = size();
 @let _isScrolled = isScrolled();
-@let _showToolbar = showToolbar();
+@let _showTopAppBar = showTopAppBar();
 @let _stable = stable();
 <mat-sidenav-container>
   <mat-sidenav
@@ -12,14 +12,14 @@
     [(opened)]="openSidebar"
   >
     @defer (on viewport) {
-      <app-navbar />
+      <app-navigation-drawer />
     } @placeholder (minimum 500ms) {
-      <app-navbar-skeleton />
+      <app-navigation-drawer-skeleton />
     }
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar
-      [@scrollUpAnimation]="!_isScrolled || _showToolbar"
+    <app-top-app-bar
+      [@scrollUpAnimation]="!_isScrolled || _showTopAppBar"
       [ngClass]="{ 'is-scrolled': _isScrolled }"
     />
     <main
@@ -31,10 +31,10 @@
 
     <div
       class="bottom"
-      [@scrollDownAnimation]="_stable && _showToolbar ? _showToolbar : hidden"
+      [@scrollDownAnimation]="_stable && _showTopAppBar ? _showTopAppBar : hidden"
     >
       @defer (when _size === 'handset') {
-        <app-bottom-bar />
+        <app-navigation-bar />
       }
     </div>
   </mat-sidenav-content>

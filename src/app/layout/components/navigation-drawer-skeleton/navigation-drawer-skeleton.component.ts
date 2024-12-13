@@ -5,13 +5,13 @@ import { AuthenticationService } from '@app/authentication';
 import { RangePipe } from '@shared/pipes';
 
 @Component({
-  selector: 'app-navbar-skeleton',
+  selector: 'app-navigation-drawer-skeleton',
   imports: [ContentLoaderModule, RangePipe],
-  templateUrl: './navbar-skeleton.component.html',
-  styleUrl: './navbar-skeleton.component.scss',
+  templateUrl: './navigation-drawer-skeleton.component.html',
+  styleUrl: './navigation-drawer-skeleton.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarSkeletonComponent {
+export class NavigationDrawerSkeletonComponent {
   protected readonly loggedIn = inject(AuthenticationService).loggedIn();
   protected items = this.loggedIn ? 6 : 3;
 }

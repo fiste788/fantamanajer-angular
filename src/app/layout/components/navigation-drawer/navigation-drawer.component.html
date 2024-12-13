@@ -9,13 +9,12 @@
 </button>
 @if (loggedIn$ | async) {
   <app-profile />
-  @if (showSpeedDial()) {
-    <app-speed-dial
-      #speedDial
-      class="speed-dial"
+  @if (showFab()) {
+    <app-fab
+      class="fab"
       direction="down"
       [extended]="openSidebar()"
     />
   }
 }
-<app-navbar-list mode="drawer" />
+<app-navigation-list mode="drawer" />

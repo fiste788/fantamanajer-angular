@@ -28,10 +28,10 @@ import {
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
-import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
-import { NavbarComponent } from '../navbar/navbar.component';
-import { NavbarSkeletonComponent } from '../navbar-skeleton/navbar-skeleton.component';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
+import { NavigationDrawerComponent } from '../navigation-drawer/navigation-drawer.component';
+import { NavigationDrawerSkeletonComponent } from '../navigation-drawer-skeleton/navigation-drawer-skeleton.component';
+import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 
 @Component({
   animations: [
@@ -47,15 +47,15 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
   templateUrl: './main.component.html',
   imports: [
     MatSidenavModule,
-    NavbarComponent,
-    ToolbarComponent,
+    TopAppBarComponent,
     RouterOutlet,
     ContentLoaderModule,
-    BottomBarComponent,
+    NavigationBarComponent,
     StatePipe,
     NgClass,
     AsyncPipe,
-    NavbarSkeletonComponent,
+    NavigationDrawerSkeletonComponent,
+    NavigationDrawerComponent,
   ],
 })
 export class MainComponent {
@@ -64,8 +64,8 @@ export class MainComponent {
   readonly #window = inject<Window>(WINDOW);
   readonly #auth = inject(AuthenticationService);
 
-  protected toolbar = viewChild.required<ToolbarComponent, ElementRef<HTMLElement>>(
-    ToolbarComponent,
+  protected topAppBar = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
+    TopAppBarComponent,
     {
       read: ElementRef,
     },
@@ -75,15 +75,15 @@ export class MainComponent {
   protected readonly size = this.#layoutService.size;
   protected readonly stabilized$ = toObservable(this.size).pipe(delay(100));
   protected readonly openSidebar = this.#layoutService.openSidebar;
-  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
-  protected readonly showToolbar = this.#layoutService.showToolbar;
+  protected readonly showFab = this.#layoutService.showFab;
+  protected readonly showTopAppBar = this.#layoutService.showTopAppBar;
   protected readonly loggedIn$ = this.#auth.loggedIn$;
   protected readonly hidden = VisibilityState.Hidden;
   protected readonly isScrolled = this.#isScrolled();
 
   constructor() {
     afterNextRender(() => {
-      this.#layoutService.connectScrollAnimation(this.#window, this.#getToolbarHeight.bind(this));
+      this.#layoutService.connectScrollAnimation(this.#window, this.#getTopAppBarHeight.bind(this));
     });
   }
 
@@ -103,7 +103,7 @@ export class MainComponent {
     );
   }
 
-  #getToolbarHeight(): number {
-    return this.toolbar().nativeElement.clientHeight;
+  #getTopAppBarHeight(): number {
+    return this.topAppBar().nativeElement.clientHeight;
   }
 }

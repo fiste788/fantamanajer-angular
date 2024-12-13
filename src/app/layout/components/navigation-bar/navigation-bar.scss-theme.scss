@@ -2,7 +2,7 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  .bottom-bar,
+  .navigation-bar,
   .tablet {
     .mat-mdc-list-item > .mat-mdc-focus-indicator,
     .mat-mdc-list-item > .mat-ripple-element {
@@ -25,7 +25,7 @@
 }
 
 @mixin color($theme) {
-  .bottom-bar,
+  .navigation-bar,
   .tablet {
     --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
     --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
@@ -50,7 +50,7 @@
 }
 
 @mixin typography($theme) {
-  .bottom-bar,
+  .navigation-bar,
   .tablet {
     --mdc-list-list-item-label-text-size: 14px;
     --mdc-list-list-item-label-text-line-height: 1rem;
@@ -59,7 +59,7 @@
 }
 
 @mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'bottom-bar') {
+  @include mat.private-check-duplicate-theme-styles($theme, 'navigation-bar') {
     @include base($theme);
     @include color($theme);
     @include density($theme);

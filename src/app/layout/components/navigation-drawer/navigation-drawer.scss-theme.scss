@@ -7,14 +7,14 @@
       margin-left: 5rem;
     }
 
-    .speed-dial .mat-icon {
+    .fab .mat-icon {
       transition: margin 0s ease !important;
       min-width: 24px;
     }
 
     .mat-mdc-nav-list,
     .mat-mdc-subheader,
-    .speed-dial,
+    .fab,
     .toggle {
       transition: all 200ms 66ms;
       display: block;
@@ -52,7 +52,7 @@
         }
       }
 
-      .speed-dial {
+      .fab {
         padding: 0;
         margin: 0.5rem 0.75rem;
       }
@@ -72,7 +72,7 @@
     }
 
     .mat-drawer.ng-animating {
-      .speed-dial {
+      .fab {
         overflow: hidden;
       }
 
@@ -86,7 +86,7 @@
 }
 
 @mixin color($theme) {
-  app-navbar {
+  app-navigation-drawer {
     .mdc-list-item--activated {
       color: mat.get-theme-color($theme, on-secondary-container) !important;
     }
@@ -95,7 +95,7 @@
       color: mat.get-theme-color($theme, on-surface-variant);
     }
 
-    .speed-dial .tertiary-fab {
+    .fab .tertiary-fab {
       --mdc-extended-fab-container-elevation-shadow: none;
       --mdc-extended-fab-hover-container-elevation-shadow: none;
       --mdc-fab-container-elevation-shadow: none;
@@ -118,7 +118,7 @@
 }
 
 @mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'navbar') {
+  @include mat.private-check-duplicate-theme-styles($theme, 'navigation-drawer') {
     @include base($theme);
     @include color($theme);
     @include density($theme);

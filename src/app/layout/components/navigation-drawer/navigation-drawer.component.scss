@@ -1,4 +1,4 @@
-.speed-dial {
+.fab {
   padding: 1rem;
   display: none;
   z-index: 1;
@@ -10,7 +10,7 @@
 }
 
 @media (min-width: theme('screens.sm')) {
-  .speed-dial {
+  .fab {
     display: flex;
   }
 }
