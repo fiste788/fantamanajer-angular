@@ -14,7 +14,6 @@
 
     .mat-mdc-nav-list,
     .mat-mdc-subheader,
-    app-profile,
     .speed-dial,
     .toggle {
       transition: all 200ms 66ms;
@@ -42,11 +41,9 @@
     }
 
     .mat-drawer:not(.mat-drawer-opened) {
-      .mat-mdc-subheader,
-      app-profile {
-        max-height: 0;
-        margin: 0;
-        transform: translateZ(0);
+      app-profile,
+      .mat-mdc-subheader {
+        display: none;
       }
 
       a.mdc-list-item.mdc-list-item--activated {
@@ -91,7 +88,6 @@
 @mixin color($theme) {
   app-navbar {
     .mdc-list-item--activated {
-      background-color: mat.get-theme-color($theme, secondary-container);
       color: mat.get-theme-color($theme, on-secondary-container) !important;
     }
 

@@ -1,75 +1,83 @@
+/* eslint-disable @angular-eslint/component-max-inline-declarations */
+import {
+  animate,
+  animateChild,
+  query,
+  sequence,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { NavigationStart, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable, Subscription, combineLatest, filter, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { VisibilityState } from '@app/enums';
-import { ApplicationService } from '@app/services';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
+import { NavbarListComponent } from '../navbar-list/navbar-list.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
-  animations: [closeAnimation],
+  animations: [
+    closeAnimation,
+    trigger('listItemAnimation', [
+      transition('* => tablet, * => web', [
+        query(
+          '.web app-profile, .toggle, .speed-dial',
+          style({ opacity: 0, transform: 'translateX(-5rem)' }),
+          {
+            optional: true,
+          },
+        ),
+
+        sequence([
+          query(
+            '.web app-profile, .toggle, .speed-dial',
+            stagger(20, [
+              animate(
+                '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
+                style({ opacity: 1, transform: 'translateX(0)' }),
+              ),
+            ]),
+
+            { optional: true },
+          ),
+          query('app-navbar-list @*', animateChild(), { optional: true }),
+        ]),
+      ]),
+    ]),
+  ],
   selector: 'app-navbar',
   styleUrl: './navbar.component.scss',
   templateUrl: './navbar.component.html',
+  host: {
+    '[@listItemAnimation]': 'size()',
+    '[class]': 'size()',
+  },
   imports: [
     ProfileComponent,
-    MatListModule,
     MatIconModule,
-    RouterLink,
     MatButtonModule,
-    RouterLinkActive,
-    MatDividerModule,
     AsyncPipe,
     SpeedDialComponent,
+    NavbarListComponent,
   ],
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-  readonly #subscriptions = new Subscription();
+export class NavbarComponent {
   readonly #layoutService = inject(LayoutService);
 
-  protected readonly opensidebar = this.#layoutService.openSidebar;
+  protected readonly openSidebar = this.#layoutService.openSidebar;
+  protected readonly size = this.#layoutService.size;
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
-  protected readonly team$ = inject(ApplicationService).team$;
-  protected readonly matchday$ = inject(ApplicationService).matchday$;
-  protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
-  protected readonly navStart$ = inject(Router).events.pipe(
-    filter((evt) => evt instanceof NavigationStart),
-  );
 
-  protected readonly openSidebar = inject(LayoutService).openSidebar;
-  protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
+  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
 
-  public ngOnInit(): void {
-    this.init();
-  }
-
-  public init(): void {
-    this.#subscriptions.add(
-      this.navStart$.pipe(map(() => this.#layoutService.closeSidebar())).subscribe(),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
-  public clickNav(): void {
+  protected clickNav(): void {
     this.#layoutService.toggleSidebar();
-  }
-
-  #isShowedSpeedDial(): Observable<VisibilityState> {
-    return combineLatest([this.#layoutService.isShowSpeedDial$, this.loggedIn$]).pipe(
-      map(([v, u]) => (u ? v : VisibilityState.Hidden)),
-    );
   }
 }

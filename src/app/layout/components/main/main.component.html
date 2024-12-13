@@ -1,16 +1,15 @@
-@let isTablet = (isTablet$ | async)!;
-@let isHandset = (isHandset$ | async)!;
-@let isScrolled = isScrolled$ | async;
-@let showedToolbar = showedToolbar$ | async;
-@let showedSpeedDial = showedSpeedDial$ | async;
+@let _size = size();
+@let _isScrolled = isScrolled();
+@let _showToolbar = showToolbar();
+@let _stable = stable();
 <mat-sidenav-container>
   <mat-sidenav
-    #drawer
+    autoFocus="false"
     fixedInViewport="true"
-    [attr.role]="isHandset ? 'dialog' : 'navigation'"
-    [autoFocus]="false"
+    [attr.role]="_size === 'handset' ? 'dialog' : 'navigation'"
+    [attr.old-size]="stabilized$ | async"
+    [mode]="_size === 'web' ? 'side' : 'over'"
     [(opened)]="openSidebar"
-    [mode]="isHandset || isTablet ? 'over' : 'side'"
   >
     @defer (on viewport) {
       <app-navbar />
@@ -20,8 +19,8 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-toolbar
-      [@scrollUpAnimation]="isScrolled === false || showedToolbar"
-      [ngClass]="{ 'is-scrolled': isScrolled }"
+      [@scrollUpAnimation]="!_isScrolled || _showToolbar"
+      [ngClass]="{ 'is-scrolled': _isScrolled }"
     />
     <main
       [@contextChange]="o | state"
@@ -30,12 +29,13 @@
       <router-outlet #o="outlet" />
     </main>
 
-    @defer (when isHandset$) {
-      <app-bottom
-        class="bottom"
-        [@scrollDownAnimation]="stable() && showedToolbar ? showedToolbar : hidden"
-        [visibilitySpeedDial]="stable() && showedSpeedDial ? showedSpeedDial : hidden"
-      />
-    }
+    <div
+      class="bottom"
+      [@scrollDownAnimation]="_stable && _showToolbar ? _showToolbar : hidden"
+    >
+      @defer (when _size === 'handset') {
+        <app-bottom-bar />
+      }
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

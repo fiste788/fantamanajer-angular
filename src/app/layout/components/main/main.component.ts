@@ -1,42 +1,45 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   afterNextRender,
   viewChild,
   inject,
+  Signal,
+  PLATFORM_ID,
 } from '@angular/core';
-import { MatSidenav, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import {
-  combineLatest,
-  fromEvent,
-  Observable,
-  Subscription,
-  distinctUntilChanged,
-  map,
-  share,
-  throttleTime,
-} from 'rxjs';
+import { delay, EMPTY } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
-import { CurrentTransitionService, WINDOW } from '@app/services';
-import { routerTransition, scrollDownAnimation, scrollUpAnimation } from '@shared/animations';
+import { CurrentTransitionService, ScrollService, WINDOW } from '@app/services';
+import {
+  closeAnimation,
+  routerTransition,
+  scrollDownAnimation,
+  scrollUpAnimation,
+} from '@shared/animations';
 import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
-import { BottomComponent } from '../bottom/bottom.component';
+import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { NavbarSkeletonComponent } from '../navbar-skeleton/navbar-skeleton.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition), scrollUpAnimation, scrollDownAnimation],
+  animations: [
+    trigger('contextChange', routerTransition),
+    scrollUpAnimation,
+    scrollDownAnimation,
+    closeAnimation,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
   host: { '[@.disabled]': '!stable()' },
@@ -48,22 +51,19 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
     ToolbarComponent,
     RouterOutlet,
     ContentLoaderModule,
-    BottomComponent,
-    AsyncPipe,
+    BottomBarComponent,
     StatePipe,
     NgClass,
+    AsyncPipe,
     NavbarSkeletonComponent,
   ],
 })
-export class MainComponent implements OnDestroy {
-  readonly #subscriptions = new Subscription();
+export class MainComponent {
   readonly #layoutService = inject(LayoutService);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #window = inject<Window>(WINDOW);
   readonly #auth = inject(AuthenticationService);
 
-  protected drawer = viewChild.required(MatSidenav);
-  protected container = viewChild.required(MatSidenavContent);
   protected toolbar = viewChild.required<ToolbarComponent, ElementRef<HTMLElement>>(
     ToolbarComponent,
     {
@@ -72,23 +72,19 @@ export class MainComponent implements OnDestroy {
   );
 
   protected readonly stable = this.#layoutService.stable;
-  protected readonly isHandset$ = this.#layoutService.isHandset$;
-  protected readonly isTablet$ = this.#layoutService.isTablet$;
+  protected readonly size = this.#layoutService.size;
+  protected readonly stabilized$ = toObservable(this.size).pipe(delay(100));
   protected readonly openSidebar = this.#layoutService.openSidebar;
-  protected readonly showedSpeedDial$ = this.#isShowedSpeedDial();
-  protected readonly showedToolbar$ = this.#layoutService.isShowToolbar$;
-  protected isScrolled$?: Observable<boolean>;
-  protected hidden = VisibilityState.Hidden;
+  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
+  protected readonly showToolbar = this.#layoutService.showToolbar;
+  protected readonly loggedIn$ = this.#auth.loggedIn$;
+  protected readonly hidden = VisibilityState.Hidden;
+  protected readonly isScrolled = this.#isScrolled();
 
   constructor() {
     afterNextRender(() => {
-      this.#setupScrollAnimation(this.#window);
-      this.#subscriptions.add(this.#layoutService.connectChangePageAnimation());
+      this.#layoutService.connectScrollAnimation(this.#window, this.#getToolbarHeight.bind(this));
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
   }
 
   protected viewTransitionName() {
@@ -98,27 +94,12 @@ export class MainComponent implements OnDestroy {
       : '';
   }
 
-  protected openedChange(): void {
-    if (this.drawer().mode !== 'over') {
-      this.#layoutService.openSidebar.set(true);
-    }
-  }
-
-  #setupScrollAnimation(window: Window): void {
-    this.isScrolled$ = fromEvent(window, 'scroll').pipe(
-      throttleTime(15),
-      map(() => window.scrollY),
-      map((y) => y > 48),
-      distinctUntilChanged(),
-      share(),
-    );
-
-    this.#layoutService.connectScrollAnimation(window, this.#getToolbarHeight.bind(this));
-  }
-
-  #isShowedSpeedDial(): Observable<VisibilityState> {
-    return combineLatest([this.#layoutService.isShowSpeedDial$, this.#auth.loggedIn$]).pipe(
-      map(([v, u]) => (u ? v : VisibilityState.Hidden)),
+  #isScrolled(): Signal<boolean> {
+    return toSignal(
+      isPlatformBrowser(inject(PLATFORM_ID))
+        ? inject(ScrollService).isScrolled(this.#window)
+        : EMPTY,
+      { initialValue: false },
     );
   }
 

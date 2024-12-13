@@ -2,7 +2,8 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
-  .bottom-bar {
+  .bottom-bar,
+  .tablet {
     .mat-mdc-list-item > .mat-mdc-focus-indicator,
     .mat-mdc-list-item > .mat-ripple-element {
       display: none;
@@ -24,7 +25,8 @@
 }
 
 @mixin color($theme) {
-  .bottom-bar {
+  .bottom-bar,
+  .tablet {
     --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
     --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
 
@@ -48,7 +50,8 @@
 }
 
 @mixin typography($theme) {
-  .bottom-bar {
+  .bottom-bar,
+  .tablet {
     --mdc-list-list-item-label-text-size: 14px;
     --mdc-list-list-item-label-text-line-height: 1rem;
     --mdc-list-list-item-label-text-weight: 500;

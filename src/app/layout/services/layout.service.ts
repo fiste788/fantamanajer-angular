@@ -1,12 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { isPlatformServer } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { Injectable, Signal, effect, inject, linkedSignal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
   combineLatest,
   Observable,
-  of,
   Subscription,
   filter,
   map,
@@ -15,10 +13,14 @@ import {
   switchMap,
   startWith,
   first,
+  distinctUntilChanged,
+  share,
 } from 'rxjs';
 
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
+
+type Size = 'handset' | 'tablet' | 'web';
 
 @Injectable({
   providedIn: 'root',
@@ -27,77 +29,45 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
-  readonly #platform = inject(PLATFORM_ID);
   readonly #scrollSubscription = new Map<Window, Subscription | undefined>();
+  readonly #displayNameMap = new Map<string, Size>([
+    [Breakpoints.XSmall, 'handset'],
+    [Breakpoints.Small, 'tablet'],
+    [Breakpoints.Medium, 'tablet'],
+    [Breakpoints.Large, 'web'],
+    [Breakpoints.XLarge, 'web'],
+  ]);
+  readonly #size$ = this.#size();
 
-  public readonly openSidebar = signal(false);
-  public readonly showSpeedDial = signal(false);
-  public readonly showToolbar = signal(false);
+  public readonly size = toSignal(this.#size$, { initialValue: 'handset' });
+  public readonly openSidebar = linkedSignal(() => this.size() === 'web');
+  public readonly showSpeedDial = linkedSignal(() =>
+    this.size() === 'handset' || this.routeContextChanged()
+      ? VisibilityState.Visible
+      : VisibilityState.Hidden,
+  );
+  public readonly showToolbar = linkedSignal(() =>
+    this.size().length > 0 || this.routeContextChanged()
+      ? VisibilityState.Visible
+      : VisibilityState.Hidden,
+  );
+  public readonly openSpeedDial = signal(false);
   public readonly up = signal(false);
   public readonly down = signal(false);
+  public readonly routeContextChanged = this.#isRouteContextChanged();
+  public readonly navigationStart = this.#navigationStart();
+  public stable = this.#isStable();
 
-  public readonly isHandset$ = isPlatformServer(this.#platform)
-    ? of(true)
-    : this.#breakpointObserver.observe(Breakpoints.XSmall).pipe(map((result) => result.matches));
-
-  public readonly isTablet$ = this.#breakpointObserver
-    .observe([Breakpoints.Small, Breakpoints.Medium])
-    .pipe(map((result) => result.matches));
-
-  public readonly isDesktop = toSignal(
-    combineLatest([this.isHandset$, this.isTablet$]).pipe(map(([h, t]) => !h && !t)),
-  );
-
-  public readonly isShowSpeedDial$ = toObservable(this.showSpeedDial).pipe(
-    map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
-  );
-
-  public readonly isShowToolbar$ = toObservable(this.showToolbar).pipe(
-    map((s) => (s ? VisibilityState.Visible : VisibilityState.Hidden)),
-  );
-
-  public stable = toSignal(
-    this.#router.events.pipe(
-      filter((e) => e instanceof NavigationEnd),
-      // eslint-disable-next-line unicorn/no-null
-      first(null, undefined),
-      switchMap(async () => new Promise((r) => setTimeout(r))),
-      map(() => true),
-      startWith(false),
-    ),
-    { requireSync: true },
-  );
-
-  public init(): Observable<boolean> {
-    return combineLatest([this.isHandset$, this.isTablet$]).pipe(
-      map(([h, t]) => {
-        this.openSidebar.set(!h && !t);
-        this.showSpeedDial.set(this.showSpeedDial() || h);
-        this.showToolbar.set(true);
-
-        return true;
-      }),
-    );
-  }
-
-  public connectChangePageAnimation(): Subscription {
-    return this.#isRouteContextChanged()
-      .pipe(
-        filter((c) => c),
-        tap(() => {
-          this.showToolbar();
-          this.showSpeedDial();
-        }),
-      )
-      .subscribe();
+  constructor() {
+    effect(() => this.navigationStart() !== undefined && this.closeSidebar());
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
-    return this.isHandset$
+    return this.#size$
       .pipe(
-        tap((isHandset) => {
+        tap((size) => {
           const subscriptions = this.#scrollSubscription.get(window);
-          if (isHandset) {
+          if (size === 'handset') {
             if (subscriptions === undefined) {
               this.#scrollSubscription.set(
                 window,
@@ -125,18 +95,19 @@ export class LayoutService {
     return combineLatest([
       scroll$.up.pipe(
         tap(() => {
-          this.showSpeedDial.set(true);
-          this.showToolbar.set(true);
+          this.showSpeedDial.set(VisibilityState.Visible);
+          this.showToolbar.set(VisibilityState.Visible);
           this.down.set(false);
           this.up.set(true);
         }),
       ),
       scroll$.down.pipe(
         tap(() => {
-          this.showSpeedDial.set(false);
-          this.showToolbar.set(false);
+          this.showSpeedDial.set(VisibilityState.Hidden);
+          this.showToolbar.set(VisibilityState.Hidden);
           this.up.set(false);
           this.down.set(true);
+          this.openSpeedDial.set(false);
         }),
       ),
     ]).subscribe();
@@ -148,7 +119,7 @@ export class LayoutService {
   }
 
   public closeSidebar(): void {
-    if (!this.isDesktop()) {
+    if (this.size() !== 'web') {
       this.openSidebar.set(false);
     }
   }
@@ -157,14 +128,53 @@ export class LayoutService {
     this.openSidebar.set(value ?? !this.openSidebar());
   }
 
-  #isRouteContextChanged(): Observable<boolean> {
-    return this.#router.events.pipe(
-      filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
-      pairwise(),
-      map(
-        ([pre, post]) =>
-          pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1],
-      ),
+  #size(initialValue = 'handset'): Observable<string> {
+    return this.#breakpointObserver.observe([...this.#displayNameMap.keys()]).pipe(
+      map((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            return this.#displayNameMap.get(query) ?? initialValue;
+          }
+        }
+
+        return initialValue;
+      }),
+      share(),
+      distinctUntilChanged(),
     );
+  }
+
+  #isRouteContextChanged(): Signal<boolean> {
+    return toSignal(
+      this.#router.events.pipe(
+        filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
+        pairwise(),
+        map(
+          ([pre, post]) =>
+            pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1],
+        ),
+      ),
+      { initialValue: false },
+    );
+  }
+
+  #isStable(): Signal<boolean> {
+    return toSignal(
+      this.#router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        // eslint-disable-next-line unicorn/no-null
+        first(null, undefined),
+        switchMap(async () => new Promise((r) => setTimeout(r))),
+        map(() => true),
+        startWith(false),
+      ),
+      { requireSync: true },
+    );
+  }
+
+  #navigationStart(): Signal<NavigationStart | undefined> {
+    return toSignal(this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)), {
+      initialValue: undefined,
+    });
   }
 }

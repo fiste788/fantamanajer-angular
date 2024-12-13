@@ -1,32 +1,32 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatRippleModule } from '@angular/material/core';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { VisibilityState } from '@app/enums';
 import { ApplicationService } from '@app/services';
+import { closeAnimation } from '@shared/animations';
+
+import { LayoutService } from '../../services';
+import { NavbarListComponent } from '../navbar-list/navbar-list.component';
+import { SpeedDialComponent } from '../speed-dial/speed-dial.component';
 
 @Component({
+  animations: [closeAnimation],
   selector: 'app-bottom-bar',
-  imports: [
-    MatToolbarModule,
-    MatIcon,
-    MatIconModule,
-    MatListModule,
-    RouterLink,
-    RouterLinkActive,
-    AsyncPipe,
-    MatRippleModule,
-  ],
+  imports: [MatToolbarModule, NavbarListComponent, AsyncPipe, SpeedDialComponent],
   templateUrl: './bottom-bar.component.html',
   styleUrl: './bottom-bar.component.scss',
 })
 export class BottomBarComponent {
+  readonly #layoutService = inject(LayoutService);
+
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
   protected readonly team$ = inject(ApplicationService).team$;
   protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
+  protected readonly openSpeedDial = this.#layoutService.openSpeedDial;
+  protected readonly showSpeedDial = this.#layoutService.showSpeedDial;
+  protected readonly stable = this.#layoutService.stable;
+  protected readonly hidden = VisibilityState.Hidden;
 }

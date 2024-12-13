@@ -1,0 +1,99 @@
+/* stylelint-disable selector-class-pattern */
+:host-context(.drawer) {
+  .mat-mdc-nav-list {
+    padding: 0 0.75rem;
+  }
+
+  .mat-mdc-list-item {
+    height: 3.5rem;
+
+    .mat-icon {
+      margin-right: 1rem;
+    }
+  }
+
+  .mat-divider {
+    margin: 0 1rem;
+  }
+}
+
+:host-context(.bar),
+:host-context(.rail) {
+  width: 100%;
+
+  .mat-mdc-nav-list {
+    padding: 0.75rem 0 1rem;
+    display: flex;
+    gap: 0.5rem;
+
+    .mat-icon {
+      position: relative;
+    }
+  }
+
+  .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
+    align-self: center;
+    margin-top: 0;
+    width: 4rem;
+    text-align: center;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 1rem;
+  }
+
+  a.mdc-list-item.mdc-list-item--activated {
+    background-color: transparent;
+  }
+
+  .mat-mdc-list-item-interactive mat-icon::before {
+    inset: 0;
+    position: absolute;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .mdc-list-item:focus .mat-icon::before,
+  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
+    background-color: var(--mdc-list-list-item-focus-state-layer-color);
+    opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
+    width: 100% !important;
+    transform: translateX(-50%);
+  }
+
+  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
+    background-color: var(--mat-list-active-indicator-color);
+    opacity: 1 !important;
+    z-index: -1;
+  }
+
+  .mdc-list-item mat-icon::before,
+  .mdc-list-item.mdc-ripple-upgraded--background-focused mat-icon::before {
+    position: absolute;
+    box-sizing: border-box;
+    width: 50%;
+    opacity: 0;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    border-radius: inherit;
+    content: '';
+    pointer-events: none;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition-property: opacity, width;
+  }
+
+  .mdc-list-item:hover::before,
+  .mat-mdc-list-item-interactive::before,
+  .mdc-list-item:not(.mdc-list-item--selected):focus::before,
+  .mdc-list-item.mdc-ripple-upgraded--background-focused::before {
+    display: none;
+  }
+
+  .mdc-list-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+}

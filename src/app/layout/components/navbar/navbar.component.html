@@ -1,106 +1,21 @@
-@defer {
-  <button
-    aria-label="Toggle sidenav"
-    class="toggle"
-    mat-icon-button
-    type="button"
-    (click)="clickNav()"
-  >
-    <mat-icon aria-label="Side nav toggle icon">menu{{ openSidebar() ? '_open' : '' }}</mat-icon>
-  </button>
+<button
+  aria-label="Toggle sidenav"
+  class="toggle"
+  mat-icon-button
+  type="button"
+  (click)="clickNav()"
+>
+  <mat-icon aria-label="Side nav toggle icon">menu{{ openSidebar() ? '_open' : '' }}</mat-icon>
+</button>
+@if (loggedIn$ | async) {
+  <app-profile />
+  @if (showSpeedDial()) {
+    <app-speed-dial
+      #speedDial
+      class="speed-dial"
+      direction="down"
+      [extended]="openSidebar()"
+    />
+  }
 }
-<app-profile />
-@if ((loggedIn$ | async) && (showedSpeedDial$ | async)) {
-  <app-speed-dial
-    #speedDial
-    class="speed-dial"
-    direction="down"
-    [extended]="openSidebar()"
-  />
-}
-<mat-nav-list>
-  @if (matchday$ | async; as matchday) {
-    <h3 mat-subheader>
-      <span>
-        @if (!matchday.season.ended && matchday.season.started) {
-          Giornata {{ matchday.number }}
-        } @else {
-          {{ matchday.season.name }}
-        }
-      </span>
-    </h3>
-  }
-  <a
-    #rla1="routerLinkActive"
-    mat-list-item
-    routerLink="/"
-    routerLinkActive
-    [routerLinkActiveOptions]="{ exact: true }"
-    [activated]="rla1.isActive"
-  >
-    <mat-icon matListItemIcon>home</mat-icon>Home
-  </a>
-  @if (team$ | async; as team) {
-    <a
-      #rla2="routerLinkActive"
-      mat-list-item
-      routerLinkActive
-      [activated]="rla2.isActive"
-      [routerLink]="['teams', team.id]"
-    >
-      <mat-icon matListItemIcon>groups_3</mat-icon>{{ team.name }}
-    </a>
-  }
-  @if (championship$ | async; as championship) {
-    <a
-      #rla3="routerLinkActive"
-      mat-list-item
-      routerLinkActive
-      [activated]="rla3.isActive"
-      [routerLink]="['championships', championship.id]"
-    >
-      <mat-icon matListItemIcon>emoji_events</mat-icon>{{ championship.league.name }}
-    </a>
-  }
-  <a
-    #rla4="routerLinkActive"
-    mat-list-item
-    routerLink="/clubs"
-    routerLinkActive
-    [activated]="rla4.isActive"
-  >
-    <mat-icon matListItemIcon>sports_soccer</mat-icon>Clubs
-  </a>
-  <mat-divider />
-  <h3 mat-subheader>Account</h3>
-  @if (loggedIn$ | async) {
-    <a
-      #rla5="routerLinkActive"
-      mat-list-item
-      routerLink="/user"
-      routerLinkActive
-      [activated]="rla5.isActive"
-    >
-      <mat-icon matListItemIcon>account_circle</mat-icon>Profilo
-    </a>
-    <a
-      #rla6="routerLinkActive"
-      mat-list-item
-      routerLink="/auth/logout"
-      routerLinkActive
-      [activated]="rla6.isActive"
-    >
-      <mat-icon matListItemIcon>exit_to_app</mat-icon>Log Out
-    </a>
-  } @else {
-    <a
-      #rla7="routerLinkActive"
-      mat-list-item
-      routerLink="/auth/login"
-      routerLinkActive
-      [activated]="rla7.isActive"
-    >
-      <mat-icon matListItemIcon>input</mat-icon>Log In
-    </a>
-  }
-</mat-nav-list>
+<app-navbar-list mode="drawer" />

@@ -47,7 +47,6 @@ import {
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import routes from './app.routes';
-import { LayoutService } from './layout/services';
 
 registerLocaleData(localeIt, 'it');
 
@@ -102,7 +101,6 @@ export const appConfig: ApplicationConfig = {
       inject(MetaService).connect();
       inject(BreadcrumbService).connect('FantaManajer');
       inject(IconService).init();
-      void inject(LayoutService).init().subscribe();
       if (isPlatformBrowser(inject(PLATFORM_ID))) {
         pwa.connect();
         push.connect();
