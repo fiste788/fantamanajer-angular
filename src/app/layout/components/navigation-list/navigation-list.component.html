@@ -4,10 +4,10 @@
 @let championship = championship$ | async;
 @let loggedIn = loggedIn$ | async;
 <mat-nav-list
-  [ngClass]="size()"
-  [@listItemAnimation]="size()"
+  [ngClass]="navigationMode()"
+  [@listItemAnimation]="navigationMode()"
 >
-  @if (_mode === 'drawer' && matchday) {
+  @if (_mode === 'full' && matchday) {
     <h3 mat-subheader>
       <span>
         @if (!matchday.season.ended && matchday.season.started) {
@@ -29,7 +29,7 @@
     <mat-icon
       matListItemIcon
       matRipple
-      [matRippleDisabled]="_mode === 'drawer'"
+      [matRippleDisabled]="_mode === 'full'"
       >home</mat-icon
     >Home
   </a>
@@ -44,9 +44,14 @@
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleDisabled]="_mode === 'drawer'"
+        [matRippleDisabled]="_mode === 'full'"
         >groups_3</mat-icon
-      >{{ _mode === 'drawer' ? team.name : 'Squadra' }}
+      ><span matListItemTitle>
+        <span class="title-lite"> Squadra </span>
+        <span class="title-full">
+          {{ team.name }}
+        </span>
+      </span>
     </a>
   }
   @if (championship) {
@@ -60,12 +65,18 @@
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleDisabled]="_mode === 'drawer'"
+        [matRippleDisabled]="_mode === 'full'"
         >emoji_events</mat-icon
-      >{{ _mode === 'drawer' ? championship.league.name : 'Lega' }}
+      >
+      <span matListItemTitle>
+        <span class="title-lite"> Lega </span>
+        <span class="title-full">
+          {{ championship.league.name }}
+        </span>
+      </span>
     </a>
   }
-  @if (_mode === 'drawer' || (_mode === 'bar' && !loggedIn)) {
+  @if (_mode === 'full' || (_mode === 'lite' && !loggedIn)) {
     <a
       #rla4="routerLinkActive"
       mat-list-item
@@ -76,12 +87,12 @@
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleDisabled]="_mode === 'drawer'"
+        [matRippleDisabled]="_mode === 'full'"
         >sports_soccer</mat-icon
       >Clubs
     </a>
   }
-  @if (_mode === 'drawer') {
+  @if (_mode === 'full') {
     <mat-divider />
     <h3 mat-subheader>Account</h3>
   }
@@ -96,11 +107,15 @@
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleDisabled]="_mode === 'drawer'"
+        [matRippleDisabled]="_mode === 'full'"
         >account_circle</mat-icon
-      >{{ _mode === 'drawer' ? 'Profilo' : 'Io' }}
+      >
+      <span matListItemTitle>
+        <span class="title-lite"> Io </span>
+        <span class="title-full"> Profilo </span>
+      </span>
     </a>
-    @if (_mode === 'drawer') {
+    @if (_mode === 'full') {
       <a
         #rla6="routerLinkActive"
         mat-list-item
@@ -111,9 +126,9 @@
         <mat-icon
           matListItemIcon
           matRipple
-          [matRippleDisabled]="_mode === 'drawer'"
+          [matRippleDisabled]="_mode === 'full'"
           >exit_to_app</mat-icon
-        >Log Out
+        >Esci
       </a>
     }
   } @else {
@@ -127,9 +142,9 @@
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleDisabled]="_mode === 'drawer'"
+        [matRippleDisabled]="_mode === 'full'"
         >input</mat-icon
-      >Log In
+      >Accedi
     </a>
   }
 </mat-nav-list>

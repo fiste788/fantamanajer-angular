@@ -1,7 +1,7 @@
 @let _title = title();
 <div
   class="parallax-container"
-  [style.viewTransitionName]="size() === 'handset' ? '' : viewTransitionName()"
+  [style.viewTransitionName]="navigationMode() === 'bar' ? '' : viewTransitionName()"
 >
   <div
     #parallax
@@ -9,7 +9,7 @@
   >
     <div
       class="parallax-header-img"
-      [style.viewTransitionName]="size() === 'handset' ? viewTransitionName() : ''"
+      [style.viewTransitionName]="navigationMode() === 'bar' ? viewTransitionName() : ''"
     >
       <div
         #rellax

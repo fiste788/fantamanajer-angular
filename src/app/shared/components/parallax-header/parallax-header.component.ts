@@ -55,7 +55,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
     read: ElementRef<HTMLElement>,
   });
 
-  protected readonly size = inject(LayoutService).size;
+  protected readonly navigationMode = inject(LayoutService).navigationMode;
 
   public ngOnDestroy(): void {
     this.rellax()?.nativeElement.classList.remove('no-animate');

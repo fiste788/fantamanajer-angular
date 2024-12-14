@@ -43,7 +43,7 @@ export class TopAppBarComponent {
   protected readonly isOverlayed = this.getOverlayedSignal();
 
   protected clickNav(): void {
-    this.#layoutService.toggleSidebar();
+    this.#layoutService.toggleDrawer();
   }
 
   protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {

@@ -16,7 +16,7 @@ import { LayoutService } from '../../services';
 @Component({
   animations: [
     trigger('listItemAnimation', [
-      transition('* => handset', [
+      transition('* => bar', [
         query('&> *', style({ opacity: 0, transform: 'translateY(5rem)' }), {
           optional: true,
         }),
@@ -32,9 +32,9 @@ import { LayoutService } from '../../services';
           { optional: true },
         ),
       ]),
-      transition('* => tablet, * => web', [
+      transition('* => rail, * => drawer', [
         query(
-          '.web > *, .tablet .mat-mdc-list-item, .tablet .mat-divider',
+          '.drawer > *, .rail .mat-mdc-list-item, .rail .mat-divider',
           style({ opacity: 0, transform: 'translateX(-5rem)' }),
           {
             optional: true,
@@ -42,7 +42,7 @@ import { LayoutService } from '../../services';
         ),
 
         query(
-          '.web > *, .tablet .mat-mdc-list-item, .tablet .mat-divider',
+          '.drawer > *, .rail .mat-mdc-list-item, .rail .mat-divider',
           stagger(20, [
             animate(
               '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
@@ -64,7 +64,7 @@ import { LayoutService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationListComponent {
-  public mode = input.required<'drawer' | 'rail' | 'bar'>();
+  public mode = input.required<'lite' | 'full'>();
 
   readonly #applicationService = inject(ApplicationService);
   readonly #layoutService = inject(LayoutService);
@@ -73,5 +73,5 @@ export class NavigationListComponent {
   protected readonly team$ = this.#applicationService.team$;
   protected readonly matchday$ = this.#applicationService.matchday$;
   protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
-  protected readonly size = this.#layoutService.size;
+  protected readonly navigationMode = this.#layoutService.navigationMode;
 }

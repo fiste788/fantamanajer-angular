@@ -9,8 +9,8 @@ import { ApplicationService } from '@app/services';
 import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
-import { NavigationListComponent } from '../navigation-list/navigation-list.component';
 import { FabComponent } from '../fab/fab.component';
+import { NavigationListComponent } from '../navigation-list/navigation-list.component';
 
 @Component({
   animations: [closeAnimation],

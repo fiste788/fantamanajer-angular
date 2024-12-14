@@ -5,7 +5,7 @@
   type="button"
   (click)="clickNav()"
 >
-  <mat-icon aria-label="Side nav toggle icon">menu{{ openSidebar() ? '_open' : '' }}</mat-icon>
+  <mat-icon aria-label="Side nav toggle icon">menu{{ openDrawer() ? '_open' : '' }}</mat-icon>
 </button>
 @if (loggedIn$ | async) {
   <app-profile />
@@ -13,8 +13,8 @@
     <app-fab
       class="fab"
       direction="down"
-      [extended]="openSidebar()"
+      [extended]="openDrawer()"
     />
   }
 }
-<app-navigation-list mode="drawer" />
+<app-navigation-list mode="full" />

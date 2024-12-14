@@ -49,7 +49,7 @@ export class ProfileComponent {
     void this.#router.navigateByUrl(`/teams/${team.id}`, {
       state: { team: await this.app.changeTeam(team) },
     });
-    this.#layoutService.closeSidebar();
+    this.#layoutService.closeDrawer();
   }
 
   public compareFn(t1: Team, t2: Team): boolean {

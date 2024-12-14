@@ -26,9 +26,9 @@ import { ProfileComponent } from '../profile/profile.component';
   animations: [
     closeAnimation,
     trigger('listItemAnimation', [
-      transition('* => tablet, * => web', [
+      transition('* => rail, * => drawer', [
         query(
-          '.web app-profile, .toggle, .fab',
+          '.drawer app-profile, .toggle, .fab',
           style({ opacity: 0, transform: 'translateX(-5rem)' }),
           {
             optional: true,
@@ -37,7 +37,7 @@ import { ProfileComponent } from '../profile/profile.component';
 
         sequence([
           query(
-            '.web app-profile, .toggle, .fab',
+            '.drawer app-profile, .toggle, .fab',
             stagger(20, [
               animate(
                 '200ms cubic-bezier(0.3, 0.0, 0.8, 0.15)',
@@ -56,8 +56,8 @@ import { ProfileComponent } from '../profile/profile.component';
   styleUrl: './navigation-drawer.component.scss',
   templateUrl: './navigation-drawer.component.html',
   host: {
-    '[@listItemAnimation]': 'size()',
-    '[class]': 'size()',
+    '[@listItemAnimation]': 'navigationMode()',
+    '[class]': 'navigationMode()',
   },
   imports: [
     ProfileComponent,
@@ -71,13 +71,13 @@ import { ProfileComponent } from '../profile/profile.component';
 export class NavigationDrawerComponent {
   readonly #layoutService = inject(LayoutService);
 
-  protected readonly openSidebar = this.#layoutService.openSidebar;
-  protected readonly size = this.#layoutService.size;
+  protected readonly openDrawer = this.#layoutService.openDrawer;
+  protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
 
   protected readonly showFab = this.#layoutService.showFab;
 
   protected clickNav(): void {
-    this.#layoutService.toggleSidebar();
+    this.#layoutService.toggleDrawer();
   }
 }

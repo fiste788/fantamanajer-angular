@@ -41,7 +41,7 @@ main {
 }
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
-  .mat-drawer[old-size='tablet'] {
+  .mat-drawer[old-navigation-mode='rail'] {
     transition-property: width, background-color !important;
     transform: translate3d(0, 0, 0);
 

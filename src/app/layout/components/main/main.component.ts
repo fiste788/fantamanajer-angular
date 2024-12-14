@@ -72,9 +72,9 @@ export class MainComponent {
   );
 
   protected readonly stable = this.#layoutService.stable;
-  protected readonly size = this.#layoutService.size;
-  protected readonly stabilized$ = toObservable(this.size).pipe(delay(100));
-  protected readonly openSidebar = this.#layoutService.openSidebar;
+  protected readonly navigationMode = this.#layoutService.navigationMode;
+  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
+  protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showFab = this.#layoutService.showFab;
   protected readonly showTopAppBar = this.#layoutService.showTopAppBar;
   protected readonly loggedIn$ = this.#auth.loggedIn$;

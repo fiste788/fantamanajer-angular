@@ -1,15 +1,15 @@
-@let _size = size();
+@let _navigationMode = navigationMode();
 @let _isScrolled = isScrolled();
 @let _showTopAppBar = showTopAppBar();
 @let _stable = stable();
-<mat-sidenav-container>
+<mat-sidenav-container [ngClass]="'navigation-' + _navigationMode">
   <mat-sidenav
     autoFocus="false"
     fixedInViewport="true"
-    [attr.role]="_size === 'handset' ? 'dialog' : 'navigation'"
-    [attr.old-size]="stabilized$ | async"
-    [mode]="_size === 'web' ? 'side' : 'over'"
-    [(opened)]="openSidebar"
+    [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
+    [attr.old-navigation-mode]="oldNavigationMode$ | async"
+    [mode]="_navigationMode === 'drawer' ? 'side' : 'over'"
+    [(opened)]="openDrawer"
   >
     @defer (on viewport) {
       <app-navigation-drawer />
@@ -33,7 +33,7 @@
       class="bottom"
       [@scrollDownAnimation]="_stable && _showTopAppBar ? _showTopAppBar : hidden"
     >
-      @defer (when _size === 'handset') {
+      @defer (when _navigationMode === 'bar') {
         <app-navigation-bar />
       }
     </div>

@@ -20,7 +20,7 @@ import {
 import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
 
-type Size = 'handset' | 'tablet' | 'web';
+type NavigationMode = 'bar' | 'rail' | 'drawer';
 
 @Injectable({
   providedIn: 'root',
@@ -30,24 +30,24 @@ export class LayoutService {
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
   readonly #scrollSubscription = new Map<Window, Subscription | undefined>();
-  readonly #displayNameMap = new Map<string, Size>([
-    [Breakpoints.XSmall, 'handset'],
-    [Breakpoints.Small, 'tablet'],
-    [Breakpoints.Medium, 'tablet'],
-    [Breakpoints.Large, 'web'],
-    [Breakpoints.XLarge, 'web'],
+  readonly #navigationModeMap = new Map<string, NavigationMode>([
+    [Breakpoints.XSmall, 'bar'],
+    [Breakpoints.Small, 'rail'],
+    [Breakpoints.Medium, 'rail'],
+    [Breakpoints.Large, 'drawer'],
+    [Breakpoints.XLarge, 'drawer'],
   ]);
-  readonly #size$ = this.#size();
+  readonly #navigationMode$ = this.#navigationMode();
 
-  public readonly size = toSignal(this.#size$, { initialValue: 'handset' });
-  public readonly openSidebar = linkedSignal(() => this.size() === 'web');
+  public readonly navigationMode = toSignal(this.#navigationMode$, { initialValue: 'bar' });
+  public readonly openDrawer = linkedSignal(() => this.navigationMode() === 'drawer');
   public readonly showFab = linkedSignal(() =>
-    this.size() === 'handset' || this.routeContextChanged()
+    this.navigationMode() === 'bar' || this.routeContextChanged()
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
   public readonly showTopAppBar = linkedSignal(() =>
-    this.size().length > 0 || this.routeContextChanged()
+    this.navigationMode().length > 0 || this.routeContextChanged()
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
@@ -59,15 +59,15 @@ export class LayoutService {
   public stable = this.#isStable();
 
   constructor() {
-    effect(() => this.navigationStart() !== undefined && this.closeSidebar());
+    effect(() => this.navigationStart() !== undefined && this.closeDrawer());
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
-    return this.#size$
+    return this.#navigationMode$
       .pipe(
-        tap((size) => {
+        tap((navigationMode) => {
           const subscriptions = this.#scrollSubscription.get(window);
-          if (size === 'handset') {
+          if (navigationMode === 'bar') {
             if (subscriptions === undefined) {
               this.#scrollSubscription.set(
                 window,
@@ -118,22 +118,22 @@ export class LayoutService {
     (window ?? windows.shift())?.scrollTo({ top: y, left: x });
   }
 
-  public closeSidebar(): void {
-    if (this.size() !== 'web') {
-      this.openSidebar.set(false);
+  public closeDrawer(): void {
+    if (this.navigationMode() !== 'drawer') {
+      this.openDrawer.set(false);
     }
   }
 
-  public toggleSidebar(value?: boolean): void {
-    this.openSidebar.set(value ?? !this.openSidebar());
+  public toggleDrawer(value?: boolean): void {
+    this.openDrawer.set(value ?? !this.openDrawer());
   }
 
-  #size(initialValue = 'handset'): Observable<string> {
-    return this.#breakpointObserver.observe([...this.#displayNameMap.keys()]).pipe(
+  #navigationMode(initialValue: NavigationMode = 'bar'): Observable<NavigationMode> {
+    return this.#breakpointObserver.observe([...this.#navigationModeMap.keys()]).pipe(
       map((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            return this.#displayNameMap.get(query) ?? initialValue;
+            return this.#navigationModeMap.get(query) ?? initialValue;
           }
         }
 
