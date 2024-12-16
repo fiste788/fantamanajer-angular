@@ -3,7 +3,6 @@ import { Injectable, Signal, effect, inject, linkedSignal, signal } from '@angul
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
-  combineLatest,
   Observable,
   Subscription,
   filter,
@@ -15,9 +14,12 @@ import {
   first,
   distinctUntilChanged,
   share,
+  merge,
 } from 'rxjs';
 
+import { Direction } from '@app/enums';
 import { VisibilityState } from '@app/enums/visibility-state';
+import { filterNavigationMode } from '@app/functions';
 import { ScrollService } from '@app/services';
 
 type NavigationMode = 'bar' | 'rail' | 'drawer';
@@ -29,7 +31,6 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
-  readonly #scrollSubscription = new Map<Window, Subscription | undefined>();
   readonly #navigationModeMap = new Map<string, NavigationMode>([
     [Breakpoints.XSmall, 'bar'],
     [Breakpoints.Small, 'rail'],
@@ -63,61 +64,33 @@ export class LayoutService {
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
-    this.applyScrollAnimation(window, this.navigationMode(), offsetCallback);
+    const scroll$ = this.#scrollService.connectScrollAnimation(window, offsetCallback);
 
-    return this.#navigationMode$
-      .pipe(
-        tap((navigationMode) => this.applyScrollAnimation(window, navigationMode, offsetCallback)),
-      )
-      .subscribe();
-  }
-
-  public disconnectScrollAnimation(window: Window): void {
-    this.#scrollSubscription.get(window)?.unsubscribe();
-    this.#scrollSubscription.delete(window);
-  }
-
-  public applyScrollAnimation(
-    window: Window,
-    navigationMode: NavigationMode,
-    offsetCallback = () => 0,
-  ): void {
-    const subscriptions = this.#scrollSubscription.get(window);
-    if (navigationMode === 'bar') {
-      if (subscriptions === undefined) {
-        const scroll$ = this.#scrollService.connectScrollAnimation(window, offsetCallback);
-
-        const sub = combineLatest([
-          scroll$.up.pipe(
-            tap(() => {
-              this.showFab.set(VisibilityState.Visible);
-              this.showTopAppBar.set(VisibilityState.Visible);
-              this.down.set(false);
-              this.up.set(true);
-            }),
-          ),
-          scroll$.down.pipe(
-            tap(() => {
-              this.showFab.set(VisibilityState.Hidden);
-              this.showTopAppBar.set(VisibilityState.Hidden);
-              this.up.set(false);
-              this.down.set(true);
-              this.openFab.set(false);
-            }),
-          ),
-        ]).subscribe();
-        this.#scrollSubscription.set(window, sub);
-      }
-    } else if (subscriptions) {
-      this.disconnectScrollAnimation(window);
-    } else {
-      this.#scrollSubscription.set(window, undefined);
-    }
+    return merge(
+      scroll$.up.pipe(
+        filterNavigationMode<Direction>(this.#navigationMode$),
+        tap(() => {
+          this.showFab.set(VisibilityState.Visible);
+          this.showTopAppBar.set(VisibilityState.Visible);
+          this.down.set(false);
+          this.up.set(true);
+        }),
+      ),
+      scroll$.down.pipe(
+        filterNavigationMode<Direction>(this.#navigationMode$),
+        tap(() => {
+          this.showFab.set(VisibilityState.Hidden);
+          this.showTopAppBar.set(VisibilityState.Hidden);
+          this.up.set(false);
+          this.down.set(true);
+          this.openFab.set(false);
+        }),
+      ),
+    ).subscribe();
   }
 
   public scrollTo(x = 0, y = 0, window?: Window): void {
-    const windows: Array<Window> = [...this.#scrollSubscription.keys()];
-    (window ?? windows.shift())?.scrollTo({ top: y, left: x });
+    window?.scrollTo({ top: y, left: x });
   }
 
   public closeDrawer(): void {

@@ -83,7 +83,10 @@ export class MainComponent {
 
   constructor() {
     afterNextRender(() => {
-      this.#layoutService.connectScrollAnimation(this.#window, this.#getTopAppBarHeight.bind(this));
+      this.#layoutService.connectScrollAnimation(
+        this.#window,
+        () => this.topAppBar().nativeElement.clientHeight,
+      );
     });
   }
 
@@ -101,9 +104,5 @@ export class MainComponent {
         : EMPTY,
       { initialValue: false },
     );
-  }
-
-  #getTopAppBarHeight(): number {
-    return this.topAppBar().nativeElement.clientHeight;
   }
 }
