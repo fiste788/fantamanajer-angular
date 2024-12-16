@@ -1,5 +1,5 @@
 @if(tabs$ | async; as tabs) { @let _team = team();
-<app-toolbar-tab
+<app-primary-tab
   fragment="tab"
   [tabs]="tabs"
 >
@@ -26,5 +26,5 @@
       }
     </app-parallax-header>
   </div>
-</app-toolbar-tab>
+</app-primary-tab>
 }

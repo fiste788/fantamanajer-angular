@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 
 import { Tab } from '@data/types';
 import { routerTransition } from '@shared/animations';
-import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
+import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],
   templateUrl: './user.page.html',
-  imports: [ToolbarTabComponent],
+  imports: [PrimaryTabComponent],
 })
 export class UserPage {
   protected readonly tabs: Array<Tab> = [

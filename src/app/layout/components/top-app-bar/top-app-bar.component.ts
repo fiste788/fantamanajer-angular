@@ -80,6 +80,6 @@ export class TopAppBarComponent {
   }
 
   protected viewTransitionName(): string {
-    return this.#transitionService.isTabChanged() ? '' : 'toolbar-tab';
+    return this.#transitionService.isTabChanged() ? '' : 'primary-tab';
   }
 }
