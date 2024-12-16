@@ -41,7 +41,7 @@ export class ToolbarTabComponent implements OnDestroy {
   constructor() {
     afterNextRender(() => {
       // Create a portalHost from a DOM element
-      const element = this.#document.querySelector('#toolbar-tab-container');
+      const element = this.#document.querySelector('#top-app-bar-tab-container');
       if (element) {
         this.#portalHost = new DomPortalOutlet(element, undefined, this.#appRef, this.#injector);
         this.#portalHost.attach(this.portal());
