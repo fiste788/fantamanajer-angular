@@ -33,16 +33,12 @@ import { LayoutService } from '../../services';
         ),
       ]),
       transition('* => rail, * => drawer', [
-        query(
-          '.drawer > *, .rail .mat-mdc-list-item, .rail .mat-divider',
-          style({ opacity: 0, transform: 'translateX(-5rem)' }),
-          {
-            optional: true,
-          },
-        ),
+        query('&> *', style({ opacity: 0, transform: 'translateX(-5rem)' }), {
+          optional: true,
+        }),
 
         query(
-          '.drawer > *, .rail .mat-mdc-list-item, .rail .mat-divider',
+          '&> *',
           stagger(50, [
             animate(
               '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',

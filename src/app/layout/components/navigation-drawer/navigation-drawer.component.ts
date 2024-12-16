@@ -27,17 +27,13 @@ import { ProfileComponent } from '../profile/profile.component';
     closeAnimation,
     trigger('listItemAnimation', [
       transition('* => rail, * => drawer', [
-        query(
-          '.drawer app-profile, .toggle, .fab',
-          style({ opacity: 0, transform: 'translateX(-5rem)' }),
-          {
-            optional: true,
-          },
-        ),
+        query('app-profile, .toggle, .fab', style({ opacity: 0, transform: 'translateX(-5rem)' }), {
+          optional: true,
+        }),
 
         group([
           query(
-            '.drawer app-profile, .toggle, .fab',
+            'app-profile, .toggle, .fab',
             stagger(50, [
               animate(
                 '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
