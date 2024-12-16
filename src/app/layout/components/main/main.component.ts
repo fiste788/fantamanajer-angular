@@ -30,7 +30,7 @@ import { StatePipe } from '@shared/pipes';
 import { LayoutService } from '../../services';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
 import { NavigationDrawerComponent } from '../navigation-drawer/navigation-drawer.component';
-import { NavigationDrawerSkeletonComponent } from '../navigation-drawer-skeleton/navigation-drawer-skeleton.component';
+import { NavigationSkeletonComponent } from '../navigation-skeleton/navigation-skeleton.component';
 import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 
 @Component({
@@ -54,7 +54,7 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     StatePipe,
     NgClass,
     AsyncPipe,
-    NavigationDrawerSkeletonComponent,
+    NavigationSkeletonComponent,
     NavigationDrawerComponent,
   ],
 })

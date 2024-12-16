@@ -38,7 +38,7 @@
   <content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    viewBox="0 0 80 540"
+    [viewBox]="'0 0 80 ' + (loggedIn ? 540 : 316)"
   >
     @if (loggedIn) {
       <svg:rect
@@ -53,12 +53,11 @@
     @for (it of items | range; track it; let idx = $index) {
       <svg:rect
         x="12"
-        [attr.y]="(loggedIn ? 200 : 140) + 56 * idx"
-        y="200"
-        rx="26"
-        ry="26"
-        width="52"
-        height="52"
+        [attr.y]="(loggedIn ? 200 : 148) + 68 * idx"
+        rx="16"
+        ry="16"
+        width="56"
+        height="32"
       />
     }
   </content-loader>

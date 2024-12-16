@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-max-inline-declarations */
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -55,7 +55,7 @@ import { LayoutService } from '../../services';
     ]),
   ],
   selector: 'app-navigation-list',
-  imports: [AsyncPipe, RouterModule, MatListModule, MatRippleModule, MatIconModule, NgClass],
+  imports: [AsyncPipe, RouterModule, MatListModule, MatRippleModule, MatIconModule],
   styleUrl: './navigation-list.component.scss',
   host: {
     '[class]': 'mode()',

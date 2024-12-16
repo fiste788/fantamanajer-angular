@@ -42,7 +42,7 @@
   .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
     align-self: center;
     margin-top: 0;
-    width: 3.5rem;
+    width: 4rem;
     text-align: center;
     height: 2rem;
     line-height: 2rem;
@@ -119,6 +119,10 @@
 
     .mat-divider {
       display: none;
+    }
+
+    .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
+      width: 3.5rem;
     }
   }
 }

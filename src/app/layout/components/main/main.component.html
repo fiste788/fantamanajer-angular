@@ -4,8 +4,10 @@
 @let _stable = stable();
 <mat-sidenav-container [ngClass]="'navigation-' + _navigationMode">
   <mat-sidenav
+    #drawer
     autoFocus="false"
     fixedInViewport="true"
+    [ngClass]="{ test: (drawer.closedStart | async) && (drawer.openedChange | async) }"
     [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
     [attr.old-navigation-mode]="oldNavigationMode$ | async"
     [mode]="_navigationMode === 'drawer' ? 'side' : 'over'"
@@ -14,7 +16,7 @@
     @defer (on viewport) {
       <app-navigation-drawer />
     } @placeholder (minimum 500ms) {
-      <app-navigation-drawer-skeleton />
+      <app-navigation-skeleton />
     }
   </mat-sidenav>
   <mat-sidenav-content>

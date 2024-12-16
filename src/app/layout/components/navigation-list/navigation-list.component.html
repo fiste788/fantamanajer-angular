@@ -3,10 +3,7 @@
 @let team = team$ | async;
 @let championship = championship$ | async;
 @let loggedIn = loggedIn$ | async;
-<mat-nav-list
-  [ngClass]="navigationMode()"
-  [@listItemAnimation]="navigationMode()"
->
+<mat-nav-list [@listItemAnimation]="navigationMode()">
   @if (_mode === 'full' && matchday) {
     <h3 mat-subheader>
       <span>

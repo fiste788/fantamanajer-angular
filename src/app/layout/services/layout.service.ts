@@ -12,9 +12,8 @@ import {
   switchMap,
   startWith,
   first,
-  distinctUntilChanged,
-  share,
   merge,
+  distinctUntilChanged,
 } from 'rxjs';
 
 import { Direction } from '@app/enums';
@@ -40,7 +39,7 @@ export class LayoutService {
   ]);
   readonly #navigationMode$ = this.#navigationMode();
 
-  public readonly navigationMode = toSignal(this.#navigationMode$, { initialValue: 'bar' });
+  public readonly navigationMode = toSignal(this.#navigationMode$, { requireSync: true });
   public readonly openDrawer = linkedSignal(() => this.navigationMode() === 'drawer');
   public readonly showFab = linkedSignal(() =>
     this.navigationMode() === 'bar' || this.routeContextChanged()
@@ -114,7 +113,6 @@ export class LayoutService {
 
         return initialValue;
       }),
-      share(),
       distinctUntilChanged(),
     );
   }

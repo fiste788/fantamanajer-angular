@@ -21,6 +21,16 @@
         font-variation-settings: 'FILL' 1;
       }
     }
+
+    .fab {
+      .mat-icon {
+        margin: 0;
+      }
+
+      .mdc-button__label {
+        display: none;
+      }
+    }
   }
 
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
@@ -65,6 +75,14 @@
 
       .fab {
         margin: 0.5rem 0.75rem;
+
+        .mdc-button__label {
+          display: none;
+        }
+
+        .mat-icon {
+          margin: 0;
+        }
       }
 
       .toggle {
@@ -77,18 +95,6 @@
 
       .mat-mdc-list-item {
         padding: 0 !important;
-      }
-    }
-
-    .mat-drawer.ng-animating {
-      .fab {
-        overflow: hidden;
-      }
-
-      &.mat-drawer-opened {
-        eco-fab-speed-dial {
-          max-width: 100%;
-        }
       }
     }
   }

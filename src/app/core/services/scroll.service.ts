@@ -18,7 +18,7 @@ import { Direction } from '@app/enums';
 })
 export class ScrollService {
   public isScrolled(window: Window, offset = 48): Observable<boolean> {
-    return fromEvent(window, 'scroll').pipe(
+    return fromEvent(window, 'scroll', { passive: true }).pipe(
       throttleTime(15),
       map(() => window.scrollY),
       map((y) => y > offset),
@@ -31,7 +31,7 @@ export class ScrollService {
     window: Window,
     offsetCallback = () => 0,
   ): { up: Observable<Direction>; down: Observable<Direction> } {
-    const scrollObservable$ = fromEvent(window, 'scroll').pipe(
+    const scrollObservable$ = fromEvent(window, 'scroll', { passive: true }).pipe(
       throttleTime(15),
       map(() => window.scrollY),
       filter((y) => y > offsetCallback()),
