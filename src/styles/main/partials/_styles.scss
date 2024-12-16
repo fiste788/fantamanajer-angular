@@ -71,10 +71,6 @@
 }
 
 @mixin color($theme) {
-  .mat-drawer-over {
-    --mat-sidenav-container-background-color: #{mat.get-theme-color($theme, surface-container-low)};
-  }
-
   .mat-text-accent {
     color: mat.get-theme-color($theme, tertiary);
   }

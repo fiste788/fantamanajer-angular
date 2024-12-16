@@ -1,9 +1,6 @@
 :host {
   display: flex;
   flex-direction: column-reverse;
-
-  --mdc-list-list-item-one-line-container-height: auto;
-  --mdc-list-list-item-label-text-line-height: 1;
 }
 
 .mat-toolbar-row {
@@ -12,17 +9,15 @@
   height: auto;
 }
 
+.fab {
+  transform-origin: right bottom;
+  display: flex;
+  align-self: end;
+  margin: 1rem;
+}
+
 @media (min-width: theme('screens.sm')) {
   :host {
     display: none;
   }
-}
-
-.fab {
-  will-change: transform;
-  position: absolute;
-  top: calc(-100% + 0.5rem);
-  right: 1rem;
-  z-index: 1;
-  transform-origin: right bottom;
 }

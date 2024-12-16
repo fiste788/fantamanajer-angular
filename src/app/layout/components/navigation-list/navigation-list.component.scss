@@ -32,6 +32,8 @@
     display: flex;
     gap: 0.5rem;
 
+    --mdc-list-list-item-one-line-container-height: auto;
+
     .mat-icon {
       position: relative;
     }

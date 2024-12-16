@@ -63,23 +63,11 @@ export class LayoutService {
   }
 
   public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
+    this.applyScrollAnimation(window, this.navigationMode(), offsetCallback);
+
     return this.#navigationMode$
       .pipe(
-        tap((navigationMode) => {
-          const subscriptions = this.#scrollSubscription.get(window);
-          if (navigationMode === 'bar') {
-            if (subscriptions === undefined) {
-              this.#scrollSubscription.set(
-                window,
-                this.applyScrollAnimation(window, offsetCallback),
-              );
-            }
-          } else if (subscriptions) {
-            this.disconnectScrollAnimation(window);
-          } else {
-            this.#scrollSubscription.set(window, undefined);
-          }
-        }),
+        tap((navigationMode) => this.applyScrollAnimation(window, navigationMode, offsetCallback)),
       )
       .subscribe();
   }
@@ -89,28 +77,42 @@ export class LayoutService {
     this.#scrollSubscription.delete(window);
   }
 
-  public applyScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
-    const scroll$ = this.#scrollService.connectScrollAnimation(window, offsetCallback);
+  public applyScrollAnimation(
+    window: Window,
+    navigationMode: NavigationMode,
+    offsetCallback = () => 0,
+  ): void {
+    const subscriptions = this.#scrollSubscription.get(window);
+    if (navigationMode === 'bar') {
+      if (subscriptions === undefined) {
+        const scroll$ = this.#scrollService.connectScrollAnimation(window, offsetCallback);
 
-    return combineLatest([
-      scroll$.up.pipe(
-        tap(() => {
-          this.showFab.set(VisibilityState.Visible);
-          this.showTopAppBar.set(VisibilityState.Visible);
-          this.down.set(false);
-          this.up.set(true);
-        }),
-      ),
-      scroll$.down.pipe(
-        tap(() => {
-          this.showFab.set(VisibilityState.Hidden);
-          this.showTopAppBar.set(VisibilityState.Hidden);
-          this.up.set(false);
-          this.down.set(true);
-          this.openFab.set(false);
-        }),
-      ),
-    ]).subscribe();
+        const sub = combineLatest([
+          scroll$.up.pipe(
+            tap(() => {
+              this.showFab.set(VisibilityState.Visible);
+              this.showTopAppBar.set(VisibilityState.Visible);
+              this.down.set(false);
+              this.up.set(true);
+            }),
+          ),
+          scroll$.down.pipe(
+            tap(() => {
+              this.showFab.set(VisibilityState.Hidden);
+              this.showTopAppBar.set(VisibilityState.Hidden);
+              this.up.set(false);
+              this.down.set(true);
+              this.openFab.set(false);
+            }),
+          ),
+        ]).subscribe();
+        this.#scrollSubscription.set(window, sub);
+      }
+    } else if (subscriptions) {
+      this.disconnectScrollAnimation(window);
+    } else {
+      this.#scrollSubscription.set(window, undefined);
+    }
   }
 
   public scrollTo(x = 0, y = 0, window?: Window): void {
