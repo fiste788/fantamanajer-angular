@@ -114,6 +114,7 @@
     .mat-mdc-list-option {
       -webkit-tap-highlight-color: transparent;
 
+      /* stylelint-disable-next-line no-descending-specificity */
       mat-icon {
         -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
       }
