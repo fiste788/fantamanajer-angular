@@ -10,7 +10,7 @@ upload_source_maps = true
 
 [vars]
 NODE_VERSION = "22.11.0"
-BUN_VERSION = "1.1.37"
+BUN_VERSION = "1.1.40"
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/

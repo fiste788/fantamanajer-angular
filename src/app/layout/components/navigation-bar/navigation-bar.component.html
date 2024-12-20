@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <app-navigation-list mode="lite" />
+  </mat-toolbar-row>
+</mat-toolbar>
+@if (loggedIn$ | async) {
+  <app-fab
+    class="fab"
+    extended="false"
+    [(opened)]="openFab"
+    [@closeAnimation]="stable() && showFab() ? showFab() : hidden"
+  />
+}

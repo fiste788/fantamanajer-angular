@@ -96,21 +96,6 @@
           },
           "defaultConfiguration": "development"
         },
-        "serve-local": {
-          "builder": "@angular-builders/custom-esbuild:dev-server",
-          "options": {
-            "proxyConfig": "proxy.local.conf.json"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "fantamanajer-angular:build:production"
-            },
-            "development": {
-              "buildTarget": "fantamanajer-angular:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },

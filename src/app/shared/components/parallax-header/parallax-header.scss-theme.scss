@@ -26,7 +26,11 @@
       animation: gradient 300ms ease forwards;
       background-image: linear-gradient(#1d1b1e00, #1d1b1ee6);
 
-      --mdc-icon-button-icon-color: #{mat.get-theme-color($dark-theme, on-surface)};
+      @include mat.icon-button-overrides(
+        (
+          icon-color: mat.get-theme-color($dark-theme, on-surface),
+        )
+      );
     }
 
     @keyframes gradient {

@@ -1,29 +1,19 @@
-@use './components/bottom-bar/bottom-bar.scss-theme';
-@use './components/navbar/navbar.scss-theme';
-@use './components/profile/profile.scss-theme';
+@use './components/navigation-list/navigation-list.scss-theme';
 
 @mixin base($theme) {
-  @include bottom-bar.base($theme);
-  @include navbar.base($theme);
-  @include profile.base($theme);
+  @include navigation-list.base($theme);
 }
 
 @mixin color($theme) {
-  @include bottom-bar.color($theme);
-  @include navbar.color($theme);
-  @include profile.color($theme);
+  @include navigation-list.color($theme);
 }
 
 @mixin density($theme) {
-  @include bottom-bar.density($theme);
-  @include navbar.density($theme);
-  @include profile.density($theme);
+  @include navigation-list.density($theme);
 }
 
 @mixin typography($theme) {
-  @include bottom-bar.typography($theme);
-  @include navbar.typography($theme);
-  @include profile.typography($theme);
+  @include navigation-list.typography($theme);
 }
 
 @mixin theme($theme) {

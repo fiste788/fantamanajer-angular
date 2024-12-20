@@ -18,8 +18,11 @@
 
 @mixin color($theme) {
   .mat-mdc-card {
-    --mdc-outlined-card-container-color: #{mat.get-theme-color($theme, surface-container-low)};
-    --mat-expansion-container-background-color: transparent;
+    @include mat.card-overrides(
+      (
+        outlined-container-color: mat.get-theme-color($theme, surface-container-low),
+      )
+    );
   }
 }
 

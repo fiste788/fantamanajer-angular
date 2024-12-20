@@ -11,7 +11,7 @@ import { ApplicationService } from '@app/services';
 import { Tab, Team } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
-import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
+import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 import { LayoutService } from 'src/app/layout/services';
 
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
@@ -26,7 +26,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     MatIconModule,
     AsyncPipe,
     MatDialogModule,
-    ToolbarTabComponent,
+    PrimaryTabComponent,
   ],
 })
 export class TeamDetailPage implements OnInit {

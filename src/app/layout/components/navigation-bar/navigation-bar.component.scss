@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.mat-toolbar-row {
+  background-color: inherit;
+  padding: 0;
+  height: auto;
+}
+
+.fab {
+  transform-origin: right bottom;
+  display: flex;
+  align-self: end;
+  margin: 1rem;
+}
+
+@media (min-width: theme('screens.sm')) {
+  :host {
+    display: none;
+  }
+}

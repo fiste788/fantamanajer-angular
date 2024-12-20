@@ -1,7 +1,9 @@
 import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatRippleModule } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom, map, switchMap } from 'rxjs';
 
 import { addVisibleClassOnDestroy, groupBy } from '@app/functions';
@@ -27,6 +29,8 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
     MatProgressBarModule,
     AsyncPipe,
     SlicePipe,
+    RouterLink,
+    MatRippleModule,
     DecimalPipe,
   ],
 })

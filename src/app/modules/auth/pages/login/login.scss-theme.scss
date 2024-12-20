@@ -20,7 +20,11 @@
       color: mat.get-theme-color($theme, primary);
     }
 
-    --mat-stepper-container-color: transparent;
+    @include mat.stepper-overrides(
+      (
+        container-color: transparent,
+      )
+    );
   }
 }
 

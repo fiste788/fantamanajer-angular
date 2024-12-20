@@ -1,4 +1,4 @@
-import { Component, booleanAttribute, input, inject } from '@angular/core';
+import { Component, booleanAttribute, input, inject, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -13,9 +13,9 @@ import {
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  selector: 'app-speed-dial',
-  styleUrl: './speed-dial.component.scss',
-  templateUrl: './speed-dial.component.html',
+  selector: 'app-fab',
+  styleUrl: './fab.component.scss',
+  templateUrl: './fab.component.html',
   imports: [
     EcoFabSpeedDialComponent,
     EcoFabSpeedDialTriggerComponent,
@@ -26,18 +26,14 @@ import { SeasonActiveDirective } from '@shared/directives';
     MatTooltipModule,
   ],
 })
-export class SpeedDialComponent {
+export class FabComponent {
   readonly #router = inject(Router);
 
   public extended = input(false, { transform: booleanAttribute });
   public direction = input<Direction>('up');
-  protected openSpeeddial = false;
+  public opened = model(false);
 
-  public close(): void {
-    this.openSpeeddial = false;
-  }
-
-  public async navigate(url: string): Promise<boolean> {
+  protected async navigate(url: string): Promise<boolean> {
     return this.#router.navigate([url]);
   }
 }

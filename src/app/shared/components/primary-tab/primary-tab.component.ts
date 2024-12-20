@@ -21,12 +21,12 @@ import { StatePipe } from '@shared/pipes';
 
 @Component({
   animations: [trigger('contextChange', routerTransition)],
-  selector: 'app-toolbar-tab',
-  templateUrl: './toolbar-tab.component.html',
-  styleUrl: './toolbar-tab.component.scss',
+  selector: 'app-primary-tab',
+  templateUrl: './primary-tab.component.html',
+  styleUrl: './primary-tab.component.scss',
   imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
 })
-export class ToolbarTabComponent implements OnDestroy {
+export class PrimaryTabComponent implements OnDestroy {
   readonly #document = inject(DOCUMENT);
   readonly #injector = inject(Injector);
   readonly #appRef = inject(ApplicationRef);
@@ -41,7 +41,7 @@ export class ToolbarTabComponent implements OnDestroy {
   constructor() {
     afterNextRender(() => {
       // Create a portalHost from a DOM element
-      const element = this.#document.querySelector('#toolbar-tab-container');
+      const element = this.#document.querySelector('#primary-tab-container');
       if (element) {
         this.#portalHost = new DomPortalOutlet(element, undefined, this.#appRef, this.#injector);
         this.#portalHost.attach(this.portal());

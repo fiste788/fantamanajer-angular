@@ -2,6 +2,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatRipple } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 
@@ -21,6 +22,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     PlaceholderPipe,
     SrcsetPipe,
     NgOptimizedImage,
+    MatRipple,
   ],
 })
 export class ClubListPage {

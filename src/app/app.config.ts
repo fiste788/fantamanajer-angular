@@ -44,10 +44,10 @@ import {
   PwaService,
   MetaService,
 } from '@app/services';
+import { environment } from '@env';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import routes from './app.routes';
-import { LayoutService } from './layout/services';
 
 registerLocaleData(localeIt, 'it');
 
@@ -89,7 +89,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: IMAGE_LOADER,
       useValue: (config: ImageLoaderConfig) => {
-        return (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+        const path =
+          (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+
+        return (
+          (path.startsWith('/api') ? environment.serverApiEndpoint.replace('/api', '') : '') + path
+        );
       },
     },
     // globalErrorHandlerProvider,
@@ -102,7 +107,6 @@ export const appConfig: ApplicationConfig = {
       inject(MetaService).connect();
       inject(BreadcrumbService).connect('FantaManajer');
       inject(IconService).init();
-      void inject(LayoutService).init().subscribe();
       if (isPlatformBrowser(inject(PLATFORM_ID))) {
         pwa.connect();
         push.connect();

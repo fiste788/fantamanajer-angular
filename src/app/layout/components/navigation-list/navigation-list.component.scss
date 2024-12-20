@@ -1,0 +1,143 @@
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable selector-class-pattern */
+
+@use '@angular/material' as mat;
+
+:host-context(.navigation-drawer),
+:host-context(.navigation-rail .mat-drawer-opened),
+:host-context(
+  .navigation-bar.mat-drawer-container-has-open .mat-drawer,
+  .navigation-bar .mat-drawer-opened
+) {
+  .mat-mdc-nav-list {
+    padding: 0 0.75rem;
+  }
+
+  .mat-mdc-list-item {
+    height: 3.5rem;
+
+    .mat-icon {
+      margin-right: 1rem;
+    }
+  }
+
+  .mat-divider {
+    margin: 0 1rem;
+  }
+
+  .title-lite {
+    display: none;
+  }
+}
+
+:host-context(.navigation-bar .bottom),
+:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+  width: 100%;
+
+  .mat-mdc-nav-list {
+    padding: 0.75rem 0 1rem;
+    display: flex;
+    gap: 0.5rem;
+
+    @include mat.list-overrides(
+      (
+        list-item-one-line-container-height: auto,
+      )
+    );
+
+    .mat-icon {
+      position: relative;
+    }
+  }
+
+  .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
+    align-self: center;
+    margin-top: 0;
+    width: 4rem;
+    text-align: center;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 1rem;
+  }
+
+  a.mdc-list-item.mdc-list-item--activated {
+    background-color: transparent;
+  }
+
+  .mat-mdc-list-item-interactive mat-icon::before {
+    inset: 0;
+    position: absolute;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .mdc-list-item:focus .mat-icon::before,
+  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
+    background-color: var(--mdc-list-list-item-focus-state-layer-color);
+    opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
+    width: 100% !important;
+    transform: translateX(-50%);
+  }
+
+  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
+    background-color: var(--mat-list-active-indicator-color);
+    opacity: 1 !important;
+    z-index: -1;
+  }
+
+  .mdc-list-item mat-icon::before,
+  .mdc-list-item.mdc-ripple-upgraded--background-focused mat-icon::before {
+    position: absolute;
+    box-sizing: border-box;
+    width: 50%;
+    opacity: 0;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    border-radius: inherit;
+    content: '';
+    pointer-events: none;
+    transition:
+      opacity 100ms cubic-bezier(0.3, 0, 0.8, 0.15) 100ms,
+      width 400ms cubic-bezier(0.3, 0, 0.8, 0.15) 150ms;
+  }
+
+  .mdc-list-item:hover::before,
+  .mat-mdc-list-item-interactive::before,
+  .mdc-list-item:not(.mdc-list-item--selected):focus::before,
+  .mdc-list-item.mdc-ripple-upgraded--background-focused::before {
+    display: none;
+  }
+
+  .mdc-list-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .title-full {
+    display: none;
+  }
+}
+
+:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+  .mat-mdc-nav-list {
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @include mat.list-overrides(
+      (
+        list-item-one-line-container-height: 56px,
+      )
+    );
+
+    .mat-divider {
+      display: none;
+    }
+
+    .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
+      width: 3.5rem;
+    }
+  }
+}

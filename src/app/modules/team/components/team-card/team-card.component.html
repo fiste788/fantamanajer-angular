@@ -1,6 +1,7 @@
 @let _team = team();
 <mat-card appearance="outlined">
   <figure
+    matRipple
     class="aspect-ratio-box"
     mat-card-image
     [style.viewTransitionName]="viewTransitionName(_team)"
@@ -13,7 +14,7 @@
         <img
           #listImg
           height="337"
-          ngSrcset="240w, 600w, 1280w"
+          ngSrcset="256w, 600w, 1280w"
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
           [alt]="_team.name"

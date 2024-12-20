@@ -17,11 +17,21 @@ import { Direction } from '@app/enums';
   providedIn: 'root',
 })
 export class ScrollService {
+  public isScrolled(window: Window, offset = 48): Observable<boolean> {
+    return fromEvent(window, 'scroll', { passive: true }).pipe(
+      throttleTime(15),
+      map(() => window.scrollY),
+      map((y) => y > offset),
+      distinctUntilChanged(),
+      share(),
+    );
+  }
+
   public connectScrollAnimation(
     window: Window,
     offsetCallback = () => 0,
   ): { up: Observable<Direction>; down: Observable<Direction> } {
-    const scrollObservable$ = fromEvent(window, 'scroll').pipe(
+    const scrollObservable$ = fromEvent(window, 'scroll', { passive: true }).pipe(
       throttleTime(15),
       map(() => window.scrollY),
       filter((y) => y > offsetCallback()),

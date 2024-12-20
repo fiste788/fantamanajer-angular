@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+nav {
+  width: 100%;
+
+  @include mat.tabs-overrides(
+    (
+      active-indicator-height: 3px,
+      active-indicator-shape: 3px 3px 0 0,
+    )
+  );
+}
+
+.tabbed-container {
+  min-height: calc(var(--tabbed-container-min-height, 100vh) - 10rem - 1px);
+}

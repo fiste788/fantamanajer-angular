@@ -6,11 +6,14 @@ bestPlayers = bestPlayers$ | async;
 >
   @for (role of roles; track role.id) { @let bestPlayer = bestPlayers?.get(role);
   <mat-card appearance="outlined">
-    <app-player-image
-      inCard
-      mat-card-image
-      [member]="bestPlayer?.[0]"
-    />
+    <a [routerLink]="['/players', bestPlayer?.[0]?.player_id]">
+      <app-player-image
+        inCard
+        matRipple
+        mat-card-image
+        [member]="bestPlayer?.[0]"
+      />
+    </a>
     @if (!bestPlayer) {
     <mat-progress-bar mode="indeterminate" />
     }

@@ -1,0 +1,16 @@
+.fab {
+  margin: 1rem;
+  display: none;
+  z-index: 1;
+  position: relative;
+}
+
+.toggle {
+  display: none;
+}
+
+@media (min-width: theme('screens.sm')) {
+  .fab {
+    display: flex;
+  }
+}

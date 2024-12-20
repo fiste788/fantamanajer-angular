@@ -5,11 +5,11 @@ import { combineLatest, map } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
-import { ToolbarTabComponent } from '@shared/components/toolbar-tab/toolbar-tab.component';
+import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
 @Component({
   templateUrl: './championship.page.html',
-  imports: [ToolbarTabComponent, AsyncPipe],
+  imports: [PrimaryTabComponent, AsyncPipe],
 })
 export class ChampionshipPage {
   readonly #auth = inject(AuthenticationService);

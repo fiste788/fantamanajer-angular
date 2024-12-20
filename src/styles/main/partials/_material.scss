@@ -18,6 +18,7 @@
   @include mat.menu-base($theme);
   @include mat.progress-spinner-base($theme);
   @include mat.progress-bar-base($theme);
+  @include mat.ripple-base($theme);
   @include mat.select-base($theme);
   @include mat.sidenav-base($theme);
   @include mat.slide-toggle-base($theme);
@@ -48,6 +49,7 @@
   @include mat.menu-color($theme);
   @include mat.progress-spinner-color($theme);
   @include mat.progress-bar-color($theme);
+  @include mat.ripple-color($theme);
   @include mat.select-color($theme);
   @include mat.sidenav-color($theme);
   @include mat.slide-toggle-color($theme);
@@ -58,6 +60,16 @@
   @include mat.tabs-color($theme);
   @include mat.toolbar-color($theme);
   @include mat.tooltip-color($theme);
+  @include mat.stepper-overrides(
+    (
+      container-color: transparent,
+    )
+  );
+  @include mat.expansion-overrides(
+    (
+      container-background-color: transparent,
+    )
+  );
 
   .tertiary-fab {
     @include mat.fab-color($theme, $color-variant: tertiary);

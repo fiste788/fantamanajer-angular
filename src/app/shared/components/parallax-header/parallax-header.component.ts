@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { ViewportScroller, AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { ViewportScroller, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +33,6 @@ import { RellaxDirective } from '../../directives/rellax.directive';
     SrcsetPipe,
     RouterLinkActive,
     RouterLink,
-    AsyncPipe,
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {
@@ -56,7 +55,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
     read: ElementRef<HTMLElement>,
   });
 
-  protected readonly isHandset$ = inject(LayoutService).isHandset$;
+  protected readonly navigationMode = inject(LayoutService).navigationMode;
 
   public ngOnDestroy(): void {
     this.rellax()?.nativeElement.classList.remove('no-animate');

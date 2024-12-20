@@ -9,13 +9,14 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { firstValueFrom, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { firstValueFrom, forkJoin, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { Team } from '@data/types';
 import { TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
+import { SrcsetPipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
 
@@ -33,6 +34,7 @@ import { LayoutService } from '../../services';
     MatIcon,
     MatButtonModule,
     NgOptimizedImage,
+    SrcsetPipe,
   ],
 })
 export class ProfileComponent {
@@ -43,13 +45,12 @@ export class ProfileComponent {
 
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
-  protected readonly photo$ = this.#loadPhoto();
 
   public async change(team: Team): Promise<void> {
     void this.#router.navigateByUrl(`/teams/${team.id}`, {
       state: { team: await this.app.changeTeam(team) },
     });
-    this.#layoutService.closeSidebar();
+    this.#layoutService.closeDrawer();
   }
 
   public compareFn(t1: Team, t2: Team): boolean {
@@ -75,12 +76,6 @@ export class ProfileComponent {
         ),
       ),
       { defaultValue: false },
-    );
-  }
-
-  #loadPhoto(): Observable<string | undefined> {
-    return this.app.requireTeam$.pipe(
-      map((team) => (team.photo_url ? team.photo_url['240w'] : undefined)),
     );
   }
 }

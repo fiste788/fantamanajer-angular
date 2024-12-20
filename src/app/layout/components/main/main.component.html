@@ -1,27 +1,28 @@
-@let isTablet = (isTablet$ | async)!;
-@let isHandset = (isHandset$ | async)!;
-@let isScrolled = isScrolled$ | async;
-@let showedToolbar = showedToolbar$ | async;
-@let showedSpeedDial = showedSpeedDial$ | async;
-<mat-sidenav-container>
+@let _navigationMode = navigationMode();
+@let _isScrolled = isScrolled();
+@let _showTopAppBar = showTopAppBar();
+@let _stable = stable();
+<mat-sidenav-container [ngClass]="'navigation-' + _navigationMode">
   <mat-sidenav
     #drawer
+    autoFocus="false"
     fixedInViewport="true"
-    [attr.role]="isHandset ? 'dialog' : 'navigation'"
-    [autoFocus]="false"
-    [(opened)]="openSidebar"
-    [mode]="isHandset || isTablet ? 'over' : 'side'"
+    [ngClass]="{ test: (drawer.closedStart | async) && (drawer.openedChange | async) }"
+    [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
+    [attr.old-navigation-mode]="oldNavigationMode$ | async"
+    [mode]="_navigationMode === 'drawer' ? 'side' : 'over'"
+    [(opened)]="openDrawer"
   >
     @defer (on viewport) {
-      <app-navbar />
+      <app-navigation-drawer />
     } @placeholder (minimum 500ms) {
-      <app-navbar-skeleton />
+      <app-navigation-skeleton />
     }
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar
-      [@scrollUpAnimation]="isScrolled === false || showedToolbar"
-      [ngClass]="{ 'is-scrolled': isScrolled }"
+    <app-top-app-bar
+      [@scrollUpAnimation]="!_isScrolled || _showTopAppBar"
+      [ngClass]="{ 'is-scrolled': _isScrolled }"
     />
     <main
       [@contextChange]="o | state"
@@ -30,12 +31,13 @@
       <router-outlet #o="outlet" />
     </main>
 
-    @defer (when isHandset$) {
-      <app-bottom
-        class="bottom"
-        [@scrollDownAnimation]="stable() && showedToolbar ? showedToolbar : hidden"
-        [visibilitySpeedDial]="stable() && showedSpeedDial ? showedSpeedDial : hidden"
-      />
-    }
+    <div
+      class="bottom"
+      [@scrollDownAnimation]="_stable && _showTopAppBar ? _showTopAppBar : hidden"
+    >
+      @defer (when _navigationMode === 'bar') {
+        <app-navigation-bar />
+      }
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

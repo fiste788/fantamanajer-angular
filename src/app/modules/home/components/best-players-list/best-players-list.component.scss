@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.mat-mdc-list {
+  @include mat.list-overrides(
+    (
+      list-item-one-line-container-height: 32px,
+    )
+  );
+}

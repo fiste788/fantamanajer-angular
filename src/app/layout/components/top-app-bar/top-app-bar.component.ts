@@ -17,9 +17,9 @@ import { NotificationComponent } from '../notification/notification.component';
 @Component({
   animations: [scrollUpAnimation, createBoxAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-toolbar',
-  styleUrl: './toolbar.component.scss',
-  templateUrl: './toolbar.component.html',
+  selector: 'app-top-app-bar',
+  styleUrl: './top-app-bar.component.scss',
+  templateUrl: './top-app-bar.component.html',
   host: {
     '[class.window-overlayed]': 'isOverlayed()',
   },
@@ -32,7 +32,7 @@ import { NotificationComponent } from '../notification/notification.component';
     AsyncPipe,
   ],
 })
-export class ToolbarComponent {
+export class TopAppBarComponent {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
   readonly #layoutService = inject(LayoutService);
   readonly #auth = inject(AuthenticationService);
@@ -43,7 +43,7 @@ export class ToolbarComponent {
   protected readonly isOverlayed = this.getOverlayedSignal();
 
   protected clickNav(): void {
-    this.#layoutService.toggleSidebar();
+    this.#layoutService.toggleDrawer();
   }
 
   protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
@@ -80,6 +80,6 @@ export class ToolbarComponent {
   }
 
   protected viewTransitionName(): string {
-    return this.#transitionService.isTabChanged() ? '' : 'toolbar-tab';
+    return this.#transitionService.isTabChanged() ? '' : 'primary-tab';
   }
 }
