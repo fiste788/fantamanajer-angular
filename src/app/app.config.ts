@@ -92,9 +92,9 @@ export const appConfig: ApplicationConfig = {
         const path =
           (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
 
-        return (
-          (path.startsWith('/api') ? environment.serverApiEndpoint.replace('/api', '') : '') + path
-        );
+        return path.startsWith(environment.apiEndpoint)
+          ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
+          : path;
       },
     },
     // globalErrorHandlerProvider,
