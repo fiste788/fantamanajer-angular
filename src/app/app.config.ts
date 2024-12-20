@@ -44,6 +44,7 @@ import {
   PwaService,
   MetaService,
 } from '@app/services';
+import { environment } from '@env';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import routes from './app.routes';
@@ -88,7 +89,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: IMAGE_LOADER,
       useValue: (config: ImageLoaderConfig) => {
-        return (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+        const path =
+          (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+
+        return (
+          (path.startsWith('/api') ? environment.serverApiEndpoint.replace('/api', '') : '') + path
+        );
       },
     },
     // globalErrorHandlerProvider,

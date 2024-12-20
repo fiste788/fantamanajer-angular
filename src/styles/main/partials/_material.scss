@@ -60,6 +60,16 @@
   @include mat.tabs-color($theme);
   @include mat.toolbar-color($theme);
   @include mat.tooltip-color($theme);
+  @include mat.stepper-overrides(
+    (
+      container-color: transparent,
+    )
+  );
+  @include mat.expansion-overrides(
+    (
+      container-background-color: transparent,
+    )
+  );
 
   .tertiary-fab {
     @include mat.fab-color($theme, $color-variant: tertiary);

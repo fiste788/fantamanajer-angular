@@ -9,6 +9,7 @@ import { Member } from '@data/types';
 @Component({
   selector: 'app-best-players-list',
   imports: [MatExpansionModule, MatListModule, RouterLink, DecimalPipe],
+  styleUrl: './best-players-list.component.scss',
   templateUrl: './best-players-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

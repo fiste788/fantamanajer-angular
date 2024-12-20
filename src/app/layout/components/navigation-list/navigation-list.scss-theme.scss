@@ -15,7 +15,11 @@
     }
 
     a.mdc-list-item.mdc-list-item--activated {
-      --mdc-list-list-item-label-text-weight: 700;
+      @include mat.list-overrides(
+        (
+          list-item-label-text-weight: 700,
+        )
+      );
 
       mat-icon {
         font-variation-settings: 'FILL' 1;
@@ -102,13 +106,25 @@
 
 @mixin color($theme) {
   .mat-drawer-over.mat-drawer-opened {
-    --mat-sidenav-container-background-color: #{mat.get-theme-color($theme, surface-container-low)};
+    @include mat.sidenav-overrides(
+      (
+        container-background-color: mat.get-theme-color($theme, surface-container-low),
+      )
+    );
   }
 
   .navigation-bar .bottom,
   .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
-    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface-container)};
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
+      )
+    );
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: mat.get-theme-color($theme, surface-container),
+      )
+    );
 
     .mat-mdc-list-item,
     .mat-mdc-list-option {
@@ -121,13 +137,25 @@
     }
 
     a.mdc-list-item.mdc-list-item--activated {
-      --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface)};
+      @include mat.list-overrides(
+        (
+          list-item-label-text-color: mat.get-theme-color($theme, on-surface),
+        )
+      );
     }
   }
 
   .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    --mdc-list-list-item-label-text-color: #{mat.get-theme-color($theme, on-surface-variant)};
-    --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, surface)};
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
+      )
+    );
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: mat.get-theme-color($theme, surface),
+      )
+    );
   }
 
   .mat-drawer {
@@ -140,10 +168,14 @@
     }
 
     .fab .tertiary-fab {
-      --mdc-extended-fab-container-elevation-shadow: none;
-      --mdc-extended-fab-hover-container-elevation-shadow: none;
-      --mdc-fab-container-elevation-shadow: none;
-      --mdc-fab-hover-container-elevation-shadow: none;
+      @include mat.fab-overrides(
+        (
+          extended-container-elevation-shadow: none,
+          extended-hover-container-elevation-shadow: none,
+          container-elevation-shadow: none,
+          hover-container-elevation-shadow: none,
+        )
+      );
     }
   }
 }
@@ -154,9 +186,13 @@
 @mixin typography($theme) {
   .navigation-bar .bottom,
   .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    --mdc-list-list-item-label-text-size: 14px;
-    --mdc-list-list-item-label-text-line-height: 1rem;
-    --mdc-list-list-item-label-text-weight: 500;
+    @include mat.list-overrides(
+      (
+        list-item-label-text-size: 14px,
+        list-item-label-text-line-height: 1rem,
+        list-item-label-text-weight: 500,
+      )
+    );
   }
 
   .mat-mdc-subheader {

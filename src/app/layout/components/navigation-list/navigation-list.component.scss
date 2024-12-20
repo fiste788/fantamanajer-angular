@@ -1,8 +1,14 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
+
+@use '@angular/material' as mat;
+
 :host-context(.navigation-drawer),
 :host-context(.navigation-rail .mat-drawer-opened),
-:host-context(.navigation-bar .mat-drawer-opened) {
+:host-context(
+  .navigation-bar.mat-drawer-container-has-open .mat-drawer,
+  .navigation-bar .mat-drawer-opened
+) {
   .mat-mdc-nav-list {
     padding: 0 0.75rem;
   }
@@ -33,7 +39,11 @@
     display: flex;
     gap: 0.5rem;
 
-    --mdc-list-list-item-one-line-container-height: auto;
+    @include mat.list-overrides(
+      (
+        list-item-one-line-container-height: auto,
+      )
+    );
 
     .mat-icon {
       position: relative;
@@ -88,9 +98,9 @@
     border-radius: inherit;
     content: '';
     pointer-events: none;
-    transition-duration: 200ms;
-    transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
-    transition-property: opacity, width;
+    transition:
+      opacity 100ms cubic-bezier(0.3, 0, 0.8, 0.15) 100ms,
+      width 400ms cubic-bezier(0.3, 0, 0.8, 0.15) 150ms;
   }
 
   .mdc-list-item:hover::before,
@@ -116,7 +126,11 @@
     flex-direction: column;
     gap: 0.75rem;
 
-    --mdc-list-list-item-one-line-container-height: 56px;
+    @include mat.list-overrides(
+      (
+        list-item-one-line-container-height: 56px,
+      )
+    );
 
     .mat-divider {
       display: none;

@@ -1,13 +1,16 @@
 @if (app.team$ | async; as team) {
   <mat-toolbar>
-    @if (photo$ | async; as photo) {
+    @if (team.photo_url) {
       <mat-toolbar-row>
         <img
           alt="Logo"
-          height="138"
+          height="144"
           priority
-          width="245"
-          [ngSrc]="photo"
+          width="256"
+          sizes="(max-width: 37.5em) 600px, 256px"
+          ngSrcset="256w, 600w, 1280w"
+          [loaderParams]="team.photo_url"
+          [ngSrc]="team.photo_url | srcset: true"
         />
       </mat-toolbar-row>
     }

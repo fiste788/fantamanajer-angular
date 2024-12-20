@@ -1,5 +1,11 @@
+@use '@angular/material' as mat;
+
 :host {
   display: block;
+}
+
+.teams-panel {
+  margin-left: 0.5rem;
 }
 
 .mat-toolbar {
@@ -23,5 +29,11 @@
 
   .mat-mdc-form-field {
     width: 100%;
+
+    @include mat.form-field-overrides(
+      (
+        filled-container-color: transparent,
+      )
+    );
   }
 }

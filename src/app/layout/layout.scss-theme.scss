@@ -1,24 +1,19 @@
 @use './components/navigation-list/navigation-list.scss-theme';
-@use './components/profile/profile.scss-theme';
 
 @mixin base($theme) {
   @include navigation-list.base($theme);
-  @include profile.base($theme);
 }
 
 @mixin color($theme) {
   @include navigation-list.color($theme);
-  @include profile.color($theme);
 }
 
 @mixin density($theme) {
   @include navigation-list.density($theme);
-  @include profile.density($theme);
 }
 
 @mixin typography($theme) {
   @include navigation-list.typography($theme);
-  @include profile.typography($theme);
 }
 
 @mixin theme($theme) {
