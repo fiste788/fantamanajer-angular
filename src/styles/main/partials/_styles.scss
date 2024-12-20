@@ -80,7 +80,7 @@
     --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
   }
 
-  .mat-drawer-over {
+  .mat-drawer-opened {
     --mat-sidenav-container-background-color: #{mat.get-theme-color($theme, surface-container-low)};
   }
 
