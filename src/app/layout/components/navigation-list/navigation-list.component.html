@@ -31,7 +31,7 @@
       matRipple
       [matRippleDisabled]="_mode === 'full'"
       >home</mat-icon
-    >Home
+    ><span matListItemTitle>Home</span>
   </a>
   @if (team) {
     <a
@@ -89,7 +89,7 @@
         matRipple
         [matRippleDisabled]="_mode === 'full'"
         >sports_soccer</mat-icon
-      >Clubs
+      ><span matListItemTitle>Clubs</span>
     </a>
   }
   @if (_mode === 'full') {
@@ -127,7 +127,7 @@
           matRipple
           [matRippleDisabled]="_mode === 'full'"
           >exit_to_app</mat-icon
-        >Esci
+        ><span matListItemTitle>Esci</span>
       </a>
     }
   } @else {
@@ -143,7 +143,7 @@
         matRipple
         [matRippleDisabled]="_mode === 'full'"
         >input</mat-icon
-      >Accedi
+      ><span matListItemTitle>Accedi</span>
     </a>
   }
 </mat-nav-list>

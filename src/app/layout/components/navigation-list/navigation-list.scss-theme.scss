@@ -2,8 +2,35 @@
 @use '@angular/material' as mat;
 
 @mixin base($theme) {
+  @keyframes font-to-fill {
+    from {
+      font-variation-settings: 'FILL' 0;
+    }
+
+    to {
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+
+  @keyframes font-to-no-fill {
+    from {
+      font-variation-settings: 'FILL' 1;
+    }
+
+    to {
+      font-variation-settings: 'FILL' 0;
+    }
+  }
+
   .mdc-list-item__content {
     z-index: 1;
+    display: inline-flex;
+  }
+
+  a.mdc-list-item.mdc-list-item--activated {
+    mat-icon {
+      animation: font-to-no-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    }
   }
 
   .navigation-bar .bottom,
@@ -11,11 +38,6 @@
     .mat-mdc-list-item > .mat-mdc-focus-indicator,
     .mat-mdc-list-item > .mat-ripple-element {
       display: none;
-    }
-
-    .mdc-list-item__content {
-      display: flex;
-      margin-top: 0.25rem;
     }
 
     a.mdc-list-item.mdc-list-item--activated {
@@ -26,7 +48,7 @@
       );
 
       mat-icon {
-        font-variation-settings: 'FILL' 1;
+        animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
       }
     }
 
@@ -116,7 +138,7 @@
 
       a.mdc-list-item.mdc-list-item--activated {
         mat-icon {
-          font-variation-settings: 'FILL' 1;
+          animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
         }
       }
 
