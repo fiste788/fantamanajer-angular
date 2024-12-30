@@ -3,12 +3,7 @@
 
 @use '@angular/material' as mat;
 
-:host-context(.navigation-drawer),
-:host-context(.navigation-rail .mat-drawer-opened),
-:host-context(
-  .navigation-bar.mat-drawer-container-has-open .mat-drawer,
-  .navigation-bar .mat-drawer-opened
-) {
+:host-context(.mat-drawer.ng-animating, .mat-drawer-opened) {
   .mat-mdc-nav-list {
     padding: 0 0.75rem;
   }
@@ -25,6 +20,17 @@
     margin: 0 1rem;
   }
 
+  .mdc-list-item.mdc-list-item::before {
+    height: 100%;
+    width: 100%;
+    border-radius: 1rem;
+    left: 0;
+    transform: none;
+    transition:
+      width 200ms cubic-bezier(0.05, 0.7, 0.1, 1),
+      height 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+  }
+
   .title-lite {
     display: none;
   }
@@ -35,6 +41,7 @@
   width: 100%;
 
   .mat-mdc-nav-list {
+    transition: margin 400ms cubic-bezier(0.05, 0.7, 0.1, 1);
     padding: 0.75rem 0 1rem;
     display: flex;
     gap: 0.5rem;
@@ -45,75 +52,50 @@
       )
     );
 
-    .mat-icon {
-      position: relative;
+    .mat-mdc-list-item {
+      flex-direction: column;
+      padding: 0;
+
+      .mat-icon {
+        position: relative;
+        height: 2rem;
+        line-height: 2rem;
+      }
+
+      &::before {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition:
+          opacity 100ms cubic-bezier(0.3, 0, 0.8, 0.15) 0ms,
+          width 400ms cubic-bezier(0.3, 0, 0.8, 0.15) 50ms;
+        width: 0;
+        height: 2rem;
+        border-radius: 1rem;
+        transition-duration: 200ms;
+        position: absolute;
+        content: '';
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &.mdc-list-item--activated {
+        background-color: transparent;
+
+        &::before {
+          background-color: var(--mat-list-active-indicator-color);
+          width: 3.5rem;
+          opacity: 1 !important;
+        }
+      }
+
+      &:focus::before {
+        background-color: var(--mdc-list-list-item-focus-state-layer-color);
+        opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
+        transform: translateX(-50%);
+        width: 3.5rem;
+      }
     }
-  }
-
-  .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
-    align-self: center;
-    margin-top: 0;
-    width: 4rem;
-    text-align: center;
-    height: 2rem;
-    line-height: 2rem;
-    border-radius: 1rem;
-  }
-
-  a.mdc-list-item.mdc-list-item--activated {
-    background-color: transparent;
-  }
-
-  .mat-mdc-list-item-interactive mat-icon::before {
-    inset: 0;
-    position: absolute;
-    content: '';
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .mdc-list-item:focus .mat-icon::before,
-  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
-    background-color: var(--mdc-list-list-item-focus-state-layer-color);
-    opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
-    width: 100% !important;
-    transform: translateX(-50%);
-  }
-
-  .mdc-list-item.mdc-list-item--activated .mat-icon::before {
-    background-color: var(--mat-list-active-indicator-color);
-    opacity: 1 !important;
-    z-index: -1;
-  }
-
-  .mdc-list-item mat-icon::before,
-  .mdc-list-item.mdc-ripple-upgraded--background-focused mat-icon::before {
-    position: absolute;
-    box-sizing: border-box;
-    width: 50%;
-    opacity: 0;
-    height: 100%;
-    top: 0;
-    left: 50%;
-    border-radius: inherit;
-    content: '';
-    pointer-events: none;
-    transition:
-      opacity 100ms cubic-bezier(0.3, 0, 0.8, 0.15) 100ms,
-      width 400ms cubic-bezier(0.3, 0, 0.8, 0.15) 150ms;
-  }
-
-  .mdc-list-item:hover::before,
-  .mat-mdc-list-item-interactive::before,
-  .mdc-list-item:not(.mdc-list-item--selected):focus::before,
-  .mdc-list-item.mdc-ripple-upgraded--background-focused::before {
-    display: none;
-  }
-
-  .mdc-list-item {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
   }
 
   .title-full {
@@ -125,6 +107,7 @@
   .mat-mdc-nav-list {
     flex-direction: column;
     gap: 0.75rem;
+    max-width: 5rem;
 
     @include mat.list-overrides(
       (
@@ -134,10 +117,6 @@
 
     .mat-divider {
       display: none;
-    }
-
-    .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__start {
-      width: 3.5rem;
     }
   }
 }

@@ -17,7 +17,7 @@ const NO_PREFIX_IT = new HttpContextToken<boolean>(() => false);
 const NO_HEADERS_IT = new HttpContextToken<boolean>(() => false);
 
 function setPrefix(req: HttpRequest<unknown>, prefix: string): HttpRequest<unknown> {
-  const url = (req.url.startsWith('/public') ? '' : prefix) + req.url;
+  const url = (req.url.startsWith('/svg') ? '' : prefix) + req.url;
 
   return req.clone({
     url,

@@ -3,7 +3,10 @@
 @let team = team$ | async;
 @let championship = championship$ | async;
 @let loggedIn = loggedIn$ | async;
-<mat-nav-list [@listItemAnimation]="navigationMode()">
+<mat-nav-list
+  [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
+  [@listItemAnimation]="navigationMode()"
+>
   @if (_mode === 'full' && matchday) {
     <h3 mat-subheader>
       <span>
@@ -91,7 +94,6 @@
   }
   @if (_mode === 'full') {
     <mat-divider />
-    <h3 mat-subheader>Account</h3>
   }
   @if (loggedIn) {
     <a

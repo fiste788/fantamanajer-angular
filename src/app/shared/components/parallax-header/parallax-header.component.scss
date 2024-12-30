@@ -1,13 +1,15 @@
 @use '@angular/material' as mat;
 
 .parallax-container {
-  margin: -1rem -1rem 2rem;
+  margin: -0.5rem -1rem 2rem;
 }
 
 .parallax-header-img {
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
+  border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
+  border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
 
   > div {
     transition: all 200ms;
@@ -61,6 +63,8 @@
   min-height: 20rem;
   width: 100%;
   object-fit: cover;
+  border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
+  border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
 }
 
 a.anchor {
@@ -112,8 +116,6 @@ a.anchor {
     position: relative;
     background-position: center;
     background-size: cover;
-    border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
-    border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
     overflow: hidden;
     max-height: 85vh;
   }
