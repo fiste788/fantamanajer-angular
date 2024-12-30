@@ -15,7 +15,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AuthenticationService } from '@app/authentication';
-import { closeAnimation } from '@shared/animations';
 
 import { LayoutService } from '../../services';
 import { FabComponent } from '../fab/fab.component';
@@ -24,7 +23,6 @@ import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   animations: [
-    closeAnimation,
     trigger('listItemAnimation', [
       transition('* => rail, * => drawer', [
         query('app-profile, .toggle, .fab', style({ opacity: 0, transform: 'translateX(-5rem)' }), {

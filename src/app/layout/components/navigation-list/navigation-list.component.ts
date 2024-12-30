@@ -17,7 +17,11 @@ import { LayoutService } from '../../services';
   animations: [
     trigger('listItemAnimation', [
       transition('* => bar', [
-        query('&> *', style({ opacity: 0, transform: 'translateY(5rem)' }), {
+        query('[direction=right] > *', style({ opacity: 0, transform: 'translateY(5rem)' }), {
+          optional: true,
+        }),
+
+        query('[direction=down] > *', style({ opacity: 0, transform: 'translateX(-5rem)' }), {
           optional: true,
         }),
 
@@ -26,7 +30,7 @@ import { LayoutService } from '../../services';
           stagger(50, [
             animate(
               '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
-              style({ opacity: 1, transform: 'translateY(0)' }),
+              style({ opacity: 1, transform: 'translate(0, 0)' }),
             ),
           ]),
           { optional: true },

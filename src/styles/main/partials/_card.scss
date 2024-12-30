@@ -4,6 +4,17 @@
 @mixin base($theme) {
   .mat-mdc-card {
     overflow-y: hidden;
+    transition: box-shadow 200ms;
+
+    .mat-mdc-card-actions {
+      justify-content: end;
+      gap: 0.5rem;
+      flex-direction: row-reverse;
+    }
+
+    &:hover {
+      box-shadow: var(--mdc-elevated-card-container-elevation);
+    }
 
     .mat-mdc-card-header-text {
       overflow: hidden;
