@@ -8,6 +8,9 @@ services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
 routes = [{ pattern = "c3.fantamanajer.it", custom_domain = true }]
 upload_source_maps = true
 
+[placement]
+mode = "smart"
+
 [vars]
 NODE_VERSION = "22.11.0"
 BUN_VERSION = "1.1.40"
