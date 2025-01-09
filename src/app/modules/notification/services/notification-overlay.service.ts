@@ -48,7 +48,7 @@ export class NotificationOverlayService {
     return new OverlayConfig({
       hasBackdrop: true,
       positionStrategy,
-      scrollStrategy: this.#overlay.scrollStrategies.block(),
+      scrollStrategy: this.#overlay.scrollStrategies.noop(),
       width: '599px',
     });
   }

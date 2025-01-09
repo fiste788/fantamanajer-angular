@@ -3,7 +3,7 @@
   padding-bottom: 1rem;
 
   app-member-selection {
-    transition: flex 0.3s ease-out;
+    transition: flex 0.3s cubic-bezier(0.05, 0.7, 0.1, 1);
   }
 }
 

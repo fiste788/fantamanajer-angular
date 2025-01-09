@@ -77,7 +77,10 @@ export class ModuleAreaComponent {
 
   #isRegular(member: Member): boolean {
     return this.dispositions()
-      .filter((element) => element.position && element.position <= 11 && element.member)
+      .filter(
+        (element) =>
+          element.position !== undefined && element.position <= 11 && element.member !== undefined,
+      )
       .map((element) => element.member?.id)
       .includes(member.id);
   }

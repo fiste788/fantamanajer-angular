@@ -1,3 +1,4 @@
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -71,6 +72,7 @@ export class ProfileComponent {
           this.#dialog
             .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team: t, showChangeTeamName: (m?.number ?? 0) <= 38 },
+              scrollStrategy: new NoopScrollStrategy(),
             })
             .afterClosed(),
         ),

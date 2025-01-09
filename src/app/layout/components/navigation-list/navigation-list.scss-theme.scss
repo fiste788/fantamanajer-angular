@@ -1,5 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
+@use 'sass:color';
 
 @mixin base($theme) {
   @keyframes font-to-fill {
@@ -22,33 +23,41 @@
     }
   }
 
-  .mdc-list-item__content {
-    z-index: 1;
-    display: inline-flex;
-  }
+  app-navigation-list {
+    .mdc-list-item__content {
+      z-index: 1;
+      display: inline-flex;
+    }
 
-  a.mdc-list-item.mdc-list-item--activated {
-    mat-icon {
-      animation: font-to-no-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    a.mdc-list-item mat-icon {
+      font-variation-settings: 'FILL' 0;
     }
   }
 
   .navigation-bar .bottom,
   .navigation-rail .mat-drawer:not(.mat-drawer-opened, .ng-animating) {
-    .mat-mdc-list-item > .mat-mdc-focus-indicator,
-    .mat-mdc-list-item > .mat-ripple-element {
+    .mat-mdc-list-item > .mat-mdc-focus-indicator {
       display: none;
     }
 
-    a.mdc-list-item.mdc-list-item--activated {
-      @include mat.list-overrides(
-        (
-          list-item-label-text-weight: 700,
-        )
-      );
-
+    a.mdc-list-item {
       mat-icon {
-        animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
+        animation-name: font-to-no-fill;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        animation-duration: 200ms;
+        animation-fill-mode: forwards;
+      }
+
+      &.mdc-list-item--activated {
+        @include mat.list-overrides(
+          (
+            list-item-label-text-weight: 700,
+          )
+        );
+
+        mat-icon {
+          animation-name: font-to-fill;
+        }
       }
     }
 
@@ -96,6 +105,12 @@
   }
 
   .navigation-rail {
+    /* stylelint-disable-next-line no-descending-specificity */
+    .mat-icon {
+      overflow: visible clip;
+      overflow-clip-margin: border-box;
+    }
+
     .mat-drawer:not(.mat-drawer-opened) .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
@@ -113,7 +128,7 @@
       }
 
       .fab .mat-icon {
-        transition: margin 0s ease !important;
+        transition: margin 0s cubic-bezier(0.05, 0.7, 0.1, 1) !important;
         min-width: 24px;
       }
     }
@@ -134,12 +149,6 @@
       app-profile,
       .mat-mdc-subheader {
         display: none;
-      }
-
-      a.mdc-list-item.mdc-list-item--activated {
-        mat-icon {
-          animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
-        }
       }
 
       .fab {
@@ -170,6 +179,14 @@
 }
 
 @mixin color($theme) {
+  app-navigation-list {
+    --mat-list-active-indicator-focus-state-color: #{color.mix(
+        mat.get-theme-color($theme, on-surface),
+        mat.get-theme-color($theme, secondary-container),
+        12%
+      )};
+  }
+
   .mat-drawer-over.mat-drawer-opened {
     @include mat.sidenav-overrides(
       (

@@ -1,4 +1,5 @@
 import { trigger } from '@angular/animations';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, afterNextRender, input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -89,6 +90,7 @@ export class TeamDetailPage implements OnInit {
           this.#dialog
             .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team, showChangeTeamName: m.number <= 38 },
+              scrollStrategy: new NoopScrollStrategy(),
             })
             .afterClosed(),
         ),
