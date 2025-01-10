@@ -1,6 +1,10 @@
+@use '@angular/material' as mat;
+
 :host {
   display: flex;
   flex-direction: column-reverse;
+
+  @include mat.elevation(2);
 }
 
 .mat-toolbar-row {
