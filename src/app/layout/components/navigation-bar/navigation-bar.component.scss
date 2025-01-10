@@ -3,7 +3,9 @@
 :host {
   display: flex;
   flex-direction: column-reverse;
+}
 
+.mat-toolbar {
   @include mat.elevation(2);
 }
 
