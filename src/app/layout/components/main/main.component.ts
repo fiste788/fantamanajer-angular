@@ -76,7 +76,7 @@ export class MainComponent {
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showFab = this.#layoutService.showFab;
-  protected readonly showTopAppBar = this.#layoutService.showTopAppBar;
+  protected readonly showBars = this.#layoutService.showBars;
   protected readonly loggedIn$ = this.#auth.loggedIn$;
   protected readonly hidden = VisibilityState.Hidden;
   protected readonly isScrolled = this.#isScrolled();

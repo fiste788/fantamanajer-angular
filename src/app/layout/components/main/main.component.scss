@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .mat-sidenav-container {
   overflow: visible;
   min-height: 100vh;
@@ -29,6 +31,16 @@
 main {
   margin: 0.5rem 1rem;
   position: relative;
+}
+
+.is-scrolled {
+  @include mat.elevation(2);
+}
+
+.fullscreen {
+  .is-scrolled {
+    @include mat.elevation(0);
+  }
 }
 
 @media (min-width: theme('screens.sm')) {

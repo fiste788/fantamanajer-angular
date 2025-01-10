@@ -46,7 +46,7 @@ export class LayoutService {
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
-  public readonly showTopAppBar = linkedSignal(() =>
+  public readonly showBars = linkedSignal(() =>
     this.navigationMode().length > 0 || this.routeContextChanged()
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
@@ -70,7 +70,7 @@ export class LayoutService {
         filterNavigationMode<Direction>(this.#navigationMode$),
         tap(() => {
           this.showFab.set(VisibilityState.Visible);
-          this.showTopAppBar.set(VisibilityState.Visible);
+          this.showBars.set(VisibilityState.Visible);
           this.down.set(false);
           this.up.set(true);
         }),
@@ -79,7 +79,7 @@ export class LayoutService {
         filterNavigationMode<Direction>(this.#navigationMode$),
         tap(() => {
           this.showFab.set(VisibilityState.Hidden);
-          this.showTopAppBar.set(VisibilityState.Hidden);
+          this.showBars.set(VisibilityState.Hidden);
           this.up.set(false);
           this.down.set(true);
           this.openFab.set(false);

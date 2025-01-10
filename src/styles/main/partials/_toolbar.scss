@@ -12,16 +12,12 @@
 }
 
 @mixin color($theme) {
-  .is-scrolled {
-    @include mat.elevation(2);
-
-    .mat-toolbar {
-      @include mat.toolbar-overrides(
-        (
-          container-background-color: mat.get-theme-color($theme, surface-container),
-        )
-      );
-    }
+  .is-scrolled .mat-toolbar {
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: mat.get-theme-color($theme, surface-container),
+      )
+    );
   }
 
   .mat-drawer .mat-toolbar {
