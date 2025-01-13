@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   IMAGE_LOADER,
   ImageLoaderConfig,
@@ -48,6 +49,7 @@ import { environment } from '@env';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import routes from './app.routes';
+import { AppOverlayContainer, LayoutService } from './layout/services';
 
 registerLocaleData(localeIt, 'it');
 
@@ -76,6 +78,7 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    { provide: OverlayContainer, useExisting: AppOverlayContainer, deps: [LayoutService] },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {

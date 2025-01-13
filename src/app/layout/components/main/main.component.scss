@@ -33,14 +33,8 @@ main {
   position: relative;
 }
 
-.is-scrolled {
+.with-bars .is-scrolled {
   @include mat.elevation(2);
-}
-
-.fullscreen {
-  .is-scrolled {
-    @include mat.elevation(0);
-  }
 }
 
 @media (min-width: theme('screens.sm')) {

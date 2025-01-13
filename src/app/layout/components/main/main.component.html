@@ -18,7 +18,7 @@
       <app-navigation-skeleton />
     }
   </mat-sidenav>
-  <mat-sidenav-content [ngClass]="{ fullscreen: _showBars === 'hidden' }">
+  <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
     <app-top-app-bar
       [@scrollUpAnimation]="!_isScrolled || _showBars"
       [ngClass]="{ 'is-scrolled': _isScrolled }"
