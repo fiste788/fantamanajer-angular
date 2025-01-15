@@ -47,8 +47,8 @@
   }
 }
 
-:host-context(.bottom-bar),
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(.navigation-bar),
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
   width: 100%;
 
   .mat-mdc-nav-list {
@@ -125,7 +125,7 @@
   }
 }
 
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
   .mat-mdc-nav-list {
     flex-direction: column;
     gap: 0.75rem;
@@ -144,7 +144,7 @@
   }
 }
 
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
   .title-lite {
     display: block;
   }

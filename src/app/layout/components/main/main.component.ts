@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, isPlatformBrowser, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,17 +7,15 @@ import {
   afterNextRender,
   viewChild,
   inject,
-  Signal,
-  PLATFORM_ID,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
-import { delay, EMPTY } from 'rxjs';
+import { delay } from 'rxjs';
 
 import { VisibilityState } from '@app/enums';
-import { CurrentTransitionService, ScrollService, WINDOW } from '@app/services';
+import { CurrentTransitionService, WINDOW } from '@app/services';
 import {
   closeAnimation,
   routerTransition,
@@ -73,10 +71,9 @@ export class MainComponent {
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
-  protected readonly showFab = this.#layoutService.showFab;
   protected readonly showBars = this.#layoutService.showBars;
+  protected readonly isScrolled = this.#layoutService.isScrolled;
   protected readonly hidden = VisibilityState.Hidden;
-  protected readonly isScrolled = this.#isScrolled();
 
   constructor() {
     afterNextRender(() => {
@@ -92,14 +89,5 @@ export class MainComponent {
       this.#transitionService.isRootOutlet()
       ? 'main'
       : '';
-  }
-
-  #isScrolled(): Signal<boolean> {
-    return toSignal(
-      isPlatformBrowser(inject(PLATFORM_ID))
-        ? inject(ScrollService).isScrolled(this.#window)
-        : EMPTY,
-      { initialValue: false },
-    );
   }
 }

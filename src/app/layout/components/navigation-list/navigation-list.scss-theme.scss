@@ -34,8 +34,8 @@
     }
   }
 
-  .bottom-bar,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) {
     .mat-mdc-list-item > .mat-mdc-focus-indicator {
       display: none;
     }
@@ -55,6 +55,7 @@
           )
         );
 
+        /* stylelint-disable-next-line no-descending-specificity */
         mat-icon {
           animation-name: font-to-fill;
         }
@@ -72,8 +73,8 @@
     }
   }
 
-  .navigation-rail,
-  .navigation-bar {
+  .container-navigation-rail,
+  .container-navigation-bar {
     .mat-drawer .mat-drawer-inner-container {
       transition:
         opacity 66ms cubic-bezier(0.3, 0, 0.8, 0.15),
@@ -104,7 +105,7 @@
     }
   }
 
-  .navigation-rail {
+  .container-navigation-rail {
     /* stylelint-disable-next-line no-descending-specificity */
     .mat-icon {
       overflow: visible clip;
@@ -122,7 +123,7 @@
   }
 
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
-    .mat-sidenav-container .mat-drawer-backdrop {
+    .mat-drawer-container .mat-drawer-backdrop {
       margin-left: 5rem;
     }
 
@@ -200,8 +201,8 @@
     );
   }
 
-  .bottom-bar,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
@@ -232,7 +233,7 @@
     }
   }
 
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
@@ -271,8 +272,8 @@
 }
 
 @mixin typography($theme) {
-  .bottom-bar,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-size: 14px,

@@ -17,6 +17,9 @@ import { NavigationListComponent } from '../navigation-list/navigation-list.comp
   imports: [MatToolbarModule, NavigationListComponent, FabComponent],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss',
+  host: {
+    class: 'navigation-bar',
+  },
 })
 export class NavigationBarComponent {
   readonly #layoutService = inject(LayoutService);

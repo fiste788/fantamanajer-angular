@@ -1,5 +1,14 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, Signal, effect, inject, linkedSignal, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Injectable,
+  PLATFORM_ID,
+  Signal,
+  effect,
+  inject,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
@@ -14,12 +23,13 @@ import {
   first,
   merge,
   distinctUntilChanged,
+  EMPTY,
 } from 'rxjs';
 
 import { Direction } from '@app/enums';
 import { VisibilityState } from '@app/enums/visibility-state';
 import { filterNavigationMode } from '@app/functions';
-import { ScrollService } from '@app/services';
+import { ScrollService, WINDOW } from '@app/services';
 
 type NavigationMode = 'bar' | 'rail' | 'drawer';
 
@@ -30,6 +40,7 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
+  readonly #window = inject<Window>(WINDOW);
   readonly #navigationModeMap = new Map<string, NavigationMode>([
     [Breakpoints.XSmall, 'bar'],
     [Breakpoints.Small, 'rail'],
@@ -56,6 +67,7 @@ export class LayoutService {
   public readonly down = signal(false);
   public readonly routeContextChanged = this.#isRouteContextChanged();
   public readonly navigationStart = this.#navigationStart();
+  public readonly isScrolled = this.#isScrolled();
   public stable = this.#isStable();
 
   constructor() {
@@ -149,5 +161,12 @@ export class LayoutService {
     return toSignal(this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)), {
       initialValue: undefined,
     });
+  }
+
+  #isScrolled(): Signal<boolean> {
+    return toSignal(
+      isPlatformBrowser(inject(PLATFORM_ID)) ? this.#scrollService.isScrolled(this.#window) : EMPTY,
+      { initialValue: false },
+    );
   }
 }

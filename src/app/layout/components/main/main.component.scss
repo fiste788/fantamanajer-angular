@@ -1,20 +1,21 @@
 @use '@angular/material' as mat;
 
-.mat-sidenav-container {
-  overflow: visible;
-  min-height: 100vh;
+:host {
+  position: relative;
 }
 
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  z-index: 102;
-  width: 100%;
+.mat-drawer-container {
+  overflow: visible;
+  min-height: 100vh;
+  position: static;
+}
+
+.navigation-bar {
   view-transition-name: navigation-bar;
 }
 
 .mat-drawer {
-  view-transition-name: sidenav;
+  view-transition-name: navigation-drawer;
 }
 
 .mat-drawer-side {
@@ -33,12 +34,8 @@ main {
   position: relative;
 }
 
-.with-bars .is-scrolled {
-  @include mat.elevation(2);
-}
-
 @media (min-width: theme('screens.sm')) {
-  .mat-sidenav {
+  .mat-drawer {
     display: block !important;
     visibility: visible !important;
     transform: none !important;

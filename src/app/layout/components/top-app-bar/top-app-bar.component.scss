@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 :host {
   position: sticky;
   z-index: 102;
@@ -24,6 +26,12 @@ app-breadcrumb {
 
 .mat-toolbar-row:first-child {
   view-transition-name: top-app-bar;
+}
+
+:host-context(.with-bars) {
+  :host.is-scrolled {
+    @include mat.elevation(2);
+  }
 }
 
 :host-context(.window-overlayed) {

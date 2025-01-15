@@ -3,6 +3,10 @@
 :host {
   display: flex;
   flex-direction: column-reverse;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
 }
 
 .mat-toolbar {

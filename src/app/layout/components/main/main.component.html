@@ -1,10 +1,7 @@
 @let _navigationMode = navigationMode();
-@let _isScrolled = isScrolled();
 @let _showBars = showBars();
-@let _stable = stable();
-<mat-sidenav-container [ngClass]="'navigation-' + _navigationMode">
+<mat-sidenav-container [ngClass]="'container-navigation-' + _navigationMode">
   <mat-sidenav
-    #drawer
     autoFocus="false"
     fixedInViewport="true"
     [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
@@ -19,10 +16,7 @@
     }
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
-    <app-top-app-bar
-      [@scrollUpAnimation]="!_isScrolled || _showBars"
-      [ngClass]="{ 'is-scrolled': _isScrolled }"
-    />
+    <app-top-app-bar [@scrollUpAnimation]="!isScrolled() || _showBars" />
     <main
       [@contextChange]="o | state"
       [style.viewTransitionName]="viewTransitionName()"
@@ -31,11 +25,9 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<div
-  class="bottom-bar"
-  [@scrollDownAnimation]="_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden"
->
-  @defer (when _navigationMode === 'bar') {
-    <app-navigation-bar />
-  }
-</div>
+@defer (when _navigationMode === 'bar') {
+  @let _stable = stable();
+  <app-navigation-bar
+    [@scrollDownAnimation]="_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden"
+  />
+}
