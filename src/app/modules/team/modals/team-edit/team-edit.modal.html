@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{team.name}}</h1>
 <div mat-dialog-content>
-  @if (showChangeTeamName) {
+  @if (!seasonEnded()) {
   <div>
     <mat-form-field>
       <mat-label>Nome squadra</mat-label>

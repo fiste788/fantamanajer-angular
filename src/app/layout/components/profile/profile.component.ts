@@ -10,7 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { firstValueFrom, forkJoin, switchMap } from 'rxjs';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -58,20 +58,18 @@ export class ProfileComponent {
     return t1.id === t2.id;
   }
 
-  protected async openDialog(event: Event, team: Team): Promise<boolean | undefined> {
+  protected async openDialog(event: Event, team_id: number): Promise<boolean | undefined> {
     event.stopPropagation();
+    this.#layoutService.closeDrawer();
 
     const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
 
     return firstValueFrom(
-      forkJoin([
-        firstValueFrom(this.app.matchday$, { defaultValue: undefined }),
-        this.#teamService.getTeam(team.id),
-      ]).pipe(
-        switchMap(([m, t]) =>
+      this.#teamService.getTeam(team_id).pipe(
+        switchMap((team) =>
           this.#dialog
             .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
-              data: { team: t, showChangeTeamName: (m?.number ?? 0) <= 38 },
+              data: { team },
               scrollStrategy: new NoopScrollStrategy(),
             })
             .afterClosed(),

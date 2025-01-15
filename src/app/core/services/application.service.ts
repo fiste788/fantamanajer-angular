@@ -48,7 +48,9 @@ export class ApplicationService {
   public seasonStarted = linkedSignal(() =>
     this.#isCurrentSeason() ? (this.#matchday()?.season.started ?? true) : true,
   );
-  public readonly team$ = toObservable(this.#team).pipe(distinctUntilChanged());
+  public readonly team$ = toObservable(this.#team).pipe(
+    distinctUntilChanged((prev, cur) => prev?.id === cur?.id),
+  );
   public readonly requireTeam$ = this.team$.pipe(filterNil());
   public readonly matchday$ = toObservable(this.#matchday).pipe(
     filterNil(),
