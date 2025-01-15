@@ -16,7 +16,6 @@ import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 import { delay, EMPTY } from 'rxjs';
 
-import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { CurrentTransitionService, ScrollService, WINDOW } from '@app/services';
 import {
@@ -62,7 +61,6 @@ export class MainComponent {
   readonly #layoutService = inject(LayoutService);
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #window = inject<Window>(WINDOW);
-  readonly #auth = inject(AuthenticationService);
 
   protected topAppBar = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
     TopAppBarComponent,
@@ -77,7 +75,6 @@ export class MainComponent {
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showFab = this.#layoutService.showFab;
   protected readonly showBars = this.#layoutService.showBars;
-  protected readonly loggedIn$ = this.#auth.loggedIn$;
   protected readonly hidden = VisibilityState.Hidden;
   protected readonly isScrolled = this.#isScrolled();
 

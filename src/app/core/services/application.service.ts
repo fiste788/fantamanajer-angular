@@ -1,5 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { ApplicationRef, Injectable, inject, provideAppInitializer, signal } from '@angular/core';
+import {
+  ApplicationRef,
+  Injectable,
+  inject,
+  linkedSignal,
+  provideAppInitializer,
+  signal,
+} from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   forkJoin,
@@ -7,7 +14,6 @@ import {
   Subscription,
   interval,
   firstValueFrom,
-  combineLatest,
   catchError,
   distinctUntilChanged,
   filter,
@@ -32,9 +38,16 @@ export class ApplicationService {
   readonly #teamService = inject(TeamService);
   readonly #matchday = signal<Matchday | undefined>(undefined);
   readonly #team = signal<Team | undefined>(undefined);
+  readonly #isCurrentSeason = linkedSignal(
+    () => this.#matchday()?.season_id === this.#team()?.championship.season_id,
+  );
 
-  public seasonEnded = false;
-  public seasonStarted = true;
+  public seasonEnded = linkedSignal(() =>
+    this.#isCurrentSeason() ? (this.#matchday()?.season.ended ?? false) : true,
+  );
+  public seasonStarted = linkedSignal(() =>
+    this.#isCurrentSeason() ? (this.#matchday()?.season.started ?? true) : true,
+  );
   public readonly team$ = toObservable(this.#team).pipe(distinctUntilChanged());
   public readonly requireTeam$ = this.team$.pipe(filterNil());
   public readonly matchday$ = toObservable(this.#matchday).pipe(
@@ -44,7 +57,7 @@ export class ApplicationService {
 
   public bootstrap(): Observable<unknown> {
     const bootstrap$: Array<Observable<unknown>> = [this.loadCurrentMatchday()];
-    if (this.#authService.loggedIn()) {
+    if (this.#authService.isLoggedIn()) {
       bootstrap$.push(this.#authService.getCurrentUser());
     }
 
@@ -59,7 +72,6 @@ export class ApplicationService {
   public loadCurrentMatchday(): Observable<Matchday> {
     return this.#matchdayService.getCurrentMatchday().pipe(
       tap((m) => {
-        this.#recalcSeason(m);
         this.#matchday.set(m);
       }),
     );
@@ -69,7 +81,6 @@ export class ApplicationService {
     const subscriptions = new Subscription();
     subscriptions.add(this.#refreshMatchday(inject(ApplicationRef)));
     subscriptions.add(this.#refreshUser());
-    subscriptions.add(this.#refreshTeam());
 
     return subscriptions;
   }
@@ -89,12 +100,6 @@ export class ApplicationService {
       .subscribe();
   }
 
-  #refreshTeam(): Subscription {
-    return combineLatest([this.team$, this.matchday$])
-      .pipe(tap(([team, matchday]) => this.#setTeam(matchday, team)))
-      .subscribe();
-  }
-
   #refreshMatchday(appRef: ApplicationRef): Subscription {
     return appRef.isStable
       .pipe(
@@ -108,11 +113,6 @@ export class ApplicationService {
       .subscribe();
   }
 
-  #recalcSeason(matchday: Matchday): void {
-    this.seasonStarted = matchday.season.started;
-    this.seasonEnded = matchday.season.ended;
-  }
-
   #writeError(e: Error): void {
     const el = this.#document.querySelector('#error');
     if (el !== null) {
@@ -120,15 +120,6 @@ export class ApplicationService {
         '<h3 class="error">Si è verificato un errore nel caricamento dell\'app. Ricarica la pagina per riprovare</h3>';
     }
     throw e;
-  }
-
-  #setTeam(matchday: Matchday, team?: Team): void {
-    if (team?.championship.season_id === matchday.season_id) {
-      this.#recalcSeason(matchday);
-    } else {
-      this.seasonStarted = false;
-      this.seasonEnded = true;
-    }
   }
 }
 

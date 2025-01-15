@@ -29,14 +29,13 @@
     >
       <router-outlet #o="outlet" />
     </main>
-
-    <div
-      class="bottom"
-      [@scrollDownAnimation]="_stable && _showBars ? _showBars : hidden"
-    >
-      @defer (when _navigationMode === 'bar') {
-        <app-navigation-bar />
-      }
-    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<div
+  class="bottom-bar"
+  [@scrollDownAnimation]="_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden"
+>
+  @defer (when _navigationMode === 'bar') {
+    <app-navigation-bar />
+  }
+</div>

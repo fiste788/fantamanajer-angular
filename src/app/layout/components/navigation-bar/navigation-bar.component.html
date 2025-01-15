@@ -3,7 +3,7 @@
     <app-navigation-list mode="lite" />
   </mat-toolbar-row>
 </mat-toolbar>
-@if (loggedIn$ | async) {
+@if (loggedIn()) {
   <app-fab
     class="fab"
     extended="false"

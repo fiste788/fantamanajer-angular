@@ -18,7 +18,7 @@ export class SeasonActiveDirective implements OnInit, OnDestroy {
       this.#app.requireTeam$
         .pipe(
           tap(() => {
-            if (this.#app.seasonStarted && !this.#app.seasonEnded) {
+            if (this.#app.seasonStarted() && !this.#app.seasonEnded()) {
               this.#viewContainer.createEmbeddedView(this.#templateRef);
             } else {
               this.#viewContainer.clear();

@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, linkedSignal, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
@@ -27,10 +27,10 @@ export class AuthenticationService {
   public user = signal<User | undefined>(undefined);
   public user$ = toObservable(this.user);
   public requireUser$ = this.user$.pipe(filterNil());
-  public loggedIn$ = this.user$.pipe(map((u) => u !== undefined));
+  public loggedIn = linkedSignal(() => this.user() !== undefined);
 
   constructor() {
-    if (this.#tokenStorageService.token && !this.loggedIn()) {
+    if (this.#tokenStorageService.token && !this.isLoggedIn()) {
       this.logoutUI();
     }
   }
@@ -92,7 +92,7 @@ export class AuthenticationService {
     this.user.set(user);
   }
 
-  public loggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return !this.#jwtHelper.isTokenExpired(
       // eslint-disable-next-line unicorn/no-null
       this.#tokenStorageService.token ?? null,

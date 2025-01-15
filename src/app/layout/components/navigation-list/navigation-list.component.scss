@@ -10,11 +10,11 @@
 :host-context(.mat-drawer-opened) {
   .mat-mdc-list-item-title {
     animation: 280ms cubic-bezier(0, 0, 0.2, 1) 120ms both fade-in;
-    transition: font-weight 2000ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition: font-weight 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
   }
 }
 
-:host-context(.mat-drawer.ng-animating, .mat-drawer-opened) {
+:host-context(.mat-drawer.mat-drawer-animating, .mat-drawer-opened) {
   .mat-mdc-nav-list {
     padding: 0 0.75rem;
   }
@@ -47,7 +47,7 @@
   }
 }
 
-:host-context(.navigation-bar .bottom),
+:host-context(.bottom-bar),
 :host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
   width: 100%;
 
@@ -95,7 +95,8 @@
         pointer-events: none;
       }
 
-      &:focus::before {
+      &:focus::before,
+      &:hover::before {
         background-color: var(--mdc-list-list-item-focus-state-layer-color);
         opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
         transform: translateX(-50%);
@@ -111,7 +112,8 @@
           opacity: 1 !important;
         }
 
-        &:focus::before {
+        &:focus::before,
+        &:hover::before {
           background-color: var(--mat-list-active-indicator-focus-state-color);
         }
       }
@@ -142,7 +144,7 @@
   }
 }
 
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened).ng-animating) {
+:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
   .title-lite {
     display: block;
   }

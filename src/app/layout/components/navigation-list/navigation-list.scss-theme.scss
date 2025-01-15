@@ -34,8 +34,8 @@
     }
   }
 
-  .navigation-bar .bottom,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened, .ng-animating) {
+  .bottom-bar,
+  .navigation-rail .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) {
     .mat-mdc-list-item > .mat-mdc-focus-indicator {
       display: none;
     }
@@ -91,7 +91,7 @@
     .mat-drawer-opened .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
-      transition-delay: 100ms;
+      transition-delay: 66ms;
       transition-duration: 300ms;
       transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
     }
@@ -115,6 +115,10 @@
       opacity: 1;
       width: 100%;
     }
+
+    .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) .mat-drawer-inner-container {
+      display: block;
+    }
   }
 
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
@@ -129,6 +133,7 @@
 
       .fab .mat-icon {
         transition: margin 0s cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+        transition: transform 600ms cubic-bezier(0.05, 0.7, 0.1, 1) !important;
         min-width: 24px;
       }
     }
@@ -195,7 +200,7 @@
     );
   }
 
-  .navigation-bar .bottom,
+  .bottom-bar,
   .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
@@ -266,7 +271,7 @@
 }
 
 @mixin typography($theme) {
-  .navigation-bar .bottom,
+  .bottom-bar,
   .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (

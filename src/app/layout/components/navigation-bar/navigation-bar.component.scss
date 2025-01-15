@@ -21,9 +21,3 @@
   align-self: end;
   margin: 1rem;
 }
-
-@media (min-width: theme('screens.sm')) {
-  :host {
-    display: none;
-  }
-}

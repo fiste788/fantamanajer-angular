@@ -69,7 +69,7 @@ export class NavigationListComponent {
   readonly #applicationService = inject(ApplicationService);
   readonly #layoutService = inject(LayoutService);
 
-  protected readonly loggedIn = toSignal(inject(AuthenticationService).loggedIn$);
+  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
   protected readonly team = toSignal(this.#applicationService.team$);
   protected readonly matchday$ = this.#applicationService.matchday$;
   protected readonly navigationMode = this.#layoutService.navigationMode;

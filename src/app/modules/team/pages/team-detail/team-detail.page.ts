@@ -56,7 +56,7 @@ export class TeamDetailPage implements OnInit {
     return combineLatest([this.auth.user$, this.app.requireTeam$]).pipe(
       map(([user, team]) => {
         const { started } = this.team().championship;
-        const ended = this.app.seasonEnded;
+        const ended = this.app.seasonEnded();
 
         return [
           { label: 'Giocatori', link: 'players' },

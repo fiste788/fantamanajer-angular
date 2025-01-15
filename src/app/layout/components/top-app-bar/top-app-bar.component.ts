@@ -38,7 +38,7 @@ export class TopAppBarComponent {
   readonly #auth = inject(AuthenticationService);
   readonly #transitionService = inject(CurrentTransitionService);
 
-  protected readonly loggedIn$ = this.#auth.loggedIn$;
+  protected readonly loggedIn = this.#auth.loggedIn;
   protected deferredPrompt$ = inject(PwaService).beforeInstall$;
   protected readonly isOverlayed = this.getOverlayedSignal();
 

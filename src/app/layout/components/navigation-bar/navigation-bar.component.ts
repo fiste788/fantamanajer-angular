@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { map } from 'rxjs';
@@ -15,14 +14,14 @@ import { NavigationListComponent } from '../navigation-list/navigation-list.comp
 @Component({
   animations: [closeAnimation],
   selector: 'app-navigation-bar',
-  imports: [MatToolbarModule, NavigationListComponent, AsyncPipe, FabComponent],
+  imports: [MatToolbarModule, NavigationListComponent, FabComponent],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss',
 })
 export class NavigationBarComponent {
   readonly #layoutService = inject(LayoutService);
 
-  protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
+  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
   protected readonly team$ = inject(ApplicationService).team$;
   protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
   protected readonly openFab = this.#layoutService.openFab;
