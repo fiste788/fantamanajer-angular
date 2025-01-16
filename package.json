@@ -24,21 +24,25 @@
     "type-check": "wrangler types --experimental-include-runtime && tsc",
     "extract-mat-icon": "node ./tools/extract-mat-icon.mjs \"src\""
   },
+  "browserslist": [
+    ">0.7%",
+    "not dead"
+  ],
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.1.0",
-    "@angular/cdk": "^19.1.0-rc.0",
-    "@angular/common": "^19.1.0",
-    "@angular/compiler": "^19.1.0",
-    "@angular/core": "19.1.0",
-    "@angular/forms": "^19.1.0",
-    "@angular/material": "^19.1.0-rc.0",
-    "@angular/platform-browser": "^19.1.0",
-    "@angular/platform-browser-dynamic": "^19.1.0",
-    "@angular/platform-server": "^19.1.0",
-    "@angular/router": "^19.1.0",
-    "@angular/service-worker": "^19.1.0",
-    "@angular/ssr": "^19.1.0",
+    "@angular/animations": "^19.1.1",
+    "@angular/cdk": "^19.1.0",
+    "@angular/common": "^19.1.1",
+    "@angular/compiler": "^19.1.1",
+    "@angular/core": "^19.1.1",
+    "@angular/forms": "^19.1.1",
+    "@angular/material": "^19.1.0",
+    "@angular/platform-browser": "^19.1.1",
+    "@angular/platform-browser-dynamic": "^19.1.1",
+    "@angular/platform-server": "^19.1.1",
+    "@angular/router": "^19.1.1",
+    "@angular/service-worker": "^19.1.1",
+    "@angular/ssr": "^19.1.1",
     "@auth0/angular-jwt": "^5.2.0",
     "@ecodev/fab-speed-dial": "^17.0.0",
     "@github/webauthn-json": "^2.1.1",
@@ -49,9 +53,9 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^18.0.0",
-    "@angular-devkit/build-angular": "^19.1.0",
-    "@angular/cli": "19.1.0",
-    "@angular/compiler-cli": "^19.1.0",
+    "@angular-devkit/build-angular": "^19.1.1",
+    "@angular/cli": "^19.1.1",
+    "@angular/compiler-cli": "^19.1.1",
     "@relative-ci/agent": "^4.2.14",
     "@types/html-minifier": "^4.0.5",
     "@types/node": "^20.17.14",
@@ -75,7 +79,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3",
     "typescript-eslint": "^8.20.0",
-    "wrangler": "^3.102.0"
+    "wrangler": "^3.103.0"
   },
   "volta": {
     "node": "22.11.0"
