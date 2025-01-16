@@ -1,4 +1,4 @@
-@if (!app.seasonEnded) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
+@if (!app.seasonEnded()) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
 <form
   #lineupForm="ngForm"
   appMemberAlreadySelected

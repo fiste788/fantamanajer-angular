@@ -1,5 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
+@use 'sass:color';
 
 @mixin base($theme) {
   @keyframes font-to-fill {
@@ -22,33 +23,42 @@
     }
   }
 
-  .mdc-list-item__content {
-    z-index: 1;
-    display: inline-flex;
-  }
+  app-navigation-list {
+    .mdc-list-item__content {
+      z-index: 1;
+      display: inline-flex;
+    }
 
-  a.mdc-list-item.mdc-list-item--activated {
-    mat-icon {
-      animation: font-to-no-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    a.mdc-list-item mat-icon {
+      font-variation-settings: 'FILL' 0;
     }
   }
 
-  .navigation-bar .bottom,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened, .ng-animating) {
-    .mat-mdc-list-item > .mat-mdc-focus-indicator,
-    .mat-mdc-list-item > .mat-ripple-element {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) {
+    .mat-mdc-list-item > .mat-mdc-focus-indicator {
       display: none;
     }
 
-    a.mdc-list-item.mdc-list-item--activated {
-      @include mat.list-overrides(
-        (
-          list-item-label-text-weight: 700,
-        )
-      );
-
+    a.mdc-list-item {
       mat-icon {
-        animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
+        animation-name: font-to-no-fill;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        animation-duration: 200ms;
+        animation-fill-mode: forwards;
+      }
+
+      &.mdc-list-item--activated {
+        @include mat.list-overrides(
+          (
+            list-item-label-text-weight: 700,
+          )
+        );
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        mat-icon {
+          animation-name: font-to-fill;
+        }
       }
     }
 
@@ -63,8 +73,8 @@
     }
   }
 
-  .navigation-rail,
-  .navigation-bar {
+  .container-navigation-rail,
+  .container-navigation-bar {
     .mat-drawer .mat-drawer-inner-container {
       transition:
         opacity 66ms cubic-bezier(0.3, 0, 0.8, 0.15),
@@ -82,7 +92,7 @@
     .mat-drawer-opened .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
-      transition-delay: 100ms;
+      transition-delay: 66ms;
       transition-duration: 300ms;
       transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
     }
@@ -95,15 +105,25 @@
     }
   }
 
-  .navigation-rail {
+  .container-navigation-rail {
+    /* stylelint-disable-next-line no-descending-specificity */
+    .mat-icon {
+      overflow: visible clip;
+      overflow-clip-margin: border-box;
+    }
+
     .mat-drawer:not(.mat-drawer-opened) .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
     }
+
+    .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) .mat-drawer-inner-container {
+      display: block;
+    }
   }
 
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
-    .mat-sidenav-container .mat-drawer-backdrop {
+    .mat-drawer-container .mat-drawer-backdrop {
       margin-left: 5rem;
     }
 
@@ -113,7 +133,8 @@
       }
 
       .fab .mat-icon {
-        transition: margin 0s ease !important;
+        transition: margin 0s cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+        transition: transform 600ms cubic-bezier(0.05, 0.7, 0.1, 1) !important;
         min-width: 24px;
       }
     }
@@ -134,12 +155,6 @@
       app-profile,
       .mat-mdc-subheader {
         display: none;
-      }
-
-      a.mdc-list-item.mdc-list-item--activated {
-        mat-icon {
-          animation: font-to-fill 200ms cubic-bezier(0.2, 0, 0, 1) forwards;
-        }
       }
 
       .fab {
@@ -170,6 +185,14 @@
 }
 
 @mixin color($theme) {
+  app-navigation-list {
+    --mat-list-active-indicator-focus-state-color: #{color.mix(
+        mat.get-theme-color($theme, on-surface),
+        mat.get-theme-color($theme, secondary-container),
+        12%
+      )};
+  }
+
   .mat-drawer-over.mat-drawer-opened {
     @include mat.sidenav-overrides(
       (
@@ -178,8 +201,8 @@
     );
   }
 
-  .navigation-bar .bottom,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
@@ -210,7 +233,7 @@
     }
   }
 
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
@@ -249,8 +272,8 @@
 }
 
 @mixin typography($theme) {
-  .navigation-bar .bottom,
-  .navigation-rail .mat-drawer:not(.mat-drawer-opened) {
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
         list-item-label-text-size: 14px,

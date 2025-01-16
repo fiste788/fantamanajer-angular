@@ -1,6 +1,16 @@
+@use '@angular/material' as mat;
+
 :host {
   display: flex;
   flex-direction: column-reverse;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+}
+
+.mat-toolbar {
+  @include mat.elevation(2);
 }
 
 .mat-toolbar-row {
@@ -14,10 +24,4 @@
   display: flex;
   align-self: end;
   margin: 1rem;
-}
-
-@media (min-width: theme('screens.sm')) {
-  :host {
-    display: none;
-  }
 }

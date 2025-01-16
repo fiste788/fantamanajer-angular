@@ -121,7 +121,7 @@ export class MemberListComponent implements OnInit {
     );
     for (const column of statsRow) {
       this.footer[column] = 0;
-      const rows = data.filter((row) => row.stats && row.stats[column] > 0);
+      const rows = data.filter((row) => row.stats !== undefined && row.stats[column] > 0);
       for (const row of data) {
         if (row.stats) {
           this.footer[column] += row.stats[column];

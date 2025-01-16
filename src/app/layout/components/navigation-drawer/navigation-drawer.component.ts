@@ -9,7 +9,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -57,7 +56,6 @@ import { ProfileComponent } from '../profile/profile.component';
     ProfileComponent,
     MatIconModule,
     MatButtonModule,
-    AsyncPipe,
     FabComponent,
     NavigationListComponent,
   ],
@@ -67,7 +65,7 @@ export class NavigationDrawerComponent {
 
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly navigationMode = this.#layoutService.navigationMode;
-  protected readonly loggedIn$ = inject(AuthenticationService).loggedIn$;
+  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
 
   protected readonly showFab = this.#layoutService.showFab;
 

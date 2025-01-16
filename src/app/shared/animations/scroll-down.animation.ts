@@ -16,6 +16,7 @@ export const scrollDownAnimation = trigger('scrollDownAnimation', [
   state(VisibilityState.Visible, style({ transform: 'translateY(0)' })),
   transition(
     `${VisibilityState.Hidden} => ${VisibilityState.Visible}`,
+
     group([
       query('@closeAnimation', animateChild(), { optional: true }),
       query(
@@ -24,6 +25,7 @@ export const scrollDownAnimation = trigger('scrollDownAnimation', [
         { optional: true },
       ),
       animate('400ms cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ transform: 'translateY(0)' })),
+      query('@listItemAnimation', animateChild({ delay: 200 }), { optional: true }),
     ]),
   ),
   transition(

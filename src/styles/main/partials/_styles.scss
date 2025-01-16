@@ -20,7 +20,7 @@
   }
 
   .sticky {
-    transition: top 0.2s ease-in;
+    transition: top 0.2s cubic-bezier(0.05, 0.7, 0.1, 1);
   }
 
   .spacer {
@@ -71,6 +71,13 @@
     height: 100%;
     align-items: center;
     justify-content: center;
+  }
+
+  eco-fab-speed-dial.eco-opened
+    .eco-fab-speed-dial-container
+    eco-fab-speed-dial-trigger.eco-spin
+    .spin360 {
+    transform: rotate(405deg);
   }
 }
 

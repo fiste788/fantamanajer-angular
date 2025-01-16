@@ -10,11 +10,11 @@
 :host-context(.mat-drawer-opened) {
   .mat-mdc-list-item-title {
     animation: 280ms cubic-bezier(0, 0, 0.2, 1) 120ms both fade-in;
-    transition: font-weight 2000ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition: font-weight 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
   }
 }
 
-:host-context(.mat-drawer.ng-animating, .mat-drawer-opened) {
+:host-context(.mat-drawer.mat-drawer-animating, .mat-drawer-opened) {
   .mat-mdc-nav-list {
     padding: 0 0.75rem;
   }
@@ -47,8 +47,8 @@
   }
 }
 
-:host-context(.navigation-bar .bottom),
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(.navigation-bar),
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
   width: 100%;
 
   .mat-mdc-nav-list {
@@ -83,9 +83,9 @@
         left: 50%;
         transform: translateX(-50%);
         transition:
-          opacity 100ms cubic-bezier(0.3, 0, 0.8, 0.15) 0ms,
-          width 400ms cubic-bezier(0.3, 0, 0.8, 0.15) 50ms;
-        width: 0;
+          opacity 200ms cubic-bezier(0.05, 0.7, 0.1, 1) 0ms,
+          width 400ms cubic-bezier(0.05, 0.7, 0.1, 1) 0ms;
+        width: 25%;
         height: 2rem;
         border-radius: 1rem;
         transition-duration: 200ms;
@@ -93,6 +93,14 @@
         content: '';
         opacity: 0;
         pointer-events: none;
+      }
+
+      &:focus::before,
+      &:hover::before {
+        background-color: var(--mdc-list-list-item-focus-state-layer-color);
+        opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
+        transform: translateX(-50%);
+        width: 3.5rem;
       }
 
       &.mdc-list-item--activated {
@@ -103,13 +111,11 @@
           width: 3.5rem;
           opacity: 1 !important;
         }
-      }
 
-      &:focus::before {
-        background-color: var(--mdc-list-list-item-focus-state-layer-color);
-        opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
-        transform: translateX(-50%);
-        width: 3.5rem;
+        &:focus::before,
+        &:hover::before {
+          background-color: var(--mat-list-active-indicator-focus-state-color);
+        }
       }
     }
   }
@@ -119,7 +125,7 @@
   }
 }
 
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
   .mat-mdc-nav-list {
     flex-direction: column;
     gap: 0.75rem;
@@ -138,7 +144,7 @@
   }
 }
 
-:host-context(.navigation-rail .mat-drawer:not(.mat-drawer-opened).ng-animating) {
+:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
   .title-lite {
     display: block;
   }

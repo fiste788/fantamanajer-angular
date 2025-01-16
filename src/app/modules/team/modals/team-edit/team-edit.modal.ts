@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ngfModule } from 'angular-file';
 import { firstValueFrom, map, tap } from 'rxjs';
 
@@ -16,7 +17,6 @@ import { createBoxAnimation } from '@shared/animations';
 
 export interface TeamEditModalData {
   team: Team;
-  showChangeTeamName?: boolean;
 }
 
 @Component({
@@ -39,13 +39,14 @@ export class TeamEditModal {
   readonly #teamService = inject(TeamService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #dialogRef = inject<MatDialogRef<TeamEditModal>>(MatDialogRef);
+  readonly #snackbar = inject(MatSnackBar);
 
+  protected readonly team = this.#data.team;
+  protected readonly app = inject(ApplicationService);
+  protected readonly seasonEnded = this.app.seasonEnded;
   protected validComboDrag = false;
   protected invalidComboDrag = false;
   protected file?: File;
-  protected readonly team = this.#data.team;
-  protected readonly showChangeTeamName? = this.#data.showChangeTeamName;
-  protected readonly app = inject(ApplicationService);
 
   protected async save(): Promise<void> {
     const fd = new FormData();
@@ -65,6 +66,7 @@ export class TeamEditModal {
         map(async () => {
           await this.app.changeTeam(this.team);
           this.#changeRef.detectChanges();
+          this.#snackbar.open('Squadra salvata correttamente');
         }),
         map(() => this.#dialogRef.close(true)),
       ),

@@ -125,20 +125,20 @@
   }
 }
 
-::view-transition-old(sidenav),
-::view-transition-new(sidenav) {
+::view-transition-old(navigation-drawer),
+::view-transition-new(navigation-drawer) {
   animation: none;
 }
 
-::view-transition-old(sidenav) {
+::view-transition-old(navigation-drawer) {
   display: none;
 }
 
-::view-transition-group(sidenav) {
+::view-transition-group(navigation-drawer) {
   z-index: 3;
 }
 
-::view-transition-group(top-app-bar) {
+::view-transition-group(top-app-bar-toolbar) {
   z-index: 2;
 }
 

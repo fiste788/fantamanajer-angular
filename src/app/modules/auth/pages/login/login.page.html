@@ -36,7 +36,7 @@
               </mat-error>
               }
             </mat-form-field>
-            <div class="align-end items-end">
+            <div class="flex flex-col items-end">
               <button
                 color="accent"
                 mat-flat-button
@@ -83,8 +83,7 @@
 
             <div class="actions flex flex-row justify-between">
               <button
-                color="accent"
-                mat-flat-button
+                mat-stroked-button
                 matStepperPrevious
                 type="reset"
                 (click)="reset()"
@@ -92,7 +91,6 @@
                 Cambia account
               </button>
               <button
-                color="accent"
                 mat-flat-button
                 type="submit"
               >

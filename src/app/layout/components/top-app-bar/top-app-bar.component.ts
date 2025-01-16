@@ -22,6 +22,7 @@ import { NotificationComponent } from '../notification/notification.component';
   templateUrl: './top-app-bar.component.html',
   host: {
     '[class.window-overlayed]': 'isOverlayed()',
+    '[class.is-scrolled]': 'isScrolled()',
   },
   imports: [
     MatToolbarModule,
@@ -38,9 +39,10 @@ export class TopAppBarComponent {
   readonly #auth = inject(AuthenticationService);
   readonly #transitionService = inject(CurrentTransitionService);
 
-  protected readonly loggedIn$ = this.#auth.loggedIn$;
   protected deferredPrompt$ = inject(PwaService).beforeInstall$;
-  protected readonly isOverlayed = this.getOverlayedSignal();
+  protected readonly loggedIn = this.#auth.loggedIn;
+  protected readonly isScrolled = this.#layoutService.isScrolled;
+  protected readonly isOverlayed = this.#getOverlayedSignal();
 
   protected clickNav(): void {
     this.#layoutService.toggleDrawer();
@@ -60,7 +62,11 @@ export class TopAppBarComponent {
     return false;
   }
 
-  protected getOverlayedSignal(): Signal<boolean> {
+  protected viewTransitionName(): string {
+    return this.#transitionService.isTabChanged() ? '' : 'primary-tab';
+  }
+
+  #getOverlayedSignal(): Signal<boolean> {
     if (this.#navigator.windowControlsOverlay) {
       const isOverlayed$ = fromEvent<WindowControlsOverlayGeometryChangeEvent>(
         this.#navigator.windowControlsOverlay,
@@ -77,9 +83,5 @@ export class TopAppBarComponent {
     }
 
     return signal(false);
-  }
-
-  protected viewTransitionName(): string {
-    return this.#transitionService.isTabChanged() ? '' : 'primary-tab';
   }
 }

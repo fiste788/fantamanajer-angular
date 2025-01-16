@@ -23,7 +23,7 @@
           <mat-icon>get_app</mat-icon>
         </a>
       }
-      @if (loggedIn$ | async) {
+      @if (loggedIn()) {
         @defer {
           <app-notification />
         }

@@ -1,8 +1,12 @@
+@use '@angular/material' as mat;
+
 :host {
   position: sticky;
   z-index: 102;
   contain: paint;
   top: 0;
+  transition: box-shadow 200ms cubic-bezier(0.2, 0, 0, 1);
+  view-transition-name: top-app-bar;
 }
 
 app-breadcrumb {
@@ -22,7 +26,13 @@ app-breadcrumb {
 }
 
 .mat-toolbar-row:first-child {
-  view-transition-name: top-app-bar;
+  view-transition-name: top-app-bar-toolbar;
+}
+
+:host-context(.with-bars) {
+  :host.is-scrolled {
+    @include mat.elevation(2);
+  }
 }
 
 :host-context(.window-overlayed) {

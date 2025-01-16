@@ -22,9 +22,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         const error = err.error as ErrorResponse | null;
         const message = error?.data?.message ?? err.message;
         if (!req.context.get(NO_ERROR_IT)) {
-          snackbar.open(message, 'CLOSE', {
-            duration: 5000,
-          });
+          snackbar.open(message, 'CLOSE');
         }
 
         console.error(environment.production ? message : err);

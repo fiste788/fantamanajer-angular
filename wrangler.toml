@@ -13,7 +13,7 @@ mode = "smart"
 
 [vars]
 NODE_VERSION = "22.11.0"
-BUN_VERSION = "1.1.40"
+BUN_VERSION = "1.1.42"
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
