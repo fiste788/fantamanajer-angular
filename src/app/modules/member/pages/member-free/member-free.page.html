@@ -35,7 +35,7 @@
   <app-member-list
     hideRole
     [elevation]="0"
-    [isSelectable]="team.championship.started && !app.seasonEnded || false"
+    [isSelectable]="team.championship.started && !app.seasonEnded() || false"
     [members]="members"
     (selectionChange)="setSelectedMember($event)"
   />
