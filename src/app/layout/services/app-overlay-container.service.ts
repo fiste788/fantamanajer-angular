@@ -15,7 +15,11 @@ export class AppOverlayContainer extends OverlayContainer {
     super();
     effect(() => {
       const el = super.getContainerElement();
-      el.classList.toggle('with-bars', this.layoutService.showBars() === VisibilityState.Visible);
+      el.classList.toggle(
+        'with-bars',
+        this.layoutService.navigationMode() === 'bar' &&
+          this.layoutService.showBars() === VisibilityState.Visible,
+      );
       el.classList.toggle('loggedin', this.loggedIn());
     });
   }
