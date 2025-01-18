@@ -3,26 +3,6 @@
 @use 'sass:color';
 
 @mixin base($theme) {
-  @keyframes font-to-fill {
-    from {
-      font-variation-settings: 'FILL' 0;
-    }
-
-    to {
-      font-variation-settings: 'FILL' 1;
-    }
-  }
-
-  @keyframes font-to-no-fill {
-    from {
-      font-variation-settings: 'FILL' 1;
-    }
-
-    to {
-      font-variation-settings: 'FILL' 0;
-    }
-  }
-
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
@@ -30,6 +10,7 @@
     }
 
     a.mdc-list-item mat-icon {
+      transition: font-variation-settings 0.2s cubic-bezier(0.2, 0, 0, 1);
       font-variation-settings: 'FILL' 0;
     }
   }
@@ -41,13 +22,6 @@
     }
 
     a.mdc-list-item {
-      mat-icon {
-        animation-name: font-to-no-fill;
-        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
-        animation-duration: 200ms;
-        animation-fill-mode: forwards;
-      }
-
       &.mdc-list-item--activated {
         @include mat.list-overrides(
           (
@@ -57,7 +31,9 @@
 
         /* stylelint-disable-next-line no-descending-specificity */
         mat-icon {
-          animation-name: font-to-fill;
+          font-variation-settings:
+            'FILL' 1,
+            'wght' 400;
         }
       }
     }

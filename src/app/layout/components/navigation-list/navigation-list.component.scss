@@ -95,6 +95,15 @@
         pointer-events: none;
       }
 
+      &:hover mat-icon {
+        font-variation-settings: 'wght' 600;
+      }
+
+      &:active,
+      &:active mat-icon {
+        font-variation-settings: 'wght' 300;
+      }
+
       &:focus::before,
       &:hover::before {
         background-color: var(--mdc-list-list-item-focus-state-layer-color);
