@@ -1,17 +1,11 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
-@use 'sass:color';
 
 @mixin base($theme) {
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
       display: inline-flex;
-    }
-
-    a.mdc-list-item mat-icon {
-      transition: font-variation-settings 0.2s cubic-bezier(0.2, 0, 0, 1);
-      font-variation-settings: 'FILL' 0;
     }
   }
 
@@ -21,30 +15,20 @@
       display: none;
     }
 
-    a.mdc-list-item {
-      &.mdc-list-item--activated {
-        @include mat.list-overrides(
-          (
-            list-item-label-text-weight: 700,
-          )
-        );
-
-        /* stylelint-disable-next-line no-descending-specificity */
-        mat-icon {
-          font-variation-settings:
-            'FILL' 1,
-            'wght' 400;
-        }
-      }
-    }
-
     .fab {
       .mat-icon {
         margin: 0;
       }
+    }
+  }
 
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating {
+    .fab {
       .mdc-button__label {
         display: none;
+        opacity: 0;
+        transition-delay: 0;
+        transition-duration: 50ms;
       }
     }
   }
@@ -52,6 +36,7 @@
   .container-navigation-rail,
   .container-navigation-bar {
     .mat-drawer .mat-drawer-inner-container {
+      overflow-x: hidden;
       transition:
         opacity 66ms cubic-bezier(0.3, 0, 0.8, 0.15),
         width 100ms cubic-bezier(0.3, 0, 0.8, 0.15);
@@ -82,12 +67,6 @@
   }
 
   .container-navigation-rail {
-    /* stylelint-disable-next-line no-descending-specificity */
-    .mat-icon {
-      overflow: visible clip;
-      overflow-clip-margin: border-box;
-    }
-
     .mat-drawer:not(.mat-drawer-opened) .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
@@ -161,14 +140,6 @@
 }
 
 @mixin color($theme) {
-  app-navigation-list {
-    --mat-list-active-indicator-focus-state-color: #{color.mix(
-        mat.get-theme-color($theme, on-surface),
-        mat.get-theme-color($theme, secondary-container),
-        12%
-      )};
-  }
-
   .mat-drawer-over.mat-drawer-opened {
     @include mat.sidenav-overrides(
       (

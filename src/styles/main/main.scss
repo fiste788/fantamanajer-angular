@@ -3,6 +3,7 @@
 @use './partials/pre-bootstrap';
 @use './partials/styles';
 @use './partials/card';
+@use './partials/fab';
 @use './partials/scrollbar';
 @use './partials/snackbar';
 @use './partials/table';
@@ -14,6 +15,7 @@
   @include material.base($theme);
   @include styles.base($theme);
   @include form.base($theme);
+  @include fab.base($theme);
   @include card.base($theme);
   @include scrollbar.base($theme);
   @include snackbar.base($theme);
@@ -26,6 +28,7 @@
   @include material.density($theme);
   @include styles.density($theme);
   @include form.density($theme);
+  @include fab.density($theme);
   @include card.density($theme);
   @include scrollbar.density($theme);
   @include snackbar.density($theme);
@@ -38,6 +41,7 @@
   @include material.typography($theme);
   @include styles.typography($theme);
   @include form.typography($theme);
+  @include fab.typography($theme);
   @include card.typography($theme);
   @include scrollbar.typography($theme);
   @include snackbar.typography($theme);
@@ -50,6 +54,7 @@
   @include material.color($theme);
   @include styles.color($theme);
   @include form.color($theme);
+  @include fab.color($theme);
   @include card.color($theme);
   @include scrollbar.color($theme);
   @include snackbar.color($theme);
