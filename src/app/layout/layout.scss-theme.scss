@@ -1,26 +1,5 @@
 @use './components/navigation-list/navigation-list.scss-theme';
 
-@mixin base($theme) {
-  @include navigation-list.base($theme);
-}
-
-@mixin color($theme) {
-  @include navigation-list.color($theme);
-}
-
-@mixin density($theme) {
-  @include navigation-list.density($theme);
-}
-
-@mixin typography($theme) {
-  @include navigation-list.typography($theme);
-}
-
 @mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'layout') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
-  }
+  @include navigation-list.theme($theme);
 }

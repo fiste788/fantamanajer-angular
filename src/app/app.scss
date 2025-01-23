@@ -2,46 +2,9 @@
 @use 'layout/layout.scss-theme';
 @use 'modules/auth/pages/login/login.scss-theme';
 @use 'modules/member/components/member-selection/member-selection.scss-theme';
-@use 'shared/components/mat-empty-state/mat-empty-state.scss-theme';
-@use 'shared/components/parallax-header/parallax-header.scss-theme';
-
-@mixin base($theme) {
-  @include layout.base($theme);
-  @include login.base($theme);
-  @include member-selection.base($theme);
-  @include mat-empty-state.base($theme);
-  @include parallax-header.base($theme);
-}
-
-@mixin density($theme) {
-  @include layout.density($theme);
-  @include login.density($theme);
-  @include member-selection.density($theme);
-  @include mat-empty-state.density($theme);
-  @include parallax-header.density($theme);
-}
-
-@mixin typography($theme) {
-  @include layout.typography($theme);
-  @include login.typography($theme);
-  @include member-selection.typography($theme);
-  @include mat-empty-state.typography($theme);
-  @include parallax-header.typography($theme);
-}
-
-@mixin color($theme) {
-  @include layout.color($theme);
-  @include login.color($theme);
-  @include member-selection.color($theme);
-  @include mat-empty-state.color($theme);
-  @include parallax-header.color($theme);
-}
 
 @mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
-  }
+  @include layout.theme($theme);
+  @include login.theme($theme);
+  @include member-selection.theme($theme);
 }

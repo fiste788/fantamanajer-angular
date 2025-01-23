@@ -10,63 +10,16 @@
 @use './partials/toolbar';
 @use './partials/form';
 
-@mixin base($theme) {
-  @include pre-bootstrap.base($theme);
-  @include material.base($theme);
-  @include styles.base($theme);
-  @include form.base($theme);
-  @include fab.base($theme);
-  @include card.base($theme);
-  @include scrollbar.base($theme);
-  @include snackbar.base($theme);
-  @include table.base($theme);
-  @include toolbar.base($theme);
-}
-
-@mixin density($theme) {
-  @include pre-bootstrap.density($theme);
-  @include material.density($theme);
-  @include styles.density($theme);
-  @include form.density($theme);
-  @include fab.density($theme);
-  @include card.density($theme);
-  @include scrollbar.density($theme);
-  @include snackbar.density($theme);
-  @include table.density($theme);
-  @include toolbar.density($theme);
-}
-
-@mixin typography($theme) {
-  @include pre-bootstrap.typography($theme);
-  @include material.typography($theme);
-  @include styles.typography($theme);
-  @include form.typography($theme);
-  @include fab.typography($theme);
-  @include card.typography($theme);
-  @include scrollbar.typography($theme);
-  @include snackbar.typography($theme);
-  @include table.typography($theme);
-  @include toolbar.typography($theme);
-}
-
-@mixin color($theme) {
-  @include pre-bootstrap.color($theme);
-  @include material.color($theme);
-  @include styles.color($theme);
-  @include form.color($theme);
-  @include fab.color($theme);
-  @include card.color($theme);
-  @include scrollbar.color($theme);
-  @include snackbar.color($theme);
-  @include table.color($theme);
-  @include toolbar.color($theme);
-}
-
 @mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'pre-bootstrap') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
-  }
+  @include pre-bootstrap.theme($theme);
+
+  // @include material.color($theme);
+  @include styles.theme($theme);
+  @include form.theme($theme);
+  @include fab.theme($theme);
+  @include card.theme($theme);
+  @include scrollbar.theme($theme);
+  @include snackbar.theme($theme);
+  @include table.theme($theme);
+  @include toolbar.theme($theme);
 }

@@ -97,8 +97,8 @@
           transition-timing-function: linear;
           border-radius: 100px;
           background-color: rgb(
-            from var(--mdc-list-list-item-focus-state-layer-color) r g b /
-              calc(var(--mdc-list-list-item-focus-state-layer-opacity) * 100%)
+            from var(--mat-sys-on-surface) r g b /
+              calc(var(--mat-sys-focus-state-layer-opacity) * 100%)
           );
           content: '';
           z-index: -1;

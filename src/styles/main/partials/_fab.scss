@@ -1,6 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 
-@mixin base($theme) {
+@mixin theme($theme) {
   eco-fab-speed-dial.eco-opened
     .eco-fab-speed-dial-container
     eco-fab-speed-dial-trigger.eco-spin
@@ -32,23 +32,5 @@
         max-width: 0;
       }
     }
-  }
-}
-
-@mixin color($theme) {
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'fab') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

@@ -1,11 +1,16 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-// @use "@angular/flex-layout/mq";
-@mixin base($theme) {
+@mixin theme($theme) {
   .mat-mdc-card {
     overflow-y: hidden;
     transition: box-shadow 200ms;
+
+    @include mat.card-overrides(
+      (
+        outlined-container-color: var(--mat-sys-surface-container-low),
+      )
+    );
 
     .mat-mdc-card-actions {
       justify-content: end;
@@ -14,7 +19,7 @@
     }
 
     &:hover {
-      box-shadow: var(--mdc-elevated-card-container-elevation);
+      box-shadow: var(--mat-sys-level1);
     }
 
     .mat-mdc-card-header-text {
@@ -25,30 +30,5 @@
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
     }
-  }
-}
-
-@mixin color($theme) {
-  .mat-mdc-card {
-    @include mat.card-overrides(
-      (
-        outlined-container-color: mat.get-theme-color($theme, surface-container-low),
-      )
-    );
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'card') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

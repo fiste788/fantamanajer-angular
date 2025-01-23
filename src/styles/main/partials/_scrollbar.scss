@@ -2,32 +2,14 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin base($theme) {
-}
-
-@mixin color($theme) {
+@mixin theme($theme) {
   & {
     scrollbar-width: thin;
-    scrollbar-color: mat.get-theme-color($theme, secondary-fixed-dim) transparent;
+    scrollbar-color: var(--mat-sys-secondary-fixed-dim) transparent;
 
     [cdkscrollable] {
       scrollbar-width: thin;
-      scrollbar-color: mat.get-theme-color($theme, secondary-fixed-dim) transparent;
+      scrollbar-color: var(--mat-sys-secondary-fixed-dim) transparent;
     }
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'scrollbar') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

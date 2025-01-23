@@ -3,43 +3,38 @@
 @use 'main/main';
 @use 'themes/color' as color;
 
-$theme: mat.define-theme(
-  (
-    typography: (
-      plain-family: "'Exo 2', sans-serif",
-      brand-family: "'Exo 2', sans-serif",
-    ),
-  )
-);
-$light-theme: mat.define-theme(
-  (
-    color: color.$light-color,
-  )
-);
-$dark-theme: mat.define-theme(
-  (
-    color: color.$dark-color,
-  )
-);
-
 @forward 'main/transition';
 @forward 'tailwindcss/utilities';
 
-:root {
-  @include main.base($theme);
-  @include main.density($theme);
-  @include main.typography($theme);
-  @include app.base($theme);
-  @include app.density($theme);
-  @include app.typography($theme);
+html {
+  color-scheme: light dark;
 
-  @media (prefers-color-scheme: light) {
-    @include main.color($light-theme);
-    @include app.color($light-theme);
+  @include mat.theme(
+    (
+      color: color.$color,
+      typography: "'Exo 2', sans-serif",
+      density: 0,
+    )
+  );
+  @include mat.stepper-overrides(
+    (
+      container-color: transparent,
+    )
+  );
+  @include mat.expansion-overrides(
+    (
+      container-background-color: transparent,
+    )
+  );
+
+  .tertiary-fab {
+    @include mat.fab-overrides(
+      (
+        container-color: var(--mat-sys-tertiary-container),
+      )
+    );
   }
 
-  @media (prefers-color-scheme: dark) {
-    @include main.color($dark-theme);
-    @include app.color($dark-theme);
-  }
+  @include main.theme($theme);
+  @include app.theme($theme);
 }

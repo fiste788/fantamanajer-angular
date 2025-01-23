@@ -138,12 +138,7 @@ $_rest: (
 );
 $primary-palette: map.merge(map.get($_palettes, primary), $_rest);
 $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
-$light-color: (
-  primary: $primary-palette,
-  tertiary: $tertiary-palette,
-);
-$dark-color: (
-  theme-type: dark,
+$color: (
   primary: $primary-palette,
   tertiary: $tertiary-palette,
 );

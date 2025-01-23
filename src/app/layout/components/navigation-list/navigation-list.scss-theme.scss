@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin base($theme) {
+@mixin theme($theme) {
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
@@ -137,13 +137,11 @@
       }
     }
   }
-}
 
-@mixin color($theme) {
   .mat-drawer-over.mat-drawer-opened {
     @include mat.sidenav-overrides(
       (
-        container-background-color: mat.get-theme-color($theme, surface-container-low),
+        container-background-color: var(--mat-sys-surface-container-low),
       )
     );
   }
@@ -152,12 +150,15 @@
   .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
-        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
+        list-item-label-text-size: 14px,
+        list-item-label-text-line-height: 1rem,
+        list-item-label-text-weight: 500,
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
     @include mat.toolbar-overrides(
       (
-        container-background-color: mat.get-theme-color($theme, surface-container),
+        container-background-color: var(--mat-sys-surface-container),
       )
     );
 
@@ -174,7 +175,7 @@
     a.mdc-list-item.mdc-list-item--activated {
       @include mat.list-overrides(
         (
-          list-item-label-text-color: mat.get-theme-color($theme, on-surface),
+          list-item-label-text-color: var(--mat-sys-on-surface),
         )
       );
     }
@@ -183,23 +184,31 @@
   .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
     @include mat.list-overrides(
       (
-        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
     @include mat.toolbar-overrides(
       (
-        container-background-color: mat.get-theme-color($theme, surface),
+        container-background-color: var(--mat-sys-surface),
       )
     );
   }
 
+  .mat-mdc-subheader {
+    font-size: 1rem;
+    font-weight: var(--mat-sys-headline-medium-weight);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .mat-drawer {
     .mdc-list-item--activated {
-      color: mat.get-theme-color($theme, on-secondary-container) !important;
+      color: var(--mat-sys-on-secondary-container) !important;
     }
 
     .mat-mdc-subheader {
-      color: mat.get-theme-color($theme, on-surface-variant);
+      color: var(--mat-sys-on-surface-variant);
     }
 
     .fab .tertiary-fab {
@@ -212,38 +221,5 @@
         )
       );
     }
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-  .navigation-bar,
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    @include mat.list-overrides(
-      (
-        list-item-label-text-size: 14px,
-        list-item-label-text-line-height: 1rem,
-        list-item-label-text-weight: 500,
-      )
-    );
-  }
-
-  .mat-mdc-subheader {
-    font-size: 1rem;
-    font-weight: mat.get-theme-typography($theme, headline-medium, font-weight);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'navigation-list') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

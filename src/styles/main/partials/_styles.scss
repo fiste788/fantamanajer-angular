@@ -3,7 +3,11 @@
 @use 'sass:string';
 @use '@angular/material' as mat;
 
-@mixin base($theme) {
+@mixin theme($theme) {
+  & {
+    font-family: var(--mat-sys-body-medium-font);
+  }
+
   body {
     margin: 0;
     height: 100%;
@@ -37,6 +41,7 @@
 
   a {
     text-decoration: none;
+    color: var(--mat-sys-on-primary-container);
   }
 
   .red-card,
@@ -45,8 +50,7 @@
     height: 1rem;
     border-radius: 3px;
     display: inline-block;
-
-    @include mat.elevation(1);
+    box-shadow: var(--mat-sys-level1);
   }
 
   .yellow-card {
@@ -71,39 +75,31 @@
     height: 100%;
     align-items: center;
     justify-content: center;
+    background-color: var(--mat-sys-surface-container-low);
+    color: var(--mat-sys-on-surface);
+    font-size: 2rem;
   }
-}
 
-@mixin color($theme) {
   .mat-text-accent {
-    color: mat.get-theme-color($theme, tertiary);
+    color: var(--mat-sys-tertiary);
   }
 
   .mat-text-primary {
-    color: mat.get-theme-color($theme, primary);
+    color: var(--mat-sys-primary);
   }
 
   ::selection {
-    background: mat.get-theme-color($theme, tertiary);
-    color: mat.get-theme-color($theme, on-tertiary);
-  }
-
-  .placeholder {
-    background-color: mat.get-theme-color($theme, surface-container-low);
-    color: mat.get-theme-color($theme, on-surface);
+    background: var(--mat-sys-tertiary);
+    color: var(--mat-sys-on-tertiary);
   }
 
   img[src*='.svg'] {
-    background-color: mat.get-theme-color($theme, surface-container-low);
-  }
-
-  a {
-    color: mat.get-theme-color($theme, on-primary-container);
+    background-color: var(--mat-sys-surface-container-low);
   }
 
   .cdk-virtual-scroll-viewport {
-    --mat-skeleton-background-color: #{mat.get-theme-color($theme, secondary-fixed-dim)};
-    --mat-skeleton-foreground-color: #{mat.get-theme-color($theme, secondary-fixed)};
+    --mat-skeleton-background-color: #{var(--mat-sys-secondary-fixed-dim)};
+    --mat-skeleton-foreground-color: #{var(--mat-sys-secondary-fixed)};
   }
 
   @media (prefers-color-scheme: dark) {
@@ -111,27 +107,5 @@
     img {
       filter: grayscale(60%);
     }
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-  body {
-    font-family: string.unquote(mat.get-theme-typography($theme, body-medium, font-family));
-  }
-
-  .placeholder {
-    font-size: 2rem;
-  }
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'styles') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

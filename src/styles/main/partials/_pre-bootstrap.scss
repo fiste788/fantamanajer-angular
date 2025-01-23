@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@mixin base($theme) {
+@mixin theme($theme) {
   .pre-bootstrap {
     align-items: center;
     display: flex;
@@ -12,8 +12,14 @@
     max-width: 100%;
     text-align: center;
     box-sizing: border-box;
+    padding: 1rem;
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 
     svg path {
+      fill: transparent;
       transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
     }
 
@@ -30,23 +36,11 @@
         transition-duration: 0.3s;
       }
     }
-  }
-}
-
-@mixin color($theme) {
-  .pre-bootstrap {
-    background-color: mat.get-theme-color($theme, surface);
-    color: mat.get-theme-color($theme, on-surface);
 
     .error,
     noscript h3 {
-      color: mat.get-theme-color($theme, error);
+      color: var(--mat-sys-error);
       margin: 2rem 1rem;
-    }
-
-    svg path {
-      fill: transparent;
-      transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
     }
 
     svg.active {
@@ -62,17 +56,6 @@
         fill: rgb(246 73 73);
       }
     }
-  }
-}
-
-@mixin density($theme) {
-  .pre-bootstrap {
-    padding: 1rem;
-
-    .error,
-    noscript h3 {
-      margin: 2rem 1rem;
-    }
 
     img,
     svg {
@@ -85,21 +68,5 @@
       line-height: 1.5rem;
       margin-top: 1.5rem;
     }
-  }
-}
-
-@mixin typography($theme) {
-  .pre-bootstrap {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-      'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  }
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'card') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

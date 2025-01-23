@@ -20,6 +20,7 @@
   width: 96px;
   display: block;
   margin: 0 auto;
+  color: var(--mat-sys-primary);
 }
 
 .mat-mdc-card-title {
@@ -33,6 +34,7 @@
 }
 
 input.username {
+  font: var(--mat-sys-headline-small);
   border: none;
   background-color: transparent;
   outline: none;

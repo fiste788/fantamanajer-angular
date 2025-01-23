@@ -61,7 +61,7 @@
   transition: border-radius;
 
   @media (min-width: theme('screens.sm')) {
-    border-radius: var(--mdc-outlined-card-container-shape, 12px);
+    border-radius: var(--mat-sys-corner-large);
   }
 }
 
