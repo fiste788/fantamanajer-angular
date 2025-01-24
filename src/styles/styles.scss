@@ -1,40 +1,20 @@
-@use '@angular/material' as mat;
-@use 'app/app';
-@use 'main/main';
-@use 'themes/color' as color;
-
-@forward 'main/transition';
 @forward 'tailwindcss/utilities';
+@use 'main/main';
+@use 'app/app';
+@include main.transition;
 
 html {
   color-scheme: light dark;
 
-  @include mat.theme(
-    (
-      color: color.$color,
-      typography: "'Exo 2', sans-serif",
-      density: 0,
-    )
-  );
-  @include mat.stepper-overrides(
-    (
-      container-color: transparent,
-    )
-  );
-  @include mat.expansion-overrides(
-    (
-      container-background-color: transparent,
-    )
-  );
-
-  .tertiary-fab {
-    @include mat.fab-overrides(
-      (
-        container-color: var(--mat-sys-tertiary-container),
-      )
-    );
-  }
-
-  @include main.theme($theme);
-  @include app.theme($theme);
+  @include main.material;
+  @include main.pre-bootstrap;
+  @include main.fab;
+  @include main.form;
+  @include main.card;
+  @include main.scrollbar;
+  @include main.snackbar;
+  @include main.table;
+  @include main.toolbar;
+  @include main.styles;
+  @include app.app;
 }

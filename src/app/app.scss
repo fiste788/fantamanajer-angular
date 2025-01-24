@@ -3,8 +3,8 @@
 @use 'modules/auth/pages/login/login.scss-theme';
 @use 'modules/member/components/member-selection/member-selection.scss-theme';
 
-@mixin theme($theme) {
-  @include layout.theme($theme);
-  @include login.theme($theme);
-  @include member-selection.theme($theme);
+@mixin app() {
+  @include layout.theme;
+  @include login.theme;
+  @include member-selection.theme;
 }

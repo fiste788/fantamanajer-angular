@@ -1,9 +1,6 @@
 /* stylelint-disable selector-class-pattern */
-@use 'sass:map';
-@use 'sass:string';
-@use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin styles() {
   & {
     font-family: var(--mat-sys-body-medium-font);
   }

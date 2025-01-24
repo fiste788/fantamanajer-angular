@@ -1,8 +1,6 @@
-/* stylelint-disable selector-class-pattern */
-@use 'sass:map';
-@use '@angular/material' as mat;
+/* stylelint-disable plugin/browser-compat */
 
-@mixin theme($theme) {
+@mixin scrollbar() {
   & {
     scrollbar-width: thin;
     scrollbar-color: var(--mat-sys-secondary-fixed-dim) transparent;

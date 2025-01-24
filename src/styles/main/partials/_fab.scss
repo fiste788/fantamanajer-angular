@@ -1,6 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 
-@mixin theme($theme) {
+@mixin fab() {
   eco-fab-speed-dial.eco-opened
     .eco-fab-speed-dial-container
     eco-fab-speed-dial-trigger.eco-spin

@@ -1,6 +1,4 @@
-@use '@angular/material' as mat;
-
-@mixin theme($theme) {
+@mixin pre-bootstrap() {
   .pre-bootstrap {
     align-items: center;
     display: flex;

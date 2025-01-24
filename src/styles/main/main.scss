@@ -1,25 +1,11 @@
-@use '@angular/material' as mat;
-@use './partials/material';
-@use './partials/pre-bootstrap';
-@use './partials/styles';
-@use './partials/card';
-@use './partials/fab';
-@use './partials/scrollbar';
-@use './partials/snackbar';
-@use './partials/table';
-@use './partials/toolbar';
-@use './partials/form';
-
-@mixin theme($theme) {
-  @include pre-bootstrap.theme($theme);
-
-  // @include material.color($theme);
-  @include styles.theme($theme);
-  @include form.theme($theme);
-  @include fab.theme($theme);
-  @include card.theme($theme);
-  @include scrollbar.theme($theme);
-  @include snackbar.theme($theme);
-  @include table.theme($theme);
-  @include toolbar.theme($theme);
-}
+@forward './partials/material';
+@forward './partials/pre-bootstrap';
+@forward './partials/styles';
+@forward './partials/card';
+@forward './partials/fab';
+@forward './partials/scrollbar';
+@forward './partials/snackbar';
+@forward './partials/table';
+@forward './partials/toolbar';
+@forward './partials/form';
+@forward './partials/transition';

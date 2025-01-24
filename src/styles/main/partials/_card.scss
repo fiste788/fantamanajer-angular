@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin card() {
   .mat-mdc-card {
     overflow-y: hidden;
     transition: box-shadow 200ms;

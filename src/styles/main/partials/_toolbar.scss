@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin toolbar() {
   .mat-toolbar {
     transition: background-color 400ms cubic-bezier(0.2, 0, 0, 1);
 

@@ -143,28 +143,32 @@ $color: (
   tertiary: $tertiary-palette,
 );
 
-@include mat.theme(
-  (
-    color: $color,
-    typography: "'Exo 2', sans-serif",
-    density: 0,
-  )
-);
-@include mat.stepper-overrides(
-  (
-    container-color: transparent,
-  )
-);
-@include mat.expansion-overrides(
-  (
-    container-background-color: transparent,
-  )
-);
+@mixin material() {
+  & {
+    @include mat.theme(
+      (
+        color: $color,
+        typography: "'Exo 2', sans-serif",
+        density: 0,
+      )
+    );
+    @include mat.stepper-overrides(
+      (
+        container-color: transparent,
+      )
+    );
+    @include mat.expansion-overrides(
+      (
+        container-background-color: transparent,
+      )
+    );
 
-.tertiary-fab {
-  @include mat.fab-overrides(
-    (
-      container-color: var(--mat-sys-tertiary-container),
-    )
-  );
+    .tertiary-fab {
+      @include mat.fab-overrides(
+        (
+          container-color: var(--mat-sys-tertiary-container),
+        )
+      );
+    }
+  }
 }

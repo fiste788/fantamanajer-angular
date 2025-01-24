@@ -1,15 +1,17 @@
-@use 'sass:map';
-@use 'sass:color';
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin table() {
   .mat-mdc-table {
-    width: 100%;
-    border-radius: 4px;
-    background-color: inherit;
+    border-radius: var(--mat-sys-corner-extra-small);
+
+    @include mat.table-overrides(
+      (
+        background-color: transparent,
+      )
+    );
 
     thead > .mat-mdc-header-row {
-      border-radius: 4px;
+      border-radius: var(--mat-sys-corner-extra-small);
     }
 
     .mat-mdc-cell,
@@ -38,7 +40,7 @@
 
   .table-container {
     overflow-x: auto;
-    border-radius: 4px;
+    border-radius: var(--mat-sys-corner-extra-small);
     background-color: var(--mat-sys-surface);
   }
 

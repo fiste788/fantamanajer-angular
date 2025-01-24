@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin theme() {
   .login {
     .mat-horizontal-stepper-header-container {
       display: none !important;

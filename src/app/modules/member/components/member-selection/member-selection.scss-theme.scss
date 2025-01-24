@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin theme() {
   app-member-selection .mat-mdc-form-field-infix {
     display: flex !important;
     align-items: center;

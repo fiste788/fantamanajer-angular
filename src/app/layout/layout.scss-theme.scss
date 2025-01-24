@@ -1,5 +1,5 @@
 @use './components/navigation-list/navigation-list.scss-theme';
 
-@mixin theme($theme) {
-  @include navigation-list.theme($theme);
+@mixin theme() {
+  @include navigation-list.theme();
 }

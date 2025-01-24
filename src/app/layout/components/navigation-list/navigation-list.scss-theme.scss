@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin theme($theme) {
+@mixin theme() {
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
@@ -73,7 +73,7 @@
     }
 
     .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) .mat-drawer-inner-container {
-      display: block;
+      display: block !important;
     }
   }
 
