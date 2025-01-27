@@ -1,20 +1,20 @@
-@forward 'tailwindcss/utilities';
-@use 'main/main';
+@use 'base';
+@use 'components';
+@use 'utils';
 @use 'app/app';
-@include main.transition;
+@forward 'vendor';
+@include base.transition;
+@include base.material;
+@include base.scrollbar;
+@include base.styles;
 
 html {
-  color-scheme: light dark;
-
-  @include main.material;
-  @include main.pre-bootstrap;
-  @include main.fab;
-  @include main.form;
-  @include main.card;
-  @include main.scrollbar;
-  @include main.snackbar;
-  @include main.table;
-  @include main.toolbar;
-  @include main.styles;
+  @include components.card;
+  @include components.pre-bootstrap;
+  @include components.fab;
+  @include components.form;
+  @include components.snackbar;
+  @include components.table;
+  @include components.toolbar;
   @include app.app;
 }
