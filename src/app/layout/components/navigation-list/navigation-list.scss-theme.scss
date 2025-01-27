@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
 
-@mixin theme() {
+@mixin theme {
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
@@ -38,15 +38,15 @@
     .mat-drawer .mat-drawer-inner-container {
       overflow-x: hidden;
       transition:
-        opacity 66ms cubic-bezier(0.3, 0, 0.8, 0.15),
-        width 100ms cubic-bezier(0.3, 0, 0.8, 0.15);
+        opacity 66ms var(--mat-sys-motion-emphasized-accelerate),
+        width 100ms var(--mat-sys-motion-emphasized-accelerate);
       opacity: 0;
       width: 0;
 
       .mat-mdc-nav-list {
         transition-property: margin;
         transition-duration: 200ms;
-        transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+        transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
       }
     }
 
@@ -55,7 +55,7 @@
       width: 100%;
       transition-delay: 66ms;
       transition-duration: 300ms;
-      transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+      transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
     }
 
     @starting-style {
@@ -88,8 +88,8 @@
       }
 
       .fab .mat-icon {
-        transition: margin 0s cubic-bezier(0.05, 0.7, 0.1, 1) !important;
-        transition: transform 600ms cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+        transition: margin 0s var(--mat-sys-motion-emphasized-decelerate) !important;
+        transition: transform 600ms var(--mat-sys-motion-emphasized-decelerate) !important;
         min-width: 24px;
       }
     }

@@ -61,7 +61,7 @@
     "@types/node": "^20.17.16",
     "angular-eslint": "^19.0.2",
     "browserslist": "^4.24.4",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "eslint-config-angular-strict": "^1.1.5",
     "eslint-config-prettier": "^10.0.1",
     "eslint-import-resolver-typescript": "^3.7.0",
@@ -72,16 +72,16 @@
     "html-minifier": "^4.0.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "stylelint": "^16.13.2",
+    "stylelint": "^16.14.0",
     "stylelint-browser-compat": "^1.0.0-beta.145",
     "stylelint-config-standard": "^37.0.0",
     "stylelint-config-standard-scss": "^14.0.0",
-    "stylelint-prettier": "^5.0.2",
+    "stylelint-prettier": "^5.0.3",
     "stylelint-scss": "^6.10.1",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3",
     "typescript-eslint": "^8.21.0",
-    "wrangler": "^3.105.0"
+    "wrangler": "^3.105.1"
   },
   "volta": {
     "node": "22.11.0"

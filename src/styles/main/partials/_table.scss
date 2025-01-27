@@ -68,7 +68,7 @@
     height: 100%;
     box-sizing: border-box;
     justify-content: space-between;
-    animation: slide-down 400ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    animation: slide-down 400ms var(--mat-sys-motion-emphasized-decelerate);
     background-color: var(--mat-sys-primary-container);
   }
 

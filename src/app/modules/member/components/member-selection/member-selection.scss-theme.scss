@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin theme() {
+@mixin theme {
   app-member-selection .mat-mdc-form-field-infix {
     display: flex !important;
     align-items: center;
@@ -11,11 +11,6 @@
     app-member-selection .mat-mdc-form-field-infix {
       display: block !important;
     }
-  }
-
-  .circle .mat-icon,
-  .circle > span {
-    background-color: var(--mat-sys-surface);
   }
 
   .mat-mdc-option .icon-container {

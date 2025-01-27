@@ -3,7 +3,7 @@
 
 @mixin toolbar() {
   .mat-toolbar {
-    transition: background-color 400ms cubic-bezier(0.2, 0, 0, 1);
+    transition: background-color 400ms var(--mat-sys-motion-standard);
 
     .mat-mdc-form-field-underline,
     .mat-mdc-form-field-ripple,

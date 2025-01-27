@@ -6,10 +6,10 @@
     "stylelint.vscode-stylelint",
     "dweber019.vscode-style-formatter",
     "sibiraj-s.vscode-scss-formatter",
-    "mrmlnc.vscode-scss",
     "syler.sass-indented",
     "cyrilletuzi.angular-schematics",
     "mikael.angular-beastcode",
-    "johnpapa.angular2"
+    "johnpapa.angular2",
+    "somewhatstationery.some-sass"
   ]
 }

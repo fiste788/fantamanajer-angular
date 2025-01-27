@@ -15,9 +15,8 @@
 .circle .mat-icon,
 .circle > span {
   position: absolute;
-
-  @include mat.elevation(4);
-
+  box-shadow: var(--mat-sys-level4);
+  background-color: var(--mat-sys-surface);
   padding: 2px;
   border-radius: 50%;
   cursor: help;

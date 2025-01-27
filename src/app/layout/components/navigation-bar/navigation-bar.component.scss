@@ -10,7 +10,7 @@
 }
 
 .mat-toolbar {
-  @include mat.elevation(2);
+  box-shadow: var(--mat-sys-level2);
 }
 
 .mat-toolbar-row {

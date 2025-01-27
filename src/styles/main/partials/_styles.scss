@@ -21,7 +21,7 @@
   }
 
   .sticky {
-    transition: top 0.2s cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition: top 0.2s var(--mat-sys-motion-emphasized-decelerate);
   }
 
   .spacer {

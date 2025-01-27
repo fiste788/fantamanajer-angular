@@ -7,6 +7,7 @@
 
 .toggle {
   display: none;
+  transition: margin 200ms var(--mat-sys-motion-emphasized-decelerate);
 }
 
 @media (min-width: theme('screens.sm')) {
