@@ -7,7 +7,7 @@
 .mat-mdc-card-avatar {
   width: auto;
   min-width: 24px;
-  border-radius: 0;
+  border-radius: var(--mat-sys-corner-none);
 }
 
 .has-image {

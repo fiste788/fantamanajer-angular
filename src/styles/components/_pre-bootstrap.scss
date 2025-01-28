@@ -16,12 +16,16 @@
     font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
       'Segoe UI Emoji', 'Segoe UI Symbol';
 
-    svg path {
-      fill: transparent;
-      transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
-    }
-
     svg {
+      width: 256px;
+      max-width: 80%;
+      margin: 2rem;
+
+      path {
+        fill: transparent;
+        transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
+      }
+
       .s-1 {
         transition-delay: 0.1s;
       }
@@ -33,33 +37,26 @@
       .s-3 {
         transition-duration: 0.3s;
       }
+
+      &.active {
+        .s-1 {
+          fill: var(--mat-sys-tertiary);
+        }
+
+        .s-2 {
+          fill: var(--mat-sys-secondary);
+        }
+
+        .s-3 {
+          fill: var(--mat-sys-primary);
+        }
+      }
     }
 
     .error,
     noscript h3 {
       color: var(--mat-sys-error);
       margin: 2rem 1rem;
-    }
-
-    svg.active {
-      .s-1 {
-        fill: rgb(228 0 217);
-      }
-
-      .s-2 {
-        fill: rgb(228 0 103);
-      }
-
-      .s-3 {
-        fill: rgb(246 73 73);
-      }
-    }
-
-    img,
-    svg {
-      width: 256px;
-      max-width: 80%;
-      margin: 2rem;
     }
 
     .pre-bootstrap-text {

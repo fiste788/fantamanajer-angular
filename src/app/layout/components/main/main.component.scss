@@ -77,11 +77,12 @@ main {
         container-background-color: var(--mat-sys-surface),
       )
     );
-
-    width: 5rem !important; // Closed width - adjust as needed
-    display: block !important;
-    visibility: visible !important;
-    border-radius: 0;
+    @include mat.sidenav-overrides(
+      (
+        container-width: 5rem,
+        container-shape: 0,
+      )
+    );
   }
 
   .mat-drawer-content {

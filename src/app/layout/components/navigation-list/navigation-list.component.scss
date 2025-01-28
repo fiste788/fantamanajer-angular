@@ -56,7 +56,7 @@
   .mdc-list-item.mdc-list-item::before {
     height: 100%;
     width: 100%;
-    border-radius: 1rem;
+    border-radius: var(--mat-sys-corner-large);
     left: 0;
     transform: none;
     transition:
@@ -117,7 +117,7 @@
           'FILL' 0,
           'wght' 400;
         transition: font-variation-settings 0.2s var(--mat-sys-motion-standard);
-        border-radius: 1rem;
+        border-radius: var(--mat-sys-corner-large);
         height: 2rem;
 
         &::before {

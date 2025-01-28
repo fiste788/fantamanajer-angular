@@ -154,7 +154,7 @@ a.anchor {
     background-image: linear-gradient(
       transparent,
       rgb(
-        from var(--mat-sys-on-surface) r g b /
+        from var(--mat-sys-neutral10) r g b /
           calc((1 - var(--mat-sys-hover-state-layer-opacity)) * 100%)
       )
     );

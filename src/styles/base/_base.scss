@@ -45,7 +45,7 @@
   .yellow-card {
     width: 0.75rem;
     height: 1rem;
-    border-radius: 3px;
+    border-radius: var(--mat-sys-corner-extra-small);
     display: inline-block;
     box-shadow: var(--mat-sys-level1);
   }

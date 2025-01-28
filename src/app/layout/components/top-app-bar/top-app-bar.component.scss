@@ -28,10 +28,8 @@ app-breadcrumb {
   view-transition-name: top-app-bar-toolbar;
 }
 
-:host-context(.with-bars) {
-  :host.is-scrolled {
-    box-shadow: var(--mat-sys-level2);
-  }
+:host-context(.with-bars) :host.is-scrolled {
+  box-shadow: var(--mat-sys-level2);
 }
 
 :host-context(.window-overlayed) {

@@ -22,7 +22,7 @@
     min-width: 3rem;
 
     > div {
-      border-radius: 1rem;
+      border-radius: var(--mat-sys-corner-large);
       box-sizing: border-box;
       overflow: hidden;
       border-style: solid;
@@ -61,7 +61,7 @@
       display: inline-flex;
 
       > div {
-        border-radius: 2rem;
+        border-radius: var(--mat-sys-corner-extra-large);
         padding: 0 1rem;
         margin: 0 0.25rem;
         border-width: 4px;
