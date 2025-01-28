@@ -1,25 +1,20 @@
 @mixin pre-bootstrap() {
   .pre-bootstrap {
-    align-items: center;
     display: flex;
     flex-direction: column;
-    place-content: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    max-width: 100%;
     text-align: center;
-    box-sizing: border-box;
-    padding: 1rem;
-    background-color: var(--mat-sys-surface);
-    color: var(--mat-sys-on-surface);
+    left: 50%;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
     font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
       'Segoe UI Emoji', 'Segoe UI Symbol';
 
     svg {
-      width: 256px;
-      max-width: 80%;
-      margin: 2rem;
+      width: 128px;
+      margin: 0 auto 18px;
+      color-scheme: light;
 
       path {
         fill: transparent;
@@ -53,15 +48,19 @@
       }
     }
 
+    h1,
+    .error,
+    noscript h3 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: normal;
+      margin: 0;
+    }
+
     .error,
     noscript h3 {
       color: var(--mat-sys-error);
-      margin: 2rem 1rem;
-    }
-
-    .pre-bootstrap-text {
-      line-height: 1.5rem;
-      margin-top: 1.5rem;
+      margin: 18px 0 0;
     }
   }
 }
