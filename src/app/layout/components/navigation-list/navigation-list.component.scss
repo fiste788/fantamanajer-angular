@@ -3,9 +3,36 @@
 
 @use '@angular/material' as mat;
 
+:host {
+  display: block;
+}
+
+.mat-mdc-subheader {
+  font-size: 1rem;
+  font-weight: var(--mat-sys-headline-medium-weight);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mat-mdc-list-item-title {
+  opacity: 0;
+  transition: opacity 280ms var(--mat-sys-motion-emphasized-decelerate) 120ms;
+}
+
+:host-context(.mat-drawer) {
+  .mdc-list-item--activated {
+    color: var(--mat-sys-on-secondary-container) !important;
+  }
+
+  .mat-mdc-subheader {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
 :host-context(.mat-drawer-opened) {
   .mat-mdc-list-item-title {
-    animation: 280ms var(--mat-sys-motion-emphasized-decelerate) 60ms both fade-in;
+    opacity: 1;
   }
 }
 
@@ -55,6 +82,10 @@
     @include mat.list-overrides(
       (
         list-item-one-line-container-height: auto,
+        list-item-label-text-size: 14px,
+        list-item-label-text-line-height: 1rem,
+        list-item-label-text-weight: 500,
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
 
@@ -72,8 +103,12 @@
       flex-direction: column;
       padding: 0;
       gap: 0.25rem;
+      /* stylelint-disable-next-line plugin/browser-compat */
+      -webkit-tap-highlight-color: transparent;
 
       .mat-icon {
+        /* stylelint-disable-next-line plugin/browser-compat */
+        -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
         display: flex;
         position: relative;
         align-items: center;
@@ -144,6 +179,12 @@
       &.mdc-list-item--activated {
         background-color: transparent;
 
+        @include mat.list-overrides(
+          (
+            list-item-label-text-color: var(--mat-sys-on-surface),
+          )
+        );
+
         .mat-mdc-list-item-title {
           font-variation-settings: 'wght' 700;
         }
@@ -204,20 +245,18 @@
       display: none;
     }
   }
+
+  .mat-mdc-subheader {
+    display: none;
+  }
+
+  .mat-mdc-list-item {
+    padding: 0 !important;
+  }
 }
 
 :host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
   .title-lite {
     display: block;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

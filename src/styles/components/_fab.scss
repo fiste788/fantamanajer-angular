@@ -2,33 +2,23 @@
 @use '@angular/material' as mat;
 
 @mixin fab() {
-  eco-fab-speed-dial.eco-opened
-    .eco-fab-speed-dial-container
-    eco-fab-speed-dial-trigger.eco-spin
-    .spin360 {
-    transform: rotate(405deg);
-  }
-
   .mdc-fab {
     .mdc-button__label {
       opacity: 0;
       display: none;
       max-width: 0;
       transition:
-        opacity 140ms var(--mat-sys-motion-standard) 60ms,
-        max-width 140ms linear 0ms,
-        display 140ms linear 60ms allow-discrete; /* <-- check this line */
+        opacity 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms,
+        max-width 140ms var(--mat-sys-motion-emphasized-decelerate) 0ms,
+        display 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms allow-discrete; /* <-- check this line */
     }
 
     &.mat-mdc-extended-fab .mdc-button__label {
       opacity: 1;
       display: block;
       max-width: 300px;
-    }
 
-    @starting-style {
-      /* <-- and this line */
-      &.mat-mdc-extended-fab .mdc-button__label {
+      @starting-style {
         opacity: 0;
         max-width: 0;
       }

@@ -1,0 +1,11 @@
+@use 'index';
+
+@mixin all-components() {
+  @include index.card;
+  @include index.fab;
+  @include index.form;
+  @include index.pre-bootstrap;
+  @include index.snackbar;
+  @include index.table;
+  @include index.toolbar;
+}

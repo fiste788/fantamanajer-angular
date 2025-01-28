@@ -1,20 +1,15 @@
 @use 'base';
-@use 'components';
+@use 'components/all-components';
 @use 'utils';
 @use 'app/app';
 @forward 'vendor';
 @include base.transition;
+@include base.css-variables;
 @include base.material;
 @include base.scrollbar;
 @include base.styles;
 
 html {
-  @include components.card;
-  @include components.pre-bootstrap;
-  @include components.fab;
-  @include components.form;
-  @include components.snackbar;
-  @include components.table;
-  @include components.toolbar;
+  @include all-components.all-components;
   @include app.app;
 }

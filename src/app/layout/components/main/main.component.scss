@@ -34,6 +34,14 @@ main {
   position: relative;
 }
 
+.mat-drawer-over.mat-drawer-opened {
+  @include mat.sidenav-overrides(
+    (
+      container-background-color: var(--mat-sys-surface-container-low),
+    )
+  );
+}
+
 @media (min-width: theme('screens.sm')) {
   .mat-drawer {
     display: block !important;
@@ -59,6 +67,17 @@ main {
   }
 
   .mat-drawer:not(.mat-drawer-opened) {
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
+      )
+    );
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-surface),
+      )
+    );
+
     width: 5rem !important; // Closed width - adjust as needed
     display: block !important;
     visibility: visible !important;
