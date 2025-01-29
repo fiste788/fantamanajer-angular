@@ -8,7 +8,19 @@
 
   ::view-transition-group(*) {
     animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    animation-duration: 300ms;
+    animation-duration: 400ms;
+    animation-fill-mode: both;
+  }
+
+  ::view-transition-new(*) {
+    animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+    animation-duration: 400ms;
+    animation-fill-mode: both;
+  }
+
+  ::view-transition-old(*) {
+    animation-timing-function: var(--mat-sys-motion-emphasized-accelerate);
+    animation-duration: 200ms;
     animation-fill-mode: both;
   }
 
@@ -87,6 +99,11 @@
   }
 
   .detail-to-list {
+    &::view-transition-group(banner-img) {
+      animation-duration: 200ms;
+      animation-fill-mode: both;
+    }
+
     &::view-transition-old(banner-img) {
       object-fit: cover;
     }
@@ -103,7 +120,6 @@
 
     &::view-transition-new(tab) {
       animation-name: tab-from-left;
-      animation-delay: 100ms;
     }
   }
 
@@ -114,7 +130,6 @@
 
     &::view-transition-new(tab) {
       animation-name: tab-from-right;
-      animation-delay: 100ms;
     }
   }
 
