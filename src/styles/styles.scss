@@ -3,7 +3,8 @@
 @use 'utils';
 @use 'app/app';
 @forward 'vendor';
-@include base.transition;
+@include base.animations;
+@include base.view-transition;
 @include base.css-variables;
 @include base.material;
 @include base.scrollbar;

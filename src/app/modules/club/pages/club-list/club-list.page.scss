@@ -29,3 +29,8 @@ img {
   height: 100%;
   max-width: 100%;
 }
+
+.club-header-img,
+.mat-mdc-card-title {
+  view-transition-class: club;
+}

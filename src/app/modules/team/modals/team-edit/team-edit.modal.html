@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>{{team.name}}</h1>
-<div mat-dialog-content>
+<h2 mat-dialog-title>{{team.name}}</h2>
+<mat-dialog-content>
   @if (!seasonEnded()) {
   <div>
     <mat-form-field>
@@ -49,11 +49,8 @@
       [(subscriptions)]="team.push_notification_subscriptions"
     />
   </div>
-</div>
-<div
-  align="end"
-  mat-dialog-actions
->
+</mat-dialog-content>
+<mat-dialog-actions>
   <button
     mat-button
     tabindex="-1"
@@ -70,4 +67,4 @@
   >
     SALVA
   </button>
-</div>
+</mat-dialog-actions>

@@ -8,8 +8,7 @@
 }
 
 .mat-mdc-subheader {
-  font-size: 1rem;
-  font-weight: var(--mat-sys-headline-medium-weight);
+  font: var(--mat-sys-title-small);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -23,10 +22,6 @@
 :host-context(.mat-drawer) {
   .mdc-list-item--activated {
     color: var(--mat-sys-on-secondary-container) !important;
-  }
-
-  .mat-mdc-subheader {
-    color: var(--mat-sys-on-surface-variant);
   }
 }
 

@@ -1,0 +1,61 @@
+@mixin animations() {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes slide-from-right {
+    from {
+      transform: translateX(30px);
+    }
+  }
+
+  @keyframes slide-from-top {
+    from {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes slide-to-top {
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes slide-to-left {
+    to {
+      transform: translateX(-30px);
+    }
+  }
+
+  @keyframes tab-to-right {
+    to {
+      transform: translateX(calc(100% + 2rem));
+    }
+  }
+
+  @keyframes tab-to-left {
+    to {
+      transform: translateX(calc(-100% - 2rem));
+    }
+  }
+
+  @keyframes tab-from-right {
+    from {
+      transform: translateX(calc(-100% - 2rem));
+    }
+  }
+
+  @keyframes tab-from-left {
+    from {
+      transform: translateX(calc(100% + 2rem));
+    }
+  }
+}

@@ -25,5 +25,26 @@
         container-background-color: transparent,
       )
     );
+
+    .mat-mdc-progress-spinner {
+      margin: 3rem auto 5rem;
+    }
+
+    .mat-expansion-panel-body {
+      padding: 0 12px;
+    }
+
+    .mat-text-tertiary {
+      color: var(--mat-sys-tertiary);
+    }
+
+    .mat-text-primary {
+      color: var(--mat-sys-primary);
+    }
+
+    .cdk-virtual-scroll-content-wrapper {
+      width: 100%;
+      overflow: hidden;
+    }
   }
 }

@@ -28,14 +28,6 @@
     flex: 1 1 auto;
   }
 
-  .mat-mdc-progress-spinner {
-    margin: 3rem auto 5rem;
-  }
-
-  .mat-expansion-panel-body {
-    padding: 0 12px;
-  }
-
   a {
     text-decoration: none;
     color: var(--mat-sys-on-primary-container);
@@ -62,27 +54,14 @@
     max-height: 100%;
   }
 
-  .cdk-virtual-scroll-content-wrapper {
-    width: 100%;
-    overflow: hidden;
-  }
-
   .placeholder {
     display: flex;
     height: 100%;
     align-items: center;
     justify-content: center;
-    background-color: var(--mat-sys-surface-container-low);
+    background-color: var(--mat-sys-surface-container-highest);
     color: var(--mat-sys-on-surface);
-    font-size: 2rem;
-  }
-
-  .mat-text-accent {
-    color: var(--mat-sys-tertiary);
-  }
-
-  .mat-text-primary {
-    color: var(--mat-sys-primary);
+    font: var(--mat-sys-headline-large);
   }
 
   ::selection {
@@ -92,11 +71,6 @@
 
   img[src*='.svg'] {
     background-color: var(--mat-sys-surface-container-low);
-  }
-
-  .cdk-virtual-scroll-viewport {
-    --mat-skeleton-background-color: #{var(--mat-sys-secondary-fixed-dim)};
-    --mat-skeleton-foreground-color: #{var(--mat-sys-secondary-fixed)};
   }
 
   @media (prefers-color-scheme: dark) {

@@ -73,7 +73,7 @@
   }
 
   .mat-mdc-table-title {
-    font-size: 20px;
+    font: var(--mat-sys-title-large);
   }
 
   .mat-cell-numeric,
@@ -104,6 +104,6 @@
 
   .mat-column-player,
   .mat-column-points {
-    font-weight: 500;
+    font-weight: var(--mat-sys-label-medium-weight);
   }
 }

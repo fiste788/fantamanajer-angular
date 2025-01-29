@@ -4,6 +4,6 @@
   white-space: nowrap;
 
   > span {
-    font-size: xx-large;
+    font-size: var(--mat-sys-headline-large-size);
   }
 }

@@ -1,7 +1,7 @@
-@if(tabs$ | async; as tabs) { @let _team = team();
+@let _team = team();
 <app-primary-tab
   fragment="tab"
-  [tabs]="tabs"
+  [tabs]="tabs()"
 >
   <div class="animation-container">
     <app-parallax-header
@@ -27,4 +27,3 @@
     </app-parallax-header>
   </div>
 </app-primary-tab>
-}

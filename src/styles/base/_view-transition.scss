@@ -1,0 +1,122 @@
+@mixin view-transition() {
+  /* beasties:exclude start */
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  ::view-transition-group(*) {
+    animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+  }
+
+  ::view-transition-old(main) {
+    animation:
+      66ms var(--mat-sys-motion-emphasized-accelerate) both fade-out,
+      200ms var(--mat-sys-motion-emphasized-accelerate) both slide-to-left;
+  }
+
+  ::view-transition-new(main) {
+    animation:
+      280ms var(--mat-sys-motion-emphasized-decelerate) 120ms both fade-in,
+      400ms var(--mat-sys-motion-emphasized-decelerate) both slide-from-right;
+  }
+
+  ::view-transition-old(navigation-drawer),
+  ::view-transition-new(navigation-drawer) {
+    animation: none;
+  }
+
+  ::view-transition-old(navigation-drawer) {
+    display: none;
+  }
+
+  ::view-transition-group(navigation-drawer) {
+    z-index: 3;
+  }
+
+  ::view-transition-group(top-app-bar-toolbar),
+  ::view-transition-group(navigation-bar) {
+    z-index: 2;
+  }
+
+  ::view-transition-group(primary-tab) {
+    z-index: 1;
+  }
+
+  ::view-transition-old(primary-tab) {
+    animation-name: slide-to-top;
+  }
+
+  ::view-transition-new(primary-tab) {
+    animation-name: slide-from-top;
+  }
+
+  ::view-transition-image-pair(banner-img) {
+    isolation: none;
+    overflow: hidden;
+    transition: border-radius;
+
+    @media (min-width: theme('screens.sm')) {
+      border-radius: var(--mat-sys-corner-large);
+    }
+  }
+
+  ::view-transition-new(banner-img),
+  ::view-transition-old(banner-img) {
+    /* Prevent the default animation, so both views remain opacity:1 throughout the transition */
+    animation: none;
+
+    /* Use normal blending, so the new view sits on top and obscures the old view */
+    mix-blend-mode: normal;
+
+    /* Make the height the same as the group, meaning the view size might not match its aspect-ratio. */
+    height: 100%;
+
+    /* Clip any overflow of the view */
+    overflow: clip;
+  }
+
+  .list-to-detail {
+    &::view-transition-old(banner-img),
+    &::view-transition-new(banner-img) {
+      object-fit: cover;
+    }
+  }
+
+  .detail-to-list {
+    &::view-transition-old(banner-img) {
+      object-fit: cover;
+    }
+
+    &::view-transition-new(banner-img) {
+      object-fit: contain;
+    }
+  }
+
+  .direction-left {
+    &::view-transition-old(tab) {
+      animation-name: tab-to-left;
+    }
+
+    &::view-transition-new(tab) {
+      animation-name: tab-from-left;
+      animation-delay: 100ms;
+    }
+  }
+
+  .direction-right {
+    &::view-transition-old(tab) {
+      animation-name: tab-to-right;
+    }
+
+    &::view-transition-new(tab) {
+      animation-name: tab-from-right;
+      animation-delay: 100ms;
+    }
+  }
+
+  /* beasties:exclude end */
+}

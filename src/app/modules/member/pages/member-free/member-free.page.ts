@@ -7,7 +7,6 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { combineLatest, Observable, switchMap } from 'rxjs';
 
@@ -28,7 +27,6 @@ import { tableRowAnimation } from '@shared/animations';
     FormsModule,
     MatOptionModule,
     MatButtonModule,
-    MatTooltipModule,
     RouterLink,
     MatIconModule,
     MemberListComponent,

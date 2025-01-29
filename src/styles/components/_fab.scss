@@ -29,6 +29,7 @@
     @include mat.fab-overrides(
       (
         container-color: var(--mat-sys-tertiary-container),
+        small-container-color: var(--mat-sys-tertiary-container),
       )
     );
   }

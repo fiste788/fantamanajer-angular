@@ -51,9 +51,9 @@
     h1,
     .error,
     noscript h3 {
-      font-size: 24px;
-      line-height: 32px;
-      font-weight: normal;
+      font-size: var(--mat-sys-headline-small-size);
+      line-height: var(--mat-sys-headline-small-line-height);
+      font-weight: var(--mat-sys-headline-medium-weight);
       margin: 0;
     }
 

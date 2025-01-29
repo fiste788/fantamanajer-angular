@@ -1,15 +1,16 @@
 import { trigger } from '@angular/animations';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, afterNextRender, input, inject } from '@angular/core';
+import { Component, afterNextRender, input, inject, linkedSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, combineLatest, firstValueFrom, map } from 'rxjs';
+import { combineLatest, firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
-import { Tab, Team } from '@data/types';
+import { Tab, Team, User } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
@@ -30,16 +31,25 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     PrimaryTabComponent,
   ],
 })
-export class TeamDetailPage implements OnInit {
+export class TeamDetailPage {
   readonly #layoutService = inject(LayoutService);
   readonly #dialog = inject(MatDialog);
 
   protected team = input.required<Team>();
   protected placeholder?: string;
-  protected tabs$!: Observable<Array<Tab>>;
 
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
+  protected readonly context = toSignal(
+    combineLatest({ user: this.auth.user$, team: this.app.requireTeam$ }),
+    { requireSync: true },
+  );
+
+  protected tabs = linkedSignal(() => {
+    const context = this.context();
+
+    return this.loadTabs(this.team(), context.team, this.app.seasonEnded(), context.user);
+  });
 
   constructor() {
     afterNextRender(() => {
@@ -48,39 +58,30 @@ export class TeamDetailPage implements OnInit {
     });
   }
 
-  public ngOnInit(): void {
-    this.tabs$ = this.loadTabs();
-  }
+  public loadTabs(currentTeam: Team, team: Team, seasonEnded = false, user?: User): Array<Tab> {
+    const { started } = currentTeam.championship;
 
-  public loadTabs(): Observable<Array<Tab>> {
-    return combineLatest([this.auth.user$, this.app.requireTeam$]).pipe(
-      map(([user, team]) => {
-        const { started } = this.team().championship;
-        const ended = this.app.seasonEnded();
-
-        return [
-          { label: 'Giocatori', link: 'players' },
-          {
-            label: 'Formazione',
-            link: 'lineup/current',
-            hidden: ended || !started,
-          },
-          {
-            label: 'Ultima giornata',
-            link: 'scores/last',
-            hidden: !started,
-          },
-          {
-            label: 'Trasferimenti',
-            link: 'transferts',
-            hidden: ended || !started,
-          },
-          { label: 'Articoli', link: 'articles' },
-          { label: 'Attività', link: 'stream' },
-          { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
-        ];
-      }),
-    );
+    return [
+      { label: 'Giocatori', link: 'players' },
+      {
+        label: 'Formazione',
+        link: 'lineup/current',
+        hidden: seasonEnded || !started,
+      },
+      {
+        label: 'Ultima giornata',
+        link: 'scores/last',
+        hidden: !started,
+      },
+      {
+        label: 'Trasferimenti',
+        link: 'transferts',
+        hidden: seasonEnded || !started,
+      },
+      { label: 'Articoli', link: 'articles' },
+      { label: 'Attività', link: 'stream' },
+      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
+    ];
   }
 
   protected async openDialog(team: Team): Promise<boolean | undefined> {
