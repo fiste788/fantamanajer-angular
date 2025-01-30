@@ -16,7 +16,7 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
-import { SrcsetPipe } from '@shared/pipes';
+import { SlugPipe, SrcsetPipe } from '@shared/pipes';
 import { LayoutService } from 'src/app/layout/services';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
@@ -33,6 +33,7 @@ import { RellaxDirective } from '../../directives/rellax.directive';
     SrcsetPipe,
     RouterLinkActive,
     RouterLink,
+    SlugPipe,
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {

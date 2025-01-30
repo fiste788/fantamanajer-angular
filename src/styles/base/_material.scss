@@ -25,6 +25,12 @@
         container-background-color: transparent,
       )
     );
+    @include mat.toolbar-overrides(
+      (
+        standard-height: unset,
+        mobile-height: unset,
+      )
+    );
 
     .mat-mdc-progress-spinner {
       margin: 3rem auto 5rem;

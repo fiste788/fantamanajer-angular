@@ -4,7 +4,7 @@
 @mixin card() {
   .mat-mdc-card {
     overflow-y: hidden;
-    transition: box-shadow 200ms var(--mat-sys-motion-standard);
+    transition: box-shadow 300ms var(--mat-sys-motion-emphasized-decelerate);
 
     @include mat.card-overrides(
       (
@@ -18,10 +18,6 @@
       flex-direction: row-reverse;
     }
 
-    &:hover {
-      box-shadow: var(--mat-sys-level1);
-    }
-
     .mat-mdc-card-header-text {
       overflow: hidden;
     }
@@ -30,5 +26,9 @@
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
     }
+  }
+
+  .grid .mat-mdc-card:hover {
+    box-shadow: var(--mat-sys-level1);
   }
 }

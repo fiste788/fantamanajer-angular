@@ -36,10 +36,10 @@
   </figure>
 
   <mat-card-header>
-    <mat-card-title [style.viewTransitionName]="'title-' + _team.name">{{
-      _team.name
-    }}</mat-card-title>
-    <mat-card-subtitle>{{ _team.user.email }}</mat-card-subtitle>
+    <mat-card-title [style.viewTransitionName]="'title-' + _team.name | slug">
+      {{ _team.name }}
+    </mat-card-title>
+    <mat-card-subtitle>{{ _team.user.name }} {{ _team.user.surname }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
     <a

@@ -48,9 +48,9 @@
         width="40"
         [alt]="club.name"
         [ngSrc]="club.photo_url || ''"
-        [style.viewTransitionName]="'avatar-' + club.name"
+        [style.viewTransitionName]="'avatar-' + club.name | slug"
       />
-      <mat-card-title [style.viewTransitionName]="'title-' + club.name"
+      <mat-card-title [style.viewTransitionName]="'title-' + club.name | slug"
         >{{club.name}}</mat-card-title
       >
       <mat-card-subtitle>Club</mat-card-subtitle>

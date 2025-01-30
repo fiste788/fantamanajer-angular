@@ -12,18 +12,6 @@
     animation-fill-mode: both;
   }
 
-  ::view-transition-new(*) {
-    animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    animation-duration: 400ms;
-    animation-fill-mode: both;
-  }
-
-  ::view-transition-old(*) {
-    animation-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-    animation-duration: 200ms;
-    animation-fill-mode: both;
-  }
-
   ::view-transition-old(main) {
     animation:
       66ms var(--mat-sys-motion-emphasized-accelerate) both fade-out,
@@ -49,6 +37,21 @@
     z-index: 3;
   }
 
+  ::view-transition-old(top-app-bar) {
+    display: none;
+  }
+
+  ::view-transition-new(top-app-bar) {
+    animation-name: slide-from-top;
+  }
+
+  .direction-left,
+  .direction-right {
+    &::view-transition-group(top-app-bar) {
+      animation: none;
+    }
+  }
+
   ::view-transition-group(top-app-bar-toolbar),
   ::view-transition-group(navigation-bar) {
     z-index: 2;
@@ -70,47 +73,64 @@
     isolation: none;
     overflow: hidden;
     transition: border-radius;
-
-    @media (min-width: theme('screens.sm')) {
-      border-radius: var(--mat-sys-corner-large);
-    }
   }
 
-  ::view-transition-new(banner-img),
-  ::view-transition-old(banner-img) {
-    /* Prevent the default animation, so both views remain opacity:1 throughout the transition */
-    animation: none;
+  @media (max-width: theme('screens.sm')) {
+    ::view-transition-new(banner-img),
+    ::view-transition-old(banner-img) {
+      /* Prevent the default animation, so both views remain opacity:1 throughout the transition */
+      animation: none;
 
-    /* Use normal blending, so the new view sits on top and obscures the old view */
-    mix-blend-mode: normal;
+      /* Use normal blending, so the new view sits on top and obscures the old view */
+      mix-blend-mode: normal;
 
-    /* Make the height the same as the group, meaning the view size might not match its aspect-ratio. */
-    height: 100%;
+      /* Make the height the same as the group, meaning the view size might not match its aspect-ratio. */
+      height: 100%;
 
-    /* Clip any overflow of the view */
-    overflow: clip;
+      /* Clip any overflow of the view */
+      overflow: clip;
+    }
   }
 
   .list-to-detail {
     &::view-transition-old(banner-img),
     &::view-transition-new(banner-img) {
       object-fit: cover;
+      border-bottom-left-radius: var(--mat-sys-corner-large);
+      border-bottom-right-radius: var(--mat-sys-corner-large);
     }
   }
 
+  ::view-transition-new(*):only-child,
+  ::view-transition-old(*):only-child {
+    animation: none;
+  }
+
+  ::view-transition-old(*):only-child {
+    display: none;
+  }
+
   .detail-to-list {
-    &::view-transition-group(banner-img) {
+    &::view-transition-group(banner-img),
+    &::view-transition-group(.metadata) {
       animation-duration: 200ms;
-      animation-fill-mode: both;
     }
 
     &::view-transition-old(banner-img) {
       object-fit: cover;
+      border-radius: var(--mat-sys-corner-medium);
     }
 
     &::view-transition-new(banner-img) {
       object-fit: contain;
     }
+  }
+
+  ::view-transition-new(tab),
+  ::view-transition-old(tab) {
+    animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+    animation-duration: 300ms;
+    animation-fill-mode: both;
   }
 
   .direction-left {

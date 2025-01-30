@@ -30,7 +30,9 @@ img {
   max-width: 100%;
 }
 
-.club-header-img,
-.mat-mdc-card-title {
-  view-transition-class: club;
+@supports (view-transition-class: none) {
+  .club-header-image,
+  .mat-mdc-card-title {
+    view-transition-class: metadata;
+  }
 }
