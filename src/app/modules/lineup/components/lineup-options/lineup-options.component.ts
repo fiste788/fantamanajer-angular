@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 import { Lineup } from '@data/types';
+import { LayoutService } from 'src/app/layout/services';
 
 import { LineupService } from '../lineup.service';
 
@@ -38,4 +39,5 @@ export class LineupOptionsComponent {
   public jolly = input(true, { transform: booleanAttribute });
   public disabled = input(false, { transform: booleanAttribute });
   protected readonly lineupService = inject(LineupService);
+  protected readonly navigationMode = inject(LayoutService).navigationMode;
 }
