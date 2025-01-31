@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Club } from '@data/types';
-import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
+import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   animations: [],
@@ -23,6 +23,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     SrcsetPipe,
     NgOptimizedImage,
     MatRipple,
+    SlugPipe,
   ],
 })
 export class ClubListPage {

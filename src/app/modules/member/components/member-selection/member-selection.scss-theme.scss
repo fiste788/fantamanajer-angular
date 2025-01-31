@@ -1,7 +1,6 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin base($theme) {
+@mixin theme {
   app-member-selection .mat-mdc-form-field-infix {
     display: flex !important;
     align-items: center;
@@ -12,38 +11,8 @@
       display: block !important;
     }
   }
-}
-
-@mixin color($theme) {
-  .photo-container > .img-container > div {
-    border-color: mat.get-theme-color($theme, surface);
-  }
-
-  .circle .mat-icon,
-  .circle > span {
-    background-color: mat.get-theme-color($theme, surface);
-  }
 
   .mat-mdc-option .icon-container {
-    color: mat.get-theme-color($theme, on-surface);
-  }
-
-  .mat-mdc-form-field.ng-invalid .img-container > div {
-    border-color: mat.get-theme-color($theme, error);
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'member-selection') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
+    color: var(--mat-sys-on-surface);
   }
 }

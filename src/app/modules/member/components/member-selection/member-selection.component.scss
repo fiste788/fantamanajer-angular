@@ -22,13 +22,14 @@
     min-width: 3rem;
 
     > div {
-      border-radius: 1rem;
+      border-radius: var(--mat-sys-corner-large);
       box-sizing: border-box;
       overflow: hidden;
       border-style: solid;
       border-width: 2px;
       padding: 0 0.5rem;
       transition: border-color 0.5s;
+      border-color: var(--mat-sys-surface);
     }
 
     app-player-image {
@@ -61,7 +62,7 @@
       display: inline-flex;
 
       > div {
-        border-radius: 2rem;
+        border-radius: var(--mat-sys-corner-extra-large);
         padding: 0 1rem;
         margin: 0 0.25rem;
         border-width: 4px;
@@ -72,4 +73,8 @@
   :host-context(.benchwarmers) .img-container {
     max-width: calc(100% - 4rem) !important;
   }
+}
+
+.mat-mdc-form-field.ng-invalid .img-container > div {
+  border-color: var(--mat-sys-error);
 }

@@ -4,8 +4,6 @@
 }
 
 .mat-mdc-dialog-container {
-  --mdc-dialog-container-elevation: var(--mdc-dialog-container-elevation-shadow);
-
   outline: 0;
   transform-origin: 100% 0 0;
 }
@@ -52,11 +50,11 @@
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
   width: 100%;
-  border-radius: var(--mdc-dialog-container-shape, 4px);
-  background-color: var(--mdc-dialog-container-color, white);
+  border-radius: var(--mat-sys-corner-extra-large, 4px);
+  background-color: var(--mat-sys-surface, white);
   padding: 0 24px;
   box-shadow: var(
-    --mdc-dialog-container-elevation-shadow,
+    --mat-sys-level0,
     0 11px 15px -7px rgb(0 0 0 / 20%),
     0 24px 38px 3px rgb(0 0 0 / 14%),
     0 9px 46px 8px rgb(0 0 0 / 12%)

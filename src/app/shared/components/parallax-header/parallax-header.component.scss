@@ -8,8 +8,8 @@
   // max-height: 12.5rem;
   overflow: hidden;
   position: relative;
-  border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
-  border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
+  border-bottom-left-radius: var(--mat-sys-corner-large);
+  border-bottom-right-radius: var(--mat-sys-corner-large);
 
   > div {
     transition: all 200ms;
@@ -57,14 +57,18 @@
 .title {
   margin: 1rem 0 0;
   text-align: center;
+
+  @supports (view-transition-class: none) {
+    view-transition-class: metadata;
+  }
 }
 
 .parallax {
   min-height: 20rem;
   width: 100%;
   object-fit: cover;
-  border-bottom-left-radius: var(--mdc-outlined-card-container-shape);
-  border-bottom-right-radius: var(--mdc-outlined-card-container-shape);
+  border-bottom-left-radius: var(--mat-sys-corner-large);
+  border-bottom-right-radius: var(--mat-sys-corner-large);
 }
 
 a.anchor {
@@ -92,8 +96,8 @@ a.anchor {
   }
 
   .parallax-header-img {
-    // height: 300px;
     max-height: unset;
+    background-color: var(--mat-sys-surface-container-low);
 
     img {
       // position: absolute;
@@ -133,11 +137,48 @@ a.anchor {
     img {
       max-height: 128px;
 
-      // align-self: flex-end;
+      @supports (view-transition-class: none) {
+        view-transition-class: metadata;
+      }
     }
 
-    .mat-subtitle-2 {
+    .subtitle > p {
       margin: 0;
+    }
+  }
+}
+
+@media (min-width: theme('screens.sm')) {
+  .parallax {
+    background-color: var(--mat-sys-surface-container-low);
+  }
+
+  .parallax-header-title-container {
+    color-scheme: light;
+    color: var(--mat-sys-surface-bright);
+    animation: gradient 400ms var(--mat-sys-motion-emphasized-decelerate) forwards 100ms;
+    background-image: linear-gradient(
+      transparent,
+      rgb(
+        from var(--mat-sys-neutral10) r g b /
+          calc((1 - var(--mat-sys-hover-state-layer-opacity)) * 100%)
+      )
+    );
+
+    @include mat.icon-button-overrides(
+      (
+        icon-color: var(--mat-sys-surface-bright),
+      )
+    );
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0 180px;
+    }
+
+    100% {
+      background-position: 0 0;
     }
   }
 }

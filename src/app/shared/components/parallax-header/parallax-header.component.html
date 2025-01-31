@@ -41,7 +41,7 @@
           [alt]="_title"
           [height]="height()"
           [ngSrc]="_image"
-          [style.viewTransitionName]="'avatar-' + _title"
+          [style.viewTransitionName]="'avatar-' + _title | slug"
           [width]="width()"
         />
       }
@@ -53,14 +53,14 @@
           >Anchor</a
         >
         <h1
-          class="mat-headline-4 title"
-          [style.viewTransitionName]="'title-' + _title"
+          class="title"
+          [style.viewTransitionName]="'title-' + _title | slug"
         >
           {{ _title }}
         </h1>
         <div class="subtitle">
           @if (subtitle(); as _subtitle) {
-            <p class="mat-subtitle-2">
+            <p>
               {{ _subtitle }}
               <ng-content select="subtitle" />
             </p>

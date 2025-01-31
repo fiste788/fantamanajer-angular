@@ -4,19 +4,6 @@
   white-space: nowrap;
 
   > span {
-    font-size: xx-large;
+    font-size: var(--mat-sys-headline-large-size);
   }
-}
-
-.more {
-  padding: 0 24px;
-  height: var(--mat-expansion-header-collapsed-state-height);
-  font-family: var(--mat-expansion-header-text-font, var(--mat-app-title-medium-font));
-  font-size: var(--mat-expansion-header-text-size, var(--mat-app-title-medium-size));
-  font-weight: var(--mat-expansion-header-text-weight, var(--mat-app-title-medium-weight));
-  line-height: var(
-    --mat-expansion-header-collapsed-state-height,
-    var(--mat-app-title-medium-line-height)
-  );
-  letter-spacing: var(--mat-expansion-header-text-tracking, var(--mat-app-title-medium-tracking));
 }

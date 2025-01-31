@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Team } from '@data/types';
-import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
+import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-team-card',
@@ -19,6 +19,7 @@ import { PlaceholderPipe, SrcsetPipe } from '@shared/pipes';
     SrcsetPipe,
     NgOptimizedImage,
     MatRippleModule,
+    SlugPipe,
   ],
   templateUrl: './team-card.component.html',
   styleUrl: './team-card.component.scss',

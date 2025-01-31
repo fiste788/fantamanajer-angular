@@ -34,6 +34,14 @@ main {
   position: relative;
 }
 
+.mat-drawer-over.mat-drawer-opened {
+  @include mat.sidenav-overrides(
+    (
+      container-background-color: var(--mat-sys-surface-container-low),
+    )
+  );
+}
+
 @media (min-width: theme('screens.sm')) {
   .mat-drawer {
     display: block !important;
@@ -49,20 +57,32 @@ main {
 
     &:not(.mat-drawer-opened) {
       transition-duration: 200ms !important;
-      transition-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15) !important;
+      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate) !important;
     }
 
     &.mat-drawer-opened {
-      transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1) !important;
+      transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
       transition-duration: 400ms !important;
     }
   }
 
   .mat-drawer:not(.mat-drawer-opened) {
-    width: 5rem !important; // Closed width - adjust as needed
-    display: block !important;
-    visibility: visible !important;
-    border-radius: 0;
+    @include mat.list-overrides(
+      (
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
+      )
+    );
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-surface),
+      )
+    );
+    @include mat.sidenav-overrides(
+      (
+        container-width: 5rem,
+        container-shape: 0,
+      )
+    );
   }
 
   .mat-drawer-content {

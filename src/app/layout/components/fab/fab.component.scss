@@ -1,3 +1,4 @@
+/* stylelint-disable plugin/browser-compat */
 eco-fab-speed-dial,
 eco-fab-speed-dial-trigger button {
   flex-grow: 1;
@@ -7,4 +8,31 @@ eco-fab-speed-dial-trigger button {
 eco-fab-speed-dial-trigger {
   display: flex;
   width: 100%;
+}
+
+eco-fab-speed-dial.eco-opened eco-fab-speed-dial-trigger.eco-spin .spin405 {
+  transform: rotate(405deg);
+}
+
+@media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+  eco-fab-speed-dial-trigger .mat-icon {
+    transition: margin 0s var(--mat-sys-motion-emphasized-decelerate) !important;
+    transition: transform 600ms var(--mat-sys-motion-emphasized-decelerate) !important;
+    min-width: 24px;
+  }
+
+  :host-context(.mat-drawer:not(.mat-drawer-opened)) {
+    eco-fab-speed-dial-trigger .mat-icon {
+      margin: 0;
+    }
+  }
+}
+
+:host-context(
+  .navigation-bar,
+  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating)
+) {
+  eco-fab-speed-dial-trigger .mat-icon {
+    margin: 0;
+  }
 }

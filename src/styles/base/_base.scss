@@ -1,0 +1,87 @@
+/* stylelint-disable selector-class-pattern */
+
+@mixin styles() {
+  html {
+    font-family: var(--mat-sys-body-medium-font);
+  }
+
+  body {
+    margin: 0;
+    height: 100%;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .sticky {
+    transition: top 0.2s var(--mat-sys-motion-emphasized-decelerate);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--mat-sys-on-primary-container);
+  }
+
+  .red-card,
+  .yellow-card {
+    width: 0.75rem;
+    height: 1rem;
+    border-radius: var(--mat-sys-corner-extra-small);
+    display: inline-block;
+    box-shadow: var(--mat-sys-level1);
+  }
+
+  .yellow-card {
+    background-color: yellow;
+  }
+
+  .red-card {
+    background-color: red;
+  }
+
+  content-loader svg {
+    max-height: 100%;
+  }
+
+  .placeholder {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--mat-sys-surface-container-highest);
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-headline-large);
+  }
+
+  ::selection {
+    background: var(--mat-sys-tertiary);
+    color: var(--mat-sys-on-tertiary);
+  }
+
+  .cdk-virtual-scroll-viewport {
+    --mat-skeleton-background-color: #{var(--mat-sys-secondary-fixed-dim)};
+    --mat-skeleton-foreground-color: #{var(--mat-sys-secondary-fixed)};
+  }
+
+  img[src*='.svg'] {
+    background-color: var(--mat-sys-surface-container-low);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .greyscale,
+    img {
+      filter: grayscale(60%);
+    }
+  }
+}

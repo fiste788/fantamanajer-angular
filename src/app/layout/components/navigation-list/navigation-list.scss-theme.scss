@@ -1,36 +1,11 @@
 /* stylelint-disable selector-class-pattern */
 @use '@angular/material' as mat;
-@use 'sass:color';
 
-@mixin base($theme) {
-  @keyframes font-to-fill {
-    from {
-      font-variation-settings: 'FILL' 0;
-    }
-
-    to {
-      font-variation-settings: 'FILL' 1;
-    }
-  }
-
-  @keyframes font-to-no-fill {
-    from {
-      font-variation-settings: 'FILL' 1;
-    }
-
-    to {
-      font-variation-settings: 'FILL' 0;
-    }
-  }
-
+@mixin theme {
   app-navigation-list {
     .mdc-list-item__content {
       z-index: 1;
       display: inline-flex;
-    }
-
-    a.mdc-list-item mat-icon {
-      font-variation-settings: 'FILL' 0;
     }
   }
 
@@ -39,54 +14,17 @@
     .mat-mdc-list-item > .mat-mdc-focus-indicator {
       display: none;
     }
-
-    a.mdc-list-item {
-      mat-icon {
-        animation-name: font-to-no-fill;
-        animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
-        animation-duration: 200ms;
-        animation-fill-mode: forwards;
-      }
-
-      &.mdc-list-item--activated {
-        @include mat.list-overrides(
-          (
-            list-item-label-text-weight: 700,
-          )
-        );
-
-        /* stylelint-disable-next-line no-descending-specificity */
-        mat-icon {
-          animation-name: font-to-fill;
-        }
-      }
-    }
-
-    .fab {
-      .mat-icon {
-        margin: 0;
-      }
-
-      .mdc-button__label {
-        display: none;
-      }
-    }
   }
 
-  .container-navigation-rail,
-  .container-navigation-bar {
+  .container-navigation-bar,
+  .container-navigation-rail {
     .mat-drawer .mat-drawer-inner-container {
+      overflow-x: hidden;
       transition:
-        opacity 66ms cubic-bezier(0.3, 0, 0.8, 0.15),
-        width 100ms cubic-bezier(0.3, 0, 0.8, 0.15);
+        opacity 66ms var(--mat-sys-motion-emphasized-accelerate),
+        width 100ms var(--mat-sys-motion-emphasized-accelerate);
       opacity: 0;
       width: 0;
-
-      .mat-mdc-nav-list {
-        transition-property: margin;
-        transition-duration: 200ms;
-        transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1) !important;
-      }
     }
 
     .mat-drawer-opened .mat-drawer-inner-container {
@@ -94,11 +32,9 @@
       width: 100%;
       transition-delay: 66ms;
       transition-duration: 300ms;
-      transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
-    }
+      transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
 
-    @starting-style {
-      .mat-drawer-opened .mat-drawer-inner-container {
+      @starting-style {
         opacity: 0;
         width: 0;
       }
@@ -106,197 +42,32 @@
   }
 
   .container-navigation-rail {
-    /* stylelint-disable-next-line no-descending-specificity */
-    .mat-icon {
-      overflow: visible clip;
-      overflow-clip-margin: border-box;
-    }
-
-    .mat-drawer:not(.mat-drawer-opened) .mat-drawer-inner-container {
-      opacity: 1;
-      width: 100%;
-    }
-
-    .mat-drawer:not(.mat-drawer-opened, .mat-drawer-animating) .mat-drawer-inner-container {
-      display: block;
-    }
-  }
-
-  @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
     .mat-drawer-container .mat-drawer-backdrop {
       margin-left: 5rem;
     }
 
-    .mat-drawer {
-      .toggle {
-        display: block;
-      }
-
-      .fab .mat-icon {
-        transition: margin 0s cubic-bezier(0.05, 0.7, 0.1, 1) !important;
-        transition: transform 600ms cubic-bezier(0.05, 0.7, 0.1, 1) !important;
-        min-width: 24px;
-      }
-    }
-
-    .mat-drawer-opened {
-      .mat-mdc-subheader,
-      app-profile {
-        max-height: 300px;
-      }
-
-      .toggle {
-        margin-top: 1rem;
-        margin-left: 1rem;
-      }
-    }
-
     .mat-drawer:not(.mat-drawer-opened) {
-      app-profile,
-      .mat-mdc-subheader {
+      .mat-drawer-inner-container {
+        opacity: 1;
+        width: 100%;
+      }
+
+      &:not(.mat-drawer-animating) .mat-drawer-inner-container {
+        display: block !important;
+      }
+
+      .fab .mdc-button__label {
         display: none;
       }
 
-      .fab {
-        margin: 0.5rem 0.75rem;
-
-        .mdc-button__label {
+      &.mat-drawer-animating {
+        .fab .mdc-button__label {
           display: none;
+          opacity: 0;
+          transition-delay: 0;
+          transition-duration: 50ms;
         }
-
-        .mat-icon {
-          margin: 0;
-        }
-      }
-
-      .toggle {
-        margin: 3rem 1.25rem 0;
-      }
-
-      .mat-mdc-nav-list {
-        margin-top: 3rem;
-      }
-
-      .mat-mdc-list-item {
-        padding: 0 !important;
       }
     }
-  }
-}
-
-@mixin color($theme) {
-  app-navigation-list {
-    --mat-list-active-indicator-focus-state-color: #{color.mix(
-        mat.get-theme-color($theme, on-surface),
-        mat.get-theme-color($theme, secondary-container),
-        12%
-      )};
-  }
-
-  .mat-drawer-over.mat-drawer-opened {
-    @include mat.sidenav-overrides(
-      (
-        container-background-color: mat.get-theme-color($theme, surface-container-low),
-      )
-    );
-  }
-
-  .navigation-bar,
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    @include mat.list-overrides(
-      (
-        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
-      )
-    );
-    @include mat.toolbar-overrides(
-      (
-        container-background-color: mat.get-theme-color($theme, surface-container),
-      )
-    );
-
-    .mat-mdc-list-item,
-    .mat-mdc-list-option {
-      -webkit-tap-highlight-color: transparent;
-
-      /* stylelint-disable-next-line no-descending-specificity */
-      mat-icon {
-        -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
-      }
-    }
-
-    a.mdc-list-item.mdc-list-item--activated {
-      @include mat.list-overrides(
-        (
-          list-item-label-text-color: mat.get-theme-color($theme, on-surface),
-        )
-      );
-    }
-  }
-
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    @include mat.list-overrides(
-      (
-        list-item-label-text-color: mat.get-theme-color($theme, on-surface-variant),
-      )
-    );
-    @include mat.toolbar-overrides(
-      (
-        container-background-color: mat.get-theme-color($theme, surface),
-      )
-    );
-  }
-
-  .mat-drawer {
-    .mdc-list-item--activated {
-      color: mat.get-theme-color($theme, on-secondary-container) !important;
-    }
-
-    .mat-mdc-subheader {
-      color: mat.get-theme-color($theme, on-surface-variant);
-    }
-
-    .fab .tertiary-fab {
-      @include mat.fab-overrides(
-        (
-          extended-container-elevation-shadow: none,
-          extended-hover-container-elevation-shadow: none,
-          container-elevation-shadow: none,
-          hover-container-elevation-shadow: none,
-        )
-      );
-    }
-  }
-}
-
-@mixin density($theme) {
-}
-
-@mixin typography($theme) {
-  .navigation-bar,
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened) {
-    @include mat.list-overrides(
-      (
-        list-item-label-text-size: 14px,
-        list-item-label-text-line-height: 1rem,
-        list-item-label-text-weight: 500,
-      )
-    );
-  }
-
-  .mat-mdc-subheader {
-    font-size: 1rem;
-    font-weight: mat.get-theme-typography($theme, headline-medium, font-weight);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-@mixin theme($theme) {
-  @include mat.private-check-duplicate-theme-styles($theme, 'navigation-list') {
-    @include base($theme);
-    @include color($theme);
-    @include density($theme);
-    @include typography($theme);
   }
 }

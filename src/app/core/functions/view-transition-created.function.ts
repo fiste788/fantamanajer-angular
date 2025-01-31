@@ -26,6 +26,7 @@ export function onViewTransitionCreated(info: ViewTransitionInfo) {
       finalUrl: currentNavigation?.finalUrl,
     });
     // Update current transition when animation finishes
+
     void info.transition.finished.finally(() => {
       currentTransitionService.currentTransition.set(undefined);
       document.documentElement.classList.remove(

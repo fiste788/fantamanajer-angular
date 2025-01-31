@@ -1,0 +1,17 @@
+@mixin snackbar() {
+  .cdk-overlay-container {
+    .mdc-snackbar {
+      transition: margin 400ms var(--mat-sys-motion-emphasized-decelerate);
+    }
+
+    &.with-bars {
+      .mdc-snackbar {
+        margin-bottom: 5.5rem;
+      }
+
+      &.loggedin .mdc-snackbar {
+        margin-bottom: 10rem;
+      }
+    }
+  }
+}

@@ -27,3 +27,9 @@
   transition: opacity 0.3s;
   opacity: 0;
 }
+
+@supports (view-transition-class: none) {
+  .mat-mdc-card-title {
+    view-transition-class: metadata;
+  }
+}

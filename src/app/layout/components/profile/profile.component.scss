@@ -9,12 +9,14 @@
 }
 
 .mat-toolbar {
+  background-color: transparent;
+
   .mat-toolbar-row {
     height: auto;
   }
 
   img {
-    border-radius: 1rem;
+    border-radius: var(--mat-sys-corner-large);
     margin-top: 1rem;
     width: 100%;
     height: 100%;

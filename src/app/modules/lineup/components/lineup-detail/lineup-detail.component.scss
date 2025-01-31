@@ -37,7 +37,6 @@
   margin-left: 0;
 }
 
-// @include mq.layout-bp(gt-md) {
 @media (min-width: theme('screens.lg')) {
   .mat-mdc-form-field {
     width: unset;

@@ -17,7 +17,6 @@
         >
           <th
             *matHeaderCellDef
-            appSticky
             mat-header-cell
           ></th>
           <td
@@ -318,7 +317,7 @@
         </ng-container>
 
         <tr
-          *matHeaderRowDef="displayedColumns"
+          *matHeaderRowDef="displayedColumns; sticky: true"
           mat-header-row
         ></tr>
         <tr
@@ -327,7 +326,7 @@
           (click)="selection.toggle(row)"
         ></tr>
         <tr
-          *matFooterRowDef="displayedColumns"
+          *matFooterRowDef="displayedColumns; sticky: true"
           mat-footer-row
         ></tr>
       </table>

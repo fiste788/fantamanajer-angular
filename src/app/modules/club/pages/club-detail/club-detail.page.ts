@@ -1,6 +1,6 @@
 import { Component, afterNextRender, inject, input } from '@angular/core';
 
-import { Club } from '@data/types';
+import { Club, Tab } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 import { LayoutService } from 'src/app/layout/services';
@@ -16,7 +16,7 @@ export class ClubDetailPage {
   protected club = input.required<Club>();
   protected placeholder?: string;
 
-  protected readonly tabs: Array<{ label: string; link: string }> = [
+  protected readonly tabs: Array<Tab> = [
     { label: 'Giocatori', link: 'players' },
     { label: 'Attività', link: 'stream' },
   ];

@@ -3,14 +3,31 @@
 
 @use '@angular/material' as mat;
 
+:host {
+  display: block;
+}
+
+.mat-mdc-subheader {
+  font: var(--mat-sys-title-small);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .mat-mdc-list-item-title {
-  transition: font-weight 400ms cubic-bezier(0.05, 0.7, 0.1, 1);
+  opacity: 0;
+  transition: opacity 280ms var(--mat-sys-motion-emphasized-decelerate) 120ms;
+}
+
+:host-context(.mat-drawer) {
+  .mdc-list-item--activated {
+    color: var(--mat-sys-on-secondary-container) !important;
+  }
 }
 
 :host-context(.mat-drawer-opened) {
   .mat-mdc-list-item-title {
-    animation: 280ms cubic-bezier(0, 0, 0.2, 1) 120ms both fade-in;
-    transition: font-weight 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    opacity: 1;
   }
 }
 
@@ -34,12 +51,12 @@
   .mdc-list-item.mdc-list-item::before {
     height: 100%;
     width: 100%;
-    border-radius: 1rem;
+    border-radius: var(--mat-sys-corner-large);
     left: 0;
     transform: none;
     transition:
-      width 200ms cubic-bezier(0.05, 0.7, 0.1, 1),
-      height 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+      width 200ms var(--mat-sys-motion-emphasized-decelerate),
+      height 200ms var(--mat-sys-motion-emphasized-decelerate);
   }
 
   .title-lite {
@@ -52,7 +69,7 @@
   width: 100%;
 
   .mat-mdc-nav-list {
-    transition: margin 400ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition: margin 400ms var(--mat-sys-motion-emphasized-decelerate);
     padding: 0.75rem 0 1rem;
     display: flex;
     gap: 0.75rem;
@@ -60,6 +77,10 @@
     @include mat.list-overrides(
       (
         list-item-one-line-container-height: auto,
+        list-item-label-text-size: 14px,
+        list-item-label-text-line-height: 1rem,
+        list-item-label-text-weight: 500,
+        list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
 
@@ -67,54 +88,131 @@
       opacity: 1;
     }
 
+    .mdc-list-item--with-leading-icon .mdc-list-item__start {
+      padding-inline: var(--mat-list-list-item-leading-icon-start-space, 16px)
+        var(--mat-list-list-item-leading-icon-end-space, 16px);
+      margin: 0;
+    }
+
     .mat-mdc-list-item {
       flex-direction: column;
       padding: 0;
       gap: 0.25rem;
+      /* stylelint-disable-next-line plugin/browser-compat */
+      -webkit-tap-highlight-color: transparent;
 
       .mat-icon {
+        /* stylelint-disable-next-line plugin/browser-compat */
+        -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+        display: flex;
         position: relative;
+        align-items: center;
+        justify-content: center;
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400;
+        transition: font-variation-settings 0.2s var(--mat-sys-motion-standard);
+        border-radius: var(--mat-sys-corner-large);
         height: 2rem;
-        line-height: 2rem;
-      }
 
-      &::before {
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        transition:
-          opacity 200ms cubic-bezier(0.05, 0.7, 0.1, 1) 0ms,
-          width 400ms cubic-bezier(0.05, 0.7, 0.1, 1) 0ms;
-        width: 25%;
-        height: 2rem;
-        border-radius: 1rem;
-        transition-duration: 200ms;
-        position: absolute;
-        content: '';
-        opacity: 0;
-        pointer-events: none;
+        &::before {
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          transform: scaleX(0.32);
+          transition-duration: 0.2s;
+          transition-property: transform, opacity;
+          transition-timing-function: linear;
+          border-radius: 100px;
+          background-color: rgb(
+            from var(--mat-sys-on-surface) r g b /
+              calc(var(--mat-sys-focus-state-layer-opacity) * 100%)
+          );
+          content: '';
+          z-index: -1;
+        }
       }
 
       &:focus::before,
       &:hover::before {
-        background-color: var(--mdc-list-list-item-focus-state-layer-color);
-        opacity: var(--mdc-list-list-item-focus-state-layer-opacity) !important;
-        transform: translateX(-50%);
-        width: 3.5rem;
+        background-color: transparent;
+      }
+
+      &:focus,
+      &:hover {
+        .mat-icon {
+          font-variation-settings:
+            'FILL' 0,
+            'wght' 600;
+
+          &::before {
+            transform: scaleX(1);
+            opacity: 1 !important;
+          }
+        }
+      }
+
+      &:active {
+        .mat-mdc-list-item-title {
+          font-variation-settings: 'wght' 300;
+        }
+
+        .mat-icon {
+          font-variation-settings:
+            'FILL' 0,
+            'wght' 300;
+
+          &::before {
+            transform: scaleX(1);
+            opacity: 0 !important;
+          }
+        }
       }
 
       &.mdc-list-item--activated {
         background-color: transparent;
 
-        &::before {
-          background-color: var(--mat-list-active-indicator-color);
-          width: 3.5rem;
-          opacity: 1 !important;
+        @include mat.list-overrides(
+          (
+            list-item-label-text-color: var(--mat-sys-on-surface),
+          )
+        );
+
+        .mat-mdc-list-item-title {
+          font-variation-settings: 'wght' 700;
         }
 
-        &:focus::before,
-        &:hover::before {
-          background-color: var(--mat-list-active-indicator-focus-state-color);
+        .mat-icon {
+          background: var(--mat-sys-secondary-container);
+          font-variation-settings:
+            'FILL' 1,
+            'wght' 400;
+        }
+
+        &:hover {
+          .mat-mdc-list-item-title {
+            font-variation-settings: 'wght' 600;
+          }
+
+          .mat-icon {
+            font-variation-settings:
+              'FILL' 1,
+              'wght' 600;
+          }
+        }
+
+        &:active {
+          .mat-mdc-list-item-title {
+            font-variation-settings: 'wght' 300;
+          }
+
+          .mat-icon {
+            font-variation-settings:
+              'FILL' 1,
+              'wght' 300;
+          }
         }
       }
     }
@@ -142,20 +240,18 @@
       display: none;
     }
   }
+
+  .mat-mdc-subheader {
+    display: none;
+  }
+
+  .mat-mdc-list-item {
+    padding: 0 !important;
+  }
 }
 
 :host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened).mat-drawer-animating) {
   .title-lite {
     display: block;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

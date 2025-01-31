@@ -1,12 +1,13 @@
+@let _lineup = lineup();
 <mat-card
-  appearance="raised"
+  [appearance]="navigationMode() === 'drawer' ? 'raised' : 'outlined'"
   class="options"
 >
   <mat-card-header>
-    <mat-card-title>Giornata {{ lineup().matchday?.number }}</mat-card-title>
-    @if (lineup().modified_at) {
+    <mat-card-title>Giornata {{ _lineup.matchday?.number }}</mat-card-title>
+    @if (_lineup.modified_at) {
       <mat-card-subtitle
-        >Aggiornata il: {{ lineup().modified_at | date: 'dd/MM HH:mm' }}
+        >Aggiornata il: {{ _lineup.modified_at | date: 'dd/MM HH:mm' }}
       </mat-card-subtitle>
     }
   </mat-card-header>
@@ -41,7 +42,7 @@
         name="jolly"
         [attr.value]="true"
         [disabled]="disabled()"
-        [(ngModel)]="lineup().jolly"
+        [(ngModel)]="_lineup.jolly"
         >Jolly</mat-checkbox
       >
       @if (module.errors?.['JollyAlreadyUsed']) {
@@ -61,7 +62,7 @@
                 [disabled]="disabled()"
                 [name]="captain.key"
                 [placeholder]="captain.key"
-                [(ngModel)]="lineup()[captain.value]"
+                [(ngModel)]="_lineup[captain.value]"
                 (selectionChange)="lineupService.captainSelectionChange()"
               >
                 @for (c of lineupService.captainables; track c.member.id) {

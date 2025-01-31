@@ -1,13 +1,19 @@
-.mat-mdc-form-field {
-  width: 12.5rem;
-}
+@use '@angular/material' as mat;
 
-/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-.mat-form-field-wrapper {
-  padding-bottom: 0;
-}
+.member-selection {
+  color-scheme: dark;
 
-/* stylelint-disable selector-class-pattern */
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: transparent;
+  @include mat.form-field-overrides(
+    (
+      filled-container-color: transparent,
+      filled-label-text-color: --mat-sys-surface-bright,
+      filled-active-indicator-color: --mat-sys-surface-bright,
+    )
+  );
+  @include mat.select-overrides(
+    (
+      enabled-trigger-text-color: --mat-sys-surface-bright,
+      enabled-arrow-color: --mat-sys-surface-bright,
+    )
+  );
 }

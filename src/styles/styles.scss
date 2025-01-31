@@ -1,45 +1,16 @@
-@use '@angular/material' as mat;
+@use 'base';
+@use 'components/all-components';
+@use 'utils';
 @use 'app/app';
-@use 'main/main';
-@use 'themes/color' as color;
+@forward 'vendor';
+@include base.animations;
+@include base.view-transition;
+@include base.css-variables;
+@include base.material;
+@include base.scrollbar;
+@include base.styles;
 
-$theme: mat.define-theme(
-  (
-    typography: (
-      plain-family: "'Exo 2', sans-serif",
-      brand-family: "'Exo 2', sans-serif",
-    ),
-  )
-);
-$light-theme: mat.define-theme(
-  (
-    color: color.$light-color,
-  )
-);
-$dark-theme: mat.define-theme(
-  (
-    color: color.$dark-color,
-  )
-);
-
-@forward 'main/transition';
-@forward 'tailwindcss/utilities';
-
-:root {
-  @include main.base($theme);
-  @include main.density($theme);
-  @include main.typography($theme);
-  @include app.base($theme);
-  @include app.density($theme);
-  @include app.typography($theme);
-
-  @media (prefers-color-scheme: light) {
-    @include main.color($light-theme);
-    @include app.color($light-theme);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    @include main.color($dark-theme);
-    @include app.color($dark-theme);
-  }
+html {
+  @include all-components.all-components;
+  @include app.app;
 }

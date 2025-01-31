@@ -10,7 +10,13 @@
 }
 
 .mat-toolbar {
-  @include mat.elevation(2);
+  box-shadow: var(--mat-sys-level2);
+
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-surface-container),
+    )
+  );
 }
 
 .mat-toolbar-row {
@@ -22,6 +28,6 @@
 .fab {
   transform-origin: right bottom;
   display: flex;
-  align-self: end;
+  align-self: flex-end;
   margin: 1rem;
 }

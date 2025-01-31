@@ -7,7 +7,7 @@
 .mat-mdc-card-avatar {
   width: auto;
   min-width: 24px;
-  border-radius: 0;
+  border-radius: var(--mat-sys-corner-none);
 }
 
 .has-image {
@@ -28,4 +28,11 @@ img {
 .mat-mdc-card-image {
   height: 100%;
   max-width: 100%;
+}
+
+@supports (view-transition-class: none) {
+  .club-header-image,
+  .mat-mdc-card-title {
+    view-transition-class: metadata;
+  }
 }

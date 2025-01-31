@@ -21,12 +21,12 @@
     <div class="mat-mdc-table-header-selected flex flex-row">
       <span class="mat-mdc-table-title">Selezionato {{selectedMember.player.full_name}}</span>
       <a
-        mat-button
-        matTooltip="Acquista"
+        mat-flat-button
         [queryParams]="{new_member_id: selectedMember.id}"
         [routerLink]="'/teams/' + team.id + '/transferts'"
       >
         <mat-icon>add_shopping_cart</mat-icon>
+        Acquista
       </a>
     </div>
     }

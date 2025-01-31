@@ -1,16 +1,69 @@
+@use '@angular/material' as mat;
+
 .fab {
   margin: 1rem;
   display: none;
   z-index: 1;
   position: relative;
+
+  @include mat.fab-overrides(
+    (
+      extended-container-elevation-shadow: none,
+      extended-hover-container-elevation-shadow: none,
+      container-elevation-shadow: none,
+      hover-container-elevation-shadow: none,
+    )
+  );
+}
+
+app-navigation-list {
+  transition-property: margin;
+  transition-duration: 200ms;
+  transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
 }
 
 .toggle {
   display: none;
+  transition: margin 200ms var(--mat-sys-motion-emphasized-decelerate);
 }
 
 @media (min-width: theme('screens.sm')) {
   .fab {
     display: flex;
+  }
+}
+
+@media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+  .toggle {
+    display: block;
+  }
+
+  :host-context(.mat-drawer-opened) {
+    app-profile {
+      max-height: 300px;
+    }
+
+    .toggle {
+      margin-top: 1rem;
+      margin-left: 1rem;
+    }
+  }
+
+  :host-context(.mat-drawer:not(.mat-drawer-opened)) {
+    app-profile {
+      display: none;
+    }
+
+    .fab {
+      margin: 0.5rem 0.75rem;
+    }
+
+    .toggle {
+      margin: 3rem 1.25rem 0;
+    }
+
+    app-navigation-list {
+      margin-top: 3rem;
+    }
   }
 }

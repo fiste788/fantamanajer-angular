@@ -1,0 +1,109 @@
+@use '@angular/material' as mat;
+
+@mixin table() {
+  .mat-mdc-table {
+    border-radius: var(--mat-sys-corner-extra-small);
+
+    @include mat.table-overrides(
+      (
+        background-color: var(--mat-sys-surface-container-low),
+      )
+    );
+
+    thead > .mat-mdc-header-row {
+      border-radius: var(--mat-sys-corner-extra-small);
+    }
+
+    .mat-mdc-cell,
+    .mat-mdc-header-cell {
+      padding-right: 1rem;
+      border-color: var(--mat-sys-outline-variant);
+    }
+
+    .mat-mdc-row:hover .mat-mdc-cell {
+      background-color: var(--mat-sys-surface-container-highest);
+      color: var(--mat-sys-on-surface);
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .mat-mdc-table-sticky-border-elem-right {
+      border-left: 1px solid var(--mat-sys-outline-variant);
+    }
+
+    .mat-mdc-table-sticky-border-elem-left {
+      border-right: 1px solid var(--mat-sys-outline-variant);
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+    border-radius: var(--mat-sys-corner-extra-small);
+    background-color: var(--mat-sys-surface);
+  }
+
+  .mat-mdc-table-header {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    min-height: 4rem;
+    text-align: left;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+    overflow: hidden;
+    background-color: var(--mat-sys-surface);
+  }
+
+  .mat-mdc-table-header-selected {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.25rem 1.5rem;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+    animation: slide-down 400ms var(--mat-sys-motion-emphasized-decelerate);
+    background-color: var(--mat-sys-primary-container);
+  }
+
+  .mat-mdc-table-title {
+    font: var(--mat-sys-title-large);
+  }
+
+  .mat-cell-numeric,
+  .mat-footer-cell-numeric,
+  .mat-header-cell-numeric {
+    text-align: right !important;
+
+    .mat-sort-header-container {
+      flex-direction: row-reverse;
+    }
+
+    .mat-sort-header-arrow {
+      margin: 0 6px 0 0;
+    }
+  }
+
+  @keyframes slide-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mat-column-player,
+  .mat-column-points {
+    font-weight: var(--mat-sys-label-medium-weight);
+  }
+}
