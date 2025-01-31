@@ -6,7 +6,7 @@
 
     @include mat.table-overrides(
       (
-        background-color: transparent,
+        background-color: var(--mat-sys-surface-container-low),
       )
     );
 
@@ -21,8 +21,8 @@
     }
 
     .mat-mdc-row:hover .mat-mdc-cell {
-      background-color: var(--mat-sys-primary-fixed-dim);
-      color: var(--mat-sys-on-primary-fixed);
+      background-color: var(--mat-sys-surface-container-highest);
+      color: var(--mat-sys-on-surface);
 
       a {
         color: inherit;

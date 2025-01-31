@@ -12,6 +12,10 @@
       )
     );
 
+    &:has(> table) {
+      border-radius: var(--mat-sys-corner-extra-small);
+    }
+
     .mat-mdc-card-actions {
       justify-content: end;
       gap: 0.5rem;
