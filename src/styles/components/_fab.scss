@@ -2,26 +2,24 @@
 @use '@angular/material' as mat;
 
 @mixin fab() {
-  .mdc-fab {
-    .mdc-button__label {
+  .mdc-fab > .mdc-button__label {
+    opacity: 0;
+    display: none;
+    max-width: 0;
+    transition:
+      opacity 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms,
+      max-width 140ms var(--mat-sys-motion-emphasized-decelerate) 0ms,
+      display 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms allow-discrete; /* <-- check this line */
+  }
+
+  .mat-mdc-extended-fab > .mdc-button__label {
+    opacity: 1;
+    display: block;
+    max-width: 300px;
+
+    @starting-style {
       opacity: 0;
-      display: none;
       max-width: 0;
-      transition:
-        opacity 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms,
-        max-width 140ms var(--mat-sys-motion-emphasized-decelerate) 0ms,
-        display 140ms var(--mat-sys-motion-emphasized-decelerate) 60ms allow-discrete; /* <-- check this line */
-    }
-
-    &.mat-mdc-extended-fab .mdc-button__label {
-      opacity: 1;
-      display: block;
-      max-width: 300px;
-
-      @starting-style {
-        opacity: 0;
-        max-width: 0;
-      }
     }
   }
 

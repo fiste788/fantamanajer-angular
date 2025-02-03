@@ -15,24 +15,24 @@
     &:has(> table) {
       border-radius: var(--mat-sys-corner-extra-small);
     }
-
-    .mat-mdc-card-actions {
-      justify-content: end;
-      gap: 0.5rem;
-      flex-direction: row-reverse;
-    }
-
-    .mat-mdc-card-header-text {
-      overflow: hidden;
-    }
-
-    .mdc-card__media:first-child {
-      border-bottom-left-radius: inherit;
-      border-bottom-right-radius: inherit;
-    }
   }
 
-  .grid .mat-mdc-card:hover {
+  .mat-mdc-card-actions {
+    justify-content: end;
+    gap: 0.5rem;
+    flex-direction: row-reverse;
+  }
+
+  .mat-mdc-card-header-text {
+    overflow: hidden;
+  }
+
+  .mat-mdc-card-image:first-child {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+
+  .grid > .mat-mdc-card:hover {
     box-shadow: var(--mat-sys-level1);
   }
 }
