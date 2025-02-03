@@ -18,7 +18,7 @@
 
   .container-navigation-bar,
   .container-navigation-rail {
-    .mat-drawer .mat-drawer-inner-container {
+    .mat-drawer > .mat-drawer-inner-container {
       overflow-x: hidden;
       transition:
         opacity 66ms var(--mat-sys-motion-emphasized-accelerate),
@@ -27,7 +27,7 @@
       width: 0;
     }
 
-    .mat-drawer-opened .mat-drawer-inner-container {
+    .mat-drawer-opened > .mat-drawer-inner-container {
       opacity: 1;
       width: 100%;
       transition-delay: 66ms;
@@ -42,26 +42,26 @@
   }
 
   .container-navigation-rail {
-    .mat-drawer-container .mat-drawer-backdrop {
+    .mat-drawer-container > .mat-drawer-backdrop {
       margin-left: 5rem;
     }
 
     .mat-drawer:not(.mat-drawer-opened) {
-      .mat-drawer-inner-container {
+      > .mat-drawer-inner-container {
         opacity: 1;
         width: 100%;
       }
 
-      &:not(.mat-drawer-animating) .mat-drawer-inner-container {
+      &:not(.mat-drawer-animating) > .mat-drawer-inner-container {
         display: block !important;
       }
 
-      .fab .mdc-button__label {
+      .mdc-fab > .mdc-button__label {
         display: none;
       }
 
       &.mat-drawer-animating {
-        .fab .mdc-button__label {
+        .mdc-fab > .mdc-button__label {
           display: none;
           opacity: 0;
           transition-delay: 0;

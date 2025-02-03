@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 
 @mixin styles() {
-  html {
+  & {
     font-family: var(--mat-sys-body-medium-font);
   }
 

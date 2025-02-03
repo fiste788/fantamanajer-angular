@@ -39,7 +39,7 @@
   .mat-mdc-list-item {
     height: 3.5rem;
 
-    .mat-icon {
+    > .mat-icon {
       margin-right: 1rem;
     }
   }
@@ -48,7 +48,7 @@
     margin: 0 1rem;
   }
 
-  .mdc-list-item.mdc-list-item::before {
+  .mdc-list-item::before {
     height: 100%;
     width: 100%;
     border-radius: var(--mat-sys-corner-large);
@@ -101,7 +101,7 @@
       /* stylelint-disable-next-line plugin/browser-compat */
       -webkit-tap-highlight-color: transparent;
 
-      .mat-icon {
+      > .mat-icon {
         /* stylelint-disable-next-line plugin/browser-compat */
         -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
         display: flex;
@@ -180,11 +180,11 @@
           )
         );
 
-        .mat-mdc-list-item-title {
+        > .mat-mdc-list-item-title {
           font-variation-settings: 'wght' 700;
         }
 
-        .mat-icon {
+        > .mat-icon {
           background: var(--mat-sys-secondary-container);
           font-variation-settings:
             'FILL' 1,

@@ -3,14 +3,14 @@
 @use 'utils';
 @use 'app/app';
 @forward 'vendor';
-@include base.animations;
-@include base.view-transition;
-@include base.css-variables;
-@include base.material;
-@include base.scrollbar;
-@include base.styles;
 
 html {
+  @include base.animations;
+  @include base.view-transition;
+  @include base.css-variables;
+  @include base.material;
+  @include base.scrollbar;
+  @include base.styles;
   @include all-components.all-components;
   @include app.app;
 }
