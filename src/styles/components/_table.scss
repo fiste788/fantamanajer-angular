@@ -68,7 +68,9 @@
     height: 100%;
     box-sizing: border-box;
     justify-content: space-between;
-    animation: slide-down 400ms var(--mat-sys-motion-emphasized-decelerate);
+    animation:
+      slide-from-top 400ms var(--mat-sys-motion-emphasized-decelerate),
+      fade-in 400ms var(--mat-sys-motion-emphasized-decelerate);
     background-color: var(--mat-sys-primary-container);
   }
 
@@ -87,18 +89,6 @@
 
     > .mat-sort-header-arrow {
       margin: 0 6px 0 0;
-    }
-  }
-
-  @keyframes slide-down {
-    0% {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 
