@@ -1,3 +1,3 @@
 /*
   X-Frame-Options: DENY
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' *.fantamanajer.it data:; font-src 'self' fonts.gstatic.com; connect-src 'self' fonts.gstatic.com *.fantamanajer.it
+  Content-Security-Policy: default-src 'self' *.fantamanajer.it; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' *.fantamanajer.it data:;
