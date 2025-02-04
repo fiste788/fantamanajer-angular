@@ -36,7 +36,9 @@
   </figure>
 
   <mat-card-header>
-    <mat-card-title [style.viewTransitionName]="'title-' + _team.name | slug">
+    <mat-card-title
+      [style.viewTransitionName]="viewTransitionName(_team, 'title-' + _team.name | slug)"
+    >
       {{ _team.name }}
     </mat-card-title>
     <mat-card-subtitle>{{ _team.user.name }} {{ _team.user.surname }}</mat-card-subtitle>

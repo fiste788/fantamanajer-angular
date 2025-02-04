@@ -31,7 +31,7 @@ export class ClubListPage {
 
   protected clubs = input.required<Array<Club>>();
 
-  protected viewTransitionName(club: Club) {
-    return this.#transitionService.getViewTransitionName('banner-img', club);
+  protected viewTransitionName(club: Club, transition_name = 'banner-img') {
+    return this.#transitionService.getViewTransitionName(transition_name, club);
   }
 }

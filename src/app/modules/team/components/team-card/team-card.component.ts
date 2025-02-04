@@ -30,7 +30,7 @@ export class TeamCardComponent {
   public team = input.required<Team>();
   public priority = input(false);
 
-  protected viewTransitionName(team: Team) {
-    return this.#transitionService.getViewTransitionName('banner-img', team, 'team_id');
+  protected viewTransitionName(team: Team, transition_name = 'banner-img') {
+    return this.#transitionService.getViewTransitionName(transition_name, team, 'team_id');
   }
 }

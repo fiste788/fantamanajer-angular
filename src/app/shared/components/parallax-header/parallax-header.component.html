@@ -41,7 +41,7 @@
           [alt]="_title"
           [height]="height()"
           [ngSrc]="_image"
-          [style.viewTransitionName]="'avatar-' + _title | slug"
+          [style.viewTransitionName]="viewTransitionName('avatar-' + _title | slug)"
           [width]="width()"
         />
       }
@@ -54,7 +54,7 @@
         >
         <h1
           class="title"
-          [style.viewTransitionName]="'title-' + _title | slug"
+          [style.viewTransitionName]="viewTransitionName('title-' + _title | slug)"
         >
           {{ _title }}
         </h1>
