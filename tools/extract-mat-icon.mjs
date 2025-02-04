@@ -30,14 +30,26 @@ function extractMatIconTexts(folderPath) {
     // Ottieni tutti i file .html ricorsivamente
     const files = getHtmlFiles(folderPath);
 
-    let texts = [];
+    let texts = [
+      'star',
+      'message',
+      'gavel',
+      'swap_vert',
+      'home',
+      'groups_3',
+      'emoji_events',
+      'sports_soccer',
+      'account_circle',
+      'exit_to_app',
+      'input',
+    ];
 
     // Leggi ogni file HTML
     files.forEach((filePath) => {
       const content = readFileSync(filePath, 'utf-8');
 
       // Regex per estrarre il testo dai tag <mat-icon>
-      const regex = /<mat-icon[^>]*>(.*?)<\/mat-icon>/gi;
+      const regex = /<mat-icon[^>]*>(.*?)<\/mat-icon[^>]*>/gi;
       let match;
 
       // Trova tutte le occorrenze dei tag <mat-icon>
