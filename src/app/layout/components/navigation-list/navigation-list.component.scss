@@ -39,6 +39,12 @@
   .mat-mdc-list-item {
     height: 3.5rem;
 
+    @include mat.list-overrides(
+      (
+        list-item-focus-state-layer-color: transparent,
+      )
+    );
+
     > .mat-icon {
       margin-right: 1rem;
     }
@@ -76,6 +82,7 @@
 
     @include mat.list-overrides(
       (
+        list-item-focus-state-layer-color: transparent,
         list-item-one-line-container-height: auto,
         list-item-label-text-size: 14px,
         list-item-label-text-line-height: 1rem,

@@ -8,6 +8,7 @@
     [attr.old-navigation-mode]="oldNavigationMode$ | async"
     [mode]="_navigationMode === 'drawer' ? 'side' : 'over'"
     [(opened)]="openDrawer"
+    (closedStart)="openDrawer.set(false)"
   >
     @defer (on viewport) {
       <app-navigation-drawer />

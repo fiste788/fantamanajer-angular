@@ -1,0 +1,57 @@
+@use '@angular/material' as mat;
+
+@mixin drawer {
+  .mat-drawer > .mat-drawer-inner-container {
+    overflow-x: hidden;
+    transition:
+      opacity 66ms var(--mat-sys-motion-emphasized-accelerate),
+      width 100ms var(--mat-sys-motion-emphasized-accelerate);
+    opacity: 0;
+    width: 0;
+  }
+
+  .mat-drawer-opened > .mat-drawer-inner-container {
+    opacity: 1;
+    width: 100%;
+    transition-delay: 66ms;
+    transition-duration: 300ms;
+    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+
+    @starting-style {
+      opacity: 0;
+      width: 0;
+    }
+  }
+
+  .mat-drawer-side {
+    @include mat.sidenav-overrides(
+      (
+        container-shape: 0,
+      )
+    );
+  }
+
+  @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+    .mat-drawer-container > .mat-drawer-backdrop {
+      margin-left: 5rem;
+    }
+
+    .mat-drawer:not(.mat-drawer-opened) {
+      > .mat-drawer-inner-container {
+        opacity: 1;
+        width: 100%;
+      }
+
+      &:not(.mat-drawer-animating) > .mat-drawer-inner-container {
+        display: block !important;
+      }
+    }
+  }
+
+  @media (min-width: theme('screens.lg')) {
+    .mat-drawer > .mat-drawer-inner-container {
+      display: block !important;
+      transition: none;
+    }
+  }
+}

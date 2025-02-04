@@ -43,11 +43,8 @@ app-player-image {
 }
 
 @media (min-width: theme('screens.md')) {
-  // @include mq.layout-bp(gt-sm) {
   :host {
     overflow: hidden;
-
-    // max-width: 180px;
     display: inline-block;
     margin: 1rem 0.5rem 0;
   }
