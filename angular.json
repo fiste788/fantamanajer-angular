@@ -20,13 +20,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-esbuild:application",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "indexHtmlTransformer": "esbuild/index-html-transformer.ts",
             "assets": [
               {
                 "glob": "**/*",
@@ -76,8 +77,7 @@
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "ssr": false
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"

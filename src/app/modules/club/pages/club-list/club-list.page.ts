@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Club } from '@data/types';
-import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
+import { SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   animations: [],
@@ -19,7 +19,6 @@ import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
     MatButtonModule,
     RouterLink,
     MatProgressSpinnerModule,
-    PlaceholderPipe,
     SrcsetPipe,
     NgOptimizedImage,
     MatRipple,

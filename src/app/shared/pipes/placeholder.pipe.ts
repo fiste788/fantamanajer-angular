@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'srcset',
+  name: 'placeholder',
   standalone: true,
 })
 export class PlaceholderPipe implements PipeTransform {
