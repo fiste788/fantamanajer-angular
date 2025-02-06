@@ -9,6 +9,35 @@ interface Env {
   API: Fetcher;
 }
 
+const cspConfig: Record<string, Array<string>> = {
+  'default-src': ["'self'", '*.fantamanajer.it'],
+  'script-src': ["'self'", "'unsafe-inline'"],
+  'style-src': ["'self'", "'unsafe-inline'"],
+  'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
+};
+
+function buildCspHeader(nonce?: string): string {
+  const directives = [];
+
+  for (const directive of Object.keys(cspConfig)) {
+    const values = [...cspConfig[directive]!];
+    for (const [key, value] of values.entries()) {
+      if (nonce && value === "'nonce'") {
+        values[key] = `'nonce-${nonce}'`;
+      } else if (nonce === null && value === "'nonce'") {
+        values.splice(key, 1);
+      }
+    }
+    if (values.length === 0) {
+      directives.push(directive);
+    } else {
+      directives.push(`${directive} ${values.join(' ')}`);
+    }
+  }
+
+  return directives.join('; ');
+}
+
 function setServerAuthentication(body: ServerAuthInfo) {
   const response = new Response(undefined);
   const newCookie = CookieStorage.cookieString('token', body.accessToken, {
@@ -39,9 +68,16 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
     return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
   }
 
-  const res = await angularApp.handle(request, ctx);
+  const res =
+    (await angularApp.handle(request, ctx)) ?? new Response('Page not found.', { status: 404 });
 
-  return res ?? new Response('Page not found.', { status: 404 });
+  res.headers.set('Content-Security-Policy', buildCspHeader());
+  res.headers.set(
+    'Permissions-Policy',
+    'document-domain=(),publickey-credentials-get=*,publickey-credentials-create=*',
+  );
+
+  return res;
 };
 
 export default { fetch: reqHandler } satisfies ExportedHandler<Env>;
