@@ -9,4 +9,4 @@ compatibility_flags = ["nodejs_compat_v2"]
 [vars]
 NODE_VERSION = "22.11.0"
 BUN_VERSION = "1.2.1"
-NG_BUILD_OPTIMIZE_CHUNKS = 1
+NG_BUILD_OPTIMIZE_CHUNKS = "1"
