@@ -5,9 +5,9 @@
 @forward 'vendor';
 
 html {
-  @include base.css-variables;
   @include base.fonts;
   @include base.animations;
+  @include base.css-variables;
   @include base.view-transition;
   @include base.material;
   @include base.scrollbar;

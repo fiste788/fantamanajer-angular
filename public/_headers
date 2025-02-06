@@ -1,3 +1,15 @@
 /*
-  X-Frame-Options: DENY
+  Permissions-Policy: document-domain=(),publickey-credentials-get=*,publickey-credentials-create=*
   Content-Security-Policy: default-src 'self' *.fantamanajer.it; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' *.fantamanajer.it data:;
+
+/media/*
+  ! Permissions-Policy
+  ! Content-Security-Policy
+
+/icons/*
+  ! Permissions-Policy
+  ! Content-Security-Policy
+
+/screenshots/*
+  ! Permissions-Policy
+  ! Content-Security-Policy
