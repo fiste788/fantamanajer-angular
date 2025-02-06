@@ -16,6 +16,7 @@
     >
       @if (deferredPrompt$ | async; as prompt) {
         <a
+          aria-label="Install app"
           mat-icon-button
           href="#install"
           (click)="install(prompt, $event)"

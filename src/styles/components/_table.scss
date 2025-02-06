@@ -81,15 +81,7 @@
   .mat-cell-numeric,
   .mat-footer-cell-numeric,
   .mat-header-cell-numeric {
-    text-align: right !important;
-
-    > .mat-sort-header-container {
-      flex-direction: row-reverse;
-    }
-
-    > .mat-sort-header-arrow {
-      margin: 0 6px 0 0;
-    }
+    direction: rtl;
   }
 
   .mat-column-player,
