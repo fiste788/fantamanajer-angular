@@ -20,6 +20,47 @@ function setServerAuthentication(body: ServerAuthInfo) {
   return response;
 }
 
+function dec2hex(dec: number) {
+  return `0${dec.toString(16)}`.slice(-2);
+}
+
+function generateNonce(): string {
+  const arr = new Uint8Array(12);
+  crypto.getRandomValues(arr);
+  const values = Array.from(arr, dec2hex);
+
+  return [btoa(values.slice(0, 5).join('')).slice(0, 14), btoa(values.slice(5).join(''))].join('/');
+}
+
+const cspConfig: Record<string, Array<string>> = {
+  'default-src': ["'self'"],
+  'script-src': ["'self'", "'nonce'"],
+  'style-src': ["'self'", "'nonce'"],
+  'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
+};
+
+function buildCspHeader(nonce?: string): string {
+  const directives = [];
+
+  for (const directive of Object.keys(cspConfig)) {
+    const values = [...cspConfig[directive]!];
+    for (const [key, value] of values.entries()) {
+      if (nonce && value === "'nonce'") {
+        values[key] = `'nonce-${nonce}'`;
+      } else if (nonce === null && value === "'nonce'") {
+        values.splice(key, 1);
+      }
+    }
+    if (values.length === 0) {
+      directives.push(directive);
+    } else {
+      directives.push(`${directive} ${values.join(' ')}`);
+    }
+  }
+
+  return directives.join('; ');
+}
+
 const angularApp = new AngularAppEngine();
 
 const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
@@ -39,7 +80,10 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
     return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
   }
 
-  const res = await angularApp.handle(request, ctx);
+  let nonce = generateNonce();
+  nonce = 'test';
+  const res = await angularApp.handle(request, { executionContext: ctx, nonce });
+  res?.headers.set('Content-Security-Policy', buildCspHeader(nonce));
 
   return res ?? new Response('Page not found.', { status: 404 });
 };

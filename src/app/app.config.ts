@@ -15,6 +15,8 @@ import {
   LOCALE_ID,
   provideEnvironmentInitializer,
   provideExperimentalZonelessChangeDetection,
+  CSP_NONCE,
+  REQUEST_CONTEXT,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
@@ -45,6 +47,7 @@ import {
   PwaService,
   MetaService,
 } from '@app/services';
+import { RequestContext } from '@app/types';
 import { environment } from '@env';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
@@ -88,6 +91,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LOCALE_ID,
       useValue: 'it-IT',
+    },
+    {
+      provide: CSP_NONCE,
+      useFactory: () => inject<RequestContext>(REQUEST_CONTEXT)?.nonce ?? 'test',
     },
     {
       provide: IMAGE_LOADER,
