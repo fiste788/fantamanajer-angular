@@ -102,6 +102,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -110,6 +111,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             @if (row.stats) {
@@ -119,6 +121,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           ></td>
         </ng-container>
@@ -127,6 +130,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -139,6 +143,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.avg_points | number: '1.2-2' }}
@@ -146,6 +151,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['avg_points'] | number: '1.2-2' }}
@@ -156,6 +162,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -168,12 +175,14 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.avg_rating | number: '1.2-2' }}
           </td>
           <td
             *matFooterCellDef
+            dir="rtl"
             class="mat-footer-cell-numeric"
             mat-footer-cell
           >
@@ -185,6 +194,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -193,6 +203,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.sum_goals }}
@@ -200,6 +211,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['sum_goals'] }}
@@ -210,6 +222,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -218,6 +231,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.sum_goals_against }}
@@ -225,6 +239,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['sum_goals_against'] }}
@@ -235,6 +250,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -243,6 +259,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.sum_assist }}
@@ -250,6 +267,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['sum_assist'] }}
@@ -260,6 +278,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -273,6 +292,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.sum_yellow_card }}
@@ -280,6 +300,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['sum_yellow_card'] }}
@@ -290,6 +311,7 @@
           <th
             *matHeaderCellDef
             class="mat-header-cell-numeric"
+            dir="rtl"
             mat-header-cell
             mat-sort-header
           >
@@ -303,6 +325,7 @@
           <td
             *matCellDef="let row"
             class="mat-cell-numeric"
+            dir="rtl"
             mat-cell
           >
             {{ row.stats?.sum_red_card }}
@@ -310,6 +333,7 @@
           <td
             *matFooterCellDef
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['sum_red_card'] }}
