@@ -53,7 +53,7 @@ export class PrimaryTabComponent implements OnDestroy {
     this.#portalHost?.detach();
   }
 
-  protected viewTransitionName() {
+  protected viewTransitionName(): string {
     return this.#transitionService.isTabChanged(this.tabBar()) ? 'tab' : '';
   }
 }

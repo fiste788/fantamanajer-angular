@@ -1,7 +1,7 @@
 @let _lineup = lineup();
 <mat-card
-  [appearance]="navigationMode() === 'drawer' ? 'raised' : 'outlined'"
   class="options"
+  [appearance]="navigationMode() === 'drawer' ? 'raised' : 'outlined'"
 >
   <mat-card-header>
     <mat-card-title>Giornata {{ _lineup.matchday?.number }}</mat-card-title>

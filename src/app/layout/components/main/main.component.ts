@@ -77,14 +77,14 @@ export class MainComponent {
 
   constructor() {
     afterNextRender(() => {
-      this.#layoutService.connectScrollAnimation(
+      this.#layoutService.connectScrollEvents(
         this.#window,
         () => this.topAppBar().nativeElement.clientHeight,
       );
     });
   }
 
-  protected viewTransitionName() {
+  protected viewTransitionName(): string {
     return this.#transitionService.currentTransition()?.previousUrl !== undefined &&
       this.#transitionService.isRootOutlet()
       ? 'main'

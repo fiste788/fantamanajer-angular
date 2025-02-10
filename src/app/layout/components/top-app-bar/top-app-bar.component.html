@@ -11,8 +11,8 @@
     <app-breadcrumb />
     <span class="spacer"></span>
     <div
-      @createBox
       class="flex"
+      @createBox
     >
       @if (deferredPrompt$ | async; as prompt) {
         <a

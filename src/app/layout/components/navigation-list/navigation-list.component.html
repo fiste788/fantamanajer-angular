@@ -26,8 +26,8 @@
       #list
       #rla="routerLinkActive"
       mat-list-item
-      [routerLink]="item.url"
       routerLinkActive
+      [routerLink]="item.url"
       [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
       [activated]="rla.isActive"
     >

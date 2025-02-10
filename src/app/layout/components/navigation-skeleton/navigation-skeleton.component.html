@@ -53,11 +53,11 @@
     @for (it of items | range; track it; let idx = $index) {
       <svg:rect
         x="12"
-        [attr.y]="(loggedIn ? 200 : 140) + 68 * idx"
         rx="16"
         ry="16"
         width="56"
         height="32"
+        [attr.y]="(loggedIn ? 200 : 140) + 68 * idx"
       />
     }
   </content-loader>

@@ -9,6 +9,7 @@ import {
   pairwise,
   share,
   throttleTime,
+  combineLatest,
 } from 'rxjs';
 
 import { Direction } from '@app/enums';
@@ -17,45 +18,52 @@ import { Direction } from '@app/enums';
   providedIn: 'root',
 })
 export class ScrollService {
-  public isScrolled(window: Window, offset = 48): Observable<boolean> {
-    return fromEvent(window, 'scroll', { passive: true }).pipe(
-      throttleTime(15),
-      map(() => window.scrollY),
-      map((y) => y > offset),
-      distinctUntilChanged(),
-      share(),
-    );
-  }
-
-  public connectScrollAnimation(
+  public connectEvents(
     window: Window,
-    offsetCallback = () => 0,
-  ): { up: Observable<Direction>; down: Observable<Direction> } {
-    const scrollObservable$ = fromEvent(window, 'scroll', { passive: true }).pipe(
-      throttleTime(15),
-      map(() => window.scrollY),
-      filter((y) => y > offsetCallback()),
+    offsetCallback = () => 56,
+  ): { scrolled: Observable<boolean>; up: Observable<Direction>; down: Observable<Direction> } {
+    const scrollingEvent$ = fromEvent(window, 'scroll', { passive: true }).pipe(
+      throttleTime(10),
+      map(() => Math.round(window.scrollY)),
+      distinctUntilChanged(),
+    );
+
+    const isScrolled$ = this.#isScrolled(scrollingEvent$, offsetCallback);
+    const direction$ = scrollingEvent$.pipe(
       pairwise(),
-      filter(([y1, y2]) => Math.abs(y2 - y1) > 3),
-      map(([y1, y2]): Direction => (y2 < y1 ? Direction.Up : Direction.Down)),
+      filter(([y1, y2]) => Math.abs(y1 - y2) > 3),
+      map(([y1, y2]): Direction => (y2 <= y1 ? Direction.Up : Direction.Down)),
+    );
+
+    const scrollObservable$ = combineLatest([isScrolled$, direction$]).pipe(
+      map(([isScrolled, direction]): Direction => (isScrolled ? direction : Direction.Up)),
       distinctUntilChanged(),
       share(),
     );
 
     return {
+      scrolled: isScrolled$,
       up: this.#getGoingUp(scrollObservable$),
       down: this.#getGoingDown(scrollObservable$),
     };
   }
 
-  #getGoingUp(scrollObservable$: Observable<Direction>): Observable<Direction> {
-    return scrollObservable$.pipe(
+  #isScrolled(scrollingEvent$: Observable<number>, offsetCallback = () => 56): Observable<boolean> {
+    return scrollingEvent$.pipe(
+      map((y) => y > offsetCallback()),
+      distinctUntilChanged(),
+      share(),
+    );
+  }
+
+  #getGoingUp(scrollingEvent$: Observable<Direction>): Observable<Direction> {
+    return scrollingEvent$.pipe(
       filter((direction) => direction === Direction.Up),
       auditTime(300),
     );
   }
 
-  #getGoingDown(scrollObservable$: Observable<Direction>): Observable<Direction> {
-    return scrollObservable$.pipe(filter((direction) => direction === Direction.Down));
+  #getGoingDown(scrollingEvent$: Observable<Direction>): Observable<Direction> {
+    return scrollingEvent$.pipe(filter((direction) => direction === Direction.Down));
   }
 }

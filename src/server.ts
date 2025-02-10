@@ -38,7 +38,7 @@ function buildCspHeader(nonce?: string): string {
   return directives.join('; ');
 }
 
-function setServerAuthentication(body: ServerAuthInfo) {
+function setServerAuthentication(body: ServerAuthInfo): Response {
   const response = new Response(undefined);
   const newCookie = CookieStorage.cookieString('token', body.accessToken, {
     expires: body.expiresAt,

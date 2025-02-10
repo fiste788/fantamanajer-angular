@@ -60,7 +60,7 @@ export class CookieStorage implements Storage {
       sameSite?: 'Lax' | 'None' | 'Strict';
       partitioned?: boolean;
     },
-  ) {
+  ): string {
     let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(value)};`;
 
     if (options?.expires !== undefined) {

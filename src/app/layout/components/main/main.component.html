@@ -17,7 +17,7 @@
     }
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
-    <app-top-app-bar [@scrollUpAnimation]="!isScrolled() || _showBars" />
+    <app-top-app-bar [@scrollUpAnimation]="_showBars" />
     <main
       [@contextChange]="o | state"
       [style.viewTransitionName]="viewTransitionName()"
