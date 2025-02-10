@@ -9,12 +9,10 @@
 </button>
 @if (loggedIn()) {
   <app-profile />
-  @if (showFab()) {
-    <app-fab
-      class="fab"
-      direction="down"
-      [extended]="openDrawer()"
-    />
-  }
+  <app-fab
+    class="fab"
+    direction="down"
+    [extended]="openDrawer()"
+  />
 }
 <app-navigation-list mode="full" />

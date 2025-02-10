@@ -4,9 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  afterNextRender,
   viewChild,
   inject,
+  effect,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,7 +15,7 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { delay } from 'rxjs';
 
 import { VisibilityState } from '@app/enums';
-import { CurrentTransitionService, WINDOW } from '@app/services';
+import { CurrentTransitionService, ScrollService } from '@app/services';
 import {
   closeAnimation,
   routerTransition,
@@ -57,8 +57,8 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 })
 export class MainComponent {
   readonly #layoutService = inject(LayoutService);
+  readonly #scrollService = inject(ScrollService);
   readonly #transitionService = inject(CurrentTransitionService);
-  readonly #window = inject<Window>(WINDOW);
 
   protected topAppBar = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
     TopAppBarComponent,
@@ -72,15 +72,14 @@ export class MainComponent {
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showBars = this.#layoutService.showBars;
-  protected readonly isScrolled = this.#layoutService.isScrolled;
   protected readonly hidden = VisibilityState.Hidden;
 
   constructor() {
-    afterNextRender(() => {
-      this.#layoutService.connectScrollEvents(
-        this.#window,
-        () => this.topAppBar().nativeElement.clientHeight,
-      );
+    effect(() => {
+      if (this.#layoutService.routeContextChanged()) {
+        const offset = this.topAppBar().nativeElement.clientHeight;
+        this.#scrollService.offset?.set(offset);
+      }
     });
   }
 

@@ -4,21 +4,17 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
   Observable,
-  Subscription,
   filter,
   map,
   pairwise,
-  tap,
   switchMap,
   startWith,
   first,
-  merge,
   distinctUntilChanged,
 } from 'rxjs';
 
 import { Direction } from '@app/enums';
 import { VisibilityState } from '@app/enums/visibility-state';
-import { filterNavigationMode } from '@app/functions';
 import { ScrollService } from '@app/services';
 
 type NavigationMode = 'bar' | 'rail' | 'drawer';
@@ -41,57 +37,33 @@ export class LayoutService {
 
   public readonly navigationMode = toSignal(this.#navigationMode$, { requireSync: true });
   public readonly openDrawer = linkedSignal(() => this.navigationMode() === 'drawer');
-  public readonly showFab = linkedSignal(() =>
-    this.navigationMode() === 'bar' || this.routeContextChanged()
-      ? VisibilityState.Visible
-      : VisibilityState.Hidden,
-  );
   public readonly showBars = linkedSignal(() =>
-    this.navigationMode().length > 0 || this.routeContextChanged()
+    this.navigationMode() !== 'bar' || this.#scrollService.direction() === Direction.Up
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
   public readonly openFab = signal(false);
-  public readonly up = signal(false);
-  public readonly down = signal(false);
   public readonly routeContextChanged = this.#isRouteContextChanged();
   public readonly navigationStart = this.#navigationStart();
-  public readonly isScrolled = signal(false);
+
   public stable = this.#isStable();
 
   constructor() {
-    effect(() => this.navigationStart() !== undefined && this.closeDrawer());
-  }
-
-  public connectScrollEvents(window: Window, offsetCallback = () => 56): Subscription {
-    const scroll$ = this.#scrollService.connectEvents(window, offsetCallback);
-
-    return merge(
-      scroll$.scrolled.pipe(tap((scrolled) => this.isScrolled.set(scrolled))),
-      scroll$.up.pipe(
-        filterNavigationMode<Direction>(this.#navigationMode$),
-        tap(() => {
-          this.showFab.set(VisibilityState.Visible);
-          this.showBars.set(VisibilityState.Visible);
-          this.down.set(false);
-          this.up.set(true);
-        }),
-      ),
-      scroll$.down.pipe(
-        filterNavigationMode<Direction>(this.#navigationMode$),
-        tap(() => {
-          this.showFab.set(VisibilityState.Hidden);
-          this.showBars.set(VisibilityState.Hidden);
-          this.up.set(false);
-          this.down.set(true);
-          this.openFab.set(false);
-        }),
-      ),
-    ).subscribe();
-  }
-
-  public scrollTo(x = 0, y = 0, window?: Window): void {
-    window?.scrollTo({ top: y, left: x });
+    effect(() => {
+      if (this.navigationStart() !== undefined) {
+        this.closeDrawer();
+      }
+    });
+    effect(() => {
+      if (this.navigationMode() === 'bar' && this.#scrollService.direction() === Direction.Down) {
+        this.openFab.set(false);
+      }
+    });
+    effect(() => {
+      if (this.navigationMode() === 'bar' && this.routeContextChanged()) {
+        this.showBars.set(VisibilityState.Visible);
+      }
+    });
   }
 
   public closeDrawer(): void {
