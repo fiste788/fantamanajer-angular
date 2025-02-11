@@ -1,9 +1,9 @@
 import { Component, afterNextRender, inject, input } from '@angular/core';
 
+import { ScrollService } from '@app/services';
 import { Club, Tab } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
-import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [],
@@ -12,7 +12,7 @@ import { LayoutService } from 'src/app/layout/services';
   imports: [ParallaxHeaderComponent, PrimaryTabComponent],
 })
 export class ClubDetailPage {
-  readonly #layoutService = inject(LayoutService);
+  readonly #scrollService = inject(ScrollService);
   protected club = input.required<Club>();
   protected placeholder?: string;
 
@@ -29,6 +29,6 @@ export class ClubDetailPage {
   }
 
   protected scrollTo(height: number): void {
-    this.#layoutService.scrollTo(0, height - 300);
+    this.#scrollService.scrollTo(0, height - 300);
   }
 }

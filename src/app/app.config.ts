@@ -102,18 +102,13 @@ export const appConfig: ApplicationConfig = {
     },
     // globalErrorHandlerProvider,
     provideEnvironmentInitializer(() => {
-      const pwa = inject(PwaService);
-      const push = inject(PushService);
-      // const theme = inject(ThemeService);
-
       inject(ApplicationService).connect();
       inject(MetaService).connect();
       inject(BreadcrumbService).connect('FantaManajer');
       inject(IconService).init();
       if (isPlatformBrowser(inject(PLATFORM_ID))) {
-        pwa.connect();
-        push.connect();
-        // theme.connect();
+        inject(PwaService).connect();
+        inject(PushService).connect();
       }
     }),
     appInitializerProvider,

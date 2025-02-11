@@ -14,9 +14,11 @@ mode = "smart"
 [vars]
 NODE_VERSION = "22.11.0"
 BUN_VERSION = "1.2.1"
+NG_BUILD_OPTIMIZE_CHUNKS = "1"
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
+

@@ -20,13 +20,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-esbuild:application",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "indexHtmlTransformer": "esbuild/index-html-transformer.ts",
             "assets": [
               {
                 "glob": "**/*",
@@ -42,13 +43,6 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
-            },
-            "serviceWorker": "ngsw-config.json",
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts",
-              "experimentalPlatform": "neutral"
             }
           },
           "configurations": {
@@ -72,7 +66,14 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": true
+              "sourceMap": true,
+              "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts",
+                "experimentalPlatform": "neutral"
+              },
+              "serviceWorker": "ngsw-config.json",
+              "server": "src/main.server.ts"
             },
             "development": {
               "optimization": false,

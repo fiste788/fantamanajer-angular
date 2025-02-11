@@ -1,0 +1,6 @@
+/* stylelint-disable selector-class-pattern */
+@mixin list {
+  .mat-mdc-nav-list .mdc-list-item__content {
+    display: inline-flex;
+  }
+}

@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Team } from '@data/types';
-import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
+import { SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-team-card',
@@ -15,7 +15,6 @@ import { PlaceholderPipe, SlugPipe, SrcsetPipe } from '@shared/pipes';
     MatCardModule,
     MatButtonModule,
     RouterLink,
-    PlaceholderPipe,
     SrcsetPipe,
     NgOptimizedImage,
     MatRippleModule,
@@ -30,7 +29,7 @@ export class TeamCardComponent {
   public team = input.required<Team>();
   public priority = input(false);
 
-  protected viewTransitionName(team: Team) {
-    return this.#transitionService.getViewTransitionName('banner-img', team, 'team_id');
+  protected viewTransitionName(team: Team, transition_name = 'banner-img'): string {
+    return this.#transitionService.getViewTransitionName(transition_name, team, 'team_id');
   }
 }

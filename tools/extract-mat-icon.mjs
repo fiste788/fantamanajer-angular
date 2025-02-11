@@ -1,5 +1,7 @@
-import { readdirSync, statSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { readdirSync, statSync, readFileSync, createWriteStream, unlinkSync } from 'fs';
+import { Readable } from 'stream';
+import { finished } from 'stream/promises';
+import { join, resolve } from 'path';
 
 // Funzione per cercare ricorsivamente i file .html
 function getHtmlFiles(folderPath) {
@@ -30,19 +32,47 @@ function extractMatIconTexts(folderPath) {
     // Ottieni tutti i file .html ricorsivamente
     const files = getHtmlFiles(folderPath);
 
-    let texts = [];
+    let texts = [
+      'star',
+      'message',
+      'gavel',
+      'swap_vert',
+      'home',
+      'groups_3',
+      'emoji_events',
+      'sports_soccer',
+      'account_circle',
+      'exit_to_app',
+      'input',
+    ];
 
     // Leggi ogni file HTML
     files.forEach((filePath) => {
       const content = readFileSync(filePath, 'utf-8');
 
       // Regex per estrarre il testo dai tag <mat-icon>
-      const regex = /<mat-icon[^>]*>(.*?)<\/mat-icon>/gi;
+      const regex_mat_icon = /<mat-icon[^>]*>(.*?)<\/mat-icon[^>]*>/gi;
+      const regex_empty_state = /<app-mat-empty-state[^>]* icon="(.*?)"[^>]*\/>/gi;
+
       let match;
 
       // Trova tutte le occorrenze dei tag <mat-icon>
-      while ((match = regex.exec(content)) !== null) {
-        texts.push(match[1].trim());
+      while (
+        (match = regex_mat_icon.exec(content)) !== null ||
+        (match = regex_empty_state.exec(content)) !== null
+      ) {
+        if (!match[1].trim().startsWith('{{')) {
+          if (match[1].indexOf('{{') > -1) {
+            const regex = /{{[^>]* \? '(.*?)'[^>]*}}/gi;
+
+            let match2;
+            while ((match2 = regex.exec(match[1])) !== null) {
+              texts.push(match[1].substring(0, match[1].indexOf('{{')) + match2[1].trim());
+            }
+          } else {
+            texts.push(match[1].trim());
+          }
+        }
       }
     });
 
@@ -61,5 +91,32 @@ const folderPath = process.argv[2] || './'; // Usa la cartella corrente se non v
 const result = extractMatIconTexts(folderPath);
 
 if (result) {
-  console.log(result);
+  const url =
+    'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,300..600,0..1,0&icon_names=';
+  console.log(url + result);
+
+  const css = await fetch(url + result, {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+    },
+  });
+  const content = await css.text();
+  console.log(content);
+  const regex_url =
+    /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gi;
+  const match = regex_url.exec(content);
+  const font = await fetch(match[0]);
+  console.log('Found woff2 file: ' + match[0]);
+  const fontFilePath = join(
+    resolve(folderPath, '../'),
+    'public',
+    'media',
+    'material-symbols.woff2',
+  );
+  unlinkSync(fontFilePath);
+  const fileStream = createWriteStream(fontFilePath, {
+    flags: 'wx',
+  });
+  await finished(Readable.fromWeb(font.body).pipe(fileStream));
 }

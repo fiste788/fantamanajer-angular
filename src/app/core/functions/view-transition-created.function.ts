@@ -3,7 +3,7 @@ import { IsActiveMatchOptions, Router, ViewTransitionInfo } from '@angular/route
 
 import { CurrentTransitionService } from '@app/services/current-transition.service';
 
-export function onViewTransitionCreated(info: ViewTransitionInfo) {
+export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   const currentTransitionService = inject(CurrentTransitionService);
   const router = inject(Router);
   const currentNavigation = router.getCurrentNavigation();

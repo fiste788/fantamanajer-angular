@@ -15,7 +15,7 @@ import { StatePipe } from '@shared/pipes';
 export class RouterOutletComponent {
   readonly #transitionService = inject(CurrentTransitionService);
 
-  protected viewTransitionName(o: RouterOutlet) {
+  protected viewTransitionName(o: RouterOutlet): string {
     return o.isActivated && this.#transitionService.isLastOutlet(o) ? 'main' : '';
   }
 }

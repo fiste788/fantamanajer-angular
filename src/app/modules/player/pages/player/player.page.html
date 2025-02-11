@@ -4,11 +4,11 @@
     <app-parallax-header
       contextParam="id"
       [backgroundImage]="_selectedMember.club.background_url ?? undefined"
-      [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
       [height]="128"
-      [width]="90"
+      [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
       [subtitle]="_selectedMember.role.singolar + ' - ' + _selectedMember.club.name"
       [title]="_player.full_name"
+      [width]="90"
       (imageLoaded)="scrollTo($event)"
     >
       <div

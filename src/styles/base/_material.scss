@@ -2,7 +2,7 @@
 @use '../utils/colors';
 
 @mixin material() {
-  html {
+  & {
     color-scheme: light dark;
 
     @include mat.theme(

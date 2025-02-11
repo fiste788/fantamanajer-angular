@@ -67,8 +67,6 @@ export class NavigationDrawerComponent {
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly loggedIn = inject(AuthenticationService).loggedIn;
 
-  protected readonly showFab = this.#layoutService.showFab;
-
   protected clickNav(): void {
     this.#layoutService.toggleDrawer();
   }

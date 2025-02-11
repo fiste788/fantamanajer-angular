@@ -11,22 +11,22 @@
         Notifiche
       </h3>
       <div
-        class="content mat-mdc-dialog-content"
         cdkScrollable
+        class="content mat-mdc-dialog-content"
       >
         @if ((stream$ | async); as stream) { @if (stream.results.length) {
         <mat-list @listItemAnimation>
           @for (activity of stream.results; track $index) {
           <mat-list-item>
-            <mat-icon matListItemIcon>{{activity.icon}}</mat-icon>
-            <h3 matListItemTitle>{{activity.title}}</h3>
+            <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
+            <h3 matListItemTitle>{{ activity.title }}</h3>
             <span
               matListItemLine
               [title]="(activity.time | date: 'dd/MM/y HH:mm')"
             >
-              {{activity.humanTime}}
+              {{ activity.humanTime }}
             </span>
-            <span matListItemLine> {{activity.body}} </span>
+            <span matListItemLine>{{ activity.body }}</span>
           </mat-list-item>
           }
         </mat-list>
