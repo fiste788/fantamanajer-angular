@@ -2,8 +2,8 @@
   @if (_dataSource.data.length) {
     <mat-card appearance="outlined">
       <table
-        #table
         #sort="matSort"
+        #table
         mat-table
         matSort
         @tableRowAnimation
@@ -182,8 +182,8 @@
           </td>
           <td
             *matFooterCellDef
-            dir="rtl"
             class="mat-footer-cell-numeric"
+            dir="rtl"
             mat-footer-cell
           >
             {{ footer['avg_rating'] | number: '1.2-2' }}

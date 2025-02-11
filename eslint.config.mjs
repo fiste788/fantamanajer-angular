@@ -303,7 +303,7 @@ export default tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {
-      '@angular-eslint/template/attributes-order': 'error',
+      '@angular-eslint/template/attributes-order': ['error', { alphabetical: true }],
       '@angular-eslint/template/button-has-type': 'error',
       '@angular-eslint/template/conditional-complexity': 'error',
       '@angular-eslint/template/cyclomatic-complexity': 'error',

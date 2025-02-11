@@ -42,21 +42,21 @@
   >
     @if (loggedIn) {
       <svg:rect
-        x="12"
-        y="96"
+        height="56"
         rx="16"
         ry="16"
         width="56"
-        height="56"
+        x="12"
+        y="96"
       />
     }
     @for (it of items | range; track it; let idx = $index) {
       <svg:rect
-        x="12"
+        height="32"
         rx="16"
         ry="16"
         width="56"
-        height="32"
+        x="12"
         [attr.y]="(loggedIn ? 200 : 140) + 68 * idx"
       />
     }

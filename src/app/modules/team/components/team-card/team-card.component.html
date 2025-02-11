@@ -1,9 +1,9 @@
 @let _team = team();
 <mat-card appearance="outlined">
   <figure
-    matRipple
     class="aspect-ratio-box"
     mat-card-image
+    matRipple
     [style.viewTransitionName]="viewTransitionName(_team)"
   >
     @if (_team.photo_url) {
@@ -24,9 +24,11 @@
         />
       </a>
     } @else {
-      <div class="placeholder">
-        <span>{{ _team.name }}</span>
-      </div>
+      <a [routerLink]="['/teams/', _team.id]">
+        <div class="placeholder">
+          <span>{{ _team.name }}</span>
+        </div>
+      </a>
     }
     <ng-template #placeholder>
       <div class="placeholder">

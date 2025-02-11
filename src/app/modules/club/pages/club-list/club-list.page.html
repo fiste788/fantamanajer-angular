@@ -4,11 +4,11 @@
     <figure
       class="aspect-ratio-box"
       mat-card-image
+      matRipple
       [style.viewTransitionName]="viewTransitionName(club)"
     >
       @if (club.background_url) {
       <a
-        matRipple
         [routerLink]="['/clubs/',club.id]"
         [state]="{img: 'url(\'' + listImg.currentSrc + '\')'}"
       >
@@ -26,11 +26,11 @@
         />
       </a>
       } @else {
-
-      <div class="placeholder">
-        <span>{{club.name}}</span>
-      </div>
-
+      <a [routerLink]="['/clubs/',club.id]">
+        <div class="placeholder">
+          <span>{{club.name}}</span>
+        </div>
+      </a>
       }
 
       <ng-template #placeholder>

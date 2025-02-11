@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
   @for (team of teams(); track team.id; let i = $index) {
   <app-team-card
-    [team]="team"
     [priority]="i === 0"
+    [team]="team"
   />
   }
 </div>
