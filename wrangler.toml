@@ -3,10 +3,19 @@ name = "fantamanajer-angular-dev"
 compatibility_date = "2024-09-25"
 compatibility_flags = ["nodejs_compat_v2"]
 main = "./dist/server/server.mjs"
-assets = { directory = "./dist/browser", binding = "ASSETS", not_found_handling = "single-page-application", html_handling = "auto-trailing-slash", run_worker_first = false }
 services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
-routes = [{ pattern = "c3.fantamanajer.it", custom_domain = true }]
 upload_source_maps = true
+workers_dev = false
+
+[assets]
+directory = "./dist/browser"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+html_handling = "auto-trailing-slash"
+
+[route]
+pattern = "fantamanajer.it"
+custom_domain = true
 
 [placement]
 mode = "smart"
@@ -21,4 +30,3 @@ NG_BUILD_OPTIMIZE_CHUNKS = "1"
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
-

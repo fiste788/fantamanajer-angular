@@ -72,10 +72,7 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
     (await angularApp.handle(request, ctx)) ?? new Response('Page not found.', { status: 404 });
 
   res.headers.set('Content-Security-Policy', buildCspHeader());
-  res.headers.set(
-    'Permissions-Policy',
-    'document-domain=(),publickey-credentials-get=*,publickey-credentials-create=*',
-  );
+  res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
 
   return res;
 };
