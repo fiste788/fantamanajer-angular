@@ -74,7 +74,6 @@ export class MainComponent {
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showBars = this.#layoutService.showBars;
-  protected readonly skeletonColors = this.#layoutService.skeletonColors;
   protected readonly hidden = VisibilityState.Hidden;
 
   constructor() {
@@ -98,8 +97,8 @@ export class MainComponent {
 
   #setSkeletonColors(): void {
     const style = getComputedStyle(this.#document.body);
-    const background = style.getPropertyValue('--mat-skeleton-background-color');
-    const foreground = style.getPropertyValue('--mat-skeleton-foreground-color');
-    this.skeletonColors.set({ background, foreground });
+    const background = style.getPropertyValue('--mat-sys-secondary-fixed-dim');
+    const foreground = style.getPropertyValue('--mat-sys-secondary-fixed');
+    this.#layoutService.skeletonColors.set({ background, foreground });
   }
 }

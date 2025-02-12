@@ -53,16 +53,16 @@ export class StreamComponent implements OnInit, OnDestroy {
 
   constructor() {
     addVisibleClassOnDestroy(listItemAnimation);
-  }
-
-  public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
     afterNextRender(() => {
       const viewport = this.viewport();
       if (viewport) {
         this.width = viewport.elementRef.nativeElement.clientWidth;
       }
     });
+  }
+
+  public ngOnInit(): void {
+    this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

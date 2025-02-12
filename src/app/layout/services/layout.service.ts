@@ -45,7 +45,7 @@ export class LayoutService {
   public readonly openFab = signal(false);
   public readonly routeContextChanged = this.#isRouteContextChanged();
   public readonly navigationStart = this.#navigationStart();
-  public readonly skeletonColors = signal({ foreground: '#e7bdb9', background: '#ffdad7' });
+  public readonly skeletonColors = signal({ foreground: '#ffd9df', background: '#ffb1c1' });
   public stable = this.#isStable();
 
   constructor() {

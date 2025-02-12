@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { minify } from 'html-minifier';
 
 const minifyHtml = (indexHtml: string): string => {

@@ -68,11 +68,6 @@
     color: var(--mat-sys-on-tertiary);
   }
 
-  .cdk-virtual-scroll-viewport {
-    --mat-skeleton-background-color: #{var(--mat-sys-secondary-fixed-dim)};
-    --mat-skeleton-foreground-color: #{var(--mat-sys-secondary-fixed)};
-  }
-
   img[src*='.svg'] {
     background-color: var(--mat-sys-surface-container-low);
   }
