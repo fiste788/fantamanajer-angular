@@ -22,6 +22,8 @@
         "build": {
           "builder": "@angular-builders/custom-esbuild:application",
           "options": {
+            "deployUrl": "/",
+            "baseHref": "/",
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
