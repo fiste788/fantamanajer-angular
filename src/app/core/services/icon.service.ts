@@ -11,7 +11,7 @@ export class IconService {
   readonly #iconRegistry = inject(MatIconRegistry);
   readonly #sanitizer = inject(DomSanitizer);
 
-  public init() {
+  public init(): void {
     this.#iconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     if (isPlatformBrowser(this.#platformId)) {
       this.#iconRegistry.addSvgIconSet(

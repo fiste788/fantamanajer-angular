@@ -28,7 +28,7 @@ export class NavigationBarComponent {
   protected readonly team$ = inject(ApplicationService).team$;
   protected readonly championship$ = this.team$.pipe(map((t) => t?.championship));
   protected readonly openFab = this.#layoutService.openFab;
-  protected readonly showFab = this.#layoutService.showFab;
+  protected readonly showBars = this.#layoutService.showBars;
   protected readonly stable = this.#layoutService.stable;
   protected readonly hidden = VisibilityState.Hidden;
 }

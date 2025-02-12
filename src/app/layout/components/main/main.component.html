@@ -4,8 +4,8 @@
   <mat-sidenav
     autoFocus="false"
     fixedInViewport="true"
-    [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
     [attr.old-navigation-mode]="oldNavigationMode$ | async"
+    [attr.role]="_navigationMode === 'bar' ? 'dialog' : 'navigation'"
     [mode]="_navigationMode === 'drawer' ? 'side' : 'over'"
     [(opened)]="openDrawer"
     (closedStart)="openDrawer.set(false)"
@@ -17,7 +17,7 @@
     }
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
-    <app-top-app-bar [@scrollUpAnimation]="!isScrolled() || _showBars" />
+    <app-top-app-bar [@scrollUpAnimation]="_showBars" />
     <main
       [@contextChange]="o | state"
       [style.viewTransitionName]="viewTransitionName()"

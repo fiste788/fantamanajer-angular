@@ -26,7 +26,7 @@ export class CurrentTransitionService {
       id: number;
     },
     param = 'id',
-  ) {
+  ): string {
     const info = this.currentTransition();
     if (info) {
       // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.

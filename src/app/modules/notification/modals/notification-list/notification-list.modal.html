@@ -11,8 +11,8 @@
         Notifiche
       </h3>
       <div
-        class="content mat-mdc-dialog-content"
         cdkScrollable
+        class="content mat-mdc-dialog-content"
       >
         @if ((stream$ | async); as stream) { @if (stream.results.length) {
         <mat-list @listItemAnimation>

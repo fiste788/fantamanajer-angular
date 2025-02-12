@@ -71,7 +71,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
     return item.link;
   }
 
-  protected viewTransitionName(transitionName = 'banner-img') {
+  protected viewTransitionName(transitionName = 'banner-img'): string {
     return this.#transitionService.isOutletChanged(transitionName, this.contextParam());
   }
 }

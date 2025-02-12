@@ -1,12 +1,12 @@
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { DatePipe } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Injector,
   OnDestroy,
   OnInit,
+  afterNextRender,
   inject,
   input,
   numberAttribute,
@@ -20,6 +20,7 @@ import { addVisibleClassOnDestroy } from '@app/functions';
 import { StreamActivity } from '@data/types';
 import { listItemAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
+import { LayoutService } from 'src/app/layout/services';
 
 import { StreamDataSource } from './stream.datasource';
 
@@ -38,33 +39,30 @@ import { StreamDataSource } from './stream.datasource';
   styleUrl: './stream.component.scss',
   templateUrl: './stream.component.html',
 })
-export class StreamComponent implements OnInit, OnDestroy, AfterViewInit {
+export class StreamComponent implements OnInit, OnDestroy {
+  readonly #layoutService = inject(LayoutService);
   readonly #injector = inject(Injector);
+
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
   protected viewport = viewChild(CdkVirtualScrollViewport);
   protected ds!: StreamDataSource;
-  protected backgroundColor = '';
-  protected foregroundColor = '';
+  protected skeletonColors = this.#layoutService.skeletonColors;
   protected width!: number;
 
   constructor() {
     addVisibleClassOnDestroy(listItemAnimation);
+    afterNextRender(() => {
+      const viewport = this.viewport();
+      if (viewport) {
+        this.width = viewport.elementRef.nativeElement.clientWidth;
+      }
+    });
   }
 
   public ngOnInit(): void {
     this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
-  }
-
-  public ngAfterViewInit(): void {
-    const viewport = this.viewport();
-    if (viewport) {
-      const style = getComputedStyle(viewport.elementRef.nativeElement);
-      this.backgroundColor = style.getPropertyValue('--mat-skeleton-background-color');
-      this.foregroundColor = style.getPropertyValue('--mat-skeleton-foreground-color');
-      this.width = viewport.elementRef.nativeElement.clientWidth;
-    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

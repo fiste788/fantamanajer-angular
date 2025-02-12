@@ -9,18 +9,7 @@ interface Env {
   API: Fetcher;
 }
 
-function setServerAuthentication(body: ServerAuthInfo) {
-  const response = new Response(undefined);
-  const newCookie = CookieStorage.cookieString('token', body.accessToken, {
-    expires: body.expiresAt,
-    path: '/',
-  });
-  response.headers.set('Set-Cookie', newCookie);
-
-  return response;
-}
-
-function dec2hex(dec: number) {
+function dec2hex(dec: number): string {
   return `0${dec.toString(16)}`.slice(-2);
 }
 
@@ -61,6 +50,17 @@ function buildCspHeader(nonce?: string): string {
   return directives.join('; ');
 }
 
+function setServerAuthentication(body: ServerAuthInfo): Response {
+  const response = new Response(undefined);
+  const newCookie = CookieStorage.cookieString('token', body.accessToken, {
+    expires: body.expiresAt,
+    path: '/',
+  });
+  response.headers.set('Set-Cookie', newCookie);
+
+  return response;
+}
+
 const angularApp = new AngularAppEngine();
 
 const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
@@ -82,10 +82,14 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
 
   let nonce = generateNonce();
   nonce = 'test';
-  const res = await angularApp.handle(request, { executionContext: ctx, nonce });
-  res?.headers.set('Content-Security-Policy', buildCspHeader(nonce));
+  const res =
+    (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
+    new Response('Page not found.', { status: 404 });
 
-  return res ?? new Response('Page not found.', { status: 404 });
+  res.headers.set('Content-Security-Policy', buildCspHeader(nonce));
+  res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
+
+  return res;
 };
 
 export default { fetch: reqHandler } satisfies ExportedHandler<Env>;

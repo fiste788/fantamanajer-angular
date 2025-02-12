@@ -9,8 +9,8 @@ bestPlayers = bestPlayers$ | async;
     <a [routerLink]="['/players', bestPlayer?.[0]?.player_id]">
       <app-player-image
         inCard
-        matRipple
         mat-card-image
+        matRipple
         [member]="bestPlayer?.[0]"
       />
     </a>

@@ -3,8 +3,8 @@
 @let _navigationMode = navigationMode();
 @let _openDrawer = openDrawer();
 <mat-nav-list
-  [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [@listItemAnimation]="_navigationMode"
+  [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
 >
   @if (_mode === 'full' && matchday) {
@@ -26,16 +26,16 @@
       #list
       #rla="routerLinkActive"
       mat-list-item
-      [routerLink]="item.url"
       routerLinkActive
-      [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
       [activated]="rla.isActive"
+      [routerLink]="item.url"
+      [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
     >
       <mat-icon
         matListItemIcon
         matRipple
-        [matRippleTrigger]="list._elementRef.nativeElement"
         [matRippleDisabled]="_navigationMode !== 'rail' || _openDrawer"
+        [matRippleTrigger]="list._elementRef.nativeElement"
         >{{ item.icon }}</mat-icon
       >
       <span matListItemTitle>

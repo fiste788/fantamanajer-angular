@@ -20,8 +20,8 @@
           </mat-list-item>
         } @else {
           <content-loader
-            [backgroundColor]="backgroundColor"
-            [foregroundColor]="foregroundColor"
+            [backgroundColor]="skeletonColors().background"
+            [foregroundColor]="skeletonColors().foreground"
             [viewBox]="'0 0 ' + width + ' 88'"
           >
             <svg:rect

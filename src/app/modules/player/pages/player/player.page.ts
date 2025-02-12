@@ -16,12 +16,11 @@ import { RouterLink } from '@angular/router';
 import { Observable, switchMap, distinctUntilChanged } from 'rxjs';
 
 import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
-import { ApplicationService } from '@app/services';
+import { ApplicationService, ScrollService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
 import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
-import { LayoutService } from 'src/app/layout/services';
 
 @Component({
   animations: [tableRowAnimation, enterDetailAnimation],
@@ -47,7 +46,7 @@ import { LayoutService } from 'src/app/layout/services';
 })
 export class PlayerPage {
   readonly #ratingService = inject(RatingService);
-  readonly #layoutService = inject(LayoutService);
+  readonly #scrollService = inject(ScrollService);
 
   protected readonly app = inject(ApplicationService);
   protected readonly player = input.required<Player>();
@@ -89,6 +88,6 @@ export class PlayerPage {
   }
 
   protected scrollTo(height: number): void {
-    this.#layoutService.scrollTo(0, height - 300);
+    this.#scrollService.scrollTo(0, height - 300);
   }
 }

@@ -30,7 +30,7 @@ export class ClubListPage {
 
   protected clubs = input.required<Array<Club>>();
 
-  protected viewTransitionName(club: Club, transition_name = 'banner-img') {
+  protected viewTransitionName(club: Club, transition_name = 'banner-img'): string {
     return this.#transitionService.getViewTransitionName(transition_name, club);
   }
 }

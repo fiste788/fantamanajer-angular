@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "noImplicitOverride": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,

@@ -40,7 +40,7 @@
 
 .mat-empty-state-description {
   margin: 1em 0;
-  font: var(--mat-sys-title-small);
+  font: var(--mat-sys-title-medium);
 }
 
 .mat-empty-state-icon {
@@ -53,7 +53,7 @@
 }
 
 .mat-empty-state-label {
-  font: var(--mat-sys-title-medium);
+  font: var(--mat-sys-title-large);
 }
 
 @media (min-width: theme('screens.sm')) {

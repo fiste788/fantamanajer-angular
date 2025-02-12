@@ -100,6 +100,12 @@ export default tseslint.config(
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/consistent-type-definitions': 'error',
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        {
+          allowExpressions: true,
+        },
+      ],
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         {
@@ -139,6 +145,7 @@ export default tseslint.config(
           ],
         },
       ],
+      '@typescript-eslint/no-deprecated': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-extraneous-class': [
         'error',
@@ -296,6 +303,24 @@ export default tseslint.config(
       // Apply the Angular template rules which focus on accessibility of our apps
       ...angular.configs.templateAccessibility,
     ],
-    rules: {},
+    rules: {
+      '@angular-eslint/template/attributes-order': ['error', { alphabetical: true }],
+      '@angular-eslint/template/button-has-type': 'error',
+      '@angular-eslint/template/conditional-complexity': 'error',
+      '@angular-eslint/template/cyclomatic-complexity': 'error',
+      '@angular-eslint/template/no-duplicate-attributes': 'error',
+      '@angular-eslint/template/no-interpolation-in-attributes': 'error',
+      '@angular-eslint/template/no-inline-styles': [
+        'error',
+        {
+          allowBindToStyle: true,
+        },
+      ],
+      '@angular-eslint/template/no-positive-tabindex': 'error',
+      '@angular-eslint/template/prefer-control-flow': 'error',
+      '@angular-eslint/template/prefer-ngsrc': 'error',
+      '@angular-eslint/template/prefer-self-closing-tags': 'error',
+      '@angular-eslint/template/use-track-by-function': 'error',
+    },
   },
 );

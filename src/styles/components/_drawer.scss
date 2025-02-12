@@ -52,6 +52,8 @@
     .mat-drawer > .mat-drawer-inner-container {
       display: block !important;
       transition: none;
+      width: auto;
+      opacity: 1;
     }
   }
 }

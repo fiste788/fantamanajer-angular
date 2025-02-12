@@ -1,35 +1,21 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { isPlatformBrowser } from '@angular/common';
-import {
-  Injectable,
-  PLATFORM_ID,
-  Signal,
-  effect,
-  inject,
-  linkedSignal,
-  signal,
-} from '@angular/core';
+import { Injectable, Signal, effect, inject, linkedSignal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
   Observable,
-  Subscription,
   filter,
   map,
   pairwise,
-  tap,
   switchMap,
   startWith,
   first,
-  merge,
   distinctUntilChanged,
-  EMPTY,
 } from 'rxjs';
 
 import { Direction } from '@app/enums';
 import { VisibilityState } from '@app/enums/visibility-state';
-import { filterNavigationMode } from '@app/functions';
-import { ScrollService, WINDOW } from '@app/services';
+import { ScrollService } from '@app/services';
 
 type NavigationMode = 'bar' | 'rail' | 'drawer';
 
@@ -40,7 +26,6 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
-  readonly #window = inject<Window>(WINDOW);
   readonly #navigationModeMap = new Map<string, NavigationMode>([
     [Breakpoints.XSmall, 'bar'],
     [Breakpoints.Small, 'rail'],
@@ -52,56 +37,33 @@ export class LayoutService {
 
   public readonly navigationMode = toSignal(this.#navigationMode$, { requireSync: true });
   public readonly openDrawer = linkedSignal(() => this.navigationMode() === 'drawer');
-  public readonly showFab = linkedSignal(() =>
-    this.navigationMode() === 'bar' || this.routeContextChanged()
-      ? VisibilityState.Visible
-      : VisibilityState.Hidden,
-  );
   public readonly showBars = linkedSignal(() =>
-    this.navigationMode().length > 0 || this.routeContextChanged()
+    this.navigationMode() !== 'bar' || this.#scrollService.direction() === Direction.Up
       ? VisibilityState.Visible
       : VisibilityState.Hidden,
   );
   public readonly openFab = signal(false);
-  public readonly up = signal(false);
-  public readonly down = signal(false);
   public readonly routeContextChanged = this.#isRouteContextChanged();
   public readonly navigationStart = this.#navigationStart();
-  public readonly isScrolled = this.#isScrolled();
+  public readonly skeletonColors = signal({ foreground: '#ffd9df', background: '#ffb1c1' });
   public stable = this.#isStable();
 
   constructor() {
-    effect(() => this.navigationStart() !== undefined && this.closeDrawer());
-  }
-
-  public connectScrollAnimation(window: Window, offsetCallback = () => 0): Subscription {
-    const scroll$ = this.#scrollService.connectScrollAnimation(window, offsetCallback);
-
-    return merge(
-      scroll$.up.pipe(
-        filterNavigationMode<Direction>(this.#navigationMode$),
-        tap(() => {
-          this.showFab.set(VisibilityState.Visible);
-          this.showBars.set(VisibilityState.Visible);
-          this.down.set(false);
-          this.up.set(true);
-        }),
-      ),
-      scroll$.down.pipe(
-        filterNavigationMode<Direction>(this.#navigationMode$),
-        tap(() => {
-          this.showFab.set(VisibilityState.Hidden);
-          this.showBars.set(VisibilityState.Hidden);
-          this.up.set(false);
-          this.down.set(true);
-          this.openFab.set(false);
-        }),
-      ),
-    ).subscribe();
-  }
-
-  public scrollTo(x = 0, y = 0, window?: Window): void {
-    window?.scrollTo({ top: y, left: x });
+    effect(() => {
+      if (this.navigationStart() !== undefined) {
+        this.closeDrawer();
+      }
+    });
+    effect(() => {
+      if (this.navigationMode() === 'bar' && this.#scrollService.direction() === Direction.Down) {
+        this.openFab.set(false);
+      }
+    });
+    effect(() => {
+      if (this.navigationMode() === 'bar' && this.routeContextChanged()) {
+        this.showBars.set(VisibilityState.Visible);
+      }
+    });
   }
 
   public closeDrawer(): void {
@@ -161,12 +123,5 @@ export class LayoutService {
     return toSignal(this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)), {
       initialValue: undefined,
     });
-  }
-
-  #isScrolled(): Signal<boolean> {
-    return toSignal(
-      isPlatformBrowser(inject(PLATFORM_ID)) ? this.#scrollService.isScrolled(this.#window) : EMPTY,
-      { initialValue: false },
-    );
   }
 }

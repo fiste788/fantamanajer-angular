@@ -95,12 +95,19 @@ if (result) {
     'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,300..600,0..1,0&icon_names=';
   console.log(url + result);
 
-  const css = await fetch(url + result);
+  const css = await fetch(url + result, {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+    },
+  });
   const content = await css.text();
+  console.log(content);
   const regex_url =
     /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gi;
   const match = regex_url.exec(content);
   const font = await fetch(match[0]);
+  console.log('Found woff2 file: ' + match[0]);
   const fontFilePath = join(
     resolve(folderPath, '../'),
     'public',

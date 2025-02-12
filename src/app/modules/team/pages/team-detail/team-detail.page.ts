@@ -9,12 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService } from '@app/services';
+import { ApplicationService, ScrollService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
 import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
-import { LayoutService } from 'src/app/layout/services';
 
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
@@ -32,7 +31,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
   ],
 })
 export class TeamDetailPage {
-  readonly #layoutService = inject(LayoutService);
+  readonly #scrollService = inject(ScrollService);
   readonly #dialog = inject(MatDialog);
 
   protected team = input.required<Team>();
@@ -97,6 +96,6 @@ export class TeamDetailPage {
   }
 
   protected scrollTo(height: number): void {
-    this.#layoutService.scrollTo(0, height - 300);
+    this.#scrollService.scrollTo(0, height - 300);
   }
 }

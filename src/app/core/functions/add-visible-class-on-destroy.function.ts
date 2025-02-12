@@ -39,7 +39,7 @@ function getLeaveSelectorsFromAnimations(
   return selectors;
 }
 
-function isElementInViewport(el: Element) {
+function isElementInViewport(el: Element): boolean {
   const rect = el.getBoundingClientRect();
 
   return (
@@ -52,13 +52,13 @@ function isElementInViewport(el: Element) {
   );
 }
 
-function setVisible(el: Element) {
+function setVisible(el: Element): void {
   if (isElementInViewport(el)) {
     el.classList.add(CLASS_NAME);
   }
 }
 
-export function addVisibleClassOnDestroy(...animations: Array<AnimationTriggerMetadata>) {
+export function addVisibleClassOnDestroy(...animations: Array<AnimationTriggerMetadata>): void {
   if (isPlatformBrowser(inject(PLATFORM_ID))) {
     const selector = getLeaveSelectorsFromAnimations(...animations).join(',');
     if (selector) {

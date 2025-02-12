@@ -11,13 +11,14 @@
     <app-breadcrumb />
     <span class="spacer"></span>
     <div
-      @createBox
       class="flex"
+      @createBox
     >
       @if (deferredPrompt$ | async; as prompt) {
         <a
-          mat-icon-button
+          aria-label="Install app"
           href="#install"
+          mat-icon-button
           (click)="install(prompt, $event)"
         >
           <mat-icon>get_app</mat-icon>
