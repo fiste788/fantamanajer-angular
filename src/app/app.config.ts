@@ -94,7 +94,8 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: CSP_NONCE,
-      useFactory: () => inject<RequestContext>(REQUEST_CONTEXT)?.nonce ?? 'test',
+      useFactory: () => inject<RequestContext>(REQUEST_CONTEXT)?.nonce ?? 'randomNonceGoesHere',
+      deps: [REQUEST_CONTEXT],
     },
     {
       provide: IMAGE_LOADER,

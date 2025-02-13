@@ -4,11 +4,6 @@ import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
 import { environment } from '@env';
 
-interface Env {
-  ASSETS: Fetcher;
-  API: Fetcher;
-}
-
 function dec2hex(dec: number): string {
   return `0${dec.toString(16)}`.slice(-2);
 }
@@ -23,8 +18,8 @@ function generateNonce(): string {
 
 const cspConfig: Record<string, Array<string>> = {
   'default-src': ["'self'"],
-  'script-src': ["'self'", "'nonce'"],
-  'style-src': ["'self'", "'nonce'"],
+  'script-src': ["'nonce'", "'strict-dynamic'"],
+  'style-src': ["'nonce'"],
   'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
 };
 
@@ -80,12 +75,18 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
     return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
   }
 
-  let nonce = generateNonce();
-  nonce = 'test';
-  const res =
+  const nonce = generateNonce();
+  //nonce = 'test';
+  const originalResponse =
     (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
     new Response('Page not found.', { status: 404 });
 
+  const body = await originalResponse.text();
+  const res = new Response(
+    body.replaceAll('nonce="randomNonceGoesHere"', `nonce="${nonce}"`),
+    //.replaceAll('<link rel="modulepreload" ', `<link rel="modulepreload" nonce="${nonce}" `),
+    originalResponse,
+  );
   res.headers.set('Content-Security-Policy', buildCspHeader(nonce));
   res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
 
