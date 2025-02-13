@@ -15,10 +15,6 @@
     &:has(> table) {
       border-radius: var(--mat-sys-corner-extra-small);
     }
-
-    .placeholder {
-      background-color: var(--mat-sys-surface-container-highest);
-    }
   }
 
   .mat-mdc-card-actions {
@@ -31,9 +27,13 @@
     overflow: hidden;
   }
 
-  .mat-mdc-card-image:first-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
+  .mat-mdc-card-image {
+    background-color: var(--mat-sys-surface-container-highest);
+
+    &:first-child {
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
   }
 
   .grid > .mat-mdc-card:hover {

@@ -9,6 +9,7 @@
     >
       @if (club.background_url) {
       <a
+        class="placeholder"
         [routerLink]="['/clubs/',club.id]"
         [state]="{img: 'url(\'' + listImg.currentSrc + '\')'}"
       >
@@ -26,10 +27,11 @@
         />
       </a>
       } @else {
-      <a [routerLink]="['/clubs/',club.id]">
-        <div class="placeholder">
-          <span>{{club.name}}</span>
-        </div>
+      <a
+        class="placeholder"
+        [routerLink]="['/clubs/',club.id]"
+      >
+        {{club.name}}
       </a>
       }
 

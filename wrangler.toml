@@ -11,7 +11,7 @@ workers_dev = false
 directory = "./dist/browser"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
-html_handling = "auto-trailing-slash"
+html_handling = "drop-trailing-slash"
 
 [route]
 pattern = "fantamanajer.it"

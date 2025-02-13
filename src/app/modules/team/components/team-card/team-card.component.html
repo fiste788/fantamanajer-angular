@@ -8,6 +8,7 @@
   >
     @if (_team.photo_url) {
       <a
+        class="placeholder"
         [routerLink]="['/teams/', _team.id]"
         [state]="{ img: 'url(\'' + listImg.currentSrc + '\')' }"
       >
@@ -24,10 +25,11 @@
         />
       </a>
     } @else {
-      <a [routerLink]="['/teams/', _team.id]">
-        <div class="placeholder">
-          <span>{{ _team.name }}</span>
-        </div>
+      <a
+        class="placeholder"
+        [routerLink]="['/teams/', _team.id]"
+      >
+        {{ _team.name }}
       </a>
     }
     <ng-template #placeholder>
