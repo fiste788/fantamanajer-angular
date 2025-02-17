@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRipple } from '@angular/material/core';
@@ -29,6 +29,9 @@ export class ClubListPage {
   readonly #transitionService = inject(CurrentTransitionService);
 
   protected clubs = input.required<Array<Club>>();
+  protected img = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
+    read: ElementRef,
+  });
 
   protected viewTransitionName(club: Club, transition_name = 'banner-img'): string {
     return this.#transitionService.getViewTransitionName(transition_name, club);

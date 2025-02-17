@@ -23,8 +23,8 @@ export class ClubDetailPage {
 
   constructor() {
     afterNextRender(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.placeholder = history.state?.img as string;
+      const state = history.state as Record<string, string> | undefined;
+      this.placeholder = state?.['img'];
     });
   }
 

@@ -1,17 +1,16 @@
 @let _team = team();
 <mat-card appearance="outlined">
-  <figure
-    class="aspect-ratio-box"
-    mat-card-image
-    matRipple
+  <a
+    [routerLink]="['/teams/', _team.id]"
+    [state]="{ img: 'url(\'' + img()?.nativeElement?.currentSrc + '\')' }"
     [style.viewTransitionName]="viewTransitionName(_team)"
   >
-    @if (_team.photo_url) {
-      <a
-        class="placeholder"
-        [routerLink]="['/teams/', _team.id]"
-        [state]="{ img: 'url(\'' + listImg.currentSrc + '\')' }"
-      >
+    <figure
+      class="aspect-ratio-box placeholder"
+      mat-card-image
+      matRipple
+    >
+      @if (_team.photo_url) {
         <img
           #listImg
           height="337"
@@ -23,28 +22,15 @@
           [ngSrc]="_team.photo_url | srcset: true"
           [priority]="priority()"
         />
-      </a>
-    } @else {
-      <a
-        class="placeholder"
-        [routerLink]="['/teams/', _team.id]"
-      >
-        {{ _team.name }}
-      </a>
-    }
-    <ng-template #placeholder>
-      <div class="placeholder">
-        <span>{{ _team.name }}</span>
-      </div>
-    </ng-template>
-  </figure>
-
+      }
+      <figcaption>{{ _team.name }}</figcaption>
+    </figure>
+  </a>
   <mat-card-header>
     <mat-card-title
       [style.viewTransitionName]="viewTransitionName(_team, 'title-' + _team.name | slug)"
+      >{{ _team.name }}</mat-card-title
     >
-      {{ _team.name }}
-    </mat-card-title>
     <mat-card-subtitle>{{ _team.user.name }} {{ _team.user.surname }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>

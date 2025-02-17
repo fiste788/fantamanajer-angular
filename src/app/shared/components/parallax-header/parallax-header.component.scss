@@ -97,7 +97,7 @@ a.anchor {
 
   .parallax-header-img {
     max-height: unset;
-    background-color: var(--mat-sys-surface-container-low);
+    background-color: var(--mat-sys-surface-container-highest);
 
     img {
       // position: absolute;
@@ -150,7 +150,7 @@ a.anchor {
 
 @media (min-width: theme('screens.sm')) {
   .parallax {
-    background-color: var(--mat-sys-surface-container-low);
+    background-color: var(--mat-sys-surface-container-highest);
   }
 
   .parallax-header-title-container {

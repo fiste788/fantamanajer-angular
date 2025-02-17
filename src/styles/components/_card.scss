@@ -15,6 +15,10 @@
     &:has(> table) {
       border-radius: var(--mat-sys-corner-extra-small);
     }
+
+    > a {
+      border-radius: inherit;
+    }
   }
 
   .mat-mdc-card-actions {
@@ -28,7 +32,9 @@
   }
 
   .mat-mdc-card-image {
-    background-color: var(--mat-sys-surface-container-highest);
+    &.placeholder {
+      background-color: var(--mat-sys-surface-container-highest);
+    }
 
     &:first-child {
       border-bottom-left-radius: inherit;

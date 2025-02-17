@@ -48,8 +48,14 @@ function setServerAuthentication(body: ServerAuthInfo): Response {
 
   return response;
 }
+const app = AngularAppEngine;
+app.ɵallowStaticRouteRender = false;
+app.ɵhooks.on('html:transform:pre', (ctx) => {
+  console.log('pre trasform');
 
-const angularApp = new AngularAppEngine();
+  return ctx.html;
+});
+const angularApp = new app();
 
 const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
   const url = new URL(request.url);
