@@ -5,11 +5,17 @@
   .mdc-fab {
     overflow: hidden;
 
+    .mat-icon {
+      transition:
+        transform 180ms 90ms var(--mat-sys-motion-emphasized-decelerate),
+        margin 200ms var(--mat-sys-motion-emphasized-decelerate);
+    }
+
     > .mdc-button__label {
       opacity: 0;
       max-width: 0;
       transition:
-        opacity 240ms var(--mat-sys-motion-emphasized-decelerate) 60ms,
+        opacity 180ms var(--mat-sys-motion-emphasized-decelerate) 60ms,
         max-width 240ms var(--mat-sys-motion-emphasized-decelerate) 0ms;
     }
   }
@@ -17,6 +23,8 @@
   .mat-mdc-extended-fab > .mdc-button__label {
     opacity: 1;
     max-width: 200px;
+    transition-delay: 0;
+    transition-timing-function: linear;
   }
 
   .tertiary-fab {

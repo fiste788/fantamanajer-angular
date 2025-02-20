@@ -1,3 +1,4 @@
+/* stylelint-disable selector-not-notation */
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
 
@@ -15,16 +16,24 @@
   text-overflow: ellipsis;
   transition:
     max-height 200ms var(--mat-sys-motion-emphasized-decelerate),
-    opacity 100ms var(--mat-sys-motion-emphasized-decelerate);
+    opacity 100ms var(--mat-sys-motion-emphasized-decelerate),
+    margin 100ms var(--mat-sys-motion-emphasized-decelerate);
   max-height: 2rem;
   opacity: 1;
 }
 
-.mdc-list-item {
-  transition:
-    height 200ms var(--mat-sys-motion-emphasized-decelerate),
-    margin 200ms var(--mat-sys-motion-emphasized-decelerate);
+.mat-divider {
+  display: none;
+}
 
+.mat-mdc-nav-list {
+  gap: 0;
+  transition:
+    gap 200ms var(--mat-sys-motion-emphasized-decelerate),
+    padding 200ms var(--mat-sys-motion-emphasized-decelerate);
+}
+
+.mdc-list-item {
   > .mat-icon {
     transition: font-variation-settings 0.2s var(--mat-sys-motion-standard);
   }
@@ -36,16 +45,16 @@
   );
 }
 
-.mat-divider {
-  margin: 0 1rem;
-}
-
 .mat-mdc-list-item-title {
   opacity: 0;
   transition: opacity 100ms var(--mat-sys-motion-emphasized-decelerate);
 }
 
 :host-context(.mat-drawer) {
+  .mat-divider {
+    margin: 0 1rem;
+  }
+
   .mat-mdc-nav-list {
     padding: 0;
     display: flex;
@@ -264,6 +273,10 @@
 :host-context(
   .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
 ) {
+  .title-lite {
+    display: block;
+  }
+
   .mat-mdc-nav-list {
     @include mat.list-overrides(
       (
@@ -278,25 +291,26 @@
   .mat-mdc-subheader {
     max-height: 0;
     opacity: 0;
+    margin: 0;
+  }
+
+  .title-lite {
+    display: none;
   }
 
   .mat-divider {
     display: none;
   }
 
-  .title-lite {
-    display: block;
-  }
-
   .mat-mdc-nav-list {
     gap: 0.75rem;
   }
 
-  .mat-mdc-list-item {
+  .mdc-list-item {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
 
-    .mat-icon {
+    &--activated > .mat-icon {
       font-variation-settings:
         'FILL' 1,
         'wght' 400;
@@ -310,5 +324,14 @@
 
   .mat-mdc-nav-list .mat-mdc-list-item {
     margin-bottom: 1.5rem;
+  }
+}
+
+:host-context(.mat-drawer.mat-drawer-animating) {
+  .mat-mdc-list-item {
+    transition:
+      height 150ms var(--mat-sys-motion-emphasized-decelerate),
+      margin 150ms var(--mat-sys-motion-emphasized-decelerate),
+      padding 200ms var(--mat-sys-motion-emphasized-decelerate);
   }
 }

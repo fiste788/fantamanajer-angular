@@ -12,6 +12,7 @@
       box-sizing: border-box;
       transform: scaleX(0.32);
       transition:
+        margin 200ms var(--mat-sys-motion-emphasized-decelerate),
         width 200ms var(--mat-sys-motion-emphasized-decelerate),
         height 200ms var(--mat-sys-motion-emphasized-decelerate),
         transform 200ms var(--mat-sys-motion-emphasized-decelerate),
