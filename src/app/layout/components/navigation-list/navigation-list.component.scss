@@ -15,9 +15,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   transition:
-    max-height 200ms var(--mat-sys-motion-emphasized-decelerate),
-    opacity 100ms var(--mat-sys-motion-emphasized-decelerate),
-    margin 100ms var(--mat-sys-motion-emphasized-decelerate);
+    max-height 200ms var(--drawer-animation-timing-function),
+    opacity 100ms var(--drawer-animation-timing-function),
+    margin 100ms var(--drawer-animation-timing-function);
   max-height: 2rem;
   opacity: 1;
 }
@@ -28,14 +28,14 @@
 
 .mat-mdc-nav-list {
   gap: 0;
-  transition:
-    gap 200ms var(--mat-sys-motion-emphasized-decelerate),
-    padding 200ms var(--mat-sys-motion-emphasized-decelerate);
+  transition-property: gap, padding;
+  transition-timing-function: var(--drawer-animation-timing-function);
+  transition-duration: var(--drawer-animation-duration);
 }
 
 .mdc-list-item {
   > .mat-icon {
-    transition: font-variation-settings 0.2s var(--mat-sys-motion-standard);
+    transition: font-variation-settings 200ms var(--mat-sys-motion-standard);
   }
 
   @include mat.list-overrides(
@@ -47,7 +47,7 @@
 
 .mat-mdc-list-item-title {
   opacity: 0;
-  transition: opacity 100ms var(--mat-sys-motion-emphasized-decelerate);
+  transition: opacity 100ms var(--drawer-animation-timing-function);
 }
 
 :host-context(.mat-drawer) {
@@ -105,14 +105,14 @@
   .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
 ) {
   .mat-mdc-nav-list {
-    transition: margin 400ms var(--mat-sys-motion-emphasized-decelerate);
+    transition: margin var(--drawer-animation-duration) var(--drawer-animation-timing-function);
 
     @include mat.list-overrides(
       (
         list-item-focus-state-layer-color: transparent,
-        list-item-label-text-size: 14px,
-        list-item-label-text-line-height: 1rem,
-        list-item-label-text-weight: 500,
+        list-item-label-text-size: var(--mat-sys-label-large-size),
+        list-item-label-text-line-height: var(--mat-sys-label-large-line-height),
+        list-item-label-text-weight: var(--mat-sys-label-large-weight),
         list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
@@ -330,8 +330,8 @@
 :host-context(.mat-drawer.mat-drawer-animating) {
   .mat-mdc-list-item {
     transition:
-      height 150ms var(--mat-sys-motion-emphasized-decelerate),
-      margin 150ms var(--mat-sys-motion-emphasized-decelerate),
-      padding 200ms var(--mat-sys-motion-emphasized-decelerate);
+      height 150ms var(--drawer-animation-timing-function),
+      margin 150ms var(--drawer-animation-timing-function),
+      padding 150ms var(--drawer-animation-timing-function);
   }
 }

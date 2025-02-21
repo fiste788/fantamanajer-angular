@@ -5,7 +5,7 @@
   display: none;
   z-index: 1;
   position: relative;
-  transition: margin 200ms var(--mat-sys-motion-emphasized-decelerate);
+  transition: margin var(--drawer-animation-duration) var(--drawer-animation-timing-function);
 
   @include mat.fab-overrides(
     (
@@ -21,20 +21,20 @@ app-profile {
   max-height: 500px;
   overflow: hidden;
   opacity: 1;
-  transition:
-    max-height 200ms var(--mat-sys-motion-emphasized-decelerate),
-    opacity 200ms var(--mat-sys-motion-emphasized-decelerate);
+  transition-property: max-height, opacity;
+  transition-timing-function: var(--drawer-animation-timing-function);
+  transition-duration: var(--drawer-animation-duration);
 }
 
 app-navigation-list {
-  transition-property: margin;
-  transition-duration: 200ms;
-  transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
+  transition-property: margin var(--drawer-animation-duration)
+    var(--drawer-animation-timing-function);
+  margin-top: 0;
 }
 
 .toggle {
   display: none;
-  transition: margin 200ms var(--mat-sys-motion-emphasized-decelerate);
+  margin-left: 1.25rem;
 }
 
 @media (min-width: theme('screens.sm')) {
@@ -48,37 +48,18 @@ app-navigation-list {
     display: block;
   }
 
-  :host-context(.mat-drawer-opened) {
-    app-profile {
-      max-height: 300px;
-    }
-
-    .toggle {
-      margin-top: 1rem;
-      margin-left: 1rem;
-    }
-  }
-
   :host-context(.mat-drawer:not(.mat-drawer-opened)) {
     app-profile {
       max-height: 0;
       opacity: 0;
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
     }
 
     .fab {
       margin: 0.5rem 0.75rem;
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-    }
-
-    .toggle {
-      margin: 3rem 1.25rem 0;
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
     }
 
     app-navigation-list {
       margin-top: 3rem;
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
     }
   }
 }

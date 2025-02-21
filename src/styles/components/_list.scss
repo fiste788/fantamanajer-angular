@@ -12,11 +12,11 @@
       box-sizing: border-box;
       transform: scaleX(0.32);
       transition:
-        margin 200ms var(--mat-sys-motion-emphasized-decelerate),
-        width 200ms var(--mat-sys-motion-emphasized-decelerate),
-        height 200ms var(--mat-sys-motion-emphasized-decelerate),
-        transform 200ms var(--mat-sys-motion-emphasized-decelerate),
-        opacity 200ms var(--mat-sys-motion-emphasized-decelerate);
+        margin 200ms var(--drawer-animation-timing-function),
+        width 200ms var(--drawer-animation-timing-function),
+        height 200ms var(--drawer-animation-timing-function),
+        transform 200ms var(--drawer-animation-timing-function),
+        opacity 200ms var(--drawer-animation-timing-function);
     }
 
     .mat-mdc-list-item.mdc-list-item--activated {

@@ -4,18 +4,24 @@
   .mat-drawer > .mat-drawer-inner-container {
     overflow-x: hidden;
     transition:
-      opacity 66ms var(--mat-sys-motion-emphasized-accelerate),
-      width 100ms var(--mat-sys-motion-emphasized-accelerate);
+      opacity 66ms var(--drawer-animation-timing-function),
+      width 100ms var(--drawer-animation-timing-function),
+      padding var(--drawer-animation-duration) var(--drawer-animation-timing-function);
     opacity: 0;
     width: 0;
+    box-sizing: border-box;
   }
 
   .mat-drawer-opened > .mat-drawer-inner-container {
+    --drawer-animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+    --drawer-animation-duration: 400ms;
+
     opacity: 1;
+    padding-top: 1rem;
     width: 100%;
-    transition-delay: 66ms;
-    transition-duration: 300ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
+    transition-delay: 66ms, 66ms, 0;
+    transition-duration: 300ms, 300ms, 400ms;
+    transition-timing-function: var(--drawer-animation-timing-function);
 
     @starting-style {
       opacity: 0;
@@ -29,6 +35,23 @@
         container-shape: 0,
       )
     );
+
+    > .mat-drawer-inner-container {
+      display: block !important;
+      transition: none;
+      width: auto;
+      opacity: 1;
+    }
+  }
+
+  .mat-drawer:not(.mat-drawer-opened) {
+    --drawer-animation-timing-function: var(--mat-sys-motion-emphasized-accelerate);
+    --drawer-animation-duration: 200ms;
+
+    .mat-drawer-inner-container {
+      transition-timing-function: var(--drawer-animation-timing-function);
+      padding-top: 3rem;
+    }
   }
 
   @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
@@ -45,15 +68,6 @@
       &:not(.mat-drawer-animating) > .mat-drawer-inner-container {
         display: block !important;
       }
-    }
-  }
-
-  @media (min-width: theme('screens.lg')) {
-    .mat-drawer > .mat-drawer-inner-container {
-      display: block !important;
-      transition: none;
-      width: auto;
-      opacity: 1;
     }
   }
 }
