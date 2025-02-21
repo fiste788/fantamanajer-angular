@@ -22,10 +22,6 @@
   opacity: 1;
 }
 
-.mat-divider {
-  display: none;
-}
-
 .mat-mdc-nav-list {
   gap: 0;
   transition-property: gap, padding;
@@ -116,6 +112,10 @@
         list-item-label-text-color: var(--mat-sys-on-surface-variant),
       )
     );
+  }
+
+  .mat-divider {
+    display: none;
   }
 
   .mat-mdc-list-item-title {
