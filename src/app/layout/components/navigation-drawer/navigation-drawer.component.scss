@@ -17,13 +17,6 @@
   );
 }
 
-app-profile {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition-property: max-height, opacity;
-}
-
 .toggle {
   display: none;
   margin-left: 1.25rem;
@@ -41,6 +34,13 @@ app-profile {
   app-navigation-list {
     transition-timing-function: var(--drawer-animation-timing-function);
     transition-duration: var(--drawer-animation-duration);
+  }
+
+  app-profile {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition-property: max-height, opacity;
   }
 
   .toggle {

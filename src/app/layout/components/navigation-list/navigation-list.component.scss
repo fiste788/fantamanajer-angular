@@ -101,9 +101,7 @@
 
 // è chiuso
 :host-context(.navigation-bar),
-:host-context(
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
-) {
+:host-context(.container-navigation-rail .mat-drawer-closed) {
   .mat-mdc-nav-list {
     transition: margin var(--drawer-animation-duration) var(--drawer-animation-timing-function);
 
@@ -269,25 +267,11 @@
   }
 }
 
-// è chiuso
-:host-context(
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
-) {
-  .title-lite {
-    display: block;
-  }
-
-  .mat-mdc-nav-list {
-    @include mat.list-overrides(
-      (
-        list-item-one-line-container-height: 56px,
-      )
-    );
-  }
-}
-
 // si sta chiudendo o è chiuso
-:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(
+  .container-navigation-rail .mat-drawer-closed,
+  .container-navigation-rail .mat-drawer.closing
+) {
   .mat-mdc-subheader {
     max-height: 0;
     opacity: 0;
@@ -318,8 +302,23 @@
   }
 }
 
+// è chiuso
+:host-context(.container-navigation-rail .mat-drawer-closed) {
+  .title-lite {
+    display: block;
+  }
+
+  .mat-mdc-nav-list {
+    @include mat.list-overrides(
+      (
+        list-item-one-line-container-height: 56px,
+      )
+    );
+  }
+}
+
 // si sta chiudendo
-:host-context(.container-navigation-rail .mat-drawer.mat-drawer-animating:not(.mat-drawer-opened)) {
+:host-context(.container-navigation-rail .mat-drawer.closing) {
   --mdc-list-list-item-one-line-container-height: 2rem;
 
   .mat-mdc-nav-list .mat-mdc-list-item {
@@ -327,11 +326,10 @@
   }
 }
 
-:host-context(.mat-drawer.mat-drawer-animating) {
+:host-context(.mat-drawer.closing, .mat-drawer.opening) {
   .mat-mdc-list-item {
-    transition:
-      height 150ms var(--drawer-animation-timing-function),
-      margin 150ms var(--drawer-animation-timing-function),
-      padding 150ms var(--drawer-animation-timing-function);
+    transition-timing-function: var(--drawer-animation-timing-function);
+    transition-duration: 150ms;
+    transition-property: height, margin, padding;
   }
 }
