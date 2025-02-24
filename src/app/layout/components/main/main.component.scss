@@ -20,6 +20,12 @@
 
 .mat-drawer-side {
   border: 0 none;
+
+  @include mat.sidenav-overrides(
+    (
+      container-shape: 0,
+    )
+  );
 }
 
 .mat-drawer-content {
@@ -52,7 +58,7 @@ main {
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
   .mat-drawer[old-navigation-mode='rail'] {
-    transition-property: width, background-color !important;
+    transition-property: width, background-color, border-radius !important;
     transform: translate3d(0, 0, 0);
 
     &:not(.mat-drawer-opened) {

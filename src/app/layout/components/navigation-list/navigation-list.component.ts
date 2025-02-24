@@ -1,6 +1,5 @@
 /* eslint-disable @angular-eslint/component-max-inline-declarations */
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatRippleModule } from '@angular/material/core';
@@ -55,7 +54,7 @@ import { LayoutService } from '../../services';
     ]),
   ],
   selector: 'app-navigation-list',
-  imports: [AsyncPipe, RouterModule, MatListModule, MatRippleModule, MatIconModule],
+  imports: [RouterModule, MatListModule, MatRippleModule, MatIconModule],
   styleUrl: './navigation-list.component.scss',
   host: {
     '[class]': 'mode()',
@@ -71,7 +70,7 @@ export class NavigationListComponent {
 
   protected readonly loggedIn = inject(AuthenticationService).loggedIn;
   protected readonly team = toSignal(this.#applicationService.team$);
-  protected readonly matchday$ = this.#applicationService.matchday$;
+  protected readonly matchday = toSignal(this.#applicationService.matchday$);
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly openDrawer = this.#layoutService.openDrawer.asReadonly();
 
@@ -83,11 +82,19 @@ export class NavigationListComponent {
       exact?: boolean;
       title_short?: string;
       divider?: boolean;
+      header?: string;
     }>();
 
     const team = this.team();
     const mode = this.mode();
-    items.push({ title: 'Home', url: '/', exact: true, icon: 'home' });
+    const matchday = this.matchday();
+    const header =
+      mode === 'full' && matchday
+        ? !matchday.season.ended && matchday.season.started
+          ? `Giornata ${matchday.number}`
+          : matchday.season.name
+        : '';
+    items.push({ title: 'Home', url: '/', exact: true, icon: 'home', header });
     if (team) {
       items.push(
         { title: team.name, url: ['teams', team.id], title_short: 'Squadra', icon: 'groups_3' },
@@ -107,6 +114,7 @@ export class NavigationListComponent {
         title: 'Profilo',
         url: '/user',
         divider: true,
+        header: 'Profilo',
         title_short: 'Io',
         icon: 'account_circle',
       });
@@ -114,7 +122,13 @@ export class NavigationListComponent {
         items.push({ title: 'Logout', url: '/auth/logout', icon: 'exit_to_app' });
       }
     } else {
-      items.push({ title: 'Accedi', url: '/auth/login', divider: true, icon: 'input' });
+      items.push({
+        title: 'Accedi',
+        url: '/auth/login',
+        divider: true,
+        header: 'Profilo',
+        icon: 'input',
+      });
     }
 
     return items;

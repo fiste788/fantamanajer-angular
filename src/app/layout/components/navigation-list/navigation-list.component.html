@@ -1,4 +1,3 @@
-@let matchday = matchday$ | async;
 @let _mode = mode();
 @let _navigationMode = navigationMode();
 @let _openDrawer = openDrawer();
@@ -7,20 +6,12 @@
   [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
 >
-  @if (_mode === 'full' && matchday) {
-    <h3 mat-subheader>
-      <span>
-        @if (!matchday.season.ended && matchday.season.started) {
-          Giornata {{ matchday.number }}
-        } @else {
-          {{ matchday.season.name }}
-        }
-      </span>
-    </h3>
-  }
   @for (item of items(); track item.url) {
     @if (item.divider) {
       <mat-divider />
+    }
+    @if (item.header) {
+      <h3 mat-subheader>{{ item.header }}</h3>
     }
     <a
       #list
