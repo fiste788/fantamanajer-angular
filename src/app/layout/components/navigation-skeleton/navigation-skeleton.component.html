@@ -1,44 +1,59 @@
 <div class="sm:hidden lg:block">
+  @let itemHeight1 = 56;
+  @let offset1 = drawerOffset + (loggedIn ? 312 : 0);
+  @let offsetProfile1 = offset1 + 45 + itemHeight1 * mainItems;
   <content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    [viewBox]="'0 0 288 ' + (loggedIn ? 745 : 245)"
+    [viewBox]="'0 0 288 ' + (offsetProfile1 + itemHeight1 * profileItems)"
   >
     @if (loggedIn) {
       <svg:rect
-        height="138"
+        height="148"
         rx="16"
         ry="16"
-        width="245"
-        x="16"
+        width="264"
+        x="12"
         y="16"
       />
       <svg:rect
         height="56"
         rx="16"
         ry="16"
-        width="245"
-        x="16"
-        y="256"
+        width="264"
+        x="12"
+        y="248"
       />
     }
-    @for (it of items | range; track it; let idx = $index) {
+    @for (it of mainItems | range; track it; let idx = $index) {
       <svg:rect
         height="52"
         rx="26"
         ry="26"
-        width="245"
-        x="16"
-        [attr.y]="(loggedIn ? 371 : 43) + 56 * idx"
+        width="264"
+        x="12"
+        [attr.y]="offset1 + itemHeight1 * idx"
+      />
+    }
+    @for (it of profileItems | range; track it; let idx = $index) {
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="264"
+        x="12"
+        [attr.y]="offsetProfile1 + itemHeight1 * idx"
       />
     }
   </content-loader>
 </div>
 <div class="hidden sm:block lg:hidden">
+  @let itemHeight2 = 68;
+  @let offset2 = railOffset + (loggedIn ? 60 : 0);
   <content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    [viewBox]="'0 0 80 ' + (loggedIn ? 540 : 316)"
+    [viewBox]="'0 0 80 ' + (offset1 + itemHeight1 * mainItems + itemHeight1 * profileItems)"
   >
     @if (loggedIn) {
       <svg:rect
@@ -47,17 +62,27 @@
         ry="16"
         width="56"
         x="12"
-        y="96"
+        [attr.y]="railOffset"
       />
     }
-    @for (it of items | range; track it; let idx = $index) {
+    @for (it of mainItems | range; track it; let idx = $index) {
       <svg:rect
         height="32"
         rx="16"
         ry="16"
         width="56"
         x="12"
-        [attr.y]="(loggedIn ? 200 : 140) + 68 * idx"
+        [attr.y]="offset2 + itemHeight2 * idx"
+      />
+    }
+    @for (it of profileItems | range; track it; let idx = $index) {
+      <svg:rect
+        height="52"
+        rx="26"
+        ry="26"
+        width="264"
+        x="12"
+        [attr.y]="offset1 + itemHeight1 * mainItems + itemHeight1 * idx"
       />
     }
   </content-loader>

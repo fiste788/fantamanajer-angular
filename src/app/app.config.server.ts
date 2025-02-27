@@ -1,6 +1,5 @@
 import { HTTP_TRANSFER_CACHE_ORIGIN_MAP } from '@angular/common/http';
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideServerRendering } from '@angular/platform-server';
 import { provideServerRouting } from '@angular/ssr';
 
@@ -13,7 +12,6 @@ const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
     provideServerRouting(serverRoutes),
-    provideAnimationsAsync('noop'),
     {
       provide: HTTP_TRANSFER_CACHE_ORIGIN_MAP,
       useValue: {

@@ -56,12 +56,6 @@
     display: flex;
     flex-direction: column;
   }
-
-  .mdc-list-item--activated {
-    .mat-mdc-list-item-title {
-      color: var(--mat-sys-on-secondary-container) !important;
-    }
-  }
 }
 
 :host-context(.mat-drawer-opened) {
@@ -114,7 +108,8 @@
     );
   }
 
-  .mat-divider {
+  .mat-divider,
+  .mat-mdc-subheader {
     display: none;
   }
 
@@ -263,7 +258,6 @@
       (
         list-item-one-line-container-height: auto,
         list-item-label-text-color: var(--mat-sys-on-surface),
-        list-item-leading-icon-color: var(--mat-sys-on-secondary-container),
       )
     );
   }

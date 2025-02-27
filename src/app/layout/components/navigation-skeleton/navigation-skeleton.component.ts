@@ -12,5 +12,8 @@ import { RangePipe } from '@shared/pipes';
 })
 export class NavigationSkeletonComponent {
   protected readonly loggedIn = inject(AuthenticationService).loggedIn();
-  protected items = this.loggedIn ? 6 : 3;
+  protected mainItems = this.loggedIn ? 4 : 2;
+  protected profileItems = this.loggedIn ? 2 : 1;
+  protected railOffset = 88;
+  protected drawerOffset = 44;
 }
