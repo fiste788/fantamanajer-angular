@@ -35,6 +35,7 @@ export default [
           exit: true,
           description: 'Club',
           ogDescription: 'Club',
+          robots: 'follow,noindex',
           ogImage: (data: { club: Club }): string => `${data.club.photo_url}`,
           ogTitle: (data: { club: Club }): string => data.club.name,
         },
