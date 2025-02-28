@@ -27,7 +27,7 @@ export class MetaService {
         map(() => this.#getChild(this.#activatedRoute).snapshot),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         map((route) => (route.data['parent'] ? route.parent!.data : route.data)),
-        tap((data) => {
+        tap((data: SEOData) => {
           this.#setTag('description', data, 'description');
           this.#setTag('robots', data, 'robots', 'follow,index');
           this.#setTag('og:url', data, 'ogUrl', this.#router.url);
@@ -39,8 +39,8 @@ export class MetaService {
       .subscribe();
   }
 
-  #setTag(property: string, data: Data, key: keyof SEOData, defaultValue?: string): void {
-    const meta = (data as SEOData)[key];
+  #setTag(property: string, data: SEOData, key: keyof SEOData, defaultValue?: string): void {
+    const meta = data[key];
     if (meta !== undefined) {
       this.#metaService.updateTag({ property, content: this.#getLabel(meta, data) });
     } else if (defaultValue) {
