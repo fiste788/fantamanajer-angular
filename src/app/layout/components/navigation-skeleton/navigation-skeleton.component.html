@@ -50,10 +50,11 @@
 <div class="hidden sm:block lg:hidden">
   @let itemHeight2 = 68;
   @let offset2 = railOffset + (loggedIn ? 60 : 0);
+  @let offsetProfile2 = offset2 + itemHeight2 * mainItems;
   <content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    [viewBox]="'0 0 80 ' + (offset1 + itemHeight1 * mainItems + itemHeight1 * profileItems)"
+    [viewBox]="'0 0 80 ' + (offsetProfile2 + itemHeight2 * profileItems)"
   >
     @if (loggedIn) {
       <svg:rect
@@ -77,12 +78,12 @@
     }
     @for (it of profileItems | range; track it; let idx = $index) {
       <svg:rect
-        height="52"
-        rx="26"
-        ry="26"
-        width="264"
+        height="32"
+        rx="16"
+        ry="16"
+        width="56"
         x="12"
-        [attr.y]="offset1 + itemHeight1 * mainItems + itemHeight1 * idx"
+        [attr.y]="offsetProfile2 + itemHeight2 * idx"
       />
     }
   </content-loader>
