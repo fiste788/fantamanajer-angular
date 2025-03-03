@@ -18,7 +18,7 @@
           <th
             *matHeaderCellDef
             mat-header-cell
-          />
+          ></th>
           <td
             *matCellDef="let row"
             mat-cell
@@ -31,7 +31,7 @@
           <td
             *matFooterCellDef
             mat-footer-cell
-          />
+          ></td>
         </ng-container>
 
         <ng-container
@@ -76,7 +76,7 @@
           <td
             *matFooterCellDef
             mat-footer-cell
-          />
+          ></td>
         </ng-container>
 
         <ng-container matColumnDef="club">
@@ -95,7 +95,7 @@
           <td
             *matFooterCellDef
             mat-footer-cell
-          />
+          ></td>
         </ng-container>
 
         <ng-container matColumnDef="sum_present">
@@ -121,7 +121,7 @@
             *matFooterCellDef
             class="mat-footer-cell-numeric"
             mat-footer-cell
-          />
+          ></td>
         </ng-container>
 
         <ng-container matColumnDef="avg_points">
@@ -329,16 +329,16 @@
         <tr
           *matHeaderRowDef="displayedColumns; sticky: true"
           mat-header-row
-        />
+        ></tr>
         <tr
           *matRowDef="let row; columns: displayedColumns"
           mat-row
           (click)="selection.toggle(row)"
-        />
+        ></tr>
         <tr
           *matFooterRowDef="displayedColumns; sticky: true"
           mat-footer-row
-        />
+        ></tr>
       </table>
     </mat-card>
   } @else {

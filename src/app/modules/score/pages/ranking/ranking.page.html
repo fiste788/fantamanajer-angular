@@ -71,11 +71,11 @@
     <tr
       *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
       mat-header-row
-    />
+    ></tr>
     <tr
       *matRowDef="let row; columns: rankingDisplayedColumns$ | async;"
       mat-row
-    />
+    ></tr>
   </table>
 </mat-card>
 } @else {
