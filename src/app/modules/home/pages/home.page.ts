@@ -49,7 +49,7 @@ export class HomePage {
   protected async loadBestPlayers(): Promise<Map<Role, Array<Member>>> {
     return firstValueFrom(
       this.matchday$.pipe(
-        switchMap((matchday) => this.#memberService.getBest(matchday.id)),
+        switchMap((matchday) => this.#memberService.getBest(matchday.id - 1)),
         map((members) => groupBy(members, (member) => this.roleService.get(member.role_id))),
       ),
       { defaultValue: new Map() },
