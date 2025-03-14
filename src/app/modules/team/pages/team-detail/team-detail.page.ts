@@ -38,7 +38,7 @@ export class TeamDetailPage {
   protected readonly auth = inject(AuthenticationService);
 
   protected tabs = linkedSignal(() =>
-    this.loadTabs(this.team(), this.app.team()!, this.app.seasonEnded(), this.auth.user.value()),
+    this.loadTabs(this.team(), this.app.seasonEnded(), this.app.team(), this.auth.user()),
   );
 
   constructor() {
@@ -48,7 +48,7 @@ export class TeamDetailPage {
     });
   }
 
-  public loadTabs(currentTeam: Team, team: Team, seasonEnded = false, user?: User): Array<Tab> {
+  public loadTabs(currentTeam: Team, seasonEnded = false, team?: Team, user?: User): Array<Tab> {
     const { started } = currentTeam.championship;
 
     return [
@@ -70,7 +70,7 @@ export class TeamDetailPage {
       },
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
-      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
+      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team?.admin) },
     ];
   }
 

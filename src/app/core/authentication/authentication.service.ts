@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, inject, linkedSignal } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
 import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap } from 'rxjs';
@@ -19,9 +19,12 @@ export class AuthenticationService {
   readonly #adminRole = 'ROLE_ADMIN';
   readonly #userRole = 'ROLE_USER';
   readonly #sub = computed(() => this.#getSubject(this.#tokenStorageService.token()));
+  readonly #userResource = this.#userService.findResource(this.#sub);
 
-  public user = this.#userService.findResource(this.#sub);
-  public requireUser = computed(() => this.user.value()!);
+  public user = linkedSignal(() => this.#userResource.value(), {
+    equal: (a, b) => a?.id === b?.id,
+  });
+  public requireUser = computed(() => this.user()!);
   public loggedIn = computed(() => this.#isLoggedIn(this.#tokenStorageService.token()));
 
   constructor() {
@@ -56,6 +59,7 @@ export class AuthenticationService {
   public async postLogin(res: AuthenticationDto): Promise<boolean> {
     const { user, token } = res;
     user.roles = this.#getRoles(user);
+    this.user.set(user);
     this.#tokenStorageService.setToken(token);
 
     try {
@@ -65,7 +69,7 @@ export class AuthenticationService {
       // eslint-disable-next-line no-empty
     } catch {}
 
-    return this.user.value() !== undefined;
+    return this.user() !== undefined;
   }
 
   public async logout(): Promise<unknown> {
@@ -79,16 +83,12 @@ export class AuthenticationService {
     );
   }
 
-  public isAdmin(): boolean {
-    return this.user.value()?.admin ?? false;
-  }
-
   public hasAuthorities(authorities?: Array<string>): boolean {
     if (authorities === undefined || authorities.length === 0) {
       return true;
     }
 
-    return authorities.some((r) => this.user.value()?.roles?.includes(r));
+    return authorities.some((r) => this.user()?.roles?.includes(r));
   }
 
   public logoutUI(): void {

@@ -50,7 +50,7 @@ export class PasskeyListPage {
   }
 
   protected async unregister(publicKey: PublicKeyCredentialSource): Promise<boolean> {
-    const user = this.#auth.user.value()!;
+    const user = this.#auth.user()!;
 
     await firstValueFrom(this.#pbcsService.delete(user.id, publicKey.id), { defaultValue: false });
 

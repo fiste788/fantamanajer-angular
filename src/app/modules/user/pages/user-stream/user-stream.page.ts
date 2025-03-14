@@ -8,5 +8,5 @@ import { StreamComponent } from '@modules/stream/components/stream.component';
   imports: [StreamComponent],
 })
 export class UserStreamPage {
-  protected readonly id = linkedSignal(() => inject(AuthenticationService).user.value()!.id);
+  protected readonly id = linkedSignal(() => inject(AuthenticationService).user()!.id);
 }

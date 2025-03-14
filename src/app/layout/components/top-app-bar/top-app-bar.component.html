@@ -24,9 +24,10 @@
           <mat-icon>get_app</mat-icon>
         </a>
       }
-      @if (loggedIn()) {
+      @let _team = team();
+      @if (_team && isCurrentSeason()) {
         @defer {
-          <app-notification />
+          <app-notification [team]="_team" />
         }
       }
     </div>

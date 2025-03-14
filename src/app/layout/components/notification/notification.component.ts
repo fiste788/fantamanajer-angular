@@ -1,13 +1,12 @@
-import { AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
-import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { Component, afterNextRender, inject, input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EMPTY, Observable } from 'rxjs';
 
-import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
-import { Stream } from '@data/types';
+import { Stream, Team } from '@data/types';
 import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
 import { createBoxAnimation } from '@shared/animations';
 import { SeasonActiveDirective } from '@shared/directives';
@@ -27,18 +26,19 @@ import { SeasonActiveDirective } from '@shared/directives';
   ],
 })
 export class NotificationComponent {
-  readonly #isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  readonly #notificationService = inject(NotificationService);
-  readonly #app = inject(ApplicationService);
+  public readonly team = input.required<Team>();
 
-  protected readonly stream$ = this.#isBrowser ? this.loadStream() : EMPTY;
+  readonly #notificationService = inject(NotificationService);
+
+  protected stream$: Observable<Stream> = EMPTY;
+
+  constructor() {
+    afterNextRender(() => {
+      this.stream$ = this.loadStream();
+    });
+  }
 
   public loadStream(): Observable<Stream> {
-    const team = this.#app.requireTeam();
-    const matchday = this.#app.matchday.value();
-
-    return team.championship.season_id === matchday?.season_id
-      ? this.#notificationService.getNotificationCount(team.id)
-      : EMPTY;
+    return this.#notificationService.getNotificationCount(this.team().id);
   }
 }

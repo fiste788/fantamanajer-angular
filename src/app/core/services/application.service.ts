@@ -14,18 +14,18 @@ export class ApplicationService {
   readonly #teamService = inject(TeamService);
   public readonly matchday = this.#matchdayService.getCurrentMatchdayResource();
 
-  readonly #isCurrentSeason = computed(
+  public isCurrentSeason = computed(
     () => this.matchday.value()?.season_id === this.team()?.championship.season_id,
   );
 
   public seasonEnded = computed(() =>
-    this.#isCurrentSeason() ? (this.matchday.value()?.season.ended ?? false) : true,
+    this.isCurrentSeason() ? (this.matchday.value()?.season.ended ?? false) : true,
   );
   public seasonStarted = computed(() =>
-    this.#isCurrentSeason() ? (this.matchday.value()?.season.started ?? true) : true,
+    this.isCurrentSeason() ? (this.matchday.value()?.season.started ?? true) : true,
   );
   public readonly team = linkedSignal<Team | undefined>(
-    () => this.#authService.user.value()?.teams?.at(0),
+    () => this.#authService.user()?.teams?.at(0),
     { equal: (a, b) => a?.id === b?.id },
   );
   public readonly requireTeam = computed(() => this.team()!);

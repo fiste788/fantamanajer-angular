@@ -7,7 +7,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { CurrentTransitionService, NAVIGATOR, PwaService, ScrollService } from '@app/services';
+import {
+  ApplicationService,
+  CurrentTransitionService,
+  NAVIGATOR,
+  PwaService,
+  ScrollService,
+} from '@app/services';
 import { createBoxAnimation, scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 
@@ -41,6 +47,8 @@ export class TopAppBarComponent {
 
   protected deferredPrompt$ = inject(PwaService).beforeInstall$;
   protected readonly isScrolled = inject(ScrollService).isScrolled;
+  protected readonly team = inject(ApplicationService).team;
+  protected readonly isCurrentSeason = inject(ApplicationService).isCurrentSeason;
   protected readonly loggedIn = this.#auth.loggedIn;
   protected readonly isOverlayed = this.#getOverlayedSignal();
 

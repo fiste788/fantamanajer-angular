@@ -15,7 +15,7 @@
       </mat-toolbar-row>
     }
     <mat-toolbar-row>
-      @if (auth.user.value()?.teams; as teams) {
+      @if (auth.user()?.teams; as teams) {
         <mat-form-field appearance="fill">
           <mat-select
             aria-label="Squadra selezionata"
