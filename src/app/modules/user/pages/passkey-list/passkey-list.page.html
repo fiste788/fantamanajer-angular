@@ -13,9 +13,9 @@
     Registra passkey
   </button>
 </div>
-} @if (passkeys$ | async; as passkeys) { @if (passkeys.length) {
+} @let _passkeys = passkeys.value(); @if (_passkeys.length) {
 <mat-list @listItemAnimation>
-  @for (passkey of passkeys; track passkey.id) {
+  @for (passkey of _passkeys; track passkey.id) {
   <mat-list-item>
     <mat-icon matListItemIcon>passkey</mat-icon>
     <span matListItemTitle>{{passkey.name}}</span>
@@ -44,9 +44,4 @@
   [size]="330"
 />
 
-} } @else {
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
 }

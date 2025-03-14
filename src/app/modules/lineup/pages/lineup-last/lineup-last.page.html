@@ -1,4 +1,4 @@
-@if (!app.seasonEnded()) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
+@if (!seasonEnded()) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
 <form
   #lineupForm="ngForm"
   appMemberAlreadySelected
@@ -41,15 +41,7 @@
   description="Goditi l'estate e tieniti pronto per la prossima stagione"
   icon="wb_sunny"
   rounded
-  [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
+  [label]="matchday.value()?.season?.name + ' conclusa'"
 />
 
 }
-<ng-template #seasonEnded>
-  <app-mat-empty-state
-    description="Goditi l'estate e tieniti pronto per la prossima stagione"
-    icon="wb_sunny"
-    rounded
-    [label]="(app.matchday$ | async)?.season?.name + ' conclusa'"
-  />
-</ng-template>

@@ -1,5 +1,4 @@
 import { animate, query, sequence, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -42,8 +41,8 @@ const breadcrumbTransition = trigger('breadcrumbTransition', [
   selector: 'app-breadcrumb',
   styleUrl: './breadcrumb.component.scss',
   templateUrl: './breadcrumb.component.html',
-  imports: [MatIconModule, RouterLink, AsyncPipe],
+  imports: [MatIconModule, RouterLink],
 })
 export class BreadcrumbComponent {
-  protected breadcrumbs$ = inject(BreadcrumbService).breadcrumbs$;
+  protected breadcrumbs = inject(BreadcrumbService).breadcrumbs;
 }

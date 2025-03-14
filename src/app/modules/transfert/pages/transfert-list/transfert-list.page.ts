@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -42,9 +43,10 @@ export class TransfertListPage {
 
   protected readonly team$ = getRouteData<Team>('team');
   protected readonly dataSource$ = this.loadData();
-  protected readonly isMyTeam$ = combineLatest([this.team$, this.app.requireTeam$]).pipe(
-    map(([cur, my]) => cur.id === my.id),
-  );
+  protected readonly isMyTeam$ = combineLatest([
+    this.team$,
+    toObservable(this.app.requireTeam),
+  ]).pipe(map(([cur, my]) => cur.id === my.id));
 
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 

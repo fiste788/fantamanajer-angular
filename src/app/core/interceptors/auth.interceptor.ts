@@ -44,7 +44,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (newReq.context.get(NO_AUTH_IT)) {
     return next(newReq);
   }
-  const accessToken = inject(TokenStorageService).token;
+  const accessToken = inject(TokenStorageService).token();
 
   if (accessToken) {
     newReq = req.clone({

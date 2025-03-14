@@ -14,9 +14,9 @@
         cdkScrollable
         class="content mat-mdc-dialog-content"
       >
-        @if ((stream$ | async); as stream) { @if (stream.results.length) {
+        @if (stream | async; as _stream) { @if (_stream.results.length) {
         <mat-list @listItemAnimation>
-          @for (activity of stream.results; track $index) {
+          @for (activity of _stream.results; track $index) {
           <mat-list-item>
             <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
             <h3 matListItemTitle>{{ activity.title }}</h3>

@@ -19,7 +19,7 @@
         <a
           mat-button
           [queryParams]="{new_member_id: _selectedMember.id}"
-          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
+          [routerLink]="'/teams/' + app.team()?.id + '/transferts'"
         >
           Acquista
         </a>

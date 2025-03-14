@@ -1,10 +1,10 @@
-@let matchday = matchday$ | async; @let number = matchday?.number ?? 0; @if (number > 1) { @let
-bestPlayers = bestPlayers$ | async;
+@let _matchday = matchday.value(); @let number = _matchday?.number ?? 0; @if (number > 1) { @let
+_bestPlayers = bestPlayers();
 <div
   class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4"
   @cardCreationAnimation
 >
-  @for (role of roles; track role.id) { @let bestPlayer = bestPlayers?.get(role);
+  @for (role of roles; track role.id) { @let bestPlayer = _bestPlayers?.get(role);
   <mat-card appearance="outlined">
     <a [routerLink]="['/players', bestPlayer?.[0]?.player_id]">
       <app-player-image

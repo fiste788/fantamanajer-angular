@@ -1,7 +1,6 @@
 /* eslint-disable @angular-eslint/component-max-inline-declarations */
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -9,8 +8,19 @@ import { RouterModule, UrlTree } from '@angular/router';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
+import { Matchday, Team } from '@data/types';
 
 import { LayoutService } from '../../services';
+
+interface NavigationItem {
+  title: string;
+  url: string | Array<unknown> | UrlTree;
+  icon: string;
+  exact?: boolean;
+  title_short?: string;
+  divider?: boolean;
+  header?: string;
+}
 
 @Component({
   animations: [
@@ -67,27 +77,26 @@ export class NavigationListComponent {
 
   readonly #applicationService = inject(ApplicationService);
   readonly #layoutService = inject(LayoutService);
+  readonly #authenticationService = inject(AuthenticationService);
 
-  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
-  protected readonly team = toSignal(this.#applicationService.team$);
-  protected readonly matchday = toSignal(this.#applicationService.matchday$);
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly openDrawer = this.#layoutService.openDrawer.asReadonly();
+  protected readonly items = linkedSignal(() =>
+    this.#getItems(
+      this.mode(),
+      this.#authenticationService.loggedIn(),
+      this.#applicationService.matchday.value(),
+      this.#applicationService.team(),
+    ),
+  );
 
-  protected readonly items = linkedSignal(() => {
-    const items = new Array<{
-      title: string;
-      url: string | Array<unknown> | UrlTree;
-      icon: string;
-      exact?: boolean;
-      title_short?: string;
-      divider?: boolean;
-      header?: string;
-    }>();
-
-    const team = this.team();
-    const mode = this.mode();
-    const matchday = this.matchday();
+  #getItems(
+    mode: 'lite' | 'full',
+    loggedIn: boolean,
+    matchday?: Matchday,
+    team?: Team,
+  ): Array<NavigationItem> {
+    const items = new Array<NavigationItem>();
     const header =
       mode === 'full' && matchday
         ? !matchday.season.ended && matchday.season.started
@@ -106,10 +115,10 @@ export class NavigationListComponent {
         },
       );
     }
-    if (mode === 'full' || (mode === 'lite' && !this.loggedIn())) {
+    if (mode === 'full' || (mode === 'lite' && !loggedIn)) {
       items.push({ title: 'Clubs', url: '/clubs', icon: 'sports_soccer' });
     }
-    if (this.loggedIn()) {
+    if (loggedIn) {
       items.push({
         title: 'Profilo',
         url: '/user',
@@ -132,5 +141,5 @@ export class NavigationListComponent {
     }
 
     return items;
-  });
+  }
 }

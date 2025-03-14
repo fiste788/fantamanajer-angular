@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, firstValueFrom, from, map, switchMap } from 'rxjs';
+import { Subscription, firstValueFrom, from, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';
@@ -78,13 +78,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
   protected async postLogin(result: boolean): Promise<boolean> {
     if (result) {
-      return firstValueFrom(
-        this.#app.requireTeam$.pipe(
-          map((t) => this.#getUrl(t)),
-          map(async (url) => this.#router.navigateByUrl(url)),
-        ),
-        { defaultValue: false },
-      );
+      const url = this.#getUrl(this.#app.requireTeam());
+
+      return this.#router.navigateByUrl(url);
     }
     const form = this.form();
     if (form) {

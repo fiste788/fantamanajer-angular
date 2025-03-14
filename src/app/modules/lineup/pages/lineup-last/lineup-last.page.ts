@@ -4,7 +4,7 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, switchMap } from 'rxjs';
 
 import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
 import { ApplicationService } from '@app/services';
@@ -32,8 +32,11 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 export class LineupLastPage {
   readonly #snackBar = inject(MatSnackBar);
   readonly #lineupService = inject(LineupService);
-  protected readonly app = inject(ApplicationService);
+  readonly #app = inject(ApplicationService);
+
   protected readonly lineup$ = this.loadData();
+  protected readonly seasonEnded = this.#app.seasonEnded;
+  protected readonly matchday = this.#app.matchday;
   protected editMode = false;
   protected benchs = environment.benchwarmersCount;
   protected captain = true;
@@ -41,13 +44,14 @@ export class LineupLastPage {
 
   protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
+    const currentTeam = this.#app.requireTeam();
+    this.benchs = currentTeam.championship.number_benchwarmers;
+    this.captain = currentTeam.championship.captain;
+    this.jolly = currentTeam.championship.jolly;
 
-    return combineLatest([team$, this.app.requireTeam$]).pipe(
-      map(([team, currentTeam]) => {
-        this.benchs = currentTeam.championship.number_benchwarmers;
+    return team$.pipe(
+      map((team) => {
         this.editMode = currentTeam.id === team.id;
-        this.captain = currentTeam.championship.captain;
-        this.jolly = currentTeam.championship.jolly;
 
         return team;
       }),

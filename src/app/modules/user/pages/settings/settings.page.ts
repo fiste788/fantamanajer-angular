@@ -36,7 +36,7 @@ export class SettingsPage {
   readonly #userService = inject(UserService);
   readonly #pushService = inject(PushService);
 
-  protected readonly user$ = this.#auth.requireUser$;
+  protected readonly user = this.#auth.user;
   protected readonly push$ = this.#pushService.isSubscribed();
   protected readonly enabled = this.#pushService.isEnabled();
   protected repeatPassword = '';

@@ -1,5 +1,5 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,10 @@ import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { Team } from '@data/types';
-import { TeamEditModalData } from '@modules/team/modals/team-edit/team-edit.modal';
+import {
+  type TeamEditModal,
+  TeamEditModalData,
+} from '@modules/team/modals/team-edit/team-edit.modal';
 import { SrcsetPipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
@@ -31,7 +34,6 @@ import { LayoutService } from '../../services';
     MatSelectModule,
     FormsModule,
     MatOptionModule,
-    AsyncPipe,
     MatIcon,
     MatButtonModule,
     NgOptimizedImage,
@@ -68,7 +70,7 @@ export class ProfileComponent {
       this.#teamService.getTeam(team_id).pipe(
         switchMap((team) =>
           this.#dialog
-            .open<unknown, TeamEditModalData, boolean>(TeamEditModal, {
+            .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
               data: { team },
               scrollStrategy: new NoopScrollStrategy(),
             })

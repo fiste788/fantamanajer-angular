@@ -1,14 +1,12 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { map } from 'rxjs';
+import { Component, inject, linkedSignal } from '@angular/core';
 
 import { AuthenticationService } from '@app/authentication';
 import { StreamComponent } from '@modules/stream/components/stream.component';
 
 @Component({
   templateUrl: './user-stream.page.html',
-  imports: [StreamComponent, AsyncPipe],
+  imports: [StreamComponent],
 })
 export class UserStreamPage {
-  protected readonly id$ = inject(AuthenticationService).requireUser$.pipe(map((u) => u.id));
+  protected readonly id = linkedSignal(() => inject(AuthenticationService).user.value()!.id);
 }

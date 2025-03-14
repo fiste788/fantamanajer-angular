@@ -38,7 +38,6 @@ import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
   PushService,
-  appInitializerProvider,
   NAVIGATOR_PROVIDERS,
   WINDOW_PROVIDERS,
   IconService,
@@ -111,7 +110,6 @@ export const appConfig: ApplicationConfig = {
         inject(PushService).connect();
       }
     }),
-    appInitializerProvider,
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
   ],

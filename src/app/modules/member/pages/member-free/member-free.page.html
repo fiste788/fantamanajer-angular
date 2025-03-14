@@ -1,4 +1,4 @@
-@let members = members$ | async; @let team = (app.team$ | async);
+@let members = members$ | async; @let team = app.team();
 <div
   class="table-container"
   @tableRowAnimation

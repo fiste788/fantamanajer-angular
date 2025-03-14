@@ -1,12 +1,10 @@
 import { trigger } from '@angular/animations';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { AsyncPipe } from '@angular/common';
 import { Component, afterNextRender, input, inject, linkedSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, ScrollService } from '@app/services';
@@ -25,7 +23,6 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     ParallaxHeaderComponent,
     MatButtonModule,
     MatIconModule,
-    AsyncPipe,
     MatDialogModule,
     PrimaryTabComponent,
   ],
@@ -39,16 +36,10 @@ export class TeamDetailPage {
 
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
-  protected readonly context = toSignal(
-    combineLatest({ user: this.auth.user$, team: this.app.requireTeam$ }),
-    { requireSync: true },
+
+  protected tabs = linkedSignal(() =>
+    this.loadTabs(this.team(), this.app.team()!, this.app.seasonEnded(), this.auth.user.value()),
   );
-
-  protected tabs = linkedSignal(() => {
-    const context = this.context();
-
-    return this.loadTabs(this.team(), context.team, this.app.seasonEnded(), context.user);
-  });
 
   constructor() {
     afterNextRender(() => {

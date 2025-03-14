@@ -23,7 +23,7 @@ export class ChampionshipService {
     );
   }
 
-  public get(championshipId: number): Observable<Championship> {
+  public find(championshipId: number): Observable<Championship> {
     return this.#http.get<Championship>(routes.championship(championshipId));
   }
 

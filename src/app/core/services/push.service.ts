@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
 import {
@@ -30,9 +31,10 @@ export class PushService {
   readonly #snackBar = inject(MatSnackBar);
   readonly #notificationService = inject(NotificationService);
   readonly #auth = inject(AuthenticationService);
+  readonly #user = toObservable(this.#auth.requireUser);
 
   public init(): Observable<void> {
-    return this.#auth.requireUser$.pipe(
+    return this.#user.pipe(
       filter(() => environment.production),
       switchMap((user) => this.#initializeUser(user)),
     );

@@ -51,6 +51,7 @@ export class SelectionComponent {
   readonly #snackbar = inject(MatSnackBar);
   readonly #role = signal<Role | undefined>(undefined);
   readonly #role$ = toObservable(this.#role).pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
+  readonly #team = toObservable(this.#app.requireTeam);
 
   #savedSelection?: Selection;
   protected readonly data$ = this.loadData();
@@ -109,7 +110,7 @@ export class SelectionComponent {
         this.newMemberDisabled = true;
       }),
     );
-    this.newMembers$ = combineLatest([role$, this.#app.requireTeam$]).pipe(
+    this.newMembers$ = combineLatest([role$, this.#team]).pipe(
       switchMap(([role, team]) =>
         this.#memberService.getFree(team.championship.id, role.id, false),
       ),
@@ -154,21 +155,18 @@ export class SelectionComponent {
 
   protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm()?.valid) {
-      const save$ = this.#app.requireTeam$.pipe(
-        switchMap((t) => {
-          selection.team_id = t.id;
-          selection.old_member_id = selection.old_member?.id ?? 0;
-          selection.new_member_id = selection.new_member?.id ?? 0;
-          delete selection.team;
-          if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
-            delete selection.id;
+      const team = this.#app.requireTeam();
 
-            return this.#selectionService.create(selection as AtLeast<Selection, 'team_id'>);
-          }
-
-          return this.#selectionService.update(selection as Selection);
-        }),
-      );
+      selection.team_id = team.id;
+      selection.old_member_id = selection.old_member?.id ?? 0;
+      selection.new_member_id = selection.new_member?.id ?? 0;
+      delete selection.team;
+      if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
+        delete selection.id;
+      }
+      const save$ = selection.id
+        ? this.#selectionService.update(selection as Selection)
+        : this.#selectionService.create(selection as AtLeast<Selection, 'team_id'>);
 
       return save(save$, undefined, this.#snackbar, {
         message: 'Selezione salvata correttamento',

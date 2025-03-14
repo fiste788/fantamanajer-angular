@@ -3,7 +3,7 @@ import { Component, PLATFORM_ID, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, EMPTY, filter, Observable, switchMap } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
@@ -34,9 +34,11 @@ export class NotificationComponent {
   protected readonly stream$ = this.#isBrowser ? this.loadStream() : EMPTY;
 
   public loadStream(): Observable<Stream> {
-    return combineLatest([this.#app.requireTeam$, this.#app.matchday$]).pipe(
-      filter(([team, matchday]) => team.championship.season_id === matchday.season_id),
-      switchMap(([team]) => this.#notificationService.getNotificationCount(team.id)),
-    );
+    const team = this.#app.requireTeam();
+    const matchday = this.#app.matchday.value();
+
+    return team.championship.season_id === matchday?.season_id
+      ? this.#notificationService.getNotificationCount(team.id)
+      : EMPTY;
   }
 }
