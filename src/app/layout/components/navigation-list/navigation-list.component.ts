@@ -85,7 +85,7 @@ export class NavigationListComponent {
     this.#getItems(
       this.mode(),
       this.#authenticationService.loggedIn(),
-      this.#applicationService.matchday.value(),
+      this.#applicationService.matchday(),
       this.#applicationService.team(),
     ),
   );

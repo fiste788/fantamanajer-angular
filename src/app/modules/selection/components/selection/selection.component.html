@@ -23,13 +23,12 @@
           placeholder="Vecchio giocatore"
           required
           [compareWith]="compareFn"
-          [(ngModel)]="data.selection.old_member"
-          (selectionChange)="oldMemberChange($event.value)"
+          [(ngModel)]="oldMember"
         >
           @if (data.members; as members) {
             @for (role of members | keyvalue: descOrder; track role.key.id) {
               <mat-optgroup
-                [disabled]="newMemberRole() && role.key.id !== newMemberRole()?.id"
+                [disabled]="newMember() && role.key.id !== newMember()?.role_id"
                 [label]="role.key.plural"
               >
                 @for (member of role.value; track member.id) {
@@ -43,13 +42,13 @@
       <mat-form-field>
         <mat-label>Nuovo giocatore</mat-label>
         <mat-select
-          #newMember="ngModel"
+          #newMemberControl="ngModel"
           name="new_member"
           placeholder="Nuovo giocatore"
           required
           [compareWith]="compareFn"
-          [disabled]="newMemberDisabled"
-          [(ngModel)]="data.selection.new_member"
+          [disabled]="oldMember() === undefined"
+          [(ngModel)]="newMember"
         >
           @for (member of newMembers$ | async; track member.id) {
             <mat-option [value]="member">
@@ -57,9 +56,9 @@
             </mat-option>
           }
         </mat-select>
-        @if (newMember.errors?.['TeamReachedMaximum']) {
+        @if (newMemberControl.errors?.['TeamReachedMaximum']) {
           <mat-error>
-            {{ newMember.errors?.['TeamReachedMaximum'] }}
+            {{ newMemberControl.errors?.['TeamReachedMaximum'] }}
           </mat-error>
         }
       </mat-form-field>
@@ -76,7 +75,6 @@
       <button
         mat-flat-button
         type="reset"
-        (click)="reset()"
       >
         SVUOTA
       </button>

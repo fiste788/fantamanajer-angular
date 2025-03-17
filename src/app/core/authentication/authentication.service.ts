@@ -20,11 +20,11 @@ export class AuthenticationService {
   readonly #userRole = 'ROLE_USER';
   readonly #sub = computed(() => this.#getSubject(this.#tokenStorageService.token()));
   readonly #userResource = this.#userService.findResource(this.#sub);
-
-  public user = linkedSignal(() => this.#userResource.value(), {
+  readonly #user = linkedSignal(() => this.#userResource.value(), {
     equal: (a, b) => a?.id === b?.id,
   });
-  public requireUser = computed(() => this.user()!);
+
+  public user = this.#user.asReadonly();
   public loggedIn = computed(() => this.#isLoggedIn(this.#tokenStorageService.token()));
 
   constructor() {
@@ -59,7 +59,7 @@ export class AuthenticationService {
   public async postLogin(res: AuthenticationDto): Promise<boolean> {
     const { user, token } = res;
     user.roles = this.#getRoles(user);
-    this.user.set(user);
+    this.#user.set(user);
     this.#tokenStorageService.setToken(token);
 
     try {
@@ -91,10 +91,14 @@ export class AuthenticationService {
     return authorities.some((r) => this.user()?.roles?.includes(r));
   }
 
+  public reload(): boolean {
+    return this.#userResource.reload();
+  }
+
   public logoutUI(): void {
     const user = undefined;
     this.#tokenStorageService.deleteToken();
-    this.user.set(user);
+    this.#user.set(user);
   }
 
   #isLoggedIn(token?: string): boolean {

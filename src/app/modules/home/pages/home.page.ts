@@ -35,7 +35,7 @@ export class HomePage {
   readonly #memberService = inject(MemberService);
 
   protected matchday = inject(ApplicationService).matchday;
-  protected readonly getBestResource = this.#memberService.getBestResource(this.matchday.value);
+  protected readonly getBestResource = this.#memberService.getBestResource(this.matchday);
   protected roleService = inject(RoleService);
   protected roles = this.roleService.list();
   protected bestPlayers = computed(() =>

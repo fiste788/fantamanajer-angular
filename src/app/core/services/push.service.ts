@@ -20,6 +20,7 @@ import {
 } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { filterNil } from '@app/functions';
 import { NotificationService, PushSubscriptionService } from '@data/services';
 import { PushSubscription, User } from '@data/types';
 import { environment } from '@env';
@@ -31,10 +32,11 @@ export class PushService {
   readonly #snackBar = inject(MatSnackBar);
   readonly #notificationService = inject(NotificationService);
   readonly #auth = inject(AuthenticationService);
-  readonly #user = toObservable(this.#auth.requireUser);
+  readonly #user = toObservable(this.#auth.user);
 
   public init(): Observable<void> {
     return this.#user.pipe(
+      filterNil(),
       filter(() => environment.production),
       switchMap((user) => this.#initializeUser(user)),
     );

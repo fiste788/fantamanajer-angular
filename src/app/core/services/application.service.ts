@@ -1,59 +1,33 @@
-import { ApplicationRef, Injectable, computed, inject, linkedSignal } from '@angular/core';
-import { Subscription, interval, firstValueFrom, filter, tap, first, switchMap } from 'rxjs';
+import { Injectable, computed, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { AuthenticationService } from '@app/authentication';
-import { MatchdayService, TeamService } from '@data/services';
 import { Team } from '@data/types';
+
+import { MatchdayStoreService } from './matchday-store.service';
+import { TeamStoreService } from './team-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationService {
-  readonly #authService = inject(AuthenticationService);
-  readonly #matchdayService = inject(MatchdayService);
-  readonly #teamService = inject(TeamService);
-  public readonly matchday = this.#matchdayService.getCurrentMatchdayResource();
+  readonly #teamStore = inject(TeamStoreService);
+  readonly #matchdayStore = inject(MatchdayStoreService);
 
-  public isCurrentSeason = computed(
-    () => this.matchday.value()?.season_id === this.team()?.championship.season_id,
-  );
-
-  public seasonEnded = computed(() =>
-    this.isCurrentSeason() ? (this.matchday.value()?.season.ended ?? false) : true,
-  );
-  public seasonStarted = computed(() =>
-    this.isCurrentSeason() ? (this.matchday.value()?.season.started ?? true) : true,
-  );
-  public readonly team = linkedSignal<Team | undefined>(
-    () => this.#authService.user()?.teams?.at(0),
-    { equal: (a, b) => a?.id === b?.id },
-  );
+  public readonly matchday = this.#matchdayStore.matchday;
+  public readonly team = this.#teamStore.team;
   public readonly requireTeam = computed(() => this.team()!);
 
-  public connect(): Subscription {
-    const subscriptions = new Subscription();
-    subscriptions.add(this.#refreshMatchday(inject(ApplicationRef)));
+  public readonly isCurrentSeason = computed(() =>
+    this.#matchdayStore.isCurrentSeason(this.team()),
+  );
+  public readonly seasonEnded = computed(() => this.#matchdayStore.isSeasonEnded(this.team()));
+  public readonly seasonStarted = computed(() => this.#matchdayStore.isSeasonStarted(this.team()));
 
-    return subscriptions;
+  public connect(): Subscription {
+    return this.#matchdayStore.connect();
   }
 
   public async changeTeam(team: Team): Promise<Team | undefined> {
-    const res = await firstValueFrom(this.#teamService.getTeam(team.id), {
-      defaultValue: undefined,
-    });
-    this.team.set(res);
-
-    return res;
-  }
-
-  #refreshMatchday(appRef: ApplicationRef): Subscription {
-    return appRef.isStable
-      .pipe(
-        filter((isStable) => isStable),
-        first((stable) => stable),
-        switchMap(() => interval(5 * 60 * 1000)),
-        tap(() => this.matchday.reload()),
-      )
-      .subscribe();
+    return this.#teamStore.changeTeam(team);
   }
 }

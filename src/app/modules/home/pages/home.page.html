@@ -1,4 +1,4 @@
-@let _matchday = matchday.value(); @let number = _matchday?.number ?? 0; @if (number > 1) { @let
+@let _matchday = matchday(); @let number = _matchday?.number ?? 0; @if (number > 1) { @let
 _bestPlayers = bestPlayers();
 <div
   class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4"

@@ -14,8 +14,12 @@ const routes = {
 export class PublicKeyCredentialSourceService {
   readonly #http = inject(HttpClient);
 
-  public indexResource(user: () => User): HttpResourceRef<Array<PublicKeyCredentialSource>> {
-    return httpResource(() => `/users/${user().id}/${url}`, { defaultValue: [] });
+  public indexResource(
+    user: () => User | undefined,
+  ): HttpResourceRef<Array<PublicKeyCredentialSource>> {
+    return httpResource(() => (user() ? `/users/${user()!.id}/${url}` : undefined), {
+      defaultValue: [],
+    });
   }
 
   public index(userId: number): Observable<Array<PublicKeyCredentialSource>> {

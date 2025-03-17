@@ -21,7 +21,7 @@ export class RoleService {
     return this.#roles;
   }
 
-  public get(role_id: number): Role {
+  public get(role_id?: number): Role {
     return this.#roles.find((r) => r.id === role_id)!;
   }
 

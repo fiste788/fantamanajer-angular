@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, map, share } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { addVisibleClassOnDestroy } from '@app/functions';
@@ -47,16 +47,10 @@ export class SettingsPage {
 
   protected async save(user: User): Promise<void> {
     if (user.password === this.repeatPassword) {
-      return firstValueFrom(
-        this.#userService.update(user).pipe(
-          share(),
-          map((res) => {
-            this.#auth.user.set(res);
-            this.#snackBar.open('Modifiche salvate');
-          }),
-        ),
-        { defaultValue: undefined },
-      );
+      await firstValueFrom(this.#userService.update(user), { defaultValue: undefined });
+
+      this.#auth.reload();
+      this.#snackBar.open('Modifiche salvate');
     }
 
     return undefined;

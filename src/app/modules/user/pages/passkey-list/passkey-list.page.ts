@@ -35,7 +35,7 @@ export class PasskeyListPage {
   readonly #pbcsService = inject(PublicKeyCredentialSourceService);
   readonly #auth = inject(AuthenticationService);
 
-  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.requireUser);
+  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.user);
   protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
 
   constructor() {
