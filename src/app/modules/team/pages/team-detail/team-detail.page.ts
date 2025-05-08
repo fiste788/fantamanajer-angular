@@ -1,6 +1,6 @@
 import { trigger } from '@angular/animations';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { Component, afterNextRender, input, inject, linkedSignal } from '@angular/core';
+import { Component, afterNextRender, input, inject, linkedSignal, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,7 +27,7 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     PrimaryTabComponent,
   ],
 })
-export class TeamDetailPage {
+export class TeamDetailPage implements OnInit {
   readonly #scrollService = inject(ScrollService);
   readonly #dialog = inject(MatDialog);
 
@@ -37,15 +37,21 @@ export class TeamDetailPage {
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
 
-  protected tabs = linkedSignal(() =>
-    this.loadTabs(this.team(), this.app.seasonEnded(), this.app.team(), this.auth.user()),
-  );
+  protected tabs = linkedSignal(() => {
+    return this.loadTabs(this.team(), this.app.seasonEnded(), this.app.team(), this.auth.user());
+  });
 
   constructor() {
     afterNextRender(() => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.placeholder = history.state?.img as string | undefined;
     });
+  }
+
+  public ngOnInit(): void {
+    if (this.team().championship.season_id != this.app.matchday()?.season_id) {
+      void this.app.changeTeam(this.team());
+    }
   }
 
   public loadTabs(currentTeam: Team, seasonEnded = false, team?: Team, user?: User): Array<Tab> {
