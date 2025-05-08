@@ -30,3 +30,13 @@ NG_BUILD_OPTIMIZE_CHUNKS = "1"
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
+
+[env.dev]
+workers_dev = true
+services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
+routes = [{ pattern = "httpresource.fantamanajer.it", custom_domain = true }]
+
+[env.dev.vars]
+NODE_VERSION = "22.11.0"
+BUN_VERSION = "1.2.1"
+NG_BUILD_OPTIMIZE_CHUNKS = "1"

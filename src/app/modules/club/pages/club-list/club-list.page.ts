@@ -34,6 +34,6 @@ export class ClubListPage {
   });
 
   protected viewTransitionName(club: Club, transition_name = 'banner-img'): string {
-    return this.#transitionService.getViewTransitionName(transition_name, club);
+    return this.#transitionService.isDetailToList(club) ? transition_name : '';
   }
 }

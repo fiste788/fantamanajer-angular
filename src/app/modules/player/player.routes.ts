@@ -12,6 +12,7 @@ export default [
     component: PlayerPage,
     data: {
       breadcrumbs: (data: { player: Player }): string => data.player.full_name,
+      robots: 'nofollow,index',
       state: 'player-detail',
       description: (data: { player: Player }): string =>
         `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,

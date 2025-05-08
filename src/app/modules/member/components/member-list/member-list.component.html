@@ -4,9 +4,9 @@
       <table
         #sort="matSort"
         #table
+        @tableRowAnimation
         mat-table
         matSort
-        @tableRowAnimation
         [dataSource]="_dataSource"
         [trackBy]="trackMember"
         (matSortChange)="_dataSource.sort = sort"

@@ -5,9 +5,9 @@
 >
   <table
     #table
+    @tableRowAnimation
     class="ranking"
     mat-table
-    @tableRowAnimation
     [dataSource]="ranking"
     [trackBy]="trackRanking"
   >
