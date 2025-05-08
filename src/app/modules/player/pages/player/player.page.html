@@ -43,9 +43,9 @@
 <mat-card appearance="outlined">
   <table
     #table
+    @tableRowAnimation
     mat-table
     matSort
-    @tableRowAnimation
     [dataSource]="ratings"
     [trackBy]="trackRating"
   >

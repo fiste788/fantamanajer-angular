@@ -2,9 +2,9 @@
 <mat-card appearance="outlined">
   <table
     #table
+    @tableRowAnimation
     mat-table
     matSort
-    @tableRowAnimation
     [dataSource]="dataSource"
     [trackBy]="trackTransfert"
     (matSortChange)="setSort(dataSource)"

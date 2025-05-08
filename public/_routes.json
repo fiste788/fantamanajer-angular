@@ -1,5 +1,5 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": ["/*.*", "/api/*", "/*?ngsw-cache-bust=*", "/?ngsw-cache-bust=*"]
+  "exclude": ["/*.*", "/*?ngsw-cache-bust=*", "/?ngsw-cache-bust=*"]
 }

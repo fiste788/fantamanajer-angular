@@ -1,8 +1,8 @@
 @let matchday = matchday$ | async; @let number = matchday?.number ?? 0; @if (number > 1) { @let
 bestPlayers = bestPlayers$ | async;
 <div
-  class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4"
   @cardCreationAnimation
+  class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4"
 >
   @for (role of roles; track role.id) { @let bestPlayer = bestPlayers?.get(role);
   <mat-card appearance="outlined">

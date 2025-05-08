@@ -20,13 +20,12 @@ export class CurrentTransitionService {
     | undefined
   >(undefined);
 
-  public getViewTransitionName(
-    transitionName: string,
+  public isDetailToList(
     entity: {
       id: number;
     },
     param = 'id',
-  ): string {
+  ): boolean {
     const info = this.currentTransition();
     if (info) {
       // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
@@ -40,13 +39,13 @@ export class CurrentTransitionService {
         this.#document.documentElement.classList.add('detail-to-list');
       }
 
-      return isBannerImg ? transitionName : '';
+      return isBannerImg;
     }
 
-    return '';
+    return false;
   }
 
-  public isOutletChanged(transitionName: string, param = 'id'): string {
+  public isListToDetail(param = 'id'): boolean {
     const info = this.currentTransition();
     // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
     // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
@@ -67,11 +66,11 @@ export class CurrentTransitionService {
           this.#document.documentElement.classList.add('list-to-detail');
         }
 
-        return isBannerImg ? transitionName : '';
+        return isBannerImg;
       }
     }
 
-    return '';
+    return false;
   }
 
   public isTabChanged(tabBar?: MatTabNav): boolean {

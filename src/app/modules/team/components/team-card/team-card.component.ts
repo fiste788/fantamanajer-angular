@@ -40,6 +40,6 @@ export class TeamCardComponent {
   });
 
   protected viewTransitionName(team: Team, transition_name = 'banner-img'): string {
-    return this.#transitionService.getViewTransitionName(transition_name, team, 'team_id');
+    return this.#transitionService.isDetailToList(team, 'team_id') ? transition_name : '';
   }
 }
