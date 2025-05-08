@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, linkedSignal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
 import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap } from 'rxjs';
@@ -12,6 +13,8 @@ import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
   readonly #webauthnService = inject(WebauthnService);
@@ -69,7 +72,9 @@ export class AuthenticationService {
       // eslint-disable-next-line no-empty
     } catch {}
 
-    return this.user() !== undefined;
+    const url = this.#getUrl(user);
+
+    return this.#router.navigateByUrl(url);
   }
 
   public async logout(): Promise<unknown> {
@@ -123,5 +128,12 @@ export class AuthenticationService {
       accessToken: token,
       expiresAt: this.#jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
     };
+  }
+
+  #getUrl(user: User): string {
+    return (
+      (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
+      `/championships/${user.teams![0]!.championship.id}`
+    );
   }
 }

@@ -1,6 +1,6 @@
 <div
-  class="login flex flex-col flex-wrap items-center justify-around"
   @cardCreationAnimation
+  class="login flex flex-col flex-wrap items-center justify-around"
 >
   <mat-card appearance="outlined">
     <mat-card-header>
@@ -52,7 +52,7 @@
         <mat-step>
           <form
             #f="ngForm"
-            (ngSubmit)="f.valid && login()"
+            (ngSubmit)="f.valid && login(userForm)"
           >
             <input
               autocomplete="username"
@@ -86,7 +86,7 @@
                 mat-stroked-button
                 matStepperPrevious
                 type="reset"
-                (click)="reset()"
+                (click)="reset(userForm)"
               >
                 Cambia account
               </button>
