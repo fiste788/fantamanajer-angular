@@ -1,17 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @let _mode = mode();
 @let _navigationMode = navigationMode();
 @let _openDrawer = openDrawer();
 <mat-nav-list
-  [@listItemAnimation]="_navigationMode"
   [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
 >
-  @for (item of items(); track item.url) {
+  @for (item of items(); track item.url; let i = $index) {
     @if (item.divider) {
-      <mat-divider />
+      <mat-divider [style]="'--index:' + i" />
     }
     @if (item.header) {
-      <h3 mat-subheader>{{ item.header }}</h3>
+      <h3
+        mat-subheader
+        [style]="'--index:' + i"
+      >
+        {{ item.header }}
+      </h3>
     }
     <a
       #list
@@ -21,6 +26,7 @@
       [activated]="rla.isActive"
       [routerLink]="item.url"
       [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+      [style]="'--index:' + i"
     >
       <mat-icon
         matListItemIcon

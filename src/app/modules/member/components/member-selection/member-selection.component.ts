@@ -21,13 +21,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 import { Member, MemberOption, Role } from '@data/types';
-import { createBoxAnimation, lineupDispositionAnimation } from '@shared/animations';
+import { lineupDispositionAnimation } from '@shared/animations';
 import { PlayerImageComponent } from '@shared/components/player-image';
 
 import { MemberIconsComponent } from '../member-icons/member-icons.component';
 
 @Component({
-  animations: [lineupDispositionAnimation, createBoxAnimation],
+  animations: [lineupDispositionAnimation],
   providers: [
     {
       multi: true,
@@ -40,7 +40,7 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   host: {
-    '[@lineupDisposition]': '',
+    class: 'lineup-disposition',
   },
   imports: [
     MatFormFieldModule,

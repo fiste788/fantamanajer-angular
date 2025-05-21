@@ -18,6 +18,9 @@ import { Member } from '@data/types';
     PercentPipe,
     TitleCasePipe,
   ],
+  host: {
+    class: 'create-box',
+  },
 })
 export class MemberIconsComponent {
   public member = input.required<Member>();

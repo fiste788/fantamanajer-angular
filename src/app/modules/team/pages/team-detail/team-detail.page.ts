@@ -1,4 +1,3 @@
-import { trigger } from '@angular/animations';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe } from '@angular/common';
 import { Component, afterNextRender, input, inject, linkedSignal } from '@angular/core';
@@ -11,14 +10,12 @@ import { combineLatest, firstValueFrom } from 'rxjs';
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, ScrollService } from '@app/services';
 import { Tab, Team, User } from '@data/types';
-import { routerTransition } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
 import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition)],
   styleUrl: './team-detail.page.scss',
   templateUrl: './team-detail.page.html',
   imports: [

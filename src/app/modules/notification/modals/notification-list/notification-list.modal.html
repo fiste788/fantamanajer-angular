@@ -1,52 +1,35 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
-<div
-  class="mat-mdc-dialog-container mdc-dialog cdk-dialog-container mdc-dialog--open"
-  [@openOverlayAnimation]="animationState"
->
-  <div class="mdc-dialog__container">
-    <div class="mat-mdc-dialog-surface mdc-dialog__surface">
-      <h3
-        class="mat-mdc-dialog-title title"
-        mat-dialog-title
+<h2 mat-dialog-title>Notifiche</h2>
+<mat-dialog-content>
+  @if ((stream$ | async); as stream) { @if (stream.results.length) {
+  <mat-list class="list-item-transition">
+    @for (activity of stream.results; track $index; let i = $index) {
+    <mat-list-item [style]="'--index:' + i">
+      <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
+      <h3 matListItemTitle>{{ activity.title }}</h3>
+      <span
+        matListItemLine
+        [title]="(activity.time | date: 'dd/MM/y HH:mm')"
       >
-        Notifiche
-      </h3>
-      <div
-        cdkScrollable
-        class="content mat-mdc-dialog-content"
-      >
-        @if ((stream$ | async); as stream) { @if (stream.results.length) {
-        <mat-list class="list-item-animation">
-          @for (activity of stream.results; track $index; let i = $index) {
-          <mat-list-item [style]="'--index:' + i">
-            <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
-            <h3 matListItemTitle>{{ activity.title }}</h3>
-            <span
-              matListItemLine
-              [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-            >
-              {{ activity.humanTime }}
-            </span>
-            <span matListItemLine>{{ activity.body }}</span>
-          </mat-list-item>
-          }
-        </mat-list>
-        } @else {
+        {{ activity.humanTime }}
+      </span>
+      <span matListItemLine>{{ activity.body }}</span>
+    </mat-list-item>
+    }
+  </mat-list>
+  } @else {
 
-        <app-mat-empty-state
-          icon="mood"
-          label="Nessuna notifica presente"
-        />
+  <app-mat-empty-state
+    icon="mood"
+    label="Nessuna notifica presente"
+  />
 
-        } } @else {
+  } } @else {
 
-        <mat-progress-spinner
-          color="accent"
-          mode="indeterminate"
-        />
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 
-        }
-      </div>
-    </div>
-  </div>
-</div>
+  }
+</mat-dialog-content>

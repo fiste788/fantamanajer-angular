@@ -8,14 +8,12 @@ import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { CurrentTransitionService, NAVIGATOR, PwaService, ScrollService } from '@app/services';
-import { createBoxAnimation, scrollUpAnimation } from '@shared/animations';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 
 import { LayoutService } from '../../services';
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
-  animations: [scrollUpAnimation, createBoxAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-top-app-bar',
   styleUrl: './top-app-bar.component.scss',

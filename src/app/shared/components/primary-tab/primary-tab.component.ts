@@ -1,4 +1,3 @@
-import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
 import {
   ApplicationRef,
@@ -16,15 +15,12 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
-import { routerTransition } from '@shared/animations';
-import { StatePipe } from '@shared/pipes';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition)],
   selector: 'app-primary-tab',
   templateUrl: './primary-tab.component.html',
   styleUrl: './primary-tab.component.scss',
-  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
+  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet],
 })
 export class PrimaryTabComponent implements OnDestroy {
   readonly #document = inject(DOCUMENT);

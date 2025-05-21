@@ -1,11 +1,13 @@
 @use '@angular/material' as mat;
 
-.fab {
+.fab-container {
+  transition-property: margin;
   margin: 0.5rem 0.75rem 0;
+}
+.fab {
   display: none;
   z-index: 1;
   position: relative;
-  transition-property: margin;
 
   @include mat.fab-overrides(
     (
@@ -29,7 +31,7 @@
 }
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
-  .fab,
+  .fab-container,
   app-profile,
   app-navigation-list {
     transition-timing-function: var(--drawer-animation-timing-function);
@@ -58,7 +60,7 @@
       opacity: 1;
     }
 
-    .fab {
+    .fab-container {
       margin: 1rem;
     }
 

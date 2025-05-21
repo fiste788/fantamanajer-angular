@@ -1,4 +1,3 @@
-import { trigger } from '@angular/animations';
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -18,13 +17,6 @@ import { delay } from 'rxjs';
 
 import { VisibilityState } from '@app/enums';
 import { CurrentTransitionService, ScrollService } from '@app/services';
-import {
-  closeAnimation,
-  routerTransition,
-  scrollDownAnimation,
-  scrollUpAnimation,
-} from '@shared/animations';
-import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
@@ -33,12 +25,6 @@ import { NavigationSkeletonComponent } from '../navigation-skeleton/navigation-s
 import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 
 @Component({
-  animations: [
-    trigger('contextChange', routerTransition),
-    scrollUpAnimation,
-    scrollDownAnimation,
-    closeAnimation,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
   host: { '[@.disabled]': '!stable()' },
@@ -50,7 +36,6 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     RouterOutlet,
     ContentLoaderModule,
     NavigationBarComponent,
-    StatePipe,
     NgClass,
     AsyncPipe,
     NavigationSkeletonComponent,

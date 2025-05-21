@@ -59,20 +59,3 @@
     }
   }
 }
-
-.mat-mdc-row,
-.mat-mdc-header-row,
-.mat-mdc-footer-row,
-.mat-mdc-card,
-.list-item-animation .mat-mdc-list-item,
-.list-item-animation content-loader {
-  transition-property: opacity, transform, box-shadow;
-  transition-duration: 300ms;
-  transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-  transition-delay: calc(20ms * var(--index));
-
-  @starting-style {
-    opacity: 0;
-    transform: translateY(1.5rem);
-  }
-}

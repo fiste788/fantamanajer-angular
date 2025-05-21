@@ -44,8 +44,8 @@ app-player-image {
 
 @media (min-width: theme('screens.md')) {
   :host {
-    overflow: hidden;
-    display: inline-block;
+    display: inline-flex;
+    flex-grow: 0;
     margin: 1rem 0.5rem 0;
   }
 

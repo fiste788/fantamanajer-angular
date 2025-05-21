@@ -5,7 +5,6 @@
   z-index: 102;
   contain: paint;
   top: 0;
-  transition: box-shadow 200ms var(--mat-sys-motion-standard);
   view-transition-name: top-app-bar;
 }
 
@@ -20,7 +19,9 @@ app-breadcrumb {
 }
 
 .mat-toolbar {
-  transition: background-color 400ms var(--mat-sys-motion-standard);
+  transition:
+    background-color 400ms var(--mat-sys-motion-standard),
+    box-shadow 200ms var(--mat-sys-motion-standard);
 }
 
 .mat-toolbar-row {

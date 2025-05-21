@@ -3,14 +3,13 @@
   floatLabel="always"
   hideRequiredMarker="true"
 >
-  <div class="photo-container">
+  <div class="photo-container create-box">
     <div class="img-container">
       <div>
         <app-player-image [member]="_member" />
       </div>
       @if (_member && _member.likely_lineup) {
         <app-member-icons
-          @createBox
           circle
           [captain]="captain()"
           [member]="_member"

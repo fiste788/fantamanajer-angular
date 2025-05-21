@@ -15,7 +15,7 @@
   </button>
 </div>
 } @if (passkeys$ | async; as passkeys) { @if (passkeys.length) {
-<mat-list class="list-item-animation">
+<mat-list class="list-item-transition">
   @for (passkey of passkeys; track passkey.id; let i = $index) {
   <mat-list-item [style]="'--index:' + i">
     <mat-icon matListItemIcon>passkey</mat-icon>

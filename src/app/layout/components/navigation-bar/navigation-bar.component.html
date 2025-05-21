@@ -8,7 +8,7 @@
   <app-fab
     class="fab"
     extended="false"
-    [@closeAnimation]="stable() && _showBars ? _showBars : hidden"
+    [ngClass]="'close close-' + (stable() && _showBars ? _showBars : hidden)"
     [(opened)]="openFab"
   />
 }

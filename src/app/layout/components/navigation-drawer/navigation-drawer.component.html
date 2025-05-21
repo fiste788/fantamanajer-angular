@@ -1,18 +1,23 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <button
   aria-label="Toggle sidenav"
   class="toggle"
   mat-icon-button
+  style="--index: 0"
   type="button"
   (click)="clickNav()"
 >
   <mat-icon aria-label="Side nav toggle icon">menu{{ openDrawer() ? '_open' : '' }}</mat-icon>
 </button>
 @if (loggedIn()) {
-  <app-profile />
-  <app-fab
-    class="fab"
-    direction="down"
-    [extended]="openDrawer()"
-  />
+  <app-profile style="--index: 1" />
+  <div class="fab-container">
+    <app-fab
+      class="fab"
+      direction="down"
+      style="--index: 2"
+      [extended]="openDrawer()"
+    />
+  </div>
 }
 <app-navigation-list mode="full" />

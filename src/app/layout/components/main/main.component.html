@@ -17,11 +17,11 @@
     }
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
-    <app-top-app-bar [@scrollUpAnimation]="_showBars" />
-    <main
-      [@contextChange]="o | state"
-      [style.viewTransitionName]="viewTransitionName()"
-    >
+    <app-top-app-bar
+      class="scroll-up"
+      [ngClass]="'scroll-up-' + _showBars"
+    />
+    <main [style.viewTransitionName]="viewTransitionName()">
       <router-outlet #o="outlet" />
     </main>
   </mat-sidenav-content>
@@ -29,6 +29,9 @@
 @defer (when _navigationMode === 'bar') {
   @let _stable = stable();
   <app-navigation-bar
-    [@scrollDownAnimation]="_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden"
+    class="scroll-down"
+    [ngClass]="
+      'scroll-down-' + (_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden)
+    "
   />
 }

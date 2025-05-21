@@ -1,4 +1,3 @@
-export * from './add-visible-class-on-destroy.function';
 export * from './catch-unprocessable-entity-errors.functions';
 export * from './filter-navigation-mode.function';
 export * from './filter-nil.function';

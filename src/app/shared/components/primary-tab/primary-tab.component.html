@@ -24,7 +24,6 @@
 <div
   #tabPanel
   class="tabbed-container"
-  [@contextChange]="o | state"
   [style.viewTransitionName]="viewTransitionName()"
 >
   <router-outlet #o="outlet" />

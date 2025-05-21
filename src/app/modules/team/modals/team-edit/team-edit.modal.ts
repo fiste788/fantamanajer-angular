@@ -13,14 +13,12 @@ import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { NotificationSubscription, notificationSubscriptionsKeys, Team } from '@data/types';
 import { NotificationSubscriptionComponent } from '@modules/notification-subscription/components/notification-subscription/notification-subscription.component';
-import { createBoxAnimation } from '@shared/animations';
 
 export interface TeamEditModalData {
   team: Team;
 }
 
 @Component({
-  animations: [createBoxAnimation],
   styleUrl: './team-edit.modal.scss',
   templateUrl: './team-edit.modal.html',
   imports: [

@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/component-max-inline-declarations */
-import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatRippleModule } from '@angular/material/core';
@@ -13,51 +11,11 @@ import { ApplicationService } from '@app/services';
 import { LayoutService } from '../../services';
 
 @Component({
-  animations: [
-    trigger('listItemAnimation', [
-      transition('* => bar', [
-        query('[direction=right] > *', style({ opacity: 0, transform: 'translateY(5rem)' }), {
-          optional: true,
-        }),
-
-        query('[direction=down] > *', style({ opacity: 0, transform: 'translateX(-5rem)' }), {
-          optional: true,
-        }),
-
-        query(
-          '&> *',
-          stagger(50, [
-            animate(
-              '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
-              style({ opacity: 1, transform: 'translate(0, 0)' }),
-            ),
-          ]),
-          { optional: true },
-        ),
-      ]),
-      transition('* => rail, * => drawer', [
-        query('&> *', style({ opacity: 0, transform: 'translateX(-5rem)' }), {
-          optional: true,
-        }),
-
-        query(
-          '&> *',
-          stagger(50, [
-            animate(
-              '500ms cubic-bezier(0.05, 0.7, 0.1, 1.0)',
-              style({ opacity: 1, transform: 'translateX(0)' }),
-            ),
-          ]),
-          { optional: true },
-        ),
-      ]),
-    ]),
-  ],
   selector: 'app-navigation-list',
   imports: [RouterModule, MatListModule, MatRippleModule, MatIconModule],
   styleUrl: './navigation-list.component.scss',
   host: {
-    '[class]': 'mode()',
+    '[class]': 'mode() + " navigation navigation-" + navigationMode()',
   },
   templateUrl: './navigation-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

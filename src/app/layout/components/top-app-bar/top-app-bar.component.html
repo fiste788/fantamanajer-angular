@@ -10,10 +10,7 @@
     </button>
     <app-breadcrumb />
     <span class="spacer"></span>
-    <div
-      @createBox
-      class="flex"
-    >
+    <div class="create-box flex">
       @if (deferredPrompt$ | async; as prompt) {
         <a
           aria-label="Install app"
