@@ -8,17 +8,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { combineLatest, Observable, map, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
+import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
 import { Team, Transfert } from '@data/types';
 import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
-import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  animations: [tableRowAnimation],
   templateUrl: './transfert-list.page.html',
   imports: [
     MatTableModule,
@@ -47,10 +45,6 @@ export class TransfertListPage {
   );
 
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
-
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
 
   protected loadData(): Observable<MatTableDataSource<Transfert>> {
     return this.team$.pipe(

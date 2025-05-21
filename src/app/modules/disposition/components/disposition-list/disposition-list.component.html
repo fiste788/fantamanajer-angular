@@ -1,9 +1,9 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (dataSource) {
   <h2>{{ caption() }}</h2>
   <mat-card appearance="outlined">
     <table
       #table
-      @tableRowAnimation
       mat-table
       [dataSource]="dataSource"
       [trackBy]="trackDisposition"
@@ -195,10 +195,12 @@
       <tr
         *matHeaderRowDef="displayedColumns; sticky: true"
         mat-header-row
+        style="--index: 0"
       ></tr>
       <tr
-        *matRowDef="let row; columns: displayedColumns"
+        *matRowDef="let row; columns: displayedColumns; let i = index"
         mat-row
+        [style]="'--index: ' + (i + 1)"
       ></tr>
     </table>
   </mat-card>

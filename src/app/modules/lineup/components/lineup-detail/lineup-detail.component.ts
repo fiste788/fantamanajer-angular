@@ -14,12 +14,10 @@ import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { Subscription, finalize, firstValueFrom, from, map } from 'rxjs';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
 import { environment } from '@env';
 import { MemberSelectionComponent } from '@modules/member/components/member-selection/member-selection.component';
-import { cardCreationAnimation } from '@shared/animations';
 
 import { LineupOptionsComponent } from '../lineup-options/lineup-options.component';
 import { LineupService } from '../lineup.service';
@@ -30,7 +28,6 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   selector: 'app-lineup-detail',
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  animations: [cardCreationAnimation],
   imports: [
     LineupOptionsComponent,
     FormsModule,
@@ -51,10 +48,6 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
   public jolly = input(true, { transform: booleanAttribute });
 
   protected readonly lineupService = inject(LineupService);
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   public ngOnInit(): void {
     this.#subscription.add(from(this.loadLineup()).subscribe());

@@ -6,18 +6,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom, map, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, groupBy } from '@app/functions';
+import { groupBy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Member, Role } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
 
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
 
 @Component({
-  animations: [cardCreationAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home.page.scss',
   templateUrl: './home.page.html',
@@ -41,10 +39,6 @@ export class HomePage {
   protected roleService = inject(RoleService);
   protected roles = this.roleService.list();
   protected bestPlayers$ = this.loadBestPlayers();
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   protected async loadBestPlayers(): Promise<Map<Role, Array<Member>>> {
     return firstValueFrom(

@@ -4,7 +4,6 @@ import { Team } from '@data/types';
 import { TeamCardComponent } from '@modules/team/components/team-card/team-card.component';
 
 @Component({
-  animations: [],
   templateUrl: './team-list.page.html',
   imports: [TeamCardComponent],
 })

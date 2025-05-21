@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -11,6 +11,7 @@ import {
   input,
   numberAttribute,
   inject,
+  DOCUMENT,
 } from '@angular/core';
 import { fromEvent, Subscription, tap } from 'rxjs';
 
@@ -48,7 +49,7 @@ interface Block {
   selector: '[appRellax]',
   standalone: true,
   host: {
-    '[style.will-change]': 'transform',
+    '[style.will-change]': '"transform"',
   },
 })
 export class RellaxDirective implements OnInit, OnDestroy {

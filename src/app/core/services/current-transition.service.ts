@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/prefer-spread */
 
-import { DOCUMENT } from '@angular/common';
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, DOCUMENT } from '@angular/core';
 import { MatTabNav } from '@angular/material/tabs';
 import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 

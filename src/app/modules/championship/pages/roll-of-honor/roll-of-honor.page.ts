@@ -10,10 +10,8 @@ import { first, map, share, switchMap } from 'rxjs';
 import { filterNil, getRouteData, groupBy } from '@app/functions';
 import { LeagueService } from '@data/services';
 import { Championship, RollOfHonor } from '@data/types';
-import { tableRowAnimation } from '@shared/animations';
 
 @Component({
-  animations: [tableRowAnimation],
   selector: 'app-roll-of-honor',
   imports: [
     AsyncPipe,

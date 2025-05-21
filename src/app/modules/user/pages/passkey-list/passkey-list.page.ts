@@ -10,14 +10,11 @@ import { MatTableModule } from '@angular/material/table';
 import { combineLatest, firstValueFrom, Observable, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
 import { PublicKeyCredentialSource } from '@data/types';
-import { listItemAnimation, tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
-  animations: [listItemAnimation],
   templateUrl: './passkey-list.page.html',
   imports: [
     MatIconModule,
@@ -41,10 +38,6 @@ export class PasskeyListPage {
   protected readonly passkeys$ = this.getDataSource();
   protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
   // protected readonly displayedColumns = ['name', 'created_at', 'counter', 'actions'];
-
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
 
   protected getDataSource(): Observable<Array<PublicKeyCredentialSource>> {
     return combineLatest([this.#auth.requireUser$, this.refresh$]).pipe(

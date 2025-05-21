@@ -15,15 +15,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { Observable, switchMap, distinctUntilChanged } from 'rxjs';
 
-import { addVisibleClassOnDestroy, filterNil } from '@app/functions';
+import { filterNil } from '@app/functions';
 import { ApplicationService, ScrollService } from '@app/services';
 import { RatingService } from '@data/services';
 import { Member, Player, Rating } from '@data/types';
-import { enterDetailAnimation, tableRowAnimation } from '@shared/animations';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 
 @Component({
-  animations: [tableRowAnimation, enterDetailAnimation],
   styleUrl: './player.page.scss',
   templateUrl: './player.page.html',
   imports: [
@@ -66,10 +64,6 @@ export class PlayerPage {
     'red_card',
     'quotation',
   ];
-
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
 
   protected getRatings(selectedMember$: Observable<Member>): Observable<Array<Rating>> {
     return selectedMember$.pipe(

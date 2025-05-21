@@ -9,17 +9,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { defaultIfEmpty, map, Observable, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
+import { getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { AtLeast, RecursivePartial } from '@app/types';
 import { ChampionshipService } from '@data/services';
 import { Championship, League } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
   styleUrl: './championship-detail.page.scss',
   templateUrl: './championship-detail.page.html',
-  animations: [cardCreationAnimation],
   imports: [
     MatCardModule,
     FormsModule,
@@ -42,10 +40,6 @@ export class ChampionshipDetailPage {
   protected readonly league$ = this.championship$.pipe(
     map((c) => c.league ?? ({} as Partial<League>)),
   );
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   protected async save(
     league: Partial<League>,

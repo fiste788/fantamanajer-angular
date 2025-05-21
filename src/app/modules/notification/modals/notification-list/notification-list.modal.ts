@@ -7,15 +7,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable, switchMap, tap } from 'rxjs';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
 import { Stream } from '@data/types';
-import { listItemAnimation, openOverlayAnimation } from '@shared/animations';
+import { openOverlayAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
-  animations: [openOverlayAnimation, listItemAnimation],
+  animations: [openOverlayAnimation],
   selector: 'app-notification-overlay',
   styleUrl: './notification-list.modal.scss',
   templateUrl: './notification-list.modal.html',
@@ -38,10 +37,6 @@ export class NotificationListModal {
 
   protected readonly stream$ = this.loadData();
   protected animationState: 'enter' | 'leave' | 'void' = 'enter';
-
-  constructor() {
-    addVisibleClassOnDestroy(listItemAnimation);
-  }
 
   public loadData(): Observable<Stream> {
     return this.#app.requireTeam$.pipe(

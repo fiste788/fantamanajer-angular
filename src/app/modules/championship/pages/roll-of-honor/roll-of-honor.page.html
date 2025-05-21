@@ -1,8 +1,8 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (dataSource$ | async; as dataSource) {
 <mat-card appearance="outlined">
   <table
     #table
-    @tableRowAnimation
     mat-table
     matSort
     [dataSource]="dataSource"
@@ -82,10 +82,12 @@
     <tr
       *matHeaderRowDef="displayedColumns"
       mat-header-row
+      style="--index: 0"
     ></tr>
     <tr
-      *matRowDef="let row; columns: displayedColumns;"
+      *matRowDef="let row; columns: displayedColumns;let i = index"
       mat-row
+      [style]="'--index: ' + (i + 1)"
     ></tr>
   </table>
 </mat-card>
@@ -103,7 +105,6 @@
 <mat-card appearance="outlined">
   <table
     #table
-    @tableRowAnimation
     mat-table
     matSort
     [dataSource]="dataSource"
@@ -145,10 +146,12 @@
     <tr
       *matHeaderRowDef="displayedColumnsByUser"
       mat-header-row
+      style="--index: 0"
     ></tr>
     <tr
-      *matRowDef="let row; columns: displayedColumnsByUser;"
+      *matRowDef="let row; columns: displayedColumnsByUser; let i = index"
       mat-row
+      [style]="'--index: ' + (i + 1)"
     ></tr>
   </table>
 </mat-card>

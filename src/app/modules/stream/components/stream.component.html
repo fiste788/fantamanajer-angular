@@ -1,13 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (!ds.isEmpty) {
   <cdk-virtual-scroll-viewport
     class="viewport"
     itemSize="88"
     scrollWindow
   >
-    <mat-list @listItemAnimation>
-      <ng-container *cdkVirtualFor="let activity of ds; templateCacheSize: 0; trackBy: trackList">
+    <mat-list class="list-item-animation">
+      <ng-container
+        *cdkVirtualFor="let activity of ds; templateCacheSize: 0; trackBy: trackList; let i = index"
+      >
         @if (activity) {
-          <mat-list-item>
+          <mat-list-item [style]="'--index:' + i">
             <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
             <h3 matListItemTitle>{{ activity.title }}</h3>
             <span

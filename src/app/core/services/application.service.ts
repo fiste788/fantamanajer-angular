@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   Injectable,
@@ -6,6 +5,7 @@ import {
   linkedSignal,
   provideAppInitializer,
   signal,
+  DOCUMENT,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {

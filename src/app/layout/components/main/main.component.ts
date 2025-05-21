@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +8,7 @@ import {
   inject,
   effect,
   afterNextRender,
+  DOCUMENT,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';

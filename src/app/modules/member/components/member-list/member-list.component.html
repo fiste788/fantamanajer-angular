@@ -1,10 +1,10 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (dataSource(); as _dataSource) {
   @if (_dataSource.data.length) {
     <mat-card appearance="outlined">
       <table
         #sort="matSort"
         #table
-        @tableRowAnimation
         mat-table
         matSort
         [dataSource]="_dataSource"
@@ -329,15 +329,18 @@
         <tr
           *matHeaderRowDef="displayedColumns; sticky: true"
           mat-header-row
+          style="--index: 0"
         ></tr>
         <tr
-          *matRowDef="let row; columns: displayedColumns"
+          *matRowDef="let row; columns: displayedColumns; let i = index"
           mat-row
+          [style]="'--index: ' + (i + 1)"
           (click)="selection.toggle(row)"
         ></tr>
         <tr
           *matFooterRowDef="displayedColumns; sticky: true"
           mat-footer-row
+          [style]="'--index: ' + (_dataSource.data.length + 1)"
         ></tr>
       </table>
     </mat-card>

@@ -11,13 +11,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, firstValueFrom, from, map, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { Team } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  animations: [cardCreationAnimation],
   styleUrl: './login.page.scss',
   templateUrl: './login.page.html',
   imports: [
@@ -46,10 +43,6 @@ export class LoginPage implements OnInit, OnDestroy {
     email?: string;
     password?: string;
   } = {};
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   public ngOnInit(): void {
     this.#subscription.add(this.#connectLoginPasskey());

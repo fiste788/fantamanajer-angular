@@ -6,7 +6,6 @@ import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
 @Component({
-  animations: [],
   styleUrl: './club-detail.page.scss',
   templateUrl: './club-detail.page.html',
   imports: [ParallaxHeaderComponent, PrimaryTabComponent],

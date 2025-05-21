@@ -1,49 +1,47 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @let _selectedMember = selectedMember(); @let _player = player();
 <div @enterDetailAnimation>
-  <div class="animation-container">
-    <app-parallax-header
-      contextParam="id"
-      [backgroundImage]="_selectedMember.club.background_url ?? undefined"
-      [height]="128"
-      [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
-      [subtitle]="_selectedMember.role.singolar + ' - ' + _selectedMember.club.name"
-      [title]="_player.full_name"
-      [width]="90"
-      (imageLoaded)="scrollTo($event)"
+  <app-parallax-header
+    contextParam="id"
+    [backgroundImage]="_selectedMember.club.background_url ?? undefined"
+    [height]="128"
+    [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
+    [subtitle]="_selectedMember.role.singolar + ' - ' + _selectedMember.club.name"
+    [title]="_player.full_name"
+    [width]="90"
+    (imageLoaded)="scrollTo($event)"
+  >
+    <div
+      class="member-selection"
+      parallax-header-right
     >
-      <div
-        class="member-selection"
-        parallax-header-right
+      @if (_selectedMember.free) {
+      <a
+        mat-button
+        [queryParams]="{new_member_id: _selectedMember.id}"
+        [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
       >
-        @if (_selectedMember.free) {
-        <a
-          mat-button
-          [queryParams]="{new_member_id: _selectedMember.id}"
-          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
+        Acquista
+      </a>
+      }
+      <mat-form-field>
+        <mat-label>Stagione</mat-label>
+        <mat-select
+          placeholder="Stagione"
+          [(ngModel)]="selectedMember"
         >
-          Acquista
-        </a>
-        }
-        <mat-form-field>
-          <mat-label>Stagione</mat-label>
-          <mat-select
-            placeholder="Stagione"
-            [(ngModel)]="selectedMember"
-          >
-            @for (member of _player.members; track member.id) {
-            <mat-option [value]="member"> {{ member.season.name }} </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </app-parallax-header>
-  </div>
+          @for (member of _player.members; track member.id) {
+          <mat-option [value]="member"> {{ member.season.name }} </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </app-parallax-header>
 </div>
 @if ((ratings$ | async); as ratings) {
 <mat-card appearance="outlined">
   <table
     #table
-    @tableRowAnimation
     mat-table
     matSort
     [dataSource]="ratings"
@@ -292,10 +290,12 @@
     <tr
       *matHeaderRowDef="displayedColumns; sticky: true"
       mat-header-row
+      style="--index: 0"
     ></tr>
     <tr
-      *matRowDef="let row; columns: displayedColumns;"
+      *matRowDef="let row; columns: displayedColumns;let i = index"
       mat-row
+      [style]="'--index: ' + (i + 1)"
     ></tr>
   </table>
 </mat-card>

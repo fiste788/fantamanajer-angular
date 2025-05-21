@@ -7,13 +7,11 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Observable, filter, map, shareReplay } from 'rxjs';
 
-import { addVisibleClassOnDestroy, filterNil, getRouteParam } from '@app/functions';
+import { filterNil, getRouteParam } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { RankingPosition } from '@data/types';
-import { tableRowAnimation } from '@shared/animations';
 
 @Component({
-  animations: [tableRowAnimation],
   styleUrl: './ranking.page.scss',
   templateUrl: './ranking.page.html',
   imports: [
@@ -44,7 +42,6 @@ export class RankingPage {
         return c;
       }),
     );
-    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected loadRanking(): Observable<Array<RankingPosition>> {

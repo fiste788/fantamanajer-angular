@@ -10,14 +10,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, map, share } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { PushService } from '@app/services';
 import { UserService } from '@data/services';
 import { User } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  animations: [cardCreationAnimation],
   styleUrl: './settings.page.scss',
   templateUrl: './settings.page.html',
   imports: [
@@ -40,10 +37,6 @@ export class SettingsPage {
   protected readonly push$ = this.#pushService.isSubscribed();
   protected readonly enabled = this.#pushService.isEnabled();
   protected repeatPassword = '';
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   protected async save(user: User): Promise<void> {
     if (user.password === this.repeatPassword) {

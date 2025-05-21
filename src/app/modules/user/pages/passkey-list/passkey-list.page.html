@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (isSupported$ | async) {
 <div class="flex flex-col justify-between md:flex-row">
   <p>
@@ -14,9 +15,9 @@
   </button>
 </div>
 } @if (passkeys$ | async; as passkeys) { @if (passkeys.length) {
-<mat-list @listItemAnimation>
-  @for (passkey of passkeys; track passkey.id) {
-  <mat-list-item>
+<mat-list class="list-item-animation">
+  @for (passkey of passkeys; track passkey.id; let i = $index) {
+  <mat-list-item [style]="'--index:' + i">
     <mat-icon matListItemIcon>passkey</mat-icon>
     <span matListItemTitle>{{passkey.name}}</span>
     <span matListItemLine>

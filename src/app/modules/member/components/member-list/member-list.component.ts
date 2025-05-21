@@ -19,9 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { Member } from '@data/types';
-import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { StickyDirective } from '@shared/directives';
 
@@ -37,7 +35,6 @@ const stats = [
 type Stats = (typeof stats)[number];
 
 @Component({
-  animations: [tableRowAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-list[members]',
   styleUrl: './member-list.component.scss',
@@ -94,10 +91,6 @@ export class MemberListComponent implements OnInit {
   ];
 
   protected footer: Record<string, number> = {};
-
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
 
   public ngOnInit(): void {
     this.fixColumns();

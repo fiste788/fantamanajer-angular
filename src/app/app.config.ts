@@ -14,7 +14,7 @@ import {
   PLATFORM_ID,
   LOCALE_ID,
   provideEnvironmentInitializer,
-  provideExperimentalZonelessChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
@@ -64,7 +64,7 @@ export const appConfig: ApplicationConfig = {
         onViewTransitionCreated,
       }),
     ),
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),

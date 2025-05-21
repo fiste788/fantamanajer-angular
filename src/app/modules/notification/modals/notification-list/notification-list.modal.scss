@@ -1,64 +1,10 @@
 /* stylelint-disable selector-class-pattern */
+@use '@angular/cdk' as cdk;
+
+@include cdk.overlay();
+
 :host {
   width: 100%;
-}
-
-.mat-mdc-dialog-container {
-  outline: 0;
-  transform-origin: 100% 0 0;
-}
-
-.mdc-dialog__container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  box-sizing: border-box;
-  height: 100%;
-  transform: scale(0.8);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.mat-mdc-dialog-container,
-.mat-mdc-dialog-container .mdc-dialog__container,
-.mat-mdc-dialog-container .mdc-dialog__surface {
-  max-height: inherit;
-  min-height: inherit;
-  min-width: inherit;
-  max-width: inherit;
-}
-
-.mdc-dialog--open .mdc-dialog__container {
-  transform: none;
-  opacity: 1;
-}
-
-.mat-mdc-dialog-content {
-  display: block;
-  margin: 0 -24px;
-  max-height: 65vh;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.mat-mdc-dialog-title {
-  padding: 20px 0;
-  margin: 0;
-  display: block;
-}
-
-.mat-mdc-dialog-container .mdc-dialog__surface {
-  width: 100%;
-  border-radius: var(--mat-sys-corner-extra-large, 4px);
-  background-color: var(--mat-sys-surface, white);
-  padding: 0 24px;
-  box-shadow: var(
-    --mat-sys-level0,
-    0 11px 15px -7px rgb(0 0 0 / 20%),
-    0 24px 38px 3px rgb(0 0 0 / 14%),
-    0 9px 46px 8px rgb(0 0 0 / 12%)
-  );
 }
 
 .mat-empty-state {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unicorn/no-null */
 
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, REQUEST, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, REQUEST, inject, DOCUMENT } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',

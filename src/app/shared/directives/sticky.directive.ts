@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, Renderer2, afterNextRender, inject } from '@angular/core';
+import { Directive, ElementRef, Renderer2, afterNextRender, inject, DOCUMENT } from '@angular/core';
 
 @Directive({
   selector: '[appSticky]',

@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if ((ranking$ | async); as ranking) {
 <mat-card
   appearance="outlined"
@@ -5,7 +6,6 @@
 >
   <table
     #table
-    @tableRowAnimation
     class="ranking"
     mat-table
     [dataSource]="ranking"
@@ -71,10 +71,12 @@
     <tr
       *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
       mat-header-row
+      style="--index: 0"
     ></tr>
     <tr
-      *matRowDef="let row; columns: rankingDisplayedColumns$ | async;"
+      *matRowDef="let row; columns: rankingDisplayedColumns$ | async;let i = index"
       mat-row
+      [style]="'--index: ' + (i + 1)"
     ></tr>
   </table>
 </mat-card>

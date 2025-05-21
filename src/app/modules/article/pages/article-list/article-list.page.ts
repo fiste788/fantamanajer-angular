@@ -7,14 +7,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { Subscription, firstValueFrom, from, map } from 'rxjs';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { ArticleService } from '@data/services';
 import { Article, PagedResponse, Pagination } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
-  animations: [cardCreationAnimation],
   templateUrl: './article-list.page.html',
   imports: [
     MatCardModule,
@@ -35,10 +32,6 @@ export class ArticleListPage implements OnInit, OnDestroy {
   protected articles: Array<Article> = [];
   protected pagination?: Pagination;
   protected isLoading = false;
-
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
 
   public ngOnInit(): void {
     this.#subscription.add(from(this.loadData()).subscribe());

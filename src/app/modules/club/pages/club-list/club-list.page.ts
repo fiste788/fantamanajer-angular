@@ -11,7 +11,6 @@ import { Club } from '@data/types';
 import { SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  animations: [],
   styleUrl: './club-list.page.scss',
   templateUrl: './club-list.page.html',
   imports: [

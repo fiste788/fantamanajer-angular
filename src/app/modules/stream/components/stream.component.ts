@@ -16,16 +16,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
 import { StreamActivity } from '@data/types';
-import { listItemAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { LayoutService } from 'src/app/layout/services';
 
 import { StreamDataSource } from './stream.datasource';
 
 @Component({
-  animations: [listItemAnimation],
   imports: [
     ContentLoaderModule,
     ScrollingModule,
@@ -52,7 +49,6 @@ export class StreamComponent implements OnInit, OnDestroy {
   protected width!: number;
 
   constructor() {
-    addVisibleClassOnDestroy(listItemAnimation);
     afterNextRender(() => {
       const viewport = this.viewport();
       if (viewport) {
