@@ -27,7 +27,6 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
-  host: { '[@.disabled]': '!stable()' },
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   imports: [
@@ -41,6 +40,9 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     NavigationSkeletonComponent,
     NavigationDrawerComponent,
   ],
+  host: {
+    '[class.stable]': 'stable()',
+  },
 })
 export class MainComponent {
   readonly #layoutService = inject(LayoutService);

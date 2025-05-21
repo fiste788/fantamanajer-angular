@@ -14,9 +14,6 @@ import { LayoutService } from '../../services';
   selector: 'app-navigation-list',
   imports: [RouterModule, MatListModule, MatRippleModule, MatIconModule],
   styleUrl: './navigation-list.component.scss',
-  host: {
-    '[class]': 'mode() + " navigation navigation-" + navigationMode()',
-  },
   templateUrl: './navigation-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

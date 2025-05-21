@@ -30,8 +30,6 @@
   @let _stable = stable();
   <app-navigation-bar
     class="scroll-down"
-    [ngClass]="
-      'scroll-down-' + (_stable && _navigationMode === 'bar' && _showBars ? _showBars : hidden)
-    "
+    [ngClass]="'scroll-down-' + (_stable && _navigationMode === 'bar' ? _showBars : hidden)"
   />
 }

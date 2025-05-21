@@ -4,6 +4,7 @@
 @mixin card() {
   .mat-mdc-card {
     overflow-y: hidden;
+
     // transition: box-shadow 300ms var(--mat-sys-motion-emphasized-decelerate);
 
     @include mat.card-overrides(

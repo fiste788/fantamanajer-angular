@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, output, inject } from '@angular/core';
@@ -33,10 +32,8 @@ export class NotificationListModal {
   readonly #app = inject(ApplicationService);
 
   public readonly seen = output<Stream>();
-  public readonly animationStateChanged = output<AnimationEvent>();
 
   protected readonly stream$ = this.loadData();
-  protected animationState: 'enter' | 'leave' | 'void' = 'enter';
 
   public loadData(): Observable<Stream> {
     return this.#app.requireTeam$.pipe(
@@ -45,9 +42,5 @@ export class NotificationListModal {
         this.seen.emit(res);
       }),
     );
-  }
-
-  public startExitAnimation(): void {
-    this.animationState = 'leave';
   }
 }

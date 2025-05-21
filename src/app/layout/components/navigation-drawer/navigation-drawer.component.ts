@@ -13,9 +13,6 @@ import { ProfileComponent } from '../profile/profile.component';
   selector: 'app-navigation-drawer',
   styleUrl: './navigation-drawer.component.scss',
   templateUrl: './navigation-drawer.component.html',
-  host: {
-    '[class]': '"navigation navigation-" + navigationMode()',
-  },
   imports: [
     ProfileComponent,
     MatIconModule,

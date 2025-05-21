@@ -8,6 +8,7 @@ html {
   @include base.fonts;
   @include base.animations;
   @include base.css-variables;
+  @include base.transitions;
   @include base.view-transition;
   @include base.material;
   @include base.scrollbar;

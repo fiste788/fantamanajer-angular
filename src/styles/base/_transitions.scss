@@ -1,188 +1,275 @@
-.mat-mdc-row,
-.mat-mdc-header-row,
-.mat-mdc-footer-row,
-.mat-mdc-card,
-.list-item-transition .mat-mdc-list-item,
-.list-item-transition content-loader .lineup-disposition .mat-mdc-select,
-.lineup-disposition .mat-mdc-form-field-subscript-wrapper {
-  transition-property: opacity, transform, box-shadow;
-  transition-duration: 300ms;
-  transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-  transition-delay: calc(20ms * var(--index));
+// =====================================
+// 1. Variabili di Configurazione (Tempi, Easing, Valori)
+// =====================================
 
+// Durate comuni delle transizioni
+$duration-standard: 300ms;
+$duration-fast: 200ms;
+$duration-slow: 400ms;
+$duration-toolbar-row-hidden: 66ms;
+$duration-toolbar-row-visible: 280ms;
+
+// Funzioni di easing (prese dalle tue var CSS)
+$ease-decelerate: var(--mat-sys-motion-emphasized-decelerate);
+$ease-accelerate: var(--mat-sys-motion-emphasized-accelerate);
+
+// Ritardo comune per elementi in lista
+$delay-list-item: calc(20ms * var(--index, 0));
+$delay-toolbar-row-visible: 66ms;
+
+// Valori di trasformazione comuni
+$transform-y-up: translateY(-5rem);
+$transform-y-down: translateY(5rem);
+$transform-x-left: translateX(-5rem);
+$transform-y-list-item: translateY(1.5rem);
+$transform-scale-min: scale(0.4);
+
+// =====================================
+// 2. Mixin Riutilizzabili
+// =====================================
+
+// Mixin per le transizioni standard di ingresso (opacità e trasformazione)
+@mixin enter-transition(
+  $delay: $delay-list-item,
+  $duration: $duration-standard,
+  $ease: $ease-decelerate
+) {
+  transition:
+    opacity $duration $ease $delay,
+    transform $duration $ease $delay,
+    box-shadow $duration $ease $delay; // box-shadow solo per il primo blocco, da valutare se generalizzare
+}
+
+// Mixin per le transizioni di uscita (scalatura e opacità)
+@mixin exit-transition($duration: $duration-standard, $ease: $ease-accelerate) {
+  transition-duration: $duration;
+  transition-timing-function: $ease;
+  opacity: 0;
+  transform: $transform-scale-min;
+}
+
+// Mixin per lo stato @starting-style di ingresso standard
+@mixin starting-style-enter($initial-transform: $transform-y-list-item) {
   @starting-style {
     opacity: 0;
-    transform: translateY(1.5rem);
+    transform: $initial-transform;
   }
 }
 
-.create-box {
-  & > img,
-  .mat-icon,
-  .img-container,
-  .mat-empty-state,
-  .icon-container > span {
-    transition-property: opacity, transform;
-    transition-duration: 300ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    transition-delay: calc(20ms * var(--index));
-    opacity: 1;
+// Mixin per lo stato @starting-style di uscita standard (per opacity e transform)
+@mixin starting-style-exit($initial-opacity: 1, $initial-transform: scale(1)) {
+  @starting-style {
+    opacity: $initial-opacity;
+    transform: $initial-transform;
+  }
+}
 
-    @starting-style {
-      opacity: 0;
-      transform: scale(0.4);
-    }
+// Mixin per le transizioni della toolbar interna
+@mixin toolbar-row-transition(
+  $duration: $duration-toolbar-row-visible,
+  $delay: 0ms,
+  $ease: $ease-decelerate
+) {
+  transition: opacity $duration $ease $delay;
+}
+
+// =====================================
+// 3. Applicazione degli Stili Refactorizzati
+// =====================================
+
+@mixin transitions() {
+  // --- Elementi della tabella e card ---
+  .mat-mdc-row,
+  .mat-mdc-header-row,
+  .mat-mdc-footer-row,
+  .mat-mdc-card,
+  .list-item-transition .mat-mdc-list-item,
+  .list-item-transition content-loader .lineup-disposition .mat-mdc-select,
+  .lineup-disposition .mat-mdc-form-field-subscript-wrapper {
+    @include enter-transition; // Applica transizione standard di ingresso
+    @include starting-style-enter; // Applica @starting-style standard di ingresso
   }
 
-  &.deleting {
+  // --- Contenitore "create-box" e i suoi figli animati ---
+  .create-box {
     & > img,
     .mat-icon,
     .img-container,
     .mat-empty-state,
     .icon-container > span {
-      opacity: 0;
-      transform: scale(0.4);
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
+      transition:
+        opacity $duration-standard $ease-decelerate $delay-list-item,
+        transform $duration-standard $ease-decelerate $delay-list-item; // Solo opacity e transform qui
+
+      opacity: 1; // Stato finale visibile
+
+      @include starting-style-exit(
+        $initial-opacity: 0,
+        $initial-transform: $transform-scale-min
+      ); // Iniziale: scalato e trasparente
     }
-  }
-}
 
-.scroll-up,
-.scroll-down {
-  transition-property: transform;
-
-  .mat-toolbar-row {
-    transition-property: opacity;
-  }
-
-  &.scroll-up-visible,
-  &.scroll-down-visible {
-    transition-duration: 400ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    transform: translateY(0);
-
-    .mat-toolbar-row {
-      transition-duration: 280ms;
-      transition-delay: 66ms;
-      transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-      opacity: 1;
-
-      @starting-style {
+    // Stato "deleting" per gli elementi interni di create-box
+    &.deleting {
+      & > img,
+      .mat-icon,
+      .img-container,
+      .mat-empty-state,
+      .icon-container > span {
         opacity: 0;
+        transform: $transform-scale-min;
+        transition-timing-function: $ease-accelerate; // Easing specifico per l'uscita
       }
     }
   }
 
-  &.scroll-up-hidden,
-  &.scroll-down-hidden {
-    transition-duration: 200ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-
-    @starting-style {
-      transform: translateY(0);
-    }
+  // --- Scorrimento (scroll-up/scroll-down) ---
+  .stable .scroll-up,
+  .stable .scroll-down {
+    transition-property: transform; // Solo transform per il contenitore
 
     .mat-toolbar-row {
-      transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-      transition-duration: 66ms;
-      opacity: 0;
+      transition-property: opacity; // Solo opacity per la toolbar interna
+    }
 
-      @starting-style {
-        opacity: 1;
+    // Stato visibile per scroll-up/down
+    &.scroll-up-visible,
+    &.scroll-down-visible {
+      transition-duration: $duration-slow;
+      transition-timing-function: $ease-decelerate;
+      transform: translateY(0); // Posizione finale visibile
+
+      .mat-toolbar-row {
+        @include toolbar-row-transition(
+          $delay: $delay-toolbar-row-visible
+        ); // Transizione di ingresso toolbar
+
+        opacity: 1; // Opacità finale visibile
+
+        @include starting-style-exit(
+          $initial-opacity: 0,
+          $initial-transform: null
+        ); // Parte da opacità 0
+      }
+    }
+
+    // Stato nascosto per scroll-up/down
+    &.scroll-up-hidden,
+    &.scroll-down-hidden {
+      transition-duration: $duration-fast;
+      transition-timing-function: $ease-accelerate;
+
+      @include starting-style-exit(
+        $initial-opacity: null,
+        $initial-transform: translateY(0)
+      ); // Parte dalla posizione visibile
+
+      .mat-toolbar-row {
+        @include toolbar-row-transition(
+          $duration: $duration-toolbar-row-hidden,
+          $ease: $ease-accelerate
+        ); // Transizione di uscita toolbar
+
+        opacity: 0; // Opacità finale nascosta
+
+        @include starting-style-exit(
+          $initial-opacity: 1,
+          $initial-transform: null
+        ); // Parte da opacità 1
       }
     }
   }
-}
 
-.scroll-up-visible {
-  @starting-style {
-    transform: translateY(-100%);
+  // --- Posizioni specifiche per scroll-up/down (fuori dal blocco principale per chiarezza sullo stato finale) ---
+  .scroll-up-visible {
+    @include starting-style-exit(
+      $initial-opacity: null,
+      $initial-transform: -100%
+    ); // Assume un translateY(-100%) come stato iniziale
   }
-}
 
-.scroll-up-hidden {
-  transform: translateY(-100%);
-}
-
-.scroll-down-visible {
-  @starting-style {
-    transform: translateY(100%);
+  .scroll-up-hidden {
+    transform: translateY(-100%); // Posizione finale quando nascosto
   }
-}
 
-.scroll-down-hidden {
-  transform: translateY(100%);
-}
+  .scroll-down-visible {
+    @include starting-style-exit(
+      $initial-opacity: null,
+      $initial-transform: 100%
+    ); // Assume un translateY(100%) come stato iniziale
+  }
 
-.close {
-  transition-property: transform;
+  .scroll-down-hidden {
+    transform: translateY(100%); // Posizione finale quando nascosto
+  }
 
-  &.close-visible {
-    transition-duration: 400ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    transform: scale(1);
+  // --- Chiusura (close) ---
+  .close {
+    transition-property: transform;
 
-    @starting-style {
-      transform: scale(0);
+    &.close-visible {
+      transition-duration: $duration-slow;
+      transition-timing-function: $ease-decelerate;
+      transform: scale(1); // Stato finale visibile
+
+      @include starting-style-exit(
+        $initial-opacity: null,
+        $initial-transform: scale(0)
+      ); // Parte da scalato a 0
+    }
+
+    &.close-hidden {
+      transition-duration: $duration-fast;
+      transition-timing-function: $ease-accelerate;
+      transform: scale(0); // Stato finale nascosto
+
+      @include starting-style-exit(
+        $initial-opacity: null,
+        $initial-transform: scale(1)
+      ); // Parte da scalato a 1
     }
   }
 
-  &.close-hidden {
-    transition-duration: 200ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-    transform: scale(0);
-
-    @starting-style {
-      transform: scale(1);
-    }
-  }
-}
-
-.navigation {
-  .mat-mdc-nav-list > *,
-  app-profile,
-  .toggle,
-  .fab {
-    transition-property: transform, opacity;
-    transition-duration: 500ms;
-    transition-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    transition-delay: calc(50ms * var(--index));
-  }
-
-  &.navigation-rail,
-  &.navigation-drawer {
+  // --- Navigazione (navigation) ---
+  .mat-drawer-container {
     .mat-mdc-nav-list > *,
     app-profile,
     .toggle,
     .fab {
-      @starting-style {
-        opacity: 0;
-        transform: translateY(-5rem);
-      }
-    }
-  }
-
-  &.navigation-bar {
-    app-profile,
-    .toggle,
-    .fab {
-      @starting-style {
-        opacity: 0;
-        transform: translateX(-5rem);
-      }
+      transition:
+        transform 500ms $ease-decelerate $delay-list-item,
+        opacity 500ms $ease-decelerate $delay-list-item;
     }
 
-    .mat-mdc-nav-list[direction='right'] > * {
-      @starting-style {
-        opacity: 0;
-        transform: translateY(5rem);
+    &.container-navigation-rail,
+    &.container-navigation-drawer {
+      .mat-mdc-nav-list > *,
+      app-profile,
+      .toggle,
+      .fab {
+        @include starting-style-exit(
+          $initial-opacity: 0,
+          $initial-transform: $transform-x-left
+        ); // Parte da sopra e trasparente
       }
     }
 
-    .mat-mdc-nav-list[direction='down'] > * {
-      @starting-style {
-        opacity: 0;
-        transform: translateX(-5rem);
+    &.container-navigation-bar {
+      .mat-mdc-nav-list[direction='down'] > *,
+      app-profile,
+      .toggle,
+      .fab {
+        @include starting-style-exit(
+          $initial-opacity: 0,
+          $initial-transform: $transform-x-left
+        ); // Parte da sinistra e trasparente
+      }
+
+      .mat-mdc-nav-list[direction='right'] > * {
+        @include starting-style-exit(
+          $initial-opacity: 0,
+          $initial-transform: $transform-y-down
+        ); // Parte da sotto e trasparente
       }
     }
   }
