@@ -28,7 +28,7 @@
     }
   }
 
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened), // chiuso o si sta chiudendo
+  .navigation-mode-rail .mat-drawer:not(.mat-drawer-opened), // chiuso o si sta chiudendo
   .navigation-bar {
     .mat-focus-indicator {
       height: 2rem;

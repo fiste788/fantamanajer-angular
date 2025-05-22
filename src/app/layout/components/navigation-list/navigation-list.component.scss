@@ -92,7 +92,7 @@
 // è chiuso
 :host-context(.navigation-bar),
 :host-context(
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
+  .navigation-mode-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
 ) {
   .mat-mdc-nav-list {
     transition: margin var(--drawer-animation-duration) var(--drawer-animation-timing-function);
@@ -265,7 +265,7 @@
 
 // è chiuso
 :host-context(
-  .container-navigation-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
+  .navigation-mode-rail .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating)
 ) {
   .title-lite {
     display: block;
@@ -281,7 +281,7 @@
 }
 
 // si sta chiudendo o è chiuso
-:host-context(.container-navigation-rail .mat-drawer:not(.mat-drawer-opened)) {
+:host-context(.navigation-mode-rail .mat-drawer:not(.mat-drawer-opened)) {
   .mat-mdc-subheader {
     max-height: 0;
     opacity: 0;
@@ -313,7 +313,7 @@
 }
 
 // si sta chiudendo
-:host-context(.container-navigation-rail .mat-drawer.mat-drawer-animating:not(.mat-drawer-opened)) {
+:host-context(.navigation-mode-rail .mat-drawer.mat-drawer-animating:not(.mat-drawer-opened)) {
   --mdc-list-list-item-one-line-container-height: 2rem;
 
   .mat-mdc-nav-list .mat-mdc-list-item {

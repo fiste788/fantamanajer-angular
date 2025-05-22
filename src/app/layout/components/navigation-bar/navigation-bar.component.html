@@ -4,11 +4,9 @@
   </mat-toolbar-row>
 </mat-toolbar>
 @if (loggedIn()) {
-  @let _showBars = showBars();
   <app-fab
     class="fab"
     extended="false"
-    [ngClass]="'close close-' + (stable() ? _showBars : hidden)"
     [(opened)]="openFab"
   />
 }

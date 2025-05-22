@@ -42,6 +42,7 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
   ],
   host: {
     '[class.stable]': 'stable()',
+    '[class]': '"navigation-mode-" + navigationMode()',
   },
 })
 export class MainComponent {

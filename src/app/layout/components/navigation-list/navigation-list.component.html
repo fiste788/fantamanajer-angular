@@ -3,6 +3,7 @@
 @let _navigationMode = navigationMode();
 @let _openDrawer = openDrawer();
 <mat-nav-list
+  class="navigation-list"
   [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
 >

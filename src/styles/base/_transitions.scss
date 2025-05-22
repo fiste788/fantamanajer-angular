@@ -1,276 +1,306 @@
+@use 'sass:list';
+
 // =====================================
-// 1. Variabili di Configurazione (Tempi, Easing, Valori)
+// 1. Variabili di Configurazione
 // =====================================
 
-// Durate comuni delle transizioni
+// Durate Comuni
 $duration-standard: 300ms;
 $duration-fast: 200ms;
 $duration-slow: 400ms;
 $duration-toolbar-row-hidden: 66ms;
 $duration-toolbar-row-visible: 280ms;
+$duration-navigation-item: 500ms; // Rinominata per chiarezza
 
-// Funzioni di easing (prese dalle tue var CSS)
+// Funzioni di Easing (Materali Design System)
 $ease-decelerate: var(--mat-sys-motion-emphasized-decelerate);
 $ease-accelerate: var(--mat-sys-motion-emphasized-accelerate);
 
-// Ritardo comune per elementi in lista
-$delay-list-item: calc(20ms * var(--index, 0));
+// Ritardi Comuni
+$delay-list-item: calc(20ms * var(--index, 0)); // Aggiunto fallback a 0
 $delay-toolbar-row-visible: 66ms;
+$delay-navigation-item: calc(50ms * var(--index, 0)); // Aggiunto fallback a 0
 
-// Valori di trasformazione comuni
+// Valori di Trasformazione Comuni
 $transform-y-up: translateY(-5rem);
 $transform-y-down: translateY(5rem);
 $transform-x-left: translateX(-5rem);
-$transform-y-list-item: translateY(1.5rem);
-$transform-scale-min: scale(0.4);
+$transform-y-list-item-initial: translateY(1.5rem); // Rinominata
+$transform-scale-hidden: scale(0.4); // Rinominata
+$transform-scale-visible: scale(1); // Nuovo
 
 // =====================================
 // 2. Mixin Riutilizzabili
 // =====================================
 
-// Mixin per le transizioni standard di ingresso (opacità e trasformazione)
-@mixin enter-transition(
-  $delay: $delay-list-item,
-  $duration: $duration-standard,
-  $ease: $ease-decelerate
-) {
-  transition:
-    opacity $duration $ease $delay,
-    transform $duration $ease $delay,
-    box-shadow $duration $ease $delay; // box-shadow solo per il primo blocco, da valutare se generalizzare
+/// Mixin per una transizione completa (shorthand 'transition')
+/// Accetta un numero variabile di proprietà.
+/// @param $properties... - Lista delle proprietà da transizionare (es. opacity, transform, box-shadow)
+/// @param $duration - Durata della transizione
+/// @param $ease - Funzione di easing
+/// @param $delay - Ritardo della transizione
+@mixin transition-full($duration, $ease, $delay, $properties...) {
+  $transition-list: (); // Crea una lista vuota per costruire la stringa finale
+
+  // Itera su ogni proprietà passata
+  @each $property in $properties {
+    // Costruisci la stringa per ogni singola transizione (es. "opacity 300ms ease 0ms")
+    $transition-item: #{$property} #{$duration} #{$ease} #{$delay};
+    $transition-list: list.append($transition-list, $transition-item, comma); // Aggiungi alla lista
+  }
+
+  // Applica la lista completa di transizioni
+  transition: $transition-list;
 }
 
-// Mixin per le transizioni di uscita (scalatura e opacità)
-@mixin exit-transition($duration: $duration-standard, $ease: $ease-accelerate) {
-  transition-duration: $duration;
-  transition-timing-function: $ease;
-  opacity: 0;
-  transform: $transform-scale-min;
-}
-
-// Mixin per lo stato @starting-style di ingresso standard
-@mixin starting-style-enter($initial-transform: $transform-y-list-item) {
+/// Mixin per lo stato @starting-style
+/// @param $initial-opacity - Opacità iniziale (default 1, null per ignorare)
+/// @param $initial-transform - Trasformazione iniziale (default scale(1), null per ignorare)
+@mixin starting-style-state($initial-opacity: null, $initial-transform: null) {
   @starting-style {
-    opacity: 0;
-    transform: $initial-transform;
+    @if $initial-opacity {
+      opacity: $initial-opacity;
+    }
+
+    @if $initial-transform {
+      transform: $initial-transform;
+    }
   }
 }
 
-// Mixin per lo stato @starting-style di uscita standard (per opacity e transform)
-@mixin starting-style-exit($initial-opacity: 1, $initial-transform: scale(1)) {
-  @starting-style {
-    opacity: $initial-opacity;
-    transform: $initial-transform;
-  }
-}
-
-// Mixin per le transizioni della toolbar interna
-@mixin toolbar-row-transition(
-  $duration: $duration-toolbar-row-visible,
-  $delay: 0ms,
-  $ease: $ease-decelerate
+/// Mixin per definire uno stato VISIBILE
+/// Si assume che l'elemento abbia transizioni definite altrove.
+/// @param $opacity - Opacità nello stato visibile (default 1)
+/// @param $transform - Trasformazione nello stato visibile (default translateY(0))
+/// @param $starting-opacity - Opacità da cui parte l'animazione (per @starting-style)
+/// @param $starting-transform - Trasformazione da cui parte l'animazione (per @starting-style)
+@mixin visible-state(
+  $opacity: 1,
+  $transform: translate(0, 0),
+  $starting-opacity: null,
+  $starting-transform: null
 ) {
-  transition: opacity $duration $ease $delay;
+  opacity: $opacity;
+  transform: $transform;
+
+  @include starting-style-state($starting-opacity, $starting-transform);
+}
+
+/// Mixin per definire uno stato NASCOSTO
+/// Si assume che l'elemento abbia transizioni definite altrove.
+/// @param $opacity - Opacità nello stato nascosto (default 0)
+/// @param $transform - Trasformazione nello stato nascosto (default (0))
+/// @param $starting-opacity - Opacità da cui parte l'animazione (per @starting-style)
+/// @param $starting-transform - Trasformazione da cui parte l'animazione (per @starting-style)
+@mixin hidden-state(
+  $opacity: 0,
+  $transform: translate(0, 0),
+  // Default 0 per non interferire se non specificato
+  $starting-opacity: null,
+  $starting-transform: null
+) {
+  opacity: $opacity;
+  transform: $transform;
+
+  @include starting-style-state($starting-opacity, $starting-transform);
 }
 
 // =====================================
-// 3. Applicazione degli Stili Refactorizzati
+// 3. Applicazione degli Stili
 // =====================================
 
+// Questo mixin conterrà tutte le tue regole di transizione per essere @include una volta
 @mixin transitions() {
-  // --- Elementi della tabella e card ---
+  // --- Transizioni per elementi standard di Material (Row, Card, List Item) ---
   .mat-mdc-row,
   .mat-mdc-header-row,
   .mat-mdc-footer-row,
   .mat-mdc-card,
   .list-item-transition .mat-mdc-list-item,
-  .list-item-transition content-loader .lineup-disposition .mat-mdc-select,
+  .list-item-transition content-loader,
+  .lineup-disposition .mat-mdc-select,
   .lineup-disposition .mat-mdc-form-field-subscript-wrapper {
-    @include enter-transition; // Applica transizione standard di ingresso
-    @include starting-style-enter; // Applica @starting-style standard di ingresso
+    @include transition-full(
+      $duration-standard,
+      $ease-decelerate,
+      $delay-list-item,
+      opacity,
+      transform,
+      box-shadow
+    );
+
+    // Transizione da stato nascosto (opacity 0, traslato) a visibile
+    @include starting-style-state(0, $transform-y-list-item-initial);
   }
 
-  // --- Contenitore "create-box" e i suoi figli animati ---
+  // --- Transizioni per Create Box ---
   .create-box {
+    // Stili base per gli elementi interni animati
     & > img,
     .mat-icon,
     .img-container,
     .mat-empty-state,
     .icon-container > span {
-      transition:
-        opacity $duration-standard $ease-decelerate $delay-list-item,
-        transform $duration-standard $ease-decelerate $delay-list-item; // Solo opacity e transform qui
+      @include transition-full(
+        $duration-standard,
+        $ease-decelerate,
+        $delay-list-item,
+        opacity,
+        transform
+      );
 
-      opacity: 1; // Stato finale visibile
-
-      @include starting-style-exit(
-        $initial-opacity: 0,
-        $initial-transform: $transform-scale-min
-      ); // Iniziale: scalato e trasparente
+      // Stato finale visibile
+      @include visible-state; // default opacity 1, transform translateY(0)
+      // Stato iniziale per l'ingresso (scalato e trasparente)
+      @include starting-style-state(0, $transform-scale-hidden);
     }
 
-    // Stato "deleting" per gli elementi interni di create-box
+    // Stato "hidden" o "deleting" per create-box
     &.deleting {
       & > img,
       .mat-icon,
       .img-container,
       .mat-empty-state,
       .icon-container > span {
-        opacity: 0;
-        transform: $transform-scale-min;
-        transition-timing-function: $ease-accelerate; // Easing specifico per l'uscita
+        transition-timing-function: $ease-accelerate; // Override del timing function
+
+        // Transizione di uscita (scalato e trasparente) con easing accelerato
+        @include hidden-state(0, $transform-scale-hidden, 1, $transform-scale-visible);
       }
     }
   }
 
-  // --- Scorrimento (scroll-up/scroll-down) ---
-  .stable .scroll-up,
-  .stable .scroll-down {
-    transition-property: transform; // Solo transform per il contenitore
-
-    .mat-toolbar-row {
-      transition-property: opacity; // Solo opacity per la toolbar interna
-    }
-
-    // Stato visibile per scroll-up/down
-    &.scroll-up-visible,
-    &.scroll-down-visible {
-      transition-duration: $duration-slow;
-      transition-timing-function: $ease-decelerate;
-      transform: translateY(0); // Posizione finale visibile
+  // --- Transizioni di Scorrimento (Header / Toolbar / FAB) ---
+  .stable {
+    .scroll-up,
+    .scroll-down {
+      transition-property: transform; // Solo transform per il contenitore principale
 
       .mat-toolbar-row {
-        @include toolbar-row-transition(
-          $delay: $delay-toolbar-row-visible
-        ); // Transizione di ingresso toolbar
-
-        opacity: 1; // Opacità finale visibile
-
-        @include starting-style-exit(
-          $initial-opacity: 0,
-          $initial-transform: null
-        ); // Parte da opacità 0
+        transition-property: opacity; // Opacità per la toolbar
       }
-    }
 
-    // Stato nascosto per scroll-up/down
-    &.scroll-up-hidden,
-    &.scroll-down-hidden {
-      transition-duration: $duration-fast;
-      transition-timing-function: $ease-accelerate;
-
-      @include starting-style-exit(
-        $initial-opacity: null,
-        $initial-transform: translateY(0)
-      ); // Parte dalla posizione visibile
-
-      .mat-toolbar-row {
-        @include toolbar-row-transition(
-          $duration: $duration-toolbar-row-hidden,
-          $ease: $ease-accelerate
-        ); // Transizione di uscita toolbar
-
-        opacity: 0; // Opacità finale nascosta
-
-        @include starting-style-exit(
-          $initial-opacity: 1,
-          $initial-transform: null
-        ); // Parte da opacità 1
-      }
-    }
-  }
-
-  // --- Posizioni specifiche per scroll-up/down (fuori dal blocco principale per chiarezza sullo stato finale) ---
-  .scroll-up-visible {
-    @include starting-style-exit(
-      $initial-opacity: null,
-      $initial-transform: -100%
-    ); // Assume un translateY(-100%) come stato iniziale
-  }
-
-  .scroll-up-hidden {
-    transform: translateY(-100%); // Posizione finale quando nascosto
-  }
-
-  .scroll-down-visible {
-    @include starting-style-exit(
-      $initial-opacity: null,
-      $initial-transform: 100%
-    ); // Assume un translateY(100%) come stato iniziale
-  }
-
-  .scroll-down-hidden {
-    transform: translateY(100%); // Posizione finale quando nascosto
-  }
-
-  // --- Chiusura (close) ---
-  .close {
-    transition-property: transform;
-
-    &.close-visible {
-      transition-duration: $duration-slow;
-      transition-timing-function: $ease-decelerate;
-      transform: scale(1); // Stato finale visibile
-
-      @include starting-style-exit(
-        $initial-opacity: null,
-        $initial-transform: scale(0)
-      ); // Parte da scalato a 0
-    }
-
-    &.close-hidden {
-      transition-duration: $duration-fast;
-      transition-timing-function: $ease-accelerate;
-      transform: scale(0); // Stato finale nascosto
-
-      @include starting-style-exit(
-        $initial-opacity: null,
-        $initial-transform: scale(1)
-      ); // Parte da scalato a 1
-    }
-  }
-
-  // --- Navigazione (navigation) ---
-  .mat-drawer-container {
-    .mat-mdc-nav-list > *,
-    app-profile,
-    .toggle,
-    .fab {
-      transition:
-        transform 500ms $ease-decelerate $delay-list-item,
-        opacity 500ms $ease-decelerate $delay-list-item;
-    }
-
-    &.container-navigation-rail,
-    &.container-navigation-drawer {
-      .mat-mdc-nav-list > *,
-      app-profile,
-      .toggle,
       .fab {
-        @include starting-style-exit(
-          $initial-opacity: 0,
-          $initial-transform: $transform-x-left
-        ); // Parte da sopra e trasparente
+        transition-property: transform; // Scala e opacità per il FAB
+      }
+
+      // Stato visibile per scroll-up/down
+      &.scroll-up-visible,
+      &.scroll-down-visible {
+        transition-duration: $duration-slow;
+        transition-timing-function: $ease-decelerate;
+        transform: translateY(0); // Posizione finale visibile per il contenitore
+
+        .mat-toolbar-row {
+          @include transition-full(
+            $duration-toolbar-row-visible,
+            $ease-decelerate,
+            $delay-toolbar-row-visible,
+            opacity
+          );
+          @include visible-state(1, null, 0); // Opacità finale 1, parte da 0
+        }
+
+        .fab {
+          @include transition-full($duration-fast, $ease-decelerate, 0ms, transform);
+          @include visible-state(
+            null,
+            $transform-scale-visible,
+            null,
+            $transform-scale-hidden
+          ); // Scala da 0 a 1, Opacità da 0 a 1
+        }
+      }
+
+      // Stato nascosto per scroll-up/down
+      &.scroll-up-hidden,
+      &.scroll-down-hidden {
+        transition-duration: $duration-fast;
+        transition-timing-function: $ease-accelerate;
+
+        @include starting-style-state(
+          null,
+          translateY(0)
+        ); // Contenitore parte dalla posizione visibile
+
+        .mat-toolbar-row {
+          @include transition-full(
+            $duration-toolbar-row-hidden,
+            $ease-accelerate,
+            0ms,
+            opacity
+          ); // Nessun delay in uscita
+
+          @include hidden-state(0, null, 1); // Opacità finale 0, parte da 1
+        }
+
+        .fab {
+          @include transition-full(
+            $duration-fast,
+            $ease-accelerate,
+            0ms,
+            transform
+          ); // Nessun delay in uscita
+
+          @include hidden-state(
+            null,
+            $transform-scale-hidden,
+            null,
+            $transform-scale-visible
+          ); // Scala da 1 a 0, Opacità da 1 a 0
+        }
       }
     }
 
-    &.container-navigation-bar {
-      .mat-mdc-nav-list[direction='down'] > *,
-      app-profile,
-      .toggle,
-      .fab {
-        @include starting-style-exit(
-          $initial-opacity: 0,
-          $initial-transform: $transform-x-left
-        ); // Parte da sinistra e trasparente
-      }
-
-      .mat-mdc-nav-list[direction='right'] > * {
-        @include starting-style-exit(
-          $initial-opacity: 0,
-          $initial-transform: $transform-y-down
-        ); // Parte da sotto e trasparente
-      }
+    // --- Posizioni specifiche per scroll-up/down (questi definiscono solo il punto di partenza per @starting-style) ---
+    // Questi devono avere i loro stili normali definiti altrove per transitionare a translateY(0)
+    .scroll-up-visible {
+      @include starting-style-state(null, translateY(-100%));
     }
+
+    .scroll-up-hidden {
+      transform: translateY(-100%);
+    }
+
+    .scroll-down-visible {
+      @include starting-style-state(null, translateY(100%));
+    }
+
+    .scroll-down-hidden {
+      transform: translateY(100%);
+    }
+  }
+
+  // --- Transizioni per la Navigazione (Drawer/Rail/Bar) ---
+
+  // Assumo che .navigation fosse il contenitore
+  .navigation-list > *,
+  app-profile,
+  .mat-drawer .toggle,
+  .mat-drawer .fab {
+    // Transizioni base per tutti gli elementi della navigazione
+    @include transition-full(
+      $duration-navigation-item,
+      $ease-decelerate,
+      $delay-navigation-item,
+      transform,
+      opacity
+    );
+
+    // Stato finale visibile per default
+    @include visible-state;
+  }
+
+  // Elementi che partono da sotto (bar, direction right)
+  .navigation-list[direction='right'] > * {
+    @include starting-style-state(0, $transform-y-down);
+  }
+
+  // Elementi che partono da sinistra (bar)
+  .navigation-list[direction='down'] > *,
+  app-profile,
+  .mat-drawer .toggle,
+  .mat-drawer .fab {
+    @include starting-style-state(0, $transform-x-left);
   }
 }
