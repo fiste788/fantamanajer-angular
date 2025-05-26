@@ -5,12 +5,11 @@
 // =====================================
 
 // Durate Comuni
-$duration-standard: 300ms;
-$duration-fast: 200ms;
-$duration-slow: 400ms;
+$duration-accelerate: var(--mat-sys-motion-emphasized-accelerate-duration);
+$duration-decelerate: var(--mat-sys-motion-emphasized-decelerate-duration);
 $duration-toolbar-row-hidden: 66ms;
 $duration-toolbar-row-visible: 280ms;
-$duration-navigation-item: 500ms; // Rinominata per chiarezza
+$duration-emphasized: var(--mat-sys-motion-emphasized-duration); // Rinominata per chiarezza
 
 // Funzioni di Easing (Materali Design System)
 $ease-decelerate: var(--mat-sys-motion-emphasized-decelerate);
@@ -121,7 +120,7 @@ $transform-scale-visible: scale(1); // Nuovo
   .lineup-disposition .mat-mdc-select,
   .lineup-disposition .mat-mdc-form-field-subscript-wrapper {
     @include transition-full(
-      $duration-standard,
+      $duration-decelerate,
       $ease-decelerate,
       $delay-list-item,
       opacity,
@@ -142,7 +141,7 @@ $transform-scale-visible: scale(1); // Nuovo
     .mat-empty-state,
     .icon-container > span {
       @include transition-full(
-        $duration-standard,
+        $duration-decelerate,
         $ease-decelerate,
         $delay-list-item,
         opacity,
@@ -187,7 +186,7 @@ $transform-scale-visible: scale(1); // Nuovo
       // Stato visibile per scroll-up/down
       &.scroll-up-visible,
       &.scroll-down-visible {
-        transition-duration: $duration-slow;
+        transition-duration: $duration-decelerate;
         transition-timing-function: $ease-decelerate;
         transform: translateY(0); // Posizione finale visibile per il contenitore
 
@@ -202,7 +201,7 @@ $transform-scale-visible: scale(1); // Nuovo
         }
 
         .fab {
-          @include transition-full($duration-fast, $ease-decelerate, 0ms, transform);
+          @include transition-full($duration-decelerate, $ease-decelerate, 0ms, transform);
           @include visible-state(
             null,
             $transform-scale-visible,
@@ -215,7 +214,7 @@ $transform-scale-visible: scale(1); // Nuovo
       // Stato nascosto per scroll-up/down
       &.scroll-up-hidden,
       &.scroll-down-hidden {
-        transition-duration: $duration-fast;
+        transition-duration: $duration-accelerate;
         transition-timing-function: $ease-accelerate;
 
         @include starting-style-state(
@@ -236,7 +235,7 @@ $transform-scale-visible: scale(1); // Nuovo
 
         .fab {
           @include transition-full(
-            $duration-fast,
+            $duration-accelerate,
             $ease-accelerate,
             0ms,
             transform
@@ -280,7 +279,7 @@ $transform-scale-visible: scale(1); // Nuovo
   .mat-drawer .fab {
     // Transizioni base per tutti gli elementi della navigazione
     @include transition-full(
-      $duration-navigation-item,
+      $duration-decelerate,
       $ease-decelerate,
       $delay-navigation-item,
       transform,

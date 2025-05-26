@@ -8,20 +8,22 @@
 
     &::view-transition-group(*) {
       animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-      animation-duration: 400ms;
+      animation-duration: var(--mat-sys-motion-emphasized-decelerate-duration);
       animation-fill-mode: both;
     }
 
     &::view-transition-old(main) {
       animation:
         66ms var(--mat-sys-motion-emphasized-accelerate) both fade-out,
-        200ms var(--mat-sys-motion-emphasized-accelerate) both slide-to-left;
+        var(--mat-sys-motion-emphasized-accelerate-duration)
+          var(--mat-sys-motion-emphasized-accelerate) both slide-to-left;
     }
 
     &::view-transition-new(main) {
       animation:
         280ms var(--mat-sys-motion-emphasized-decelerate) 120ms both fade-in,
-        400ms var(--mat-sys-motion-emphasized-decelerate) both slide-from-right;
+        var(--mat-sys-motion-emphasized-decelerate-duration)
+          var(--mat-sys-motion-emphasized-decelerate) both slide-from-right;
     }
 
     &::view-transition-old(navigation-drawer),
@@ -113,7 +115,7 @@
     &.detail-to-list {
       &::view-transition-group(banner-img),
       &::view-transition-group(.metadata) {
-        animation-duration: 200ms;
+        animation-duration: var(--mat-sys-motion-emphasized-accelerate-duration);
       }
 
       &::view-transition-old(banner-img) {
@@ -129,7 +131,7 @@
     &::view-transition-new(tab),
     &::view-transition-old(tab) {
       animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-      animation-duration: 300ms;
+      animation-duration: var(--mat-sys-motion-emphasized-decelerate-duration);
       animation-fill-mode: both;
     }
 

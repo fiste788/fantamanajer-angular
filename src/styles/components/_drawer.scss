@@ -28,12 +28,12 @@
 
   .mat-drawer.mat-drawer-opened {
     --drawer-animation-timing-function: var(--mat-sys-motion-emphasized-decelerate);
-    --drawer-animation-duration: 400ms;
+    --drawer-animation-duration: var(--mat-sys-motion-emphasized-decelerate-duration);
   }
 
   .mat-drawer:not(.mat-drawer-opened) {
     --drawer-animation-timing-function: var(--mat-sys-motion-emphasized-accelerate);
-    --drawer-animation-duration: 200ms;
+    --drawer-animation-duration: var(--mat-sys-motion-emphasized-accelerate-duration);
 
     .mat-drawer-inner-container {
       transition-timing-function: var(--drawer-animation-timing-function);

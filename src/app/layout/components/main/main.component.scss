@@ -62,13 +62,13 @@ main {
     transform: translate3d(0, 0, 0);
 
     &:not(.mat-drawer-opened) {
-      transition-duration: 200ms !important;
+      transition-duration: var(--mat-sys-motion-emphasized-accelerate-duration) !important;
       transition-timing-function: var(--mat-sys-motion-emphasized-accelerate) !important;
     }
 
     &.mat-drawer-opened {
       transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
-      transition-duration: 400ms !important;
+      transition-duration: var(--mat-sys-motion-emphasized-decelerate-duration) !important;
     }
   }
 

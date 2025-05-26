@@ -12,7 +12,8 @@
   border-bottom-right-radius: var(--mat-sys-corner-large);
 
   > div {
-    transition: all 200ms;
+    transition: all var(--mat-sys-motion-emphasized-accelerate-duration);
+    transition-timing-function: var(--mat-sys-motion-emphasized-accelerate);
     transform: translate3d(0, 0, 0);
   }
 
@@ -156,7 +157,8 @@ a.anchor {
   .parallax-header-title-container {
     color-scheme: light;
     color: var(--mat-sys-surface-bright);
-    animation: gradient 400ms var(--mat-sys-motion-emphasized-decelerate) forwards 100ms;
+    animation: gradient var(--mat-sys-motion-emphasized-decelerate-duration)
+      var(--mat-sys-motion-emphasized-decelerate) forwards 100ms;
     background-image: linear-gradient(
       transparent,
       rgb(

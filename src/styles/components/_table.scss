@@ -69,8 +69,10 @@
     box-sizing: border-box;
     justify-content: space-between;
     animation:
-      slide-from-top 400ms var(--mat-sys-motion-emphasized-decelerate),
-      fade-in 400ms var(--mat-sys-motion-emphasized-decelerate);
+      slide-from-top var(--mat-sys-motion-emphasized-decelerate-duration)
+        var(--mat-sys-motion-emphasized-decelerate),
+      fade-in var(--mat-sys-motion-emphasized-decelerate-duration)
+        var(--mat-sys-motion-emphasized-decelerate);
     background-color: var(--mat-sys-primary-container);
   }
 
