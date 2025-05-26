@@ -36,7 +36,7 @@
             <div class="flex flex-col items-end">
               <button
                 color="accent"
-                mat-flat-button
+                matButton="filled"
                 matStepperNext
                 type="submit"
                 [disabled]="username.errors !== null"
@@ -80,7 +80,7 @@
 
             <div class="actions flex flex-row justify-between">
               <button
-                mat-stroked-button
+                matButton="outlined"
                 matStepperPrevious
                 type="reset"
                 (click)="reset()"
@@ -88,7 +88,7 @@
                 Cambia account
               </button>
               <button
-                mat-flat-button
+                matButton="filled"
                 type="submit"
               >
                 Accedi

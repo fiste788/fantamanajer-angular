@@ -16,13 +16,13 @@
     </mat-card-content>
     <mat-card-actions>
       <a
-        mat-flat-button
+        matButton="filled"
         type="button"
         [routerLink]="['/articles',article.id]"
         >EDIT</a
       >
       <button
-        mat-flat-button
+        matButton="filled"
         type="button"
         (click)="delete(article.id)"
       >
@@ -39,7 +39,7 @@
   label="Nessun articolo rilasciato"
 >
   <a
-    mat-flat-button
+    matButton="filled"
     routerLink="/articles/new"
     >Nuovo articolo</a
   >

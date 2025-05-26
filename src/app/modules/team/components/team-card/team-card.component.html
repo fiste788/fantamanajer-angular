@@ -35,12 +35,12 @@
   </mat-card-header>
   <mat-card-actions>
     <a
-      mat-flat-button
+      matButton="filled"
       [routerLink]="['/teams/', _team.id]"
       >DETTAGLI</a
     >
     <a
-      mat-stroked-button
+      matButton="tonal"
       [routerLink]="['/teams/', _team.id, 'scores', 'last']"
       >PUNTEGGIO</a
     >

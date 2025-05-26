@@ -47,7 +47,7 @@
     },
     "useDefineForClassFields": true,
     "types": [
-      "./.wrangler/types/runtime.d.ts"
+      "./worker-configuration.d.ts"
     ]
   },
   "angularCompilerOptions": {

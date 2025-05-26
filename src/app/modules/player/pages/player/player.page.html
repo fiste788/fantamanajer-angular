@@ -16,7 +16,7 @@
   >
     @if (_selectedMember.free) {
     <a
-      mat-button
+      matButton
       [queryParams]="{new_member_id: _selectedMember.id}"
       [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
     >
