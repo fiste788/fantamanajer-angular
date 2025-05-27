@@ -1,26 +1,24 @@
-@if (breadcrumbs(); as crumbs) {
-  @if (crumbs.length) {
-    <nav>
-      <ol class="breadcrumb">
-        @for (crumb of crumbs; track crumb?.label; let last = $last; let first = $first) {
-          <li
-            class="breadcrumb-item"
-            [class.active]="last"
-          >
-            <span>
-              @if (!first) {
-                <mat-icon>chevron_right</mat-icon>
-              }
-              @if (!last) {
-                <a [routerLink]="crumb.url">{{ crumb.label }}</a>
-              }
-              @if (last) {
-                <span>{{ crumb.label }}</span>
-              }
-            </span>
-          </li>
-        }
-      </ol>
-    </nav>
-  }
+@let crumbs = breadcrumbs();
+@if (crumbs.length) {
+  <nav>
+    <ol class="breadcrumb">
+      @for (crumb of crumbs; track crumb?.label; let last = $last; let first = $first) {
+        <li
+          class="breadcrumb-item"
+          [class.active]="last"
+        >
+          <span>
+            @if (!first) {
+              <mat-icon>chevron_right</mat-icon>
+            }
+            @if (!last) {
+              <a [routerLink]="crumb.url">{{ crumb.label }}</a>
+            } @else {
+              <span>{{ crumb.label }}</span>
+            }
+          </span>
+        </li>
+      }
+    </ol>
+  </nav>
 }

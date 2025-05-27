@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  computed,
   inject,
   input,
   numberAttribute,
@@ -57,6 +58,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
   });
 
   protected readonly navigationMode = inject(LayoutService).navigationMode;
+  protected readonly visibleTabs = computed(() => this.tabs().filter((tab) => !tab.hidden));
 
   public ngOnDestroy(): void {
     this.rellax()?.nativeElement.classList.remove('no-animate');
