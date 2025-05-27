@@ -1,15 +1,13 @@
-import { AsyncPipe, DecimalPipe, SlicePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DecimalPipe, SlicePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
-import { firstValueFrom, map, switchMap } from 'rxjs';
 
 import { groupBy } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
-import { Member, Role } from '@data/types';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
 
@@ -25,7 +23,6 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
     BestPlayersListComponent,
     MatEmptyStateComponent,
     MatProgressBarModule,
-    AsyncPipe,
     SlicePipe,
     RouterLink,
     MatRippleModule,
@@ -35,18 +32,11 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
 export class HomePage {
   readonly #memberService = inject(MemberService);
 
-  protected matchday$ = inject(ApplicationService).matchday$;
+  protected matchday = inject(ApplicationService).matchday;
+  protected readonly getBestResource = this.#memberService.getBestResource(this.matchday);
   protected roleService = inject(RoleService);
   protected roles = this.roleService.list();
-  protected bestPlayers$ = this.loadBestPlayers();
-
-  protected async loadBestPlayers(): Promise<Map<Role, Array<Member>>> {
-    return firstValueFrom(
-      this.matchday$.pipe(
-        switchMap((matchday) => this.#memberService.getBest(matchday.id - 1)),
-        map((members) => groupBy(members, (member) => this.roleService.get(member.role_id))),
-      ),
-      { defaultValue: new Map() },
-    );
-  }
+  protected bestPlayers = computed(() =>
+    groupBy(this.getBestResource.value(), (member) => this.roleService.get(member.role_id)),
+  );
 }

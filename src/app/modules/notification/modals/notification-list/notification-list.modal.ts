@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Observable, switchMap, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { NotificationService } from '@data/services';
@@ -35,12 +35,15 @@ export class NotificationListModal {
 
   protected readonly stream$ = this.loadData();
 
-  public loadData(): Observable<Stream> {
-    return this.#app.requireTeam$.pipe(
-      switchMap((t) => this.#notificationService.getNotifications(t.id)),
-      tap((res) => {
-        this.seen.emit(res);
-      }),
+  public async loadData(): Promise<Stream | undefined> {
+    const notifications = await firstValueFrom(
+      this.#notificationService.getNotifications(this.#app.requireTeam().id),
+      { defaultValue: undefined },
     );
+    if (notifications) {
+      this.seen.emit(notifications);
+    }
+
+    return notifications;
   }
 }

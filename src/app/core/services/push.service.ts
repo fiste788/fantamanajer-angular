@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
 import {
@@ -19,6 +20,7 @@ import {
 } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { filterNil } from '@app/functions';
 import { NotificationService, PushSubscriptionService } from '@data/services';
 import { PushSubscription, User } from '@data/types';
 import { environment } from '@env';
@@ -30,9 +32,11 @@ export class PushService {
   readonly #snackBar = inject(MatSnackBar);
   readonly #notificationService = inject(NotificationService);
   readonly #auth = inject(AuthenticationService);
+  readonly #user = toObservable(this.#auth.user);
 
   public init(): Observable<void> {
-    return this.#auth.requireUser$.pipe(
+    return this.#user.pipe(
+      filterNil(),
       filter(() => environment.production),
       switchMap((user) => this.#initializeUser(user)),
     );

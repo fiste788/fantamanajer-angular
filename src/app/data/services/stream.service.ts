@@ -49,7 +49,7 @@ export class StreamService {
     });
   }
 
-  public get(
+  public find(
     context: 'championships' | 'clubs' | 'teams' | 'users',
     id: number,
     page = 1,

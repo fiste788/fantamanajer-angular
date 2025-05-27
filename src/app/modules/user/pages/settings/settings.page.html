@@ -1,5 +1,5 @@
 <div class="flex-container">
-  @if (user$ | async; as user) {
+  @let _user = user()!;
   <form ngForm>
     <mat-card appearance="outlined">
       <mat-card-header>
@@ -14,7 +14,7 @@
             name="name"
             placeholder="Nome"
             required
-            [(ngModel)]="user.name"
+            [(ngModel)]="_user.name"
           />
         </mat-form-field>
 
@@ -26,7 +26,7 @@
             name="surname"
             placeholder="Cognome"
             required
-            [(ngModel)]="user.surname"
+            [(ngModel)]="_user.surname"
           />
         </mat-form-field>
 
@@ -38,7 +38,7 @@
             name="password"
             placeholder="Password"
             type="password"
-            [(ngModel)]="user.password"
+            [(ngModel)]="_user.password"
           />
         </mat-form-field>
 
@@ -50,7 +50,7 @@
             name="repeatPassword"
             placeholder="Ripeti password"
             type="password"
-            [required]="user.password !== undefined && user.password !== ''"
+            [required]="_user.password !== undefined && _user.password !== ''"
             [(ngModel)]="repeatPassword"
           />
         </mat-form-field>
@@ -59,7 +59,7 @@
           name="active_push"
           [checked]="(push$ | async)"
           [disabled]="!enabled"
-          (change)="togglePush(user, $event.checked)"
+          (change)="togglePush(_user, $event.checked)"
         >
           Ricevi notifiche push
         </mat-slide-toggle>
@@ -69,12 +69,11 @@
           color="accent"
           matButton="filled"
           type="submit"
-          (click)="save(user)"
+          (click)="save(_user)"
         >
           Salva
         </button>
       </mat-card-actions>
     </mat-card>
   </form>
-  }
 </div>

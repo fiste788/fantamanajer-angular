@@ -1,6 +1,4 @@
-@if (id$ | async; as id) {
 <app-stream
   context="teams"
-  [id]="id"
+  [id]="team().id"
 />
-}

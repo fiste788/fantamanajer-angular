@@ -33,7 +33,8 @@ export class ChampionshipDetailPage {
   readonly #snackbar = inject(MatSnackBar);
 
   protected readonly championship$ = getRouteData<Championship>('championship').pipe(
-    switchMap((c) => this.#championshipService.get(c.id)),
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    switchMap((c) => this.#championshipService.find(c.id)),
     defaultIfEmpty({} as Partial<Championship>),
   );
 

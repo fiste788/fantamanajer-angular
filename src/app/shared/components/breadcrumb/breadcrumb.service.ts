@@ -1,5 +1,4 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, Data, Event, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription, filter, tap } from 'rxjs';
@@ -12,9 +11,8 @@ import { Breadcrumb } from './breadcrumb.model';
 export class BreadcrumbService {
   readonly #router = inject(Router);
   readonly #title = inject(Title);
-  readonly #breadcrumbs$ = signal<Array<Breadcrumb>>([]);
 
-  public readonly breadcrumbs$ = toObservable(this.#breadcrumbs$);
+  public readonly breadcrumbs = signal<Array<Breadcrumb>>([]);
 
   public init(defaultTitle?: string): Observable<Event> {
     return this.#router.events.pipe(
@@ -37,7 +35,7 @@ export class BreadcrumbService {
           });
         }
         // Emit the new hierarchy
-        this.#breadcrumbs$.set(breadcrumbs);
+        this.breadcrumbs.set(breadcrumbs);
       }),
     );
   }

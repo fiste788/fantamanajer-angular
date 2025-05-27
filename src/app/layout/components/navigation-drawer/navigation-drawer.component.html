@@ -9,7 +9,7 @@
 >
   <mat-icon aria-label="Side nav toggle icon">menu{{ openDrawer() ? '_open' : '' }}</mat-icon>
 </button>
-@if (loggedIn()) {
+@if (team()) {
   <app-profile style="--index: 1" />
   <div class="fab-container">
     <app-fab

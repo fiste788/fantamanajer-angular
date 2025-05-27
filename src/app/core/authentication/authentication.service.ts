@@ -1,11 +1,9 @@
-import { Injectable, inject, linkedSignal, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, computed, inject, linkedSignal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { supported } from '@github/webauthn-json';
-import { firstValueFrom, Observable, catchError, EMPTY, finalize, map, switchMap, tap } from 'rxjs';
+import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap } from 'rxjs';
 
-import { filterNil } from '@app/functions';
-import { LocalstorageService } from '@app/services/local-storage.service';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
@@ -15,22 +13,25 @@ import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
   readonly #webauthnService = inject(WebauthnService);
-  readonly #localStorage = inject(LocalstorageService);
   readonly #jwtHelper = new JwtHelperService();
   readonly #adminRole = 'ROLE_ADMIN';
   readonly #userRole = 'ROLE_USER';
-  readonly #emailField = 'user';
+  readonly #sub = computed(() => this.#getSubject(this.#tokenStorageService.token()));
+  readonly #userResource = this.#userService.findResource(this.#sub);
+  readonly #user = linkedSignal(() => this.#userResource.value(), {
+    equal: (a, b) => a?.id === b?.id,
+  });
 
-  public user = signal<User | undefined>(undefined);
-  public user$ = toObservable(this.user);
-  public requireUser$ = this.user$.pipe(filterNil());
-  public loggedIn = linkedSignal(() => this.user() !== undefined);
+  public user = this.#user.asReadonly();
+  public loggedIn = computed(() => this.#isLoggedIn(this.#tokenStorageService.token()));
 
   constructor() {
-    if (this.#tokenStorageService.token && !this.isLoggedIn()) {
+    if (this.#tokenStorageService.token() && !this.loggedIn()) {
       this.logoutUI();
     }
   }
@@ -61,8 +62,8 @@ export class AuthenticationService {
   public async postLogin(res: AuthenticationDto): Promise<boolean> {
     const { user, token } = res;
     user.roles = this.#getRoles(user);
+    this.#user.set(user);
     this.#tokenStorageService.setToken(token);
-    this.user.set(user);
 
     try {
       await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)), {
@@ -71,7 +72,9 @@ export class AuthenticationService {
       // eslint-disable-next-line no-empty
     } catch {}
 
-    return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
+    const url = this.#getUrl(user);
+
+    return this.#router.navigateByUrl(url);
   }
 
   public async logout(): Promise<unknown> {
@@ -85,41 +88,30 @@ export class AuthenticationService {
     );
   }
 
-  public logoutUI(): void {
-    const user = undefined;
-    this.#localStorage.removeItem(this.#emailField);
-    this.#tokenStorageService.deleteToken();
-    this.user.set(user);
-  }
-
-  public isLoggedIn(): boolean {
-    return !this.#jwtHelper.isTokenExpired(
-      // eslint-disable-next-line unicorn/no-null
-      this.#tokenStorageService.token ?? null,
-    );
-  }
-
-  public isAdmin(): Observable<boolean> {
-    return this.requireUser$.pipe(map((user) => user.admin));
-  }
-
-  public getCurrentUser(): Observable<User> {
-    return this.#userService.getCurrent().pipe(
-      tap((user) => {
-        this.user.set(user);
-      }),
-    );
-  }
-
-  public async hasAuthorities(authorities?: Array<string>): Promise<boolean> {
+  public hasAuthorities(authorities?: Array<string>): boolean {
     if (authorities === undefined || authorities.length === 0) {
       return true;
     }
 
-    return firstValueFrom(
-      this.requireUser$.pipe(map((user) => authorities.some((r) => user.roles.includes(r)))),
-      { defaultValue: false },
-    );
+    return authorities.some((r) => this.user()?.roles?.includes(r));
+  }
+
+  public reload(): boolean {
+    return this.#userResource.reload();
+  }
+
+  public logoutUI(): void {
+    const user = undefined;
+    this.#tokenStorageService.deleteToken();
+    this.#user.set(user);
+  }
+
+  #isLoggedIn(token?: string): boolean {
+    return token ? !this.#jwtHelper.isTokenExpired(token) : false;
+  }
+
+  #getSubject(token?: string): number | undefined {
+    return token ? this.#jwtHelper.decodeToken<{ sub: number } | undefined>(token)?.sub : undefined;
   }
 
   #getRoles(user: User): Array<string> {
@@ -136,5 +128,12 @@ export class AuthenticationService {
       accessToken: token,
       expiresAt: this.#jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
     };
+  }
+
+  #getUrl(user: User): string {
+    return (
+      (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
+      `/championships/${user.teams![0]!.championship.id}`
+    );
   }
 }

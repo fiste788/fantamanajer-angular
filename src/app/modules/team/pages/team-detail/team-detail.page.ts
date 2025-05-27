@@ -1,11 +1,9 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { AsyncPipe } from '@angular/common';
-import { Component, afterNextRender, input, inject, linkedSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, afterNextRender, input, inject, linkedSignal, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, ScrollService } from '@app/services';
@@ -22,12 +20,11 @@ import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-ed
     ParallaxHeaderComponent,
     MatButtonModule,
     MatIconModule,
-    AsyncPipe,
     MatDialogModule,
     PrimaryTabComponent,
   ],
 })
-export class TeamDetailPage {
+export class TeamDetailPage implements OnInit {
   readonly #scrollService = inject(ScrollService);
   readonly #dialog = inject(MatDialog);
 
@@ -36,15 +33,9 @@ export class TeamDetailPage {
 
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
-  protected readonly context = toSignal(
-    combineLatest({ user: this.auth.user$, team: this.app.requireTeam$ }),
-    { requireSync: true },
-  );
 
   protected tabs = linkedSignal(() => {
-    const context = this.context();
-
-    return this.loadTabs(this.team(), context.team, this.app.seasonEnded(), context.user);
+    return this.loadTabs(this.team(), this.app.seasonEnded(), this.app.team(), this.auth.user());
   });
 
   constructor() {
@@ -54,7 +45,13 @@ export class TeamDetailPage {
     });
   }
 
-  public loadTabs(currentTeam: Team, team: Team, seasonEnded = false, user?: User): Array<Tab> {
+  public ngOnInit(): void {
+    if (this.team().championship.season_id != this.app.matchday()?.season_id) {
+      void this.app.changeTeam(this.team());
+    }
+  }
+
+  public loadTabs(currentTeam: Team, seasonEnded = false, team?: Team, user?: User): Array<Tab> {
     const { started } = currentTeam.championship;
 
     return [
@@ -76,7 +73,7 @@ export class TeamDetailPage {
       },
       { label: 'Articoli', link: 'articles' },
       { label: 'Attività', link: 'stream' },
-      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team.admin) },
+      { label: 'Admin', link: 'admin', hidden: !(user?.admin ?? team?.admin) },
     ];
   }
 

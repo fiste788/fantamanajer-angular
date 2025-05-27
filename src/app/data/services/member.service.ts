@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Member, Role } from '../types';
+import { Matchday, Member, Role } from '../types';
 
 const url = 'members';
 const routes = {
@@ -35,6 +35,13 @@ export class MemberService {
     return this.#http.get<Record<Role['id'], Array<Member>>>(routes.free(championshipId), {
       params,
     });
+  }
+
+  public getBestResource(matchday: () => Matchday | undefined): HttpResourceRef<Array<Member>> {
+    return httpResource(
+      () => (matchday() ? `/${url}/matchdays/${matchday()!.id - 1}/best` : undefined),
+      { defaultValue: [] },
+    );
   }
 
   public getBest(matchdayId: number): Observable<Array<Member>> {

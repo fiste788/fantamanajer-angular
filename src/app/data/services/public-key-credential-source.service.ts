@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PublicKeyCredentialSource } from '../types';
+import { PublicKeyCredentialSource, User } from '../types';
 
 const url = 'passkeys';
 const routes = {
@@ -13,6 +13,14 @@ const routes = {
 @Injectable({ providedIn: 'root' })
 export class PublicKeyCredentialSourceService {
   readonly #http = inject(HttpClient);
+
+  public indexResource(
+    user: () => User | undefined,
+  ): HttpResourceRef<Array<PublicKeyCredentialSource>> {
+    return httpResource(() => (user() ? `/users/${user()!.id}/${url}` : undefined), {
+      defaultValue: [],
+    });
+  }
 
   public index(userId: number): Observable<Array<PublicKeyCredentialSource>> {
     return this.#http.get<Array<PublicKeyCredentialSource>>(routes.index(userId));

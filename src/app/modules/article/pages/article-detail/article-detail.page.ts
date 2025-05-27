@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable, of } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
@@ -37,7 +37,7 @@ export class ArticleDetailPage {
   }
 
   protected new(): Observable<Article> {
-    return this.#app.requireTeam$.pipe(map((t) => ({ team_id: t.id }) as Article));
+    return of({ team_id: this.#app.requireTeam().id } as Article);
   }
 
   protected async save(

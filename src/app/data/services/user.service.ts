@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
@@ -13,7 +13,7 @@ const routes = {
   current: `/${url}/current`,
   login: `/${url}/login`,
   logout: `/${url}/logout`,
-  update: (id: number) => `/${url}/${id}`,
+  detail: (id: number) => `/${url}/${id}`,
   setCookie: 'localdata/setsession',
   deleteCookie: 'localdata/logout',
 };
@@ -21,6 +21,10 @@ const routes = {
 @Injectable({ providedIn: 'root' })
 export class UserService {
   readonly #http = inject(HttpClient);
+
+  public findResource(id: () => number | undefined): HttpResourceRef<User | undefined> {
+    return httpResource(() => (id() === undefined ? undefined : `/${url}/${id()}`));
+  }
 
   public login(email: string, password: string, rememberMe = false): Observable<AuthenticationDto> {
     const body = {
@@ -39,11 +43,15 @@ export class UserService {
   public update(user: User): Observable<User> {
     user.teams = undefined;
 
-    return this.#http.put(routes.update(user.id), user).pipe(map(() => user));
+    return this.#http.put(routes.detail(user.id), user).pipe(map(() => user));
   }
 
   public getCurrent(): Observable<User> {
     return this.#http.get<User>(routes.current);
+  }
+
+  public find(id: number): Observable<User> {
+    return this.#http.get<User>(routes.detail(id));
   }
 
   public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {

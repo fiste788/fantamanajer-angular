@@ -1,4 +1,5 @@
-import { inject } from '@angular/core';
+import { inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, EMPTY, map } from 'rxjs';
 
@@ -12,6 +13,10 @@ export function getRouteData<T>(param: string): Observable<T> {
   }
 
   return EMPTY;
+}
+
+export function getRouteDataSignal<T>(param: string): Signal<T> {
+  return toSignal(getRouteData<T>(param), { requireSync: true });
 }
 
 export function getRouteParam<T>(param: string, route?: ActivatedRouteSnapshot): T | undefined {

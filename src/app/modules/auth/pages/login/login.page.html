@@ -49,7 +49,7 @@
         <mat-step>
           <form
             #f="ngForm"
-            (ngSubmit)="f.valid && login()"
+            (ngSubmit)="f.valid && login(userForm)"
           >
             <input
               autocomplete="username"
@@ -83,7 +83,7 @@
                 matButton="outlined"
                 matStepperPrevious
                 type="reset"
-                (click)="reset()"
+                (click)="reset(userForm)"
               >
                 Cambia account
               </button>
