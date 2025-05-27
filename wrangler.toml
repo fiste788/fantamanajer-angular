@@ -1,6 +1,6 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "fantamanajer-angular"
-compatibility_date = "2025-02-12"
+compatibility_date = "2025-05-01"
 compatibility_flags = ["nodejs_compat_v2"]
 main = "./dist/server/server.mjs"
 services = [{ binding = "API", service = "fantamanajer-reverse-proxy" }]
