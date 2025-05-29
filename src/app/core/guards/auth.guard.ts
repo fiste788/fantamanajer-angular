@@ -14,7 +14,7 @@ export const authenticatedGuard: CanActivateFn = async (
 ) => {
   const auth = inject(AuthenticationService);
   const router = inject(Router);
-  if (auth.user()) {
+  if (auth.loggedIn()) {
     return auth.hasAuthorities(next.data['authorities'] as Array<string> | undefined);
   }
 
