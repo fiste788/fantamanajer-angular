@@ -1,0 +1,20 @@
+@use 'modules/auth/pages/login/login.scss-theme';
+@use 'modules/member/components/member-selection/member-selection.scss-theme';
+@use '../styles/base';
+@use '../styles/components/all-components';
+@use '../styles/utils';
+@forward '../styles/vendor';
+
+:root {
+  @include base.fonts;
+  @include base.animations;
+  @include base.css-variables;
+  @include base.transitions;
+  @include base.view-transition;
+  @include base.material;
+  @include base.scrollbar;
+  @include base.styles;
+  @include all-components.all-components;
+  @include login.theme;
+  @include member-selection.theme;
+}

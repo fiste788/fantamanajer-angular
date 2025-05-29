@@ -2,7 +2,7 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
 
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
 :host {
   display: block;

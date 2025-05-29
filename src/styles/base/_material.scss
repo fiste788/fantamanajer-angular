@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 @use '../utils/colors';
 
 @mixin material() {
@@ -9,6 +9,7 @@
       (
         color: (
           primary: colors.$primary-palette,
+          secondary: colors.$secondary-palette,
           tertiary: colors.$tertiary-palette,
         ),
         typography: "'Exo 2', sans-serif",

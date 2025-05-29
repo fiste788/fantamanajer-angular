@@ -19,6 +19,10 @@ const routes = {
 export class MemberService {
   readonly #http = inject(HttpClient);
 
+  public getByClubIdResource(clubId: () => number): HttpResourceRef<Array<Member> | undefined> {
+    return httpResource(() => routes.club(clubId()));
+  }
+
   public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
     let params = new HttpParams();
     if (!stats) {

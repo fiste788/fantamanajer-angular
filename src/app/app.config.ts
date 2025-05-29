@@ -99,7 +99,6 @@ export const appConfig: ApplicationConfig = {
           : path;
       },
     },
-    // globalErrorHandlerProvider,
     provideEnvironmentInitializer(() => {
       inject(ApplicationService).connect();
       inject(MetaService).connect();

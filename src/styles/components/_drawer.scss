@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
 @mixin drawer {
   .mat-drawer > .mat-drawer-inner-container {

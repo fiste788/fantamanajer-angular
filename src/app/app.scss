@@ -1,7 +1,0 @@
-@use 'modules/auth/pages/login/login.scss-theme';
-@use 'modules/member/components/member-selection/member-selection.scss-theme';
-
-@mixin app() {
-  @include login.theme;
-  @include member-selection.theme;
-}
