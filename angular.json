@@ -24,6 +24,7 @@
           "options": {
             "deployUrl": "/",
             "baseHref": "/",
+            "outputPath": "dist",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
