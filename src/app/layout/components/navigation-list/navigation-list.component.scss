@@ -314,7 +314,7 @@
 
 // si sta chiudendo
 :host-context(.navigation-mode-rail .mat-drawer.mat-drawer-animating:not(.mat-drawer-opened)) {
-  --mdc-list-list-item-one-line-container-height: 2rem;
+  --mat-list-list-item-one-line-container-height: 2rem;
 
   .mat-mdc-nav-list .mat-mdc-list-item {
     margin-bottom: 1.5rem;

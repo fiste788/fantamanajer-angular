@@ -15,6 +15,7 @@ import {
   LOCALE_ID,
   provideEnvironmentInitializer,
   provideZonelessChangeDetection,
+  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
@@ -63,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideZonelessChangeDetection(),
+    provideBrowserGlobalErrorListeners(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
