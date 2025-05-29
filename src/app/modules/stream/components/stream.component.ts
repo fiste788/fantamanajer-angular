@@ -14,11 +14,11 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { LayoutService } from '@layout/services';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 
 import { StreamActivity } from '@data/types';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
-import { LayoutService } from 'src/app/layout/services';
 
 import { StreamDataSource } from './stream.datasource';
 

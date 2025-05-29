@@ -35,7 +35,7 @@
             ],
             "styles": [
               {
-                "input": "src/app/styles.scss",
+                "input": "src/styles.scss",
                 "bundleName": "styles",
                 "inject": true
               }

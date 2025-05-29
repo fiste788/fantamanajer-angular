@@ -45,5 +45,6 @@
   "somesass.scss.rename.enabled": true,
   "somesass.scss.selectionRanges.enabled": true,
   "somesass.scss.signatureHelp.enabled": true,
-  "somesass.scss.workspaceSymbol.enabled": true
+  "somesass.scss.workspaceSymbol.enabled": true,
+  "vscode-edge-devtools.webhint": false
 }

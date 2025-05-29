@@ -1,9 +1,9 @@
-@use 'modules/auth/pages/login/login.scss-theme';
-@use 'modules/member/components/member-selection/member-selection.scss-theme';
-@use '../styles/base';
-@use '../styles/components/all-components';
-@use '../styles/utils';
-@forward '../styles/vendor';
+@use 'app/modules/auth/pages/login/login.scss-theme';
+@use 'app/modules/member/components/member-selection/member-selection.scss-theme';
+@use 'styles/base';
+@use 'styles/components/all-components';
+@use 'styles/utils';
+@forward 'styles/vendor';
 
 :root {
   @include base.fonts;

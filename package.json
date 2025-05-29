@@ -66,7 +66,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "stylelint": "^16.19.1",
-    "stylelint-browser-compat": "^1.0.0-beta.156",
+    "stylelint-browser-compat": "^1.0.0-beta.157",
     "stylelint-config-standard": "^38.0.0",
     "stylelint-config-standard-scss": "^15.0.1",
     "stylelint-prettier": "^5.0.3",
