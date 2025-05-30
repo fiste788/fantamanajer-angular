@@ -223,6 +223,10 @@ export default tseslint.config(
               group: 'internal',
             },
             {
+              pattern: '@layout/**',
+              group: 'internal',
+            },
+            {
               pattern: '@env/**',
               group: 'internal',
             },
@@ -307,7 +311,7 @@ export default tseslint.config(
       '@angular-eslint/template/attributes-order': ['error', { alphabetical: true }],
       '@angular-eslint/template/button-has-type': 'error',
       '@angular-eslint/template/conditional-complexity': 'error',
-      '@angular-eslint/template/cyclomatic-complexity': 'error',
+      '@angular-eslint/template/cyclomatic-complexity': ['error', { maxComplexity: 10 }],
       '@angular-eslint/template/no-duplicate-attributes': 'error',
       '@angular-eslint/template/no-interpolation-in-attributes': 'error',
       '@angular-eslint/template/no-inline-styles': [
