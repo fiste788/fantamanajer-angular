@@ -37,7 +37,7 @@
     "@angular/service-worker": "^20.0.2",
     "@angular/ssr": "^20.0.1",
     "@auth0/angular-jwt": "^5.2.0",
-    "@ecodev/fab-speed-dial": "^18.0.0",
+    "@ecodev/fab-speed-dial": "^19.0.0",
     "@fontsource-variable/exo-2": "^5.2.6",
     "@github/webauthn-json": "^2.1.1",
     "@ngneat/content-loader": "^7.0.0",
