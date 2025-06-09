@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+@media (min-width: theme('screens.sm')) {
+  :host {
+    display: none;
+  }
+}

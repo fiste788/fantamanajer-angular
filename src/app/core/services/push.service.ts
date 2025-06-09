@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush } from '@angular/service-worker';
 import {
   EMPTY,
@@ -21,16 +20,21 @@ import {
 
 import { AuthenticationService } from '@app/authentication';
 import { filterNil } from '@app/functions';
-import { NotificationService, PushSubscriptionService } from '@data/services';
+import {
+  NotificationService as FeatureNotificationService,
+  PushSubscriptionService,
+} from '@data/services';
 import { PushSubscription, User } from '@data/types';
 import { environment } from '@env';
+
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
   readonly #subscription = inject(PushSubscriptionService);
   readonly #swPush = inject(SwPush);
-  readonly #snackBar = inject(MatSnackBar);
-  readonly #notificationService = inject(NotificationService);
+  readonly #notificationService = inject(FeatureNotificationService);
+  readonly #notService = inject(NotificationService);
   readonly #auth = inject(AuthenticationService);
   readonly #user = toObservable(this.#auth.user);
 
@@ -51,8 +55,8 @@ export class PushService {
       filter((s) => !s),
       mergeMap(async () => this.#requestSubscription(user)),
       filter((s) => s),
-      map(() => {
-        this.#snackBar.open('Now you are subscribed', undefined, {
+      switchMap(async () => {
+        await this.#notService.open('Now you are subscribed', undefined, {
           duration: 2000,
         });
       }),
@@ -62,8 +66,8 @@ export class PushService {
   public unsubscribeFromPush(): Observable<void> {
     return from(this.#cancelSubscription()).pipe(
       filter((r) => r),
-      map(() => {
-        this.#snackBar.open('Now you are unsubscribed', undefined, {
+      switchMap(async () => {
+        await this.#notService.open('Now you are unsubscribed', undefined, {
           duration: 2000,
         });
       }),

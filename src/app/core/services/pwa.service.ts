@@ -1,6 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import {
   Observable,
@@ -12,8 +11,12 @@ import {
   switchMap,
   first,
   tap,
+  from,
 } from 'rxjs';
 
+import { filterNil } from '@app/functions';
+
+import { NotificationService } from './notification.service';
 import { WINDOW } from './window.service';
 
 @Injectable({
@@ -22,7 +25,7 @@ import { WINDOW } from './window.service';
 export class PwaService {
   readonly #window = inject<Window>(WINDOW);
   readonly #platformId = inject(PLATFORM_ID);
-  readonly #snackBar = inject(MatSnackBar);
+  readonly #notificationService = inject(NotificationService);
   readonly #swUpdate = inject(SwUpdate);
   readonly #appRef = inject(ApplicationRef);
 
@@ -64,12 +67,15 @@ export class PwaService {
   }
 
   #promptUpdate(): Observable<void> {
-    return this.#snackBar
-      .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
-      .onAction()
-      .pipe(
-        switchMap(async () => this.#swUpdate.activateUpdate()),
-        map(() => this.#window.location.reload()),
-      );
+    return from(
+      this.#notificationService.open("Nuova versione dell'app disponibile", 'Aggiorna', {
+        duration: 30_000,
+      }),
+    ).pipe(
+      filterNil(),
+      //map((s) => s.onAction()),
+      switchMap(async () => this.#swUpdate.activateUpdate()),
+      map(() => this.#window.location.reload()),
+    );
   }
 }

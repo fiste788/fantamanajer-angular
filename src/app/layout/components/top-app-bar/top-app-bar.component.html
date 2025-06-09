@@ -1,31 +1,15 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <button
-      aria-label="Toggle sidenav"
-      matIconButton
-      type="button"
-      (click)="clickNav()"
-    >
+    @defer (on viewport) {
+      <app-navigation-drawer-button />
+    } @placeholder {
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
+    }
     <app-breadcrumb />
     <span class="spacer"></span>
     <div class="create-box flex">
-      @if (deferredPrompt$ | async; as prompt) {
-        <a
-          aria-label="Install app"
-          href="#install"
-          matIconButton
-          (click)="install(prompt, $event)"
-        >
-          <mat-icon>get_app</mat-icon>
-        </a>
-      }
-      @let _team = team();
-      @if (_team && isCurrentSeason()) {
-        @defer {
-          <app-notification [team]="_team" />
-        }
+      @defer {
+        <app-notification [team]="team()" />
       }
     </div>
   </mat-toolbar-row>

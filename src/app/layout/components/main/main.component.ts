@@ -15,6 +15,7 @@ import { RouterOutlet } from '@angular/router';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 import { delay } from 'rxjs';
 
+import { AuthenticationService } from '@app/authentication';
 import { VisibilityState } from '@app/enums';
 import { CurrentTransitionService, ScrollService } from '@app/services';
 
@@ -43,6 +44,8 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
   host: {
     '[class.stable]': 'stable()',
     '[class]': '"navigation-mode-" + navigationMode()',
+    '[class.with-bars]': 'showBars() === visible',
+    '[class.loggedin]': 'loggedIn()',
   },
 })
 export class MainComponent {
@@ -64,6 +67,8 @@ export class MainComponent {
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showBars = this.#layoutService.showBars;
   protected readonly hidden = VisibilityState.Hidden;
+  protected readonly visible = VisibilityState.Visible;
+  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
 
   constructor() {
     afterNextRender(() => {

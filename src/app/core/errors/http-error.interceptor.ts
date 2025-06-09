@@ -5,16 +5,16 @@ import {
   HttpInterceptorFn,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY, catchError } from 'rxjs';
 
+import { NotificationService } from '@app/services';
 import { ErrorResponse } from '@data/types';
 import { environment } from '@env';
 
 const NO_ERROR_IT = new HttpContextToken<boolean>(() => false);
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  const snackbar = inject(MatSnackBar);
+  const notification = inject(NotificationService);
 
   return next(req).pipe(
     catchError((err: unknown) => {
@@ -22,7 +22,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         const error = err.error as ErrorResponse | null;
         const message = error?.data?.message ?? err.message;
         if (!req.context.get(NO_ERROR_IT)) {
-          snackbar.open(message, 'CLOSE');
+          void notification.open(message, 'CLOSE');
         }
 
         console.error(environment.production ? message : err);

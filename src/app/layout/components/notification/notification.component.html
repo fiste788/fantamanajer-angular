@@ -1,25 +1,37 @@
-@if (stream$ | async; as stream) {
-  <div
-    *appSeasonActive
-    class="create-box"
+@if (deferredPrompt$ | async; as prompt) {
+  <a
+    aria-label="Install app"
+    href="#install"
+    matIconButton
+    (click)="install(prompt, $event)"
   >
-    <button
-      #button=""
-      aria-label="Open notifications"
-      matIconButton
-      type="button"
-      (click)="openDialog()"
+    <mat-icon>get_app</mat-icon>
+  </a>
+}
+@if (isCurrentSeason()) {
+  @if (stream$ | async; as stream) {
+    <div
+      *appSeasonActive
+      class="create-box"
     >
-      <mat-icon
-        aria-hidden="false"
-        matBadgeColor="accent"
-        matBadgeOverlap="true"
-        matBadgePosition="above after"
-        matBadgeSize="small"
-        [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
-        [matBadgeHidden]="stream.unseen === 0"
-        >notifications</mat-icon
+      <button
+        #button=""
+        aria-label="Open notifications"
+        matIconButton
+        type="button"
+        (click)="openDialog()"
       >
-    </button>
-  </div>
+        <mat-icon
+          aria-hidden="false"
+          matBadgeColor="accent"
+          matBadgeOverlap="true"
+          matBadgePosition="above after"
+          matBadgeSize="small"
+          [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
+          [matBadgeHidden]="stream.unseen === 0"
+          >notifications</mat-icon
+        >
+      </button>
+    </div>
+  }
 }
