@@ -1,6 +1,6 @@
 @use 'pkg:@angular/material' as mat;
 
-@mixin drawer {
+html {
   .mat-drawer > .mat-drawer-inner-container {
     overflow-x: hidden;
     transition:
@@ -20,6 +20,7 @@
     transition-duration: 300ms, 300ms, 400ms;
     transition-timing-function: var(--drawer-animation-timing-function);
 
+    /* stylelint-disable-next-line plugin/browser-compat */
     @starting-style {
       opacity: 0;
       width: 0;

@@ -1,23 +1,18 @@
 @use 'pkg:@angular/material' as mat;
 
-@mixin table() {
+html {
   .mat-mdc-table {
-    border-radius: var(--mat-sys-corner-extra-small);
+    border-radius: inherit;
 
     @include mat.table-overrides(
       (
-        background-color: var(--mat-sys-surface-container-low),
+        background-color: transparent,
       )
     );
   }
 
-  .mat-mdc-header-row {
-    border-radius: var(--mat-sys-corner-extra-small);
-  }
-
   .mat-mdc-cell,
   .mat-mdc-header-cell {
-    padding-right: 1rem;
     border-color: var(--mat-sys-outline-variant);
   }
 
@@ -31,11 +26,13 @@
   }
 
   .mat-mdc-table-sticky-border-elem-right {
-    border-left: 1px solid var(--mat-sys-outline-variant);
+    border-left-style: solid;
+    border-left-width: 1px;
   }
 
   .mat-mdc-table-sticky-border-elem-left {
-    border-right: 1px solid var(--mat-sys-outline-variant);
+    border-right-style: solid;
+    border-right-width: 1px;
   }
 
   .table-container {

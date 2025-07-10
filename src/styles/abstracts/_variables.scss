@@ -1,0 +1,17 @@
+// Variabili di timing, spacing, ecc.
+$duration-accelerate: var(--mat-sys-motion-emphasized-accelerate-duration);
+$duration-decelerate: var(--mat-sys-motion-emphasized-decelerate-duration);
+$duration-toolbar-row-hidden: 66ms;
+$duration-toolbar-row-visible: 280ms;
+$duration-emphasized: var(--mat-sys-motion-emphasized-duration);
+$ease-decelerate: var(--mat-sys-motion-emphasized-decelerate);
+$ease-accelerate: var(--mat-sys-motion-emphasized-accelerate);
+$delay-list-item: calc(20ms * var(--index, 0));
+$delay-toolbar-row-visible: 66ms;
+$delay-navigation-item: calc(50ms * var(--index, 0));
+$transform-y-up: translateY(-5rem);
+$transform-y-down: translateY(5rem);
+$transform-x-left: translateX(-5rem);
+$transform-y-list-item-initial: translateY(1.5rem);
+$transform-scale-hidden: scale(0.4);
+$transform-scale-visible: scale(1);

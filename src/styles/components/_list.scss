@@ -1,6 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
-@mixin list {
+html {
   .mat-mdc-nav-list {
     .mdc-list-item__content {
       display: inline-flex;

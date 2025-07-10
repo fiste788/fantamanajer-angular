@@ -73,3 +73,7 @@ app-player-image {
 .mat-mdc-form-field.ng-invalid .img-container > div {
   border-color: var(--mat-sys-error);
 }
+
+.mat-mdc-option .icon-container {
+  color: var(--mat-sys-on-surface);
+}

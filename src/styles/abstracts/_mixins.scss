@@ -1,0 +1,52 @@
+@use 'sass:list';
+
+// Mixin per transizioni
+@mixin transition-full($duration, $ease, $delay, $properties...) {
+  $transition-list: ();
+
+  @each $property in $properties {
+    $transition-item: #{$property} #{$duration} #{$ease} #{$delay};
+    $transition-list: list.append($transition-list, $transition-item, comma);
+  }
+
+  transition: $transition-list;
+}
+
+// Mixin per stato iniziale
+@mixin starting-style-state($initial-opacity: null, $initial-transform: null) {
+  @starting-style {
+    @if $initial-opacity {
+      opacity: $initial-opacity;
+    }
+
+    @if $initial-transform {
+      transform: $initial-transform;
+    }
+  }
+}
+
+// Mixin per stato visibile
+@mixin visible-state(
+  $opacity: 1,
+  $transform: translate(0, 0),
+  $starting-opacity: null,
+  $starting-transform: null
+) {
+  opacity: $opacity;
+  transform: $transform;
+
+  @include starting-style-state($starting-opacity, $starting-transform);
+}
+
+// Mixin per stato nascosto
+@mixin hidden-state(
+  $opacity: 0,
+  $transform: translate(0, 0),
+  $starting-opacity: null,
+  $starting-transform: null
+) {
+  opacity: $opacity;
+  transform: $transform;
+
+  @include starting-style-state($starting-opacity, $starting-transform);
+}

@@ -1,4 +1,4 @@
-@mixin snackbar() {
+html {
   .mdc-snackbar {
     transition: margin var(--mat-sys-motion-emphasized-decelerate-duration)
       var(--mat-sys-motion-emphasized-decelerate);

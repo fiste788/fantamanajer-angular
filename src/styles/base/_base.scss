@@ -1,92 +1,91 @@
 /* stylelint-disable selector-class-pattern */
 
-@mixin styles() {
-  & {
-    font-family: var(--mat-sys-body-medium-font);
+html {
+  font-family: var(--mat-sys-body-medium-font);
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  background-color: var(--mat-sys-background);
+}
+
+figure {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.sticky {
+  transition: top 0.2s var(--mat-sys-motion-emphasized-decelerate);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+a {
+  text-decoration: none;
+  color: var(--mat-sys-on-primary-container);
+}
+
+.red-card,
+.yellow-card {
+  width: 0.75rem;
+  height: 1rem;
+  border-radius: var(--mat-sys-corner-extra-small);
+  display: inline-block;
+  box-shadow: var(--mat-sys-level1);
+}
+
+.yellow-card {
+  background-color: yellow;
+}
+
+.red-card {
+  background-color: red;
+}
+
+content-loader svg {
+  max-height: 100%;
+}
+
+.placeholder {
+  display: flex;
+  text-align: center;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-headline-large);
+
+  figcaption {
+    position: fixed;
+    z-index: -1;
   }
 
-  body {
-    margin: 0;
-    height: 100%;
-    background-color: var(--mat-sys-background);
+  img {
+    color: transparent;
   }
+}
 
-  figure {
-    margin: 0;
-  }
+/* stylelint-disable-next-line plugin/browser-compat */
+::selection {
+  background: var(--mat-sys-tertiary);
+  color: var(--mat-sys-on-tertiary);
+}
 
-  fieldset {
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
+img[src*='.svg'] {
+  background-color: var(--mat-sys-surface-container-low);
+}
 
-  .sticky {
-    transition: top 0.2s var(--mat-sys-motion-emphasized-decelerate);
-  }
-
-  .spacer {
-    flex: 1 1 auto;
-  }
-
-  a {
-    text-decoration: none;
-    color: var(--mat-sys-on-primary-container);
-  }
-
-  .red-card,
-  .yellow-card {
-    width: 0.75rem;
-    height: 1rem;
-    border-radius: var(--mat-sys-corner-extra-small);
-    display: inline-block;
-    box-shadow: var(--mat-sys-level1);
-  }
-
-  .yellow-card {
-    background-color: yellow;
-  }
-
-  .red-card {
-    background-color: red;
-  }
-
-  content-loader svg {
-    max-height: 100%;
-  }
-
-  .placeholder {
-    display: flex;
-    text-align: center;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    color: var(--mat-sys-on-surface);
-    font: var(--mat-sys-headline-large);
-
-    figcaption {
-      position: fixed;
-      z-index: -1;
-    }
-
-    img {
-      color: transparent;
-    }
-  }
-
-  ::selection {
-    background: var(--mat-sys-tertiary);
-    color: var(--mat-sys-on-tertiary);
-  }
-
-  img[src*='.svg'] {
-    background-color: var(--mat-sys-surface-container-low);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .greyscale,
-    img {
-      filter: grayscale(60%);
-    }
+@media (prefers-color-scheme: dark) {
+  .greyscale,
+  img {
+    filter: grayscale(60%);
   }
 }

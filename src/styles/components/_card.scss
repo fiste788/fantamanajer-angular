@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use 'pkg:@angular/material' as mat;
 
-@mixin card() {
+html {
   .mat-mdc-card {
     overflow-y: hidden;
 
@@ -11,6 +11,7 @@
       )
     );
 
+    /* stylelint-disable-next-line plugin/browser-compat */
     &:has(> table) {
       border-radius: var(--mat-sys-corner-extra-small);
     }
@@ -33,11 +34,6 @@
   .mat-mdc-card-image {
     &.placeholder {
       background-color: var(--mat-sys-surface-container-highest);
-    }
-
-    &:first-child {
-      border-bottom-left-radius: inherit;
-      border-bottom-right-radius: inherit;
     }
   }
 

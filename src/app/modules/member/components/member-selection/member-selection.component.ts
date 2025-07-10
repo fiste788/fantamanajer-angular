@@ -38,7 +38,7 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   host: {
-    class: 'lineup-disposition',
+    class: 'member-selection',
   },
   imports: [
     MatFormFieldModule,

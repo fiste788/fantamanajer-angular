@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 @use 'pkg:@angular/material' as mat;
 
-@mixin fab() {
+html {
   .mdc-fab {
     overflow: hidden;
 
