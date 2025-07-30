@@ -77,3 +77,8 @@ app-breadcrumb {
     display: none;
   }
 }
+@media (min-width: theme('screens.sm')) {
+  .menu {
+    display: none;
+  }
+}

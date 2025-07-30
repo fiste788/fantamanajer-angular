@@ -1,10 +1,12 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    @defer (on viewport) {
-      <app-navigation-drawer-button />
-    } @placeholder {
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    }
+    <div class="menu">
+      @defer (on viewport) {
+        <app-navigation-drawer-button />
+      } @placeholder {
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      }
+    </div>
     <app-breadcrumb />
     <span class="spacer"></span>
     <div class="create-box flex">

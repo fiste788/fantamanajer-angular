@@ -8,7 +8,6 @@ import { LayoutService } from '@layout/services';
   selector: 'app-navigation-drawer-button',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './navigation-drawer-button.component.html',
-  styleUrl: './navigation-drawer-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationDrawerButtonComponent {
