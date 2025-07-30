@@ -1,6 +1,6 @@
 /** @type {import('stylelint').Config} */
 export default {
-  plugins: ['stylelint-browser-compat'],
+  plugins: ['stylelint-browser-compat', 'stylelint-plugin-use-baseline'],
   extends: ['stylelint-prettier/recommended', 'stylelint-config-standard-scss'],
   rules: {
     'block-no-empty': null,
@@ -21,6 +21,15 @@ export default {
           partialImplementation: false,
           prefix: true,
         },
+      },
+    ],
+    'plugin/use-baseline': [
+      true,
+      {
+        // "widely" (default), "newly", or YYYY (e.g. 2023)
+        available: 'widely',
+        ignoreSelectors: ['nesting', 'host-context'],
+        ignoreProperties: ['text-wrap'],
       },
     ],
   },

@@ -28,7 +28,7 @@ export class ClubListPage {
   readonly #transitionService = inject(CurrentTransitionService);
 
   protected clubs = input.required<Array<Club>>();
-  protected img = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
+  protected imgRef = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
     read: ElementRef,
   });
 

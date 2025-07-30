@@ -23,8 +23,10 @@ export default tseslint.config(
   {
     // Everything in this config object targets our TypeScript files (Components, Directives, Pipes etc)
     files: ['**/*.ts'],
+
     languageOptions: {
       parserOptions: {
+        ecmaVersion: 2022,
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },

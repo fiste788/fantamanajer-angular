@@ -5,7 +5,12 @@
   z-index: 102;
   contain: paint;
   top: 0;
-  view-transition-name: top-app-bar;
+}
+
+@supports (view-transition-name: none) {
+  :host {
+    view-transition-name: top-app-bar;
+  }
 }
 
 app-breadcrumb {
@@ -27,8 +32,10 @@ app-breadcrumb {
 .mat-toolbar-row {
   background-color: inherit;
 
-  &:first-child {
-    view-transition-name: top-app-bar-toolbar;
+  @supports (view-transition-name: none) {
+    &:first-child {
+      view-transition-name: top-app-bar-toolbar;
+    }
   }
 }
 

@@ -7,15 +7,15 @@ import { Directive, ElementRef, Renderer2, afterNextRender, inject, DOCUMENT } f
 export class StickyDirective {
   readonly #document = inject<Document>(DOCUMENT);
   readonly #renderer = inject(Renderer2);
-  readonly #el = inject(ElementRef, { optional: true });
+  readonly #ref = inject(ElementRef, { optional: true });
 
   constructor() {
     afterNextRender(() => {
-      if (this.#el !== null) {
+      if (this.#ref !== null) {
         const height =
           this.#document.querySelector('app-toolbar > .mat-toolbar.mat-primary')?.clientHeight ?? 0;
-        this.#renderer.addClass(this.#el.nativeElement, 'sticky');
-        this.#renderer.setStyle(this.#el.nativeElement, 'top', `${height}px`);
+        this.#renderer.addClass(this.#ref.nativeElement, 'sticky');
+        this.#renderer.setStyle(this.#ref.nativeElement, 'top', `${height}px`);
       }
     });
   }

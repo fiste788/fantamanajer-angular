@@ -3,7 +3,7 @@
   <mat-card appearance="outlined">
     <a
       [routerLink]="['/clubs/',club.id]"
-      [state]="{img: 'url(\'' + img()?.nativeElement?.currentSrc + '\')'}"
+      [state]="{img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')'}"
       [style.viewTransitionName]="viewTransitionName(club)"
     >
       <figure

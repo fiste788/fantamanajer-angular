@@ -53,7 +53,7 @@ export class ParallaxHeaderComponent implements OnDestroy {
   public tabPanel = input<MatTabNavPanel>();
   public readonly imageLoaded = output<number>();
 
-  public readonly rellax = viewChild<RellaxDirective, ElementRef<HTMLElement>>('rellax', {
+  public readonly rellaxRef = viewChild<RellaxDirective, ElementRef<HTMLElement>>('rellax', {
     read: ElementRef<HTMLElement>,
   });
 
@@ -61,12 +61,12 @@ export class ParallaxHeaderComponent implements OnDestroy {
   protected readonly visibleTabs = computed(() => this.tabs().filter((tab) => !tab.hidden));
 
   public ngOnDestroy(): void {
-    this.rellax()?.nativeElement.classList.remove('no-animate');
+    this.rellaxRef()?.nativeElement.classList.remove('no-animate');
   }
 
   protected imageLoad(): void {
     this.#viewportScroller.scrollToAnchor('tab');
-    this.rellax()?.nativeElement.classList.add('no-animate');
+    this.rellaxRef()?.nativeElement.classList.add('no-animate');
   }
 
   protected track(_: number, item: Tab): string {

@@ -74,9 +74,11 @@ content-loader svg {
 }
 
 /* stylelint-disable-next-line plugin/browser-compat */
-::selection {
-  background: var(--mat-sys-tertiary);
-  color: var(--mat-sys-on-tertiary);
+@supports selector(::selection) {
+  ::selection {
+    background: var(--mat-sys-tertiary);
+    color: var(--mat-sys-on-tertiary);
+  }
 }
 
 img[src*='.svg'] {

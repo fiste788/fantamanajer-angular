@@ -20,7 +20,6 @@ html {
     transition-duration: 300ms, 300ms, 400ms;
     transition-timing-function: var(--drawer-animation-timing-function);
 
-    /* stylelint-disable-next-line plugin/browser-compat */
     @starting-style {
       opacity: 0;
       width: 0;

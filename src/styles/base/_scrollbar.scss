@@ -1,7 +1,9 @@
 /* stylelint-disable plugin/browser-compat */
 
-html,
-[cdkscrollable] {
-  scrollbar-width: thin;
-  scrollbar-color: var(--mat-sys-primary-fixed-dim) transparent;
+@supports (scrollbar-width: thin) and (scrollbar-color: none) {
+  html,
+  [cdkscrollable] {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mat-sys-primary-fixed-dim) transparent;
+  }
 }

@@ -10,12 +10,14 @@
   position: static;
 }
 
-.navigation-bar {
-  view-transition-name: navigation-bar;
-}
+@supports (view-transition-name: none) {
+  .navigation-bar {
+    view-transition-name: navigation-bar;
+  }
 
-.mat-drawer {
-  view-transition-name: navigation-drawer;
+  .mat-drawer {
+    view-transition-name: navigation-drawer;
+  }
 }
 
 .mat-drawer-side {

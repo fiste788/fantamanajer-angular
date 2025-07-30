@@ -57,7 +57,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
   readonly #window = inject<Window>(WINDOW);
   readonly #platformId = inject(PLATFORM_ID);
   readonly #renderer = inject(Renderer2);
-  readonly #el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly #ref = inject<ElementRef<HTMLElement>>(ElementRef);
 
   public speed = input(-3, { transform: numberAttribute });
   public center = input(false, { transform: booleanAttribute });
@@ -95,7 +95,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       this.#loop = this.#window.requestAnimationFrame.bind(this.#window);
       this.#clearLoop = this.#window.cancelAnimationFrame.bind(this.#window);
 
-      const target = this.#el.nativeElement.querySelector('img');
+      const target = this.#ref.nativeElement.querySelector('img');
       if (target !== null) {
         this.#subscription = fromEvent(target, 'load')
           .pipe(tap(() => this.init()))
@@ -125,14 +125,14 @@ export class RellaxDirective implements OnInit, OnDestroy {
 
   public init(): void {
     if (this.#block !== undefined) {
-      this.#el.nativeElement.style.cssText = this.#block.style;
+      this.#ref.nativeElement.style.cssText = this.#block.style;
     }
     this.#screenY = this.#window.innerHeight;
     this.#screenX = this.#window.innerWidth;
 
     this.setPosition();
     // Get and cache initial position of all elements
-    this.#block = this.createBlock(this.#el.nativeElement);
+    this.#block = this.createBlock(this.#ref.nativeElement);
 
     this.animate();
 
@@ -363,7 +363,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       const x = this.#options.horizontal ? positionX : 0;
       const y = this.#options.vertical ? positionY : 0;
       const translate = `translate3d(${x}px,${y}px,${this.#options.zindex ?? 0}px) ${this.#block.transform}`;
-      this.#renderer.setStyle(this.#el.nativeElement, 'transform', translate);
+      this.#renderer.setStyle(this.#ref.nativeElement, 'transform', translate);
 
       if (this.#options.callback) {
         this.#options.callback(positions);

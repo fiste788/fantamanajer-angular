@@ -35,7 +35,7 @@ export class TeamCardComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   public team = input.required<Team>();
   public priority = input(false);
-  protected img = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
+  protected imgRef = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
     read: ElementRef,
   });
 

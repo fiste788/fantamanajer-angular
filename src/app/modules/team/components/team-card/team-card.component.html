@@ -2,7 +2,7 @@
 <mat-card appearance="outlined">
   <a
     [routerLink]="['/teams/', _team.id]"
-    [state]="{ img: 'url(\'' + img()?.nativeElement?.currentSrc + '\')' }"
+    [state]="{ img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')' }"
     [style.viewTransitionName]="viewTransitionName(_team)"
   >
     <figure

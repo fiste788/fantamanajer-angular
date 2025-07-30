@@ -54,7 +54,7 @@ export class MainComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #document = inject<Document>(DOCUMENT);
 
-  protected topAppBar = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
+  protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
     TopAppBarComponent,
     {
       read: ElementRef,
@@ -76,7 +76,7 @@ export class MainComponent {
     });
     effect(() => {
       if (this.#layoutService.routeContextChanged()) {
-        const offset = this.topAppBar().nativeElement.clientHeight;
+        const offset = this.topAppBarRef().nativeElement.clientHeight;
         this.#scrollService.offset?.set(offset);
       }
     });
