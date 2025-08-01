@@ -13,8 +13,11 @@ export function filterNavigationMode<T>(
   val = 'bar',
 ): UnaryFunction<Observable<T>, Observable<T>> {
   return pipe(
-    withLatestFrom<T, Array<string>>(obs),
-    filter((mode) => mode[1] === val),
-    map(([dir]) => dir),
+    // Tipizzazione corretta: emette un array [valore_sorgente, ultimo_valore_di_obs]
+    withLatestFrom<T, string[]>(obs),
+    // Utilizza i nomi delle variabili nel filter
+    filter(([latestMode]) => latestMode === val),
+    // Utilizza i nomi delle variabili nel map
+    map(([originalValue]) => originalValue),
   );
 }

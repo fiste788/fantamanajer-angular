@@ -1,8 +1,20 @@
-import { Injectable, computed, inject, linkedSignal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { supported } from '@github/webauthn-json';
-import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap } from 'rxjs';
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+
+import {
+
+  OnDestroy,
+  computed,
+  inject,
+
+  WritableSignal,
+  Injectable,
+  linkedSignal, // Importa WritableSignal
+
+} from '@angular/core'; // Aggiunte importazioni mancanti potenziali
+import { ActivatedRoute, Router } from '@angular/router'; // Importa ActivatedRoute e Router
+import { JwtHelperService } from '@auth0/angular-jwt'; // Importa JwtHelperService
+import { supported } from '@github/webauthn-json'; // Importa supported da webauthn-json
+import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap, of } from 'rxjs'; // Importa of
 
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
@@ -12,34 +24,51 @@ import { ServerAuthInfo } from './server-auth-info.model';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService {
+export class AuthenticationService implements OnDestroy {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
   readonly #webauthnService = inject(WebauthnService);
   readonly #jwtHelper = new JwtHelperService();
-  readonly #adminRole = 'ROLE_ADMIN';
-  readonly #userRole = 'ROLE_USER';
-  readonly #sub = computed(() => this.#getSubject(this.#tokenStorageService.token()));
-  readonly #userResource = this.#userService.findResource(this.#sub);
-  readonly #user = linkedSignal(() => this.#userResource.value(), {
+  readonly #ADMIN_ROLE = 'ROLE_ADMIN';
+  readonly #USER_ROLE = 'ROLE_USER';
+
+  readonly #userIdFromToken = computed(() => this.#extractSubjectFromToken(this.#tokenStorageService.currentToken()));
+  readonly #userResource = this.#userService.findUserResource(this.#userIdFromToken);
+
+  readonly #currentUserSignal: WritableSignal<User | undefined> = linkedSignal(() => this.#userResource.value(), {
     equal: (a, b) => a?.id === b?.id,
   });
 
-  public user = this.#user.asReadonly();
-  public loggedIn = computed(() => this.#isLoggedIn(this.#tokenStorageService.token()));
+  public readonly currentUser = this.#currentUserSignal.asReadonly();
+  public readonly isLoggedIn = computed(() => this.#isTokenValid(this.#tokenStorageService.currentToken()));
+
+  // Proprietà per gestire subscriptions se necessario per OnDestroy
+  // private subscriptions: Subscription[] = [];
 
   constructor() {
-    if (this.#tokenStorageService.token() && !this.loggedIn()) {
+    if (this.#tokenStorageService.currentToken() && !this.isLoggedIn()) {
       this.logoutUI();
     }
   }
 
+  ngOnDestroy(): void {
+    // Pulizia delle subscriptions
+    // this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+
   public authenticate(email: string, password: string): Observable<boolean> {
     return this.#userService
       .login(email, password)
-      .pipe(switchMap(async (res) => this.postLogin(res)));
+      .pipe(
+        switchMap(async (res) => this.handleSuccessfulLogin(res)),
+        catchError((error) => {
+          console.error('Authentication failed:', error);
+          return of(false);
+        })
+      );
   }
 
   public async authenticatePasskey(
@@ -47,41 +76,62 @@ export class AuthenticationService {
   ): Promise<boolean> {
     try {
       if (supported()) {
-        const res = await this.#webauthnService.startAuthentication(mediation);
+        const res = await this.#webauthnService.startAuthentication(mediation)
+
         if (res) {
-          return await this.postLogin(res);
+          return await this.handleSuccessfulLogin(res);
         }
       }
-    } catch {
+    } catch (error) {
+      console.error('Error during passkey process:', error);
       return false;
     }
 
     return false;
   }
 
-  public async postLogin(res: AuthenticationDto): Promise<boolean> {
+  public async handleSuccessfulLogin(res: AuthenticationDto): Promise<boolean> {
     const { user, token } = res;
-    user.roles = this.#getRoles(user);
-    this.#user.set(user);
+
+    this.#updateAuthState(user, token);
+
+    await this.#setLocalSessionFromToken(token);
+
+    return this.#navigateToPostLogin(user);
+  }
+
+  #updateAuthState(user: User, token: string): void {
+    user.roles = this.#deriveUserRoles(user);
+    this.#currentUserSignal.set(user);
     this.#tokenStorageService.setToken(token);
+  }
 
+  async #setLocalSessionFromToken(token: string): Promise<void> {
     try {
-      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)), {
-        defaultValue: false,
-      });
-      // eslint-disable-next-line no-empty
-    } catch {}
+      await firstValueFrom(
+        this.#userService.setLocalSession(this.#prepareServerAuthInfo(token)),
+        { defaultValue: undefined }
+      );
+    } catch (error) {
+      console.error('Failed to set local session:', error);
+      throw error;
+    }
+  }
 
-    const url = this.#getUrl(user);
-
+  #navigateToPostLogin(user: User): Promise<boolean> {
+    const url = this.#getPostLoginRedirectUrl(user);
     return this.#router.navigateByUrl(url);
   }
+
 
   public async logout(): Promise<unknown> {
     return firstValueFrom(
       this.#userService.logout().pipe(
         switchMap(() => this.#userService.deleteLocalSession()),
-        catchError(() => EMPTY),
+        catchError((error) => {
+          console.error('Logout API or local session deletion failed:', error);
+          return EMPTY;
+        }),
         finalize(() => this.logoutUI()),
       ),
       { defaultValue: undefined },
@@ -93,47 +143,56 @@ export class AuthenticationService {
       return true;
     }
 
-    return authorities.some((r) => this.user()?.roles?.includes(r));
+    return authorities.some((r) => this.currentUser()?.roles?.includes(r));
   }
 
-  public reload(): boolean {
+  public reloadCurrentUser(): boolean {
     return this.#userResource.reload();
   }
 
   public logoutUI(): void {
     const user = undefined;
     this.#tokenStorageService.deleteToken();
-    this.#user.set(user);
+    this.#currentUserSignal.set(user);
   }
 
-  #isLoggedIn(token?: string): boolean {
+  #isTokenValid(token?: string): boolean {
     return token ? !this.#jwtHelper.isTokenExpired(token) : false;
   }
 
-  #getSubject(token?: string): number | undefined {
-    return token ? this.#jwtHelper.decodeToken<{ sub: number } | undefined>(token)?.sub : undefined;
+  #extractSubjectFromToken(token?: string): number | undefined {
+    if (!token || this.#jwtHelper.isTokenExpired(token)) {
+      return undefined;
+    }
+    return this.#jwtHelper.decodeToken<{ sub: number }>(token)?.sub;
   }
 
-  #getRoles(user: User): Array<string> {
-    const roles = [this.#userRole];
+  #deriveUserRoles(user: User): Array<string> {
+    const roles = [this.#USER_ROLE];
     if (user.admin) {
-      roles.push(this.#adminRole);
+      roles.push(this.#ADMIN_ROLE);
     }
-
     return roles;
   }
 
-  #prepSetSession(token: string): ServerAuthInfo {
+  #prepareServerAuthInfo(token: string): ServerAuthInfo {
+    const expirationDate = this.#jwtHelper.getTokenExpirationDate(token);
+    const expiresAt = expirationDate?.getTime() ?? 0;
     return {
       accessToken: token,
-      expiresAt: this.#jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
+      expiresAt,
     };
   }
 
-  #getUrl(user: User): string {
-    return (
-      (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
-      `/championships/${user.teams![0]!.championship.id}`
-    );
+  #getPostLoginRedirectUrl(user: User): string {
+    const returnUrl = this.#route.snapshot.queryParams['returnUrl'] as string | undefined;
+    if (returnUrl) {
+      return returnUrl;
+    }
+    if (user.teams && user.teams.length > 0 && user.teams[0]?.championship?.id !== undefined) {
+      return `/championships/${user.teams[0].championship.id}`;
+    }
+    console.warn('Could not determine redirect URL after login, navigating to root.');
+    return '/';
   }
 }

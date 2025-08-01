@@ -26,17 +26,18 @@ import {
 } from '@data/services';
 import { PushSubscription, User } from '@data/types';
 import { environment } from '@env';
+import { SnackbarNotificationService } from './snackbar-notification.service';
 
-import { NotificationService } from './notification.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class PushService {
   readonly #subscription = inject(PushSubscriptionService);
   readonly #swPush = inject(SwPush);
   readonly #notificationService = inject(FeatureNotificationService);
-  readonly #notService = inject(NotificationService);
+  readonly #notService = inject(SnackbarNotificationService);
   readonly #auth = inject(AuthenticationService);
-  readonly #user = toObservable(this.#auth.user);
+  readonly #user = toObservable(this.#auth.currentUser);
 
   public init(): Observable<void> {
     return this.#user.pipe(
@@ -131,7 +132,7 @@ export class PushService {
         const message = obj as {
           notification: Notification;
         };
-        this.#notificationService.broadcast(message.notification.title, '');
+        this.#notificationService.setNotification(message.notification.title, '');
       }),
     );
   }
@@ -143,7 +144,7 @@ export class PushService {
     const sub = await this.convertNativeSubscription(pushSubscription.toJSON(), user.id);
     if (sub) {
       return firstValueFrom(
-        this.#subscription.add(sub).pipe(
+        this.#subscription.createSubscription(sub).pipe(
           map(() => true),
           catchError(() => {
             void pushSubscription.unsubscribe();
@@ -168,7 +169,7 @@ export class PushService {
       const sub = await this.sha256(pushSubscription.endpoint);
 
       return firstValueFrom(
-        this.#subscription.delete(sub).pipe(
+        this.#subscription.deleteSubscription(sub).pipe(
           map(() => {
             void pushSubscription.unsubscribe().then().catch();
 

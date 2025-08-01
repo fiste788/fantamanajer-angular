@@ -2,7 +2,8 @@ import { Matchday } from './matchday.model';
 import { Member } from './member.model';
 import { Team } from './team.model';
 
-export interface Transfert {
+// Modifica suggerita per la nomenclatura
+export interface Transfer {
   id: number;
   team_id: number;
   matchday_id: number;

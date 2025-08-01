@@ -10,6 +10,8 @@
   z-index: 1;
   position: relative;
 
+  --index: 2;
+
   @include mat.fab-overrides(
     (
       extended-container-elevation-shadow: none,
@@ -25,6 +27,11 @@
   margin-left: 1.25rem;
 }
 
+// Added styles for profile and navigation list
+.profile {
+  --index: 1;
+}
+
 @media (min-width: theme('screens.sm')) {
   .fab {
     display: flex;
@@ -33,13 +40,16 @@
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
   .fab-container,
-  app-profile,
-  app-navigation-list {
+  .profile,
+  // Updated selector
+  .navigation-list {
+    // Updated selector
     transition-timing-function: var(--drawer-animation-timing-function);
     transition-duration: var(--drawer-animation-duration);
   }
 
-  app-profile {
+  .profile {
+    // Updated selector
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -50,13 +60,15 @@
     display: block;
   }
 
-  app-navigation-list {
+  .navigation-list {
+    // Updated selector
     transition-property: margin-top;
     margin-top: 3rem;
   }
 
   :host-context(.mat-drawer.mat-drawer-opened) {
-    app-profile {
+    .profile {
+      // Updated selector
       max-height: 500px;
       opacity: 1;
     }
@@ -65,7 +77,8 @@
       margin: 1rem;
     }
 
-    app-navigation-list {
+    .navigation-list {
+      // Updated selector
       margin-top: 0;
     }
   }

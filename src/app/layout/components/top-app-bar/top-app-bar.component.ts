@@ -35,12 +35,14 @@ import { NotificationComponent } from '../notification/notification.component';
 })
 export class TopAppBarComponent {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
-  readonly #auth = inject(AuthenticationService);
+  // Renamed injected services for clarity
+  readonly #authenticationService = inject(AuthenticationService);
   readonly #transitionService = inject(CurrentTransitionService);
+  readonly #applicationService = inject(ApplicationService); // Renamed injected service
 
   protected readonly isScrolled = inject(ScrollService).isScrolled;
-  protected readonly team = inject(ApplicationService).team;
-  protected readonly loggedIn = this.#auth.loggedIn;
+  protected readonly team = this.#applicationService.currentTeam; // Updated service name
+  protected readonly loggedIn = this.#authenticationService.isLoggedIn; // Updated service name
   protected readonly isOverlayed = this.#getOverlayedSignal();
 
   protected viewTransitionName(): string {

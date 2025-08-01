@@ -6,7 +6,8 @@ import { CookieStorage } from './cookie-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalstorageService implements Storage {
+// Modifica suggerita per la nomenclatura della classe
+export class StorageService implements Storage { // Cambiato nome classe
   readonly #storage: Storage = isPlatformBrowser(inject(PLATFORM_ID))
     ? localStorage
     : inject(CookieStorage);

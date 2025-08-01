@@ -18,7 +18,7 @@ export * from './notification.model';
 export * from './paged-response';
 export * from './pagination';
 export * from './player.model';
-export * from './pubic-key-credential-source.model';
+export * from './public-key-credential-source.model'; // Aggiornato il nome del file
 export * from './push-subscription.model';
 export * from './ranking-position.model';
 export * from './rating.model';
@@ -31,5 +31,5 @@ export * from './stream-activity.model';
 export * from './stream.model';
 export * from './tab';
 export * from './team.model';
-export * from './transfert.model';
+export * from './transfer.model'; // Aggiornato il nome del file
 export * from './user.model';

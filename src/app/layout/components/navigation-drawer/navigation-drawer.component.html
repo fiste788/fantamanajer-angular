@@ -3,21 +3,22 @@
   aria-label="Toggle sidenav"
   class="toggle"
   matIconButton
-  style="--index: 0"
   type="button"
   (click)="clickNav()"
 >
   <mat-icon aria-label="Side nav toggle icon">menu{{ openDrawer() ? '_open' : '' }}</mat-icon>
 </button>
 @if (team()) {
-  <app-profile style="--index: 1" />
+  <app-profile class="profile" />
   <div class="fab-container">
     <app-fab
       class="fab"
       direction="down"
-      style="--index: 2"
       [extended]="openDrawer()"
     />
   </div>
 }
-<app-navigation-list mode="full" />
+<app-navigation-list
+  mode="full"
+  class="navigation-list"
+/>

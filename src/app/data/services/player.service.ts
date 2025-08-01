@@ -4,25 +4,31 @@ import { Observable } from 'rxjs';
 
 import { Player } from '../types';
 
-const url = 'players';
+const PLAYERS_URL_SEGMENT = 'players'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  player: (id: number) => `/${url}/${id}`,
-  players: `/${url}`,
+  player: (id: number) => `/${PLAYERS_URL_SEGMENT}/${id}`,
+  players: `/${PLAYERS_URL_SEGMENT}`,
 };
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
   readonly #http = inject(HttpClient);
 
+  // Funzione privata per creare HttpParams con championshipId (Refactoring suggerito)
+  private createGetPlayerParams(championshipId?: number): HttpParams | undefined {
+    if (championshipId) {
+      return new HttpParams().set('championshipId', `${championshipId}`);
+    }
+    return undefined;
+  }
+
   public getPlayers(): Observable<Array<Player>> {
     return this.#http.get<Array<Player>>(routes.players);
   }
 
   public getPlayer(id: number, championshipId?: number): Observable<Player> {
-    let params = new HttpParams();
-    if (championshipId) {
-      params = params.set('championshipId', `${championshipId}`);
-    }
+    const params = this.createGetPlayerParams(championshipId); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<Player>(routes.player(id), { params });
   }

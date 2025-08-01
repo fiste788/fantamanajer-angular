@@ -2,7 +2,7 @@ import { Member } from './member.model';
 
 export interface Role {
   id: number;
-  singolar: string;
+  singular: string;
   plural: string;
   abbreviation: string;
   determinant?: string;

@@ -6,24 +6,25 @@ import { AtLeast, RecursivePartial } from '@app/types';
 
 import { Championship } from '../types';
 
-const url = 'championships';
+const CHAMPIONSHIPS_URL_SEGMENT = 'championships'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  championship: (id: number) => `/${url}/${id}`,
-  championships: `/${url}`,
+  championship: (id: number) => `/${CHAMPIONSHIPS_URL_SEGMENT}/${id}`,
+  championships: `/${CHAMPIONSHIPS_URL_SEGMENT}`,
 };
 
 @Injectable({ providedIn: 'root' })
 export class ChampionshipService {
   readonly #http = inject(HttpClient);
 
-  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'>> {
-    return this.#http.put<Pick<Championship, 'id'>>(
+  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'> > {
+    return this.#http.put<Pick<Championship, 'id'> >(
       routes.championship(championship.id),
       championship,
     );
   }
 
-  public find(championshipId: number): Observable<Championship> {
+  public getChampionship(championshipId: number): Observable<Championship> { // Modifica suggerita per la nomenclatura
     return this.#http.get<Championship>(routes.championship(championshipId));
   }
 

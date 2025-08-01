@@ -18,6 +18,7 @@
   </mat-sidenav>
   <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
     <app-top-app-bar
+      #topBar
       class="scroll-up"
       [ngClass]="'scroll-up-' + _showBars"
     />
@@ -27,7 +28,7 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 @defer (when _navigationMode === 'bar') {
-  @let _stable = stable();
+  @let _stable = isStable();
   <app-navigation-bar
     class="scroll-down"
     [ngClass]="'scroll-down-' + (_stable && _navigationMode === 'bar' ? _showBars : hidden)"

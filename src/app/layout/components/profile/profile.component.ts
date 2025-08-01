@@ -46,12 +46,13 @@ export class ProfileComponent {
   readonly #dialog = inject(MatDialog);
   readonly #teamService = inject(TeamService);
 
-  protected readonly app = inject(ApplicationService);
-  protected readonly auth = inject(AuthenticationService);
+  // Renamed injected services for clarity
+  protected readonly applicationService = inject(ApplicationService);
+  protected readonly authenticationService = inject(AuthenticationService);
 
   public async change(team: Team): Promise<void> {
     void this.#router.navigateByUrl(`/teams/${team.id}`, {
-      state: { team: await this.app.changeTeam(team) },
+      state: { team: await this.applicationService.changeTeam(team) }, // Updated service name
     });
     this.#layoutService.closeDrawer();
   }
@@ -60,14 +61,19 @@ export class ProfileComponent {
     return t1.id === t2.id;
   }
 
-  protected async openDialog(event: Event, team_id: number): Promise<boolean | undefined> {
+  protected async openDialog(
+    event: Event,
+    team_id: number,
+  ): Promise<boolean | undefined> {
     event.stopPropagation();
     this.#layoutService.closeDrawer();
 
-    const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
+    const { TeamEditModal } = await import(
+      '@modules/team/modals/team-edit/team-edit.modal'
+    );
 
     return firstValueFrom(
-      this.#teamService.getTeam(team_id).pipe(
+      this.#teamService.getTeamById(team_id).pipe(
         switchMap((team) =>
           this.#dialog
             .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
