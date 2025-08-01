@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 
 import { Club } from '../types';
 
-const url = 'clubs';
+const CLUBS_URL_SEGMENT = 'clubs'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  club: (id: number) => `/${url}/${id}`,
-  clubs: `/${url}`,
+  club: (id: number) => `/${CLUBS_URL_SEGMENT}/${id}`,
+  clubs: `/${CLUBS_URL_SEGMENT}`,
 };
 
 @Injectable({ providedIn: 'root' })

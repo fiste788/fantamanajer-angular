@@ -6,35 +6,41 @@ import { AtLeast } from '@app/types';
 
 import { Article, PagedResponse } from '../types';
 
-const url = 'articles';
+const ARTICLES_URL_SEGMENT = 'articles'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  article: (id: number) => `/${url}/${id}`,
-  articles: `/${url}`,
-  championshipArticles: (id: number) => `/championship/${id}/${url}`,
-  teamArticles: (id: number) => `/teams/${id}/${url}`,
+  article: (id: number) => `/${ARTICLES_URL_SEGMENT}/${id}`,
+  articles: `/${ARTICLES_URL_SEGMENT}`,
+  championshipArticles: (id: number) => `/championship/${id}/${ARTICLES_URL_SEGMENT}`,
+  teamArticles: (id: number) => `/teams/${id}/${ARTICLES_URL_SEGMENT}`,
 };
 
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
   readonly #http = inject(HttpClient);
 
+  // Funzione privata per creare i parametri di paginazione (Refactoring suggerito)
+  private createPaginationParams(page: number): HttpParams {
+    return new HttpParams().set('page', `${page}`);
+  }
+
   public getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
-    const params = new HttpParams().set('page', `${page}`);
+    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
   }
 
-  public getArticlesByTeam(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
-    const params = new HttpParams().set('page', `${page}`);
+  public getTeamArticles(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> { // Modifica suggerita per la nomenclatura
+    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
-  public getArticlesByChampionship(
+  public getChampionshipArticles( // Modifica suggerita per la nomenclatura
     championshipId: number,
     page = 1,
   ): Observable<PagedResponse<Array<Article>>> {
-    const params = new HttpParams().set('page', `${page}`);
+    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(
       routes.championshipArticles(championshipId),

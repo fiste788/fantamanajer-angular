@@ -32,7 +32,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
 import { onViewTransitionCreated } from '@app/functions';
-import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
+import { apiDataTransformerInterceptor, authenticationInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
   PushService,
@@ -49,17 +49,33 @@ import routes from './app.routes';
 
 registerLocaleData(localeIt, 'it');
 
+// Extracted IMAGE_LOADER logic into a named function
+const customImageLoader = (config: ImageLoaderConfig) => {
+  const path =
+    (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+
+  return path.startsWith(environment.apiEndpoint)
+    ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
+    : path;
+};
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    // Routing Providers
     provideRouter(
       routes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
       withViewTransitions({
         onViewTransitionCreated,
       }),
     ),
+
+    // Core Providers
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(
@@ -68,29 +84,28 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
+      withInterceptors([apiDataTransformerInterceptor, authenticationInterceptor, httpErrorInterceptor]),
     ),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+
+    // Localization Provider
     {
       provide: LOCALE_ID,
       useValue: 'it-IT',
     },
+
+    // Image Loader Provider
     {
       provide: IMAGE_LOADER,
-      useValue: (config: ImageLoaderConfig) => {
-        const path =
-          (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
-
-        return path.startsWith(environment.apiEndpoint)
-          ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
-          : path;
-      },
+      useValue: customImageLoader, // Using the named function
     },
+
+    // Environment Initializer Provider
     provideEnvironmentInitializer(() => {
-      inject(ApplicationService).connect();
+      inject(ApplicationService).connectMatchdayStream();
       inject(MetaService).connect();
       inject(BreadcrumbService).connect('FantaManajer');
       inject(IconService).init();
@@ -99,6 +114,8 @@ export const appConfig: ApplicationConfig = {
         inject(PushService).connect();
       }
     }),
+
+    // Navigator and Window Providers
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
   ],

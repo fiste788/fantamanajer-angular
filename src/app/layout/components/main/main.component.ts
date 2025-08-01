@@ -42,7 +42,7 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     NavigationDrawerComponent,
   ],
   host: {
-    '[class.stable]': 'stable()',
+    '[class.stable]': 'isStable()', // Changed to isStable
     '[class]': '"navigation-mode-" + navigationMode()',
     '[class.with-bars]': 'showBars() === visible',
     '[class.loggedin]': 'loggedIn()',
@@ -54,21 +54,21 @@ export class MainComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #document = inject<Document>(DOCUMENT);
 
-  protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
-    TopAppBarComponent,
-    {
-      read: ElementRef,
-    },
+  // Simplified type definition for topAppBarRef
+  protected topAppBarRef = viewChild.required<ElementRef<HTMLElement>>(
+    'topBar',
   );
 
-  protected readonly stable = this.#layoutService.stable;
+  protected readonly isStable = this.#layoutService.stable; // Renamed from stable
   protected readonly navigationMode = this.#layoutService.navigationMode;
-  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
+  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(
+    delay(100),
+  );
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showBars = this.#layoutService.showBars;
   protected readonly hidden = VisibilityState.Hidden;
   protected readonly visible = VisibilityState.Visible;
-  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
+  protected readonly loggedIn = inject(AuthenticationService).isLoggedIn;
 
   constructor() {
     afterNextRender(() => {

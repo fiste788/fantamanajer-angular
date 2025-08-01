@@ -1,5 +1,5 @@
-import { Error } from './error.model';
+import { ApiError } from './error.model'; // Aggiornato l'import
 
 export interface ErrorResponse {
-  data?: Error;
+  data?: ApiError; // Utilizzo del nuovo nome dell'interfaccia
 }

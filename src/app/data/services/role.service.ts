@@ -6,23 +6,25 @@ import { Member, Module, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
-  readonly #roles = [
-    { id: 1, singolar: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' },
-    { id: 2, singolar: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' },
-    { id: 3, singolar: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
-    { id: 4, singolar: 'Attaccante', count: 6, abbreviation: 'A', plural: 'Attaccanti' },
+  // Modifica suggerita per la nomenclatura delle proprietà nell'array
+  readonly #roles: Array<Role> = [ // Tipizzazione esplicita per chiarezza
+    { id: 1, singular: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' },
+    { id: 2, singular: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' },
+    { id: 3, singular: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
+    { id: 4, singular: 'Attaccante', count: 6, abbreviation: 'A', plural: 'Attaccanti' },
   ];
 
+  // Modifica suggerita per la nomenclatura del parametro
   public groupMembersByRole(members: Array<Member>): Map<Role, Array<Member>> {
-    return groupBy(members, ({ role_id }) => this.get(role_id));
+    return groupBy(members, ({ role_id }) => this.getRoleById(role_id)); // Utilizzo del nome del metodo modificato
   }
 
   public list(): Array<Role> {
     return this.#roles;
   }
 
-  public get(role_id?: number): Role {
-    return this.#roles.find((r) => r.id === role_id)!;
+  public getRoleById(roleId: number): Role { // Modifica suggerita per la nomenclatura del parametro
+    return this.#roles.find((r) => r.id === roleId)!;
   }
 
   public totalMembers(): number {

@@ -1,6 +1,11 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, afterNextRender, inject, input } from '@angular/core';
+import {
+  Component,
+  afterNextRender,
+  inject,
+  input,
+} from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,7 +35,8 @@ export class NotificationComponent {
   readonly #dialog = inject(MatDialog);
   public readonly team = input<Team>();
 
-  protected deferredPrompt$ = inject(PwaService).beforeInstall$;
+  // Using a signal to manage the deferred prompt state
+  protected deferredPrompt = inject(PwaService).beforeInstallSignal;
   protected stream$: Observable<Stream> = EMPTY;
   protected readonly isCurrentSeason = inject(ApplicationService).isCurrentSeason;
 
@@ -47,13 +53,16 @@ export class NotificationComponent {
     return this.#notificationService.getNotificationCount(team.id);
   }
 
-  protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
+  protected async install(
+    prompt: BeforeInstallPromptEvent,
+    event: MouseEvent,
+  ): Promise<boolean> {
     event.preventDefault();
     await prompt.prompt();
 
     const choice = await prompt.userChoice;
     if (choice.outcome === 'accepted') {
-      delete this.deferredPrompt$;
+      this.deferredPrompt = undefined; // Update the signal state
 
       return true;
     }

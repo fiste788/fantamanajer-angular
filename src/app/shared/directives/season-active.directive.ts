@@ -9,10 +9,12 @@ import { ApplicationService } from '@app/services';
 export class SeasonActiveDirective implements OnInit {
   readonly #templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   readonly #viewContainer = inject(ViewContainerRef);
-  readonly #app = inject(ApplicationService);
+  // Renamed injected service for clarity
+  readonly #applicationService = inject(ApplicationService);
 
   public ngOnInit(): void {
-    if (this.#app.seasonStarted() && !this.#app.seasonEnded()) {
+    // Using the renamed service
+    if (this.#applicationService.seasonStarted() && !this.#applicationService.seasonEnded()) {
       this.#viewContainer.createEmbeddedView(this.#templateRef);
     } else {
       this.#viewContainer.clear();

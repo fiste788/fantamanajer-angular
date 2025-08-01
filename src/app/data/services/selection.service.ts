@@ -6,31 +6,33 @@ import { AtLeast } from '@app/types';
 
 import { Selection } from '../types';
 
-const url = 'selections';
+const SELECTIONS_URL_SEGMENT = 'selections'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  selection: (id: number) => `/teams/${id}/${url}`,
+  teamSelections: (teamId: number) => `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  teamSelectionById: (teamId: number, selectionId: number) => `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}/${selectionId}`, // Aggiunta rotta specifica per l'aggiornamento
 };
 
 @Injectable({ providedIn: 'root' })
 export class SelectionService {
   readonly #http = inject(HttpClient);
 
-  public getSelections(id: number): Observable<Array<Selection>> {
-    return this.#http.get<Array<Selection>>(routes.selection(id));
+  public getTeamSelections(teamId: number): Observable<Array<Selection>> { // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Selection>>(routes.teamSelections(teamId)); // Utilizzo del nome della rotta modificato
   }
 
-  public getLastOrNewSelection(id: number): Observable<Selection> {
-    return this.getSelections(id).pipe(map((a) => a.at(-1) ?? ({} as Selection)));
+  public getLastOrNewTeamSelection(teamId: number): Observable<Selection> { // Modifica suggerita per la nomenclatura
+    return this.getTeamSelections(teamId).pipe(map((a) => a.at(-1) ?? ({} as Selection))); // Utilizzo del nome del metodo modificato
   }
 
-  public update(selection: Selection): Observable<Pick<Selection, 'id'>> {
-    return this.#http.put<Pick<Selection, 'id'>>(
-      `${routes.selection(selection.team_id)}/${selection.id}`,
+  public updateSelection(selection: Selection): Observable<Pick<Selection, 'id'> > { // Modifica suggerita per la nomenclatura
+    return this.#http.put<Pick<Selection, 'id'> >(
+      routes.teamSelectionById(selection.team_id, selection.id), // Utilizzo della rotta centralizzata (con team_id da rinominare)
       selection,
     );
   }
 
-  public create(selection: AtLeast<Selection, 'team_id'>): Observable<AtLeast<Selection, 'id'>> {
-    return this.#http.post<Selection>(routes.selection(selection.team_id), selection);
+  public createSelection(selection: AtLeast<Selection, 'team_id'>): Observable<AtLeast<Selection, 'id'> > { // Modifica suggerita per la nomenclatura
+    return this.#http.post<Selection>(routes.teamSelections(selection.team_id), selection); // Utilizzo del nome della rotta modificato (con team_id da rinominare)
   }
 }

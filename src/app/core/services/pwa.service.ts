@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { ApplicationRef, Injectable, PLATFORM_ID, Signal, inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   Observable,
@@ -16,8 +16,10 @@ import {
 
 import { filterNil } from '@app/functions';
 
-import { NotificationService } from './notification.service';
+
 import { WINDOW } from './window.service';
+import { SnackbarNotificationService } from './snackbar-notification.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +27,11 @@ import { WINDOW } from './window.service';
 export class PwaService {
   readonly #window = inject<Window>(WINDOW);
   readonly #platformId = inject(PLATFORM_ID);
-  readonly #notificationService = inject(NotificationService);
+  readonly #notificationService = inject(SnackbarNotificationService);
   readonly #swUpdate = inject(SwUpdate);
   readonly #appRef = inject(ApplicationRef);
 
-  public readonly beforeInstall$? = this.#getBeforeInstall();
+  public readonly beforeInstallSignal? = this.#getBeforeInstall();
 
   public init(): Observable<void> {
     return this.#checkForUpdates().pipe(
@@ -42,13 +44,13 @@ export class PwaService {
     return this.init().subscribe();
   }
 
-  #getBeforeInstall(): Observable<BeforeInstallPromptEvent> | undefined {
+  #getBeforeInstall(): Signal<BeforeInstallPromptEvent> | undefined {
     return isPlatformBrowser(this.#platformId)
-      ? fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
-          tap((e) => {
-            e.preventDefault();
-          }),
-        )
+      ? toSignal(fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
+        tap((e) => {
+          e.preventDefault();
+        }),
+      ), {requireSync: true})
       : undefined;
   }
 
