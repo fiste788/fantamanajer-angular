@@ -51,13 +51,13 @@ export class ScoreEditPage {
   }
 
   protected getScore(score: Score): void {
-    this.score$ = this.#scoreService.getScore(score.id, true);
+    this.score$ = this.#scoreService.getScoreById(score.id, true);
   }
 
   protected async save(score: Score, scoreForm: NgForm, lineup?: EmptyLineup): Promise<void> {
     score.lineup = lineup as Lineup;
 
-    return save(this.#scoreService.update(score), undefined, this.#snackbar, {
+    return save(this.#scoreService.updateScore(score), undefined, this.#snackbar, {
       message: 'Punteggio modificato',
       form: scoreForm,
     });

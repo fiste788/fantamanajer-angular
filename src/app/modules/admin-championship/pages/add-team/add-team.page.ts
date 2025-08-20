@@ -42,8 +42,8 @@ export class AddTeamPage {
   protected async save(team: RecursivePartial<Team>, teamForm: NgForm): Promise<boolean> {
     team.user = { email: this.email };
     const save$: Observable<AtLeast<Team, 'id'>> = team.id
-      ? this.#teamService.update(team as AtLeast<Team, 'id'>)
-      : this.#teamService.create(team);
+      ? this.#teamService.updateTeam(team as AtLeast<Team, 'id'>)
+      : this.#teamService.createTeam(team);
 
     return save(save$, false, this.#snackbar, {
       message: 'Modifiche salvate',

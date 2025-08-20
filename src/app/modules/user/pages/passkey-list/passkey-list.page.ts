@@ -32,7 +32,7 @@ export class PasskeyListPage {
   readonly #pbcsService = inject(PublicKeyCredentialSourceService);
   readonly #auth = inject(AuthenticationService);
 
-  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.user);
+  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.currentUser);
   protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
 
   protected async register(): Promise<void> {
@@ -43,7 +43,7 @@ export class PasskeyListPage {
   }
 
   protected async unregister(publicKey: PublicKeyCredentialSource): Promise<boolean> {
-    const user = this.#auth.user()!;
+    const user = this.#auth.currentUser()!;
 
     await firstValueFrom(this.#pbcsService.delete(user.id, publicKey.id), { defaultValue: false });
 

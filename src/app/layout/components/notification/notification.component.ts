@@ -1,11 +1,6 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import {
-  Component,
-  afterNextRender,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, afterNextRender, inject, input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -53,16 +48,13 @@ export class NotificationComponent {
     return this.#notificationService.getNotificationCount(team.id);
   }
 
-  protected async install(
-    prompt: BeforeInstallPromptEvent,
-    event: MouseEvent,
-  ): Promise<boolean> {
+  protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
     event.preventDefault();
     await prompt.prompt();
 
     const choice = await prompt.userChoice;
     if (choice.outcome === 'accepted') {
-      this.deferredPrompt = undefined; // Update the signal state
+      this.deferredPrompt.set(undefined); // Update the signal state
 
       return true;
     }

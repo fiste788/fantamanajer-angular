@@ -17,7 +17,6 @@ import { environment } from '@env';
 export const SKIP_URL_PREFIX_CONTEXT = new HttpContextToken<boolean>(() => false);
 export const SKIP_DEFAULT_HEADERS_CONTEXT = new HttpContextToken<boolean>(() => false);
 
-
 // Funzione utility per impostare il prefisso URL
 function applyUrlPrefix(req: HttpRequest<unknown>, prefix: string): HttpRequest<unknown> {
   // Aggiungere un commento per spiegare l'esclusione delle URL /svg (Refactoring suggerito)
@@ -40,12 +39,9 @@ function applyDefaultHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
     headers = headers.set('Accept', 'application/json');
   }
 
-  // Imposta l'header Content-Type per la maggior parte delle richieste non DELETE
   if (!headers.has(contentTypeHeader) && method !== 'DELETE') {
     headers = headers.set(contentTypeHeader, 'application/json');
-  }
-  // Rimuove l'header Content-Type per multipart/form-data (HttpClient lo imposta automaticamente)
-  else if (headers.get(contentTypeHeader) === 'multipart/form-data') {
+  } else if (headers.get(contentTypeHeader) === 'multipart/form-data') {
     headers = headers.delete(contentTypeHeader);
   }
 
@@ -77,9 +73,7 @@ function logRequestDetails(
     responseUrl: response.url ?? '',
     // Aggiungere status code, status text, ecc. perMigliore il log più utile
     status: response.status,
-    statusText: response.statusText
-
-
+    statusText: response.statusText,
   };
 }
 
@@ -90,21 +84,24 @@ export const apiDataTransformerInterceptor: HttpInterceptorFn = (req, next) => {
   const isServer = isPlatformServer(platformId);
 
   // Applica il prefisso URL se non indicato altrimenti nel contesto
-  if (!req.context.get(SKIP_URL_PREFIX_CONTEXT)) { // Utilizzo del nome del token modificato
+  if (!req.context.get(SKIP_URL_PREFIX_CONTEXT)) {
+    // Utilizzo del nome del token modificato
     processedReq = applyUrlPrefix(
       processedReq,
-      isServer ? environment.serverApiEndpoint : environment.apiEndpoint
+      isServer ? environment.serverApiEndpoint : environment.apiEndpoint,
     );
   }
 
   // Applica gli header predefiniti se non indicato altrimenti nel contesto
-  if (!req.context.get(SKIP_DEFAULT_HEADERS_CONTEXT)) { // Utilizzo del nome del token modificato
+  if (!req.context.get(SKIP_DEFAULT_HEADERS_CONTEXT)) {
+    // Utilizzo del nome del token modificato
     processedReq = applyDefaultHeaders(processedReq);
   }
 
   const startTime = new Date();
 
-  return next(processedReq).pipe( // Utilizzo nomenclatura variabile
+  return next(processedReq).pipe(
+    // Utilizzo nomenclatura variabile
     map((event: HttpEvent<unknown>) => {
       if (event instanceof HttpResponse) {
         // Logga i dettagli della richiesta solo sul server (la condizione spostata qui)
@@ -112,7 +109,7 @@ export const apiDataTransformerInterceptor: HttpInterceptorFn = (req, next) => {
           console.log(logRequestDetails(req, event, startTime));
         }
 
-        const body = event.body as ApiResponse | null;
+        const body = event.body as ApiResponse | undefined;
 
         // Logica per estrarre i dati dal corpo della risposta (Refactoring suggerito e commento)
         // Estrae la proprietà 'data' dal corpo della risposta API se la risposta
@@ -124,7 +121,7 @@ export const apiDataTransformerInterceptor: HttpInterceptorFn = (req, next) => {
           // o il body originale se body è null o undefined (gestito dalla condizione if(body)).
           // Considerare un controllo più esplicito se body.data dovrebbe essere sempre definito qui.
           return event.clone({
-            body: body.data !== undefined ? body.data : null, // Assicurati che il body.data possa essere null se appropriato
+            body: body.data, // Assicurati che il body.data possa essere null se appropriato
           });
         }
         // Se la risposta è paginata o non ha la struttura attesa,Migliore l'evento originale

@@ -13,7 +13,9 @@ export class ChampionshipPage {
   readonly #auth = inject(AuthenticationService);
   readonly #app = inject(ApplicationService);
 
-  protected tabs = linkedSignal(() => this.loadTab(this.#auth.user(), this.#app.team()));
+  protected tabs = linkedSignal(() =>
+    this.loadTab(this.#auth.currentUser(), this.#app.currentTeam()),
+  );
 
   protected loadTab(user?: User, team?: Team): Array<Tab> {
     const tabs: Array<Tab> = [

@@ -21,7 +21,7 @@ export default [
       () => {
         const app = inject(ApplicationService);
         const router = inject(Router);
-        const urlTree = router.createUrlTree(['teams', app.requireTeam().id, 'transferts']);
+        const urlTree = router.createUrlTree(['teams', app.requireCurrentTeam().id, 'transferts']);
 
         return new RedirectCommand(urlTree);
       },

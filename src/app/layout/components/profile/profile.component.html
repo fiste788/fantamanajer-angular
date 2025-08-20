@@ -1,4 +1,4 @@
-@if (app.team(); as team) {
+@if (applicationService.currentTeam(); as team) {
   <mat-toolbar>
     @if (team.photo_url) {
       <mat-toolbar-row>
@@ -15,7 +15,7 @@
       </mat-toolbar-row>
     }
     <mat-toolbar-row>
-      @if (auth.user()?.teams; as teams) {
+      @if (authenticationService.currentUser()?.teams; as teams) {
         <mat-form-field appearance="fill">
           <mat-select
             aria-label="Squadra selezionata"

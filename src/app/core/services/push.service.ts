@@ -26,9 +26,8 @@ import {
 } from '@data/services';
 import { PushSubscription, User } from '@data/types';
 import { environment } from '@env';
+
 import { SnackbarNotificationService } from './snackbar-notification.service';
-
-
 
 @Injectable({ providedIn: 'root' })
 export class PushService {

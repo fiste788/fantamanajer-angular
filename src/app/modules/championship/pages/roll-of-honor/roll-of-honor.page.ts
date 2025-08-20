@@ -43,7 +43,7 @@ export class RollOfHonorPage {
       const group = groupBy(
         res,
         (item) =>
-          `${item.roll_of_honor[0]!.team.user.name} ${item.roll_of_honor[0]!.team.user.surname}`,
+          `${item.roll_of_honor_entries[0]!.team.user.name} ${item.roll_of_honor_entries[0]!.team.user.surname}`,
       );
 
       return new Map(

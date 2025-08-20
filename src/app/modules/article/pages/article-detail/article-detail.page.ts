@@ -37,7 +37,7 @@ export class ArticleDetailPage {
   }
 
   protected new(): Observable<Article> {
-    return of({ team_id: this.#app.requireTeam().id } as Article);
+    return of({ team_id: this.#app.requireCurrentTeam().id } as Article);
   }
 
   protected async save(

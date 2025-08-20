@@ -19,28 +19,25 @@ const routes = {
 export class ArticleService {
   readonly #http = inject(HttpClient);
 
-  // Funzione privata per creare i parametri di paginazione (Refactoring suggerito)
-  private createPaginationParams(page: number): HttpParams {
-    return new HttpParams().set('page', `${page}`);
-  }
-
   public getArticles(page = 1): Observable<PagedResponse<Array<Article>>> {
-    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
+    const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
   }
 
-  public getTeamArticles(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> { // Modifica suggerita per la nomenclatura
-    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
+  public getTeamArticles(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {
+    // Modifica suggerita per la nomenclatura
+    const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(routes.teamArticles(teamId), { params });
   }
 
-  public getChampionshipArticles( // Modifica suggerita per la nomenclatura
+  public getChampionshipArticles(
+    // Modifica suggerita per la nomenclatura
     championshipId: number,
     page = 1,
   ): Observable<PagedResponse<Array<Article>>> {
-    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
+    const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(
       routes.championshipArticles(championshipId),
@@ -62,5 +59,10 @@ export class ArticleService {
 
   public delete(id: number): Observable<Record<string, never>> {
     return this.#http.delete<Record<string, never>>(routes.article(id));
+  }
+
+  // Funzione privata per creare i parametri di paginazione (Refactoring suggerito)
+  #createPaginationParams(page: number): HttpParams {
+    return new HttpParams().set('page', `${page}`);
   }
 }

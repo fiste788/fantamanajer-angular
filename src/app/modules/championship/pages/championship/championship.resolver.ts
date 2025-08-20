@@ -5,4 +5,4 @@ import { ApplicationService } from '@app/services';
 import { Championship } from '@data/types';
 
 export const championshipResolver: ResolveFn<Championship | undefined> = () =>
-  inject(ApplicationService).requireTeam().championship;
+  inject(ApplicationService).requireCurrentTeam().championship;

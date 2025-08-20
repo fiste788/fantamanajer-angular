@@ -54,7 +54,7 @@ export class SelectionComponent {
   protected newMembers$ = this.role$.pipe(
     filterNil(),
     switchMap((role) =>
-      this.#memberService.getFree(this.#app.team()!.championship.id, role.id, false),
+      this.#memberService.getFreeMembers(this.#app.currentTeam()!.championship.id, role.id, false),
     ),
   );
 
@@ -74,7 +74,7 @@ export class SelectionComponent {
   }> {
     return forkJoin({
       members: this.getTeamMembers(team),
-      selection: this.#selectionService.getLastOrNewSelection(team.id),
+      selection: this.#selectionService.getLastOrNewTeamSelection(team.id),
     }).pipe(
       map(({ members, selection }) => {
         if (selection.id) {
@@ -95,7 +95,7 @@ export class SelectionComponent {
 
   protected getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
     return this.#memberService
-      .getByTeamId(team.id)
+      .getMembersByTeamId(team.id)
       .pipe(map((data) => this.#roleService.groupMembersByRole(data)));
   }
 
@@ -103,7 +103,7 @@ export class SelectionComponent {
     return this.#route.queryParamMap.pipe(
       map((params) => params.get('new_member_id')),
       filterNil(),
-      switchMap((id) => this.#memberService.getById(+id)),
+      switchMap((id) => this.#memberService.getMemberById(+id)),
     );
   }
 
@@ -113,7 +113,7 @@ export class SelectionComponent {
 
   protected async save(selection: Partial<Selection>): Promise<void> {
     if (this.selectionForm()?.valid) {
-      const team = this.#app.requireTeam();
+      const team = this.#app.requireCurrentTeam();
 
       selection.team_id = team.id;
       selection.old_member_id = selection.old_member?.id ?? 0;
@@ -123,8 +123,8 @@ export class SelectionComponent {
         delete selection.id;
       }
       const save$ = selection.id
-        ? this.#selectionService.update(selection as Selection)
-        : this.#selectionService.create(selection as AtLeast<Selection, 'team_id'>);
+        ? this.#selectionService.updateSelection(selection as Selection)
+        : this.#selectionService.createSelection(selection as AtLeast<Selection, 'team_id'>);
 
       return save(save$, undefined, this.#snackbar, {
         message: 'Selezione salvata correttamento',

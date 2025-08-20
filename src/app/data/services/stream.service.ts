@@ -18,25 +18,24 @@ const routes = {
 export class StreamService {
   readonly #http = inject(HttpClient);
 
-  // Funzione privata per creare HttpParams con paginazione (Refactoring suggerito)
-  private createPaginationParams(page: number): HttpParams {
-    return new HttpParams().set('page', `${page}`);
-  }
-
   // Refactoring: i metodi getBy... utilizzano internamente find
-  public getChampionshipStream(championshipId: number, page = 1): Observable<Stream> { // Modifica suggerita per la nomenclatura
+  public getChampionshipStream(championshipId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
     return this.getStreamByContextAndId('championships', championshipId, page); // Utilizzo del metodo refactorizzato
   }
 
-  public getTeamStream(teamId: number, page = 1): Observable<Stream> { // Modifica suggerita per la nomenclatura
+  public getTeamStream(teamId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
     return this.getStreamByContextAndId('teams', teamId, page); // Utilizzo del metodo refactorizzato
   }
 
-  public getClubStream(clubId: number, page = 1): Observable<Stream> { // Modifica suggerita per la nomenclatura
+  public getClubStream(clubId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
     return this.getStreamByContextAndId('clubs', clubId, page); // Utilizzo del metodo refactorizzato
   }
 
-  public getUserStream(userId: number, page = 1): Observable<Stream> { // Modifica suggerita per la nomenclatura
+  public getUserStream(userId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
     return this.getStreamByContextAndId('users', userId, page); // Utilizzo del metodo refactorizzato
   }
 
@@ -46,7 +45,13 @@ export class StreamService {
     id: number,
     page = 1,
   ): Observable<Stream> {
-    const params = this.createPaginationParams(page); // Utilizzo della funzione refactorizzata
+    const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
+
     return this.#http.get<Stream>(routes.streamByContextAndId(context, id), { params }); // Utilizzo del nome della rotta modificato
+  }
+
+  // Funzione privata per creare HttpParams con paginazione (Refactoring suggerito)
+  #createPaginationParams(page: number): HttpParams {
+    return new HttpParams().set('page', `${page}`);
   }
 }

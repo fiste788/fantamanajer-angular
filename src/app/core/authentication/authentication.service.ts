@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-
 import {
-
-  OnDestroy,
   computed,
   inject,
-
   WritableSignal,
   Injectable,
   linkedSignal, // Importa WritableSignal
-
 } from '@angular/core'; // Aggiunte importazioni mancanti potenziali
 import { ActivatedRoute, Router } from '@angular/router'; // Importa ActivatedRoute e Router
 import { JwtHelperService } from '@auth0/angular-jwt'; // Importa JwtHelperService
@@ -24,7 +18,7 @@ import { ServerAuthInfo } from './server-auth-info.model';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService implements OnDestroy {
+export class AuthenticationService {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
@@ -34,18 +28,22 @@ export class AuthenticationService implements OnDestroy {
   readonly #ADMIN_ROLE = 'ROLE_ADMIN';
   readonly #USER_ROLE = 'ROLE_USER';
 
-  readonly #userIdFromToken = computed(() => this.#extractSubjectFromToken(this.#tokenStorageService.currentToken()));
+  readonly #userIdFromToken = computed(() =>
+    this.#extractSubjectFromToken(this.#tokenStorageService.currentToken()),
+  );
   readonly #userResource = this.#userService.findUserResource(this.#userIdFromToken);
 
-  readonly #currentUserSignal: WritableSignal<User | undefined> = linkedSignal(() => this.#userResource.value(), {
-    equal: (a, b) => a?.id === b?.id,
-  });
+  readonly #currentUserSignal: WritableSignal<User | undefined> = linkedSignal(
+    () => this.#userResource.value(),
+    {
+      equal: (a, b) => a?.id === b?.id,
+    },
+  );
 
   public readonly currentUser = this.#currentUserSignal.asReadonly();
-  public readonly isLoggedIn = computed(() => this.#isTokenValid(this.#tokenStorageService.currentToken()));
-
-  // Proprietà per gestire subscriptions se necessario per OnDestroy
-  // private subscriptions: Subscription[] = [];
+  public readonly isLoggedIn = computed(() =>
+    this.#isTokenValid(this.#tokenStorageService.currentToken()),
+  );
 
   constructor() {
     if (this.#tokenStorageService.currentToken() && !this.isLoggedIn()) {
@@ -53,22 +51,15 @@ export class AuthenticationService implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    // Pulizia delle subscriptions
-    // this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-
   public authenticate(email: string, password: string): Observable<boolean> {
-    return this.#userService
-      .login(email, password)
-      .pipe(
-        switchMap(async (res) => this.handleSuccessfulLogin(res)),
-        catchError((error) => {
-          console.error('Authentication failed:', error);
-          return of(false);
-        })
-      );
+    return this.#userService.login(email, password).pipe(
+      switchMap(async (res) => this.handleSuccessfulLogin(res)),
+      catchError((error: unknown) => {
+        console.error('Authentication failed:', error);
+
+        return of(false);
+      }),
+    );
   }
 
   public async authenticatePasskey(
@@ -76,7 +67,7 @@ export class AuthenticationService implements OnDestroy {
   ): Promise<boolean> {
     try {
       if (supported()) {
-        const res = await this.#webauthnService.startAuthentication(mediation)
+        const res = await this.#webauthnService.startAuthentication(mediation);
 
         if (res) {
           return await this.handleSuccessfulLogin(res);
@@ -84,6 +75,7 @@ export class AuthenticationService implements OnDestroy {
       }
     } catch (error) {
       console.error('Error during passkey process:', error);
+
       return false;
     }
 
@@ -108,28 +100,28 @@ export class AuthenticationService implements OnDestroy {
 
   async #setLocalSessionFromToken(token: string): Promise<void> {
     try {
-      await firstValueFrom(
-        this.#userService.setLocalSession(this.#prepareServerAuthInfo(token)),
-        { defaultValue: undefined }
-      );
+      await firstValueFrom(this.#userService.setLocalSession(this.#prepareServerAuthInfo(token)), {
+        defaultValue: undefined,
+      });
     } catch (error) {
       console.error('Failed to set local session:', error);
       throw error;
     }
   }
 
-  #navigateToPostLogin(user: User): Promise<boolean> {
+  async #navigateToPostLogin(user: User): Promise<boolean> {
     const url = this.#getPostLoginRedirectUrl(user);
+
     return this.#router.navigateByUrl(url);
   }
-
 
   public async logout(): Promise<unknown> {
     return firstValueFrom(
       this.#userService.logout().pipe(
         switchMap(() => this.#userService.deleteLocalSession()),
-        catchError((error) => {
+        catchError((error: unknown) => {
           console.error('Logout API or local session deletion failed:', error);
+
           return EMPTY;
         }),
         finalize(() => this.logoutUI()),
@@ -164,6 +156,7 @@ export class AuthenticationService implements OnDestroy {
     if (!token || this.#jwtHelper.isTokenExpired(token)) {
       return undefined;
     }
+
     return this.#jwtHelper.decodeToken<{ sub: number }>(token)?.sub;
   }
 
@@ -172,12 +165,14 @@ export class AuthenticationService implements OnDestroy {
     if (user.admin) {
       roles.push(this.#ADMIN_ROLE);
     }
+
     return roles;
   }
 
   #prepareServerAuthInfo(token: string): ServerAuthInfo {
     const expirationDate = this.#jwtHelper.getTokenExpirationDate(token);
     const expiresAt = expirationDate?.getTime() ?? 0;
+
     return {
       accessToken: token,
       expiresAt,
@@ -193,6 +188,7 @@ export class AuthenticationService implements OnDestroy {
       return `/championships/${user.teams[0].championship.id}`;
     }
     console.warn('Could not determine redirect URL after login, navigating to root.');
+
     return '/';
   }
 }

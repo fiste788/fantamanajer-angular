@@ -1,8 +1,8 @@
-import { inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, inject, PLATFORM_ID } from '@angular/core';
 import { IsActiveMatchOptions, Router, ViewTransitionInfo } from '@angular/router';
+
 import { CurrentTransitionService } from '@app/services';
-
-
 
 // Definizione di costanti per le classi CSS (Refactoring suggerito)
 const DIRECTION_LEFT_CLASS = 'direction-left';
@@ -18,9 +18,10 @@ const SKIP_TRANSITION_MATCH_OPTIONS: IsActiveMatchOptions = {
   queryParams: 'ignored',
 };
 
-
 export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   const currentTransitionService = inject(CurrentTransitionService);
+  const document = inject(DOCUMENT);
+  const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   const router = inject(Router);
   const currentNavigation = router.getCurrentNavigation();
 
@@ -32,9 +33,9 @@ export function onViewTransitionCreated(info: ViewTransitionInfo): void {
     console.warn('Could not get target URL for view transition.');
     // Decidere se saltare la transizione o gestirla diversamente in questo caso
     info.transition.skipTransition();
+
     return; // Usciamo dalla funzione
   }
-
 
   // Skip the transition if the only thing
   // changing is the fragment and queryParams
@@ -53,12 +54,14 @@ export function onViewTransitionCreated(info: ViewTransitionInfo): void {
     void info.transition.finished.finally(() => {
       currentTransitionService.currentTransition.set(undefined);
       // Utilizzo delle costanti per la rimozione delle classi CSS (Refactoring suggerito)
-      document.documentElement.classList.remove(
-        DIRECTION_LEFT_CLASS,
-        DIRECTION_RIGHT_CLASS,
-        LIST_TO_DETAIL_CLASS,
-        DETAIL_TO_LIST_CLASS,
-      );
+      if (isBrowser) {
+        document.documentElement.classList.remove(
+          DIRECTION_LEFT_CLASS,
+          DIRECTION_RIGHT_CLASS,
+          LIST_TO_DETAIL_CLASS,
+          DETAIL_TO_LIST_CLASS,
+        );
+      }
     });
   }
 }

@@ -1,12 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import {
-  Injectable,
-  Signal,
-  effect,
-  inject,
-  signal,
-  linkedSignal,
-} from '@angular/core';
+import { Injectable, Signal, inject, signal, linkedSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
@@ -47,16 +40,44 @@ export class LayoutService {
   public readonly navigationMode = toSignal(this.#navigationMode$, {
     requireSync: true,
   });
-  public readonly openDrawer = linkedSignal(
-    () => this.navigationMode() === 'drawer',
-  );
-  public readonly showBars = linkedSignal(() =>
-    this.navigationMode() !== 'bar' ||
-      this.#scrollService.direction() === Direction.Up
+  public readonly openDrawer = linkedSignal(() => {
+    const navigationMode = this.navigationMode();
+    const navigationStart = this.navigationStart();
+
+    // Gestisce la logica precedentemente nell'effect
+    if (navigationStart !== undefined) {
+      return navigationMode === 'drawer';
+    }
+
+    return navigationMode === 'drawer';
+  });
+
+  public readonly showBars = linkedSignal(() => {
+    const navigationMode = this.navigationMode();
+    const direction = this.#scrollService.direction();
+    const isRouteChanged = this.routeContextChanged();
+
+    // Gestisce la logica precedentemente nell'effect
+    if (navigationMode === 'bar' && isRouteChanged) {
+      return VisibilityState.Visible;
+    }
+
+    return navigationMode !== 'bar' || direction === Direction.Up
       ? VisibilityState.Visible
-      : VisibilityState.Hidden,
-  );
-  public readonly openFab = signal(false);
+      : VisibilityState.Hidden;
+  });
+
+  public readonly openFab = linkedSignal(() => {
+    const navigationMode = this.navigationMode();
+    const direction = this.#scrollService.direction();
+
+    // Gestisce la logica precedentemente nell'effect
+    if (navigationMode === 'bar' && direction === Direction.Down) {
+      return false;
+    }
+
+    return false;
+  });
   public readonly routeContextChanged = this.#isRouteContextChanged();
   public readonly navigationStart = this.#getNavigationStart(); // Renamed method for clarity
   public readonly skeletonColors = signal({
@@ -64,27 +85,6 @@ export class LayoutService {
     background: '#ffb1c1',
   });
   public stable = this.#isStable();
-
-  constructor() {
-    effect(() => {
-      if (this.navigationStart() !== undefined) {
-        this.closeDrawer();
-      }
-    });
-    effect(() => {
-      if (
-        this.navigationMode() === 'bar' &&
-        this.#scrollService.direction() === Direction.Down
-      ) {
-        this.openFab.set(false);
-      }
-    });
-    effect(() => {
-      if (this.navigationMode() === 'bar' && this.routeContextChanged()) {
-        this.showBars.set(VisibilityState.Visible);
-      }
-    });
-  }
 
   public closeDrawer(): void {
     if (this.navigationMode() !== 'drawer') {
@@ -119,8 +119,7 @@ export class LayoutService {
         pairwise(),
         map(
           ([pre, post]) =>
-            pre.urlAfterRedirects.split('/')[1] !==
-            post.urlAfterRedirects.split('/')[1],
+            pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1],
         ),
       ),
       { initialValue: false },
@@ -143,11 +142,8 @@ export class LayoutService {
 
   // Renamed method for clarity
   #getNavigationStart(): Signal<NavigationStart | undefined> {
-    return toSignal(
-      this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)),
-      {
-        initialValue: undefined,
-      },
-    );
+    return toSignal(this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)), {
+      initialValue: undefined,
+    });
   }
 }

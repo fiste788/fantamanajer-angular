@@ -81,7 +81,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     }
     this.#fetchedPages.add(page);
 
-    return this.#streamService.find(this.name, this.id, page).pipe(
+    return this.#streamService.getStreamByContextAndId(this.name, this.id, page).pipe(
       map((data) => data.results),
       map((res) => {
         this.#cachedData = [...this.#cachedData.filter((cd) => cd !== undefined), ...res];

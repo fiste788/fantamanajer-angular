@@ -9,7 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "npm run lint:scss && npm run prettier && npm run lint:ts",
-    "lint:fix": "npm run lint:scss:fix && npm run prettier:fix && npm run lint:ts:fix",
+    "lint:fix": "npm run prettier:fix && npm run lint:ts:fix && npm run lint:scss:fix",
     "lint:ts": "ng lint",
     "lint:ts:fix": "ng lint --fix",
     "lint:scss": "stylelint \"src/**/*.scss\"",
@@ -47,13 +47,15 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^20.0.0",
+    "@angular-eslint/builder": "20.1.1",
     "@angular/build": "^20.1.6",
     "@angular/cli": "^20.1.6",
     "@angular/compiler-cli": "^20.1.7",
+    "@eslint/js": "^9.29.0",
     "@types/html-minifier": "^4.0.5",
     "@types/node": "^22.17.2",
     "angular-eslint": "^20.1.1",
-    "browserslist": "^4.25.2",
+    "browserslist": "^4.25.3",
     "eslint": "^9.33.0",
     "eslint-config-angular-strict": "^1.1.5",
     "eslint-config-prettier": "^10.1.8",
@@ -69,13 +71,13 @@
     "stylelint-browser-compat": "^1.0.0-beta.173",
     "stylelint-config-standard": "^39.0.0",
     "stylelint-config-standard-scss": "^15.0.1",
-    "stylelint-plugin-use-baseline": "^0.8.1",
+    "stylelint-plugin-use-baseline": "^0.8.2",
     "stylelint-prettier": "^5.0.3",
     "stylelint-scss": "^6.12.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.39.1",
-    "wrangler": "^4.30.0"
+    "typescript-eslint": "^8.40.0",
+    "wrangler": "^4.31.0"
   },
   "volta": {
     "node": "22.16.0"

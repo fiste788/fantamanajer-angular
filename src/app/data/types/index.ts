@@ -12,7 +12,6 @@ export * from './lineup.model';
 export * from './matchday.model';
 export * from './member-option.model';
 export * from './member.model';
-export * from './module.model';
 export * from './notification-subscription.model';
 export * from './notification.model';
 export * from './paged-response';

@@ -35,25 +35,29 @@ export class LineupService {
     return cleanedLineup;
   }
 
-  public getCurrentTeamLineup(teamId: number): Observable<EmptyLineup> { // Modifica suggerita per la nomenclatura
+  public getCurrentTeamLineup(teamId: number): Observable<EmptyLineup> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<EmptyLineup>(routes.currentTeamLineup(teamId), { params: { v: '2' } });
   }
 
-  public updateLineup(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'> > { // Modifica suggerita per la nomenclatura
-    return this.#http.put<Pick<Lineup, 'id'> >(
+  public updateLineup(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.put<Pick<Lineup, 'id'>>(
       routes.updateLineup(lineup.team.id, lineup.id), // Utilizzo del nome della rotta modificato
       LineupService.prepareLineupForApi(lineup), // Utilizzo del nome del metodo modificato
     );
   }
 
-  public createLineup(lineup: AtLeast<Lineup, 'team'>): Observable<AtLeast<Lineup, 'id'> > { // Modifica suggerita per la nomenclatura
+  public createLineup(lineup: AtLeast<Lineup, 'team'>): Observable<AtLeast<Lineup, 'id'>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.post<Lineup>(
       routes.teamLineups(lineup.team.id), // Utilizzo del nome della rotta modificato
       LineupService.prepareLineupForApi(lineup), // Utilizzo del nome del metodo modificato
     );
   }
 
-  public getLikelyLineup(lineup: EmptyLineup): Observable<Array<Member>> { // Modifica suggerita per la nomenclatura
+  public getLikelyLineup(lineup: EmptyLineup): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<Array<Member>>(routes.likelyLineup(lineup.team.id)); // Utilizzo del nome della rotta modificato
   }
 }

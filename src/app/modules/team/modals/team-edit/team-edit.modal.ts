@@ -59,7 +59,7 @@ export class TeamEditModal {
       fd.append(it.name, it.value);
 
     return firstValueFrom(
-      this.#teamService.upload(this.team.id, fd).pipe(
+      this.#teamService.uploadTeamPhoto(this.team.id, fd).pipe(
         tap((team) => (this.team.photo_url = team.photo_url)),
         map(async () => {
           await this.app.changeTeam(this.team);

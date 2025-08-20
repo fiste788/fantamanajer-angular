@@ -25,14 +25,16 @@ export class NotificationService {
   }
 
   public getNotificationCount(teamId: number): Observable<Stream> {
-    return this.#http.get<Stream>(routes.teamNotificationCount(teamId)).pipe( // Utilizzo della rotta centralizzata
+    return this.#http.get<Stream>(routes.teamNotificationCount(teamId)).pipe(
+      // Utilizzo della rotta centralizzata
       tap((s) => {
         void this.#navigator.setAppBadge?.(s.unseen);
       }),
     );
   }
 
-  public setNotification(title: string, uri: string, severity?: number): void { // Modifica suggerita per la nomenclatura del metodo
+  public setNotification(title: string, uri: string, severity?: number): void {
+    // Modifica suggerita per la nomenclatura del metodo
     this.latestNotification.set({ title, url: uri, severity: severity ?? 0 }); // Utilizzo del nome del signal modificato
   }
 }

@@ -14,5 +14,5 @@ export class ClubMembersPage {
   protected club = getRouteDataSignal<Club>('club');
   protected clubId = computed(() => this.club().id);
 
-  protected readonly members = this.#clubService.getByClubIdResource(this.clubId);
+  protected readonly members = this.#clubService.getMembersByClubIdResource(this.clubId);
 }

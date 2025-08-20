@@ -15,11 +15,13 @@ const routes = {
 export class TransfertService {
   readonly #http = inject(HttpClient);
 
-  public getTeamTransferts(teamId: number): Observable<Array<Transfer>> { // Modifica suggerita per la nomenclatura
+  public getTeamTransferts(teamId: number): Observable<Array<Transfer>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<Array<Transfer>>(routes.teamTransferts(teamId)); // Utilizzo del nome della rotta modificato
   }
 
-  public createTransfert(transfert: Partial<Transfer>): Observable<Partial<Transfer>> { // Modifica suggerita per la nomenclatura
+  public createTransfert(transfert: Partial<Transfer>): Observable<Partial<Transfer>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.post<Transfer>(routes.adminTransfertsCollection, transfert); // Utilizzo del nome della rotta modificato
   }
 }

@@ -52,7 +52,7 @@ export class MemberFreePage {
 
   #getMembers(role$: Observable<Role>): Observable<Array<Member>> {
     return combineLatest([role$, this.#championship$]).pipe(
-      switchMap(([role, c]) => this.#memberService.getFree(c.id, role.id)),
+      switchMap(([role, c]) => this.#memberService.getFreeMembers(c.id, role.id)),
     );
   }
 }

@@ -61,16 +61,11 @@ export class ProfileComponent {
     return t1.id === t2.id;
   }
 
-  protected async openDialog(
-    event: Event,
-    team_id: number,
-  ): Promise<boolean | undefined> {
+  protected async openDialog(event: Event, team_id: number): Promise<boolean | undefined> {
     event.stopPropagation();
     this.#layoutService.closeDrawer();
 
-    const { TeamEditModal } = await import(
-      '@modules/team/modals/team-edit/team-edit.modal'
-    );
+    const { TeamEditModal } = await import('@modules/team/modals/team-edit/team-edit.modal');
 
     return firstValueFrom(
       this.#teamService.getTeamById(team_id).pipe(

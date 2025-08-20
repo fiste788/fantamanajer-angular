@@ -50,9 +50,8 @@ import routes from './app.routes';
 registerLocaleData(localeIt, 'it');
 
 // Extracted IMAGE_LOADER logic into a named function
-const customImageLoader = (config: ImageLoaderConfig) => {
-  const path =
-    (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+const customImageLoader = (config: ImageLoaderConfig): string => {
+  const path = (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
 
   return path.startsWith(environment.apiEndpoint)
     ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
@@ -84,7 +83,11 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors([apiDataTransformerInterceptor, authenticationInterceptor, httpErrorInterceptor]),
+      withInterceptors([
+        apiDataTransformerInterceptor,
+        authenticationInterceptor,
+        httpErrorInterceptor,
+      ]),
     ),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

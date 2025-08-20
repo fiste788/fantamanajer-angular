@@ -33,16 +33,16 @@ export class SettingsPage {
   readonly #userService = inject(UserService);
   readonly #pushService = inject(PushService);
 
-  protected readonly user = this.#auth.user;
+  protected readonly user = this.#auth.currentUser;
   protected readonly push$ = this.#pushService.isSubscribed();
   protected readonly enabled = this.#pushService.isEnabled();
   protected repeatPassword = '';
 
   protected async save(user: User): Promise<void> {
     if (user.password === this.repeatPassword) {
-      await firstValueFrom(this.#userService.update(user), { defaultValue: undefined });
+      await firstValueFrom(this.#userService.updateUser(user), { defaultValue: undefined });
 
-      this.#auth.reload();
+      this.#auth.reloadCurrentUser();
       this.#snackBar.open('Modifiche salvate');
     }
 

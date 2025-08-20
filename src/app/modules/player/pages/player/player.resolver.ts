@@ -10,7 +10,7 @@ export const playerResolver: ResolveFn<Player | undefined> = (route) => {
   const app = inject(ApplicationService);
   const ps = inject(PlayerService);
   if (playerId !== null) {
-    return ps.getPlayer(+playerId, app.team()?.championship.id);
+    return ps.getPlayer(+playerId, app.currentTeam()?.championship.id);
   }
 
   return undefined;

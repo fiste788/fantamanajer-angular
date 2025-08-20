@@ -26,7 +26,7 @@ export class NavigationDrawerComponent {
 
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly navigationMode = this.#layoutService.navigationMode;
-  protected readonly team = inject(ApplicationService).team;
+  protected readonly team = inject(ApplicationService).currentTeam;
 
   protected clickNav(): void {
     this.#layoutService.toggleDrawer();

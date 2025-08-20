@@ -32,11 +32,11 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
 export class HomePage {
   readonly #memberService = inject(MemberService);
 
-  protected matchday = inject(ApplicationService).matchday;
-  protected readonly getBestResource = this.#memberService.getBestResource(this.matchday);
+  protected matchday = inject(ApplicationService).currentMatchday;
+  protected readonly getBestResource = this.#memberService.getBestMembersResource(this.matchday);
   protected roleService = inject(RoleService);
   protected roles = this.roleService.list();
   protected bestPlayers = computed(() =>
-    groupBy(this.getBestResource.value(), (member) => this.roleService.get(member.role_id)),
+    groupBy(this.getBestResource.value(), (member) => this.roleService.getRoleById(member.role_id)),
   );
 }

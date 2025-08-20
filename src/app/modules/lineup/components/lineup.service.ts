@@ -3,7 +3,7 @@ import { EventEmitter, Injectable, inject } from '@angular/core';
 
 import { flatGroupBy } from '@app/functions';
 import { RoleService } from '@data/services';
-import { Disposition, EmptyLineup, Member, MemberOption, Module, Role } from '@data/types';
+import { Disposition, EmptyLineup, Member, MemberOption, Role } from '@data/types';
 import { environment } from '@env';
 
 @Injectable({
@@ -22,8 +22,8 @@ export class LineupService {
     ['VVC', 'vvcaptain_id'],
   ]);
 
-  public modules?: Array<Module>;
-  public selectedModule?: Module;
+  public modules?: Array<string>;
+  public selectedModule?: string;
   public benchs?: Array<number>;
   public captainables?: Array<MemberOption>;
   public membersByRole?: Map<Role, Array<Member>>;
@@ -58,10 +58,6 @@ export class LineupService {
     return this.lineup;
   }
 
-  public moduleChange(): void {
-    this.lineup.module = this.selectedModule?.key;
-  }
-
   public memberSelectionChange(role: Role, member?: Member): void {
     this.#reloadBenchwarmerState();
     if (['P', 'D'].includes(role.abbreviation)) {
@@ -88,10 +84,8 @@ export class LineupService {
   }
 
   #loadModules(): void {
-    this.modules = this.lineup.modules.map((mod) => new Module(mod, this.#roleService.list()));
-    const module = this.modules.find((e) => e.key === this.lineup.module);
-    this.selectedModule = module ?? this.modules[0];
-    this.moduleChange();
+    this.modules = this.lineup.modules;
+    this.lineup.module ??= this.modules[0];
   }
 
   #loadDispositions(lineup: EmptyLineup): Array<Disposition> {

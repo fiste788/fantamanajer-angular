@@ -26,11 +26,14 @@ export function getUnprocessableEntityErrors(
     // Tentativo di tipizzare la risposta di errore come una UnprocessableEntityErrorResponse
     // o come un oggetto con una struttura data.errors che contenga gli errori di validazione.
     // Utilizziamo un approccio più flessibile dato che la struttura potrebbe variare.
-    const errorResponseData = (err.error as any)?.data;
+    const errorResponse = err.error as {
+      data?: { errors?: Record<string, Record<string, unknown>> };
+    } | null;
+    const errorResponseData = errorResponse?.data;
 
     // Verifichiamo che errorResponseData esista e contenga una proprietà 'errors' che è un oggetto
     if (errorResponseData && typeof errorResponseData.errors === 'object') {
-      const validationErrors = errorResponseData.errors as Record<string, any>; // Tipizzazione più generica per i valori degli errori
+      const validationErrors = errorResponseData.errors;
 
       const formControls = form.controls as Record<string, AbstractControl>; // Accesso ai controlli del form
 
@@ -46,7 +49,10 @@ export function getUnprocessableEntityErrors(
         } else {
           // Opzionale: loggare un avviso se un errore di validazione del backend
           // si riferisce a un controllo del form che non esiste nel frontend.
-          console.warn(`Backend validation error for unknown form control: ${controlName}`, errorDetails);
+          console.warn(
+            `Backend validation error for unknown form control: ${controlName}`,
+            errorDetails,
+          );
         }
       }
     } else {
@@ -62,7 +68,6 @@ export function getUnprocessableEntityErrors(
     // presumendo che venga gestito altrove (es. dall'operatore catchError calling this function).
     // console.log('Ignoring non-HttpErrorResponse in getUnprocessableEntityErrors');
   }
-
 
   return EMPTY; // Restituisce un observable vuoto
 }

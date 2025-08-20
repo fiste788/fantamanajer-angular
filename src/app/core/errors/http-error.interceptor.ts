@@ -7,9 +7,9 @@ import {
 import { inject } from '@angular/core';
 import { EMPTY, catchError } from 'rxjs';
 
+import { SnackbarNotificationService } from '@app/services';
 import { ErrorResponse, ApiError } from '@data/types'; // Utilizzo di ApiError
 import { environment } from '@env';
-import { SnackbarNotificationService } from '@app/services';
 
 // Modifica suggerita per la nomenclatura del HttpContextToken
 const SKIP_ERROR_HANDLING_CONTEXT = new HttpContextToken<boolean>(() => false);
@@ -53,7 +53,6 @@ function extractErrorMessage(err: HttpErrorResponse, apiError?: ApiError | null)
   // Si potrebbero aggiungere ulteriori logiche per estrarre messaggi da strutture di errore diverse
   // o fornire un messaggio di fallback generico.
 }
-
 
 // Modifica suggerita per la nomenclatura della funzione
 export function skipErrorHandling(context?: HttpContext): HttpContext {

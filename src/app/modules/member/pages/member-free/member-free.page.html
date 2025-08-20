@@ -1,4 +1,4 @@
-@let members = members$ | async; @let team = app.team();
+@let members = members$ | async; @let team = app.currentTeam();
 <div class="table-container">
   <div class="mat-mdc-table-header flex flex-row">
     <span class="mat-mdc-table-title">Seleziona per acquistarlo</span>
@@ -10,7 +10,7 @@
         [(ngModel)]="role"
       >
         @for (role of (roles); track role.id) {
-        <mat-option [value]="role"> {{role.singolar}} </mat-option>
+        <mat-option [value]="role"> {{role.singular}} </mat-option>
         }
       </mat-select>
     </mat-form-field>

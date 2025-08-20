@@ -23,26 +23,11 @@ const routes = {
 export class UserService {
   readonly #http = inject(HttpClient);
 
-  // Funzione privata per "pulire" l'oggetto utente per l'API (Refactoring suggerito)
-  private prepareUserForUpdate(user: User): Partial<User> {
-    const userForUpdate: Partial<User> = { ...user };
-    delete userForUpdate.teams; // Rimuove la proprietà teams
-
-    // Considerare se ci sono altre proprietà che non dovrebbero essere inviate durante l'aggiornamento
-    // delete userForUpdate.someOtherProperty;
-
-    return userForUpdate;
-  }
-
-  // Funzione privata per creare il contesto HTTP per le operazioni locali (Refactoring suggerito)
-  private getLocalSessionContext(): HttpContext {
-    return skipUrlPrefix(skipAuthInterceptor(skipErrorHandling()));
-  }
-
-
-  public findUserResource(id: () => number | undefined): HttpResourceRef<User | undefined> { // Modifica suggerita per la nomenclatura
+  public findUserResource(id: () => number | undefined): HttpResourceRef<User | undefined> {
+    // Modifica suggerita per la nomenclatura
     return httpResource(() => {
       const userId = id();
+
       return userId === undefined ? undefined : routes.userById(userId); // Utilizzo del nome della rotta modificato
     });
   }
@@ -62,8 +47,9 @@ export class UserService {
     return this.#http.get<Record<string, never>>(routes.logout, { context: skipErrorHandling() });
   }
 
-  public updateUser(user: User): Observable<User> { // Modifica suggerita per la nomenclatura
-    const userForUpdate = this.prepareUserForUpdate(user); // Utilizzo della funzione refactorizzata
+  public updateUser(user: User): Observable<User> {
+    // Modifica suggerita per la nomenclatura
+    const userForUpdate = this.#prepareUserForUpdate(user); // Utilizzo della funzione refactorizzata
 
     // Assumendo che l'API PUT restituisca l'oggetto utente aggiornato o l'ID
     // Se l'API restituisce l'oggetto utente aggiornato, non è necessario mappare a () => user
@@ -72,23 +58,41 @@ export class UserService {
     return this.#http.put<User>(routes.userById(user.id), userForUpdate).pipe(map(() => user)); // Utilizzo del nome della rotta e dei dati preparati
   }
 
-  public getCurrentUser(): Observable<User> { // Modifica suggerita per la nomenclatura
+  public getCurrentUser(): Observable<User> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<User>(routes.currentUser); // Utilizzo del nome della rotta modificato
   }
 
-  public getUserById(id: number): Observable<User> { // Modifica suggerita per la nomenclatura
+  public getUserById(id: number): Observable<User> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<User>(routes.userById(id)); // Utilizzo del nome della rotta modificato
   }
 
   public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
     return this.#http.post<Record<string, never>>(routes.setLocalSession, data, {
-      context: this.getLocalSessionContext(), // Utilizzo della funzione refactorizzata
+      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
   }
 
   public deleteLocalSession(): Observable<Record<string, never>> {
     return this.#http.post<Record<string, never>>(routes.deleteLocalSession, undefined, {
-      context: this.getLocalSessionContext(), // Utilizzo della funzione refactorizzata
+      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
+  }
+
+  // Funzione privata per "pulire" l'oggetto utente per l'API (Refactoring suggerito)
+  #prepareUserForUpdate(user: User): Partial<User> {
+    const userForUpdate: Partial<User> = { ...user };
+    delete userForUpdate.teams; // Rimuove la proprietà teams
+
+    // Considerare se ci sono altre proprietà che non dovrebbero essere inviate durante l'aggiornamento
+    // delete userForUpdate.someOtherProperty;
+
+    return userForUpdate;
+  }
+
+  // Funzione privata per creare il contesto HTTP per le operazioni locali (Refactoring suggerito)
+  #getLocalSessionContext(): HttpContext {
+    return skipUrlPrefix(skipAuthInterceptor(skipErrorHandling()));
   }
 }

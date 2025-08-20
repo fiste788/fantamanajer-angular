@@ -8,5 +8,7 @@ import { Team } from '@data/types';
 export const teamsResolver: ResolveFn<Array<Team> | undefined> = (route) => {
   const championshipId = getRouteParam<string>('championship_id', route);
 
-  return championshipId === undefined ? undefined : inject(TeamService).getTeams(+championshipId);
+  return championshipId === undefined
+    ? undefined
+    : inject(TeamService).getChampionshipTeams(+championshipId);
 };

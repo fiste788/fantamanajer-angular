@@ -14,7 +14,7 @@ export function filterNavigationMode<T>(
 ): UnaryFunction<Observable<T>, Observable<T>> {
   return pipe(
     // Tipizzazione corretta: emette un array [valore_sorgente, ultimo_valore_di_obs]
-    withLatestFrom<T, string[]>(obs),
+    withLatestFrom<T, Array<string>>(obs),
     // Utilizza i nomi delle variabili nel filter
     filter(([latestMode]) => latestMode === val),
     // Utilizza i nomi delle variabili nel map

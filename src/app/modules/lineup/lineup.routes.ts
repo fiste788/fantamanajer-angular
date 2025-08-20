@@ -30,7 +30,7 @@ export default [
 
             const urlTree = router.createUrlTree([
               'teams',
-              app.requireTeam().id,
+              app.requireCurrentTeam().id,
               'lineup',
               'current',
             ]);

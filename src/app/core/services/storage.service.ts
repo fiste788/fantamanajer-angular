@@ -7,7 +7,8 @@ import { CookieStorage } from './cookie-storage.service';
   providedIn: 'root',
 })
 // Modifica suggerita per la nomenclatura della classe
-export class StorageService implements Storage { // Cambiato nome classe
+export class StorageService implements Storage {
+  // Cambiato nome classe
   readonly #storage: Storage = isPlatformBrowser(inject(PLATFORM_ID))
     ? localStorage
     : inject(CookieStorage);

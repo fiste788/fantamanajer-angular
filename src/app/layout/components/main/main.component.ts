@@ -8,6 +8,7 @@ import {
   effect,
   afterNextRender,
   DOCUMENT,
+  untracked,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -54,16 +55,16 @@ export class MainComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #document = inject<Document>(DOCUMENT);
 
-  // Simplified type definition for topAppBarRef
-  protected topAppBarRef = viewChild.required<ElementRef<HTMLElement>>(
-    'topBar',
+  protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
+    TopAppBarComponent,
+    {
+      read: ElementRef,
+    },
   );
 
   protected readonly isStable = this.#layoutService.stable; // Renamed from stable
   protected readonly navigationMode = this.#layoutService.navigationMode;
-  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(
-    delay(100),
-  );
+  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
   protected readonly showBars = this.#layoutService.showBars;
   protected readonly hidden = VisibilityState.Hidden;
@@ -75,10 +76,13 @@ export class MainComponent {
       this.#setSkeletonColors();
     });
     effect(() => {
-      if (this.#layoutService.routeContextChanged()) {
-        const offset = this.topAppBarRef().nativeElement.clientHeight;
-        this.#scrollService.offset?.set(offset);
-      }
+      const isRouteChanged = this.#layoutService.routeContextChanged();
+      const topAppBarRef = this.topAppBarRef();
+      untracked(() => {
+        if (isRouteChanged) {
+          this.#scrollService.offset.set(topAppBarRef.nativeElement.clientHeight);
+        }
+      });
     });
   }
 

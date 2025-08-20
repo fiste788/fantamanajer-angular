@@ -15,7 +15,6 @@ export class TokenStorageService {
   // Modifica suggerita per la nomenclatura della proprietà pubblica
   public readonly currentToken = this.#currentTokenSignal.asReadonly();
 
-
   public setToken(token: string): void {
     this.#localStorage.setItem(this.#TOKEN_ITEM_NAME, token);
     this.#currentTokenSignal.set(token); // Utilizzo del nome del signal modificato

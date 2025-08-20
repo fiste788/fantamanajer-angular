@@ -15,7 +15,7 @@ export async function save<T, R>(
   observable$: Observable<T>,
   defaultValue: R,
   snackbar: MatSnackBar,
-  options?: SaveOptions<T, R>
+  options?: SaveOptions<T, R>,
 ): Promise<R> {
   const saveOperation$ = observable$.pipe(
     tap(() => {
@@ -28,7 +28,7 @@ export async function save<T, R>(
       // Chiama la funzione che restituisce un Observable<R>
       return handleSaveCallbackObservable(result, options?.callback, defaultValue);
     }),
-    catchUnprocessableEntityErrors(options?.form)
+    catchUnprocessableEntityErrors(options?.form),
   );
 
   // firstValueFrom si aspetta Observable<R> e lo converte in Promise<R>
@@ -36,12 +36,13 @@ export async function save<T, R>(
 }
 
 // Refactoring: funzione privata per gestire la callback di salvataggio e restituire Observable<R>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function handleSaveCallbackObservable<T, R>(
   result: T,
   callback?: (res: T) => Observable<R> | Promise<R> | R,
-  defaultValue?: R
-): Observable<R> { // Questa funzione ora restituisce Observable<R>
+  defaultValue?: R,
+): Observable<R> {
+  // Questa funzione ora restituisce Observable<R>
   if (callback) {
     const callbackResult = callback(result);
     // Gestisce Observable, Promise o valore diretto e li trasforma in Observable

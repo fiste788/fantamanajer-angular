@@ -1,8 +1,8 @@
 @if (dispositions(); as _dispositions) {
   @let _captain = captain();
 
-  @for (area of module().areas; track area.role.id) {
-    @let label = area.toIndex - area.fromIndex > 1 ? area.role.plural : area.role.singolar;
+  @for (area of areas(); track area.role.id) {
+    @let label = area.toIndex - area.fromIndex > 1 ? area.role.plural : area.role.singular;
     <div
       class="flex flex-row"
       ngModelGroup="dispositions"
@@ -29,7 +29,7 @@
                 [disabled]="disabled()"
                 [height]="450"
                 [memberList]="area.options"
-                [placeholder]="area.role.singolar"
+                [placeholder]="area.role.singular"
                 [width]="320"
                 [(member)]="disp.member"
                 (memberChange)="memberSelectionChange(area.role, $event)"

@@ -55,12 +55,13 @@ export class RankingPage {
       filter((ranking) => ranking.length > 0),
       map((ranking) => ranking[0]?.scores),
       filterNil(),
+      // eslint-disable-next-line unicorn/no-array-reverse
       map((scores) => Object.keys(scores).reverse()),
     );
   }
 
   protected getRanking(championshipId: number): Observable<Array<RankingPosition>> {
-    return this.#scoreService.getRanking(championshipId);
+    return this.#scoreService.getChampionshipRanking(championshipId);
   }
 
   protected trackRanking(idx: number): number {

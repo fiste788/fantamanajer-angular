@@ -1,4 +1,10 @@
-import { HttpClient, HttpHeaders, httpResource, HttpResourceRef, HttpContext } from '@angular/common/http'; // Importare HttpContext
+import {
+  HttpClient,
+  HttpHeaders,
+  httpResource,
+  HttpResourceRef,
+  HttpContext,
+} from '@angular/common/http'; // Importare HttpContext
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -21,38 +27,41 @@ class HackyHttpHeaders extends HttpHeaders {
   }
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class MatchdayService {
   readonly #http = inject(HttpClient);
-
-  // Funzione privata perMigliore il contesto e gli headers HTTP comuni (Refactoring suggerito)
-  private getRequestOptions(): { headers: HttpHeaders, context: HttpContext, withCredentials: false } {
-    return {
-      headers: this.getHackyHttpHeaders(),
-      context: skipErrorHandling(skipAuthInterceptor(skipDefaultHeaders())),
-      withCredentials: false,
-    };
-  }
-
 
   public getCurrentMatchdayResource(): HttpResourceRef<Matchday | undefined> {
     return httpResource(
       () => ({
         url: routes.current,
-        ...this.getRequestOptions(), // Utilizzo della funzione refactorizzata
+        ...this.#getRequestOptions(), // Utilizzo della funzione refactorizzata
       }),
       { equal: (a, b) => a?.id === b?.id },
     );
   }
 
   public getCurrentMatchday(): Observable<Matchday> {
-    return this.#http.get<Matchday>(routes.current, this.getRequestOptions()); // Utilizzo della funzione refactorizzata
+    return this.#http.get<Matchday>(routes.current, this.#getRequestOptions()); // Utilizzo della funzione refactorizzata
   }
 
-  private getHackyHttpHeaders(): HackyHttpHeaders { // Il metodo ora restituisce un'istanza della classe definita esternamente
+  #getHackyHttpHeaders(): HackyHttpHeaders {
+    // Il metodo ora restituisce un'istanza della classe definita esternamente
     // Commento per spiegare il motivo di questa implementazione specifica
     // Questa implementazione aggira il comportamento di HttpClient che tenta di impostare un Accept header predefinito.
     return new HackyHttpHeaders();
+  }
+
+  // Funzione privata perMigliore il contesto e gli headers HTTP comuni (Refactoring suggerito)
+  #getRequestOptions(): {
+    headers: HttpHeaders;
+    context: HttpContext;
+    withCredentials: false;
+  } {
+    return {
+      headers: this.#getHackyHttpHeaders(),
+      context: skipErrorHandling(skipAuthInterceptor(skipDefaultHeaders())),
+      withCredentials: false,
+    };
   }
 }

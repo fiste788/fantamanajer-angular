@@ -19,6 +19,6 @@ import { NavigationListComponent } from '../navigation-list/navigation-list.comp
 export class NavigationBarComponent {
   readonly #layoutService = inject(LayoutService);
 
-  protected readonly loggedIn = inject(AuthenticationService).loggedIn;
+  protected readonly loggedIn = inject(AuthenticationService).isLoggedIn;
   protected readonly openFab = this.#layoutService.openFab;
 }

@@ -22,7 +22,7 @@ _bestPlayers = bestPlayers();
         <span class="mat-text-primary">-</span>
         }
       </mat-card-title>
-      <mat-card-subtitle>{{role.singolar}}</mat-card-subtitle>
+      <mat-card-subtitle>{{role.singular}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <app-best-players-list [best_players]="(bestPlayer ?? []) | slice: 1" />

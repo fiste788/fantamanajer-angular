@@ -37,7 +37,7 @@ export class NotificationListModal {
 
   public async loadData(): Promise<Stream | undefined> {
     const notifications = await firstValueFrom(
-      this.#notificationService.getNotifications(this.#app.requireTeam().id),
+      this.#notificationService.getNotifications(this.#app.requireCurrentTeam().id),
       { defaultValue: undefined },
     );
     if (notifications) {

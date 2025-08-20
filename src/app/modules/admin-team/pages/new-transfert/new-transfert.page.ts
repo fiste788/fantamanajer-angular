@@ -22,7 +22,7 @@ import {
 import { filterNil, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
 import { MemberService, RoleService, TransfertService } from '@data/services';
-import { Member, Role, Team, Transfert } from '@data/types';
+import { Member, Role, Team, Transfer } from '@data/types';
 import { ConfirmationDialogModal } from '@modules/confirmation-dialog/modals/confirmation-dialog.modal';
 
 @Component({
@@ -47,14 +47,14 @@ export class NewTransfertPage {
   readonly #role = signal<Role | undefined>(undefined);
   readonly #role$ = toObservable(this.#role).pipe(distinctUntilChanged((x, y) => x?.id === y?.id));
 
-  protected readonly transfert: Partial<Transfert> = { constrained: false };
+  protected readonly transfert: Partial<Transfer> = { constrained: false };
   protected readonly team$ = getRouteData<Team>('team');
   protected readonly oldMembers$ = this.loadMembers(this.team$);
   protected readonly newMembers$? = this.getNewMembers();
   protected newMemberDisabled = false;
 
   protected loadMembers(team$: Observable<Team>): Observable<Array<Member>> {
-    return team$.pipe(switchMap((t) => this.#memberService.getByTeamId(t.id)));
+    return team$.pipe(switchMap((t) => this.#memberService.getMembersByTeamId(t.id)));
   }
 
   protected getNewMembers(): Observable<Array<Member>> {
@@ -66,7 +66,7 @@ export class NewTransfertPage {
     );
 
     return combineLatest([newMember$, this.team$]).pipe(
-      switchMap(([role, team]) => this.#memberService.getNotMine(team.id, role.id)),
+      switchMap(([role, team]) => this.#memberService.getAvailableMembersForTeam(team.id, role.id)),
       tap(() => {
         this.#changeRef.detectChanges();
         this.newMemberDisabled = false;
@@ -76,7 +76,7 @@ export class NewTransfertPage {
 
   protected playerChange(oldMember?: Member): void {
     if (oldMember) {
-      this.#role.set(this.#roleService.get(oldMember.role_id));
+      this.#role.set(this.#roleService.getRoleById(oldMember.role_id));
     }
   }
 
@@ -125,7 +125,7 @@ export class NewTransfertPage {
     this.transfert.new_member_id = this.transfert.new_member?.id;
     this.transfert.old_member_id = this.transfert.old_member?.id;
 
-    return save(this.#transfertService.create(this.transfert), undefined, this.#snackbar, {
+    return save(this.#transfertService.createTransfert(this.transfert), undefined, this.#snackbar, {
       message: 'Trasferimento effettuato',
       form: transfertForm,
     });

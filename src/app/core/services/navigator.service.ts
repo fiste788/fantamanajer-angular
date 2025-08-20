@@ -2,19 +2,21 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   InjectionToken, // Mantenuto InjectionToken
   PLATFORM_ID, // Mantenuto PLATFORM_ID
-  inject // Mantenuto inject
+  inject, // Mantenuto inject
 } from '@angular/core';
 
 // Definizione dell'InjectionToken per l'oggetto Navigator (o un fallback)
 export const NAVIGATOR = new InjectionToken<Navigator | object>('NavigatorToken', {
   providedIn: 'root', // Spostato providedIn: 'root' qui per una configurazione piùMigliore
-  factory: () => { // Definizione della factory direttamente nel token
+  factory: () => {
+    // Definizione della factory direttamente nel token
     const platformId = inject(PLATFORM_ID);
     if (isPlatformBrowser(platformId)) {
       return navigator; // Restituisce l'oggetto navigator nativo nel browser
     }
+
     return {}; // Restituisce un oggetto vuoto (o un mock con i metodi usati) in ambienti non-browser
-  }
+  },
 });
 
 // Non è più necessario definire BrowserNavigatorRef e NavigatorRef per questo approccio
@@ -25,7 +27,6 @@ export const NAVIGATOR = new InjectionToken<Navigator | object>('NavigatorToken'
 //   }
 // }
 // abstract class NavigatorRef { abstract get nativeNavigator(): Navigator | object; }
-
 
 // Non è più necessario definire provider separati in questo modo
 // const navigatorFactory = (\n//   browserNavigatorRef: BrowserNavigatorRef,\n//   platformId: object,\n// ): Navigator | object => {\n//   if (isPlatformBrowser(platformId)) {\n//     return browserNavigatorRef.nativeNavigator;\n//   }

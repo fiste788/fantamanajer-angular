@@ -20,12 +20,13 @@ function traverseRouteTree<T>(
     } else if (current instanceof ActivatedRouteSnapshot) {
       current = current.parent;
     } else {
+      // eslint-disable-next-line unicorn/no-null
       current = null; // Termina il loop se il tipo non è atteso
     }
   }
+
   return undefined;
 }
-
 
 export function getRouteData<T>(param: string): Observable<T> {
   const activatedRoute = inject(ActivatedRoute);
@@ -33,10 +34,11 @@ export function getRouteData<T>(param: string): Observable<T> {
   // Modifica la callback per gestire ActivatedRoute e ActivatedRouteSnapshot
   traverseRouteTree(activatedRoute, (route) => {
     if (route instanceof ActivatedRoute) {
-      return route.snapshot.data[param];
+      return route.snapshot.data[param] as T;
     } else if (route instanceof ActivatedRouteSnapshot) {
-      return route.data[param]; // Accedi direttamente a data su snapshot
+      return route.data[param] as T; // Accedi direttamente a data su snapshot
     }
+
     return undefined; // Ritorna undefined per tipi non gestiti
   });
 
@@ -49,7 +51,6 @@ export function getRouteData<T>(param: string): Observable<T> {
     }
     current = current.parent;
   }
-
 
   return EMPTY;
 }
@@ -65,14 +66,15 @@ export function getRouteParam<T>(param: string, route?: ActivatedRouteSnapshot):
     // Verifichiamo se è un ActivatedRouteSnapshot (dovrebbe esserlo qui nel caso di getRouteParam)
     // ma la callback deveMigliore robusta per traverseRouteTree
     if (currentRoute instanceof ActivatedRouteSnapshot) {
-      return currentRoute.params[param]; // Accedi direttamente a params su snapshot
+      return currentRoute.params[param] as T; // Accedi direttamente a params su snapshot
     }
     // Se per qualche motivo non è uno snapshot, possiamo tentare di accedere allo snapshot
     // o gestire l'errore appropriately. Assumendo che l'input sia corretto.
     // Se la callback viene chiamata con ActivatedRoute, accediamo allo snapshot
     if (currentRoute instanceof ActivatedRoute) {
-      return currentRoute.snapshot.params[param];
+      return currentRoute.snapshot.params[param] as T;
     }
+
     return undefined;
   });
 }

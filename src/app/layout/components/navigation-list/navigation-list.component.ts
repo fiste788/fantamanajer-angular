@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'; // Removed linkedSignal
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { computed } from '@angular/core'; // Imported computed
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { Matchday, Team } from '@data/types';
+import { NavigationItem } from '@layout/types/navigation-item.model';
 
 import { LayoutService } from '../../services';
-import { NavigationItem } from '@layout/types/navigation-item.model';
 
 @Component({
   selector: 'app-navigation-list',
@@ -90,7 +89,11 @@ export class NavigationListComponent {
     }
   }
 
-  #addProfileAndAuthItems(items: Array<NavigationItem>, mode: 'lite' | 'full', loggedIn: boolean): void {
+  #addProfileAndAuthItems(
+    items: Array<NavigationItem>,
+    mode: 'lite' | 'full',
+    loggedIn: boolean,
+  ): void {
     if (loggedIn) {
       items.push({
         title: 'Profilo',

@@ -35,7 +35,12 @@ export class TeamDetailPage implements OnInit {
   protected readonly auth = inject(AuthenticationService);
 
   protected tabs = linkedSignal(() => {
-    return this.loadTabs(this.team(), this.app.seasonEnded(), this.app.team(), this.auth.user());
+    return this.loadTabs(
+      this.team(),
+      this.app.seasonEnded(),
+      this.app.currentTeam(),
+      this.auth.currentUser(),
+    );
   });
 
   constructor() {
@@ -46,7 +51,7 @@ export class TeamDetailPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.team().championship.season_id != this.app.matchday()?.season_id) {
+    if (this.team().championship.season_id != this.app.currentMatchday()?.season_id) {
       void this.app.changeTeam(this.team());
     }
   }

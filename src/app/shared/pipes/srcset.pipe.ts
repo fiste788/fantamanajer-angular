@@ -21,6 +21,7 @@ export class SrcsetPipe implements PipeTransform {
         // For now, assuming it returns the string itself
         return sizes;
       }
+
       return sizes;
     }
 
@@ -35,6 +36,7 @@ export class SrcsetPipe implements PipeTransform {
 
     if (onlyFirst) {
       const first = `${bigger}w`;
+
       return sizes[first]!;
     }
 
@@ -42,15 +44,17 @@ export class SrcsetPipe implements PipeTransform {
     return this.#generateSrcsetString(sizes); // Extracted helper function
   }
 
-  #extractSizesFromRecord(sizes: Record<string, string>): number[] {
+  #extractSizesFromRecord(sizes: Record<string, string>): Array<number> {
     return Object.keys(sizes).map((size) => +size.slice(0, -1));
   }
 
-  #sortSizes(keys: number[]): number[] {
+  #sortSizes(keys: Array<number>): Array<number> {
     return keys.sort((a, b) => a - b);
   }
 
   #generateSrcsetString(sizes: Record<string, string>): string {
-    return Object.entries(sizes).map(([k, v]) => `${v} ${k}`).join(',');
+    return Object.entries(sizes)
+      .map(([k, v]) => `${v} ${k}`)
+      .join(',');
   }
 }

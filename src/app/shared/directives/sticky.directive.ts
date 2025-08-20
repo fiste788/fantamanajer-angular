@@ -12,7 +12,8 @@ export class StickyDirective {
 
   constructor() {
     afterNextRender(() => {
-      if (this.#elementRef !== null) { // Updated private member name
+      if (this.#elementRef !== null) {
+        // Updated private member name
         // Consider refactoring this DOM query for better coupling
         const height =
           this.#document.querySelector('app-toolbar > .mat-toolbar.mat-primary')?.clientHeight ?? 0;

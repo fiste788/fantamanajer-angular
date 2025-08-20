@@ -43,7 +43,7 @@ export class ScoreDetailPage implements OnInit {
 
   protected getScore(): Observable<Score> {
     return this.#route.snapshot.url.pop()?.path === 'last'
-      ? this.team$.pipe(switchMap((team) => this.#scoreService.getLastScore(team.id)))
-      : this.#scoreService.getScore(+this.id());
+      ? this.team$.pipe(switchMap((team) => this.#scoreService.getLastTeamScore(team.id)))
+      : this.#scoreService.getScoreById(+this.id());
   }
 }

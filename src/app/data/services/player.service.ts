@@ -15,21 +15,22 @@ const routes = {
 export class PlayerService {
   readonly #http = inject(HttpClient);
 
-  // Funzione privata per creare HttpParams con championshipId (Refactoring suggerito)
-  private createGetPlayerParams(championshipId?: number): HttpParams | undefined {
-    if (championshipId) {
-      return new HttpParams().set('championshipId', `${championshipId}`);
-    }
-    return undefined;
-  }
-
   public getPlayers(): Observable<Array<Player>> {
     return this.#http.get<Array<Player>>(routes.players);
   }
 
   public getPlayer(id: number, championshipId?: number): Observable<Player> {
-    const params = this.createGetPlayerParams(championshipId); // Utilizzo della funzione refactorizzata
+    const params = this.#createGetPlayerParams(championshipId); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<Player>(routes.player(id), { params });
+  }
+
+  // Funzione privata per creare HttpParams con championshipId (Refactoring suggerito)
+  #createGetPlayerParams(championshipId?: number): HttpParams | undefined {
+    if (championshipId) {
+      return new HttpParams().set('championshipId', `${championshipId}`);
+    }
+
+    return undefined;
   }
 }

@@ -36,7 +36,7 @@ export class LineupLastPage {
 
   protected readonly lineup$ = this.loadData();
   protected readonly seasonEnded = this.#app.seasonEnded;
-  protected readonly matchday = this.#app.matchday;
+  protected readonly matchday = this.#app.currentMatchday;
   protected editMode = false;
   protected benchs = environment.benchwarmersCount;
   protected captain = true;
@@ -44,7 +44,7 @@ export class LineupLastPage {
 
   protected loadData(): Observable<EmptyLineup> {
     const team$ = getRouteData<Team>('team');
-    const currentTeam = this.#app.requireTeam();
+    const currentTeam = this.#app.requireCurrentTeam();
     this.benchs = currentTeam.championship.number_benchwarmers;
     this.captain = currentTeam.championship.captain;
     this.jolly = currentTeam.championship.jolly;
@@ -55,7 +55,7 @@ export class LineupLastPage {
 
         return team;
       }),
-      switchMap((team) => this.#lineupService.getLineup(team.id)),
+      switchMap((team) => this.#lineupService.getCurrentTeamLineup(team.id)),
     );
   }
 
@@ -64,8 +64,8 @@ export class LineupLastPage {
       // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
-        ? this.#lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
-        : this.#lineupService.create(lineup);
+        ? this.#lineupService.updateLineup(lineup as AtLeast<Lineup, 'id' | 'team'>)
+        : this.#lineupService.createLineup(lineup);
 
       return firstValueFrom(
         save$.pipe(

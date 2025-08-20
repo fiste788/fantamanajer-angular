@@ -20,7 +20,8 @@ export class SrcsetDirective implements OnInit, OnChanges {
     this.applySrcset(); // Renamed init
   }
 
-  public applySrcset(): void { // Renamed init
+  public applySrcset(): void {
+    // Renamed init
     const srcset = this.appSrcset();
     if (srcset !== null && srcset !== undefined) {
       if (typeof srcset === 'string') {
@@ -35,7 +36,8 @@ export class SrcsetDirective implements OnInit, OnChanges {
     }
   }
 
-  #processSrcsetRecord(set: Record<string, string>): void { // Renamed processRecord and made private
+  #processSrcsetRecord(set: Record<string, string>): void {
+    // Renamed processRecord and made private
     const entries = Object.entries(set);
     const srcset = entries.map(([k, v]) => `${v} ${k}`);
     const lastEntry = entries.pop();
@@ -43,7 +45,8 @@ export class SrcsetDirective implements OnInit, OnChanges {
       const [key, src] = lastEntry;
       // Extract width from the key (e.g., "256w" -> 256)
       const width = +key.slice(0, Math.max(0, key.indexOf('w')));
-      if (this.#elementRef.nativeElement.sizes === '') { // Updated private member name
+      if (this.#elementRef.nativeElement.sizes === '') {
+        // Updated private member name
         // Set default sizes if not already set
         this.#renderer.setStyle(
           this.#elementRef.nativeElement, // Updated private member name

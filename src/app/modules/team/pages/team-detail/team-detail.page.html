@@ -11,7 +11,7 @@
     [title]="_team.name"
     (imageLoaded)="scrollTo($event)"
   >
-    @if (_team.user.id === (auth.user())?.id && !app.seasonEnded()) {
+    @if (_team.user.id === (auth.currentUser())?.id && !app.seasonEnded()) {
     <div parallax-header-right>
       <button
         aria-label="Settings"

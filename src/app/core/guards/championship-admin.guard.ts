@@ -5,4 +5,6 @@ import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 
 export const championshipAdminGuard: CanActivateFn = () =>
-  inject(AuthenticationService).user()?.admin ?? inject(ApplicationService).team()?.admin ?? false;
+  inject(AuthenticationService).currentUser()?.admin ??
+  inject(ApplicationService).currentTeam()?.admin ??
+  false;

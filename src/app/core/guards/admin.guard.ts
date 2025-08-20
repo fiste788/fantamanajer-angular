@@ -4,5 +4,5 @@ import { CanActivateFn } from '@angular/router';
 import { AuthenticationService } from '@app/authentication';
 
 export const adminGuard: CanActivateFn = () => {
-  return inject(AuthenticationService).user()?.admin ?? false;
+  return inject(AuthenticationService).currentUser()?.admin ?? false;
 };

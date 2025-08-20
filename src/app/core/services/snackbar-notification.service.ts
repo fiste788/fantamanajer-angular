@@ -12,7 +12,8 @@ import { LazyInject } from './lazy-inject.service';
   providedIn: 'root',
 })
 // Modifica suggerita per la nomenclatura della classe perMigliore la suaMigliore
-export class SnackbarNotificationService { // Nome più specifico
+export class SnackbarNotificationService {
+  // Nome più specifico
   // export class UiNotificationService { // Alternativa
   // export class MaterialSnackbarService { // Alternativa
 
@@ -26,7 +27,7 @@ export class SnackbarNotificationService { // Nome più specifico
     // Imposta la durata di default se non specificata
     const finalConfig: MatSnackBarConfig = {
       ...config,
-      duration: config?.duration ?? 3000 // Utilizzo di ?? 3000
+      duration: config?.duration ?? 3000, // Utilizzo di ?? 3000
     };
 
     try {
@@ -41,7 +42,6 @@ export class SnackbarNotificationService { // Nome più specifico
 
       // Apri la snackbar con il messaggio, l'azione e la configurazione finale
       return snackBar.open(message, action, finalConfig);
-
     } catch (error) {
       // Gestione degli errori durante il lazy loading o l'apertura della snackbar
       console.error('Error opening snackbar:', error);

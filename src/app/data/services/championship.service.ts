@@ -17,14 +17,15 @@ const routes = {
 export class ChampionshipService {
   readonly #http = inject(HttpClient);
 
-  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'> > {
-    return this.#http.put<Pick<Championship, 'id'> >(
+  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'>> {
+    return this.#http.put<Pick<Championship, 'id'>>(
       routes.championship(championship.id),
       championship,
     );
   }
 
-  public getChampionship(championshipId: number): Observable<Championship> { // Modifica suggerita per la nomenclatura
+  public getChampionship(championshipId: number): Observable<Championship> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<Championship>(routes.championship(championshipId));
   }
 

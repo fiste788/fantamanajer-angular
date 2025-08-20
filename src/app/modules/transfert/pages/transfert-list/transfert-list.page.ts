@@ -12,7 +12,7 @@ import { combineLatest, Observable, map, switchMap } from 'rxjs';
 import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
-import { Team, Transfert } from '@data/types';
+import { Team, Transfer } from '@data/types';
 import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { SeasonActiveDirective } from '@shared/directives';
@@ -43,16 +43,16 @@ export class TransfertListPage {
   protected readonly dataSource$ = this.loadData();
   protected readonly isMyTeam$ = combineLatest([
     this.team$,
-    toObservable(this.app.requireTeam),
+    toObservable(this.app.requireCurrentTeam),
   ]).pipe(map(([cur, my]) => cur.id === my.id));
 
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
-  protected loadData(): Observable<MatTableDataSource<Transfert>> {
+  protected loadData(): Observable<MatTableDataSource<Transfer>> {
     return this.team$.pipe(
-      switchMap((team) => this.#transfertService.getTransfert(team.id)),
+      switchMap((team) => this.#transfertService.getTeamTransferts(team.id)),
       map((data) => {
-        const ds = new MatTableDataSource<Transfert>(data);
+        const ds = new MatTableDataSource<Transfer>(data);
         if (data.length > 0) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.#ref.detectChanges();
@@ -63,7 +63,7 @@ export class TransfertListPage {
     );
   }
 
-  protected sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
+  protected sortingDataAccessor(data: Transfer, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
       case 'old_member': {
@@ -80,11 +80,11 @@ export class TransfertListPage {
     return value ?? '';
   }
 
-  protected trackTransfert(_: number, item: Transfert): number {
+  protected trackTransfert(_: number, item: Transfer): number {
     return item.id;
   }
 
-  protected setSort(ds: MatTableDataSource<Transfert>): void {
+  protected setSort(ds: MatTableDataSource<Transfer>): void {
     const sort = this.sort();
     if (sort) {
       ds.sort = sort;

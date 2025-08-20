@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { groupBy } from '@app/functions';
 
-import { Member, Module, Role } from '../types';
+import { Member, Role } from '../types';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
   // Modifica suggerita per la nomenclatura delle proprietà nell'array
-  readonly #roles: Array<Role> = [ // Tipizzazione esplicita per chiarezza
+  readonly #roles: Array<Role> = [
+    // Tipizzazione esplicita per chiarezza
     { id: 1, singular: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' },
     { id: 2, singular: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' },
     { id: 3, singular: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
@@ -23,7 +24,8 @@ export class RoleService {
     return this.#roles;
   }
 
-  public getRoleById(roleId: number): Role { // Modifica suggerita per la nomenclatura del parametro
+  public getRoleById(roleId: number): Role {
+    // Modifica suggerita per la nomenclatura del parametro
     return this.#roles.find((r) => r.id === roleId)!;
   }
 
@@ -33,9 +35,5 @@ export class RoleService {
 
   public getModuleKey(): string {
     return this.#roles.map((r) => r.count).join('-');
-  }
-
-  public getModule(): Module {
-    return new Module(this.getModuleKey(), this.#roles);
   }
 }
