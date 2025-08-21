@@ -14,6 +14,7 @@
 
 // Mixin per stato iniziale
 @mixin starting-style-state($initial-opacity: null, $initial-transform: null) {
+  /* stylelint-disable-next-line plugin/use-baseline */
   @starting-style {
     @if $initial-opacity {
       opacity: $initial-opacity;
