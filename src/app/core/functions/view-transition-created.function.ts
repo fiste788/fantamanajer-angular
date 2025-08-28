@@ -23,7 +23,7 @@ export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   const document = inject(DOCUMENT);
   const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   const router = inject(Router);
-  const currentNavigation = router.getCurrentNavigation();
+  const currentNavigation = router.currentNavigation();
 
   // Logica di estrazione dell'URL di destinazione con controllo null (Refactoring suggerito)
   const targetUrl = currentNavigation?.finalUrl; // Utilizzo di optional chaining e toString()
