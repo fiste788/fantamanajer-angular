@@ -12,7 +12,6 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { ContentLoaderModule } from '@ngneat/content-loader';
 import { delay } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -34,7 +33,6 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     MatSidenavModule,
     TopAppBarComponent,
     RouterOutlet,
-    ContentLoaderModule,
     NavigationBarComponent,
     NgClass,
     AsyncPipe,

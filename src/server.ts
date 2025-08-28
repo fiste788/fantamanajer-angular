@@ -82,5 +82,6 @@ const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Pr
 
   return res;
 };
+reqHandler.__ng_request_handler__ = true;
 
 export default { fetch: reqHandler } satisfies ExportedHandler<Env>;

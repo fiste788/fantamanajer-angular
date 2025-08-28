@@ -22,7 +22,7 @@
             <span matListItemLine> {{ activity.body }} </span>
           </mat-list-item>
         } @else {
-          <content-loader
+          <app-content-loader
             [backgroundColor]="skeletonColors().background"
             [foregroundColor]="skeletonColors().foreground"
             [viewBox]="'0 0 ' + width + ' 88'"
@@ -56,7 +56,7 @@
               cy="44"
               r="20"
             />
-          </content-loader>
+          </app-content-loader>
         }
       </ng-container>
     </mat-list>

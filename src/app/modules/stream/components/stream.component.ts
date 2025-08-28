@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ContentLoaderModule } from '@ngneat/content-loader';
+import { ContentLoaderComponent } from '@shared/components/content-loader';
 
 import { StreamActivity } from '@data/types';
 import { LayoutService } from '@layout/services';
@@ -24,7 +24,7 @@ import { StreamDataSource } from './stream.datasource';
 
 @Component({
   imports: [
-    ContentLoaderModule,
+    ContentLoaderComponent,
     ScrollingModule,
     MatListModule,
     MatIconModule,

@@ -7,7 +7,7 @@
   [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
   [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
 >
-  @for (item of items(); track item.url; let i = $index) {
+  @for (item of items(); track item.title_short ?? item.title; let i = $index) {
     @if (item.divider) {
       <mat-divider [style]="'--index:' + i" />
     }

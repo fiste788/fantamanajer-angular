@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ContentLoaderModule } from '@ngneat/content-loader';
 
 import { AuthenticationService } from '@app/authentication';
+import { ContentLoaderComponent } from '@shared/components/content-loader';
 import { RangePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-navigation-skeleton',
-  imports: [ContentLoaderModule, RangePipe],
+  imports: [ContentLoaderComponent, RangePipe],
   templateUrl: './navigation-skeleton.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

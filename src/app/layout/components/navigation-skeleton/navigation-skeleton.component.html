@@ -2,7 +2,7 @@
   @let itemHeight1 = 56;
   @let offset1 = drawerOffset + (loggedIn ? 312 : 0);
   @let offsetProfile1 = offset1 + 45 + itemHeight1 * mainItems;
-  <content-loader
+  <app-content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
     [viewBox]="'0 0 288 ' + (offsetProfile1 + itemHeight1 * profileItems)"
@@ -45,13 +45,13 @@
         [attr.y]="offsetProfile1 + itemHeight1 * idx"
       />
     }
-  </content-loader>
+  </app-content-loader>
 </div>
 <div class="hidden sm:block lg:hidden">
   @let itemHeight2 = 68;
   @let offset2 = railOffset + (loggedIn ? 60 : 0);
   @let offsetProfile2 = offset2 + itemHeight2 * mainItems;
-  <content-loader
+  <app-content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
     [viewBox]="'0 0 80 ' + (offsetProfile2 + itemHeight2 * profileItems)"
@@ -86,5 +86,5 @@
         [attr.y]="offsetProfile2 + itemHeight2 * idx"
       />
     }
-  </content-loader>
+  </app-content-loader>
 </div>
