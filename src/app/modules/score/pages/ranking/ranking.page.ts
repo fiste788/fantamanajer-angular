@@ -55,6 +55,7 @@ export class RankingPage {
       filter((ranking) => ranking.length > 0),
       map((ranking) => ranking[0]?.scores),
       filterNil(),
+      // eslint-disable-next-line unicorn/no-array-reverse
       map((scores) => Object.keys(scores).reverse()),
     );
   }

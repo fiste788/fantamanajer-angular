@@ -6,7 +6,7 @@ import { CurrentTransitionService } from '@app/services/current-transition.servi
 export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   const currentTransitionService = inject(CurrentTransitionService);
   const router = inject(Router);
-  const currentNavigation = router.getCurrentNavigation();
+  const currentNavigation = router.currentNavigation();
   const targetUrl = currentNavigation!.finalUrl!;
   // Skip the transition if the only thing
   // changing is the fragment and queryParams
