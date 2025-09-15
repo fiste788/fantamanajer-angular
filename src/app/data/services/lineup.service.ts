@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { AtLeast } from '@app/types';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { EmptyLineup } from '@data/types/empty-lineup.model';
 
-import { Lineup, Member } from '../types';
+import { Lineup, Member, Team } from '../types';
 
 const url = 'lineups';
 const routes = {
@@ -36,6 +36,12 @@ export class LineupService {
 
   public getLineup(teamId: number): Observable<EmptyLineup> {
     return this.#http.get<EmptyLineup>(routes.lineup(teamId), { params: { v: '2' } });
+  }
+
+  public getLineupResource(team: () => Team): HttpResourceRef<EmptyLineup | undefined> {
+    return httpResource(() => routes.lineup(team().id), {
+      defaultValue: undefined,
+    });
   }
 
   public update(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {

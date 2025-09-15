@@ -1,18 +1,20 @@
-@if (!seasonEnded()) { @if ((lineup$ | async); as lineup) { @if (lineup.module || editMode) {
+@let _lineup = lineup.value(); @if (!seasonEnded() ) { @if (_lineup) { @if (_lineup.module ||
+editMode()) {
 <form
   #lineupForm="ngForm"
   appMemberAlreadySelected
   class="flex-container"
-  (ngSubmit)="save(lineup, lineupForm)"
+  (ngSubmit)="save(_lineup, lineupForm)"
 >
   <app-lineup-detail
     #lineupDetail
-    [benchs]="benchs"
-    [captain]=""
-    [disabled]="!editMode"
-    [lineup]="lineup"
+    [benchs]="championship().number_benchwarmers"
+    [captain]="championship().captain"
+    [disabled]="!editMode()"
+    [jolly]="championship().jolly"
+    [lineup]="_lineup"
   >
-    @if (editMode) {
+    @if (editMode()) {
     <button
       buttons
       color="accent"
