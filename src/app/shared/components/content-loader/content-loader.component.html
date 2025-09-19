@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <svg
   [attr.viewBox]="viewBox()"
-  [ngStyle]="style"
+  [style]="style()"
 >
   <rect
     height="100%"
@@ -10,7 +10,7 @@
     x="0"
     y="0"
     [attr.clip-path]="clipPath()"
-    [ngStyle]="fillStyle()"
+    [style]="fillStyle()"
   />
 
   <defs role="presentation">

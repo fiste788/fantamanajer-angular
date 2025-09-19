@@ -16,11 +16,8 @@
       <app-navigation-skeleton />
     }
   </mat-sidenav>
-  <mat-sidenav-content [ngClass]="{ 'with-bars': _showBars === 'visible' }">
-    <app-top-app-bar
-      class="scroll-up"
-      [ngClass]="'scroll-up-' + _showBars"
-    />
+  <mat-sidenav-content [class.with-bars]="_showBars === 'visible'">
+    <app-top-app-bar [class]="['scroll-up', 'scroll-up-' + _showBars]" />
     <main [style.viewTransitionName]="viewTransitionName()">
       <router-outlet #o="outlet" />
     </main>
@@ -29,7 +26,9 @@
 @defer (when _navigationMode === 'bar') {
   @let _stable = stable();
   <app-navigation-bar
-    class="scroll-down"
-    [ngClass]="'scroll-down-' + (_stable && _navigationMode === 'bar' ? _showBars : hidden)"
+    [class]="[
+      'scroll-down',
+      'scroll-down-' + (_stable && _navigationMode === 'bar' ? _showBars : hidden),
+    ]"
   />
 }

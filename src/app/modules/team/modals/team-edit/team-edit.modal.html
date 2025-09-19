@@ -20,7 +20,8 @@
     class="my-drop-zone"
     ngfDrop
     selectable
-    [ngClass]="{'good-file-over':validComboDrag, 'bad-file-over':invalidComboDrag}"
+    [class.bad-file-over]="invalidComboDrag"
+    [class.good-file-over]="validComboDrag"
     [(file)]="file"
     [(invalidDrag)]="invalidComboDrag"
     [(validDrag)]="validComboDrag"

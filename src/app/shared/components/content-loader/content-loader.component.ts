@@ -1,4 +1,3 @@
-import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 function uid(): string {
@@ -7,7 +6,6 @@ function uid(): string {
 
 @Component({
   selector: 'app-content-loader',
-  imports: [NgStyle],
   host: { display: 'block' },
   templateUrl: './content-loader.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

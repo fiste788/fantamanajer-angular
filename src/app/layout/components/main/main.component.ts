@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,7 +34,6 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     TopAppBarComponent,
     RouterOutlet,
     NavigationBarComponent,
-    NgClass,
     AsyncPipe,
     NavigationSkeletonComponent,
     NavigationDrawerComponent,
