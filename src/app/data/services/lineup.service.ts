@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { AtLeast } from '@app/types';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { EmptyLineup } from '@data/types/empty-lineup.model';
 
-import { Lineup, Member } from '../types';
+import { Lineup, Member, Team } from '../types';
 
 const LINEUPS_URL_SEGMENT = 'lineups'; // Modifica suggerita per la nomenclatura
 
@@ -40,8 +40,15 @@ export class LineupService {
     return this.#http.get<EmptyLineup>(routes.currentTeamLineup(teamId), { params: { v: '2' } });
   }
 
+  public getLineupResource(team: () => Team): HttpResourceRef<EmptyLineup | undefined> {
+    return httpResource(() => routes.teamLineups(team().id), {
+      defaultValue: undefined,
+    });
+  }
+
   public updateLineup(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
     // Modifica suggerita per la nomenclatura
+
     return this.#http.put<Pick<Lineup, 'id'>>(
       routes.updateLineup(lineup.team.id, lineup.id), // Utilizzo del nome della rotta modificato
       LineupService.prepareLineupForApi(lineup), // Utilizzo del nome del metodo modificato

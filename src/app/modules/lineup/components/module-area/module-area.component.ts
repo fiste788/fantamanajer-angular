@@ -1,13 +1,5 @@
-import { NgClass, UpperCasePipe } from '@angular/common';
-import {
-  Component,
-  SimpleChange,
-  booleanAttribute,
-  inject,
-  input,
-  linkedSignal,
-  output,
-} from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
+import { Component, booleanAttribute, inject, input, linkedSignal, output } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 
 import { RoleService } from '@data/services';
@@ -16,32 +8,12 @@ import { MemberSelectionComponent } from '@modules/member/components/member-sele
 import { StickyDirective } from '@shared/directives';
 import { RangePipe } from '@shared/pipes';
 
-export type NgChanges<Component, Props = ExcludeFunctions<Component>> = {
-  [Key in keyof Props]?: SimpleChange;
-};
-
-type MarkFunctionPropertyNames<Component> = {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  [Key in keyof Component]: Component[Key] extends Function ? never : Key;
-};
-
-type ExcludeFunctionPropertyNames<T> = MarkFunctionPropertyNames<T>[keyof T];
-
-type ExcludeFunctions<T> = Pick<T, ExcludeFunctionPropertyNames<T>>;
-
 @Component({
   selector: 'app-module-area[module][dispositions]',
   styleUrl: './module-area.component.scss',
   templateUrl: './module-area.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  imports: [
-    NgClass,
-    StickyDirective,
-    FormsModule,
-    MemberSelectionComponent,
-    UpperCasePipe,
-    RangePipe,
-  ],
+  imports: [StickyDirective, FormsModule, MemberSelectionComponent, UpperCasePipe, RangePipe],
 })
 export class ModuleAreaComponent {
   public module = input.required<string>();

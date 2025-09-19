@@ -51,7 +51,10 @@ export class TeamDetailPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.team().championship.season_id != this.app.currentMatchday()?.season_id) {
+    if (
+      this.team().championship.season_id != this.app.currentMatchday()?.season_id &&
+      this.team().user_id === this.auth.currentUser()?.id
+    ) {
       void this.app.changeTeam(this.team());
     }
   }

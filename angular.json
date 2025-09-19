@@ -40,14 +40,7 @@
                 "bundleName": "styles",
                 "inject": true
               }
-            ],
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts",
-              "experimentalPlatform": "neutral"
-            },
-            "serviceWorker": "ngsw-config.json",
-            "server": "src/main.server.ts"
+            ]
           },
           "configurations": {
             "production": {
@@ -74,6 +67,13 @@
                 "styles": true,
                 "sourcesContent": false
               },
+              "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts",
+                "experimentalPlatform": "neutral"
+              },
+              "serviceWorker": "ngsw-config.json",
+              "server": "src/main.server.ts",
               "outputHashing": "all"
             },
             "development": {

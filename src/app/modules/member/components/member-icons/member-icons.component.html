@@ -5,7 +5,7 @@
 @if (_member.likely_lineup; as like) {
   <span
     class="icon-container"
-    [ngClass]="{ circle: circle() }"
+    [class.circle]="circle()"
   >
     @if (like.regular) {
       <mat-icon matTooltip="Titolare"> verified_user </mat-icon>
