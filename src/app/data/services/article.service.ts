@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -23,6 +23,14 @@ export class ArticleService {
     const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<PagedResponse<Array<Article>>>(location.pathname, { params });
+  }
+
+  public getArticlesResource(
+    page: () => number,
+  ): HttpResourceRef<PagedResponse<Array<Article>> | undefined> {
+    const params = this.#createPaginationParams(page()); // Utilizzo della funzione refactorizzata
+
+    return httpResource(() => ({ url: location.pathname, params }));
   }
 
   public getTeamArticles(teamId: number, page = 1): Observable<PagedResponse<Array<Article>>> {

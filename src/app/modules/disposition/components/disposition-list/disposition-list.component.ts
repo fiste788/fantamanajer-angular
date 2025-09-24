@@ -1,5 +1,11 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, booleanAttribute, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  computed,
+  input,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -24,13 +30,13 @@ import { CaptainPipe } from '@shared/pipes';
     DecimalPipe,
   ],
 })
-export class DispositionListComponent implements OnInit {
+export class DispositionListComponent {
   public caption = input.required<string>();
   public lineup = input<Lineup>();
   public dispositions = input<Array<Disposition>>();
   public regular = input(false, { transform: booleanAttribute });
 
-  protected dataSource!: MatTableDataSource<Disposition>;
+  protected dataSource = computed(() => new MatTableDataSource(this.dispositions()));
   protected readonly displayedColumns = [
     'player',
     'role',
@@ -42,10 +48,6 @@ export class DispositionListComponent implements OnInit {
     'goals',
     'points',
   ];
-
-  public ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.dispositions());
-  }
 
   protected trackDisposition(_: number, item: Disposition): number {
     return item.id;

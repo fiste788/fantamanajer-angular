@@ -41,7 +41,7 @@ export class LineupService {
   }
 
   public getLineupResource(team: () => Team): HttpResourceRef<EmptyLineup | undefined> {
-    return httpResource(() => routes.teamLineups(team().id), {
+    return httpResource(() => routes.currentTeamLineup(team().id), {
       defaultValue: undefined,
     });
   }

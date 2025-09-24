@@ -1,18 +1,18 @@
-@if ((score$ | async); as score) {
+@if ((score()); as _score) {
 <div>
-  @if (score.lineup) {
+  @if (_score.lineup) {
   <div>
-    @if (regular$ | async; as regular) {
+    @if (regular(); as _regular) {
     <app-disposition-list
       regular
-      [caption]="'Punteggio: ' + (score.points | number)"
-      [dispositions]="regular"
-      [lineup]="score.lineup"
+      [caption]="'Punteggio: ' + (_score.points | number)"
+      [dispositions]="_regular"
+      [lineup]="_score.lineup"
     />
-    } @if (notRegular$ | async; as notRegular) {
+    } @if (notRegular(); as _notRegular) {
     <app-disposition-list
       caption="Panchinari"
-      [dispositions]="notRegular"
+      [dispositions]="_notRegular"
     />
     }
   </div>
@@ -21,7 +21,7 @@
   <app-mat-empty-state
     description="Formazione non presente"
     icon="mood_bad"
-    [label]="'Punteggio: ' + (score.points | number)"
+    [label]="'Punteggio: ' + (_score.points | number)"
   />
 
   }

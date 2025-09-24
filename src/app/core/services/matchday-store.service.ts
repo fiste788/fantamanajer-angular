@@ -63,9 +63,4 @@ export class MatchdayStoreService {
     // Accede alla proprietà annidata in modo sicuro
     return property ? (this.currentMatchday()?.season?.[property] ?? false) : false; // Valore di fallback appropriato
   }
-
-  // Esempio di come gestire l'unsubscribe in OnDestroy se il servizio non fosse providedIn: 'root'
-  // ngOnDestroy(): void {
-  //    // unsubscribe dalla subscription creata in connect()
-  // }
 }

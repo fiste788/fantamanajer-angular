@@ -16,10 +16,7 @@ import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { Team } from '@data/types';
-import {
-  type TeamEditModal,
-  TeamEditModalData,
-} from '@modules/team/modals/team-edit/team-edit.modal';
+import { type TeamEditModal } from '@modules/team/modals/team-edit/team-edit.modal';
 import { SrcsetPipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
@@ -71,8 +68,8 @@ export class ProfileComponent {
       this.#teamService.getTeamById(team_id).pipe(
         switchMap((team) =>
           this.#dialog
-            .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
-              data: { team },
+            .open<TeamEditModal, Team, boolean>(TeamEditModal, {
+              data: team,
               scrollStrategy: new NoopScrollStrategy(),
             })
             .afterClosed(),

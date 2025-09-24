@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -43,15 +43,13 @@ export class ScoreEditPage {
   protected penality = false;
   protected score$?: Observable<Score>;
   protected readonly scores$ = this.loadData();
+  protected readonly selectedScore = signal<Score | undefined>(undefined);
+  protected readonly score = this.#scoreService.getScoreResourceById(this.selectedScore, true);
 
   protected loadData(): Observable<Array<Score>> {
     return getRouteData<Team>('team').pipe(
       switchMap((team) => this.#scoreService.getScoresByTeam(team.id)),
     );
-  }
-
-  protected getScore(score: Score): void {
-    this.score$ = this.#scoreService.getScoreById(score.id, true);
   }
 
   protected async save(score: Score, scoreForm: NgForm, lineup?: EmptyLineup): Promise<void> {

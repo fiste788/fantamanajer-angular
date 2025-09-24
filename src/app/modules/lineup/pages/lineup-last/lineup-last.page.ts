@@ -1,12 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, firstValueFrom, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteDataSignal, save } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { LineupService } from '@data/services';
@@ -34,7 +33,7 @@ export class LineupLastPage {
 
   protected readonly seasonEnded = this.#app.seasonEnded;
   protected readonly matchday = this.#app.currentMatchday;
-  protected readonly team = toSignal(getRouteData<Team>('team'), { requireSync: true });
+  protected readonly team = getRouteDataSignal<Team>('team');
   protected readonly lineup = this.#lineupService.getLineupResource(this.team);
   protected readonly championship = computed(() => this.#app.requireCurrentTeam().championship);
   protected readonly editMode = computed(
@@ -49,20 +48,17 @@ export class LineupLastPage {
         ? this.#lineupService.updateLineup(lineup as AtLeast<Lineup, 'id' | 'team'>)
         : this.#lineupService.createLineup(lineup);
 
-      return firstValueFrom(
-        save$.pipe(
-          map((response: Partial<Lineup>) => {
-            if (response.id) {
-              lineup.id = response.id;
-            }
-            this.#snackBar.open('Formazione salvata correttamente');
-          }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, lineupForm)),
-        ),
-        { defaultValue: undefined },
-      );
+      return save(save$, undefined, this.#snackBar, {
+        message: 'Formazione salvata correttamente',
+        form: lineupForm,
+        callback: (response) => {
+          if (response.id) {
+            lineup.id = response.id;
+          }
+        },
+      });
     }
-    this.#snackBar.open('Si sono verificati errori di validazione');
+    this.#snackBar.open('Si sono verificati errori di validazione', undefined, { duration: 3000 });
 
     return undefined;
   }

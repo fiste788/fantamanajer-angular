@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
+import { Injectable, ResourceRef, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
@@ -48,6 +48,20 @@ export class ScoreService {
     const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<Score>(routes.scoreById(id), { params }); // Utilizzo del nome della rotta modificato
+  }
+
+  public getScoreResourceById(
+    score: () => Score | undefined,
+    includeMembers = false,
+  ): ResourceRef<Score | undefined> {
+    // Modifica suggerita per la nomenclatura e nome parametro
+    const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
+
+    return httpResource(() => {
+      const _score = score();
+
+      return _score === undefined ? undefined : { url: routes.scoreById(_score.id), params }; // Utilizzo del nome della rotta modificato
+    }); // Utilizzo del nome della rotta modificato
   }
 
   public getLastTeamScore(teamId: number): Observable<Score> {

@@ -20,11 +20,7 @@
     class="my-drop-zone"
     ngfDrop
     selectable
-    [class.bad-file-over]="invalidComboDrag"
-    [class.good-file-over]="validComboDrag"
     [(file)]="file"
-    [(invalidDrag)]="invalidComboDrag"
-    [(validDrag)]="validComboDrag"
   >
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
     @if (file) {

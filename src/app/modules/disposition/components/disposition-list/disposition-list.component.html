@@ -1,11 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
-@if (dataSource) {
+@if (dataSource(); as data) {
   <h2>{{ caption() }}</h2>
   <mat-card appearance="outlined">
     <table
       #table
       mat-table
-      [dataSource]="dataSource"
+      [dataSource]="data"
       [trackBy]="trackDisposition"
     >
       <ng-container

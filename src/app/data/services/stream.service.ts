@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
+import { Injectable, ResourceRef, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Stream } from '../types';
@@ -48,6 +48,17 @@ export class StreamService {
     const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
     return this.#http.get<Stream>(routes.streamByContextAndId(context, id), { params }); // Utilizzo del nome della rotta modificato
+  }
+
+  public getStreamResourceByContextAndId(
+    context: () => 'championships' | 'clubs' | 'teams' | 'users',
+    id: () => number,
+    page: () => number,
+  ): ResourceRef<Stream | undefined> {
+    return httpResource(() => ({
+      url: routes.streamByContextAndId(context(), id()),
+      params: this.#createPaginationParams(page()),
+    }));
   }
 
   // Funzione privata per creare HttpParams con paginazione (Refactoring suggerito)

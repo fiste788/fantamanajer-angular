@@ -1,9 +1,8 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { Component, afterNextRender, input, inject, linkedSignal, OnInit } from '@angular/core';
+import { Component, afterNextRender, input, inject, OnInit, computed } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService, ScrollService } from '@app/services';
@@ -11,7 +10,7 @@ import { Tab, Team, User } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
-import { TeamEditModal, TeamEditModalData } from '../../modals/team-edit/team-edit.modal';
+import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 
 @Component({
   styleUrl: './team-detail.page.scss',
@@ -34,7 +33,7 @@ export class TeamDetailPage implements OnInit {
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
 
-  protected tabs = linkedSignal(() => {
+  protected tabs = computed(() => {
     return this.loadTabs(
       this.team(),
       this.app.seasonEnded(),
@@ -85,16 +84,11 @@ export class TeamDetailPage implements OnInit {
     ];
   }
 
-  protected async openDialog(team: Team): Promise<boolean | undefined> {
-    return firstValueFrom(
-      this.#dialog
-        .open<TeamEditModal, TeamEditModalData, boolean>(TeamEditModal, {
-          data: { team },
-          scrollStrategy: new NoopScrollStrategy(),
-        })
-        .afterClosed(),
-      { defaultValue: undefined },
-    );
+  protected openDialog(team: Team): void {
+    this.#dialog.open<TeamEditModal, Team, boolean>(TeamEditModal, {
+      data: team,
+      scrollStrategy: new NoopScrollStrategy(),
+    });
   }
 
   protected scrollTo(height: number): void {

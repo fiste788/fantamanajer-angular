@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -14,7 +14,7 @@ import { Notification, notificationSubscriptions } from '../../types';
   selector: 'app-notification-subscription[type][label][subscriptions][team]',
   templateUrl: './notification-subscription.component.html',
 })
-export class NotificationSubscriptionComponent implements OnInit {
+export class NotificationSubscriptionComponent {
   #keys?: Array<Notification>;
   public type = input.required<NotificationSubscriptionsKeys>();
   public label = input.required<string>();
@@ -22,13 +22,10 @@ export class NotificationSubscriptionComponent implements OnInit {
   public team = input.required<Team>();
   public readonly subscriptionsChange = output<Array<NotificationSubscription>>();
 
-  protected map = new Map<Notification, NotificationSubscription>();
+  protected map = computed(() => this.load());
 
-  public ngOnInit(): void {
-    this.load();
-  }
-
-  protected load(): void {
+  protected load(): Map<Notification, NotificationSubscription> {
+    const map = new Map<Notification, NotificationSubscription>();
     this.#keys = notificationSubscriptions[this.type()];
     for (const element of this.#keys) {
       let sub = this.subscriptions().find((subscription) => subscription.name === element.name);
@@ -41,8 +38,10 @@ export class NotificationSubscriptionComponent implements OnInit {
         };
         this.subscriptions().push(sub);
       }
-      this.map.set(element, sub);
+      map.set(element, sub);
     }
+
+    return map;
   }
 
   protected toggle(): void {

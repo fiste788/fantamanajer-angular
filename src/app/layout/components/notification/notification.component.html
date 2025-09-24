@@ -10,28 +10,24 @@
 }
 @if (isCurrentSeason()) {
   @if (stream$ | async; as stream) {
-    <div
+    <button
       *appSeasonActive
-      class="create-box"
+      #button=""
+      aria-label="Open notifications"
+      matIconButton
+      type="button"
+      (click)="openDialog()"
     >
-      <button
-        #button=""
-        aria-label="Open notifications"
-        matIconButton
-        type="button"
-        (click)="openDialog()"
+      <mat-icon
+        aria-hidden="false"
+        matBadgeColor="accent"
+        matBadgeOverlap="true"
+        matBadgePosition="above after"
+        matBadgeSize="small"
+        [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
+        [matBadgeHidden]="stream.unseen === 0"
+        >notifications</mat-icon
       >
-        <mat-icon
-          aria-hidden="false"
-          matBadgeColor="accent"
-          matBadgeOverlap="true"
-          matBadgePosition="above after"
-          matBadgeSize="small"
-          [matBadge]="(stream.unseen | number: '1.0-0') ?? ''"
-          [matBadgeHidden]="stream.unseen === 0"
-          >notifications</mat-icon
-        >
-      </button>
-    </div>
+    </button>
   }
 }

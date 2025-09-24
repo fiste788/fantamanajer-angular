@@ -3,20 +3,20 @@
     [captain]="captain()"
     [disabled]="disabled()"
     [jolly]="jolly()"
-    [lineup]="lineup()!"
+    [lineup]="_lineup"
   >
     <ng-content
       buttons
       select="[buttons]"
     />
   </app-lineup-options>
-  @if (lineupService.selectedModule) {
+  @if (lineupService.lineup.module) {
     <app-module-area
       [captain]="lineupService.lineup.captain_id ?? undefined"
       [disabled]="disabled()"
       [dispositions]="lineupService.lineup.dispositions"
       [membersByRole]="lineupService.membersByRole"
-      [module]="lineupService.selectedModule"
+      [module]="lineupService.lineup.module"
       (selectionChange)="lineupService.memberSelectionChange($event.role, $event.member)"
     />
   }

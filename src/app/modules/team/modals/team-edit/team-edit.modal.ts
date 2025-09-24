@@ -6,16 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ngfModule } from 'angular-file';
-import { firstValueFrom, map, tap } from 'rxjs';
 
+import { save } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TeamService } from '@data/services';
 import { NotificationSubscription, notificationSubscriptionsKeys, Team } from '@data/types';
 import { NotificationSubscriptionComponent } from '@modules/notification-subscription/components/notification-subscription/notification-subscription.component';
-
-export interface TeamEditModalData {
-  team: Team;
-}
 
 @Component({
   styleUrl: './team-edit.modal.scss',
@@ -31,13 +27,12 @@ export interface TeamEditModalData {
   ],
 })
 export class TeamEditModal {
-  readonly #data = inject<TeamEditModalData>(MAT_DIALOG_DATA);
   readonly #teamService = inject(TeamService);
   readonly #changeRef = inject(ChangeDetectorRef);
   readonly #dialogRef = inject<MatDialogRef<TeamEditModal>>(MatDialogRef);
   readonly #snackbar = inject(MatSnackBar);
 
-  protected readonly team = this.#data.team;
+  protected readonly team = inject<Team>(MAT_DIALOG_DATA);
   protected readonly app = inject(ApplicationService);
   protected readonly seasonEnded = this.app.seasonEnded;
   protected validComboDrag = false;
@@ -56,18 +51,16 @@ export class TeamEditModal {
       .flatMap((field) => this.#objectToPostParams(this.team, field)))
       fd.append(it.name, it.value);
 
-    return firstValueFrom(
-      this.#teamService.uploadTeamPhoto(this.team.id, fd).pipe(
-        tap((team) => (this.team.photo_url = team.photo_url)),
-        map(async () => {
-          await this.app.changeTeam(this.team);
-          this.#changeRef.detectChanges();
-          this.#snackbar.open('Squadra salvata correttamente');
-        }),
-        map(() => this.#dialogRef.close(true)),
-      ),
-      { defaultValue: undefined },
-    );
+    return save(this.#teamService.uploadTeamPhoto(this.team.id, fd), undefined, this.#snackbar, {
+      message: 'Squadra salvata correttamente',
+      callback: async (team) => {
+        this.team.photo_url = team.photo_url;
+        await this.app.changeTeam(this.team);
+        this.#dialogRef.close(true);
+
+        return this.#changeRef.detectChanges();
+      },
+    });
   }
 
   #objectToPostParams(

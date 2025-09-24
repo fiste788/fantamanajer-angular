@@ -1,12 +1,13 @@
-import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, OnInit, input, inject } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, input, inject, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap, map, shareReplay } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
-import { filterNil, getRouteData } from '@app/functions';
+import { getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
-import { Disposition, Lineup, Score, Team } from '@data/types';
+import { Score, Team } from '@data/types';
 import { DispositionListComponent } from '@modules/disposition/components/disposition-list/disposition-list.component';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
@@ -17,29 +18,18 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
     DispositionListComponent,
     MatEmptyStateComponent,
     MatProgressSpinnerModule,
-    AsyncPipe,
     DecimalPipe,
   ],
 })
-export class ScoreDetailPage implements OnInit {
+export class ScoreDetailPage {
   readonly #route = inject(ActivatedRoute);
   readonly #scoreService = inject(ScoreService);
 
   protected id = input('');
   protected team$ = getRouteData<Team>('team');
-  protected score$!: Observable<Score>;
-  protected regular$!: Observable<Array<Disposition>>;
-  protected notRegular$!: Observable<Array<Disposition>>;
-
-  public ngOnInit(): void {
-    this.score$ = this.getScore().pipe(shareReplay({ bufferSize: 0, refCount: true }));
-    const lineup$: Observable<Lineup> = this.score$.pipe(
-      map((score) => score.lineup),
-      filterNil(),
-    );
-    this.regular$ = lineup$.pipe(map((lineup) => lineup.dispositions.slice(0, 11)));
-    this.notRegular$ = lineup$.pipe(map((lineup) => lineup.dispositions.slice(11)));
-  }
+  protected score = toSignal(this.getScore());
+  protected regular = computed(() => this.score()?.lineup?.dispositions.slice(0, 11));
+  protected notRegular = computed(() => this.score()?.lineup?.dispositions.slice(11));
 
   protected getScore(): Observable<Score> {
     return this.#route.snapshot.url.pop()?.path === 'last'

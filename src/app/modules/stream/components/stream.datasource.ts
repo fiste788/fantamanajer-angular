@@ -1,42 +1,30 @@
 import { CollectionViewer, DataSource, ListRange } from '@angular/cdk/collections';
-import { inject, Injector, runInInjectionContext, signal, WritableSignal } from '@angular/core';
+import { inject, Injector, runInInjectionContext, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import {
-  Observable,
-  Subscription,
-  map,
-  mergeMap,
-  range,
-  filter,
-  EMPTY,
-  concatMap,
-  tap,
-} from 'rxjs';
+import { Observable, Subscription, map, range, filter, concatMap, tap } from 'rxjs';
 
 import { StreamService } from '@data/services';
 import { StreamActivity } from '@data/types';
 
 export class StreamDataSource extends DataSource<StreamActivity | undefined> {
-  readonly #length = 0;
+  readonly #length = 10;
   #cachedData = Array.from<StreamActivity | undefined>({ length: this.#length });
   readonly #pageSize = 10;
   readonly #fetchedPages = new Set<number>();
   readonly #streamService: StreamService;
-  readonly #dataStream: WritableSignal<Array<StreamActivity | undefined>>;
-  readonly #dataStream$: Observable<Array<StreamActivity | undefined>>;
+  readonly #dataStream = signal(this.#cachedData);
+  readonly #dataStream$ = toObservable(this.#dataStream);
   readonly #subscription = new Subscription();
 
   constructor(
     private readonly injector: Injector,
-    private readonly name: 'championships' | 'clubs' | 'teams' | 'users',
-    private readonly id: number,
+    private readonly name: () => 'championships' | 'clubs' | 'teams' | 'users',
+    private readonly id: () => number,
   ) {
     super();
 
     this.#addPlaceholder();
-    this.#dataStream = signal(this.#cachedData);
     this.#streamService = runInInjectionContext(this.injector, () => inject(StreamService));
-    this.#dataStream$ = runInInjectionContext(this.injector, () => toObservable(this.#dataStream));
   }
 
   public connect(
@@ -47,7 +35,7 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
         .pipe(
           concatMap((r) => this.#getRange(r)),
           filter((page) => !this.#fetchedPages.has(page)),
-          mergeMap((page) => this.#fetchPage(page)),
+          map((page) => this.#fetchPage(page)),
           tap((res) => this.#dataStream.set(res)),
         )
         .subscribe(),
@@ -75,23 +63,23 @@ export class StreamDataSource extends DataSource<StreamActivity | undefined> {
     return range(startPage, endPage - startPage + 1);
   }
 
-  #fetchPage(page: number): Observable<Array<StreamActivity | undefined>> {
+  #fetchPage(page: number): Array<StreamActivity | undefined> {
     if (this.#fetchedPages.has(page)) {
-      return EMPTY;
+      return [];
     }
     this.#fetchedPages.add(page);
 
-    return this.#streamService.getStreamByContextAndId(this.name, this.id, page).pipe(
-      map((data) => data.results),
-      map((res) => {
-        this.#cachedData = [...this.#cachedData.filter((cd) => cd !== undefined), ...res];
-        if (res.length === this.#pageSize) {
-          this.#addPlaceholder();
-        }
+    const res = this.#streamService.getStreamResourceByContextAndId(this.name, this.id, page);
 
-        return this.#cachedData;
-      }),
-    );
+    if (res.hasValue()) {
+      const items = res.value().results;
+      this.#cachedData = [...this.#cachedData.filter((cd) => cd !== undefined), ...items];
+      if (items.length === this.#pageSize) {
+        this.#addPlaceholder();
+      }
+    }
+
+    return this.#cachedData;
   }
 
   #addPlaceholder(): void {

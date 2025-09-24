@@ -1,64 +1,65 @@
+import { ListRange } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Injector,
-  OnDestroy,
-  OnInit,
+  WritableSignal,
   afterNextRender,
+  computed,
   inject,
   input,
+  linkedSignal,
   numberAttribute,
+  signal,
   viewChild,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
+import { StreamService } from '@data/services';
 import { StreamActivity } from '@data/types';
 import { LayoutService } from '@layout/services';
 import { ContentLoaderComponent } from '@shared/components/content-loader';
-import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
-
-import { StreamDataSource } from './stream.datasource';
 
 @Component({
-  imports: [
-    ContentLoaderComponent,
-    ScrollingModule,
-    MatListModule,
-    MatIconModule,
-    DatePipe,
-    MatEmptyStateComponent,
-  ],
+  imports: [ContentLoaderComponent, ScrollingModule, MatListModule, MatIconModule, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-stream[context][id]',
+  selector: 'app-stream',
   styleUrl: './stream.component.scss',
   templateUrl: './stream.component.html',
 })
-export class StreamComponent implements OnInit, OnDestroy {
+export class StreamComponent {
   readonly #layoutService = inject(LayoutService);
-  readonly #injector = inject(Injector);
+  readonly #streamService = inject(StreamService);
+  readonly #fetchedPages = new Set<number>();
+  readonly #pageSize = 10;
 
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
-  protected viewport = viewChild(CdkVirtualScrollViewport);
-  protected ds!: StreamDataSource;
-  protected skeletonColors = this.#layoutService.skeletonColors;
-  protected width!: number;
+  protected readonly viewport = viewChild(CdkVirtualScrollViewport);
+  protected readonly skeletonColors = this.#layoutService.skeletonColors;
+  protected readonly page = signal(1);
+  protected readonly width = signal(0);
+  protected readonly stream = this.#streamService.getStreamResourceByContextAndId(
+    this.context,
+    this.id,
+    this.page,
+  );
+
+  protected readonly streamActivity = computed(() =>
+    this.stream.hasValue() ? this.stream.value().results : this.#addPlaceholder(),
+  );
+  protected readonly dataStream = this.#getDataStream();
 
   constructor() {
     afterNextRender(() => {
       const viewport = this.viewport();
       if (viewport) {
-        this.width = viewport.elementRef.nativeElement.clientWidth;
+        this.width.set(viewport.elementRef.nativeElement.clientWidth);
       }
     });
-  }
-
-  public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -66,7 +67,36 @@ export class StreamComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  public ngOnDestroy(): void {
-    this.ds.disconnect();
+  public getPage(range: ListRange): void {
+    const page = this.#getPageForIndex(range.end - 1);
+    if (!this.#fetchedPages.has(page)) {
+      this.#fetchedPages.add(page);
+      this.page.set(page);
+    }
+  }
+
+  #getDataStream(): WritableSignal<Array<StreamActivity | undefined>> {
+    return linkedSignal<Array<StreamActivity | undefined>, Array<StreamActivity | undefined>>({
+      source: () => this.streamActivity(),
+      computation: (source, previous) => {
+        const cachedData = [
+          ...(previous?.value?.filter((cd) => cd !== undefined) ?? []),
+          ...source,
+        ];
+        if (source.length === this.#pageSize) {
+          return this.#addPlaceholder(cachedData);
+        }
+
+        return cachedData;
+      },
+    });
+  }
+
+  #getPageForIndex(index: number): number {
+    return Math.floor(index / this.#pageSize) + 1;
+  }
+
+  #addPlaceholder(data: Array<StreamActivity | undefined> = []): Array<StreamActivity | undefined> {
+    return [...data, ...Array.from<undefined>({ length: this.#pageSize })];
   }
 }

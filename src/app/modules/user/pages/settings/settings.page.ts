@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import { save } from '@app/functions';
 import { PushService } from '@app/services';
 import { UserService } from '@data/services';
 import { User } from '@data/types';
@@ -38,15 +39,15 @@ export class SettingsPage {
   protected readonly enabled = this.#pushService.isEnabled();
   protected repeatPassword = '';
 
-  protected async save(user: User): Promise<void> {
+  protected async save(user: User): Promise<boolean> {
     if (user.password === this.repeatPassword) {
-      await firstValueFrom(this.#userService.updateUser(user), { defaultValue: undefined });
-
-      this.#auth.reloadCurrentUser();
-      this.#snackBar.open('Modifiche salvate');
+      return save(this.#userService.updateUser(user), false, this.#snackBar, {
+        message: 'Modifiche salvate',
+        callback: () => this.#auth.reloadCurrentUser(),
+      });
     }
 
-    return undefined;
+    return false;
   }
 
   protected async togglePush(user: User, checked: boolean): Promise<void> {

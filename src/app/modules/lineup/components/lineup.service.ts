@@ -23,7 +23,6 @@ export class LineupService {
   ]);
 
   public modules?: Array<string>;
-  public selectedModule?: string;
   public benchs?: Array<number>;
   public captainables?: Array<MemberOption>;
   public membersByRole?: Map<Role, Array<Member>>;

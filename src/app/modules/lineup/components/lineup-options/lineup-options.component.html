@@ -19,7 +19,7 @@
         name="module"
         placeholder="Modulo"
         [disabled]="disabled()"
-        [(ngModel)]="lineupService.selectedModule"
+        [(ngModel)]="lineupService.lineup.module"
       >
         @for (m of lineupService.modules; track m) {
           <mat-option [value]="m">{{ m.substring(2) }}</mat-option>

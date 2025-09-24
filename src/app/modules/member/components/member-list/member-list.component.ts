@@ -3,11 +3,11 @@ import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   booleanAttribute,
   input,
   numberAttribute,
   linkedSignal,
+  computed,
 } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
@@ -52,7 +52,7 @@ type Stats = (typeof stats)[number];
     MatCardModule,
   ],
 })
-export class MemberListComponent implements OnInit {
+export class MemberListComponent {
   public members = input.required<Array<Member>>();
   public hideClub = input(false, { transform: booleanAttribute });
   public hideRole = input(false, { transform: booleanAttribute });
@@ -61,6 +61,20 @@ export class MemberListComponent implements OnInit {
   public elevation = input(1, { transform: numberAttribute });
 
   protected selection = new SelectionModel<Member>(this.multipleSelection(), [], true);
+  readonly #columns = [
+    'player',
+    'role',
+    'club',
+    'sum_present',
+    'avg_points',
+    'avg_rating',
+    'sum_goals',
+    'sum_goals_against',
+    'sum_assist',
+    'sum_yellow_card',
+    'sum_red_card',
+  ];
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly selectionChange = outputFromObservable<Array<Member>>(
     this.selection.changed.pipe(map(() => this.selection.selected)),
@@ -76,40 +90,26 @@ export class MemberListComponent implements OnInit {
     return ds;
   });
 
-  protected displayedColumns = [
-    'player',
-    'role',
-    'club',
-    'sum_present',
-    'avg_points',
-    'avg_rating',
-    'sum_goals',
-    'sum_goals_against',
-    'sum_assist',
-    'sum_yellow_card',
-    'sum_red_card',
-  ];
+  protected displayedColumns = computed(() => this.fixColumns([...this.#columns]));
 
   protected footer: Record<string, number> = {};
 
-  public ngOnInit(): void {
-    this.fixColumns();
-  }
-
-  protected fixColumns(): void {
+  protected fixColumns(columns: Array<string>): Array<string> {
     if (this.hideClub()) {
-      this.displayedColumns.splice(this.displayedColumns.indexOf('club'), 1);
+      columns.splice(columns.indexOf('club'), 1);
     }
     if (this.hideRole()) {
-      this.displayedColumns.splice(this.displayedColumns.indexOf('role'), 1);
+      columns.splice(columns.indexOf('role'), 1);
     }
     if (this.isSelectable()) {
-      this.displayedColumns.unshift('select');
+      columns.unshift('select');
     }
+
+    return columns;
   }
 
   protected calcSummary(data: Array<Member>): void {
-    const statsRow = this.displayedColumns.filter(
+    const statsRow = this.displayedColumns().filter(
       (c): c is Stats => c.startsWith('sum') || c.startsWith('avg'),
     );
     for (const column of statsRow) {

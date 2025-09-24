@@ -1,5 +1,5 @@
 import { NgForm, UntypedFormArray } from '@angular/forms';
-import { type MatSnackBar } from '@angular/material/snack-bar';
+import { type MatSnackBarConfig, type MatSnackBar } from '@angular/material/snack-bar';
 // Rimuovi bindCallback - non è necessario qui
 import { firstValueFrom, mergeMap, Observable, of, tap, from } from 'rxjs'; // Importa from per gestire Promises
 
@@ -7,6 +7,7 @@ import { catchUnprocessableEntityErrors } from './catch-unprocessable-entity-err
 
 interface SaveOptions<T, R> {
   message?: string;
+  snackbarConfig?: MatSnackBarConfig;
   form?: NgForm | UntypedFormArray;
   callback?: (res: T) => Observable<R> | Promise<R> | R;
 }
@@ -14,13 +15,16 @@ interface SaveOptions<T, R> {
 export async function save<T, R>(
   observable$: Observable<T>,
   defaultValue: R,
-  snackbar: MatSnackBar,
+  snackbar?: MatSnackBar,
   options?: SaveOptions<T, R>,
 ): Promise<R> {
   const saveOperation$ = observable$.pipe(
     tap(() => {
-      if (options?.message) {
-        snackbar.open(options.message);
+      if (snackbar && options?.message) {
+        snackbar.open(options.message, undefined, {
+          ...options.snackbarConfig,
+          duration: options.snackbarConfig?.duration ?? 3000,
+        });
       }
     }),
     // mergeMap ora riceve direttamente l'Observable<R> dalla callback

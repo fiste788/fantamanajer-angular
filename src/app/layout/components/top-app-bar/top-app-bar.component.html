@@ -12,12 +12,12 @@
       }
     </div>
     <app-breadcrumb />
-    <span class="spacer"></span>
-    <div class="create-box flex">
-      @defer {
-        <app-notification [team]="team()" />
-      }
-    </div>
+    @defer {
+      <app-notification
+        class="create-box flex"
+        [team]="team()"
+      />
+    }
   </mat-toolbar-row>
   <mat-toolbar-row
     id="primary-tab-container"

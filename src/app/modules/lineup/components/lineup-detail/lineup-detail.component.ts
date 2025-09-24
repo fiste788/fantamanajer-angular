@@ -3,8 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit,
   booleanAttribute,
   input,
   numberAttribute,
@@ -12,7 +10,7 @@ import {
 } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { Subscription, finalize, firstValueFrom, from, map } from 'rxjs';
+import { finalize, firstValueFrom, map } from 'rxjs';
 
 import { LineupService as LineupHttpService } from '@data/services';
 import { EmptyLineup, Role } from '@data/types';
@@ -36,12 +34,13 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
     MemberSelectionComponent,
   ],
 })
-export class LineupDetailComponent implements OnInit, OnDestroy {
+export class LineupDetailComponent {
   readonly #lineupHttpService = inject(LineupHttpService);
   readonly #cd = inject(ChangeDetectorRef);
-  readonly #subscription = new Subscription();
 
-  public lineup = input<EmptyLineup>();
+  public lineup = input<EmptyLineup | undefined, EmptyLineup | undefined>(undefined, {
+    transform: (lineup?: EmptyLineup) => this.loadLineup(lineup),
+  });
   public disabled = input(false, { transform: booleanAttribute });
   public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
   public captain = input(true, { transform: booleanAttribute });
@@ -49,28 +48,19 @@ export class LineupDetailComponent implements OnInit, OnDestroy {
 
   protected readonly lineupService = inject(LineupService);
 
-  public ngOnInit(): void {
-    this.#subscription.add(from(this.loadLineup()).subscribe());
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscription.unsubscribe();
-  }
-
   public getLineup(): EmptyLineup {
     return this.lineupService.getLineup();
   }
 
-  protected async loadLineup(): Promise<void> {
-    const mainLineup = this.lineup();
-    if (mainLineup?.team.members?.length) {
-      const lineup = this.lineupService.loadLineup(mainLineup, this.benchs());
+  protected loadLineup(lineup?: EmptyLineup): EmptyLineup | undefined {
+    if (lineup?.team.members?.length) {
+      this.lineupService.loadLineup(lineup, this.benchs());
       if (!this.disabled()) {
-        return this.loadLikely(lineup);
+        void this.loadLikely(lineup);
       }
     }
 
-    return undefined;
+    return lineup;
   }
 
   protected async loadLikely(lineup: EmptyLineup): Promise<void> {

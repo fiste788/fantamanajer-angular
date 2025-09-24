@@ -18,10 +18,10 @@ import {
   switchMap,
   first,
   tap,
-  from,
+  firstValueFrom,
 } from 'rxjs';
 
-import { filterNil, toWritableSignal } from '@app/functions';
+import { toWritableSignal } from '@app/functions';
 
 import { SnackbarNotificationService } from './snackbar-notification.service';
 import { WINDOW } from './window.service';
@@ -41,7 +41,7 @@ export class PwaService {
   public init(): Observable<void> {
     return this.#checkForUpdates().pipe(
       filter((u) => u),
-      switchMap(() => this.#promptUpdate()),
+      switchMap(async () => this.#promptUpdate()),
     );
   }
 
@@ -76,16 +76,21 @@ export class PwaService {
     );
   }
 
-  #promptUpdate(): Observable<void> {
-    return from(
-      this.#notificationService.open("Nuova versione dell'app disponibile", 'Aggiorna', {
+  async #promptUpdate(): Promise<void> {
+    const notification = await this.#notificationService.open(
+      "Nuova versione dell'app disponibile",
+      'Aggiorna',
+      {
         duration: 30_000,
-      }),
-    ).pipe(
-      filterNil(),
-      //map((s) => s.onAction()),
-      switchMap(async () => this.#swUpdate.activateUpdate()),
-      map(() => this.#window.location.reload()),
+      },
+    );
+
+    await firstValueFrom(
+      notification.onAction().pipe(
+        switchMap(async () => this.#swUpdate.activateUpdate()),
+        map(() => this.#window.location.reload()),
+      ),
+      { defaultValue: undefined },
     );
   }
 }
