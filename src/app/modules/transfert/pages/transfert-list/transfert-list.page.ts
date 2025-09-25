@@ -85,6 +85,7 @@ export class TransfertListPage {
   }
 
   protected setSort(ds: MatTableDataSource<Transfer>): void {
+    // eslint-disable-next-line unicorn/no-array-sort
     const sort = this.sort();
     if (sort) {
       ds.sort = sort;

@@ -49,6 +49,7 @@ export class SrcsetPipe implements PipeTransform {
   }
 
   #sortSizes(keys: Array<number>): Array<number> {
+    // eslint-disable-next-line unicorn/no-array-sort
     return keys.sort((a, b) => a - b);
   }
 

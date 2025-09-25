@@ -2,16 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable, Signal, inject, signal, linkedSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import {
-  Observable,
-  filter,
-  map,
-  pairwise,
-  switchMap,
-  startWith,
-  first,
-  distinctUntilChanged,
-} from 'rxjs';
+import { filter, map, pairwise, switchMap, startWith, first, distinctUntilChanged } from 'rxjs';
 
 import { Direction } from '@app/enums';
 import { VisibilityState } from '@app/enums/visibility-state';
@@ -35,19 +26,12 @@ export class LayoutService {
   readonly #breakpointObserver = inject(BreakpointObserver);
   readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
-  readonly #navigationMode$ = this.#getNavigationMode(); // Renamed method for clarity
 
-  public readonly navigationMode = toSignal(this.#navigationMode$, {
-    requireSync: true,
-  });
+  public readonly navigationMode = this.#getNavigationMode(); // Renamed method for clarity
+
   public readonly openDrawer = linkedSignal(() => {
     const navigationMode = this.navigationMode();
-    const navigationStart = this.navigationStart();
-
-    // Gestisce la logica precedentemente nell'effect
-    if (navigationStart !== undefined) {
-      return navigationMode === 'drawer';
-    }
+    this.navigationStart();
 
     return navigationMode === 'drawer';
   });
@@ -97,18 +81,21 @@ export class LayoutService {
   }
 
   // Renamed method for clarity
-  #getNavigationMode(initialValue: NavigationMode = 'bar'): Observable<NavigationMode> {
-    return this.#breakpointObserver.observe([...NAVIGATION_MODE_MAP.keys()]).pipe(
-      map((result) => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            return NAVIGATION_MODE_MAP.get(query) ?? initialValue;
+  #getNavigationMode(initialValue: NavigationMode = 'bar'): Signal<NavigationMode> {
+    return toSignal(
+      this.#breakpointObserver.observe([...NAVIGATION_MODE_MAP.keys()]).pipe(
+        map((result) => {
+          for (const query of Object.keys(result.breakpoints)) {
+            if (result.breakpoints[query]) {
+              return NAVIGATION_MODE_MAP.get(query) ?? initialValue;
+            }
           }
-        }
 
-        return initialValue;
-      }),
-      distinctUntilChanged(),
+          return initialValue;
+        }),
+        distinctUntilChanged(),
+      ),
+      { requireSync: true },
     );
   }
 

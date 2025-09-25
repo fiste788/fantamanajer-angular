@@ -6,7 +6,6 @@ import {
   Component,
   WritableSignal,
   afterNextRender,
-  computed,
   inject,
   input,
   linkedSignal,
@@ -18,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 import { StreamService } from '@data/services';
-import { StreamActivity } from '@data/types';
+import { Stream, StreamActivity } from '@data/types';
 import { LayoutService } from '@layout/services';
 import { ContentLoaderComponent } from '@shared/components/content-loader';
 
@@ -34,23 +33,20 @@ export class StreamComponent {
   readonly #streamService = inject(StreamService);
   readonly #fetchedPages = new Set<number>();
   readonly #pageSize = 10;
+  readonly #page = signal(1);
 
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
   protected readonly viewport = viewChild(CdkVirtualScrollViewport);
   protected readonly skeletonColors = this.#layoutService.skeletonColors;
-  protected readonly page = signal(1);
   protected readonly width = signal(0);
   protected readonly stream = this.#streamService.getStreamResourceByContextAndId(
     this.context,
     this.id,
-    this.page,
+    this.#page,
   );
 
-  protected readonly streamActivity = computed(() =>
-    this.stream.hasValue() ? this.stream.value().results : this.#addPlaceholder(),
-  );
   protected readonly dataStream = this.#getDataStream();
 
   constructor() {
@@ -71,19 +67,20 @@ export class StreamComponent {
     const page = this.#getPageForIndex(range.end - 1);
     if (!this.#fetchedPages.has(page)) {
       this.#fetchedPages.add(page);
-      this.page.set(page);
+      this.#page.set(page);
     }
   }
 
   #getDataStream(): WritableSignal<Array<StreamActivity | undefined>> {
-    return linkedSignal<Array<StreamActivity | undefined>, Array<StreamActivity | undefined>>({
-      source: () => this.streamActivity(),
+    return linkedSignal<Stream | undefined, Array<StreamActivity | undefined>>({
+      source: () => this.stream.value(),
       computation: (source, previous) => {
+        const currentValue = source?.results ?? this.#addPlaceholder();
         const cachedData = [
           ...(previous?.value?.filter((cd) => cd !== undefined) ?? []),
-          ...source,
+          ...currentValue,
         ];
-        if (source.length === this.#pageSize) {
+        if (source?.next !== '') {
           return this.#addPlaceholder(cachedData);
         }
 
