@@ -116,8 +116,8 @@ export class SelectionComponent {
       const team = this.#app.requireTeam();
 
       selection.team_id = team.id;
-      selection.old_member_id = selection.old_member?.id ?? 0;
-      selection.new_member_id = selection.new_member?.id ?? 0;
+      selection.old_member_id = this.oldMember()?.id ?? 0;
+      selection.new_member_id = this.newMember()?.id ?? 0;
       delete selection.team;
       if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
         delete selection.id;
