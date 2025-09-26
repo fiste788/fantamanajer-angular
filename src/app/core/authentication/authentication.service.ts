@@ -132,7 +132,7 @@ export class AuthenticationService {
 
   #getUrl(user: User): string {
     return (
-      (this.#route.snapshot.queryParams['returnUrl'] as string | undefined) ??
+      this.#route.snapshot.queryParamMap.get('returnUrl') ??
       `/championships/${user.teams![0]!.championship.id}`
     );
   }

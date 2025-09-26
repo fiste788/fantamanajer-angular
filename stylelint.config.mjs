@@ -29,7 +29,7 @@ export default {
         // "widely" (default), "newly", or YYYY (e.g. 2023)
         available: 'widely',
         ignoreSelectors: ['nesting', 'host-context'],
-        ignoreProperties: ['text-wrap'],
+        ignoreProperties: { 'text-wrap': [] },
       },
     ],
   },
