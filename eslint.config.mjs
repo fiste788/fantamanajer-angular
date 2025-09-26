@@ -45,7 +45,7 @@ export default tseslint.config(
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
 
-      eslintPluginUnicorn.configs['recommended'],
+      eslintPluginUnicorn.configs['all'],
       eslintPluginPrettierRecommended,
     ],
     // Set the custom processor which will allow us to have our inline Component templates extracted

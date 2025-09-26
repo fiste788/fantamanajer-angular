@@ -180,7 +180,7 @@ export class AuthenticationService {
   }
 
   #getPostLoginRedirectUrl(user: User): string {
-    const returnUrl = this.#route.snapshot.queryParams['returnUrl'] as string | undefined;
+    const returnUrl = this.#route.snapshot.queryParamMap.get('returnUrl');
     if (returnUrl) {
       return returnUrl;
     }
