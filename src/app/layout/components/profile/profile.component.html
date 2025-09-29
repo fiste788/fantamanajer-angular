@@ -2,16 +2,23 @@
   <mat-toolbar>
     @if (team.photo_url) {
       <mat-toolbar-row>
-        <img
-          alt="Logo"
-          height="144"
-          ngSrcset="256w, 600w, 1280w"
-          priority
-          sizes="(max-width: 37.5em) 600px, 256px"
-          width="256"
-          [loaderParams]="team.photo_url"
-          [ngSrc]="team.photo_url | srcset: true"
-        />
+        <a
+          class="logo"
+          fragment="tab"
+          matRipple
+          [routerLink]="['teams', team.id]"
+        >
+          <img
+            alt="Logo"
+            height="144"
+            ngSrcset="256w, 600w, 1280w"
+            priority
+            sizes="(max-width: 37.5em) 600px, 256px"
+            width="256"
+            [loaderParams]="team.photo_url"
+            [ngSrc]="team.photo_url | srcset: true"
+          />
+        </a>
       </mat-toolbar-row>
     }
     <mat-toolbar-row>

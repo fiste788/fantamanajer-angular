@@ -13,7 +13,8 @@ export default [
     data: {
       breadcrumbs: (data: { player: Player }): string => data.player.full_name,
       robots: 'nofollow,index',
-      state: 'player-detail',
+      state: 'player-outlet',
+
       description: (data: { player: Player }): string =>
         `${data.player.members[0]!.role.singular} - ${data.player.members[0]!.club.name}`,
       ogDescription: (data: { player: Player }): string =>

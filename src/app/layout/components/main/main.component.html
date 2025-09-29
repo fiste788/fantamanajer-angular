@@ -1,5 +1,4 @@
 @let _navigationMode = navigationMode();
-@let _showBars = showBars();
 <mat-sidenav-container>
   <mat-sidenav
     autoFocus="false"
@@ -16,19 +15,13 @@
       <app-navigation-skeleton />
     }
   </mat-sidenav>
-  <mat-sidenav-content [class.with-bars]="_showBars === 'visible'">
-    <app-top-app-bar [class]="['scroll-up', 'scroll-up-' + _showBars]" />
+  <mat-sidenav-content>
+    <app-top-app-bar class="scroll scroll-up" />
     <main [style.viewTransitionName]="viewTransitionName()">
       <router-outlet #o="outlet" />
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
 @defer (when _navigationMode === 'bar') {
-  @let _stable = isStable();
-  <app-navigation-bar
-    [class]="[
-      'scroll-down',
-      'scroll-down-' + (_stable && _navigationMode === 'bar' ? _showBars : hidden),
-    ]"
-  />
+  <app-navigation-bar class="scroll scroll-down" />
 }

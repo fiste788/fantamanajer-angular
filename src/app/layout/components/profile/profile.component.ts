@@ -3,13 +3,13 @@ import { NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom, switchMap } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -34,7 +34,9 @@ import { LayoutService } from '../../services';
     MatIcon,
     MatButtonModule,
     NgOptimizedImage,
+    MatRippleModule,
     SrcsetPipe,
+    RouterLink,
   ],
 })
 export class ProfileComponent {

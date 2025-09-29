@@ -5,12 +5,12 @@ html {
   }
 
   @media (max-width: theme('screens.sm')) {
-    app-main.with-bars {
+    app-main:not(.fullscreen) {
       ~ .cdk-overlay-container .mdc-snackbar {
         margin-bottom: 6rem;
       }
 
-      &.loggedin ~ .cdk-overlay-container .mdc-snackbar {
+      &.logged-in ~ .cdk-overlay-container .mdc-snackbar {
         margin-bottom: 10rem;
       }
     }

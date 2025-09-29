@@ -27,11 +27,15 @@ export class CurrentTransitionService {
   ): boolean {
     const info = this.currentTransition();
     if (info) {
+      const outletTo = this.#getOutlet(info.transition.to);
+      const outletFrom = this.#getOutlet(info.transition.from);
+
+      const targetTo = outletTo?.firstChild ?? outletTo;
+      const targetFrom = outletFrom?.firstChild ?? outletFrom;
       // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
       // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
       const isBannerImg =
-        this.#getOutlet(info.transition.to)?.firstChild?.params[param] === `${entity.id}` ||
-        this.#getOutlet(info.transition.from)?.firstChild?.params[param] === `${entity.id}`;
+        targetTo?.params[param] === `${entity.id}` || targetFrom?.params[param] === `${entity.id}`;
 
       if (isBannerImg) {
         this.#document.documentElement.classList.remove('list-to-detail');
@@ -56,9 +60,9 @@ export class CurrentTransitionService {
         outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
         outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
       ) {
-        const isBannerImg =
-          this.#getOutlet(info.transition.to)?.firstChild?.params[param] !==
-          this.#getOutlet(info.transition.from)?.firstChild?.params[param];
+        const targetTo = outletTo?.firstChild ?? outletTo;
+        const targetFrom = outletFrom?.firstChild ?? outletFrom;
+        const isBannerImg = targetTo?.params[param] !== targetFrom?.params[param];
 
         if (isBannerImg) {
           this.#document.documentElement.classList.remove('detail-to-list');

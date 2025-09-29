@@ -6,10 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SlugPipe implements PipeTransform {
   // Renamed parameter for clarity
-  public transform(value: string): string {
+  public transform(value?: string): string {
     return (
       value
-        .toString()
+        ?.toString()
         .toLowerCase()
         // Replace spaces with -
         .replaceAll(/\s+/g, '-')
@@ -20,7 +20,7 @@ export class SlugPipe implements PipeTransform {
         // Trim - from start of text
         .replace(/^-+/, '')
         // Trim - from end of text
-        .replace(/-+$/, '')
+        .replace(/-+$/, '') ?? ''
     );
   }
 }

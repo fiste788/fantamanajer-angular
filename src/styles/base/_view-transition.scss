@@ -79,6 +79,10 @@
       transition: border-radius;
     }
 
+    &::view-transition-group(.metadata) {
+      z-index: 1;
+    }
+
     @media (max-width: theme('screens.sm')) {
       &::view-transition-new(banner-img),
       &::view-transition-old(banner-img) {

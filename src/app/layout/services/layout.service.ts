@@ -5,7 +5,6 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, map, pairwise, switchMap, startWith, first, distinctUntilChanged } from 'rxjs';
 
 import { Direction } from '@app/enums';
-import { VisibilityState } from '@app/enums/visibility-state';
 import { ScrollService } from '@app/services';
 
 type NavigationMode = 'bar' | 'rail' | 'drawer';
@@ -36,19 +35,12 @@ export class LayoutService {
     return navigationMode === 'drawer';
   });
 
-  public readonly showBars = linkedSignal(() => {
+  public readonly fullscreen = linkedSignal(() => {
     const navigationMode = this.navigationMode();
     const direction = this.#scrollService.direction();
     const isRouteChanged = this.routeContextChanged();
 
-    // Gestisce la logica precedentemente nell'effect
-    if (navigationMode === 'bar' && isRouteChanged) {
-      return VisibilityState.Visible;
-    }
-
-    return navigationMode !== 'bar' || direction === Direction.Up
-      ? VisibilityState.Visible
-      : VisibilityState.Hidden;
+    return !(navigationMode !== 'bar' || direction === Direction.Up || isRouteChanged);
   });
 
   public readonly openFab = linkedSignal(() => {

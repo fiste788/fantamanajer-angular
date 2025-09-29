@@ -27,15 +27,23 @@ export class NavigationListComponent {
 
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly openDrawer = this.#layoutService.openDrawer.asReadonly();
+
   // Using computed signal for items
-  protected readonly items = computed(() =>
-    this.#buildNavigationItems(
-      this.mode(),
-      this.#authenticationService.isLoggedIn(),
-      this.#applicationService.currentMatchday(),
-      this.#applicationService.currentTeam(),
-    ),
-  );
+  protected readonly items = computed(() => {
+    const mode = this.mode();
+    const loggedIn = this.#authenticationService.isLoggedIn();
+    const currentMatchday = this.#applicationService.currentMatchday();
+    const currentTeam = this.#applicationService.currentTeam();
+
+    // Se l'utente è loggato e il team non è ancora disponibile,
+    // restituisci un array vuoto per non visualizzare nulla
+    if (loggedIn && !currentTeam) {
+      return [];
+    }
+
+    // Altrimenti, procedi con la costruzione della navigazione
+    return this.#buildNavigationItems(mode, loggedIn, currentMatchday, currentTeam);
+  });
 
   // Renamed and refactored the method to be more focused
   #buildNavigationItems(

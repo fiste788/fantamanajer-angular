@@ -16,7 +16,6 @@ import { RouterOutlet } from '@angular/router';
 import { delay } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { VisibilityState } from '@app/enums';
 import { CurrentTransitionService, ScrollService } from '@app/services';
 
 import { LayoutService } from '../../services';
@@ -40,10 +39,10 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     NavigationDrawerComponent,
   ],
   host: {
-    '[class.stable]': 'isStable()', // Changed to isStable
     '[class]': '"navigation-mode-" + navigationMode()',
-    '[class.with-bars]': 'showBars() === visible',
-    '[class.loggedin]': 'loggedIn()',
+    '[class.logged-in]': 'isLoggedIn()',
+    '[class.stable]': 'isStable()',
+    '[class.fullscreen]': 'fullscreen()',
   },
 })
 export class MainComponent {
@@ -63,10 +62,8 @@ export class MainComponent {
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
-  protected readonly showBars = this.#layoutService.showBars;
-  protected readonly hidden = VisibilityState.Hidden;
-  protected readonly visible = VisibilityState.Visible;
-  protected readonly loggedIn = inject(AuthenticationService).isLoggedIn;
+  protected readonly fullscreen = this.#layoutService.fullscreen;
+  protected readonly isLoggedIn = inject(AuthenticationService).isLoggedIn;
 
   constructor() {
     afterNextRender(() => {

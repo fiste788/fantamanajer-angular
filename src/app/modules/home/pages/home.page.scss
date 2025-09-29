@@ -7,3 +7,10 @@
     font-size: var(--mat-sys-headline-large-size);
   }
 }
+
+@supports (view-transition-class: none) {
+  .mat-mdc-card-image,
+  .mat-mdc-card-title {
+    view-transition-class: metadata;
+  }
+}

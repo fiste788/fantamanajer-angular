@@ -67,51 +67,40 @@
   }
 }
 
+.fab {
+  @include transition-full($duration-decelerate, $ease-decelerate, 0ms, transform);
+  @include visible-state(
+    null,
+    $transform-scale-visible,
+    null,
+    $transform-scale-hidden
+  ); // Scala da 0 a 1, Opacità da 0 a 1
+}
+
 // --- Transizioni di Scorrimento (Header / Toolbar / FAB) ---
 .stable {
-  .scroll-up,
-  .scroll-down {
+  .scroll {
     transition-property: transform; // Solo transform per il contenitore principale
+    transition-duration: $duration-decelerate;
+    transition-timing-function: $ease-decelerate;
 
     .mat-toolbar-row {
-      transition-property: opacity; // Opacità per la toolbar
+      @include transition-full(
+        $duration-toolbar-row-visible,
+        $ease-decelerate,
+        $delay-toolbar-row-visible,
+        opacity
+      );
+      @include visible-state(1, null, 0); // Opacità finale 1, parte da 0
     }
+  }
 
-    .fab {
-      transition-property: transform; // Scala e opacità per il FAB
-    }
+  &:not(.navigation-mode-bar) .scroll-down {
+    transform: translateY(100%); // Posizione finale visibile per il contenitore
+  }
 
-    // Stato visibile per scroll-up/down
-    &.scroll-up-visible,
-    &.scroll-down-visible {
-      transition-duration: $duration-decelerate;
-      transition-timing-function: $ease-decelerate;
-      transform: translateY(0); // Posizione finale visibile per il contenitore
-
-      .mat-toolbar-row {
-        @include transition-full(
-          $duration-toolbar-row-visible,
-          $ease-decelerate,
-          $delay-toolbar-row-visible,
-          opacity
-        );
-        @include visible-state(1, null, 0); // Opacità finale 1, parte da 0
-      }
-
-      .fab {
-        @include transition-full($duration-decelerate, $ease-decelerate, 0ms, transform);
-        @include visible-state(
-          null,
-          $transform-scale-visible,
-          null,
-          $transform-scale-hidden
-        ); // Scala da 0 a 1, Opacità da 0 a 1
-      }
-    }
-
-    // Stato nascosto per scroll-up/down
-    &.scroll-up-hidden,
-    &.scroll-down-hidden {
+  &.fullscreen {
+    .scroll {
       transition-duration: $duration-accelerate;
       transition-timing-function: $ease-accelerate;
 
@@ -121,6 +110,7 @@
       ); // Contenitore parte dalla posizione visibile
 
       .mat-toolbar-row {
+        transition-property: opacity; // Opacità per la toolbar
         @include transition-full(
           $duration-toolbar-row-hidden,
           $ease-accelerate,
@@ -132,6 +122,7 @@
       }
 
       .fab {
+        transition-property: transform; // Scala e opacità per il FAB
         @include transition-full(
           $duration-accelerate,
           $ease-accelerate,
@@ -147,24 +138,14 @@
         ); // Scala da 1 a 0, Opacità da 1 a 0
       }
     }
-  }
 
-  // --- Posizioni specifiche per scroll-up/down (questi definiscono solo il punto di partenza per @starting-style) ---
-  // Questi devono avere i loro stili normali definiti altrove per transitionare a translateY(0)
-  .scroll-up-visible {
-    @include starting-style-state(null, translateY(-100%));
-  }
+    .scroll-up {
+      transform: translateY(-100%);
+    }
 
-  .scroll-up-hidden {
-    transform: translateY(-100%);
-  }
-
-  .scroll-down-visible {
-    @include starting-style-state(null, translateY(100%));
-  }
-
-  .scroll-down-hidden {
-    transform: translateY(100%);
+    .scroll-down {
+      transform: translateY(100%);
+    }
   }
 }
 

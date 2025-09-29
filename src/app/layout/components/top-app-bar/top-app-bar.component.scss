@@ -39,7 +39,7 @@ app-breadcrumb {
   }
 }
 
-:host-context(.with-bars) :host.is-scrolled {
+:host-context(:not(.fullscreen)) :host.is-scrolled {
   box-shadow: var(--mat-sys-level2);
 
   @include mat.toolbar-overrides(
