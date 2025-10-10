@@ -111,6 +111,7 @@
 
       .mat-toolbar-row {
         transition-property: opacity; // Opacità per la toolbar
+
         @include transition-full(
           $duration-toolbar-row-hidden,
           $ease-accelerate,
@@ -123,6 +124,7 @@
 
       .fab {
         transition-property: transform; // Scala e opacità per il FAB
+
         @include transition-full(
           $duration-accelerate,
           $ease-accelerate,

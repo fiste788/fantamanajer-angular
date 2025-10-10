@@ -44,14 +44,14 @@ export class SelectionComponent {
   protected readonly selectedMember = toSignal(this.getSelectedMember(), {
     initialValue: undefined,
   });
-  protected readonly newMember = linkedSignal(() => this.selectedMember());
-  protected readonly oldMember = signal<Member | undefined>(undefined);
+  protected readonly buyMember = linkedSignal(() => this.selectedMember());
+  protected readonly sellMember = signal<Member | undefined>(undefined);
   protected readonly role$ = toObservable(
-    linkedSignal<Role | undefined>(() => this.oldMember()?.role),
+    linkedSignal<Role | undefined>(() => this.sellMember()?.role),
   );
 
   protected selectionForm = viewChild(NgForm);
-  protected newMembers$ = this.role$.pipe(
+  protected buyMembers$ = this.role$.pipe(
     filterNil(),
     switchMap((role) =>
       this.#memberService.getFreeMembers(this.#app.currentTeam()!.championship.id, role.id, false),
@@ -85,8 +85,8 @@ export class SelectionComponent {
           // eslint-disable-next-line unicorn/no-null
           selection.old_member = null;
         }
-        this.newMember.set(selection.new_member ?? undefined);
-        this.oldMember.set(selection.old_member ?? undefined);
+        this.buyMember.set(selection.new_member ?? undefined);
+        this.sellMember.set(selection.old_member ?? undefined);
 
         return { selection, members };
       }),
@@ -116,8 +116,8 @@ export class SelectionComponent {
       const team = this.#app.requireCurrentTeam();
 
       selection.team_id = team.id;
-      selection.old_member_id = this.oldMember()?.id ?? 0;
-      selection.new_member_id = this.newMember()?.id ?? 0;
+      selection.old_member_id = this.sellMember()?.id ?? 0;
+      selection.new_member_id = this.buyMember()?.id ?? 0;
       delete selection.team;
       if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
         delete selection.id;

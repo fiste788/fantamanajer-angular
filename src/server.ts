@@ -20,12 +20,12 @@ const LOCAL_DATA_URL_PREFIX = '/localdata';
 const SET_SESSION_URL = `${LOCAL_DATA_URL_PREFIX}/setsession`;
 const LOGOUT_URL = `${LOCAL_DATA_URL_PREFIX}/logout`;
 
-function buildCspHeader(nonce?: string | null): string {
+function buildCspHeader(nonce?: string): string {
   return Object.entries(cspConfig)
     .map(([directive, values]) => {
       const processedValues = values
-        .map((value) => (value === "'nonce'" ? (nonce ? `'nonce-${nonce}'` : null) : value))
-        .filter((value): value is string => value !== null);
+        .map((value) => (value === "'nonce'" ? (nonce ? `'nonce-${nonce}'` : undefined) : value))
+        .filter((value): value is string => value !== undefined);
 
       return processedValues.length > 0 ? `${directive} ${processedValues.join(' ')}` : directive;
     })
@@ -39,6 +39,7 @@ function setServerAuthentication(body: ServerAuthInfo): Response {
   });
   const response = new Response(undefined);
   response.headers.set('Set-Cookie', cookie);
+
   return response;
 }
 
@@ -46,6 +47,7 @@ function configureAngularEngine(): new () => AngularAppEngine {
   const app = AngularAppEngine;
   app.ɵallowStaticRouteRender = false;
   app.ɵhooks.on('html:transform:pre', (ctx) => ctx.html);
+
   return app;
 }
 
@@ -57,15 +59,17 @@ async function handleAngularApp(request: Request, ctx: ExecutionContext): Promis
 
     res.headers.set('Content-Security-Policy', buildCspHeader());
     res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
+
     return res;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
+  } catch (error) {
+    console.error(error);
+
     return new Response('An internal error occurred', { status: 500 });
   }
 }
 
-const handleApiProxy = (request: Request, env: Env): Promise<Response> => env.API.fetch(request);
+const handleApiProxy = async (request: Request, env: Env): Promise<Response> =>
+  env.API.fetch(request);
 
 const handleSetSession = async (request: Request): Promise<Response> =>
   setServerAuthentication(await request.json());

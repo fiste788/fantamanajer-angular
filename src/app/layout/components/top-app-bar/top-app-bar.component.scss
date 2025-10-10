@@ -58,16 +58,12 @@ app-breadcrumb {
     padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 1rem);
 
     @media (min-width: theme('screens.sm')) {
-      & {
-        height: env(titlebar-area-height, var(--mat-toolbar-standard-height, 4rem));
-        padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
-      }
+      height: env(titlebar-area-height, var(--mat-toolbar-standard-height, 4rem));
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
     }
 
     @media (min-width: theme('screens.lg')) {
-      & {
-        padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
-      }
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
     }
   }
 }

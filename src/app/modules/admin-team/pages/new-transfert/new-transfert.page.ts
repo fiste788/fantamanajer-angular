@@ -49,27 +49,27 @@ export class NewTransfertPage {
 
   protected readonly transfert: Partial<Transfer> = { constrained: false };
   protected readonly team$ = getRouteData<Team>('team');
-  protected readonly oldMembers$ = this.loadMembers(this.team$);
-  protected readonly newMembers$? = this.getNewMembers();
-  protected newMemberDisabled = false;
+  protected readonly sellMembers$ = this.loadMembers(this.team$);
+  protected readonly buyMembers$? = this.getNewMembers();
+  protected buyMemberDisabled = false;
 
   protected loadMembers(team$: Observable<Team>): Observable<Array<Member>> {
     return team$.pipe(switchMap((t) => this.#memberService.getMembersByTeamId(t.id)));
   }
 
   protected getNewMembers(): Observable<Array<Member>> {
-    const newMember$ = this.#role$.pipe(
+    const buyMember$ = this.#role$.pipe(
       filterNil(),
       tap(() => {
-        this.newMemberDisabled = true;
+        this.buyMemberDisabled = true;
       }),
     );
 
-    return combineLatest([newMember$, this.team$]).pipe(
+    return combineLatest([buyMember$, this.team$]).pipe(
       switchMap(([role, team]) => this.#memberService.getAvailableMembersForTeam(team.id, role.id)),
       tap(() => {
         this.#changeRef.detectChanges();
-        this.newMemberDisabled = false;
+        this.buyMemberDisabled = false;
       }),
     );
   }

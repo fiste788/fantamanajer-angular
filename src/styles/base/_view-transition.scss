@@ -18,14 +18,14 @@
       animation:
         66ms var(--mat-sys-motion-emphasized-accelerate) both fade-out,
         var(--mat-sys-motion-emphasized-accelerate-duration)
-          var(--mat-sys-motion-emphasized-accelerate) both slide-to-left;
+          var(--mat-sys-motion-emphasized-accelerate) both slide-out-to-left;
     }
 
     &::view-transition-new(main) {
       animation:
         280ms var(--mat-sys-motion-emphasized-decelerate) 120ms both fade-in,
         var(--mat-sys-motion-emphasized-decelerate-duration)
-          var(--mat-sys-motion-emphasized-decelerate) both slide-from-right;
+          var(--mat-sys-motion-emphasized-decelerate) both slide-in-from-right;
     }
 
     &::view-transition-old(navigation-drawer),
@@ -46,7 +46,7 @@
     }
 
     &::view-transition-new(top-app-bar) {
-      animation-name: slide-from-top;
+      animation-name: slide-in-from-top;
     }
 
     &.direction-left,
@@ -66,11 +66,11 @@
     }
 
     &::view-transition-old(primary-tab) {
-      animation-name: slide-to-top;
+      animation-name: slide-out-to-top;
     }
 
     &::view-transition-new(primary-tab) {
-      animation-name: slide-from-top;
+      animation-name: slide-in-from-top;
     }
 
     &::view-transition-image-pair(banner-img) {
@@ -143,21 +143,21 @@
 
     &.direction-left {
       &::view-transition-old(tab) {
-        animation-name: tab-to-left;
+        animation-name: tab-slide-out-to-left;
       }
 
       &::view-transition-new(tab) {
-        animation-name: tab-from-left;
+        animation-name: tab-slide-out-to-right;
       }
     }
 
     &.direction-right {
       &::view-transition-old(tab) {
-        animation-name: tab-to-right;
+        animation-name: tab-slide-in-from-right;
       }
 
       &::view-transition-new(tab) {
-        animation-name: tab-from-right;
+        animation-name: tab-slide-in-from-left;
       }
     }
   }

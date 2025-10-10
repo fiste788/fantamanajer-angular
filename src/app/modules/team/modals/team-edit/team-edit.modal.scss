@@ -1,25 +1,29 @@
-.my-drop-zone {
+.drop-zone {
   border: dotted 3px var(--mat-sys-surface-dim);
   text-align: center;
   padding: 1rem;
+  position: relative;
   transition: all var(--mat-sys-motion-emphasized-decelerate-duration)
     var(--mat-sys-motion-emphasized-decelerate);
   border-radius: var(--mat-sys-corner-small);
 }
 
-.good-file-over {
+.valid-drag {
   background-color: var(--mat-sys-tertiary-container);
   border-color: var(--mat-sys-tertiary);
 }
 
-.bad-file-over {
+.invalid-drag {
   background-color: var(--mat-sys-error-container);
   border-color: var(--mat-sys-error);
   cursor: not-allowed;
 }
 
 input[type='file'] {
-  display: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 1;
 }
 
 .mat-mdc-form-field {

@@ -1,35 +1,39 @@
+<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
 <h2 mat-dialog-title>{{team.name}}</h2>
 <mat-dialog-content>
   @if (!seasonEnded()) {
-  <div>
-    <mat-form-field>
-      <mat-label>Nome squadra</mat-label>
-      <input
-        matInput
-        name="name"
-        placeholder="Nome"
-        required
-        [(ngModel)]="team.name"
-      />
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <mat-label>Nome squadra</mat-label>
+    <input
+      matInput
+      name="name"
+      placeholder="Nome"
+      required
+      [(ngModel)]="team.name"
+    />
+  </mat-form-field>
   }
 
   <div
-    accept="image/*"
-    class="my-drop-zone"
-    ngfDrop
-    selectable
-    [(file)]="file"
+    class="drop-zone create-box"
+    [class.invalid-drag]="dropzoneState() === 'invalid-drag'"
+    [class.valid-drag]="dropzoneState() === 'valid-drag'"
   >
+    <input
+      #inputFile
+      accept="image/*"
+      type="file"
+      (dragleave)="onDragLeave()"
+      (dragover)="onDragOver($event, inputFile.accept)"
+      (drop)="onFileDropped($event, inputFile.accept)"
+    />
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
-    @if (file) {
-    <div class="create-box">
-      <img
-        alt="uploadImage"
-        [ngfSrc]="file"
-      />
-    </div>
+    @if (fileUrl(); as _fileUrl) {
+
+    <img
+      alt="uploadImage"
+      [src]="_fileUrl"
+    />
     }
   </div>
   <div>
