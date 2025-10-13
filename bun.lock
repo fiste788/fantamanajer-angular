@@ -1717,7 +1717,7 @@
 
     "stylelint": ["stylelint@16.25.0", "", { "dependencies": { "@csstools/css-parser-algorithms": "^3.0.5", "@csstools/css-tokenizer": "^3.0.4", "@csstools/media-query-list-parser": "^4.0.3", "@csstools/selector-specificity": "^5.0.0", "@dual-bundle/import-meta-resolve": "^4.2.1", "balanced-match": "^2.0.0", "colord": "^2.9.3", "cosmiconfig": "^9.0.0", "css-functions-list": "^3.2.3", "css-tree": "^3.1.0", "debug": "^4.4.3", "fast-glob": "^3.3.3", "fastest-levenshtein": "^1.0.16", "file-entry-cache": "^10.1.4", "global-modules": "^2.0.0", "globby": "^11.1.0", "globjoin": "^0.1.4", "html-tags": "^3.3.1", "ignore": "^7.0.5", "imurmurhash": "^0.1.4", "is-plain-object": "^5.0.0", "known-css-properties": "^0.37.0", "mathml-tag-names": "^2.1.3", "meow": "^13.2.0", "micromatch": "^4.0.8", "normalize-path": "^3.0.0", "picocolors": "^1.1.1", "postcss": "^8.5.6", "postcss-resolve-nested-selector": "^0.1.6", "postcss-safe-parser": "^7.0.1", "postcss-selector-parser": "^7.1.0", "postcss-value-parser": "^4.2.0", "resolve-from": "^5.0.0", "string-width": "^4.2.3", "supports-hyperlinks": "^3.2.0", "svg-tags": "^1.0.0", "table": "^6.9.0", "write-file-atomic": "^5.0.1" }, "bin": { "stylelint": "bin/stylelint.mjs" } }, "sha512-Li0avYWV4nfv1zPbdnxLYBGq4z8DVZxbRgx4Kn6V+Uftz1rMoF1qiEI3oL4kgWqyYgCgs7gT5maHNZ82Gk03vQ=="],
 
-    "stylelint-browser-compat": ["stylelint-browser-compat@1.0.0-beta.174", "", { "dependencies": { "@mdn/browser-compat-data": "6.0.26", "array.prototype.at": "1.1.3", "lodash.get": "4.4.2", "postcss-media-query-parser": "0.2.3", "postcss-selector-parser": "7.1.0", "postcss-value-parser": "4.2.0", "semver": "7.7.3", "string.prototype.at": "1.0.6", "ts-results": "3.3.0", "zod": "3.25.76" }, "peerDependencies": { "browserslist": ">=4.20.3", "stylelint": ">=14.8.5" } }, "sha512-Gb+br0Gt4sGvpsey9LC80FGpHuA7aR/jOBlz6V9SCYQDylnkqUjkXwLxFvFSR0e7YvHXCxZvIjZEZSNX1IJxlw=="],
+    "stylelint-browser-compat": ["stylelint-browser-compat@1.0.0-beta.175", "", { "dependencies": { "@mdn/browser-compat-data": "6.0.26", "array.prototype.at": "1.1.3", "lodash.get": "4.4.2", "postcss-media-query-parser": "0.2.3", "postcss-selector-parser": "7.1.0", "postcss-value-parser": "4.2.0", "semver": "7.7.3", "string.prototype.at": "1.0.6", "ts-results": "3.3.0", "zod": "4.1.12" }, "peerDependencies": { "browserslist": ">=4.20.3", "stylelint": ">=14.8.5" } }, "sha512-nefVAT3YBK8zohwaFNvM09dqBk5eb0H7tc0kfln8kdxoSFuedVL9xNI38nNoIvVxRSoaA1YG9IjTthankRREPw=="],
 
     "stylelint-config-recommended": ["stylelint-config-recommended@17.0.0", "", { "peerDependencies": { "stylelint": "^16.23.0" } }, "sha512-WaMSdEiPfZTSFVoYmJbxorJfA610O0tlYuU2aEwY33UQhSPgFbClrVJYWvy3jGJx+XW37O+LyNLiZOEXhKhJmA=="],
 
@@ -2340,6 +2340,8 @@
     "stylelint/ignore": ["ignore@7.0.5", "", {}, "sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg=="],
 
     "stylelint-browser-compat/semver": ["semver@7.7.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q=="],
+
+    "stylelint-browser-compat/zod": ["zod@4.1.12", "", {}, "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ=="],
 
     "stylelint-config-standard-scss/stylelint-config-standard": ["stylelint-config-standard@39.0.0", "", { "dependencies": { "stylelint-config-recommended": "^17.0.0" }, "peerDependencies": { "stylelint": "^16.23.0" } }, "sha512-JabShWORb8Bmc1A47ZyJstran60P3yUdI1zWMpGYPeFiC6xzHXJMkpKAd8EjIhq3HPUplIWWMDJ/xu0AiPd+kA=="],
 

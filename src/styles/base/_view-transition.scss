@@ -143,7 +143,7 @@
 
     &.direction-left {
       &::view-transition-old(tab) {
-        animation-name: tab-slide-out-to-left;
+        animation-name: tab-slide-in-from-left;
       }
 
       &::view-transition-new(tab) {
@@ -157,7 +157,7 @@
       }
 
       &::view-transition-new(tab) {
-        animation-name: tab-slide-in-from-left;
+        animation-name: tab-slide-out-to-left;
       }
     }
   }
