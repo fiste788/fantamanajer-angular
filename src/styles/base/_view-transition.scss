@@ -143,21 +143,21 @@
 
     &.direction-left {
       &::view-transition-old(tab) {
-        animation-name: tab-slide-in-from-left;
+        animation-name: tab-slide-out-to-right;
       }
 
       &::view-transition-new(tab) {
-        animation-name: tab-slide-out-to-right;
+        animation-name: tab-slide-in-from-left;
       }
     }
 
     &.direction-right {
       &::view-transition-old(tab) {
-        animation-name: tab-slide-in-from-right;
+        animation-name: tab-slide-out-to-left;
       }
 
       &::view-transition-new(tab) {
-        animation-name: tab-slide-out-to-left;
+        animation-name: tab-slide-in-from-right;
       }
     }
   }
