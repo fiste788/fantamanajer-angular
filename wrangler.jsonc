@@ -5,7 +5,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "fantamanajer-angular",
-  "compatibility_date": "2025-05-25",
+  "compatibility_date": "2025-10-14",
   "compatibility_flags": [
     "nodejs_compat_v2"
   ],
@@ -21,7 +21,7 @@
     }
   ],
   "upload_source_maps": true,
-  "workers_dev": false,
+  "workers_dev": true,
   /**
 	 * Static Assets
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
@@ -65,12 +65,6 @@
         {
           "binding": "API",
           "service": "fantamanajer-reverse-proxy"
-        }
-      ],
-      "routes": [
-        {
-          "pattern": "dev.fantamanajer.it",
-          "custom_domain": true
         }
       ],
       "vars": {
