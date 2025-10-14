@@ -1,10 +1,7 @@
-@let matchday = matchday$ | async; @let number = matchday?.number ?? 0; @if (number > 1) { @let
-bestPlayers = bestPlayers$ | async;
-<div
-  class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4"
-  @cardCreationAnimation
->
-  @for (role of roles; track role.id) { @let bestPlayer = bestPlayers?.get(role);
+@let _matchday = matchday(); @let number = _matchday?.number ?? 0; @if (number > 1) { @let
+_bestPlayers = bestPlayers();
+<div class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4">
+  @for (role of roles; track role.id) { @let bestPlayer = _bestPlayers?.get(role);
   <mat-card appearance="outlined">
     <a [routerLink]="['/players', bestPlayer?.[0]?.player_id]">
       <app-player-image
@@ -12,20 +9,23 @@ bestPlayers = bestPlayers$ | async;
         mat-card-image
         matRipple
         [member]="bestPlayer?.[0]"
+        [style.viewTransitionName]="viewTransitionName(bestPlayer?.[0], 'avatar-' + bestPlayer?.[0]?.player?.full_name | slug)"
       />
     </a>
     @if (!bestPlayer) {
     <mat-progress-bar mode="indeterminate" />
     }
     <mat-card-header>
-      <mat-card-title>
+      <mat-card-title
+        [style.viewTransitionName]="viewTransitionName(bestPlayer?.[0], 'title-' + bestPlayer?.[0]?.player?.full_name | slug)"
+      >
         @if (bestPlayer?.[0]) {
         <span class="mat-text-primary"> {{bestPlayer![0]!.ratings[0]?.points | number}} </span>
         {{bestPlayer![0]!.player.full_name}} } @else {
         <span class="mat-text-primary">-</span>
         }
       </mat-card-title>
-      <mat-card-subtitle>{{role.singolar}}</mat-card-subtitle>
+      <mat-card-subtitle>{{role.singular}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <app-best-players-list [best_players]="(bestPlayer ?? []) | slice: 1" />

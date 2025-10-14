@@ -1,6 +1,4 @@
-import { trigger } from '@angular/animations';
 import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   Component,
@@ -10,21 +8,19 @@ import {
   input,
   viewChild,
   inject,
+  DOCUMENT,
 } from '@angular/core';
 import { MatTabNav, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
-import { routerTransition } from '@shared/animations';
-import { StatePipe } from '@shared/pipes';
 
 @Component({
-  animations: [trigger('contextChange', routerTransition)],
   selector: 'app-primary-tab',
   templateUrl: './primary-tab.component.html',
   styleUrl: './primary-tab.component.scss',
-  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet, StatePipe],
+  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet],
 })
 export class PrimaryTabComponent implements OnDestroy {
   readonly #document = inject(DOCUMENT);
@@ -43,7 +39,7 @@ export class PrimaryTabComponent implements OnDestroy {
       // Create a portalHost from a DOM element
       const element = this.#document.querySelector('#primary-tab-container');
       if (element) {
-        this.#portalHost = new DomPortalOutlet(element, undefined, this.#appRef, this.#injector);
+        this.#portalHost = new DomPortalOutlet(element, this.#appRef, this.#injector);
         this.#portalHost.attach(this.portal());
       }
     });

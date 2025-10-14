@@ -10,28 +10,52 @@ export class SrcsetPipe implements PipeTransform {
     onlyFirst = false,
     onlyKeys = false,
   ): string {
-    if (sizes !== undefined && sizes !== null) {
-      const keys = Object.keys(sizes).map((size) => +size.slice(0, -1));
-      const bigger = keys.sort((a, b) => a - b).at(-1);
-      if (onlyKeys) {
-        return `${keys.join('w, ')}w`;
-      }
-
-      if (onlyFirst) {
-        if (typeof sizes === 'string') {
-          return sizes;
-        }
-        const first = `${bigger}w`;
-
-        return sizes[first]!;
-      }
-
-      const srcset =
-        typeof sizes === 'string' ? [...sizes] : Object.entries(sizes).map(([k, v]) => `${v} ${k}`);
-
-      return srcset.join(',');
+    if (sizes === undefined || sizes === null) {
+      return '';
     }
 
-    return '';
+    if (typeof sizes === 'string') {
+      // If input is already a string, return it directly or based on flags
+      if (onlyFirst || onlyKeys) {
+        // Handle cases where flags are used with a string input if necessary
+        // For now, assuming it returns the string itself
+        return sizes;
+      }
+
+      return sizes;
+    }
+
+    // Handle Record<string, string> input
+    const keys = this.#extractSizesFromRecord(sizes); // Extracted helper function
+    const sortedKeys = this.#sortSizes(keys); // Extracted helper function
+    const bigger = sortedKeys.at(-1);
+
+    if (onlyKeys) {
+      return `${sortedKeys.join('w, ')}w`;
+    }
+
+    if (onlyFirst) {
+      const first = `${bigger}w`;
+
+      return sizes[first]!;
+    }
+
+    // Generate the full srcset string from the record
+    return this.#generateSrcsetString(sizes); // Extracted helper function
+  }
+
+  #extractSizesFromRecord(sizes: Record<string, string>): Array<number> {
+    return Object.keys(sizes).map((size) => +size.slice(0, -1));
+  }
+
+  #sortSizes(keys: Array<number>): Array<number> {
+    // eslint-disable-next-line unicorn/no-array-sort
+    return keys.sort((a, b) => a - b);
+  }
+
+  #generateSrcsetString(sizes: Record<string, string>): string {
+    return Object.entries(sizes)
+      .map(([k, v]) => `${v} ${k}`)
+      .join(',');
   }
 }

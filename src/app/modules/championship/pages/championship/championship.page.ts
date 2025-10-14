@@ -1,6 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { combineLatest, map } from 'rxjs';
+import { Component, inject, linkedSignal } from '@angular/core';
 
 import { AuthenticationService } from '@app/authentication';
 import { ApplicationService } from '@app/services';
@@ -9,14 +7,14 @@ import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.
 
 @Component({
   templateUrl: './championship.page.html',
-  imports: [PrimaryTabComponent, AsyncPipe],
+  imports: [PrimaryTabComponent],
 })
 export class ChampionshipPage {
   readonly #auth = inject(AuthenticationService);
   readonly #app = inject(ApplicationService);
 
-  protected tabs$ = combineLatest([this.#auth.user$, this.#app.team$]).pipe(
-    map(([user, team]) => this.loadTab(user, team)),
+  protected tabs = linkedSignal(() =>
+    this.loadTab(this.#auth.currentUser(), this.#app.currentTeam()),
   );
 
   protected loadTab(user?: User, team?: Team): Array<Tab> {

@@ -1,35 +1,23 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <button
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      type="button"
-      (click)="clickNav()"
-    >
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <app-breadcrumb />
-    <span class="spacer"></span>
-    <div
-      class="flex"
-      @createBox
-    >
-      @if (deferredPrompt$ | async; as prompt) {
-        <a
-          aria-label="Install app"
-          href="#install"
-          mat-icon-button
-          (click)="install(prompt, $event)"
+    <div class="menu">
+      @defer (on viewport) {
+        <app-navigation-drawer-button />
+      } @placeholder {
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          class="menu-placeholder"
+          >menu</mat-icon
         >
-          <mat-icon>get_app</mat-icon>
-        </a>
-      }
-      @if (loggedIn()) {
-        @defer {
-          <app-notification />
-        }
       }
     </div>
+    <app-breadcrumb />
+    @defer {
+      <app-notification
+        class="create-box flex"
+        [team]="team()"
+      />
+    }
   </mat-toolbar-row>
   <mat-toolbar-row
     id="primary-tab-container"

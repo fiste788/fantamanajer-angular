@@ -19,11 +19,10 @@
         name="module"
         placeholder="Modulo"
         [disabled]="disabled()"
-        [(ngModel)]="lineupService.selectedModule"
-        (selectionChange)="lineupService.moduleChange()"
+        [(ngModel)]="lineupService.lineup.module"
       >
-        @for (m of lineupService.modules; track m.key) {
-          <mat-option [value]="m">{{ m.label }}</mat-option>
+        @for (m of lineupService.modules; track m) {
+          <mat-option [value]="m">{{ m.substring(2) }}</mat-option>
         }
       </mat-select>
       @if (module.errors?.['Expired']) {

@@ -1,51 +1,47 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @let _selectedMember = selectedMember(); @let _player = player();
-<div @enterDetailAnimation>
-  <div class="animation-container">
-    <app-parallax-header
-      contextParam="id"
-      [backgroundImage]="_selectedMember.club.background_url ?? undefined"
-      [height]="128"
-      [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
-      [subtitle]="_selectedMember.role.singolar + ' - ' + _selectedMember.club.name"
-      [title]="_player.full_name"
-      [width]="90"
-      (imageLoaded)="scrollTo($event)"
+<app-parallax-header
+  contextParam="id"
+  [backgroundImage]="_selectedMember.club.background_url ?? undefined"
+  [height]="128"
+  [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
+  [subtitle]="_selectedMember.role.singular + ' - ' + _selectedMember.club.name"
+  [title]="_player.full_name"
+  [width]="90"
+  (imageLoaded)="scrollTo($event)"
+>
+  <div
+    class="member-selection"
+    parallax-header-right
+  >
+    @if (_selectedMember.free) {
+    <a
+      matButton
+      [queryParams]="{new_member_id: _selectedMember.id}"
+      [routerLink]="'/teams/' + app.currentTeam()?.id + '/transferts'"
     >
-      <div
-        class="member-selection"
-        parallax-header-right
+      Acquista
+    </a>
+    }
+    <mat-form-field>
+      <mat-label>Stagione</mat-label>
+      <mat-select
+        placeholder="Stagione"
+        [(ngModel)]="selectedMember"
       >
-        @if (_selectedMember.free) {
-        <a
-          mat-button
-          [queryParams]="{new_member_id: _selectedMember.id}"
-          [routerLink]="'/teams/' + (app.team$ | async)?.id + '/transferts'"
-        >
-          Acquista
-        </a>
+        @for (member of _player.members; track member.id) {
+        <mat-option [value]="member"> {{ member.season.name }} </mat-option>
         }
-        <mat-form-field>
-          <mat-label>Stagione</mat-label>
-          <mat-select
-            placeholder="Stagione"
-            [(ngModel)]="selectedMember"
-          >
-            @for (member of _player.members; track member.id) {
-            <mat-option [value]="member"> {{ member.season.name }} </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </app-parallax-header>
+      </mat-select>
+    </mat-form-field>
   </div>
-</div>
+</app-parallax-header>
 @if ((ratings$ | async); as ratings) {
 <mat-card appearance="outlined">
   <table
     #table
     mat-table
     matSort
-    @tableRowAnimation
     [dataSource]="ratings"
     [trackBy]="trackRating"
   >
@@ -66,9 +62,7 @@
       >
         {{row.matchday.number}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="rating">
       <th
@@ -84,9 +78,7 @@
       >
         {{row.rating}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="points">
       <th
@@ -102,9 +94,7 @@
       >
         {{row.points | number}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="goals">
       <th
@@ -120,9 +110,7 @@
       >
         {{row.goals}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="goals_against">
       <th
@@ -138,9 +126,7 @@
       >
         {{row.goals_against}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="assist">
       <th
@@ -156,9 +142,7 @@
       >
         {{row.assist}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="penalities_scored">
       <th
@@ -174,9 +158,7 @@
       >
         {{row.penalities_scored}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="penalities_taken">
       <th
@@ -191,9 +173,7 @@
       >
         {{row.penalities_taken}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="regular">
       <th
@@ -215,9 +195,7 @@
         <mat-icon>done</mat-icon>
         }
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="yellow_card">
       <th
@@ -239,9 +217,7 @@
         <mat-icon>done</mat-icon>
         }
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="red_card">
       <th
@@ -263,9 +239,7 @@
         <mat-icon>done</mat-icon>
         }
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <ng-container matColumnDef="quotation">
       <th
@@ -285,17 +259,17 @@
       >
         {{row.quotation}}
       </td>
-
-      <td></td
-    ></ng-container>
+    </ng-container>
 
     <tr
       *matHeaderRowDef="displayedColumns; sticky: true"
       mat-header-row
+      style="--index: 0"
     ></tr>
     <tr
-      *matRowDef="let row; columns: displayedColumns;"
+      *matRowDef="let row; columns: displayedColumns;let i = index"
       mat-row
+      [style]="'--index: ' + (i + 1)"
     ></tr>
   </table>
 </mat-card>

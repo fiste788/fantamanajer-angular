@@ -12,11 +12,13 @@ export default [
     component: PlayerPage,
     data: {
       breadcrumbs: (data: { player: Player }): string => data.player.full_name,
-      state: 'player-detail',
+      robots: 'nofollow,index',
+      state: 'player-outlet',
+
       description: (data: { player: Player }): string =>
-        `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,
+        `${data.player.members[0]!.role.singular} - ${data.player.members[0]!.club.name}`,
       ogDescription: (data: { player: Player }): string =>
-        `${data.player.members[0]!.role.singolar} - ${data.player.members[0]!.club.name}`,
+        `${data.player.members[0]!.role.singular} - ${data.player.members[0]!.club.name}`,
       ogImage: (data: { player: Player }): string =>
         `/svg/clubs.svg#club-${data.player.members[0]!.club.id}`,
       ogTitle: (data: { player: Player }): string => data.player.full_name,

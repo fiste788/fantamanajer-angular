@@ -1,11 +1,10 @@
-<div
-  class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3"
-  @cardCreationAnimation
->
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<div class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
   <a routerLink="../members">
     <mat-card
       appearance="outlined"
       fragment="tab"
+      style="--index: 0"
     >
       <mat-card-header>
         <mat-card-title>Modifica giocatori</mat-card-title>
@@ -18,7 +17,10 @@
     fragment="tab"
     routerLink="../new_transfert"
   >
-    <mat-card appearance="outlined">
+    <mat-card
+      appearance="outlined"
+      style="--index: 1"
+    >
       <mat-card-header>
         <mat-card-title>Nuovo trasferimento</mat-card-title>
       </mat-card-header>
@@ -30,7 +32,10 @@
     fragment="tab"
     routerLink="../score/edit"
   >
-    <mat-card appearance="outlined">
+    <mat-card
+      appearance="outlined"
+      style="--index: 2"
+    >
       <mat-card-header>
         <mat-card-title>Modifica punteggio</mat-card-title>
       </mat-card-header>

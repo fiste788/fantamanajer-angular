@@ -1,68 +1,61 @@
+import { ListRange } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Injector,
-  OnDestroy,
-  OnInit,
+  WritableSignal,
   afterNextRender,
   inject,
   input,
+  linkedSignal,
   numberAttribute,
+  signal,
   viewChild,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ContentLoaderModule } from '@ngneat/content-loader';
 
-import { addVisibleClassOnDestroy } from '@app/functions';
-import { StreamActivity } from '@data/types';
-import { listItemAnimation } from '@shared/animations';
-import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
-import { LayoutService } from 'src/app/layout/services';
-
-import { StreamDataSource } from './stream.datasource';
+import { StreamService } from '@data/services';
+import { Stream, StreamActivity } from '@data/types';
+import { LayoutService } from '@layout/services';
+import { ContentLoaderComponent } from '@shared/components/content-loader';
 
 @Component({
-  animations: [listItemAnimation],
-  imports: [
-    ContentLoaderModule,
-    ScrollingModule,
-    MatListModule,
-    MatIconModule,
-    DatePipe,
-    MatEmptyStateComponent,
-  ],
+  imports: [ContentLoaderComponent, ScrollingModule, MatListModule, MatIconModule, DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-stream[context][id]',
+  selector: 'app-stream',
   styleUrl: './stream.component.scss',
   templateUrl: './stream.component.html',
 })
-export class StreamComponent implements OnInit, OnDestroy {
+export class StreamComponent {
   readonly #layoutService = inject(LayoutService);
-  readonly #injector = inject(Injector);
+  readonly #streamService = inject(StreamService);
+  readonly #fetchedPages = new Set<number>();
+  readonly #pageSize = 10;
+  readonly #page = signal(1);
 
   public context = input.required<'championships' | 'clubs' | 'teams' | 'users'>();
   public id = input.required({ transform: numberAttribute });
 
-  protected viewport = viewChild(CdkVirtualScrollViewport);
-  protected ds!: StreamDataSource;
-  protected skeletonColors = this.#layoutService.skeletonColors;
-  protected width!: number;
+  protected readonly viewport = viewChild(CdkVirtualScrollViewport);
+  protected readonly skeletonColors = this.#layoutService.skeletonColors;
+  protected readonly width = signal(0);
+  protected readonly stream = this.#streamService.getStreamResourceByContextAndId(
+    this.context,
+    this.id,
+    this.#page,
+  );
+
+  protected readonly dataStream = this.#getDataStream();
 
   constructor() {
-    addVisibleClassOnDestroy(listItemAnimation);
     afterNextRender(() => {
       const viewport = this.viewport();
       if (viewport) {
-        this.width = viewport.elementRef.nativeElement.clientWidth;
+        this.width.set(viewport.elementRef.nativeElement.clientWidth);
       }
     });
-  }
-
-  public ngOnInit(): void {
-    this.ds = new StreamDataSource(this.#injector, this.context(), this.id());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,7 +63,37 @@ export class StreamComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  public ngOnDestroy(): void {
-    this.ds.disconnect();
+  public getPage(range: ListRange): void {
+    const page = this.#getPageForIndex(range.end - 1);
+    if (!this.#fetchedPages.has(page)) {
+      this.#fetchedPages.add(page);
+      this.#page.set(page);
+    }
+  }
+
+  #getDataStream(): WritableSignal<Array<StreamActivity | undefined>> {
+    return linkedSignal<Stream | undefined, Array<StreamActivity | undefined>>({
+      source: () => this.stream.value(),
+      computation: (source, previous) => {
+        const currentValue = source?.results ?? this.#addPlaceholder();
+        const cachedData = [
+          ...(previous?.value?.filter((cd) => cd !== undefined) ?? []),
+          ...currentValue,
+        ];
+        if (source?.next !== '') {
+          return this.#addPlaceholder(cachedData);
+        }
+
+        return cachedData;
+      },
+    });
+  }
+
+  #getPageForIndex(index: number): number {
+    return Math.floor(index / this.#pageSize) + 1;
+  }
+
+  #addPlaceholder(data: Array<StreamActivity | undefined> = []): Array<StreamActivity | undefined> {
+    return [...data, ...Array.from<undefined>({ length: this.#pageSize })];
   }
 }

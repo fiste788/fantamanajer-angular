@@ -13,7 +13,7 @@
       [(ngModel)]="transfert.old_member"
       (selectionChange)="playerChange($event.value)"
     >
-      @for (member of oldMembers$ | async; track member.id) {
+      @for (member of sellMembers$ | async; track member.id) {
       <mat-option [value]="member">{{ member.player.full_name}}</mat-option>
       }
     </mat-select>
@@ -27,7 +27,7 @@
       [compareWith]="compareFn"
       [(ngModel)]="transfert.new_member"
     >
-      @for (member of newMembers$ | async; track member.id) {
+      @for (member of buyMembers$ | async; track member.id) {
       <mat-option [value]="member">{{ member.player.full_name }}</mat-option>
       }
     </mat-select>
@@ -39,7 +39,7 @@
   >
   <button
     color="accent"
-    mat-flat-button
+    matButton="filled"
     type="submit"
     [disabled]="!transfertForm.form.valid"
   >

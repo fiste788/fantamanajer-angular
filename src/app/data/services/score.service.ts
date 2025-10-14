@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
+import { Injectable, ResourceRef, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RecursivePartial } from '@app/types/recursive-partial.type';
@@ -8,56 +8,86 @@ import { RankingPosition, Score } from '../types';
 
 import { LineupService } from './lineup.service';
 
-const url = 'scores';
+const SCORES_URL_SEGMENT = 'scores'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  ranking: (id: number) => `/championships/${id}/ranking`,
-  score: (id: number) => `/${url}/${id}`,
-  team: (id: number) => `/teams/${id}/${url}`,
-  update: (id: number) => `/${url}/${id}`,
+  championshipRanking: (id: number) => `/championships/${id}/ranking`, // Modifica suggerita per la nomenclatura
+  scoreById: (id: number) => `/${SCORES_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'update'
+  teamScores: (teamId: number) => `/teams/${teamId}/${SCORES_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  lastTeamScore: (teamId: number) => `/teams/${teamId}/${SCORES_URL_SEGMENT}/last`, // Aggiunta rotta specifica per l'ultimo punteggio
 };
 
 @Injectable({ providedIn: 'root' })
 export class ScoreService {
   readonly #http = inject(HttpClient);
 
-  public static cleanScore(score: Score): RecursivePartial<Score> {
+  // Modifica suggerita per la nomenclatura e refactoring interno (rimozione duplicazione delete team)
+  public static prepareScoreForApi(score: Score): RecursivePartial<Score> {
     const clonedScore = structuredClone(score);
     const cleanedScore: RecursivePartial<Score> = clonedScore;
+
     if (clonedScore.lineup) {
-      cleanedScore.lineup = LineupService.cleanLineup(clonedScore.lineup);
-      delete cleanedScore.lineup.modules;
+      // Assicurarsi che cleanLineup gestisca i casi null/undefined se necessario
+      cleanedScore.lineup = LineupService.prepareLineupForApi(clonedScore.lineup); // Utilizzo del nome del metodo modificato in LineupService
+      // La proprietà modules è già gestita in prepareLineupForApi
     }
-    delete cleanedScore.team;
+
+    // Rimozione della duplicazione 'delete cleanedScore.team;'
     delete cleanedScore.team;
 
     return cleanedScore;
   }
 
-  public getRanking(championshipId: number): Observable<Array<RankingPosition>> {
-    return this.#http.get<Array<RankingPosition>>(routes.ranking(championshipId));
+  public getChampionshipRanking(championshipId: number): Observable<Array<RankingPosition>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<RankingPosition>>(routes.championshipRanking(championshipId)); // Utilizzo del nome della rotta modificato
   }
 
-  public getScore(id: number, members = false): Observable<Score> {
-    let params = new HttpParams();
-    if (members) {
-      params = params.set('members', '1');
-    }
+  public getScoreById(id: number, includeMembers = false): Observable<Score> {
+    // Modifica suggerita per la nomenclatura e nome parametro
+    const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
 
-    return this.#http.get<Score>(routes.score(id), { params });
+    return this.#http.get<Score>(routes.scoreById(id), { params }); // Utilizzo del nome della rotta modificato
   }
 
-  public getLastScore(teamId: number): Observable<Score> {
-    return this.#http.get<Score>(`${routes.team(teamId)}/last`);
+  public getScoreResourceById(
+    score: () => Score | undefined,
+    includeMembers = false,
+  ): ResourceRef<Score | undefined> {
+    // Modifica suggerita per la nomenclatura e nome parametro
+    const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
+
+    return httpResource(() => {
+      const _score = score();
+
+      return _score === undefined ? undefined : { url: routes.scoreById(_score.id), params }; // Utilizzo del nome della rotta modificato
+    }); // Utilizzo del nome della rotta modificato
+  }
+
+  public getLastTeamScore(teamId: number): Observable<Score> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Score>(routes.lastTeamScore(teamId)); // Utilizzo della rotta centralizzata
   }
 
   public getScoresByTeam(teamId: number): Observable<Array<Score>> {
-    return this.#http.get<Array<Score>>(routes.team(teamId));
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Score>>(routes.teamScores(teamId)); // Utilizzo del nome della rotta modificato
   }
 
-  public update(score: Score): Observable<Pick<Score, 'id'>> {
+  public updateScore(score: Score): Observable<Pick<Score, 'id'>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.put<Pick<Score, 'id'>>(
-      routes.update(score.id),
-      ScoreService.cleanScore(score),
+      routes.scoreById(score.id), // Utilizzo del nome della rotta modificato (consolidato)
+      ScoreService.prepareScoreForApi(score), // Utilizzo del nome del metodo modificato
     );
+  }
+
+  // Funzione privata per creare HttpParams con members (Refactoring suggerito)
+  #createGetScoreParams(includeMembers = false): HttpParams | undefined {
+    if (includeMembers) {
+      return new HttpParams().set('members', '1');
+    }
+
+    return undefined;
   }
 }

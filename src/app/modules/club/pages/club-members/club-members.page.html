@@ -1,4 +1,4 @@
-@if (members$ | async; as members) {
+@if (members.value(); as members) {
 <app-member-list
   hideClub
   [members]="members"

@@ -1,4 +1,4 @@
-<div @cardCreationAnimation>
+<div>
   @if ((league$ | async); as league) {
   <mat-card appearance="outlined">
     <mat-card-content>
@@ -81,7 +81,7 @@
         >
         <button
           color="accent"
-          mat-flat-button
+          matButton="filled"
           type="submit"
           [disabled]="!championshipForm.form.valid"
         >

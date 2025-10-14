@@ -1,12 +1,11 @@
 @if (dispositions(); as _dispositions) {
   @let _captain = captain();
 
-  @for (area of module().areas; track area.role.id) {
-    @let label = area.toIndex - area.fromIndex > 1 ? area.role.plural : area.role.singolar;
+  @for (area of areas(); track area.role.id) {
+    @let label = area.toIndex - area.fromIndex > 1 ? area.role.plural : area.role.singular;
     <div
-      class="flex flex-row"
       ngModelGroup="dispositions"
-      [ngClass]="[area.role.abbreviation, 'area-container']"
+      [class]="['area-container', 'flex', 'flex-row', area.role.abbreviation]"
     >
       <h5
         appSticky
@@ -16,7 +15,7 @@
       </h5>
       <div
         class="area flex flex-col justify-around md:flex-row"
-        [ngClass]="{ 'md:flex-wrap': wrap }"
+        [class.md:flex-wrap]="wrap()"
       >
         @for (i of area.toIndex | range: area.fromIndex; track i) {
           <ng-container [ngModelGroup]="i + ''">
@@ -29,7 +28,7 @@
                 [disabled]="disabled()"
                 [height]="450"
                 [memberList]="area.options"
-                [placeholder]="area.role.singolar"
+                [placeholder]="area.role.singular"
                 [width]="320"
                 [(member)]="disp.member"
                 (memberChange)="memberSelectionChange(area.role, $event)"

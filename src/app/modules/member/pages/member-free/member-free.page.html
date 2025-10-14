@@ -1,8 +1,5 @@
-@let members = members$ | async; @let team = (app.team$ | async);
-<div
-  class="table-container"
-  @tableRowAnimation
->
+@let members = members$ | async; @let team = app.currentTeam();
+<div class="table-container">
   <div class="mat-mdc-table-header flex flex-row">
     <span class="mat-mdc-table-title">Seleziona per acquistarlo</span>
     <mat-form-field floatLabel="always">
@@ -13,7 +10,7 @@
         [(ngModel)]="role"
       >
         @for (role of (roles); track role.id) {
-        <mat-option [value]="role"> {{role.singolar}} </mat-option>
+        <mat-option [value]="role"> {{role.singular}} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -21,7 +18,7 @@
     <div class="mat-mdc-table-header-selected flex flex-row">
       <span class="mat-mdc-table-title">Selezionato {{selectedMember.player.full_name}}</span>
       <a
-        mat-flat-button
+        matButton="filled"
         [queryParams]="{new_member_id: selectedMember.id}"
         [routerLink]="'/teams/' + team.id + '/transferts'"
       >

@@ -7,17 +7,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, map, share } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { addVisibleClassOnDestroy } from '@app/functions';
+import { save } from '@app/functions';
 import { PushService } from '@app/services';
 import { UserService } from '@data/services';
 import { User } from '@data/types';
-import { cardCreationAnimation } from '@shared/animations';
 
 @Component({
-  animations: [cardCreationAnimation],
   styleUrl: './settings.page.scss',
   templateUrl: './settings.page.html',
   imports: [
@@ -36,30 +34,20 @@ export class SettingsPage {
   readonly #userService = inject(UserService);
   readonly #pushService = inject(PushService);
 
-  protected readonly user$ = this.#auth.requireUser$;
+  protected readonly user = this.#auth.currentUser;
   protected readonly push$ = this.#pushService.isSubscribed();
   protected readonly enabled = this.#pushService.isEnabled();
   protected repeatPassword = '';
 
-  constructor() {
-    addVisibleClassOnDestroy(cardCreationAnimation);
-  }
-
-  protected async save(user: User): Promise<void> {
+  protected async save(user: User): Promise<boolean> {
     if (user.password === this.repeatPassword) {
-      return firstValueFrom(
-        this.#userService.update(user).pipe(
-          share(),
-          map((res) => {
-            this.#auth.user.set(res);
-            this.#snackBar.open('Modifiche salvate');
-          }),
-        ),
-        { defaultValue: undefined },
-      );
+      return save(this.#userService.updateUser(user), false, this.#snackBar, {
+        message: 'Modifiche salvate',
+        callback: () => this.#auth.reloadCurrentUser(),
+      });
     }
 
-    return undefined;
+    return false;
   }
 
   protected async togglePush(user: User, checked: boolean): Promise<void> {

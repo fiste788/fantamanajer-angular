@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,21 +6,22 @@ import { AtLeast } from '@app/types';
 import { RecursivePartial } from '@app/types/recursive-partial.type';
 import { EmptyLineup } from '@data/types/empty-lineup.model';
 
-import { Lineup, Member } from '../types';
+import { Lineup, Member, Team } from '../types';
 
-const url = 'lineups';
+const LINEUPS_URL_SEGMENT = 'lineups'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  likely: (teamId: number) => `/teams/${teamId}/${url}/likely`,
-  lineup: (teamId: number) => `/teams/${teamId}/${url}/current`,
-  lineups: (teamId: number) => `/teams/${teamId}/${url}`,
-  update: (teamId: number, id: number) => `/teams/${teamId}/${url}/${id}`,
+  likelyLineup: (teamId: number) => `/teams/${teamId}/${LINEUPS_URL_SEGMENT}/likely`, // Modifica suggerita per la nomenclatura
+  currentTeamLineup: (teamId: number) => `/teams/${teamId}/${LINEUPS_URL_SEGMENT}/current`, // Modifica suggerita per la nomenclatura
+  teamLineups: (teamId: number) => `/teams/${teamId}/${LINEUPS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  updateLineup: (teamId: number, id: number) => `/teams/${teamId}/${LINEUPS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura
 };
 
 @Injectable({ providedIn: 'root' })
 export class LineupService {
   readonly #http = inject(HttpClient);
 
-  public static cleanLineup(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
+  public static prepareLineupForApi(lineup: AtLeast<Lineup, 'team'>): RecursivePartial<Lineup> {
     const clonedLineup = { ...(lineup as Lineup) };
     const { dispositions } = clonedLineup;
     const disp = dispositions.filter((value) => value.member_id !== null).map((d) => ({ ...d }));
@@ -34,25 +35,36 @@ export class LineupService {
     return cleanedLineup;
   }
 
-  public getLineup(teamId: number): Observable<EmptyLineup> {
-    return this.#http.get<EmptyLineup>(routes.lineup(teamId), { params: { v: '2' } });
+  public getCurrentTeamLineup(teamId: number): Observable<EmptyLineup> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<EmptyLineup>(routes.currentTeamLineup(teamId), { params: { v: '2' } });
   }
 
-  public update(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
+  public getLineupResource(team: () => Team): HttpResourceRef<EmptyLineup | undefined> {
+    return httpResource(() => routes.currentTeamLineup(team().id), {
+      defaultValue: undefined,
+    });
+  }
+
+  public updateLineup(lineup: AtLeast<Lineup, 'id' | 'team'>): Observable<Pick<Lineup, 'id'>> {
+    // Modifica suggerita per la nomenclatura
+
     return this.#http.put<Pick<Lineup, 'id'>>(
-      routes.update(lineup.team.id, lineup.id),
-      LineupService.cleanLineup(lineup),
+      routes.updateLineup(lineup.team.id, lineup.id), // Utilizzo del nome della rotta modificato
+      LineupService.prepareLineupForApi(lineup), // Utilizzo del nome del metodo modificato
     );
   }
 
-  public create(lineup: AtLeast<Lineup, 'team'>): Observable<AtLeast<Lineup, 'id'>> {
+  public createLineup(lineup: AtLeast<Lineup, 'team'>): Observable<AtLeast<Lineup, 'id'>> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.post<Lineup>(
-      routes.lineups(lineup.team.id),
-      LineupService.cleanLineup(lineup),
+      routes.teamLineups(lineup.team.id), // Utilizzo del nome della rotta modificato
+      LineupService.prepareLineupForApi(lineup), // Utilizzo del nome del metodo modificato
     );
   }
 
   public getLikelyLineup(lineup: EmptyLineup): Observable<Array<Member>> {
-    return this.#http.get<Array<Member>>(routes.likely(lineup.team.id));
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Member>>(routes.likelyLineup(lineup.team.id)); // Utilizzo del nome della rotta modificato
   }
 }

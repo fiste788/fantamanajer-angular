@@ -1,67 +1,65 @@
-@mixin pre-bootstrap() {
-  .pre-bootstrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    left: 50%;
-    position: fixed;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-family:
-      system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-      'Segoe UI Emoji', 'Segoe UI Symbol';
+.pre-bootstrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family:
+    system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
 
-    svg {
-      width: 128px;
-      margin: 0 auto 18px;
-      color-scheme: light;
+  svg {
+    width: 128px;
+    margin: 0 auto 18px;
+    color-scheme: light;
 
-      path {
-        fill: transparent;
-        transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
-      }
+    path {
+      fill: transparent;
+      transition: fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
 
+    .s-1 {
+      transition-delay: 0.1s;
+    }
+
+    .s-2 {
+      transition-duration: 0.2s;
+    }
+
+    .s-3 {
+      transition-duration: 0.3s;
+    }
+
+    &.active {
       .s-1 {
-        transition-delay: 0.1s;
+        fill: #db00d0;
       }
 
       .s-2 {
-        transition-duration: 0.2s;
+        fill: #dd0062;
       }
 
       .s-3 {
-        transition-duration: 0.3s;
-      }
-
-      &.active {
-        .s-1 {
-          fill: #db00d0;
-        }
-
-        .s-2 {
-          fill: #dd0062;
-        }
-
-        .s-3 {
-          fill: #ef4249;
-        }
+        fill: #ef4249;
       }
     }
+  }
 
-    h1,
-    .error,
-    noscript h3 {
-      font-size: var(--mat-sys-headline-small-size);
-      line-height: var(--mat-sys-headline-small-line-height);
-      font-weight: var(--mat-sys-headline-medium-weight);
-      margin: 0;
-    }
+  h1,
+  .error,
+  noscript h3 {
+    font-size: var(--mat-sys-headline-small-size);
+    line-height: var(--mat-sys-headline-small-line-height);
+    font-weight: var(--mat-sys-headline-medium-weight);
+    margin: 0;
+  }
 
-    .error,
-    noscript h3 {
-      color: var(--mat-sys-error);
-      margin: 18px 0 0;
-    }
+  .error,
+  noscript h3 {
+    color: var(--mat-sys-error);
+    margin: 18px 0 0;
   }
 }

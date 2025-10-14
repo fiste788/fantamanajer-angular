@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
 :host {
   position: relative;
@@ -10,16 +10,24 @@
   position: static;
 }
 
-.navigation-bar {
-  view-transition-name: navigation-bar;
-}
+@supports (view-transition-name: none) {
+  .navigation-bar {
+    view-transition-name: navigation-bar;
+  }
 
-.mat-drawer {
-  view-transition-name: navigation-drawer;
+  .mat-drawer {
+    view-transition-name: navigation-drawer;
+  }
 }
 
 .mat-drawer-side {
   border: 0 none;
+
+  @include mat.sidenav-overrides(
+    (
+      container-shape: 0,
+    )
+  );
 }
 
 .mat-drawer-content {
@@ -52,17 +60,17 @@ main {
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
   .mat-drawer[old-navigation-mode='rail'] {
-    transition-property: width, background-color !important;
+    transition-property: width, background-color, border-radius !important;
     transform: translate3d(0, 0, 0);
 
     &:not(.mat-drawer-opened) {
-      transition-duration: 200ms !important;
+      transition-duration: var(--mat-sys-motion-emphasized-accelerate-duration) !important;
       transition-timing-function: var(--mat-sys-motion-emphasized-accelerate) !important;
     }
 
     &.mat-drawer-opened {
       transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
-      transition-duration: 400ms !important;
+      transition-duration: var(--mat-sys-motion-emphasized-decelerate-duration) !important;
     }
   }
 

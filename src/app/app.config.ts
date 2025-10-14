@@ -1,4 +1,3 @@
-import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   IMAGE_LOADER,
   ImageLoaderConfig,
@@ -14,17 +13,16 @@ import {
   PLATFORM_ID,
   LOCALE_ID,
   provideEnvironmentInitializer,
-  provideExperimentalZonelessChangeDetection,
   CSP_NONCE,
   REQUEST_CONTEXT,
+  provideZonelessChangeDetection,
+  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
   provideClientHydration,
   withEventReplay,
   withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -36,11 +34,10 @@ import { provideServiceWorker } from '@angular/service-worker';
 
 import { httpErrorInterceptor } from '@app/errors/http-error.interceptor';
 import { onViewTransitionCreated } from '@app/functions';
-import { apiPrefixInterceptor, authInterceptor } from '@app/interceptors';
+import { apiDataTransformerInterceptor, authenticationInterceptor } from '@app/interceptors';
 import {
   ApplicationService,
   PushService,
-  appInitializerProvider,
   NAVIGATOR_PROVIDERS,
   WINDOW_PROVIDERS,
   IconService,
@@ -52,46 +49,61 @@ import { environment } from '@env';
 import { BreadcrumbService } from '@shared/components/breadcrumb/breadcrumb.service';
 
 import routes from './app.routes';
-import { AppOverlayContainer, LayoutService } from './layout/services';
 
 registerLocaleData(localeIt, 'it');
 
+// Extracted IMAGE_LOADER logic into a named function
+const customImageLoader = (config: ImageLoaderConfig): string => {
+  const path = (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
+
+  return path.startsWith(environment.apiEndpoint)
+    ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
+    : path;
+};
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    // Routing Providers
     provideRouter(
       routes,
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
       withViewTransitions({
         onViewTransitionCreated,
       }),
     ),
-    provideExperimentalZonelessChangeDetection(),
+
+    // Core Providers
+    provideZonelessChangeDetection(),
+    provideBrowserGlobalErrorListeners(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors([apiPrefixInterceptor, authInterceptor, httpErrorInterceptor]),
+      withInterceptors([
+        apiDataTransformerInterceptor,
+        authenticationInterceptor,
+        httpErrorInterceptor,
+      ]),
     ),
-    provideAnimationsAsync(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    { provide: OverlayContainer, useExisting: AppOverlayContainer, deps: [LayoutService] },
-    {
-      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {
-        duration: 3000,
-      },
-    },
+
+    // Localization Provider
     {
       provide: LOCALE_ID,
       useValue: 'it-IT',
     },
+
+    // Image Loader Provider
     {
       provide: CSP_NONCE,
       useFactory: () => inject<RequestContext>(REQUEST_CONTEXT)?.nonce ?? 'randomNonceGoesHere',
@@ -99,18 +111,12 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: IMAGE_LOADER,
-      useValue: (config: ImageLoaderConfig) => {
-        const path =
-          (config.loaderParams?.[`${config.width}w`] as string | undefined) ?? config.src;
-
-        return path.startsWith(environment.apiEndpoint)
-          ? environment.serverApiEndpoint + path.replace(environment.apiEndpoint, '')
-          : path;
-      },
+      useValue: customImageLoader, // Using the named function
     },
-    // globalErrorHandlerProvider,
+
+    // Environment Initializer Provider
     provideEnvironmentInitializer(() => {
-      inject(ApplicationService).connect();
+      inject(ApplicationService).connectMatchdayStream();
       inject(MetaService).connect();
       inject(BreadcrumbService).connect('FantaManajer');
       inject(IconService).init();
@@ -119,7 +125,8 @@ export const appConfig: ApplicationConfig = {
         inject(PushService).connect();
       }
     }),
-    appInitializerProvider,
+
+    // Navigator and Window Providers
     NAVIGATOR_PROVIDERS,
     WINDOW_PROVIDERS,
   ],

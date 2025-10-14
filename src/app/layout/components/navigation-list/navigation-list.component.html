@@ -1,53 +1,53 @@
-@let matchday = matchday$ | async;
 @let _mode = mode();
 @let _navigationMode = navigationMode();
 @let _openDrawer = openDrawer();
-<mat-nav-list
-  [@listItemAnimation]="_navigationMode"
-  [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
-  [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
->
-  @if (_mode === 'full' && matchday) {
-    <h3 mat-subheader>
-      <span>
-        @if (!matchday.season.ended && matchday.season.started) {
-          Giornata {{ matchday.number }}
-        } @else {
-          {{ matchday.season.name }}
-        }
-      </span>
-    </h3>
-  }
-  @for (item of items(); track item.url) {
-    @if (item.divider) {
-      <mat-divider />
-    }
-    <a
-      #list
-      #rla="routerLinkActive"
-      mat-list-item
-      routerLinkActive
-      [activated]="rla.isActive"
-      [routerLink]="item.url"
-      [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-    >
-      <mat-icon
-        matListItemIcon
-        matRipple
-        [matRippleDisabled]="_navigationMode !== 'rail' || _openDrawer"
-        [matRippleTrigger]="list._elementRef.nativeElement"
-        >{{ item.icon }}</mat-icon
+@let _items = items();
+@if (_items) {
+  <mat-nav-list
+    class="navigation-list"
+    [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
+    [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
+  >
+    @for (item of _items; track item.title_short ?? item.title; let i = $index) {
+      @if (item.divider) {
+        <mat-divider [style.--index]="i" />
+      }
+      @if (item.header) {
+        <h3
+          mat-subheader
+          [style.--index]="i"
+        >
+          {{ item.header }}
+        </h3>
+      }
+      <a
+        #list
+        #rla="routerLinkActive"
+        mat-list-item
+        routerLinkActive
+        [activated]="rla.isActive"
+        [routerLink]="item.url"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        [style.--index]="i"
       >
-      <span matListItemTitle>
-        @if (item.title_short) {
-          <span class="title-lite"> {{ item.title_short }} </span>
-          <span class="title-full">
+        <mat-icon
+          matListItemIcon
+          matRipple
+          [matRippleDisabled]="_navigationMode !== 'rail' || _openDrawer"
+          [matRippleTrigger]="list._elementRef.nativeElement"
+          >{{ item.icon }}</mat-icon
+        >
+        <span matListItemTitle>
+          @if (item.title_short) {
+            <span class="title-lite"> {{ item.title_short }} </span>
+            <span class="title-full">
+              {{ item.title }}
+            </span>
+          } @else {
             {{ item.title }}
-          </span>
-        } @else {
-          {{ item.title }}
-        }
-      </span>
-    </a>
-  }
-</mat-nav-list>
+          }
+        </span>
+      </a>
+    }
+  </mat-nav-list>
+}

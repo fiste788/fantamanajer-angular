@@ -1,0 +1,185 @@
+@use 'sass:list';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// =====================================
+// 3. Applicazione degli Stili
+// =====================================
+
+// Questo mixin conterrà tutte le tue regole di transizione per essere @include una volta
+
+// --- Transizioni per elementi standard di Material (Row, Card, List Item) ---
+.mat-mdc-row,
+.mat-mdc-header-row,
+.mat-mdc-footer-row,
+.mat-mdc-card,
+.list-item-transition .mat-mdc-list-item,
+.list-item-transition content-loader,
+.member-selection .mat-mdc-select,
+.member-selection .mat-mdc-form-field-subscript-wrapper {
+  @include transition-full(
+    $duration-decelerate,
+    $ease-decelerate,
+    $delay-list-item,
+    opacity,
+    transform,
+    box-shadow
+  );
+
+  // Transizione da stato nascosto (opacity 0, traslato) a visibile
+  @include starting-style-state(0, $transform-y-list-item-initial);
+}
+
+// --- Transizioni per Create Box ---
+.create-box {
+  // Stili base per gli elementi interni animati
+  & > img,
+  .mat-icon,
+  .img-container,
+  .mat-empty-state,
+  .icon-container > span {
+    @include transition-full(
+      $duration-decelerate,
+      $ease-decelerate,
+      $delay-list-item,
+      opacity,
+      transform
+    );
+
+    // Stato finale visibile
+    @include visible-state; // default opacity 1, transform translateY(0)
+    // Stato iniziale per l'ingresso (scalato e trasparente)
+    @include starting-style-state(0, $transform-scale-hidden);
+  }
+
+  // Stato "hidden" o "deleting" per create-box
+  &.deleting {
+    & > img,
+    .mat-icon,
+    .img-container,
+    .mat-empty-state,
+    .icon-container > span {
+      transition-timing-function: $ease-accelerate; // Override del timing function
+
+      // Transizione di uscita (scalato e trasparente) con easing accelerato
+      @include hidden-state(0, $transform-scale-hidden, 1, $transform-scale-visible);
+    }
+  }
+}
+
+.fab {
+  @include transition-full($duration-decelerate, $ease-decelerate, 0ms, transform);
+  @include visible-state(
+    null,
+    $transform-scale-visible,
+    null,
+    $transform-scale-hidden
+  ); // Scala da 0 a 1, Opacità da 0 a 1
+}
+
+// --- Transizioni di Scorrimento (Header / Toolbar / FAB) ---
+.stable {
+  .scroll {
+    transition-property: transform; // Solo transform per il contenitore principale
+    transition-duration: $duration-decelerate;
+    transition-timing-function: $ease-decelerate;
+
+    .mat-toolbar-row {
+      @include transition-full(
+        $duration-toolbar-row-visible,
+        $ease-decelerate,
+        $delay-toolbar-row-visible,
+        opacity
+      );
+      @include visible-state(1, null, 0); // Opacità finale 1, parte da 0
+    }
+  }
+
+  &:not(.navigation-mode-bar) .scroll-down {
+    transform: translateY(100%); // Posizione finale visibile per il contenitore
+  }
+
+  &.fullscreen {
+    .scroll {
+      transition-duration: $duration-accelerate;
+      transition-timing-function: $ease-accelerate;
+
+      @include starting-style-state(
+        null,
+        translateY(0)
+      ); // Contenitore parte dalla posizione visibile
+
+      .mat-toolbar-row {
+        transition-property: opacity; // Opacità per la toolbar
+
+        @include transition-full(
+          $duration-toolbar-row-hidden,
+          $ease-accelerate,
+          0ms,
+          opacity
+        ); // Nessun delay in uscita
+
+        @include hidden-state(0, null, 1); // Opacità finale 0, parte da 1
+      }
+
+      .fab {
+        transition-property: transform; // Scala e opacità per il FAB
+
+        @include transition-full(
+          $duration-accelerate,
+          $ease-accelerate,
+          0ms,
+          transform
+        ); // Nessun delay in uscita
+
+        @include hidden-state(
+          null,
+          $transform-scale-hidden,
+          null,
+          $transform-scale-visible
+        ); // Scala da 1 a 0, Opacità da 1 a 0
+      }
+    }
+
+    .scroll-up {
+      transform: translateY(-100%);
+    }
+
+    .scroll-down {
+      transform: translateY(100%);
+    }
+  }
+}
+
+// --- Transizioni per la Navigazione (Drawer/Rail/Bar) ---
+
+// Assumo che .navigation fosse il contenitore
+.navigation-list > *,
+app-profile,
+.mat-drawer .toggle,
+.mat-drawer .fab {
+  // Transizioni base per tutti gli elementi della navigazione
+  @include transition-full(
+    $duration-decelerate,
+    $ease-decelerate,
+    $delay-navigation-item,
+    transform,
+    opacity
+  );
+
+  // Stato finale visibile per default
+  @include visible-state;
+}
+
+// Elementi che partono da sotto (bar, direction right)
+.navigation-list[direction='right'] > * {
+  @include starting-style-state(0, $transform-y-down);
+}
+
+// Elementi che partono da sinistra (bar)
+.navigation-list[direction='down'] > *,
+app-profile,
+.mat-drawer .toggle,
+.mat-drawer .fab {
+  @include starting-style-state(0, $transform-x-left);
+}

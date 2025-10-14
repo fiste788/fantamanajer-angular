@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 import { Lineup } from '@data/types';
-import { LayoutService } from 'src/app/layout/services';
+import { LayoutService } from '@layout/services';
 
 import { LineupService } from '../lineup.service';
 

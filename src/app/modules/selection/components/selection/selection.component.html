@@ -23,13 +23,12 @@
           placeholder="Vecchio giocatore"
           required
           [compareWith]="compareFn"
-          [(ngModel)]="data.selection.old_member"
-          (selectionChange)="oldMemberChange($event.value)"
+          [(ngModel)]="sellMember"
         >
           @if (data.members; as members) {
             @for (role of members | keyvalue: descOrder; track role.key.id) {
               <mat-optgroup
-                [disabled]="newMemberRole() && role.key.id !== newMemberRole()?.id"
+                [disabled]="buyMember() && role.key.id !== buyMember()?.role_id"
                 [label]="role.key.plural"
               >
                 @for (member of role.value; track member.id) {
@@ -43,23 +42,23 @@
       <mat-form-field>
         <mat-label>Nuovo giocatore</mat-label>
         <mat-select
-          #newMember="ngModel"
+          #newMemberControl="ngModel"
           name="new_member"
           placeholder="Nuovo giocatore"
           required
           [compareWith]="compareFn"
-          [disabled]="newMemberDisabled"
-          [(ngModel)]="data.selection.new_member"
+          [disabled]="sellMember() === undefined"
+          [(ngModel)]="buyMember"
         >
-          @for (member of newMembers$ | async; track member.id) {
+          @for (member of buyMembers$ | async; track member.id) {
             <mat-option [value]="member">
               {{ member.player.full_name }}
             </mat-option>
           }
         </mat-select>
-        @if (newMember.errors?.['TeamReachedMaximum']) {
+        @if (newMemberControl.errors?.['TeamReachedMaximum']) {
           <mat-error>
-            {{ newMember.errors?.['TeamReachedMaximum'] }}
+            {{ newMemberControl.errors?.['TeamReachedMaximum'] }}
           </mat-error>
         }
       </mat-form-field>
@@ -67,16 +66,15 @@
     <div class="row center">
       <button
         color="accent"
-        mat-flat-button
+        matButton="filled"
         type="submit"
         [disabled]="!selectionForm.form.valid"
       >
         SALVA
       </button>
       <button
-        mat-flat-button
+        matButton="filled"
         type="reset"
-        (click)="reset()"
       >
         SVUOTA
       </button>

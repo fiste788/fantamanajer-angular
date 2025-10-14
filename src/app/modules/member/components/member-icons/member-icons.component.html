@@ -3,7 +3,10 @@
   {{ _member.player.full_name }}
 }
 @if (_member.likely_lineup; as like) {
-  <span [ngClass]="{ circle: circle(), 'icon-container': true }">
+  <span
+    class="icon-container"
+    [class.circle]="circle()"
+  >
     @if (like.regular) {
       <mat-icon matTooltip="Titolare"> verified_user </mat-icon>
     }

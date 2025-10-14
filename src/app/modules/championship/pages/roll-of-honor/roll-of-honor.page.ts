@@ -5,15 +5,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { first, map, share, switchMap } from 'rxjs';
+import { first, map, share } from 'rxjs';
 
-import { filterNil, getRouteData, groupBy } from '@app/functions';
+import { filterNil, getRouteDataSignal, groupBy } from '@app/functions';
 import { LeagueService } from '@data/services';
 import { Championship, RollOfHonor } from '@data/types';
-import { tableRowAnimation } from '@shared/animations';
 
 @Component({
-  animations: [tableRowAnimation],
   selector: 'app-roll-of-honor',
   imports: [
     AsyncPipe,
@@ -33,12 +31,11 @@ export class RollOfHonorPage {
   protected displayedColumnsByUser = ['user', 'victory'];
 
   readonly #leagueService = inject(LeagueService);
+  readonly #championship = getRouteDataSignal<Championship>('championship');
 
-  protected readonly dataSource$ = getRouteData<Championship>('championship').pipe(
-    switchMap((championship) => this.#leagueService.getRollOfHonor(championship.league_id)),
-    first(null, undefined),
-    share(),
-  );
+  protected readonly dataSource$ = this.#leagueService
+    .getRollOfHonor(this.#championship().league_id)
+    .pipe(first(null, undefined), share());
 
   protected readonly dataSourceByUser$ = this.dataSource$.pipe(
     filterNil(),
@@ -46,7 +43,7 @@ export class RollOfHonorPage {
       const group = groupBy(
         res,
         (item) =>
-          `${item.roll_of_honor[0]!.team.user.name} ${item.roll_of_honor[0]!.team.user.surname}`,
+          `${item.roll_of_honor_entries[0]!.team.user.name} ${item.roll_of_honor_entries[0]!.team.user.surname}`,
       );
 
       return new Map(

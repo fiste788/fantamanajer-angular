@@ -6,8 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
+import { save } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { ArticleService } from '@data/services';
@@ -37,7 +38,7 @@ export class ArticleDetailPage {
   }
 
   protected new(): Observable<Article> {
-    return this.#app.requireTeam$.pipe(map((t) => ({ team_id: t.id }) as Article));
+    return of({ team_id: this.#app.requireCurrentTeam().id } as Article);
   }
 
   protected async save(
@@ -49,16 +50,11 @@ export class ArticleDetailPage {
         ? this.#articleService.update(article as AtLeast<Article, 'id'>)
         : this.#articleService.create(article);
 
-      return firstValueFrom(
-        save$.pipe(
-          map(async (a: AtLeast<Article, 'id'>) => {
-            this.#snackBar.open('Articolo salvato correttamente');
-
-            return this.#router.navigateByUrl(`/teams/${article.team_id}/articles#${a.id}`);
-          }),
-        ),
-        { defaultValue: false },
-      );
+      return save(save$, false, this.#snackBar, {
+        message: 'Articolo salvato correttamente',
+        callback: async (res) =>
+          this.#router.navigateByUrl(`/teams/${article.team_id}/articles#${res.id}`),
+      });
     }
 
     return false;

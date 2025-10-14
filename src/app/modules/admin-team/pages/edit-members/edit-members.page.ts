@@ -29,14 +29,14 @@ export class EditMembersPage {
   readonly #snackbar = inject(MatSnackBar);
 
   protected readonly roles = inject(RoleService).list();
-  protected readonly module = inject(RoleService).getModule();
+  protected readonly module = inject(RoleService).getModuleKey();
   protected readonly team$ = getRouteData<Team>('team');
   protected readonly data$ = this.team$.pipe(switchMap((team) => this.loadData(team)));
 
   protected loadData(team: Team): Observable<Data> {
     return forkJoin([
-      this.#memberService.getByTeamId(team.id),
-      this.#memberService.getAllFree(team.championship_id),
+      this.#memberService.getMembersByTeamId(team.id),
+      this.#memberService.getAllFreeMembers(team.championship_id),
     ]).pipe(
       map(([teamMembers, allMembers]) => {
         const members = this.#fixMissingMembers(teamMembers);
@@ -65,7 +65,7 @@ export class EditMembersPage {
     if (membersForm.valid) {
       team.members = dispositions.map((m) => m.member);
 
-      return save(this.#teamService.update(team), undefined, this.#snackbar, {
+      return save(this.#teamService.updateTeam(team), undefined, this.#snackbar, {
         message: 'Giocatori modificati',
         form: membersForm,
       });

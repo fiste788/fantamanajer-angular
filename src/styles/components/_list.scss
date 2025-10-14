@@ -1,6 +1,57 @@
+/* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-class-pattern */
-@mixin list {
-  .mat-mdc-nav-list .mdc-list-item__content {
-    display: inline-flex;
+html {
+  .mat-mdc-nav-list {
+    .mdc-list-item__content {
+      display: inline-flex;
+    }
+
+    .mat-focus-indicator {
+      border-radius: var(--mat-sys-corner-large);
+      opacity: 0;
+      box-sizing: border-box;
+      transform: scaleX(0.32);
+      transition:
+        margin 200ms var(--drawer-animation-timing-function),
+        width 200ms var(--drawer-animation-timing-function),
+        height 200ms var(--drawer-animation-timing-function),
+        transform 200ms var(--drawer-animation-timing-function),
+        opacity 200ms var(--drawer-animation-timing-function);
+    }
+
+    .mat-mdc-list-item.mdc-list-item--activated {
+      .mat-focus-indicator {
+        background-color: var(--mat-sys-secondary-container);
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  .navigation-mode-rail .mat-drawer:not(.mat-drawer-opened), // chiuso o si sta chiudendo
+  .navigation-bar {
+    .mat-focus-indicator {
+      height: 2rem;
+      padding: 0 0.75rem;
+      width: 3.5rem;
+      z-index: -1;
+      margin-inline: 0.75rem;
+    }
+  }
+
+  // aperto
+  .mat-drawer.mat-drawer-opened {
+    .mat-focus-indicator {
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  .navigation-bar {
+    .mat-focus-indicator {
+      z-index: 0;
+      margin: 0 auto;
+    }
   }
 }

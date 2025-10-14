@@ -7,7 +7,7 @@
       #matchday
       name="score"
       placeholder="Giornata"
-      (selectionChange)="getScore($event.value)"
+      [(ngModel)]="selectedScore"
     >
       @for (score of scores; track score.id) {
       <mat-option [value]="score">{{score.matchday.number}}</mat-option>
@@ -16,12 +16,12 @@
   </mat-form-field>
   @if (matchday.value) {
   <div>
-    @if ((score$ | async); as score) {
+    @if (score.value(); as _score) {
     <form
       #scoreForm="ngForm"
       appMemberAlreadySelected
       class="flex-container"
-      (ngSubmit)="save(score, scoreForm, lineupDetail.getLineup())"
+      (ngSubmit)="save(_score, scoreForm, lineupDetail.getLineup())"
     >
       <mat-card appearance="outlined">
         <mat-form-field>
@@ -33,7 +33,7 @@
             required
             step="0.5"
             type="number"
-            [(ngModel)]="score.points"
+            [(ngModel)]="_score.points"
           />
         </mat-form-field>
         <mat-slide-toggle
@@ -51,7 +51,7 @@
               placeholder="Penalità"
               step="0.5"
               type="number"
-              [(ngModel)]="score.penality_points"
+              [(ngModel)]="_score.penality_points"
             />
           </mat-form-field>
           <mat-form-field>
@@ -60,7 +60,7 @@
               matInput
               name="penality"
               placeholder="Motivazione penalità"
-              [(ngModel)]="score.penality"
+              [(ngModel)]="_score.penality"
             />
           </mat-form-field>
         </div>
@@ -70,12 +70,12 @@
       <app-lineup-detail
         #lineupDetail
         [benchs]="9"
-        [lineup]="score.lineup"
+        [lineup]="_score.lineup"
       >
         <button
           buttons
           color="accent"
-          mat-flat-button
+          matButton="filled"
           type="submit"
         >
           Salva

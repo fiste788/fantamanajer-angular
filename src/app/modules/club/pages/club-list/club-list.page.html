@@ -1,20 +1,19 @@
 <div class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
   @for (club of clubs(); track club.id; let i = $index) {
   <mat-card appearance="outlined">
-    <figure
-      class="aspect-ratio-box"
-      mat-card-image
-      matRipple
+    <a
+      [routerLink]="['/clubs/',club.id]"
+      [state]="{img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')'}"
       [style.viewTransitionName]="viewTransitionName(club)"
     >
-      @if (club.background_url) {
-      <a
-        [routerLink]="['/clubs/',club.id]"
-        [state]="{img: 'url(\'' + listImg.currentSrc + '\')'}"
+      <figure
+        class="aspect-ratio-box placeholder"
+        mat-card-image
+        matRipple
       >
+        @if (club.background_url) {
         <img
           #listImg
-          class="card-img"
           height="337"
           ngSrcset="600w, 1280w"
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
@@ -24,21 +23,10 @@
           [ngSrc]="club.background_url | srcset: true"
           [priority]="i === 0"
         />
-      </a>
-      } @else {
-      <a [routerLink]="['/clubs/',club.id]">
-        <div class="placeholder">
-          <span>{{club.name}}</span>
-        </div>
-      </a>
-      }
-
-      <ng-template #placeholder>
-        <div class="placeholder">
-          <span>{{club.name}}</span>
-        </div>
-      </ng-template>
-    </figure>
+        }
+        <figcaption>{{club.name}}</figcaption>
+      </figure>
+    </a>
     <mat-card-header>
       <img
         class="club-header-image"
@@ -58,12 +46,12 @@
     </mat-card-header>
     <mat-card-actions>
       <a
-        mat-flat-button
+        matButton="filled"
         [routerLink]="[club.id, 'players']"
         >DETTAGLI</a
       >
       <a
-        mat-stroked-button
+        matButton="tonal"
         [routerLink]="[club.id, 'stream']"
         >ATTIVITÀ</a
       >

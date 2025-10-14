@@ -15,6 +15,6 @@ export class TeamMembersPage {
   readonly #memberService = inject(MemberService);
 
   protected readonly members$ = getRouteData<Team>('team').pipe(
-    switchMap((team) => this.#memberService.getByTeamId(team.id)),
+    switchMap((team) => this.#memberService.getMembersByTeamId(team.id)),
   );
 }

@@ -1,10 +1,16 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
+
+.fab-container {
+  transition-property: margin;
+  margin: 0.5rem 0.75rem 0;
+}
 
 .fab {
-  margin: 1rem;
   display: none;
   z-index: 1;
   position: relative;
+
+  --index: 2;
 
   @include mat.fab-overrides(
     (
@@ -16,15 +22,14 @@
   );
 }
 
-app-navigation-list {
-  transition-property: margin;
-  transition-duration: 200ms;
-  transition-timing-function: var(--mat-sys-motion-emphasized-decelerate) !important;
-}
-
 .toggle {
   display: none;
-  transition: margin 200ms var(--mat-sys-motion-emphasized-decelerate);
+  margin-left: 1.25rem;
+}
+
+// Added styles for profile and navigation list
+.profile {
+  --index: 1;
 }
 
 @media (min-width: theme('screens.sm')) {
@@ -34,36 +39,47 @@ app-navigation-list {
 }
 
 @media (min-width: theme('screens.sm')) and (max-width: theme('screens.lg')) {
+  .fab-container,
+  .profile,
+  // Updated selector
+  .navigation-list {
+    // Updated selector
+    transition-timing-function: var(--drawer-animation-timing-function);
+    transition-duration: var(--drawer-animation-duration);
+  }
+
+  .profile {
+    // Updated selector
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition-property: max-height, opacity;
+  }
+
   .toggle {
     display: block;
   }
 
-  :host-context(.mat-drawer-opened) {
-    app-profile {
-      max-height: 300px;
-    }
-
-    .toggle {
-      margin-top: 1rem;
-      margin-left: 1rem;
-    }
+  .navigation-list {
+    // Updated selector
+    transition-property: margin-top;
+    margin-top: 3rem;
   }
 
-  :host-context(.mat-drawer:not(.mat-drawer-opened)) {
-    app-profile {
-      display: none;
+  :host-context(.mat-drawer.mat-drawer-opened) {
+    .profile {
+      // Updated selector
+      max-height: 500px;
+      opacity: 1;
     }
 
-    .fab {
-      margin: 0.5rem 0.75rem;
+    .fab-container {
+      margin: 1rem;
     }
 
-    .toggle {
-      margin: 3rem 1.25rem 0;
-    }
-
-    app-navigation-list {
-      margin-top: 3rem;
+    .navigation-list {
+      // Updated selector
+      margin-top: 0;
     }
   }
 }

@@ -74,24 +74,22 @@
     </div>
   </div>
 
-  @if (tabs.length) {
+  @if (tabs().length) {
     <nav
       mat-tab-nav-bar
       [tabPanel]="tabPanel()"
     >
-      @for (tab of tabs(); track track($index, tab)) {
-        @if (!tab.hidden) {
-          <a
-            #rla="routerLinkActive"
-            fragment="tab"
-            mat-tab-link
-            routerLinkActive
-            [active]="rla.isActive"
-            [routerLink]="tab.link"
-          >
-            {{ tab.label }}
-          </a>
-        }
+      @for (tab of visibleTabs(); track track($index, tab)) {
+        <a
+          #rla="routerLinkActive"
+          fragment="tab"
+          mat-tab-link
+          routerLinkActive
+          [active]="rla.isActive"
+          [routerLink]="tab.link"
+        >
+          {{ tab.label }}
+        </a>
       }
     </nav>
   }

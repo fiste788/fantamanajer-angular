@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  computed,
   inject,
   input,
   numberAttribute,
@@ -16,8 +17,8 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
+import { LayoutService } from '@layout/services';
 import { SlugPipe, SrcsetPipe } from '@shared/pipes';
-import { LayoutService } from 'src/app/layout/services';
 
 import { RellaxDirective } from '../../directives/rellax.directive';
 
@@ -52,19 +53,20 @@ export class ParallaxHeaderComponent implements OnDestroy {
   public tabPanel = input<MatTabNavPanel>();
   public readonly imageLoaded = output<number>();
 
-  public readonly rellax = viewChild<RellaxDirective, ElementRef<HTMLElement>>('rellax', {
+  public readonly rellaxRef = viewChild<RellaxDirective, ElementRef<HTMLElement>>('rellax', {
     read: ElementRef<HTMLElement>,
   });
 
   protected readonly navigationMode = inject(LayoutService).navigationMode;
+  protected readonly visibleTabs = computed(() => this.tabs().filter((tab) => !tab.hidden));
 
   public ngOnDestroy(): void {
-    this.rellax()?.nativeElement.classList.remove('no-animate');
+    this.rellaxRef()?.nativeElement.classList.remove('no-animate');
   }
 
   protected imageLoad(): void {
     this.#viewportScroller.scrollToAnchor('tab');
-    this.rellax()?.nativeElement.classList.add('no-animate');
+    this.rellaxRef()?.nativeElement.classList.add('no-animate');
   }
 
   protected track(_: number, item: Tab): string {
@@ -72,6 +74,6 @@ export class ParallaxHeaderComponent implements OnDestroy {
   }
 
   protected viewTransitionName(transitionName = 'banner-img'): string {
-    return this.#transitionService.isOutletChanged(transitionName, this.contextParam());
+    return this.#transitionService.isListToDetail(this.contextParam()) ? transitionName : '';
   }
 }

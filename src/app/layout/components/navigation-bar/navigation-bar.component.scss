@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
 :host {
   display: flex;
@@ -29,5 +29,5 @@
   transform-origin: right bottom;
   display: flex;
   align-self: flex-end;
-  margin: 1rem;
+  margin: 0 1rem 1rem 0;
 }

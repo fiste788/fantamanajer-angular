@@ -7,13 +7,11 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Observable, filter, map, shareReplay } from 'rxjs';
 
-import { addVisibleClassOnDestroy, filterNil, getRouteParam } from '@app/functions';
+import { filterNil, getRouteParam } from '@app/functions';
 import { ScoreService } from '@data/services';
 import { RankingPosition } from '@data/types';
-import { tableRowAnimation } from '@shared/animations';
 
 @Component({
-  animations: [tableRowAnimation],
   styleUrl: './ranking.page.scss',
   templateUrl: './ranking.page.html',
   imports: [
@@ -44,7 +42,6 @@ export class RankingPage {
         return c;
       }),
     );
-    addVisibleClassOnDestroy(tableRowAnimation);
   }
 
   protected loadRanking(): Observable<Array<RankingPosition>> {
@@ -58,12 +55,13 @@ export class RankingPage {
       filter((ranking) => ranking.length > 0),
       map((ranking) => ranking[0]?.scores),
       filterNil(),
+      // eslint-disable-next-line unicorn/no-array-reverse
       map((scores) => Object.keys(scores).reverse()),
     );
   }
 
   protected getRanking(championshipId: number): Observable<Array<RankingPosition>> {
-    return this.#scoreService.getRanking(championshipId);
+    return this.#scoreService.getChampionshipRanking(championshipId);
   }
 
   protected trackRanking(idx: number): number {

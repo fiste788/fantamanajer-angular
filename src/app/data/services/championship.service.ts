@@ -6,10 +6,11 @@ import { AtLeast, RecursivePartial } from '@app/types';
 
 import { Championship } from '../types';
 
-const url = 'championships';
+const CHAMPIONSHIPS_URL_SEGMENT = 'championships'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  championship: (id: number) => `/${url}/${id}`,
-  championships: `/${url}`,
+  championship: (id: number) => `/${CHAMPIONSHIPS_URL_SEGMENT}/${id}`,
+  championships: `/${CHAMPIONSHIPS_URL_SEGMENT}`,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +24,8 @@ export class ChampionshipService {
     );
   }
 
-  public get(championshipId: number): Observable<Championship> {
+  public getChampionship(championshipId: number): Observable<Championship> {
+    // Modifica suggerita per la nomenclatura
     return this.#http.get<Championship>(routes.championship(championshipId));
   }
 

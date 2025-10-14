@@ -8,7 +8,8 @@ export default [
     pathMatch: 'full',
     component: HomePage,
     data: {
-      state: 'home',
+      state: 'home-outlet',
+      viewTransitionOutlet: 'player-outlet',
       description: "L'app per gestire al meglio la tua lega del fantacalcio",
       ogDescription: "L'app per gestire al meglio la tua lega del fantacalcio",
       ogImage: '/icons/icon-180x180.webp',

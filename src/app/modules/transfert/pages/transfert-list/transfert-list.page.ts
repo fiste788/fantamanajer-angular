@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -8,17 +9,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { combineLatest, Observable, map, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
+import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { TransfertService } from '@data/services';
-import { Team, Transfert } from '@data/types';
+import { Team, Transfer } from '@data/types';
 import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
-import { tableRowAnimation } from '@shared/animations';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  animations: [tableRowAnimation],
   templateUrl: './transfert-list.page.html',
   imports: [
     MatTableModule,
@@ -42,21 +41,18 @@ export class TransfertListPage {
 
   protected readonly team$ = getRouteData<Team>('team');
   protected readonly dataSource$ = this.loadData();
-  protected readonly isMyTeam$ = combineLatest([this.team$, this.app.requireTeam$]).pipe(
-    map(([cur, my]) => cur.id === my.id),
-  );
+  protected readonly isMyTeam$ = combineLatest([
+    this.team$,
+    toObservable(this.app.requireCurrentTeam),
+  ]).pipe(map(([cur, my]) => cur.id === my.id));
 
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
 
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
-
-  protected loadData(): Observable<MatTableDataSource<Transfert>> {
+  protected loadData(): Observable<MatTableDataSource<Transfer>> {
     return this.team$.pipe(
-      switchMap((team) => this.#transfertService.getTransfert(team.id)),
+      switchMap((team) => this.#transfertService.getTeamTransferts(team.id)),
       map((data) => {
-        const ds = new MatTableDataSource<Transfert>(data);
+        const ds = new MatTableDataSource<Transfer>(data);
         if (data.length > 0) {
           ds.sortingDataAccessor = this.sortingDataAccessor.bind(this);
           this.#ref.detectChanges();
@@ -67,7 +63,7 @@ export class TransfertListPage {
     );
   }
 
-  protected sortingDataAccessor(data: Transfert, sortHeaderId: string): string {
+  protected sortingDataAccessor(data: Transfer, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
       case 'old_member': {
@@ -84,11 +80,12 @@ export class TransfertListPage {
     return value ?? '';
   }
 
-  protected trackTransfert(_: number, item: Transfert): number {
+  protected trackTransfert(_: number, item: Transfer): number {
     return item.id;
   }
 
-  protected setSort(ds: MatTableDataSource<Transfert>): void {
+  protected setSort(ds: MatTableDataSource<Transfer>): void {
+    // eslint-disable-next-line unicorn/no-array-sort
     const sort = this.sort();
     if (sort) {
       ds.sort = sort;

@@ -1,0 +1,71 @@
+<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
+<svg
+  [attr.viewBox]="viewBox()"
+  [style]="style()"
+>
+  <rect
+    height="100%"
+    role="presentation"
+    width="100%"
+    x="0"
+    y="0"
+    [attr.clip-path]="clipPath()"
+    [style]="fillStyle()"
+  />
+
+  <defs role="presentation">
+    <clipPath [attr.id]="idClip">
+      <ng-content />
+    </clipPath>
+
+    <linearGradient [attr.id]="idGradient">
+      <stop
+        offset="0%"
+        [attr.stop-color]="backgroundColor()"
+        [attr.stop-opacity]="backgroundOpacity()"
+      >
+        @if (animate()) {
+          <animate
+            attributeName="offset"
+            repeatCount="indefinite"
+            [attr.dur]="duration()"
+            [attr.keyTimes]="keyTimes()"
+            [attr.values]="animationValues()[0]"
+          />
+        }
+      </stop>
+
+      <stop
+        offset="50%"
+        [attr.stop-color]="foregroundColor()"
+        [attr.stop-opacity]="foregroundOpacity()"
+      >
+        @if (animate()) {
+          <animate
+            attributeName="offset"
+            repeatCount="indefinite"
+            [attr.dur]="duration()"
+            [attr.keyTimes]="keyTimes()"
+            [attr.values]="animationValues()[1]"
+          />
+        }
+      </stop>
+
+      <stop
+        offset="100%"
+        [attr.stop-color]="backgroundColor()"
+        [attr.stop-opacity]="backgroundOpacity()"
+      >
+        @if (animate()) {
+          <animate
+            attributeName="offset"
+            repeatCount="indefinite"
+            [attr.dur]="duration()"
+            [attr.keyTimes]="keyTimes()"
+            [attr.values]="animationValues()[2]"
+          />
+        }
+      </stop>
+    </linearGradient>
+  </defs>
+</svg>

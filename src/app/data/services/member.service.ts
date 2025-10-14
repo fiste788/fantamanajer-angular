@@ -1,59 +1,116 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Member, Role } from '../types';
+import { Matchday, Member, Role } from '../types';
 
-const url = 'members';
+const MEMBERS_URL_SEGMENT = 'members'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  best: (id: number) => `/${url}/matchdays/${id}/best`,
-  club: (id: number) => `/clubs/${id}/${url}`,
-  free: (id: number) => `/championships/${id}/${url}/free`,
-  freeByRole: (id: number, role: number) => `/championships/${id}/${url}/free/${role}`,
-  member: (id: number) => `/${url}/${id}`,
-  notMine: (id: number, roleId: number) => `/teams/${id}/${url}/not_mine/${roleId}`,
-  team: (id: number) => `/teams/${id}/${url}`,
+  matchdayBestMembers: (matchdayId: number) =>
+    `/${MEMBERS_URL_SEGMENT}/matchdays/${matchdayId}/best`, // Modifica suggerita per la nomenclatura
+  membersByClub: (clubId: number) => `/clubs/${clubId}/${MEMBERS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  championshipFreeMembers: (championshipId: number) =>
+    `/championships/${championshipId}/${MEMBERS_URL_SEGMENT}/free`, // Modifica suggerita per la nomenclatura
+  championshipFreeMembersByRole: (championshipId: number, roleId: number) =>
+    `/championships/${championshipId}/${MEMBERS_URL_SEGMENT}/free/${roleId}`, // Modifica suggerita per la nomenclatura
+  memberById: (id: number) => `/${MEMBERS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura
+  teamMembersNotOwned: (teamId: number, roleId: number) =>
+    `/teams/${teamId}/${MEMBERS_URL_SEGMENT}/not_mine/${roleId}`, // Modifica suggerita per la nomenclatura
+  teamMembers: (teamId: number) => `/teams/${teamId}/${MEMBERS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
 };
 
 @Injectable({ providedIn: 'root' })
 export class MemberService {
   readonly #http = inject(HttpClient);
 
-  public getFree(championshipId: number, roleId = 1, stats = true): Observable<Array<Member>> {
+  public getMembersByClubIdResource(
+    clubId: () => number,
+  ): HttpResourceRef<Array<Member> | undefined> {
+    // Modifica suggerita per la nomenclatura
+    return httpResource(() => routes.membersByClub(clubId())); // Utilizzo del nome della rotta modificato
+  }
+
+  public getFreeMembers(
+    championshipId: number,
+    roleId?: number,
+    stats = true,
+  ): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura e roleId opzionale
     let params = new HttpParams();
     if (!stats) {
-      params = params.set('stats', '0');
+      params = this.#createStatsOffParams(); // Utilizzo della funzione refactorizzata
     }
-    const path = roleId ? routes.freeByRole(championshipId, roleId) : routes.free(championshipId);
+
+    // Logica per selezionare la rotta migliorata (Refactoring suggerito)
+    const path = roleId
+      ? routes.championshipFreeMembersByRole(championshipId, roleId)
+      : routes.championshipFreeMembers(championshipId);
 
     return this.#http.get<Array<Member>>(path, { params });
   }
 
-  public getAllFree(championshipId: number): Observable<Record<Role['id'], Array<Member>>> {
-    const params = new HttpParams().set('stats', '0');
+  public getAllFreeMembers(championshipId: number): Observable<Record<Role['id'], Array<Member>>> {
+    // Modifica suggerita per la nomenclatura
+    const params = this.#createStatsOffParams(); // Utilizzo della funzione refactorizzata
 
-    return this.#http.get<Record<Role['id'], Array<Member>>>(routes.free(championshipId), {
-      params,
-    });
+    return this.#http.get<Record<Role['id'], Array<Member>>>(
+      routes.championshipFreeMembers(championshipId),
+      {
+        // Utilizzo del nome della rotta modificato
+        params,
+      },
+    );
   }
 
-  public getBest(matchdayId: number): Observable<Array<Member>> {
-    return this.#http.get<Array<Member>>(routes.best(matchdayId));
+  public getBestMembersResource(
+    matchday: () => Matchday | undefined,
+  ): HttpResourceRef<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
+    return httpResource(
+      () => {
+        const previousMatchdayId = this.#getPreviousMatchdayId(matchday()); // Utilizzo della funzione refactorizzata
+
+        return previousMatchdayId === undefined
+          ? undefined
+          : routes.matchdayBestMembers(previousMatchdayId); // Utilizzo del nome della rotta modificato
+      },
+      { defaultValue: [] },
+    );
   }
 
-  public getByTeamId(teamId: number): Observable<Array<Member>> {
-    return this.#http.get<Array<Member>>(routes.team(teamId));
+  public getBestMembers(matchdayId: number): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Member>>(routes.matchdayBestMembers(matchdayId)); // Utilizzo del nome della rotta modificato
   }
 
-  public getNotMine(teamId: number, roleId: number): Observable<Array<Member>> {
-    return this.#http.get<Array<Member>>(routes.notMine(teamId, roleId));
+  public getMembersByTeamId(teamId: number): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Member>>(routes.teamMembers(teamId)); // Utilizzo del nome della rotta modificato
   }
 
-  public getByClubId(clubId: number): Observable<Array<Member>> {
-    return this.#http.get<Array<Member>>(routes.club(clubId));
+  public getAvailableMembersForTeam(teamId: number, roleId: number): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Member>>(routes.teamMembersNotOwned(teamId, roleId)); // Utilizzo del nome della rotta modificato
   }
 
-  public getById(id: number): Observable<Member> {
-    return this.#http.get<Member>(routes.member(id));
+  public getMembersByClubId(clubId: number): Observable<Array<Member>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Member>>(routes.membersByClub(clubId)); // Utilizzo del nome della rotta modificato
+  }
+
+  public getMemberById(id: number): Observable<Member> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Member>(routes.memberById(id)); // Utilizzo del nome della rotta modificato
+  }
+
+  // Funzione privata per creare parametri HTTP con stats=0 (Refactoring suggerito)
+  #createStatsOffParams(): HttpParams {
+    return new HttpParams().set('stats', '0');
+  }
+
+  // Funzione privata per calcolare l'ID della giornata precedente (Refactoring suggerito)
+  #getPreviousMatchdayId(currentMatchday: Matchday | undefined): number | undefined {
+    return currentMatchday ? currentMatchday.id - 1 : undefined;
   }
 }

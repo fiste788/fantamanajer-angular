@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/prefer-spread */
 
-import { DOCUMENT } from '@angular/common';
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, DOCUMENT } from '@angular/core';
 import { MatTabNav } from '@angular/material/tabs';
 import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 
@@ -20,33 +19,36 @@ export class CurrentTransitionService {
     | undefined
   >(undefined);
 
-  public getViewTransitionName(
-    transitionName: string,
+  public isDetailToList(
     entity: {
       id: number;
     },
     param = 'id',
-  ): string {
+  ): boolean {
     const info = this.currentTransition();
     if (info) {
+      const outletTo = this.#getOutlet(info.transition.to);
+      const outletFrom = this.#getOutlet(info.transition.from);
+
+      const targetTo = outletTo?.firstChild ?? outletTo;
+      const targetFrom = outletFrom?.firstChild ?? outletFrom;
       // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
       // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
       const isBannerImg =
-        this.#getOutlet(info.transition.to)?.firstChild?.params[param] === `${entity.id}` ||
-        this.#getOutlet(info.transition.from)?.firstChild?.params[param] === `${entity.id}`;
+        targetTo?.params[param] === `${entity.id}` || targetFrom?.params[param] === `${entity.id}`;
 
       if (isBannerImg) {
         this.#document.documentElement.classList.remove('list-to-detail');
         this.#document.documentElement.classList.add('detail-to-list');
       }
 
-      return isBannerImg ? transitionName : '';
+      return isBannerImg;
     }
 
-    return '';
+    return false;
   }
 
-  public isOutletChanged(transitionName: string, param = 'id'): string {
+  public isListToDetail(param = 'id'): boolean {
     const info = this.currentTransition();
     // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
     // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
@@ -58,20 +60,20 @@ export class CurrentTransitionService {
         outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
         outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
       ) {
-        const isBannerImg =
-          this.#getOutlet(info.transition.to)?.firstChild?.params[param] !==
-          this.#getOutlet(info.transition.from)?.firstChild?.params[param];
+        const targetTo = outletTo?.firstChild ?? outletTo;
+        const targetFrom = outletFrom?.firstChild ?? outletFrom;
+        const isBannerImg = targetTo?.params[param] !== targetFrom?.params[param];
 
         if (isBannerImg) {
           this.#document.documentElement.classList.remove('detail-to-list');
           this.#document.documentElement.classList.add('list-to-detail');
         }
 
-        return isBannerImg ? transitionName : '';
+        return isBannerImg;
       }
     }
 
-    return '';
+    return false;
   }
 
   public isTabChanged(tabBar?: MatTabNav): boolean {

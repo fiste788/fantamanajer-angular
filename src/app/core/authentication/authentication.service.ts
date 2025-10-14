@@ -1,11 +1,15 @@
-import { Injectable, inject, linkedSignal, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { supported } from '@github/webauthn-json';
-import { firstValueFrom, Observable, catchError, EMPTY, finalize, map, switchMap, tap } from 'rxjs';
+import {
+  computed,
+  inject,
+  WritableSignal,
+  Injectable,
+  linkedSignal, // Importa WritableSignal
+} from '@angular/core'; // Aggiunte importazioni mancanti potenziali
+import { ActivatedRoute, Router } from '@angular/router'; // Importa ActivatedRoute e Router
+import { JwtHelperService } from '@auth0/angular-jwt'; // Importa JwtHelperService
+import { supported } from '@github/webauthn-json'; // Importa supported da webauthn-json
+import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap, of } from 'rxjs'; // Importa of
 
-import { filterNil } from '@app/functions';
-import { LocalstorageService } from '@app/services/local-storage.service';
 import { UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
@@ -15,30 +19,47 @@ import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
   readonly #webauthnService = inject(WebauthnService);
-  readonly #localStorage = inject(LocalstorageService);
   readonly #jwtHelper = new JwtHelperService();
-  readonly #adminRole = 'ROLE_ADMIN';
-  readonly #userRole = 'ROLE_USER';
-  readonly #emailField = 'user';
+  readonly #ADMIN_ROLE = 'ROLE_ADMIN';
+  readonly #USER_ROLE = 'ROLE_USER';
 
-  public user = signal<User | undefined>(undefined);
-  public user$ = toObservable(this.user);
-  public requireUser$ = this.user$.pipe(filterNil());
-  public loggedIn = linkedSignal(() => this.user() !== undefined);
+  readonly #userIdFromToken = computed(() =>
+    this.#extractSubjectFromToken(this.#tokenStorageService.currentToken()),
+  );
+  readonly #userResource = this.#userService.findUserResource(this.#userIdFromToken);
+
+  readonly #currentUserSignal: WritableSignal<User | undefined> = linkedSignal(
+    () => this.#userResource.value(),
+    {
+      equal: (a, b) => a?.id === b?.id,
+    },
+  );
+
+  public readonly currentUser = this.#currentUserSignal.asReadonly();
+  public readonly isLoggedIn = computed(() =>
+    this.#isTokenValid(this.#tokenStorageService.currentToken()),
+  );
 
   constructor() {
-    if (this.#tokenStorageService.token && !this.isLoggedIn()) {
+    if (this.#tokenStorageService.currentToken() && !this.isLoggedIn()) {
       this.logoutUI();
     }
   }
 
   public authenticate(email: string, password: string): Observable<boolean> {
-    return this.#userService
-      .login(email, password)
-      .pipe(switchMap(async (res) => this.postLogin(res)));
+    return this.#userService.login(email, password).pipe(
+      switchMap(async (res) => this.handleSuccessfulLogin(res)),
+      catchError((error: unknown) => {
+        console.error('Authentication failed:', error);
+
+        return of(false);
+      }),
+    );
   }
 
   public async authenticatePasskey(
@@ -47,94 +68,127 @@ export class AuthenticationService {
     try {
       if (supported()) {
         const res = await this.#webauthnService.startAuthentication(mediation);
+
         if (res) {
-          return await this.postLogin(res);
+          return await this.handleSuccessfulLogin(res);
         }
       }
-    } catch {
+    } catch (error) {
+      console.error('Error during passkey process:', error);
+
       return false;
     }
 
     return false;
   }
 
-  public async postLogin(res: AuthenticationDto): Promise<boolean> {
+  public async handleSuccessfulLogin(res: AuthenticationDto): Promise<boolean> {
     const { user, token } = res;
-    user.roles = this.#getRoles(user);
+
+    this.#updateAuthState(user, token);
+
+    await this.#setLocalSessionFromToken(token);
+
+    return this.#navigateToPostLogin(user);
+  }
+
+  #updateAuthState(user: User, token: string): void {
+    user.roles = this.#deriveUserRoles(user);
+    this.#currentUserSignal.set(user);
     this.#tokenStorageService.setToken(token);
-    this.user.set(user);
+  }
 
+  async #setLocalSessionFromToken(token: string): Promise<void> {
     try {
-      await firstValueFrom(this.#userService.setLocalSession(this.#prepSetSession(token)), {
-        defaultValue: false,
+      await firstValueFrom(this.#userService.setLocalSession(this.#prepareServerAuthInfo(token)), {
+        defaultValue: undefined,
       });
-      // eslint-disable-next-line no-empty
-    } catch {}
+    } catch (error) {
+      console.error('Failed to set local session:', error);
+      throw error;
+    }
+  }
 
-    return firstValueFrom(this.user$.pipe(map((u) => u !== undefined)), { defaultValue: false });
+  async #navigateToPostLogin(user: User): Promise<boolean> {
+    const url = this.#getPostLoginRedirectUrl(user);
+
+    return this.#router.navigateByUrl(url);
   }
 
   public async logout(): Promise<unknown> {
     return firstValueFrom(
       this.#userService.logout().pipe(
         switchMap(() => this.#userService.deleteLocalSession()),
-        catchError(() => EMPTY),
+        catchError((error: unknown) => {
+          console.error('Logout API or local session deletion failed:', error);
+
+          return EMPTY;
+        }),
         finalize(() => this.logoutUI()),
       ),
       { defaultValue: undefined },
     );
   }
 
-  public logoutUI(): void {
-    const user = undefined;
-    this.#localStorage.removeItem(this.#emailField);
-    this.#tokenStorageService.deleteToken();
-    this.user.set(user);
-  }
-
-  public isLoggedIn(): boolean {
-    return !this.#jwtHelper.isTokenExpired(
-      // eslint-disable-next-line unicorn/no-null
-      this.#tokenStorageService.token ?? null,
-    );
-  }
-
-  public isAdmin(): Observable<boolean> {
-    return this.requireUser$.pipe(map((user) => user.admin));
-  }
-
-  public getCurrentUser(): Observable<User> {
-    return this.#userService.getCurrent().pipe(
-      tap((user) => {
-        this.user.set(user);
-      }),
-    );
-  }
-
-  public async hasAuthorities(authorities?: Array<string>): Promise<boolean> {
+  public hasAuthorities(authorities?: Array<string>): boolean {
     if (authorities === undefined || authorities.length === 0) {
       return true;
     }
 
-    return firstValueFrom(
-      this.requireUser$.pipe(map((user) => authorities.some((r) => user.roles.includes(r)))),
-      { defaultValue: false },
-    );
+    return authorities.some((r) => this.currentUser()?.roles?.includes(r));
   }
 
-  #getRoles(user: User): Array<string> {
-    const roles = [this.#userRole];
+  public reloadCurrentUser(): boolean {
+    return this.#userResource.reload();
+  }
+
+  public logoutUI(): void {
+    const user = undefined;
+    this.#tokenStorageService.deleteToken();
+    this.#currentUserSignal.set(user);
+  }
+
+  #isTokenValid(token?: string): boolean {
+    return token ? !this.#jwtHelper.isTokenExpired(token) : false;
+  }
+
+  #extractSubjectFromToken(token?: string): number | undefined {
+    if (!token || this.#jwtHelper.isTokenExpired(token)) {
+      return undefined;
+    }
+
+    return this.#jwtHelper.decodeToken<{ sub: number }>(token)?.sub;
+  }
+
+  #deriveUserRoles(user: User): Array<string> {
+    const roles = [this.#USER_ROLE];
     if (user.admin) {
-      roles.push(this.#adminRole);
+      roles.push(this.#ADMIN_ROLE);
     }
 
     return roles;
   }
 
-  #prepSetSession(token: string): ServerAuthInfo {
+  #prepareServerAuthInfo(token: string): ServerAuthInfo {
+    const expirationDate = this.#jwtHelper.getTokenExpirationDate(token);
+    const expiresAt = expirationDate?.getTime() ?? 0;
+
     return {
       accessToken: token,
-      expiresAt: this.#jwtHelper.getTokenExpirationDate(token)?.getTime() ?? 0,
+      expiresAt,
     };
+  }
+
+  #getPostLoginRedirectUrl(user: User): string {
+    const returnUrl = this.#route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      return returnUrl;
+    }
+    if (user.teams && user.teams.length > 0 && user.teams[0]?.championship?.id !== undefined) {
+      return `/championships/${user.teams[0].championship.id}`;
+    }
+    console.warn('Could not determine redirect URL after login, navigating to root.');
+
+    return '/';
   }
 }

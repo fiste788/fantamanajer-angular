@@ -1,17 +1,15 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, combineLatest, firstValueFrom, map, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { getRouteData, getUnprocessableEntityErrors } from '@app/functions';
+import { getRouteDataSignal, save } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { AtLeast } from '@app/types';
 import { LineupService } from '@data/services';
 import { EmptyLineup, Lineup, Team } from '@data/types';
-import { environment } from '@env';
 import { LineupDetailComponent } from '@modules/lineup/components/lineup-detail/lineup-detail.component';
 import { MemberAlreadySelectedValidator } from '@modules/lineup/components/lineup-detail/member-already-selected-validator.directive';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
@@ -26,57 +24,41 @@ import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatEmptyStateComponent,
-    AsyncPipe,
   ],
 })
 export class LineupLastPage {
   readonly #snackBar = inject(MatSnackBar);
   readonly #lineupService = inject(LineupService);
-  protected readonly app = inject(ApplicationService);
-  protected readonly lineup$ = this.loadData();
-  protected editMode = false;
-  protected benchs = environment.benchwarmersCount;
-  protected captain = true;
-  protected jolly = true;
+  readonly #app = inject(ApplicationService);
 
-  protected loadData(): Observable<EmptyLineup> {
-    const team$ = getRouteData<Team>('team');
-
-    return combineLatest([team$, this.app.requireTeam$]).pipe(
-      map(([team, currentTeam]) => {
-        this.benchs = currentTeam.championship.number_benchwarmers;
-        this.editMode = currentTeam.id === team.id;
-        this.captain = currentTeam.championship.captain;
-        this.jolly = currentTeam.championship.jolly;
-
-        return team;
-      }),
-      switchMap((team) => this.#lineupService.getLineup(team.id)),
-    );
-  }
+  protected readonly seasonEnded = this.#app.seasonEnded;
+  protected readonly matchday = this.#app.currentMatchday;
+  protected readonly team = getRouteDataSignal<Team>('team');
+  protected readonly lineup = this.#lineupService.getLineupResource(this.team);
+  protected readonly championship = computed(() => this.#app.requireCurrentTeam().championship);
+  protected readonly editMode = computed(
+    () => this.#app.requireCurrentTeam().id === this.team().id,
+  );
 
   protected async save(lineup: EmptyLineup, lineupForm: NgForm): Promise<void> {
     if (lineupForm.valid) {
       // eslint-disable-next-line unicorn/no-null
       for (const value of lineup.dispositions) value.member_id = value.member?.id ?? null;
       const save$: Observable<AtLeast<Lineup, 'id'>> = lineup.id
-        ? this.#lineupService.update(lineup as AtLeast<Lineup, 'id' | 'team'>)
-        : this.#lineupService.create(lineup);
+        ? this.#lineupService.updateLineup(lineup as AtLeast<Lineup, 'id' | 'team'>)
+        : this.#lineupService.createLineup(lineup);
 
-      return firstValueFrom(
-        save$.pipe(
-          map((response: Partial<Lineup>) => {
-            if (response.id) {
-              lineup.id = response.id;
-            }
-            this.#snackBar.open('Formazione salvata correttamente');
-          }),
-          catchError((err: unknown) => getUnprocessableEntityErrors(err, lineupForm)),
-        ),
-        { defaultValue: undefined },
-      );
+      return save(save$, undefined, this.#snackBar, {
+        message: 'Formazione salvata correttamente',
+        form: lineupForm,
+        callback: (response) => {
+          if (response.id) {
+            lineup.id = response.id;
+          }
+        },
+      });
     }
-    this.#snackBar.open('Si sono verificati errori di validazione');
+    this.#snackBar.open('Si sono verificati errori di validazione', undefined, { duration: 3000 });
 
     return undefined;
   }

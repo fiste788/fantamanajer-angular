@@ -1,5 +1,4 @@
-import { trigger } from '@angular/animations';
-import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,22 +7,16 @@ import {
   inject,
   effect,
   afterNextRender,
+  DOCUMENT,
+  untracked,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { ContentLoaderModule } from '@ngneat/content-loader';
 import { delay } from 'rxjs';
 
-import { VisibilityState } from '@app/enums';
+import { AuthenticationService } from '@app/authentication';
 import { CurrentTransitionService, ScrollService } from '@app/services';
-import {
-  closeAnimation,
-  routerTransition,
-  scrollDownAnimation,
-  scrollUpAnimation,
-} from '@shared/animations';
-import { StatePipe } from '@shared/pipes';
 
 import { LayoutService } from '../../services';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
@@ -32,29 +25,25 @@ import { NavigationSkeletonComponent } from '../navigation-skeleton/navigation-s
 import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 
 @Component({
-  animations: [
-    trigger('contextChange', routerTransition),
-    scrollUpAnimation,
-    scrollDownAnimation,
-    closeAnimation,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
-  host: { '[@.disabled]': '!stable()' },
   styleUrl: './main.component.scss',
   templateUrl: './main.component.html',
   imports: [
     MatSidenavModule,
     TopAppBarComponent,
     RouterOutlet,
-    ContentLoaderModule,
     NavigationBarComponent,
-    StatePipe,
-    NgClass,
     AsyncPipe,
     NavigationSkeletonComponent,
     NavigationDrawerComponent,
   ],
+  host: {
+    '[class]': '"navigation-mode-" + navigationMode()',
+    '[class.logged-in]': 'isLoggedIn()',
+    '[class.stable]': 'isStable()',
+    '[class.fullscreen]': 'fullscreen()',
+  },
 })
 export class MainComponent {
   readonly #layoutService = inject(LayoutService);
@@ -62,29 +51,32 @@ export class MainComponent {
   readonly #transitionService = inject(CurrentTransitionService);
   readonly #document = inject<Document>(DOCUMENT);
 
-  protected topAppBar = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
+  protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
     TopAppBarComponent,
     {
       read: ElementRef,
     },
   );
 
-  protected readonly stable = this.#layoutService.stable;
+  protected readonly isStable = this.#layoutService.stable; // Renamed from stable
   protected readonly navigationMode = this.#layoutService.navigationMode;
   protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
   protected readonly openDrawer = this.#layoutService.openDrawer;
-  protected readonly showBars = this.#layoutService.showBars;
-  protected readonly hidden = VisibilityState.Hidden;
+  protected readonly fullscreen = this.#layoutService.fullscreen;
+  protected readonly isLoggedIn = inject(AuthenticationService).isLoggedIn;
 
   constructor() {
     afterNextRender(() => {
       this.#setSkeletonColors();
     });
     effect(() => {
-      if (this.#layoutService.routeContextChanged()) {
-        const offset = this.topAppBar().nativeElement.clientHeight;
-        this.#scrollService.offset?.set(offset);
-      }
+      const isRouteChanged = this.#layoutService.routeContextChanged();
+      const topAppBarRef = this.topAppBarRef();
+      untracked(() => {
+        if (isRouteChanged) {
+          this.#scrollService.offset.set(topAppBarRef.nativeElement.clientHeight);
+        }
+      });
     });
   }
 

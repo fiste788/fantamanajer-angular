@@ -2,23 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Transfert } from '../types';
+import { Transfer } from '../types';
 
-const url = 'transferts';
+const TRANSFERS_URL_SEGMENT = 'transferts'; // Modifica suggerita per la nomenclatura
+
 const routes = {
-  create: `/admin/${url}`,
-  transferts: (id: number) => `/teams/${id}/${url}`,
+  adminTransfertsCollection: `/admin/${TRANSFERS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  teamTransferts: (teamId: number) => `/teams/${teamId}/${TRANSFERS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
 };
 
 @Injectable({ providedIn: 'root' })
 export class TransfertService {
   readonly #http = inject(HttpClient);
 
-  public getTransfert(id: number): Observable<Array<Transfert>> {
-    return this.#http.get<Array<Transfert>>(routes.transferts(id));
+  public getTeamTransferts(teamId: number): Observable<Array<Transfer>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Array<Transfer>>(routes.teamTransferts(teamId)); // Utilizzo del nome della rotta modificato
   }
 
-  public create(transfert: Partial<Transfert>): Observable<Partial<Transfert>> {
-    return this.#http.post<Transfert>(routes.create, transfert);
+  public createTransfert(transfert: Partial<Transfer>): Observable<Partial<Transfer>> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.post<Transfer>(routes.adminTransfertsCollection, transfert); // Utilizzo del nome della rotta modificato
   }
 }

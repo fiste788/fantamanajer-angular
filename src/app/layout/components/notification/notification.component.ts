@@ -1,19 +1,19 @@
-import { AsyncPipe, DecimalPipe, isPlatformBrowser } from '@angular/common';
-import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { Component, afterNextRender, inject, input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, EMPTY, filter, Observable, switchMap } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable } from 'rxjs';
 
-import { ApplicationService } from '@app/services';
+import { ApplicationService, PwaService } from '@app/services';
 import { NotificationService } from '@data/services';
-import { Stream } from '@data/types';
-import { NotificationListComponent } from '@modules/notification/components/notification-list/notification-list.component';
-import { createBoxAnimation } from '@shared/animations';
+import { Stream, Team } from '@data/types';
+import { type NotificationListModal as NotificationListModalType } from '@modules/notification/modals/notification-list/notification-list.modal';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  animations: [createBoxAnimation],
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   imports: [
@@ -23,20 +23,59 @@ import { SeasonActiveDirective } from '@shared/directives';
     SeasonActiveDirective,
     AsyncPipe,
     DecimalPipe,
-    NotificationListComponent,
   ],
 })
 export class NotificationComponent {
-  readonly #isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly #notificationService = inject(NotificationService);
-  readonly #app = inject(ApplicationService);
+  readonly #dialog = inject(MatDialog);
+  public readonly team = input<Team>();
 
-  protected readonly stream$ = this.#isBrowser ? this.loadStream() : EMPTY;
+  // Using a signal to manage the deferred prompt state
+  protected deferredPrompt = inject(PwaService).beforeInstallSignal;
+  protected stream$: Observable<Stream> = EMPTY;
+  protected readonly isCurrentSeason = inject(ApplicationService).isCurrentSeason;
 
-  public loadStream(): Observable<Stream> {
-    return combineLatest([this.#app.requireTeam$, this.#app.matchday$]).pipe(
-      filter(([team, matchday]) => team.championship.season_id === matchday.season_id),
-      switchMap(([team]) => this.#notificationService.getNotificationCount(team.id)),
+  constructor() {
+    afterNextRender(() => {
+      const team = this.team();
+      if (team) {
+        this.stream$ = this.loadStream(team);
+      }
+    });
+  }
+
+  public loadStream(team: Team): Observable<Stream> {
+    return this.#notificationService.getNotificationCount(team.id);
+  }
+
+  protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
+    event.preventDefault();
+    await prompt.prompt();
+
+    const choice = await prompt.userChoice;
+    if (choice.outcome === 'accepted') {
+      this.deferredPrompt.set(undefined); // Update the signal state
+
+      return true;
+    }
+
+    return false;
+  }
+
+  protected async openDialog(): Promise<boolean | undefined> {
+    const { NotificationListModal } = await import(
+      '@modules/notification/modals/notification-list/notification-list.modal'
+    );
+
+    return firstValueFrom(
+      this.#dialog
+        .open<NotificationListModalType, unknown, boolean>(NotificationListModal, {
+          scrollStrategy: new NoopScrollStrategy(),
+          minWidth: 600,
+          minHeight: 400,
+        })
+        .afterClosed(),
+      { defaultValue: undefined },
     );
   }
 }

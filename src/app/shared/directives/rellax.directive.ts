@@ -1,4 +1,5 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+/* eslint-disable max-lines */
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -11,11 +12,13 @@ import {
   input,
   numberAttribute,
   inject,
+  DOCUMENT,
 } from '@angular/core';
 import { fromEvent, Subscription, tap } from 'rxjs';
 
 import { WINDOW } from '@app/services';
 
+// Options and Block interfaces kept in this file
 interface Options {
   speed: number;
   center: boolean;
@@ -48,7 +51,7 @@ interface Block {
   selector: '[appRellax]',
   standalone: true,
   host: {
-    '[style.will-change]': 'transform',
+    '[style.will-change]': '"transform"',
   },
 })
 export class RellaxDirective implements OnInit, OnDestroy {
@@ -56,7 +59,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
   readonly #window = inject<Window>(WINDOW);
   readonly #platformId = inject(PLATFORM_ID);
   readonly #renderer = inject(Renderer2);
-  readonly #el = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef); // Renamed for clarity
 
   public speed = input(-3, { transform: numberAttribute });
   public center = input(false, { transform: booleanAttribute });
@@ -76,28 +79,28 @@ export class RellaxDirective implements OnInit, OnDestroy {
   };
 
   #block?: Block;
-  #posY = 0;
-  #posX = 0;
-  #pause = true;
+  #currentPosY = 0; // Renamed for clarity
+  #currentPosX = 0; // Renamed for clarity
+  #isPaused = true; // Renamed for clarity
   #subscription?: Subscription;
-  #loopId = 0;
-  #screenX = 0;
-  #screenY = 0;
-  #du?: () => void;
-  #handler?: () => void;
+  #animationFrameId = 0; // Renamed for clarity
+  #screenWidth = 0; // Renamed for clarity
+  #screenHeight = 0; // Renamed for clarity
+  #deferredUpdateHandler?: () => void; // Renamed for clarity
+  #resizeHandler?: () => void; // Renamed for clarity
 
-  #loop?: (callback: FrameRequestCallback) => number;
-  #clearLoop?: (handle: number) => void;
+  #requestAnimationFrame?: (callback: FrameRequestCallback) => number; // Renamed for clarity
+  #cancelAnimationFrame?: (handle: number) => void; // Renamed for clarity
 
   constructor() {
     afterNextRender(() => {
-      this.#loop = this.#window.requestAnimationFrame.bind(this.#window);
-      this.#clearLoop = this.#window.cancelAnimationFrame.bind(this.#window);
+      this.#requestAnimationFrame = this.#window.requestAnimationFrame.bind(this.#window);
+      this.#cancelAnimationFrame = this.#window.cancelAnimationFrame.bind(this.#window);
 
-      const target = this.#el.nativeElement.querySelector('img');
+      const target = this.#elementRef.nativeElement.querySelector('img');
       if (target !== null) {
         this.#subscription = fromEvent(target, 'load')
-          .pipe(tap(() => this.init()))
+          .pipe(tap(() => this.initParallax())) // Renamed init
           .subscribe();
       }
     });
@@ -110,11 +113,12 @@ export class RellaxDirective implements OnInit, OnDestroy {
         this.#options.wrapper = w;
       }
 
-      this.clamp(this.#options.speed, -10, 10);
+      this.constrainSpeed(this.#options.speed, -10, 10); // Renamed clamp
     }
   }
 
-  public clamp(num: number, min: number, max: number): number {
+  public constrainSpeed(num: number, min: number, max: number): number {
+    // Renamed clamp
     if (num <= min) {
       return min;
     }
@@ -122,33 +126,36 @@ export class RellaxDirective implements OnInit, OnDestroy {
     return Math.min(num, max);
   }
 
-  public init(): void {
+  public initParallax(): void {
+    // Renamed init
     if (this.#block !== undefined) {
-      this.#el.nativeElement.style.cssText = this.#block.style;
+      this.#elementRef.nativeElement.style.cssText = this.#block.style;
     }
-    this.#screenY = this.#window.innerHeight;
-    this.#screenX = this.#window.innerWidth;
+    this.#screenHeight = this.#window.innerHeight; // Renamed screenY
+    this.#screenWidth = this.#window.innerWidth; // Renamed screenX
 
-    this.setPosition();
+    this.updateScrollPosition(); // Renamed setPosition
     // Get and cache initial position of all elements
-    this.#block = this.createBlock(this.#el.nativeElement);
+    this.#block = this.createParallaxBlock(this.#elementRef.nativeElement); // Renamed createBlock
 
-    this.animate();
+    this.applyParallaxAnimation(); // Renamed animate
 
     // If paused, unpause and set listener for window resizing events
-    if (this.#pause) {
-      this.#handler = this.init.bind(this);
-      this.#window.addEventListener('resize', this.#handler);
-      this.#pause = false;
+    if (this.#isPaused) {
+      // Renamed #pause
+      this.#resizeHandler = this.initParallax.bind(this); // Renamed #handler
+      this.#window.addEventListener('resize', this.#resizeHandler); // Updated handler name
+      this.#isPaused = false; // Renamed #pause
       // Start the loop
-      this.update();
+      this.scheduleDeferredUpdate(); // Renamed update
     }
   }
 
-  public createBlock(el: HTMLElement): Block {
+  public createParallaxBlock(el: HTMLElement): Block {
+    // Renamed createBlock
     const dataPercentage = this.#options.percentage;
 
-    const pos = this.getPos(dataPercentage);
+    const pos = this.getScrollPosition(dataPercentage); // Renamed getPos
 
     const blockTop = pos.y + el.getBoundingClientRect().top;
     const blockHeight = el.clientHeight || el.offsetHeight || el.scrollHeight;
@@ -161,17 +168,19 @@ export class RellaxDirective implements OnInit, OnDestroy {
     if (!this.#options.center) {
       // apparently parallax equation everyone uses
       percentageY =
-        dataPercentage || (pos.y - blockTop + this.#screenY) / (blockHeight + this.#screenY);
+        dataPercentage ||
+        (pos.y - blockTop + this.#screenHeight) / (blockHeight + this.#screenHeight); // Updated screen height
       percentageX =
-        dataPercentage || (pos.x - blockLeft + this.#screenX) / (blockWidth + this.#screenX);
+        dataPercentage ||
+        (pos.x - blockLeft + this.#screenWidth) / (blockWidth + this.#screenWidth); // Updated screen width
     }
 
-    const bases = this.updatePosition(percentageX, percentageY, this.#options.speed);
+    const bases = this.calculateUpdatedPosition(percentageX, percentageY, this.#options.speed); // Renamed updatePosition
 
-    // ~~Store non-translate3d transforms~~
+    // ~~Store non-translate3d transforms~~\n
     // Store inline styles and extract transforms
     const style = el.style.cssText;
-    const transform = this.calcTransform(style);
+    const transform = this.extractTransform(style); // Renamed calcTransform
 
     return {
       baseX: bases.x,
@@ -186,15 +195,16 @@ export class RellaxDirective implements OnInit, OnDestroy {
     };
   }
 
-  public getPos(dataPercentage: number): {
+  public getScrollPosition(dataPercentage: number): {
+    // Renamed getPos
     x: number;
     y: number;
   } {
-    // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)
-    // ensures elements are positioned based on HTML layout.
-    //
-    // If the element has the percentage attribute, the posY and posX needs to be
-    // the current scroll position's value, so that the elements are still positioned based on HTML layout
+    // initializing at scrollY = 0 (top of browser), scrollX = 0 (left of browser)\n
+    // ensures elements are positioned based on HTML layout.\n
+    //\n
+    // If the element has the percentage attribute, the posY and posX needs to be\n
+    // the current scroll position\'s value, so that the elements are still positioned based on HTML layout\n
     let wrapperPosY =
       this.#options.wrapper?.scrollTop ??
       (this.#window.scrollY ||
@@ -205,7 +215,7 @@ export class RellaxDirective implements OnInit, OnDestroy {
       (this.#window.scrollX ||
         this.#document.documentElement.scrollLeft ||
         this.#document.body.scrollLeft);
-    // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.
+    // If the option relativeToWrapper is true, use the wrappers offset to top, subtracted from the current page scroll.\n
     if (this.#options.relativeToWrapper) {
       const scrollPosY =
         this.#window.scrollY ||
@@ -222,11 +232,12 @@ export class RellaxDirective implements OnInit, OnDestroy {
     };
   }
 
-  public calcTransform(style: string): string {
+  public extractTransform(style: string): string {
+    // Renamed calcTransform
     let transform = '';
 
-    // Check if there's an inline styled transform
-    const searchResult = /transform\s*:/i.exec(style);
+    // Check if there\'s an inline styled transform
+    const searchResult = /transform\\s*:/i.exec(style);
     if (searchResult !== null) {
       // Get the index of the transform
       const { index } = searchResult;
@@ -235,30 +246,34 @@ export class RellaxDirective implements OnInit, OnDestroy {
       const trimmedStyle = style.slice(index);
       const delimiter = trimmedStyle.indexOf(';');
 
-      // Remove "transform" string and save the attribute
+      // Remove \"transform\" string and save the attribute
       transform = trimmedStyle.slice(11, delimiter === -1 ? undefined : delimiter);
-      transform = ` ${transform}`.replaceAll(/\s/g, '');
+      transform = ` ${transform}`.replaceAll(String.raw`\s`, '');
     }
 
     return transform;
   }
 
-  public setPosition(): boolean {
-    const oldY = this.#posY;
-    const oldX = this.#posX;
+  public updateScrollPosition(): boolean {
+    // Renamed setPosition
+    const oldY = this.#currentPosY; // Updated variable name
+    const oldX = this.#currentPosX; // Updated variable name
     const df = this.#document.documentElement;
 
-    this.#posY = this.#options.wrapper?.scrollTop ?? df.scrollTop;
-    this.#posX = this.#options.wrapper?.scrollLeft ?? df.scrollLeft;
-    // If option relativeToWrapper is true, use relative wrapper value instead.
+    this.#currentPosY = this.#options.wrapper?.scrollTop ?? df.scrollTop; // Updated variable name
+    this.#currentPosX = this.#options.wrapper?.scrollLeft ?? df.scrollLeft; // Updated variable name
+    // If option relativeToWrapper is true, use relative wrapper value instead.\n
     if (this.#options.relativeToWrapper) {
-      this.#posY = (df.scrollTop || this.#window.scrollY) - (this.#options.wrapper?.offsetTop ?? 0);
+      this.#currentPosY =
+        (df.scrollTop || this.#window.scrollY) - (this.#options.wrapper?.offsetTop ?? 0); // Updated variable name
     }
-    if (oldY !== this.#posY && this.#options.vertical) {
+    if (oldY !== this.#currentPosY && this.#options.vertical) {
+      // Updated variable name
       return true;
     }
 
-    if (oldX !== this.#posX && this.#options.horizontal) {
+    if (oldX !== this.#currentPosX && this.#options.horizontal) {
+      // Updated variable name
       return true;
     }
 
@@ -266,7 +281,8 @@ export class RellaxDirective implements OnInit, OnDestroy {
     return false;
   }
 
-  public updatePosition(
+  public calculateUpdatedPosition(
+    // Renamed updatePosition
     percentageX: number,
     percentageY: number,
     speed: number,
@@ -284,58 +300,82 @@ export class RellaxDirective implements OnInit, OnDestroy {
   }
 
   // Remove event listeners and loop again
-  public deferredUpdate(): void {
-    if (this.#du) {
-      this.#window.removeEventListener('resize', this.#du);
-      this.#window.removeEventListener('orientationchange', this.#du);
-      (this.#options.wrapper ?? this.#window).removeEventListener('scroll', this.#du);
-      (this.#options.wrapper ?? this.#document).removeEventListener('touchmove', this.#du);
+  public scheduleDeferredUpdate(): void {
+    // Renamed deferredUpdate
+    if (this.#deferredUpdateHandler) {
+      // Updated handler name
+      this.#window.removeEventListener('resize', this.#deferredUpdateHandler); // Updated handler name
+      this.#window.removeEventListener('orientationchange', this.#deferredUpdateHandler); // Updated handler name
+      (this.#options.wrapper ?? this.#window).removeEventListener(
+        'scroll',
+        this.#deferredUpdateHandler,
+      ); // Updated handler name
+      (this.#options.wrapper ?? this.#document).removeEventListener(
+        'touchmove',
+        this.#deferredUpdateHandler,
+      ); // Updated handler name
     }
     // loop again
-    if (this.#loop) {
-      this.#loopId = this.#loop(() => this.update());
+    if (this.#requestAnimationFrame) {
+      // Updated method name
+      this.#animationFrameId = this.#requestAnimationFrame(() => this.performUpdate()); // Updated method and variable name
     }
   }
 
-  public update(): void {
-    if (this.setPosition() && !this.#pause && this.#loop) {
-      this.animate();
+  public performUpdate(): void {
+    // Renamed update
+    if (this.updateScrollPosition() && !this.#isPaused && this.#requestAnimationFrame) {
+      // Updated variable and method name
+      this.applyParallaxAnimation(); // Renamed animate
 
       // loop again
-      this.#loopId = this.#loop(() => this.update());
+      this.#animationFrameId = this.#requestAnimationFrame(() => this.performUpdate()); // Updated method and variable name
     } else {
-      this.#loopId = 0;
+      this.#animationFrameId = 0; // Updated variable name
 
-      this.#du = this.deferredUpdate.bind(this);
-      // Don't animate until we get a position updating event
-      window.addEventListener('resize', this.#du);
-      globalThis.addEventListener('orientationchange', this.#du);
-      (this.#options.wrapper ?? globalThis).addEventListener('scroll', this.#du, {
-        passive: true,
-      });
-      (this.#options.wrapper ?? document).addEventListener('touchmove', this.#du, {
-        passive: true,
-      });
+      this.#deferredUpdateHandler = this.scheduleDeferredUpdate.bind(this); // Updated handler name
+      // Don\'t animate until we get a position updating event
+      window.addEventListener('resize', this.#deferredUpdateHandler); // Updated handler name
+      globalThis.addEventListener('orientationchange', this.#deferredUpdateHandler); // Updated handler name
+      (this.#options.wrapper ?? globalThis).addEventListener(
+        'scroll',
+        this.#deferredUpdateHandler,
+        {
+          // Updated handler name
+          passive: true,
+        },
+      );
+      (this.#options.wrapper ?? document).addEventListener(
+        'touchmove',
+        this.#deferredUpdateHandler,
+        {
+          // Updated handler name
+          passive: true,
+        },
+      );
     }
   }
 
-  public animate(): void {
+  public applyParallaxAnimation(): void {
+    // Renamed animate
     if (this.#block) {
       const percentageY =
-        (this.#posY - this.#block.top + this.#screenY) / (this.#block.height + this.#screenY);
+        (this.#currentPosY - this.#block.top + this.#screenHeight) /
+        (this.#block.height + this.#screenHeight); // Updated variable name
       const percentageX =
-        (this.#posX - this.#block.left + this.#screenX) / (this.#block.width + this.#screenX);
+        (this.#currentPosX - this.#block.left + this.#screenWidth) /
+        (this.#block.width + this.#screenWidth); // Updated variable name
 
       // Subtracting initialize value, so element stays in same spot as HTML
-      const positions = this.updatePosition(percentageX, percentageY, this.#block.speed); // - this.block.base;
+      const positions = this.calculateUpdatedPosition(percentageX, percentageY, this.#block.speed); // Updated method name
       let positionY = positions.y - this.#block.baseY;
       let positionX = positions.x - this.#block.baseX;
-      // The next two "if" blocks go like this:
-      // Check if a limit is defined (first "min", then "max");
-      // Check if we need to change the Y or the X
-      // (Currently working only if just one of the axes is enabled)
-      // Then, check if the new position is inside the allowed limit
-      // If so, use new position. If not, set position to limit.
+      // The next two \"if\" blocks go like this:\n
+      // Check if a limit is defined (first \"min\", then \"max\");\n
+      // Check if we need to change the Y or the X\n
+      // (Currently working only if just one of the axes is enabled)\n
+      // Then, check if the new position is inside the allowed limit\n
+      // If so, use new position. If not, set position to limit.\n
 
       // Check if a min limit is defined
       if (this.#options.min) {
@@ -357,12 +397,12 @@ export class RellaxDirective implements OnInit, OnDestroy {
         }
       }
 
-      // Move that element
-      // (Set the new translation and append initial inline transforms.)
+      // Move that element\n
+      // (Set the new translation and append initial inline transforms.)\n
       const x = this.#options.horizontal ? positionX : 0;
       const y = this.#options.vertical ? positionY : 0;
       const translate = `translate3d(${x}px,${y}px,${this.#options.zindex ?? 0}px) ${this.#block.transform}`;
-      this.#renderer.setStyle(this.#el.nativeElement, 'transform', translate);
+      this.#renderer.setStyle(this.#elementRef.nativeElement, 'transform', translate); // Updated element ref
 
       if (this.#options.callback) {
         this.#options.callback(positions);
@@ -370,21 +410,24 @@ export class RellaxDirective implements OnInit, OnDestroy {
     }
   }
 
-  public destroy(): void {
-    if (!this.#pause && this.#handler) {
-      this.#window.removeEventListener('resize', this.#handler);
-      this.#pause = true;
+  public destroyParallax(): void {
+    // Renamed destroy
+    if (!this.#isPaused && this.#resizeHandler) {
+      // Updated variable name
+      this.#window.removeEventListener('resize', this.#resizeHandler); // Updated handler name
+      this.#isPaused = true; // Updated variable name
     }
 
     // Clear the animation loop to prevent possible memory leak
-    if (this.#clearLoop) {
-      this.#clearLoop(this.#loopId);
+    if (this.#cancelAnimationFrame) {
+      // Updated method name
+      this.#cancelAnimationFrame(this.#animationFrameId); // Updated variable name
     }
-    this.#loopId = 0;
+    this.#animationFrameId = 0; // Updated variable name
   }
 
   public ngOnDestroy(): void {
-    this.destroy();
+    this.destroyParallax(); // Updated method name
     this.#subscription?.unsubscribe();
   }
 }

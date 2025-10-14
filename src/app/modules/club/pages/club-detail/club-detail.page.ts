@@ -6,7 +6,6 @@ import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.component';
 
 @Component({
-  animations: [],
   styleUrl: './club-detail.page.scss',
   templateUrl: './club-detail.page.html',
   imports: [ParallaxHeaderComponent, PrimaryTabComponent],
@@ -23,8 +22,8 @@ export class ClubDetailPage {
 
   constructor() {
     afterNextRender(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.placeholder = history.state?.img as string;
+      const state = history.state as Record<string, string> | undefined;
+      this.placeholder = state?.['img'];
     });
   }
 

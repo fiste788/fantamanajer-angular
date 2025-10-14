@@ -4,7 +4,7 @@ export default [
   {
     path: '',
     pathMatch: 'full',
-    data: { state: 'home' },
+    data: { state: 'home', viewTransitionOutlet: 'player-detail' },
     loadChildren: async () => import('./modules/home/home.routes'),
   },
   {

@@ -1,12 +1,16 @@
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
 :host {
   position: sticky;
   z-index: 102;
   contain: paint;
   top: 0;
-  transition: box-shadow 200ms var(--mat-sys-motion-standard);
-  view-transition-name: top-app-bar;
+}
+
+@supports (view-transition-name: none) {
+  :host {
+    view-transition-name: top-app-bar;
+  }
 }
 
 app-breadcrumb {
@@ -20,18 +24,22 @@ app-breadcrumb {
 }
 
 .mat-toolbar {
-  transition: background-color 400ms var(--mat-sys-motion-standard);
+  transition:
+    background-color 400ms var(--mat-sys-motion-standard),
+    box-shadow 200ms var(--mat-sys-motion-standard);
 }
 
 .mat-toolbar-row {
   background-color: inherit;
 
-  &:first-child {
-    view-transition-name: top-app-bar-toolbar;
+  @supports (view-transition-name: none) {
+    &:first-child {
+      view-transition-name: top-app-bar-toolbar;
+    }
   }
 }
 
-:host-context(.with-bars) :host.is-scrolled {
+:host-context(:not(.fullscreen)) :host.is-scrolled {
   box-shadow: var(--mat-sys-level2);
 
   @include mat.toolbar-overrides(
@@ -50,18 +58,18 @@ app-breadcrumb {
     padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 1rem);
 
     @media (min-width: theme('screens.sm')) {
-      & {
-        height: env(titlebar-area-height, var(--mat-toolbar-standard-height, 4rem));
-        padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
-      }
+      height: env(titlebar-area-height, var(--mat-toolbar-standard-height, 4rem));
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 6rem);
     }
 
     @media (min-width: theme('screens.lg')) {
-      & {
-        padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
-      }
+      padding-right: calc(100% - (env(titlebar-area-width, 100%)) + 19rem);
     }
   }
+}
+
+.menu-placeholder {
+  padding: 0.5rem;
 }
 
 @media (min-width: theme('screens.md')) {
@@ -71,7 +79,7 @@ app-breadcrumb {
 }
 
 @media (min-width: theme('screens.sm')) {
-  button {
+  .menu {
     display: none;
   }
 }

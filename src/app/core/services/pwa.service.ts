@@ -1,6 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationRef, Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  ApplicationRef,
+  Injectable,
+  PLATFORM_ID,
+  WritableSignal,
+  inject,
+  signal,
+} from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   Observable,
@@ -12,8 +18,12 @@ import {
   switchMap,
   first,
   tap,
+  firstValueFrom,
 } from 'rxjs';
 
+import { toWritableSignal } from '@app/functions';
+
+import { SnackbarNotificationService } from './snackbar-notification.service';
 import { WINDOW } from './window.service';
 
 @Injectable({
@@ -22,16 +32,16 @@ import { WINDOW } from './window.service';
 export class PwaService {
   readonly #window = inject<Window>(WINDOW);
   readonly #platformId = inject(PLATFORM_ID);
-  readonly #snackBar = inject(MatSnackBar);
+  readonly #notificationService = inject(SnackbarNotificationService);
   readonly #swUpdate = inject(SwUpdate);
   readonly #appRef = inject(ApplicationRef);
 
-  public readonly beforeInstall$? = this.#getBeforeInstall();
+  public readonly beforeInstallSignal = this.#getBeforeInstall();
 
   public init(): Observable<void> {
     return this.#checkForUpdates().pipe(
       filter((u) => u),
-      switchMap(() => this.#promptUpdate()),
+      switchMap(async () => this.#promptUpdate()),
     );
   }
 
@@ -39,14 +49,17 @@ export class PwaService {
     return this.init().subscribe();
   }
 
-  #getBeforeInstall(): Observable<BeforeInstallPromptEvent> | undefined {
+  #getBeforeInstall(): WritableSignal<BeforeInstallPromptEvent | undefined> {
     return isPlatformBrowser(this.#platformId)
-      ? fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
-          tap((e) => {
-            e.preventDefault();
-          }),
+      ? toWritableSignal(
+          fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
+            tap((e) => {
+              e.preventDefault();
+            }),
+          ),
+          { initialValue: undefined },
         )
-      : undefined;
+      : signal<BeforeInstallPromptEvent | undefined>(undefined);
   }
 
   #checkForUpdates(): Observable<boolean> {
@@ -63,13 +76,21 @@ export class PwaService {
     );
   }
 
-  #promptUpdate(): Observable<void> {
-    return this.#snackBar
-      .open("Nuova versione dell'app disponibile", 'Aggiorna', { duration: 30_000 })
-      .onAction()
-      .pipe(
+  async #promptUpdate(): Promise<void> {
+    const notification = await this.#notificationService.open(
+      "Nuova versione dell'app disponibile",
+      'Aggiorna',
+      {
+        duration: 30_000,
+      },
+    );
+
+    await firstValueFrom(
+      notification.onAction().pipe(
         switchMap(async () => this.#swUpdate.activateUpdate()),
         map(() => this.#window.location.reload()),
-      );
+      ),
+      { defaultValue: undefined },
+    );
   }
 }

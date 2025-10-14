@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -43,6 +43,8 @@ export class ScoreEditPage {
   protected penality = false;
   protected score$?: Observable<Score>;
   protected readonly scores$ = this.loadData();
+  protected readonly selectedScore = signal<Score | undefined>(undefined);
+  protected readonly score = this.#scoreService.getScoreResourceById(this.selectedScore, true);
 
   protected loadData(): Observable<Array<Score>> {
     return getRouteData<Team>('team').pipe(
@@ -50,14 +52,10 @@ export class ScoreEditPage {
     );
   }
 
-  protected getScore(score: Score): void {
-    this.score$ = this.#scoreService.getScore(score.id, true);
-  }
-
   protected async save(score: Score, scoreForm: NgForm, lineup?: EmptyLineup): Promise<void> {
     score.lineup = lineup as Lineup;
 
-    return save(this.#scoreService.update(score), undefined, this.#snackbar, {
+    return save(this.#scoreService.updateScore(score), undefined, this.#snackbar, {
       message: 'Punteggio modificato',
       form: scoreForm,
     });

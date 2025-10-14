@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, Renderer2, afterNextRender, inject } from '@angular/core';
+import { Directive, ElementRef, Renderer2, afterNextRender, inject, DOCUMENT } from '@angular/core';
 
 @Directive({
   selector: '[appSticky]',
@@ -8,15 +7,20 @@ import { Directive, ElementRef, Renderer2, afterNextRender, inject } from '@angu
 export class StickyDirective {
   readonly #document = inject<Document>(DOCUMENT);
   readonly #renderer = inject(Renderer2);
-  readonly #el = inject(ElementRef, { optional: true });
+  // Renamed private member for clarity
+  readonly #elementRef = inject(ElementRef, { optional: true });
 
   constructor() {
     afterNextRender(() => {
-      if (this.#el !== null) {
+      if (this.#elementRef !== null) {
+        // Updated private member name
+        // Consider refactoring this DOM query for better coupling
         const height =
           this.#document.querySelector('app-toolbar > .mat-toolbar.mat-primary')?.clientHeight ?? 0;
-        this.#renderer.addClass(this.#el.nativeElement, 'sticky');
-        this.#renderer.setStyle(this.#el.nativeElement, 'top', `${height}px`);
+        // Updated private member name
+        this.#renderer.addClass(this.#elementRef.nativeElement, 'sticky');
+        // Updated private member name
+        this.#renderer.setStyle(this.#elementRef.nativeElement, 'top', `${height}px`);
       }
     });
   }

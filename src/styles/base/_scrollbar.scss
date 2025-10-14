@@ -1,9 +1,8 @@
 /* stylelint-disable plugin/browser-compat */
+/* stylelint-disable plugin/use-baseline */
 
-@mixin scrollbar() {
-  &,
-  [cdkscrollable] {
-    scrollbar-width: thin;
-    scrollbar-color: var(--mat-sys-primary-fixed-dim) transparent;
-  }
+html,
+[cdkscrollable] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-primary-fixed-dim) transparent;
 }

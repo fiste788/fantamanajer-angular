@@ -10,15 +10,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { combineLatest, Observable, switchMap } from 'rxjs';
 
-import { addVisibleClassOnDestroy, getRouteData } from '@app/functions';
+import { getRouteData } from '@app/functions';
 import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { Championship, Member, Role } from '@data/types';
 import { MemberListComponent } from '@modules/member/components/member-list/member-list.component';
-import { tableRowAnimation } from '@shared/animations';
 
 @Component({
-  animations: [tableRowAnimation],
   styleUrl: './member-free.page.scss',
   templateUrl: './member-free.page.html',
   imports: [
@@ -44,10 +42,6 @@ export class MemberFreePage {
 
   protected readonly app = inject(ApplicationService);
 
-  constructor() {
-    addVisibleClassOnDestroy(tableRowAnimation);
-  }
-
   protected setSelectedMember(member: Array<Member>): void {
     [this.selectedMember] = member;
   }
@@ -58,7 +52,7 @@ export class MemberFreePage {
 
   #getMembers(role$: Observable<Role>): Observable<Array<Member>> {
     return combineLatest([role$, this.#championship$]).pipe(
-      switchMap(([role, c]) => this.#memberService.getFree(c.id, role.id)),
+      switchMap(([role, c]) => this.#memberService.getFreeMembers(c.id, role.id)),
     );
   }
 }

@@ -1,7 +1,8 @@
 import { Exception } from './exception.model';
 import { Trace } from './trace.model';
 
-export interface Error {
+// Modifica suggerita per la nomenclatura
+export interface ApiError {
   message: string;
   url: string;
   code: number;

@@ -1,7 +1,4 @@
-<div
-  class="login flex flex-col flex-wrap items-center justify-around"
-  @cardCreationAnimation
->
+<div class="login flex flex-col flex-wrap items-center justify-around">
   <mat-card appearance="outlined">
     <mat-card-header>
       <mat-icon>account_circle</mat-icon>
@@ -39,7 +36,7 @@
             <div class="flex flex-col items-end">
               <button
                 color="accent"
-                mat-flat-button
+                matButton="filled"
                 matStepperNext
                 type="submit"
                 [disabled]="username.errors !== null"
@@ -52,7 +49,7 @@
         <mat-step>
           <form
             #f="ngForm"
-            (ngSubmit)="f.valid && login()"
+            (ngSubmit)="f.valid && login(userForm)"
           >
             <input
               autocomplete="username"
@@ -83,15 +80,15 @@
 
             <div class="actions flex flex-row justify-between">
               <button
-                mat-stroked-button
+                matButton="outlined"
                 matStepperPrevious
                 type="reset"
-                (click)="reset()"
+                (click)="reset(userForm)"
               >
                 Cambia account
               </button>
               <button
-                mat-flat-button
+                matButton="filled"
                 type="submit"
               >
                 Accedi

@@ -1,11 +1,13 @@
 import { NgForm, UntypedFormArray } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { bindCallback, firstValueFrom, mergeMap, Observable, of, tap } from 'rxjs';
+import { type MatSnackBarConfig, type MatSnackBar } from '@angular/material/snack-bar';
+// Rimuovi bindCallback - non è necessario qui
+import { firstValueFrom, mergeMap, Observable, of, tap, from } from 'rxjs'; // Importa from per gestire Promises
 
 import { catchUnprocessableEntityErrors } from './catch-unprocessable-entity-errors.functions';
 
 interface SaveOptions<T, R> {
   message?: string;
+  snackbarConfig?: MatSnackBarConfig;
   form?: NgForm | UntypedFormArray;
   callback?: (res: T) => Observable<R> | Promise<R> | R;
 }
@@ -13,26 +15,53 @@ interface SaveOptions<T, R> {
 export async function save<T, R>(
   observable$: Observable<T>,
   defaultValue: R,
-  snackbar: MatSnackBar,
+  snackbar?: MatSnackBar,
   options?: SaveOptions<T, R>,
 ): Promise<R> {
-  // const snackbar = inject(MatSnackBar);
-  const obs = observable$.pipe(
+  const saveOperation$ = observable$.pipe(
     tap(() => {
-      if (options?.message) {
-        snackbar.open(options.message);
+      if (snackbar && options?.message) {
+        snackbar.open(options.message, undefined, {
+          ...options.snackbarConfig,
+          duration: options.snackbarConfig?.duration ?? 3000,
+        });
       }
     }),
+    // mergeMap ora riceve direttamente l'Observable<R> dalla callback
     mergeMap((result) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-misused-promises, rxjs-x/no-misused-observables
-      const func = bindCallback(async (_callback: (res1: R) => any) =>
-        options?.callback ? options.callback(result) : of(defaultValue),
-      );
-
-      return func();
+      // Chiama la funzione che restituisce un Observable<R>
+      return handleSaveCallbackObservable(result, options?.callback, defaultValue);
     }),
     catchUnprocessableEntityErrors(options?.form),
   );
 
-  return firstValueFrom<R, R>(obs, { defaultValue });
+  // firstValueFrom si aspetta Observable<R> e lo converte in Promise<R>
+  return firstValueFrom<R, R>(saveOperation$, { defaultValue });
 }
+
+// Refactoring: funzione privata per gestire la callback di salvataggio e restituire Observable<R>
+
+function handleSaveCallbackObservable<T, R>(
+  result: T,
+  callback?: (res: T) => Observable<R> | Promise<R> | R,
+  defaultValue?: R,
+): Observable<R> {
+  // Questa funzione ora restituisce Observable<R>
+  if (callback) {
+    const callbackResult = callback(result);
+    // Gestisce Observable, Promise o valore diretto e li trasforma in Observable
+    if (callbackResult instanceof Observable) {
+      return callbackResult; // Già un Observable
+    } else if (callbackResult instanceof Promise) {
+      return from(callbackResult); // Converte Promise in Observable
+    } else {
+      return of(callbackResult); // Avvolge valore diretto in Observable
+    }
+  } else {
+    // Se non c'è callback,Migliore un observable del defaultValue
+    return of(defaultValue as R); // Asserzione di tipo basata sulla logica
+  }
+}
+
+// Rimuovi la vecchia funzione handleSaveCallback (Promise<Observable<R>>) se ancora presente
+// async function handleSaveCallback<T, R>(...): Promise<Observable<R>> { ... }

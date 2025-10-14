@@ -2,16 +2,14 @@
   fragment="tab"
   [tabs]="tabs"
 >
-  <div class="animation-container">
-    <app-parallax-header
-      contextParam="id"
-      height="128"
-      width="128"
-      [backgroundImage]="club().background_url ?? undefined"
-      [image]="club().photo_url"
-      [placeholder]="placeholder"
-      [title]="club().name"
-      (imageLoaded)="scrollTo($event)"
-    />
-  </div>
+  <app-parallax-header
+    contextParam="id"
+    height="128"
+    width="128"
+    [backgroundImage]="club().background_url ?? undefined"
+    [image]="club().photo_url"
+    [placeholder]="placeholder"
+    [title]="club().name"
+    (imageLoaded)="scrollTo($event)"
+  />
 </app-primary-tab>

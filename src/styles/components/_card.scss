@@ -1,10 +1,8 @@
-/* stylelint-disable selector-class-pattern */
-@use '@angular/material' as mat;
+@use 'pkg:@angular/material' as mat;
 
-@mixin card() {
+html {
   .mat-mdc-card {
     overflow-y: hidden;
-    transition: box-shadow 300ms var(--mat-sys-motion-emphasized-decelerate);
 
     @include mat.card-overrides(
       (
@@ -12,12 +10,14 @@
       )
     );
 
-    &:has(> table) {
-      border-radius: var(--mat-sys-corner-extra-small);
+    @supports selector(:has) {
+      &:has(> table) {
+        border-radius: var(--mat-sys-corner-extra-small);
+      }
     }
 
-    .placeholder {
-      background-color: var(--mat-sys-surface-container-highest);
+    > a {
+      border-radius: inherit;
     }
   }
 
@@ -31,9 +31,10 @@
     overflow: hidden;
   }
 
-  .mat-mdc-card-image:first-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
+  .mat-mdc-card-image {
+    &.placeholder {
+      background-color: var(--mat-sys-surface-container-highest);
+    }
   }
 
   .grid > .mat-mdc-card:hover {

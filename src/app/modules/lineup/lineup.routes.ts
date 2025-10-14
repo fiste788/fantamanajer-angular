@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { RedirectCommand, Route, Router } from '@angular/router';
-import { map } from 'rxjs';
 
 import { authenticatedGuard } from '@app/guards';
 import { ApplicationService } from '@app/services';
@@ -29,10 +28,14 @@ export default [
             const app = inject(ApplicationService);
             const router = inject(Router);
 
-            return app.requireTeam$.pipe(
-              map((t) => router.createUrlTree(['teams', t.id, 'lineup', 'current'])),
-              map((urlTree) => new RedirectCommand(urlTree)),
-            );
+            const urlTree = router.createUrlTree([
+              'teams',
+              app.requireCurrentTeam().id,
+              'lineup',
+              'current',
+            ]);
+
+            return new RedirectCommand(urlTree);
           },
         ],
       },

@@ -23,74 +23,86 @@ const cspConfig: Record<string, Array<string>> = {
   'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
 };
 
+const LOCAL_DATA_URL_PREFIX = '/localdata';
+const SET_SESSION_URL = `${LOCAL_DATA_URL_PREFIX}/setsession`;
+const LOGOUT_URL = `${LOCAL_DATA_URL_PREFIX}/logout`;
+
 function buildCspHeader(nonce?: string): string {
-  const directives = [];
+  return Object.entries(cspConfig)
+    .map(([directive, values]) => {
+      const processedValues = values
+        .map((value) => (value === "'nonce'" ? (nonce ? `'nonce-${nonce}'` : undefined) : value))
+        .filter((value): value is string => value !== undefined);
 
-  for (const directive of Object.keys(cspConfig)) {
-    const values = [...cspConfig[directive]!];
-    for (const [key, value] of values.entries()) {
-      if (nonce && value === "'nonce'") {
-        values[key] = `'nonce-${nonce}'`;
-      } else if (nonce === null && value === "'nonce'") {
-        values.splice(key, 1);
-      }
-    }
-    if (values.length === 0) {
-      directives.push(directive);
-    } else {
-      directives.push(`${directive} ${values.join(' ')}`);
-    }
-  }
-
-  return directives.join('; ');
+      return processedValues.length > 0 ? `${directive} ${processedValues.join(' ')}` : directive;
+    })
+    .join('; ');
 }
 
 function setServerAuthentication(body: ServerAuthInfo): Response {
-  const response = new Response(undefined);
-  const newCookie = CookieStorage.cookieString('token', body.accessToken, {
+  const cookie = CookieStorage.cookieString('token', body.accessToken, {
     expires: body.expiresAt,
     path: '/',
   });
-  response.headers.set('Set-Cookie', newCookie);
+  const response = new Response(undefined);
+  response.headers.set('Set-Cookie', cookie);
 
   return response;
 }
 
-const angularApp = new AngularAppEngine();
+function configureAngularEngine(): new () => AngularAppEngine {
+  const app = AngularAppEngine;
+  app.ɵallowStaticRouteRender = false;
+  app.ɵhooks.on('html:transform:pre', (ctx) => ctx.html);
+
+  return app;
+}
+
+async function handleAngularApp(request: Request, ctx: ExecutionContext): Promise<Response> {
+  try {
+    const nonce = generateNonce();
+    const angularApp = new (configureAngularEngine())();
+    const res =
+      (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
+      new Response('Page not found.', { status: 404 });
+
+    res.headers.set('Content-Security-Policy', buildCspHeader());
+    res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
+
+    return res;
+  } catch (error) {
+    console.error(error);
+
+    return new Response('An internal error occurred', { status: 500 });
+  }
+}
+
+const handleApiProxy = async (request: Request, env: Env): Promise<Response> =>
+  env.API.fetch(request);
+
+const handleSetSession = async (request: Request): Promise<Response> =>
+  setServerAuthentication(await request.json());
+
+const handleLogout = (): Response =>
+  // Set an immediate expiration date for the cookie to effectively log out the user.
+  setServerAuthentication({ accessToken: '', expiresAt: 1000 });
 
 const reqHandler = async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
-  const url = new URL(request.url);
+  const { pathname } = new URL(request.url);
 
-  if (url.pathname.startsWith(environment.apiEndpoint)) {
-    console.log(`Fetching from service binding: ${request.url}`);
-
-    return env.API.fetch(request);
+  if (pathname.startsWith(environment.apiEndpoint)) {
+    return handleApiProxy(request, env);
+  }
+  if (pathname === SET_SESSION_URL) {
+    return handleSetSession(request);
+  }
+  if (pathname === LOGOUT_URL) {
+    return handleLogout();
   }
 
-  if (url.pathname.startsWith('/localdata/setsession')) {
-    return setServerAuthentication(await request.json());
-  }
-
-  if (url.pathname.startsWith('/localdata/logout')) {
-    return setServerAuthentication({ accessToken: '', expiresAt: 1000 });
-  }
-
-  const nonce = generateNonce();
-  //nonce = 'test';
-  const originalResponse =
-    (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
-    new Response('Page not found.', { status: 404 });
-
-  const body = await originalResponse.text();
-  const res = new Response(
-    body.replaceAll('nonce="randomNonceGoesHere"', `nonce="${nonce}"`),
-    //.replaceAll('<link rel="modulepreload" ', `<link rel="modulepreload" nonce="${nonce}" `),
-    originalResponse,
-  );
-  res.headers.set('Content-Security-Policy', buildCspHeader(nonce));
-  res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
-
-  return res;
+  return handleAngularApp(request, ctx);
 };
+
+reqHandler.__ng_request_handler__ = true;
 
 export default { fetch: reqHandler } satisfies ExportedHandler<Env>;

@@ -1,21 +1,22 @@
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { CurrentTransitionService, NAVIGATOR, PwaService, ScrollService } from '@app/services';
-import { createBoxAnimation, scrollUpAnimation } from '@shared/animations';
+import {
+  ApplicationService,
+  CurrentTransitionService,
+  NAVIGATOR,
+  ScrollService,
+} from '@app/services';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 
-import { LayoutService } from '../../services';
+import { NavigationDrawerButtonComponent } from '../navigation-drawer-button/navigation-drawer-button.component';
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
-  animations: [scrollUpAnimation, createBoxAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-top-app-bar',
   styleUrl: './top-app-bar.component.scss',
@@ -26,41 +27,23 @@ import { NotificationComponent } from '../notification/notification.component';
   },
   imports: [
     MatToolbarModule,
-    MatButtonModule,
     MatIconModule,
     BreadcrumbComponent,
     NotificationComponent,
-    AsyncPipe,
+    NavigationDrawerButtonComponent,
   ],
 })
 export class TopAppBarComponent {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
-  readonly #layoutService = inject(LayoutService);
-  readonly #auth = inject(AuthenticationService);
+  // Renamed injected services for clarity
+  readonly #authenticationService = inject(AuthenticationService);
   readonly #transitionService = inject(CurrentTransitionService);
+  readonly #applicationService = inject(ApplicationService); // Renamed injected service
 
-  protected deferredPrompt$ = inject(PwaService).beforeInstall$;
   protected readonly isScrolled = inject(ScrollService).isScrolled;
-  protected readonly loggedIn = this.#auth.loggedIn;
+  protected readonly team = this.#applicationService.currentTeam; // Updated service name
+  protected readonly loggedIn = this.#authenticationService.isLoggedIn; // Updated service name
   protected readonly isOverlayed = this.#getOverlayedSignal();
-
-  protected clickNav(): void {
-    this.#layoutService.toggleDrawer();
-  }
-
-  protected async install(prompt: BeforeInstallPromptEvent, event: MouseEvent): Promise<boolean> {
-    event.preventDefault();
-    await prompt.prompt();
-
-    const choice = await prompt.userChoice;
-    if (choice.outcome === 'accepted') {
-      delete this.deferredPrompt$;
-
-      return true;
-    }
-
-    return false;
-  }
 
   protected viewTransitionName(): string {
     return this.#transitionService.isTabChanged() ? '' : 'primary-tab';

@@ -1,15 +1,16 @@
-@mixin snackbar() {
-  .cdk-overlay-container {
-    .mdc-snackbar {
-      transition: margin 400ms var(--mat-sys-motion-emphasized-decelerate);
-    }
+html {
+  .mdc-snackbar {
+    transition: margin var(--mat-sys-motion-emphasized-decelerate-duration)
+      var(--mat-sys-motion-emphasized-decelerate);
+  }
 
-    &.with-bars {
-      .mdc-snackbar {
-        margin-bottom: 5.5rem;
+  @media (max-width: theme('screens.sm')) {
+    app-main:not(.fullscreen) {
+      ~ .cdk-overlay-container .mdc-snackbar {
+        margin-bottom: 6rem;
       }
 
-      &.loggedin .mdc-snackbar {
+      &.logged-in ~ .cdk-overlay-container .mdc-snackbar {
         margin-bottom: 10rem;
       }
     }
