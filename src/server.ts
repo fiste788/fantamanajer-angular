@@ -62,14 +62,41 @@ async function handleAngularApp(request: Request, ctx: ExecutionContext): Promis
   try {
     const nonce = generateNonce();
     const angularApp = new (configureAngularEngine())();
-    const res =
+    const ssrResponse =
       (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
       new Response('Page not found.', { status: 404 });
 
-    res.headers.set('Content-Security-Policy', buildCspHeader(nonce));
-    res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
+    // 2. Se la risposta è valida (status 200) e non è un asset statico
+    if (
+      ssrResponse.status === 200 &&
+      ssrResponse.headers.get('Content-Type')?.includes('text/html')
+    ) {
+      // 3. Clona la risposta per leggerne il corpo
+      const originalHtml = await ssrResponse.text();
 
-    return res;
+      // 4. INIETTA ngCspNonce nel tag radice
+      // Questo permette al browser e all'engine di hydration di Angular di conoscerlo.
+      const modifiedHtml = originalHtml.replace(
+        // Cerca il tag radice dell'app (es. <app-root>)
+        /<app-main/i,
+        `<app-main ngCspNonce="${nonce}"`,
+      );
+
+      // 5. Crea i nuovi headers (clonati dall'originale)
+      const headers = new Headers(ssrResponse.headers);
+
+      // 6. Imposta l'header CSP
+      headers.set('Content-Security-Policy', buildCspHeader(nonce));
+      headers.set('Permissions-Policy', 'publickey-credentials-get=*');
+
+      // 7. Ritorna la nuova Response modificata
+      return new Response(modifiedHtml, {
+        status: 200,
+        headers,
+      });
+    }
+
+    return ssrResponse;
   } catch (error) {
     console.error(error);
 
