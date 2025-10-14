@@ -22,6 +22,7 @@
   ],
   "upload_source_maps": true,
   "workers_dev": true,
+  "preview_urls": true,
   /**
 	 * Static Assets
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
@@ -60,7 +61,6 @@
   },
   "env": {
     "dev": {
-      "workers_dev": true,
       "services": [
         {
           "binding": "API",
