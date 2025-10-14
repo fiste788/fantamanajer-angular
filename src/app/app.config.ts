@@ -106,7 +106,7 @@ export const appConfig: ApplicationConfig = {
     // Image Loader Provider
     {
       provide: CSP_NONCE,
-      useFactory: (context: RequestContext) => context.nonce,
+      useFactory: (context?: RequestContext) => context?.nonce ?? 'randomNonceGoesHere',
       deps: [REQUEST_CONTEXT],
     },
     {
