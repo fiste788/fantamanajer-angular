@@ -102,13 +102,12 @@ export const appConfig: ApplicationConfig = {
       provide: LOCALE_ID,
       useValue: 'it-IT',
     },
-
-    // Image Loader Provider
     {
       provide: CSP_NONCE,
       useFactory: (context?: RequestContext) => context?.nonce ?? 'randomNonceGoesHere',
       deps: [REQUEST_CONTEXT],
     },
+    // Image Loader Provider
     {
       provide: IMAGE_LOADER,
       useValue: customImageLoader, // Using the named function
