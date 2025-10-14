@@ -64,8 +64,7 @@
               ],
               "sourceMap": {
                 "scripts": true,
-                "styles": true,
-                "sourcesContent": false
+                "styles": true
               },
               "outputMode": "server",
               "ssr": {
