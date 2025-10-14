@@ -74,12 +74,9 @@ async function handleAngularApp(request: Request, ctx: ExecutionContext): Promis
       // 3. Clona la risposta per leggerne il corpo
       const originalHtml = await ssrResponse.text();
 
-      // 4. INIETTA ngCspNonce nel tag radice
-      // Questo permette al browser e all'engine di hydration di Angular di conoscerlo.
-      const modifiedHtml = originalHtml.replace(
-        // Cerca il tag radice dell'app (es. <app-root>)
-        /<app-main/i,
-        `<app-main ngCspNonce="${nonce}"`,
+      const modifiedHtml = originalHtml.replaceAll(
+        'nonce="randomNonceGoesHere"',
+        `nonce="${nonce}"`,
       );
 
       // 5. Crea i nuovi headers (clonati dall'originale)
