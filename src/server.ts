@@ -66,7 +66,7 @@ async function handleAngularApp(request: Request, ctx: ExecutionContext): Promis
       (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
       new Response('Page not found.', { status: 404 });
 
-    res.headers.set('Content-Security-Policy', buildCspHeader());
+    res.headers.set('Content-Security-Policy', buildCspHeader(nonce));
     res.headers.set('Permissions-Policy', 'publickey-credentials-get=*');
 
     return res;
