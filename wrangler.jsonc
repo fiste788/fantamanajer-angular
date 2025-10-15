@@ -21,7 +21,6 @@
     }
   ],
   "upload_source_maps": true,
-  "workers_dev": true,
   "preview_urls": true,
   /**
 	 * Static Assets
@@ -64,14 +63,9 @@
       "services": [
         {
           "binding": "API",
-          "service": "fantamanajer-reverse-proxy"
+          "service": "fantamanajer-reverse-proxy-dev"
         }
-      ],
-      "vars": {
-        "NODE_VERSION": "22.16.0",
-        "BUN_VERSION": "1.2.15",
-        "NG_BUILD_OPTIMIZE_CHUNKS": "1"
-      }
+      ]
     }
   }
   /**

@@ -14,7 +14,6 @@ import {
   timer,
   fromEvent,
   filter,
-  map,
   switchMap,
   first,
   tap,
@@ -85,12 +84,12 @@ export class PwaService {
       },
     );
 
-    await firstValueFrom(
-      notification.onAction().pipe(
-        switchMap(async () => this.#swUpdate.activateUpdate()),
-        map(() => this.#window.location.reload()),
-      ),
-      { defaultValue: undefined },
+    const activateUpdate = await firstValueFrom(
+      notification.onAction().pipe(switchMap(async () => this.#swUpdate.activateUpdate())),
+      { defaultValue: false },
     );
+    if (activateUpdate) {
+      this.#window.location.reload();
+    }
   }
 }
