@@ -5,13 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import {
-  ApplicationService,
-  CurrentTransitionService,
-  NAVIGATOR,
-  ScrollService,
-} from '@app/services';
+import { ApplicationService, NAVIGATOR, ScrollService } from '@app/services';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
+import { TabChangedTransitionDirective } from '@shared/directives';
 
 import { NavigationDrawerButtonComponent } from '../navigation-drawer-button/navigation-drawer-button.component';
 import { NotificationComponent } from '../notification/notification.component';
@@ -31,23 +27,19 @@ import { NotificationComponent } from '../notification/notification.component';
     BreadcrumbComponent,
     NotificationComponent,
     NavigationDrawerButtonComponent,
+    TabChangedTransitionDirective,
   ],
 })
 export class TopAppBarComponent {
   readonly #navigator = inject<Navigator>(NAVIGATOR);
   // Renamed injected services for clarity
   readonly #authenticationService = inject(AuthenticationService);
-  readonly #transitionService = inject(CurrentTransitionService);
   readonly #applicationService = inject(ApplicationService); // Renamed injected service
 
   protected readonly isScrolled = inject(ScrollService).isScrolled;
   protected readonly team = this.#applicationService.currentTeam; // Updated service name
   protected readonly loggedIn = this.#authenticationService.isLoggedIn; // Updated service name
   protected readonly isOverlayed = this.#getOverlayedSignal();
-
-  protected viewTransitionName(): string {
-    return this.#transitionService.isTabChanged() ? '' : 'primary-tab';
-  }
 
   #getOverlayedSignal(): Signal<boolean> {
     if (this.#navigator.windowControlsOverlay) {

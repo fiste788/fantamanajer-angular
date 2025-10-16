@@ -1,3 +1,6 @@
-<div [style.viewTransitionName]="viewTransitionName(o)">
+<div
+  appMainTransition="last"
+  [outlet]="o"
+>
   <router-outlet #o="outlet" />
 </div>

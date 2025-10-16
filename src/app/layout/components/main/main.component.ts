@@ -16,7 +16,8 @@ import { RouterOutlet } from '@angular/router';
 import { delay } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { CurrentTransitionService, ScrollService } from '@app/services';
+import { ScrollService } from '@app/services';
+import { MainTransitionDirective } from '@shared/directives';
 
 import { LayoutService } from '../../services';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
@@ -37,6 +38,7 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
     AsyncPipe,
     NavigationSkeletonComponent,
     NavigationDrawerComponent,
+    MainTransitionDirective,
   ],
   host: {
     '[class]': '"navigation-mode-" + navigationMode()',
@@ -48,7 +50,6 @@ import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 export class MainComponent {
   readonly #layoutService = inject(LayoutService);
   readonly #scrollService = inject(ScrollService);
-  readonly #transitionService = inject(CurrentTransitionService);
   readonly #document = inject<Document>(DOCUMENT);
 
   protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
@@ -78,13 +79,6 @@ export class MainComponent {
         }
       });
     });
-  }
-
-  protected viewTransitionName(): string {
-    return this.#transitionService.currentTransition()?.previousUrl !== undefined &&
-      this.#transitionService.isRootOutlet()
-      ? 'main'
-      : '';
   }
 
   #setSkeletonColors(): void {

@@ -9,30 +9,37 @@ import {
   viewChild,
   inject,
   DOCUMENT,
+  ElementRef,
 } from '@angular/core';
-import { MatTabNav, MatTabsModule } from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
+import { TabChangedTransitionDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-primary-tab',
   templateUrl: './primary-tab.component.html',
   styleUrl: './primary-tab.component.scss',
-  imports: [CdkPortal, MatTabsModule, RouterLinkActive, RouterLink, RouterOutlet],
+  imports: [
+    CdkPortal,
+    MatTabsModule,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    TabChangedTransitionDirective,
+  ],
 })
 export class PrimaryTabComponent implements OnDestroy {
   readonly #document = inject(DOCUMENT);
   readonly #injector = inject(Injector);
   readonly #appRef = inject(ApplicationRef);
-  readonly #transitionService = inject(CurrentTransitionService);
   #portalHost?: PortalOutlet;
 
   public fragment = input<string>();
   public tabs = input<Array<Tab>>([]);
   protected portal = viewChild.required(CdkPortal);
-  protected tabBar = viewChild(MatTabNav);
+  protected tabBar = viewChild('tabBarRef', { read: ElementRef<HTMLElement> });
 
   constructor() {
     afterNextRender(() => {
@@ -47,9 +54,5 @@ export class PrimaryTabComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.#portalHost?.detach();
-  }
-
-  protected viewTransitionName(): string {
-    return this.#transitionService.isTabChanged(this.tabBar()) ? 'tab' : '';
   }
 }

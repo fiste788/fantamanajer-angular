@@ -15,12 +15,10 @@ import {
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 
-import { CurrentTransitionService } from '@app/services';
 import { Tab } from '@data/types';
 import { LayoutService } from '@layout/services';
+import { ListToDetailTransitionDirective, RellaxDirective } from '@shared/directives';
 import { SlugPipe, SrcsetPipe } from '@shared/pipes';
-
-import { RellaxDirective } from '../../directives/rellax.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,10 +33,10 @@ import { RellaxDirective } from '../../directives/rellax.directive';
     RouterLinkActive,
     RouterLink,
     SlugPipe,
+    ListToDetailTransitionDirective,
   ],
 })
 export class ParallaxHeaderComponent implements OnDestroy {
-  readonly #transitionService = inject(CurrentTransitionService);
   readonly #viewportScroller = inject(ViewportScroller);
 
   public contextParam = input.required<string>();
@@ -71,9 +69,5 @@ export class ParallaxHeaderComponent implements OnDestroy {
 
   protected track(_: number, item: Tab): string {
     return item.link;
-  }
-
-  protected viewTransitionName(transitionName = 'banner-img'): string {
-    return this.#transitionService.isListToDetail(this.contextParam()) ? transitionName : '';
   }
 }

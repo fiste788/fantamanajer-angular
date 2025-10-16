@@ -1,15 +1,18 @@
 @let _matchday = matchday(); @let number = _matchday?.number ?? 0; @if (number > 1) { @let
 _bestPlayers = bestPlayers();
 <div class="grid grid-cols-1 grid-rows-1 items-start gap-2 sm:grid-cols-2 lg:grid-cols-4">
-  @for (role of roles; track role.id) { @let bestPlayer = _bestPlayers?.get(role);
+  @for (role of roles; track role.id; let first = $first) { @let bestPlayer =
+  _bestPlayers?.get(role);
   <mat-card appearance="outlined">
     <a [routerLink]="['/players', bestPlayer?.[0]?.player_id]">
       <app-player-image
         inCard
         mat-card-image
         matRipple
+        [appDetailToListTransition]="'avatar-' + (bestPlayer?.[0]?.player?.full_name | slug)"
+        [entity]="bestPlayer?.[0]?.player"
+        [fetchpriority]="first ? 'high' : 'auto'"
         [member]="bestPlayer?.[0]"
-        [style.viewTransitionName]="viewTransitionName(bestPlayer?.[0], 'avatar-' + bestPlayer?.[0]?.player?.full_name | slug)"
       />
     </a>
     @if (!bestPlayer) {
@@ -17,7 +20,8 @@ _bestPlayers = bestPlayers();
     }
     <mat-card-header>
       <mat-card-title
-        [style.viewTransitionName]="viewTransitionName(bestPlayer?.[0], 'title-' + bestPlayer?.[0]?.player?.full_name | slug)"
+        [appDetailToListTransition]="'title-' + (bestPlayer?.[0]?.player?.full_name | slug)"
+        [entity]="bestPlayer?.[0]?.player"
       >
         @if (bestPlayer?.[0]) {
         <span class="mat-text-primary"> {{bestPlayer![0]!.ratings[0]?.points | number}} </span>

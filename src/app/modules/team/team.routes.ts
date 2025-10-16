@@ -16,7 +16,11 @@ export default [
     path: '',
     component: RouterOutletComponent,
     canActivate: [authenticatedGuard],
-    data: { state: 'team-outlet', viewTransitionOutlet: 'championship-outlet' },
+    data: {
+      state: 'team-outlet',
+      viewTransitionOutlet: 'championship-outlet',
+      transitionParam: 'team_id',
+    },
     children: [
       {
         path: '',
@@ -32,6 +36,7 @@ export default [
         data: {
           breadcrumbs: (data: { team: Team }): string => data.team.name,
           state: 'team-detail',
+          transitionParam: 'team_id',
         },
         resolve: {
           team: teamResolver,

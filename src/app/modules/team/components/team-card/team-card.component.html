@@ -1,9 +1,11 @@
 @let _team = team();
 <mat-card appearance="outlined">
   <a
+    appDetailToListTransition="banner-img"
+    param="team_id"
+    [entity]="_team"
     [routerLink]="['/teams/', _team.id]"
     [state]="{ img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')' }"
-    [style.viewTransitionName]="viewTransitionName(_team)"
   >
     <figure
       class="aspect-ratio-box placeholder"
@@ -18,9 +20,10 @@
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
           [alt]="_team.name"
+          [attr.fetchpriority]="fetchpriority()"
           [loaderParams]="_team.photo_url"
           [ngSrc]="_team.photo_url | srcset: true"
-          [priority]="priority()"
+          [priority]="fetchpriority() === 'high'"
         />
       }
       <figcaption>{{ _team.name }}</figcaption>
@@ -28,7 +31,9 @@
   </a>
   <mat-card-header>
     <mat-card-title
-      [style.viewTransitionName]="viewTransitionName(_team, 'title-' + _team.name | slug)"
+      param="team_id"
+      [appDetailToListTransition]="'title-' + _team.name | slug"
+      [entity]="_team"
       >{{ _team.name }}</mat-card-title
     >
     <mat-card-subtitle>{{ _team.user.name }} {{ _team.user.surname }}</mat-card-subtitle>

@@ -1,10 +1,11 @@
 <div class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-  @for (club of clubs(); track club.id; let i = $index) {
+  @for (club of clubs(); track club.id; let first = $first) {
   <mat-card appearance="outlined">
     <a
+      appDetailToListTransition="banner-img"
+      [entity]="club"
       [routerLink]="['/clubs/',club.id]"
       [state]="{img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')'}"
-      [style.viewTransitionName]="viewTransitionName(club)"
     >
       <figure
         class="aspect-ratio-box placeholder"
@@ -19,9 +20,10 @@
           sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
           width="600"
           [alt]="club.name"
+          [attr.fetchpriority]="first ? 'high' : 'auto'"
           [loaderParams]="club.background_url"
           [ngSrc]="club.background_url | srcset: true"
-          [priority]="i === 0"
+          [priority]="first"
         />
         }
         <figcaption>{{club.name}}</figcaption>
@@ -35,11 +37,13 @@
         mat-card-avatar
         width="40"
         [alt]="club.name"
+        [appDetailToListTransition]="'avatar-' + club.name | slug"
+        [entity]="club"
         [ngSrc]="club.photo_url || ''"
-        [style.viewTransitionName]="viewTransitionName(club, 'avatar-' + club.name | slug)"
       />
       <mat-card-title
-        [style.viewTransitionName]="viewTransitionName(club, 'title-' + club.name | slug)"
+        [appDetailToListTransition]="'title-' + club.name | slug"
+        [entity]="club"
         >{{club.name}}</mat-card-title
       >
       <mat-card-subtitle>Club</mat-card-subtitle>

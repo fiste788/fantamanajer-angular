@@ -1,7 +1,7 @@
 @let _title = title();
 <div
   class="parallax-container"
-  [style.viewTransitionName]="navigationMode() === 'bar' ? '' : viewTransitionName()"
+  [appListToDetailTransition]="navigationMode() === 'bar' ? '' : 'banner-img'"
 >
   <div
     #parallax
@@ -9,7 +9,7 @@
   >
     <div
       class="parallax-header-img"
-      [style.viewTransitionName]="navigationMode() === 'bar' ? viewTransitionName() : ''"
+      [appListToDetailTransition]="navigationMode() === 'bar' ? 'banner-img' : ''"
     >
       <div
         #rellax
@@ -39,9 +39,9 @@
           disableOptimizedSrcset
           priority
           [alt]="_title"
+          [appListToDetailTransition]="'avatar-' + _title | slug"
           [height]="height()"
           [ngSrc]="_image"
-          [style.viewTransitionName]="viewTransitionName('avatar-' + _title | slug)"
           [width]="width()"
         />
       }
@@ -54,7 +54,7 @@
         >
         <h1
           class="title"
-          [style.viewTransitionName]="viewTransitionName('title-' + _title | slug)"
+          [appListToDetailTransition]="'title-' + _title | slug"
         >
           {{ _title }}
         </h1>

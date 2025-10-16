@@ -6,11 +6,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
 
 import { groupBy } from '@app/functions';
-import { ApplicationService, CurrentTransitionService } from '@app/services';
+import { ApplicationService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
-import { Member } from '@data/types';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
+import { DetailToListTransitionDirective } from '@shared/directives';
 import { SlugPipe } from '@shared/pipes';
 
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
@@ -30,10 +30,10 @@ import { BestPlayersListComponent } from '../components/best-players-list/best-p
     MatRippleModule,
     DecimalPipe,
     SlugPipe,
+    DetailToListTransitionDirective,
   ],
 })
 export class HomePage {
-  readonly #transitionService = inject(CurrentTransitionService);
   readonly #memberService = inject(MemberService);
 
   protected matchday = inject(ApplicationService).currentMatchday;
@@ -43,8 +43,4 @@ export class HomePage {
   protected bestPlayers = computed(() =>
     groupBy(this.getBestResource.value(), (member) => this.roleService.getRoleById(member.role_id)),
   );
-
-  protected viewTransitionName(member?: Member, transition_name = 'banner-img'): string {
-    return member && this.#transitionService.isDetailToList(member.player) ? transition_name : '';
-  }
 }

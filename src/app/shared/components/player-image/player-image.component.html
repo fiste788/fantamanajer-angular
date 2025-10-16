@@ -2,10 +2,11 @@
 <img
   disableOptimizedSrcset
   height="256"
-  priority
   width="181"
   [alt]="_member?.player?.full_name"
+  [attr.fetchpriority]="fetchpriority()"
   [class.fade-in]="_member !== null"
   [class.mat-card-image]="inCard()"
   [ngSrc]="'/svg/clubs.svg' + (_member ? '#club-' + _member?.club_id : '')"
+  [priority]="fetchpriority() === 'high'"
 />

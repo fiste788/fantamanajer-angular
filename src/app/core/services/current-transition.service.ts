@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/prefer-spread */
 
-import { Injectable, signal, inject, DOCUMENT } from '@angular/core';
-import { MatTabNav } from '@angular/material/tabs';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, signal, inject, computed } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 
 @Injectable({
@@ -19,27 +19,72 @@ export class CurrentTransitionService {
     | undefined
   >(undefined);
 
-  public isDetailToList(
-    entity: {
-      id: number;
-    },
-    param = 'id',
-  ): boolean {
-    const info = this.currentTransition();
-    if (info) {
-      const outletTo = this.#getOutlet(info.transition.to);
-      const outletFrom = this.#getOutlet(info.transition.from);
+  readonly #transitionInfo = computed(() => {
+    const transition = this.currentTransition();
+    if (!transition) {
+      return {
+        transition: undefined,
+        from: undefined,
+        to: undefined,
+        outletFrom: undefined,
+        outletTo: undefined,
+        targetFrom: undefined,
+        targetTo: undefined,
+      };
+    }
+    const { from, to } = transition.transition;
+    const outletFrom = this.#getOutlet(from);
+    const outletTo = this.#getOutlet(to);
+    const targetFrom = outletFrom?.firstChild ?? outletFrom;
+    const targetTo = outletTo?.firstChild ?? outletTo;
 
-      const targetTo = outletTo?.firstChild ?? outletTo;
-      const targetFrom = outletFrom?.firstChild ?? outletFrom;
-      // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
-      // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
-      const isBannerImg =
-        targetTo?.params[param] === `${entity.id}` || targetFrom?.params[param] === `${entity.id}`;
+    return { transition, from, to, outletFrom, outletTo, targetFrom, targetTo };
+  });
 
-      if (isBannerImg) {
-        this.#document.documentElement.classList.remove('list-to-detail');
-        this.#document.documentElement.classList.add('detail-to-list');
+  public readonly isSameContext = computed(() => {
+    const { outletFrom, outletTo } = this.#transitionInfo();
+    if (!outletFrom || !outletTo) {
+      return true;
+    } // Default behavior
+
+    let isSameContext = outletFrom.data['state'] === outletTo.data['state'];
+
+    if (isSameContext && outletTo.firstChild?.data['exit'] === true) {
+      isSameContext = false;
+    }
+
+    return isSameContext;
+  });
+
+  public readonly isRootOutlet = computed(() => {
+    const { transition, outletFrom, outletTo } = this.#transitionInfo();
+    if (!transition?.previousUrl) {
+      return false;
+    }
+
+    return outletFrom === undefined || outletTo === undefined;
+  });
+
+  public isListToDetail(): boolean {
+    const { outletFrom, outletTo, targetFrom, targetTo } = this.#transitionInfo();
+    if (!outletFrom || !outletTo || !targetFrom || !targetTo) {
+      return false;
+    }
+
+    const param = this.#getTransitionParam(outletFrom, outletTo);
+    const fromId = targetFrom.params[param] as string | undefined;
+    const toId = targetTo.params[param] as string | undefined;
+
+    if (
+      outletFrom?.data['state'] === outletTo?.data['state'] ||
+      outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
+      outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
+    ) {
+      const isBannerImg = targetTo?.params[param] !== targetFrom?.params[param];
+
+      if (isBannerImg && !fromId && toId) {
+        this.#document.documentElement.classList.remove('detail-to-list');
+        this.#document.documentElement.classList.add('list-to-detail');
       }
 
       return isBannerImg;
@@ -48,95 +93,60 @@ export class CurrentTransitionService {
     return false;
   }
 
-  public isListToDetail(param = 'id'): boolean {
-    const info = this.currentTransition();
-    // If we're transitioning to or from the cat's detail page, add the `banner-image` transition name.
-    // This allows the browser to animate between the specific cat image from the list and its image on the detail page.
-    if (info) {
-      const outletTo = this.#getOutlet(info.transition.to);
-      const outletFrom = this.#getOutlet(info.transition.from);
-      if (
-        outletFrom?.data['state'] === outletTo?.data['state'] ||
-        outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
-        outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
-      ) {
-        const targetTo = outletTo?.firstChild ?? outletTo;
-        const targetFrom = outletFrom?.firstChild ?? outletFrom;
-        const isBannerImg = targetTo?.params[param] !== targetFrom?.params[param];
+  public isDetailToList(entity: { id: number }): boolean {
+    const { outletFrom, outletTo, targetFrom, targetTo } = this.#transitionInfo();
+    let isBannerImg = false;
+    if (targetFrom || targetTo) {
+      const param = this.#getTransitionParam(targetFrom, targetTo);
+      isBannerImg =
+        targetTo?.params[param] === `${entity.id}` || targetFrom?.params[param] === `${entity.id}`;
+    }
 
-        if (isBannerImg) {
-          this.#document.documentElement.classList.remove('detail-to-list');
-          this.#document.documentElement.classList.add('list-to-detail');
-        }
-
-        return isBannerImg;
+    if (isBannerImg && outletFrom && outletTo && targetFrom && targetTo) {
+      const param = this.#getTransitionParam(outletFrom, outletTo);
+      const fromId = targetFrom.params[param] as string | undefined;
+      const toId = targetTo.params[param] as string | undefined;
+      if (fromId && !toId) {
+        // It is a D2L transition
+        this.#document.documentElement.classList.remove('list-to-detail');
+        this.#document.documentElement.classList.add('detail-to-list');
       }
     }
 
-    return false;
+    return isBannerImg;
   }
 
-  public isTabChanged(tabBar?: MatTabNav): boolean {
+  public isTabChanged(tabBar?: HTMLElement): boolean {
     const info = this.currentTransition();
-    if (info) {
-      const outletFrom = this.#getOutlet(info.transition.from);
-      const outletTo = this.#getOutlet(info.transition.to);
-      let isSameContext = outletFrom?.data['state'] === outletTo?.data['state'];
+    if (info && tabBar) {
+      const tabs = Array.from(tabBar.querySelectorAll('a'));
+      const from = this.#getUrl(info.transition.from);
+      const to = this.#getUrl(info.transition.to);
 
-      if (isSameContext && outletTo?.firstChild?.data['exit'] === true) {
-        isSameContext = false;
-      }
-
-      if (tabBar) {
-        const el = tabBar._tabList.nativeElement as HTMLDivElement;
-
-        const tabs = Array.from(el.querySelectorAll('a'));
-        const from = this.#getUrl(info.transition.from);
-        const to = this.#getUrl(info.transition.to);
-
-        const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
-        const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
-        if (pre > -1 && post > -1) {
-          if (pre > post) {
-            this.#document.documentElement.classList.add('direction-right');
-          } else {
-            this.#document.documentElement.classList.add('direction-left');
-          }
+      const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
+      const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
+      if (pre > -1 && post > -1) {
+        if (pre > post) {
+          this.#document.documentElement.classList.add('direction-right');
+        } else {
+          this.#document.documentElement.classList.add('direction-left');
         }
       }
-
-      return isSameContext;
     }
 
-    return true;
-    // return outlet.isActivated ? transitionName : '';
-  }
-
-  public isRootOutlet(): boolean {
-    const info = this.currentTransition();
-
-    if (info) {
-      const outletFrom = this.#getOutlet(info.transition.from);
-      const outletTo = this.#getOutlet(info.transition.to);
-
-      return outletFrom === undefined && outletTo === undefined
-        ? false
-        : outletFrom === undefined || outletTo === undefined;
-    }
-
-    return false;
+    return this.isSameContext();
   }
 
   public isLastOutlet(o: RouterOutlet): boolean {
-    const info = this.currentTransition();
+    const { from, to } = this.#transitionInfo();
 
-    if (info) {
-      let outletFrom = this.#getOutlet(info.transition.from);
+    if (from && o.isActivated) {
+      let outletFrom = this.#getOutlet(from);
       while (this.#getOutlet(outletFrom) !== undefined) {
         outletFrom = this.#getOutlet(outletFrom)?.firstChild ?? undefined;
       }
 
-      let outletTo = this.#getOutlet(info.transition.to);
+      let outletTo = this.#getOutlet(to);
       while (this.#getOutlet(outletTo) !== undefined) {
         outletTo = this.#getOutlet(outletTo)?.firstChild ?? undefined;
       }
@@ -165,5 +175,16 @@ export class CurrentTransitionService {
       .map((entry) => entry.url[0])
       .filter((entry) => entry !== undefined)
       .join('/');
+  }
+
+  #getTransitionParam(
+    outletFrom?: ActivatedRouteSnapshot,
+    outletTo?: ActivatedRouteSnapshot,
+  ): string {
+    return (
+      (outletFrom?.data['transitionParam'] as string | undefined) ??
+      (outletTo?.data['transitionParam'] as string | undefined) ??
+      'id'
+    );
   }
 }

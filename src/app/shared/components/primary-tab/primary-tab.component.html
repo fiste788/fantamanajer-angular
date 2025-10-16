@@ -1,6 +1,7 @@
 <ng-template [cdkPortal]>
   @if (tabs().length) {
     <nav
+      #tabBarRef
       fitInkBarToContent
       mat-tab-nav-bar
       [tabPanel]="tabPanel"
@@ -23,8 +24,9 @@
 <ng-content />
 <div
   #tabPanel
+  appTabChangedTransition="tab"
   class="tabbed-container"
-  [style.viewTransitionName]="viewTransitionName()"
+  [tabBar]="tabBar()"
 >
   <router-outlet #o="outlet" />
 </div>

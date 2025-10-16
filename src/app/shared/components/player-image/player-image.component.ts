@@ -14,4 +14,5 @@ import { Member } from '@data/types';
 export class PlayerImageComponent {
   public member = input<Member | undefined>();
   public inCard = input(false, { transform: booleanAttribute });
+  public fetchpriority = input<'auto' | 'high' | 'low'>('auto');
 }

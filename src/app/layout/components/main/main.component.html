@@ -17,7 +17,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-top-app-bar class="scroll scroll-up" />
-    <main [style.viewTransitionName]="viewTransitionName()">
+    <main appMainTransition="root">
       <router-outlet #o="outlet" />
     </main>
   </mat-sidenav-content>
