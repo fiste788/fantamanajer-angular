@@ -5,6 +5,7 @@
   z-index: 102;
   contain: paint;
   top: 0;
+  box-shadow: var(--mat-sys-level0);
 }
 
 @supports (view-transition-name: none) {
@@ -24,9 +25,7 @@ app-breadcrumb {
 }
 
 .mat-toolbar {
-  transition:
-    background-color 400ms var(--mat-sys-motion-standard),
-    box-shadow 200ms var(--mat-sys-motion-standard);
+  transition: background-color 400ms var(--mat-sys-motion-standard);
 }
 
 .mat-toolbar-row {
@@ -39,7 +38,7 @@ app-breadcrumb {
   }
 }
 
-:host-context(:not(.fullscreen)) :host.is-scrolled {
+:host-context(app-main:not(.fullscreen)) :host.is-scrolled {
   box-shadow: var(--mat-sys-level2);
 
   @include mat.toolbar-overrides(

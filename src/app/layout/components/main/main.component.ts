@@ -5,10 +5,8 @@ import {
   ElementRef,
   viewChild,
   inject,
-  effect,
   afterNextRender,
   DOCUMENT,
-  untracked,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -69,15 +67,7 @@ export class MainComponent {
   constructor() {
     afterNextRender(() => {
       this.#setSkeletonColors();
-    });
-    effect(() => {
-      const isRouteChanged = this.#layoutService.routeContextChanged();
-      const topAppBarRef = this.topAppBarRef();
-      untracked(() => {
-        if (isRouteChanged) {
-          this.#scrollService.offset.set(topAppBarRef.nativeElement.clientHeight);
-        }
-      });
+      this.#scrollService.topAppBar.set(this.topAppBarRef().nativeElement);
     });
   }
 

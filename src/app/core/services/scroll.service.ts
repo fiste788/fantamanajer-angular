@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { inject, Injectable, linkedSignal, PLATFORM_ID, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   fromEvent,
@@ -23,7 +23,14 @@ import { WINDOW } from './window.service';
 })
 export class ScrollService {
   readonly #window = isPlatformBrowser(inject(PLATFORM_ID)) ? inject<Window>(WINDOW) : undefined;
-  public readonly offset = signal(56);
+  public readonly topAppBar = signal<HTMLElement | undefined>(undefined);
+  public readonly refreshTrigger = signal(0);
+
+  public readonly offset = linkedSignal(() => {
+    this.refreshTrigger();
+
+    return this.#getTopAppBarHeight();
+  });
 
   readonly #offset$ = toObservable(this.offset).pipe(distinctUntilChanged());
   readonly #scrollingEvent$ = this.#window
@@ -35,7 +42,7 @@ export class ScrollService {
     : EMPTY;
   readonly #direction$ = this.#scrollingEvent$.pipe(
     pairwise(),
-    filter(([y1, y2]) => Math.abs(y1 - y2) > 3),
+    filter(([y1, y2]) => Math.abs(y1 - y2) > 3 && Math.abs(y1 - y2) < 100),
     map(([y1, y2]): Direction => (y2 <= y1 ? Direction.Up : Direction.Down)),
   );
   readonly #isScrolled$ = this.#offset$.pipe(
@@ -53,12 +60,20 @@ export class ScrollService {
     combineLatest([this.#isScrolled$, this.#direction$]).pipe(
       map(([isScrolled, direction]): Direction => (isScrolled ? direction : Direction.Up)),
       distinctUntilChanged(),
-      share(),
+      //share(),
     ),
     { initialValue: Direction.Up },
   );
 
   public scrollTo(x = 0, y = 0): void {
     this.#window?.scrollTo({ top: y, left: x });
+  }
+
+  public updateOffset(): void {
+    this.refreshTrigger.update((val) => val + 1);
+  }
+
+  #getTopAppBarHeight(): number {
+    return this.topAppBar()?.clientHeight ?? 56;
   }
 }

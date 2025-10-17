@@ -80,9 +80,9 @@
 // --- Transizioni di Scorrimento (Header / Toolbar / FAB) ---
 .stable {
   .scroll {
-    transition-property: transform; // Solo transform per il contenitore principale
-    transition-duration: $duration-decelerate;
-    transition-timing-function: $ease-decelerate;
+    transition-property: transform, box-shadow; // Solo transform per il contenitore principale
+    transition-duration: $duration-decelerate, $duration-accelerate;
+    transition-timing-function: $ease-decelerate, var(--mat-sys-motion-standard);
 
     .mat-toolbar-row {
       @include transition-full(

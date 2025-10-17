@@ -35,12 +35,41 @@ export class LayoutService {
     return navigationMode === 'drawer';
   });
 
-  public readonly fullscreen = linkedSignal(() => {
-    const navigationMode = this.navigationMode();
-    const direction = this.#scrollService.direction();
-    const isRouteChanged = this.routeContextChanged();
+  public readonly fullscreen = linkedSignal({
+    source: () => ({
+      contextTrigger: this.routeContextChanged,
+      navigationMode: this.navigationMode(),
+      direction: this.#scrollService.direction(),
+    }),
+    computation: (current, previous): boolean => {
+      // 1. Dati per il confronto
+      const prevTrigger = previous?.source.contextTrigger;
+      const currentTrigger = current.contextTrigger;
 
-    return !(navigationMode !== 'bar' || direction === Direction.Up || isRouteChanged);
+      // 2. Logica di Rilevamento Evento/Reset
+      // L'evento di cambio contesto è rilevato se il trigger attuale è diverso dal precedente
+      // e non è il primo ricalcolo (cioè previous esiste).
+      const contextChangeTriggered = previous !== undefined && currentTrigger !== prevTrigger;
+
+      // Condizione di Reset (Massima Priorità)
+      // Se l'evento è stato innescato O non siamo in 'bar' mode, resettiamo a FALSE.
+      if (contextChangeTriggered || current.navigationMode !== 'bar') {
+        return false;
+      }
+
+      // Il resto della tua logica di transizione (che ora può funzionare)
+      const prevDir = previous?.source.direction;
+      const currentDir = current.direction;
+
+      if (prevDir === Direction.Up && currentDir === Direction.Down) {
+        return true;
+      }
+      if (prevDir === Direction.Down && currentDir === Direction.Up) {
+        return false;
+      }
+
+      return previous?.value ?? false;
+    },
   });
 
   public readonly openFab = linkedSignal(() => {
@@ -54,7 +83,7 @@ export class LayoutService {
 
     return false;
   });
-  public readonly routeContextChanged = this.#isRouteContextChanged();
+  public readonly routeContextChanged = this.#routeContextChangeTrigger();
   public readonly navigationStart = this.#getNavigationStart(); // Renamed method for clarity
   public readonly skeletonColors = signal({
     foreground: '#ffd9df',
@@ -91,17 +120,27 @@ export class LayoutService {
     );
   }
 
-  #isRouteContextChanged(): Signal<boolean> {
+  // All'interno del tuo Service/Classe
+  #routeContextChangeTrigger(): Signal<number | undefined> {
     return toSignal(
       this.#router.events.pipe(
         filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
         pairwise(),
-        map(
-          ([pre, post]) =>
-            pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1],
-        ),
+        map(([pre, post]) => {
+          // Logica per rilevare il cambio di contesto (come la tua)
+          const isContextChanged =
+            pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1];
+
+          // Emette un valore unico (timestamp) SOLO se il contesto è cambiato.
+          // Altrimenti, non emette nulla (grazie al 'filter' successivo)
+          return isContextChanged ? Date.now() : undefined;
+        }),
+        // Filtra i valori 'undefined': il toSignal emette un nuovo valore SOLO
+        // quando c'è un cambio di contesto effettivo (il timestamp).
+        filter((value): value is number => value !== undefined),
       ),
-      { initialValue: false },
+      // Inizializzato a undefined, in modo che il linkedSignal non si attivi subito
+      { initialValue: undefined },
     );
   }
 
