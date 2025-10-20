@@ -68,8 +68,16 @@ async function handleAngularApp(request: Request, ctx: ExecutionContext): Promis
   }
 }
 
-const handleApiProxy = async (request: Request, env: Env): Promise<Response> =>
-  env.API.fetch(request);
+const handleApiProxy = async (request: Request, env: Env): Promise<Response> => {
+  const originalUrl = request.url; // Capture the original request URL
+  const subrequest = new Request(request, {
+    headers: {
+      'cf-aig-metadata': JSON.stringify({ url: originalUrl }), // Inject URL into metadata
+    },
+  });
+
+  return env.API.fetch(subrequest);
+};
 
 const handleSetSession = async (request: Request): Promise<Response> =>
   setServerAuthentication(await request.json());
