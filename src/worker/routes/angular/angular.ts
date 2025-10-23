@@ -1,11 +1,6 @@
 import { AngularAppEngine } from '@angular/ssr';
 
-const cspConfig: Record<string, Array<string>> = {
-  'default-src': ["'self'", '*.fantamanajer.it'],
-  'script-src': ["'self'", "'unsafe-inline static.cloudflareinsights.com'"],
-  'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
-};
+import { cspConfig } from '../../config/csp-config';
 
 function buildCspHeader(nonce?: string): string {
   return Object.entries(cspConfig)

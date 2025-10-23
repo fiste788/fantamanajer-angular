@@ -1,6 +1,10 @@
 import { environment } from '@env';
 
-export const API_ENDPOINT = environment.apiEndpoint; // Esempio: '/api/v1'
+import { AppRouter } from '../../types';
+
+export function registerApiRoutes(router: AppRouter): void {
+  router.all(`${environment.apiEndpoint}/*`, handleApiProxy);
+}
 
 // Handler per /api/*
 // itty-router fornisce request e env/ctx (se usati)

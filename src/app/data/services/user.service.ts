@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 
 import { AuthenticationDto, ServerAuthInfo } from '@app/authentication';
 import { skipErrorHandling } from '@app/errors/http-error.interceptor';
-import { skipAuthInterceptor, skipUrlPrefix } from '@app/interceptors';
+import { skipAuthInterceptor } from '@app/interceptors';
 
 import { User } from '../types';
 
@@ -15,8 +15,8 @@ const routes = {
   login: `/${USERS_URL_SEGMENT}/login`,
   logout: `/${USERS_URL_SEGMENT}/logout`,
   userById: (id: number) => `/${USERS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'detail'
-  setLocalSession: 'localdata/setsession', // Mantenuto il nome della rotta che riflette l'API
-  deleteLocalSession: 'localdata/logout', // Mantenuto il nome della rotta che riflette l'API
+  serverLogin: '/server/login', // Mantenuto il nome della rotta che riflette l'API
+  serverLogout: '/server/logout', // Mantenuto il nome della rotta che riflette l'API
 };
 
 @Injectable({ providedIn: 'root' })
@@ -69,13 +69,13 @@ export class UserService {
   }
 
   public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.setLocalSession, data, {
+    return this.#http.post<Record<string, never>>(routes.serverLogin, data, {
       context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
   }
 
   public deleteLocalSession(): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.deleteLocalSession, undefined, {
+    return this.#http.post<Record<string, never>>(routes.serverLogout, undefined, {
       context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
   }
@@ -93,6 +93,6 @@ export class UserService {
 
   // Funzione privata per creare il contesto HTTP per le operazioni locali (Refactoring suggerito)
   #getLocalSessionContext(): HttpContext {
-    return skipUrlPrefix(skipAuthInterceptor(skipErrorHandling()));
+    return skipAuthInterceptor(skipErrorHandling());
   }
 }

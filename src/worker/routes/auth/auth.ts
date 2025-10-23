@@ -1,9 +1,15 @@
 import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
+import { environment } from '@env';
 
-const LOCAL_DATA_URL_PREFIX = '/localdata';
-export const SET_SESSION_URL = `${LOCAL_DATA_URL_PREFIX}/setsession`;
-export const LOGOUT_URL = `${LOCAL_DATA_URL_PREFIX}/logout`;
+import { AppRouter } from '../../types';
+
+export const SET_SESSION_URL = `${environment.apiEndpoint}/server/login`;
+export const LOGOUT_URL = `${environment.apiEndpoint}/server/logout`;
+
+export function registerAuthRoutes(router: AppRouter): void {
+  router.post(SET_SESSION_URL, handleLogin).get(LOGOUT_URL, handleLogout);
+}
 
 function setServerAuthentication(body: ServerAuthInfo): Response {
   const cookie = CookieStorage.cookieString('token', body.accessToken, {
@@ -16,8 +22,7 @@ function setServerAuthentication(body: ServerAuthInfo): Response {
   return response;
 }
 
-// Handler per /localdata/setsession
-export const handleSetSession = async (request: Request): Promise<Response> => {
+export const handleLogin = async (request: Request): Promise<Response> => {
   // itty-router ti passa solo Request, quindi gli handler DEVONO essere autonomi.
   // Qui non serve env o ctx, quindi va bene.
   return setServerAuthentication(await request.json());

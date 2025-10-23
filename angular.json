@@ -68,7 +68,7 @@
               },
               "outputMode": "server",
               "ssr": {
-                "entry": "src/server.ts",
+                "entry": "src/worker/index.ts",
                 "experimentalPlatform": "neutral"
               },
               "serviceWorker": "ngsw-config.json",
