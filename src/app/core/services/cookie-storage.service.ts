@@ -27,7 +27,7 @@ export class CookieStorage implements Storage {
   public static getCookieRegExp(name: string): RegExp {
     const escapedName: string = name.replaceAll(/([$()*+,.;=?[\]^{|}])/gi, String.raw`\$1`);
 
-    return new RegExp(`(?:^${escapedName}|;\\s*${escapedName})=(.*?)(?:;|$)`, 'g');
+    return new RegExp(String.raw`(?:^${escapedName}|;\s*${escapedName})=(.*?)(?:;|$)`, 'g');
   }
 
   /**

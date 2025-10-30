@@ -1,7 +1,7 @@
-import { minify } from 'html-minifier';
+import { minify } from 'html-minifier-next';
 
-const minifyHtml = (indexHtml: string): string => {
-  const minified = minify(indexHtml, {
+const minifyHtml = async (indexHtml: string): Promise<string> => {
+  const minified = await minify(indexHtml, {
     collapseWhitespace: true,
     minifyJS: true,
     removeAttributeQuotes: true,

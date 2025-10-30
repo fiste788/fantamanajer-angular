@@ -5,7 +5,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "fantamanajer-angular",
-  "compatibility_date": "2025-10-14",
+  "compatibility_date": "2025-10-30",
   "compatibility_flags": [
     "nodejs_compat_v2"
   ],
@@ -48,7 +48,7 @@
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
   "vars": {
-    "NODE_VERSION": "22.16.0",
+    "NODE_VERSION": "24.11.0",
     "BUN_VERSION": "1.2.15",
     "NG_BUILD_OPTIMIZE_CHUNKS": "1"
   },
