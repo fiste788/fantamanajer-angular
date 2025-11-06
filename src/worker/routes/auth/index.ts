@@ -1,1 +1,0 @@
-export { registerAuthRoutes } from './auth';
