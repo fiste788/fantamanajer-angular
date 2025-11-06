@@ -42,8 +42,8 @@ async function modifyHtmlAndSetHeaders(ssrResponse: Response, nonce?: string): P
 
 const handleAngularApp = async (
   request: Request,
-  ctx: ExecutionContext,
   env: Env,
+  ctx: ExecutionContext,
 ): Promise<Response> => {
   const IS_NONCE_ENABLED = (env.USE_NONCE as string) === 'true';
 
