@@ -1,10 +1,9 @@
 import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
 import { environment } from '@env';
+import { AppRouter, ExtendedWorkerRequest, WorkerProvider } from '@worker/types';
 
-import { AppRouter, WorkerProvider } from '../../types';
-
-const SET_SESSION_URL = `${environment.apiEndpoint}/server/login`;
+const LOGIN_URL = `${environment.apiEndpoint}/server/login`;
 const LOGOUT_URL = `${environment.apiEndpoint}/server/logout`;
 
 function setAuthCookieResponse(body: ServerAuthInfo): Response {
@@ -18,7 +17,7 @@ function setAuthCookieResponse(body: ServerAuthInfo): Response {
   return response;
 }
 
-const handleLogin = async (request: Request): Promise<Response> => {
+const handleLogin = async (request: ExtendedWorkerRequest): Promise<Response> => {
   // itty-router ti passa solo Request, quindi gli handler DEVONO essere autonomi.
   // Qui non serve env o ctx, quindi va bene.
   return setAuthCookieResponse(await request.json());
@@ -34,6 +33,6 @@ const handleLogout = (): Response => setAuthCookieResponse({ accessToken: '', ex
 export const provideAuthRoutes = (): WorkerProvider => {
   return (router: AppRouter) => {
     // La logica di registrazione viene incapsulata qui
-    router.post(SET_SESSION_URL, handleLogin).get(LOGOUT_URL, handleLogout);
+    router.post(LOGIN_URL, handleLogin).get(LOGOUT_URL, handleLogout);
   };
 };

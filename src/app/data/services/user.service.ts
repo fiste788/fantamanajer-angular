@@ -68,14 +68,14 @@ export class UserService {
     return this.#http.get<User>(routes.userById(id)); // Utilizzo del nome della rotta modificato
   }
 
-  public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.serverLogin, data, {
+  public setLocalSession(data: ServerAuthInfo): Observable<void> {
+    return this.#http.post<void>(routes.serverLogin, data, {
       context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
   }
 
-  public deleteLocalSession(): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.serverLogout, undefined, {
+  public deleteLocalSession(): Observable<void> {
+    return this.#http.get<void>(routes.serverLogout, {
       context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
     });
   }

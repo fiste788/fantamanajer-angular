@@ -1,10 +1,9 @@
 import { environment } from '@env';
-
-import { AppRouter, WorkerProvider } from '../../types'; // Assumendo che 'WorkerProvider' sia importabile qui
+import { AppRouter, ExtendedWorkerRequest, WorkerProvider } from '@worker/types';
 
 // Handler per /api/*
 // itty-router fornisce request e env/ctx (se usati)
-const handleApiProxy = async (request: Request, env: Env): Promise<Response> => {
+const handleApiProxy = async (request: ExtendedWorkerRequest): Promise<Response> => {
   const originalUrl = request.url;
   const subrequest = new Request(request, {
     headers: {
@@ -13,7 +12,7 @@ const handleApiProxy = async (request: Request, env: Env): Promise<Response> => 
   });
 
   // Usa il binding 'API' dall'ambiente
-  return env.API.fetch(subrequest);
+  return request.env.API.fetch(subrequest);
 };
 
 /**
