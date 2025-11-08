@@ -3,8 +3,7 @@ import { IttyRouter } from 'itty-router';
 
 import { createWorkerAdapter } from '@worker/config/worker-adapter';
 import { AppRouter, WorkerConfig } from '@worker/types';
-import { buildErrorResponse } from '@worker/utils';
-import { withWorkerArgs } from '@worker/utils/worker-middleware';
+import { buildErrorResponse, withWorkerArgs } from '@worker/utils';
 
 /**
  * Funzione che esegue il setup del worker in base ai provider forniti.

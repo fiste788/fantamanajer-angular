@@ -16,3 +16,9 @@ export type WorkerRouteHandler = (
   request: ExtendedWorkerRequest,
   ...args: Array<unknown> // Argomenti residui, sebbene debbano essere vuoti
 ) => Promise<Response>;
+
+export interface Controller {
+  handle: WorkerRouteHandler;
+}
+
+export type CspConfig = Record<string, Array<string>>;
