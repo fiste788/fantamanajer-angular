@@ -1,5 +1,6 @@
 import { ExtendedWorkerRequest, WorkerRouteHandler } from '@worker/types';
 
+import { AngularSSRFailureError } from './angular.errors';
 import { AngularProviderConfig } from './angular.types';
 import { buildNonce } from './angular.utils';
 import { configureAngularEngine } from './engine-setup';
@@ -50,7 +51,7 @@ export class AngularAppHandler {
         headers: finalHeaders,
       });
     } catch (error) {
-      throw new Error(`Angular SSR failed: ${(error as Error).message}`);
+      throw new AngularSSRFailureError('Angular SSR failed', error);
     }
   };
 }

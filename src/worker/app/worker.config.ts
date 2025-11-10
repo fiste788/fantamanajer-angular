@@ -1,5 +1,5 @@
 import { environment } from '@env';
-import { ADDITIONAL_HEADERS, BASE_CSP_CONFIG } from '@worker/config/security-config';
+import { ADDITIONAL_HEADERS, BASE_CSP_CONFIG } from '@worker/config';
 import {
   provideAngularFallback,
   withAdditionalSecurityHeaders,

@@ -1,9 +1,8 @@
 // bootstrap.ts (Nuovo file per la funzione di bootstrap)
 import { IttyRouter } from 'itty-router';
 
-import { createWorkerAdapter } from '@worker/config/worker-adapter';
 import { AppRouter, WorkerConfig } from '@worker/types';
-import { buildErrorResponse, withWorkerArgs } from '@worker/utils';
+import { buildErrorResponse, createWorkerAdapter, withWorkerArgs } from '@worker/utils';
 
 /**
  * Funzione che esegue il setup del worker in base ai provider forniti.

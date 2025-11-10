@@ -1,4 +1,4 @@
-import { CspConfig } from '@worker/types';
+import { CspConfig } from './angular.types';
 
 /**
  * Genera un nonce criptograficamente sicuro, lungo 16 caratteri.

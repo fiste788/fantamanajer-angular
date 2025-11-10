@@ -1,5 +1,3 @@
-import { IRequest } from 'itty-router';
-
 import { ExtendedWorkerRequest } from '@worker/types';
 
 /**
@@ -7,12 +5,12 @@ import { ExtendedWorkerRequest } from '@worker/types';
  * Questo risolve i problemi di type-checking nell'ordine dei parametri dell'handler.
  */
 export const withWorkerArgs = (
-  request: IRequest,
+  request: ExtendedWorkerRequest,
   env: Env,
   ctx: ExecutionContext,
 ): ExtendedWorkerRequest => {
   // Crea una Request estesa combinando l'originale con env e ctx
-  const extendedRequest = request as ExtendedWorkerRequest;
+  const extendedRequest = request;
   extendedRequest.env = env;
   extendedRequest.ctx = ctx;
 

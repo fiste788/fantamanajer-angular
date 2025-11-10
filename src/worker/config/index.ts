@@ -1,5 +1,4 @@
-import { AdditionalHeaders } from '@worker/features/angular';
-import { CspConfig } from '@worker/types';
+import { AdditionalHeaders, CspConfig } from '@worker/features/angular';
 
 export const BASE_CSP_CONFIG: CspConfig = {
   'default-src': ["'self'", '*.fantamanajer.it'],

@@ -1,4 +1,4 @@
-import { AppRouter, WorkerProvider, CspConfig } from '@worker/types';
+import { AppRouter, WorkerProvider } from '@worker/types';
 
 import { AngularAppHandler } from './angular.handler';
 import {
@@ -8,6 +8,7 @@ import {
   AdditionalHeadersOption,
   CspConfigOptions,
   AdditionalHeaders,
+  CspConfig,
 } from './angular.types';
 
 /**

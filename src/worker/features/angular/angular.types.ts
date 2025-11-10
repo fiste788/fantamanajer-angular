@@ -1,4 +1,4 @@
-import { CspConfig } from '@worker/types';
+export type CspConfig = Record<string, Array<string>>;
 
 /**
  * Interfaccia per la configurazione CSP che include opzioni aggiuntive.
