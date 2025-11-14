@@ -10,11 +10,10 @@ import { JwtHelperService } from '@auth0/angular-jwt'; // Importa JwtHelperServi
 import { supported } from '@github/webauthn-json'; // Importa supported da webauthn-json
 import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap, of } from 'rxjs'; // Importa of
 
-import { UserService, WebauthnService } from '@data/services';
+import { AuthSSRService, UserService, WebauthnService } from '@data/services';
 import { User } from '@data/types';
 
 import { AuthenticationDto } from './authentication-dto.model';
-import { ServerAuthInfo } from './server-auth-info.model';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +22,7 @@ export class AuthenticationService {
   readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
+  readonly #authSSRService = inject(AuthSSRService);
   readonly #webauthnService = inject(WebauthnService);
   readonly #jwtHelper = new JwtHelperService();
   readonly #ADMIN_ROLE = 'ROLE_ADMIN';
@@ -87,7 +87,7 @@ export class AuthenticationService {
 
     this.#updateAuthState(user, token);
 
-    await this.#setLocalSessionFromToken(token);
+    await this.#authSSRService.setSession(token);
 
     return this.#navigateToPostLogin(user);
   }
@@ -96,17 +96,6 @@ export class AuthenticationService {
     user.roles = this.#deriveUserRoles(user);
     this.#currentUserSignal.set(user);
     this.#tokenStorageService.setToken(token);
-  }
-
-  async #setLocalSessionFromToken(token: string): Promise<void> {
-    try {
-      await firstValueFrom(this.#userService.setLocalSession(this.#prepareServerAuthInfo(token)), {
-        defaultValue: undefined,
-      });
-    } catch (error) {
-      console.error('Failed to set local session:', error);
-      throw error;
-    }
   }
 
   async #navigateToPostLogin(user: User): Promise<boolean> {
@@ -118,7 +107,7 @@ export class AuthenticationService {
   public async logout(): Promise<unknown> {
     return firstValueFrom(
       this.#userService.logout().pipe(
-        switchMap(() => this.#userService.deleteLocalSession()),
+        switchMap(() => this.#authSSRService.logout()),
         catchError((error: unknown) => {
           console.error('Logout API or local session deletion failed:', error);
 
@@ -167,16 +156,6 @@ export class AuthenticationService {
     }
 
     return roles;
-  }
-
-  #prepareServerAuthInfo(token: string): ServerAuthInfo {
-    const expirationDate = this.#jwtHelper.getTokenExpirationDate(token);
-    const expiresAt = expirationDate?.getTime() ?? 0;
-
-    return {
-      accessToken: token,
-      expiresAt,
-    };
   }
 
   #getPostLoginRedirectUrl(user: User): string {

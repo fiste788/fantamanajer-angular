@@ -6,6 +6,7 @@
 export const environment = {
   apiEndpoint: '/api',
   serverApiEndpoint: '/api',
+  serverSSREndpoint: '/ssr',
   gaCode: '',
   matchdaysCount: 38,
   benchwarmersCount: 7,

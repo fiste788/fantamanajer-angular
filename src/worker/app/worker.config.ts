@@ -12,7 +12,7 @@ import { WorkerConfig } from '@worker/types';
 export const workerConfig: WorkerConfig = {
   providers: [
     // 1. Rotte specifiche (prima)
-    provideAuthRoutes({ path: '/ssr' }),
+    provideAuthRoutes({ path: environment.serverSSREndpoint }),
     provideApiProxy({ apiEndpoint: environment.apiEndpoint }),
 
     provideAngularFallback(
