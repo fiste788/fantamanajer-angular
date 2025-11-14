@@ -7,7 +7,7 @@ import { ExtendedWorkerRequest, WorkerProvider } from '@worker/types';
  */
 interface AuthConfig {
   /** Il prefisso della rotta da intercettare e fare il proxy (es. '/api') */
-  apiEndpoint: string;
+  path: string;
 }
 
 class AuthController {
@@ -47,8 +47,8 @@ export const provideAuthRoutes = (config: AuthConfig): WorkerProvider => {
   return (router) => {
     const controller = new AuthController();
 
-    const LOGIN_URL = `${config.apiEndpoint}/server/login`;
-    const LOGOUT_URL = `${config.apiEndpoint}/server/logout`;
+    const LOGIN_URL = `${config.path}/server/login`;
+    const LOGOUT_URL = `${config.path}/server/logout`;
 
     // Assegnamo i metodi specifici del controller a rotte specifiche
     router.post(LOGIN_URL, controller.handleLogin);
