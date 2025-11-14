@@ -2,6 +2,7 @@ export const environment = {
   production: true,
   apiEndpoint: '/api',
   serverApiEndpoint: 'https://api.fantamanajer.it',
+  serverSSREndpoint: '/ssr',
   matchdaysCount: 38,
   benchwarmersCount: 7,
   gaCode: 'UA-3016148-1',
