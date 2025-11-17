@@ -1,28 +1,23 @@
-import { environment } from '@env';
+import { WorkerProvider } from '@worker/types';
 
-import { AppRouter, WorkerProvider } from '../../types'; // Assumendo che 'WorkerProvider' sia importabile qui
-
-// Handler per /api/*
-// itty-router fornisce request e env/ctx (se usati)
-const handleApiProxy = async (request: Request, env: Env): Promise<Response> => {
-  const originalUrl = request.url;
-  const subrequest = new Request(request, {
-    headers: {
-      'X-Original-Url': JSON.stringify({ url: originalUrl }),
-    },
-  });
-
-  // Usa il binding 'API' dall'ambiente
-  return env.API.fetch(subrequest);
-};
+import { handleApiProxy } from './api.handler';
 
 /**
- * Fornisce la configurazione per il proxy di tutte le chiamate API.
+ * Configurazione specifica per il provider proxy API.
+ */
+interface ApiProxyConfig {
+  /** Il prefisso della rotta da intercettare e fare il proxy (es. '/api') */
+  apiEndpoint: string;
+}
+
+/**
+ * Fornisce il provider per la registrazione del proxy di tutte le chiamate API.
+ * * @param config La configurazione che include l'endpoint da intercettare.
  * @returns {WorkerProvider} Una funzione che registra la rotta nel router.
  */
-export const provideApiProxy = (): WorkerProvider => {
-  return (router: AppRouter) => {
-    // La logica di registrazione viene incapsulata qui
-    router.all(`${environment.apiEndpoint}/*`, handleApiProxy);
+export const provideApiProxy = (config: ApiProxyConfig): WorkerProvider => {
+  return (router) => {
+    // Registra l'handler per intercettare l'endpoint configurato e tutte le sottorotte.
+    router.all(`${config.apiEndpoint}/*`, handleApiProxy);
   };
 };

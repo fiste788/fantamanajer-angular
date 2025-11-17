@@ -1,10 +1,9 @@
-import { HttpClient, httpResource, HttpResourceRef, HttpContext } from '@angular/common/http'; // Importa HttpContext
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http'; // Importa HttpContext
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { AuthenticationDto, ServerAuthInfo } from '@app/authentication';
+import { AuthenticationDto } from '@app/authentication';
 import { skipErrorHandling } from '@app/errors/http-error.interceptor';
-import { skipAuthInterceptor } from '@app/interceptors';
 
 import { User } from '../types';
 
@@ -15,8 +14,6 @@ const routes = {
   login: `/${USERS_URL_SEGMENT}/login`,
   logout: `/${USERS_URL_SEGMENT}/logout`,
   userById: (id: number) => `/${USERS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'detail'
-  serverLogin: '/server/login', // Mantenuto il nome della rotta che riflette l'API
-  serverLogout: '/server/logout', // Mantenuto il nome della rotta che riflette l'API
 };
 
 @Injectable({ providedIn: 'root' })
@@ -68,18 +65,6 @@ export class UserService {
     return this.#http.get<User>(routes.userById(id)); // Utilizzo del nome della rotta modificato
   }
 
-  public setLocalSession(data: ServerAuthInfo): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.serverLogin, data, {
-      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
-    });
-  }
-
-  public deleteLocalSession(): Observable<Record<string, never>> {
-    return this.#http.post<Record<string, never>>(routes.serverLogout, undefined, {
-      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
-    });
-  }
-
   // Funzione privata per "pulire" l'oggetto utente per l'API (Refactoring suggerito)
   #prepareUserForUpdate(user: User): Partial<User> {
     const userForUpdate: Partial<User> = { ...user };
@@ -89,10 +74,5 @@ export class UserService {
     // delete userForUpdate.someOtherProperty;
 
     return userForUpdate;
-  }
-
-  // Funzione privata per creare il contesto HTTP per le operazioni locali (Refactoring suggerito)
-  #getLocalSessionContext(): HttpContext {
-    return skipAuthInterceptor(skipErrorHandling());
   }
 }

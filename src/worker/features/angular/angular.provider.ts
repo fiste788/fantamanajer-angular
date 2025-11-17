@@ -1,85 +1,83 @@
-import { AngularAppEngine } from '@angular/ssr';
+import { AppRouter, WorkerProvider } from '@worker/types';
 
-import { cspConfig } from '../../config/csp-config';
-import { buildCspHeader, buildNonce } from '../../core/utils';
-import { AppRouter, WorkerProvider } from '../../types';
-
-// Incapsula la modifica statica in una funzione eseguita immediatamente
-const ConfiguredAngularAppEngine = (() => {
-  const App = AngularAppEngine;
-  App.ɵallowStaticRouteRender = false;
-  App.ɵhooks.on('html:transform:pre', (ctx) => ctx.html);
-
-  return App;
-})();
+import { AngularAppHandler } from './angular.handler';
+import {
+  AngularProviderConfig,
+  AngularProviderOption,
+  SecurityPolicyOption,
+  AdditionalHeadersOption,
+  CspConfigOptions,
+  AdditionalHeaders,
+  CspConfig,
+} from './angular.types';
 
 /**
- * Manipola il corpo HTML (se nonce presente) e aggiunge gli header di sicurezza.
- * @param ssrResponse La Response HTML originale.
- * @param nonce Il nonce da inserire (stringa o undefined).
- * @returns Una Promise che risolve nella Response modificata con headers di sicurezza.
+ * Funzione helper per configurare la Policy di Sicurezza (CSP e Nonce).
+ * @param cspConfig Le direttive CSP di base.
+ * @param options Opzioni per la CSP (es. abilitazione Nonce).
+ * @returns Un frammento di configurazione per il provider Angular.
  */
-async function modifyHtmlAndSetHeaders(ssrResponse: Response, nonce?: string): Promise<Response> {
-  const headers = new Headers(ssrResponse.headers);
-
-  // Imposta gli headers di sicurezza su tutti gli output HTML
-  headers.set('Content-Security-Policy', buildCspHeader(cspConfig, nonce));
-  headers.set('Permissions-Policy', 'publickey-credentials-get=*');
-
-  // Manipolazione condizionale dell'HTML:
-  if (nonce) {
-    // Legge il corpo, manipola e crea una nuova Response
-    const originalHtml = await ssrResponse.text();
-    const modifiedHtml = originalHtml.replaceAll('nonce="randomNonceGoesHere"', `nonce="${nonce}"`);
-
-    return new Response(modifiedHtml, { status: ssrResponse.status, headers });
-  }
-
-  // Se NONCE è disattivo: restituisce una nuova Response con il corpo originale
-  // (body non letto) e gli headers aggiornati.
-  return new Response(ssrResponse.body, { status: ssrResponse.status, headers });
-}
-
-const handleAngularApp = async (
-  request: Request,
-  env: Env,
-  ctx: ExecutionContext,
-): Promise<Response> => {
-  const IS_NONCE_ENABLED = (env.USE_NONCE as string) === 'true';
-
-  // Utilizza la costante booleana per determinare se generare il nonce
-  const nonce = IS_NONCE_ENABLED ? buildNonce() : undefined;
-
-  try {
-    const angularApp = new ConfiguredAngularAppEngine();
-
-    // 1. Ottiene la risposta iniziale dal motore SSR
-    const initialResponse =
-      (await angularApp.handle(request, { executionContext: ctx, nonce })) ??
-      new Response('Page not found.', { status: 404 });
-
-    // 2. Controllo: Se NON è HTML (o status diversi da quelli gestiti per l'HTML),
-    // si restituisce la risposta iniziale senza manipolazione.
-    const contentType = initialResponse.headers.get('Content-Type');
-
-    // Se la risposta non è HTML, restituisci l'originale (blocca asset, reindirizzamenti, ecc.)
-    if (initialResponse.status !== 200 || !contentType?.includes('text/html')) {
-      return initialResponse;
-    }
-
-    // 3. Se è HTML, DELEGA la manipolazione e l'aggiunta degli header di sicurezza.
-    // La funzione modifyHtmlAndSetHeaders RESTITUIRÀ la Response finale.
-    return modifyHtmlAndSetHeaders(initialResponse, nonce);
-  } catch (error) {
-    console.error('Angular SSR failed:', error);
-
-    return new Response('An internal error occurred', { status: 500 });
-  }
+export const withSecurityPolicy = (
+  cspConfig: CspConfig,
+  options: CspConfigOptions = {},
+): SecurityPolicyOption => {
+  return {
+    securityPolicy: {
+      cspConfig,
+      options,
+    },
+  };
 };
 
-// Helper per fornire la gestione fallback di Angular (all('*'))
-export const provideAngularFallback = (): WorkerProvider => {
+/**
+ * Funzione helper per configurare gli Header di Sicurezza aggiuntivi (es. HSTS, X-Frame-Options).
+ * @param headers Un oggetto con gli header chiave-valore.
+ * @returns Un frammento di configurazione per il provider Angular.
+ */
+export const withAdditionalSecurityHeaders = (
+  headers: AdditionalHeaders,
+): AdditionalHeadersOption => {
+  return {
+    additionalSecurityHeaders: headers,
+  };
+};
+
+/**
+ * Costruisce l'oggetto di configurazione finale unendo i frammenti forniti.
+ * @param options Tutti i frammenti di configurazione passati a provideAngularFallback.
+ * @returns La configurazione completa del provider Angular.
+ */
+const mergeConfig = (options: Array<AngularProviderOption>): AngularProviderConfig => {
+  // Configurazione base con valori predefiniti
+  const defaultConfig: AngularProviderConfig = {
+    securityPolicy: {
+      cspConfig: undefined,
+      options: { enableNonce: false },
+    },
+  };
+
+  // Unisce i frammenti di configurazione
+  // eslint-disable-next-line unicorn/no-array-reduce
+  return options.reduce(
+    (acc, current) => ({ ...acc, ...current }),
+    defaultConfig,
+  ) as AngularProviderConfig;
+};
+
+/**
+ * Il Provider finale che registra il Controller Angular come fallback universale.
+ * @param options Una lista di frammenti di configurazione ottenuti dagli helper `with...`.
+ * @returns {WorkerProvider} Una funzione che registra la rotta nel router.
+ */
+export const provideAngularFallback = (
+  ...options: Array<AngularProviderOption>
+): WorkerProvider => {
+  const config = mergeConfig(options);
+  const angularHandler = new AngularAppHandler(config);
+
   return (router: AppRouter) => {
-    router.all('*', handleAngularApp);
+    // Registra l'handler per tutte le rotte che non sono state precedentemente gestite
+    // Questa rotta agisce come fallback Catch-All
+    router.all('*', angularHandler.handle);
   };
 };

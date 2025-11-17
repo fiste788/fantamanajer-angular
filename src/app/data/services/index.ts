@@ -1,4 +1,5 @@
 export * from './article.service';
+export * from './auth-ssr.service';
 export * from './championship.service';
 export * from './club.service';
 export * from './league.service';

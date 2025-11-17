@@ -1,10 +1,8 @@
 // bootstrap.ts (Nuovo file per la funzione di bootstrap)
-import { IttyRouter } from 'itty-router';
+import { error, IttyRouter } from 'itty-router';
 
-import { createWorkerAdapter } from '../config/worker-adapter';
-import { AppRouter, WorkerConfig } from '../types';
-
-import { buildErrorResponse } from './utils';
+import { AppRouter, WorkerConfig } from '@worker/types';
+import { createWorkerAdapter, withWorkerArgs } from '@worker/utils';
 
 /**
  * Funzione che esegue il setup del worker in base ai provider forniti.
@@ -18,6 +16,8 @@ export const bootstrapWorker = <Env>(
 } => {
   const router: AppRouter = IttyRouter();
 
+  router.all('*', withWorkerArgs);
+
   // 1. Applicazione di tutti i provider al router
   for (const provider of config.providers) {
     provider(router);
@@ -28,7 +28,7 @@ export const bootstrapWorker = <Env>(
     router.fetch(request, [env, ctx]).catch((error_) => {
       console.error('Request failed:', error_);
 
-      return buildErrorResponse(500, 'Internal Server Error');
+      return error(500, 'Internal Server Error');
     });
 
   // 3. Restituzione del fetch handler finale
