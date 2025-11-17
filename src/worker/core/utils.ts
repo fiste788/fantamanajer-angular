@@ -1,3 +1,5 @@
+import { ExtendedWorkerRequest } from '../types';
+
 function dec2hex(dec: number): string {
   return `0${dec.toString(16)}`.slice(-2);
 }
@@ -36,3 +38,16 @@ export function buildNonce(): string {
 
   return [btoa(values.slice(0, 5).join('')).slice(0, 14), btoa(values.slice(5).join(''))].join('/');
 }
+
+export const withWorkerArgs = (
+  request: ExtendedWorkerRequest,
+  env: Env,
+  ctx: ExecutionContext,
+): ExtendedWorkerRequest => {
+  // Crea una Request estesa combinando l'originale con env e ctx
+  const extendedRequest = request;
+  extendedRequest.env = env;
+  extendedRequest.ctx = ctx;
+
+  return extendedRequest;
+};
