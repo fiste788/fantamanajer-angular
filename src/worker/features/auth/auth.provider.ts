@@ -1,4 +1,5 @@
 import { WorkerProvider } from '@worker/types';
+
 import { AuthController } from './auth.handler';
 
 /**
