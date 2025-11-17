@@ -4,7 +4,7 @@ import { IttyRouter } from 'itty-router';
 import { createWorkerAdapter } from '../config/worker-adapter';
 import { AppRouter, WorkerConfig } from '../types';
 
-import { buildErrorResponse, withWorkerArgs } from './utils';
+import { buildErrorResponse } from './utils';
 
 /**
  * Funzione che esegue il setup del worker in base ai provider forniti.
@@ -18,7 +18,7 @@ export const bootstrapWorker = <Env>(
 } => {
   const router: AppRouter = IttyRouter();
 
-  router.all('*', withWorkerArgs);
+  //router.all('*', withWorkerArgs);
 
   // 1. Applicazione di tutti i provider al router
   for (const provider of config.providers) {
