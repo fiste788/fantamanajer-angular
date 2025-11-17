@@ -22,16 +22,16 @@ export class AuthSSRService {
   readonly #jwtHelper = new JwtHelperService();
 
   public login(token: string): Observable<void> {
-    const data = this.#prepareServerAuthInfo(token);
+    const data = this.#prepareSSRAuthInfo(token);
 
     return this.#http.post<void>(routes.login, data, {
-      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
+      context: this.#getSSRContext(), // Utilizzo della funzione refactorizzata
     });
   }
 
   public logout(): Observable<void> {
     return this.#http.get<void>(routes.logout, {
-      context: this.#getLocalSessionContext(), // Utilizzo della funzione refactorizzata
+      context: this.#getSSRContext(), // Utilizzo della funzione refactorizzata
     });
   }
 
@@ -46,7 +46,7 @@ export class AuthSSRService {
     }
   }
 
-  #prepareServerAuthInfo(token: string): ServerAuthInfo {
+  #prepareSSRAuthInfo(token: string): ServerAuthInfo {
     const expirationDate = this.#jwtHelper.getTokenExpirationDate(token);
     const expiresAt = expirationDate?.getTime() ?? 0;
 
@@ -57,7 +57,7 @@ export class AuthSSRService {
   }
 
   // Funzione privata per creare il contesto HTTP per le operazioni locali (Refactoring suggerito)
-  #getLocalSessionContext(): HttpContext {
+  #getSSRContext(): HttpContext {
     return skipUrlPrefix(skipAuthInterceptor(skipErrorHandling()));
   }
 }
