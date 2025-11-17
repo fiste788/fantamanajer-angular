@@ -13,10 +13,10 @@ export type CloudflareWorkerArgs = [Env, ExecutionContext];
 // L'interfaccia di base della Request usata da Itty-Router
 export type WorkerRequest = IRequest;
 
-export interface ExtendedWorkerRequest extends WorkerRequest {
+export type ExtendedWorkerRequest = {
   env: Env;
   ctx: ExecutionContext;
-}
+} & WorkerRequest;
 
 // Il tipo di Router finale (Request, Args, Response)
 export type AppRouter = IttyRouterType<ExtendedWorkerRequest, CloudflareWorkerArgs, Response>;

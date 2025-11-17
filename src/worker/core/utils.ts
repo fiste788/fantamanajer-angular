@@ -43,11 +43,9 @@ export const withWorkerArgs = (
   request: ExtendedWorkerRequest,
   env: Env,
   ctx: ExecutionContext,
-): ExtendedWorkerRequest => {
+): void => {
   // Crea una Request estesa combinando l'originale con env e ctx
   const extendedRequest = request;
   extendedRequest.env = env;
   extendedRequest.ctx = ctx;
-
-  return extendedRequest;
 };
