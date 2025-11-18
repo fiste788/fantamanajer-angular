@@ -18,8 +18,8 @@ export const provideAuthRoutes = (config: AuthConfig): WorkerProvider => {
   return (router) => {
     const handler = new AuthHandler();
 
-    const LOGIN_URL = `${config.path}/server/login`;
-    const LOGOUT_URL = `${config.path}/server/logout`;
+    const LOGIN_URL = `${config.path}/login`;
+    const LOGOUT_URL = `${config.path}/logout`;
 
     // Assegnamo i metodi specifici del controller a rotte specifiche
     router.post(LOGIN_URL, handler.handleLogin);
