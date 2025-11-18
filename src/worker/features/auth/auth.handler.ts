@@ -2,7 +2,7 @@ import { ServerAuthInfo } from '@app/authentication';
 import { CookieStorage } from '@app/services';
 import { ExtendedWorkerRequest } from '@worker/types';
 
-export class AuthController {
+export class AuthHandler {
   /**
    * Handler per l'endpoint di login. (handleLogin è il metodo principale)
    * * Nota: Poiché stiamo implementando Controller, il metodo dovrebbe essere chiamato 'handle'
