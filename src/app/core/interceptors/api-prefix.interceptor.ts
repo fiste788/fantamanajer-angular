@@ -73,7 +73,6 @@ function logRequestDetails(
     responseUrl: response.url ?? '',
     // Aggiungere status code, status text, ecc. perMigliore il log più utile
     status: response.status,
-    statusText: response.statusText,
   };
 }
 

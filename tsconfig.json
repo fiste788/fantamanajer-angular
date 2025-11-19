@@ -3,11 +3,13 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "esModuleInterop": true,
     "strictPropertyInitialization": true,
     "sourceMap": true,
     "declaration": false,
     "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "isolatedModules": true,
     "skipLibCheck": true,
