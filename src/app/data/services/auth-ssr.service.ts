@@ -30,7 +30,7 @@ export class AuthSSRService {
   }
 
   public logout(): Observable<void> {
-    return this.#http.get<void>(routes.logout, {
+    return this.#http.post<void>(routes.logout, {
       context: this.#getSSRContext(), // Utilizzo della funzione refactorizzata
     });
   }
