@@ -11,8 +11,8 @@ import { environment } from '@env';
 const SSR_URL_SEGMENT = environment.serverSSREndpoint;
 
 const routes = {
-  login: `/${SSR_URL_SEGMENT}/login`,
-  logout: `/${SSR_URL_SEGMENT}/logout`,
+  login: `${SSR_URL_SEGMENT}/login`,
+  logout: `${SSR_URL_SEGMENT}/logout`,
 };
 
 @Injectable({ providedIn: 'root' })
