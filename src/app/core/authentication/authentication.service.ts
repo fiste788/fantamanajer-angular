@@ -10,7 +10,8 @@ import { JwtHelperService } from '@auth0/angular-jwt'; // Importa JwtHelperServi
 import { supported } from '@github/webauthn-json'; // Importa supported da webauthn-json
 import { firstValueFrom, Observable, catchError, EMPTY, finalize, switchMap, of } from 'rxjs'; // Importa of
 
-import { AuthSSRService, UserService, WebauthnService } from '@data/services';
+import { UserService, WebauthnService } from '@data/services';
+import { AuthenticationService as SSRAuthenticationService } from '@data/services/ssr';
 import { User } from '@data/types';
 
 import { AuthenticationDto } from './authentication-dto.model';
@@ -22,7 +23,7 @@ export class AuthenticationService {
   readonly #router = inject(Router);
   readonly #tokenStorageService = inject(TokenStorageService);
   readonly #userService = inject(UserService);
-  readonly #authSSRService = inject(AuthSSRService);
+  readonly #authSSRService = inject(SSRAuthenticationService);
   readonly #webauthnService = inject(WebauthnService);
   readonly #jwtHelper = new JwtHelperService();
   readonly #ADMIN_ROLE = 'ROLE_ADMIN';

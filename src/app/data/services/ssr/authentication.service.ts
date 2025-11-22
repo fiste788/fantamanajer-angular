@@ -16,7 +16,7 @@ const routes = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class AuthSSRService {
+export class AuthenticationService {
   readonly #http = inject(HttpClient);
 
   readonly #jwtHelper = new JwtHelperService();

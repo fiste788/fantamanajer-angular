@@ -72,7 +72,7 @@
     "html-minifier-next": "^4.2.2",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "stylelint": "^16.25.0",
+    "stylelint": "^16.26.0",
     "stylelint-browser-compat": "^1.0.0-beta.180",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-config-standard-scss": "^16.0.0",
