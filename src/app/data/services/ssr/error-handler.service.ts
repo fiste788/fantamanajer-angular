@@ -13,11 +13,12 @@ export interface SSRStatus {
 
 @Injectable()
 export class ServerSideErrorHandler extends ErrorHandler {
-  readonly #ssrStatus = inject<SSRStatus>(SSR_STATUS_TOKEN);
+  readonly #ssrStatus = inject<SSRStatus>(SSR_STATUS_TOKEN, { optional: true });
 
   public override handleError(error: unknown): void {
-    this.#ssrStatus.error = error; // <--- AGGIUNTO IL SALVATAGGIO DELL'ERRORE
-
+    if (this.#ssrStatus) {
+      this.#ssrStatus.error = error; // <--- AGGIUNTO IL SALVATAGGIO DELL'ERRORE
+    }
     // 3. NON rilanciare l'errore per impedire la cattura silenziosa interna.
   }
 }
