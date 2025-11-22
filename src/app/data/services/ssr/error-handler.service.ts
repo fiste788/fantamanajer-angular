@@ -2,7 +2,6 @@ import { ErrorHandler, Injectable, Provider } from '@angular/core';
 
 @Injectable()
 export class ServerSideErrorHandler extends ErrorHandler {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public override handleError(error: unknown): void {
     // Logga l'errore in modo che sia visibile nei log del Worker
     console.error('SSR RENDER ERROR CATCHED:', error);
