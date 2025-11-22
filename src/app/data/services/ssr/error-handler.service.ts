@@ -1,17 +1,29 @@
-import { ErrorHandler, Injectable, Provider } from '@angular/core';
+import { ErrorHandler, inject, Injectable, InjectionToken, Provider } from '@angular/core';
+
+export const SSR_STATUS_TOKEN = new InjectionToken<SSRStatus>('SSR_STATUS');
+
+/**
+ * TIPO ESTERNO PER LO STATO DI FALLIMENTO SSR (Rinominato e semplificato)
+ * La presenza di 'error' indica un fallimento.
+ */
+export interface SSRStatus {
+  // Contiene l'oggetto errore catturato (sarà undefined se non è ancora fallito)
+  error?: unknown;
+}
 
 @Injectable()
 export class ServerSideErrorHandler extends ErrorHandler {
-  public override handleError(error: unknown): void {
-    // Logga l'errore in modo che sia visibile nei log del Worker
-    console.error('SSR RENDER ERROR CATCHED:', error);
+  readonly #ssrStatus = inject<SSRStatus>(SSR_STATUS_TOKEN);
 
-    // RILANCIA L'ERRORE.
-    // Questo è il passo fondamentale che fa fallire la Promise di rendering SSR,
-    // garantendo che il try...catch nel Worker riceva l'eccezione e restituisca un 500.
-    throw error;
+  public override handleError(error: unknown): void {
+    this.#ssrStatus.error = error; // <--- AGGIUNTO IL SALVATAGGIO DELL'ERRORE
+
+    // 3. NON rilanciare l'errore per impedire la cattura silenziosa interna.
   }
 }
 export function provideServerErrorHandler(): Array<Provider> {
-  return [{ provide: ErrorHandler, useClass: ServerSideErrorHandler }];
+  return [
+    // Forniamo l'oggetto di stato mutabile come dipendenza per l'ErrorHandler
+    { provide: ErrorHandler, useClass: ServerSideErrorHandler },
+  ];
 }
