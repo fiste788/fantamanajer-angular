@@ -18,6 +18,8 @@ export class ServerSideErrorHandler extends ErrorHandler {
   public override handleError(error: unknown): void {
     if (this.#ssrStatus) {
       this.#ssrStatus.error = error; // <--- AGGIUNTO IL SALVATAGGIO DELL'ERRORE
+    } else {
+      console.error('Server error handler', error);
     }
     // 3. NON rilanciare l'errore per impedire la cattura silenziosa interna.
   }
