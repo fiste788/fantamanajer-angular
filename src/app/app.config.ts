@@ -14,7 +14,6 @@ import {
   LOCALE_ID,
   provideEnvironmentInitializer,
   provideZonelessChangeDetection,
-  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import {
   provideClientHydration,
@@ -76,7 +75,7 @@ export const appConfig: ApplicationConfig = {
 
     // Core Providers
     provideZonelessChangeDetection(),
-    provideBrowserGlobalErrorListeners(),
+    // provideBrowserGlobalErrorListeners(),
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
