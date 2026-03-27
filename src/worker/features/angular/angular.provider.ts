@@ -10,6 +10,7 @@ import {
   AdditionalHeaders,
   CspConfig,
 } from './angular.types';
+import { sharedAngularAppEngine } from './engine-setup';
 
 /**
  * Funzione helper per configurare la Policy di Sicurezza (CSP e Nonce).
@@ -72,8 +73,10 @@ const mergeConfig = (options: Array<AngularProviderOption>): AngularProviderConf
 export const provideAngularFallback = (
   ...options: Array<AngularProviderOption>
 ): WorkerProvider => {
+  // Inizializziamo l'engine IMMEDIATAMENTE al caricamento del modulo
+  // se non dipende da parametri che arrivano solo a runtime.
   const config = mergeConfig(options);
-  const angularHandler = new AngularAppHandler(config);
+  const angularHandler = new AngularAppHandler(config, sharedAngularAppEngine);
 
   return (router: AppRouter) => {
     // Registra l'handler per tutte le rotte che non sono state precedentemente gestite

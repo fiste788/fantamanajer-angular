@@ -4,13 +4,14 @@ import { ExtendedWorkerRequest, WorkerRouteHandler } from '@worker/types';
 import { AngularSSRFailureError } from './angular.errors';
 import { AngularProviderConfig } from './angular.types';
 import { buildNonce } from './angular.utils';
-import { configureAngularEngine } from './engine-setup';
 import { createNonceInjectionStream, setSecurityHeaders } from './html-processor';
+import { AngularAppEngine } from '@angular/ssr';
 
 export class AngularAppHandler {
-  private readonly ConfiguredAngularAppEngine = configureAngularEngine;
-
-  constructor(private readonly config: AngularProviderConfig) {}
+  constructor(
+    private readonly config: AngularProviderConfig,
+    private readonly sharedAngularEngine: AngularAppEngine,
+  ) {}
 
   /**
    * Metodo principale per la gestione della richiesta.
@@ -75,11 +76,9 @@ export class AngularAppHandler {
     request: ExtendedWorkerRequest,
     nonce: string | undefined,
   ): Promise<Response | null> {
-    const angularApp = new this.ConfiguredAngularAppEngine();
-
     const ssrStatus: SSRStatus = { error: undefined };
 
-    const angularEngineResponse = await angularApp.handle(request, {
+    const angularEngineResponse = await this.sharedAngularEngine.handle(request, {
       executionContext: request.ctx,
       nonce,
       ssrStatus,
