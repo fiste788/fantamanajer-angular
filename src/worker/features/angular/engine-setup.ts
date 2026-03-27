@@ -1,6 +1,22 @@
 import { AngularAppEngine } from '@angular/ssr';
 
 /**
+ * Gestore dello stato di inizializzazione del Worker.
+ */
+const WorkerState = {
+  isCold: true,
+  consumeStatus() {
+    if (this.isCold) {
+      this.isCold = false;
+
+      return 'COLD';
+    }
+
+    return 'WARM';
+  },
+};
+
+/**
  * Funzione di configurazione statica e memoizzazione del motore Angular SSR.
  * Qui si impostano hook e proprietà statiche una sola volta.
  */
@@ -9,5 +25,9 @@ const App = AngularAppEngine;
 App.ɵallowStaticRouteRender = false;
 App.ɵhooks.on('html:transform:pre', (ctx) => ctx.html);
 
+console.log('🚀 [System] Script Evaluation: Bootstrapping Global Scope');
+
 // Esportiamo direttamente l'istanza creata UNA VOLTA SOLA
 export const sharedAngularAppEngine = new App();
+
+export const getWorkerStatus = (): string => WorkerState.consumeStatus();

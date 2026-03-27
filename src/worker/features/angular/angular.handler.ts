@@ -6,6 +6,7 @@ import { AngularProviderConfig } from './angular.types';
 import { buildNonce } from './angular.utils';
 import { createNonceInjectionStream, setSecurityHeaders } from './html-processor';
 import { AngularAppEngine } from '@angular/ssr';
+import { getWorkerStatus } from './engine-setup';
 
 export class AngularAppHandler {
   constructor(
@@ -18,6 +19,12 @@ export class AngularAppHandler {
    * Lanciamo l'eccezione al livello di bootstrap per la gestione centrale.
    */
   public handle: WorkerRouteHandler = async (request: ExtendedWorkerRequest): Promise<Response> => {
+    const status = getWorkerStatus();
+    const startTime = Date.now();
+
+    // Log elegante nel terminale Cloudflare
+    console.log(`[${status}] ${request.method} ${new URL(request.url).pathname}`);
+
     const isNonceEnabled = this.config.securityPolicy.options?.enableNonce === true;
     const nonce = isNonceEnabled ? buildNonce() : undefined;
     // Oggetto mutabile per tracciare il fallimento SSR all'interno del motore
@@ -45,6 +52,13 @@ export class AngularAppHandler {
       this.config.additionalSecurityHeaders, // Nuovi header aggiuntivi
       nonce,
     );
+
+    // Aggiungiamo lo stato agli header di risposta (opzionale, utile per i test)
+    finalHeaders.set('x-worker-init', status);
+
+    // Calcolo durata interna (opzionale)
+    const duration = Date.now() - startTime;
+    finalHeaders.append('Server-Timing', `handler;dur=${duration}`);
 
     // Se non abbiamo un corpo o il nonce non è necessario, restituiamo la risposta originale (con header modificati)
     if (!angularEngineResponse.body || !nonce) {
