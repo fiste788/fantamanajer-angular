@@ -21,16 +21,24 @@ const createFetchHandler = <Env>(router: AppRouter): ExportedHandlerFetchHandler
 };
 
 /**
+ * Crea un'istanza di AppRouter con il middleware predefinito.
+ * @returns Un'istanza di AppRouter pronta per l'uso.
+ */
+export const createAppRouter = (): AppRouter => {
+  const router = IttyRouter();
+  router.all('*', withWorkerArgs);
+
+  return router;
+};
+
+/**
  * Funzione che esegue il setup del worker in base ai provider forniti.
  * @param config La configurazione del worker con la lista dei provider.
  * @returns Un oggetto ExportedHandler da esportare dal worker.
  */
 export const bootstrapWorker = <Env>(config: WorkerConfig): ExportedHandler<Env> => {
   // 1. Inizializza il Router
-  const router: AppRouter = IttyRouter();
-
-  // Inietta l'ambiente e il contesto nella Request per tutti gli handler (Middleware)
-  router.all('*', withWorkerArgs);
+  const router = createAppRouter();
 
   // 2. Applicazione di tutti i provider al router
   for (const provider of config.providers) {

@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT, inject, PLATFORM_ID } from '@angular/core';
-import { IsActiveMatchOptions, Router, ViewTransitionInfo } from '@angular/router';
+import { isActive, IsActiveMatchOptions, Router, ViewTransitionInfo } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 
@@ -40,7 +40,7 @@ export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   // Skip the transition if the only thing
   // changing is the fragment and queryParams
   // Utilizzo della configurazione costante (Refactoring suggerito)
-  if (router.isActive(targetUrl, SKIP_TRANSITION_MATCH_OPTIONS)) {
+  if (isActive(targetUrl, router, SKIP_TRANSITION_MATCH_OPTIONS)()) {
     info.transition.skipTransition();
   } else {
     // Imposta lo stato della transizione corrente nel servizio

@@ -5,7 +5,7 @@ import { AngularSSRFailureError } from './angular.errors';
 import { AngularProviderConfig } from './angular.types';
 import { buildNonce } from './angular.utils';
 import { configureAngularEngine } from './engine-setup';
-import { injectNonceIntoHtml, setSecurityHeaders } from './html-processor';
+import { createNonceInjectionStream, setSecurityHeaders } from './html-processor';
 
 export class AngularAppHandler {
   private readonly ConfiguredAngularAppEngine = configureAngularEngine;
@@ -37,9 +37,6 @@ export class AngularAppHandler {
       return angularEngineResponse;
     }
 
-    // 5. Preparazione e Iniezione finale (tutto const)
-    const htmlBody = await angularEngineResponse.text();
-
     // Impostazione degli Header di Sicurezza
     const finalHeaders = setSecurityHeaders(
       angularEngineResponse.headers,
@@ -48,11 +45,23 @@ export class AngularAppHandler {
       nonce,
     );
 
-    // Iniezione del Nonce (se abilitato)
-    const finalBody = nonce ? injectNonceIntoHtml(htmlBody, nonce) : htmlBody;
+    // Se non abbiamo un corpo o il nonce non è necessario, restituiamo la risposta originale (con header modificati)
+    if (!angularEngineResponse.body || !nonce) {
+      return new Response(angularEngineResponse.body, {
+        status: angularEngineResponse.status,
+        headers: finalHeaders,
+      });
+    }
 
-    // 6. Costruzione della Risposta Finale
-    return new Response(finalBody, {
+    // 6. Crea lo stream di trasformazione per iniettare il nonce
+    const nonceStream = createNonceInjectionStream(nonce);
+
+    // Colleghiamo il corpo della risposta Angular al trasformatore.
+    // pipeThrough() è l'operazione di streaming non bloccante.
+    const finalBodyStream = angularEngineResponse.body.pipeThrough(nonceStream);
+
+    // 7. Costruzione della Risposta Finale con il corpo trasformato
+    return new Response(finalBodyStream, {
       status: angularEngineResponse.status,
       headers: finalHeaders,
     });
@@ -78,12 +87,6 @@ export class AngularAppHandler {
 
     // 1. Intercettazione del Fallimento Interno (ServerSideErrorHandler)
     if (ssrStatus.error !== undefined) {
-      console.error(
-        '[SSR RENDER FAILURE DETECTED] Angular ServerSideErrorHandler signalled a failure.',
-        'Internal Error:',
-        ssrStatus.error,
-      );
-      // Rilancia l'errore per il catch esterno, avvolgendolo nel wrapper specifico.
       throw new AngularSSRFailureError('Rendering process failed internally.', ssrStatus.error);
     }
 

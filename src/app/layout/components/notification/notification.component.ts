@@ -63,9 +63,8 @@ export class NotificationComponent {
   }
 
   protected async openDialog(): Promise<boolean | undefined> {
-    const { NotificationListModal } = await import(
-      '@modules/notification/modals/notification-list/notification-list.modal'
-    );
+    const { NotificationListModal } =
+      await import('@modules/notification/modals/notification-list/notification-list.modal');
 
     return firstValueFrom(
       this.#dialog

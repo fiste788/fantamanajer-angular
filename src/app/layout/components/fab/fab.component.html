@@ -7,7 +7,7 @@
   <eco-fab-speed-dial-trigger [spin]="true">
     <button
       aria-label="Aggiungi"
-      mat-fab
+      matFab
       type="button"
       [extended]="extended()"
     >
@@ -19,7 +19,7 @@
   <eco-fab-speed-dial-actions>
     <a
       *appSeasonActive
-      mat-mini-fab
+      matMiniFab
       matTooltip="Inserisci formazione"
       matTooltipPosition="left"
       title="Inserisci formazione"
@@ -28,7 +28,7 @@
       <mat-icon svgIcon="soccer_field" />
     </a>
     <a
-      mat-mini-fab
+      matMiniFab
       matTooltip="Nuovo articolo"
       matTooltipPosition="left"
       [routerLink]="'/articles/new'"
@@ -37,7 +37,7 @@
     </a>
     <a
       *appSeasonActive
-      mat-mini-fab
+      matMiniFab
       matTooltip="Nuovo trasferimento"
       matTooltipPosition="left"
       [routerLink]="'/transferts/new'"
