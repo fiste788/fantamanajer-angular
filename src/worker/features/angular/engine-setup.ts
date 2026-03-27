@@ -28,6 +28,8 @@ App.ɵhooks.on('html:transform:pre', (ctx) => ctx.html);
 console.log('🚀 [System] Script Evaluation: Bootstrapping Global Scope');
 
 // Esportiamo direttamente l'istanza creata UNA VOLTA SOLA
-export const sharedAngularAppEngine = new App();
+export const sharedAngularAppEngine = new App({
+  allowedHosts: ['*.fantamanajer.it'],
+});
 
 export const getWorkerStatus = (): string => WorkerState.consumeStatus();
