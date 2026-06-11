@@ -3,10 +3,10 @@ import {
   Component,
   booleanAttribute,
   input,
-  model,
   numberAttribute,
   output,
   viewChild,
+  linkedSignal,
 } from '@angular/core';
 import {
   ControlContainer,
@@ -52,7 +52,8 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
   ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  public member = model<Member>();
+  public memberInput = input<Member>(undefined, { alias: 'member' });
+  public member = linkedSignal(this.memberInput);
   public name = input.required<string>();
   public disabled = input(false, { transform: booleanAttribute });
   public required = input(false, { transform: booleanAttribute });

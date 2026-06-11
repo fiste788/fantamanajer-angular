@@ -20,6 +20,7 @@ import {
   provideClientHydration,
   withEventReplay,
   withHttpTransferCacheOptions,
+  withNoIncrementalHydration,
 } from '@angular/platform-browser';
 import {
   provideRouter,
@@ -80,6 +81,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(
       withEventReplay(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true }),
+      withNoIncrementalHydration(),
     ),
     provideHttpClient(
       withFetch(),

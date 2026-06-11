@@ -6,9 +6,7 @@ import { RoleService } from '@data/services';
 import { Disposition, EmptyLineup, Member, MemberOption, Role } from '@data/types';
 import { environment } from '@env';
 
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class LineupService {
   readonly #roleService = inject(RoleService);
 

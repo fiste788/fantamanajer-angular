@@ -27,12 +27,12 @@
       </mat-select>
       @if (module.errors?.['Expired']) {
         <mat-error>
-          {{ module.errors?.['Expired'] }}
+          {{ module.errors['Expired'] }}
         </mat-error>
       }
       @if (module.errors?.['MissingPlayer']) {
         <mat-error>
-          {{ module.errors?.['MissingPlayer'] }}
+          {{ module.errors['MissingPlayer'] }}
         </mat-error>
       }
     </mat-form-field>
@@ -46,7 +46,7 @@
       >
       @if (module.errors?.['JollyAlreadyUsed']) {
         <mat-error>
-          {{ module.errors?.['JollyAlreadyUsed'] }}
+          {{ module.errors['JollyAlreadyUsed'] }}
         </mat-error>
       }
     }

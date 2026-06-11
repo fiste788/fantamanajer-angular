@@ -6,12 +6,14 @@ import { ApplicationService } from '@app/services';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { LineupLastPage } from './pages/lineup-last/lineup-last.page';
+import { LineupService } from './components/lineup.service';
 
 export default [
   {
     path: '',
     canActivate: [authenticatedGuard],
     component: RouterOutletComponent,
+    providers: [LineupService],
     children: [
       {
         path: 'current',

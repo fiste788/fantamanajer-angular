@@ -57,7 +57,13 @@
   // Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
   // Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
   "observability": {
-    "enabled": true
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true
+    }
   },
   "env": {
     "dev": {

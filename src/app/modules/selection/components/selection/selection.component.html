@@ -58,7 +58,7 @@
         </mat-select>
         @if (newMemberControl.errors?.['TeamReachedMaximum']) {
           <mat-error>
-            {{ newMemberControl.errors?.['TeamReachedMaximum'] }}
+            {{ newMemberControl.errors['TeamReachedMaximum'] }}
           </mat-error>
         }
       </mat-form-field>
