@@ -70,8 +70,7 @@ export class UserService {
     const userForUpdate: Partial<User> = { ...user };
     delete userForUpdate.teams; // Rimuove la proprietà teams
 
-    // Considerare se ci sono altre proprietà che non dovrebbero essere inviate durante l'aggiornamento
-    // delete userForUpdate.someOtherProperty;
+    // Considerare se ci sono altre proprietà che non dovrebbero essere inviate durante l'aggiornamento delete userForUpdate.someOtherProperty;
 
     return userForUpdate;
   }

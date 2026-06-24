@@ -1,14 +1,20 @@
 /** @type {import("prettier").Config} */
 const config = {
-  trailingComma: 'all',
-  tabWidth: 2,
-  semi: true,
-  singleQuote: true,
   bracketSpacing: true,
-  printWidth: 100,
   endOfLine: 'lf',
-  singleAttributePerLine: true,
+  overrides: [
+    {
+      files: '*.html',
+      options: { parser: 'angular' },
+    },
+  ],
   plugins: ['prettier-plugin-tailwindcss'],
+  printWidth: 165,
+  semi: true,
+  singleAttributePerLine: true,
+  singleQuote: true,
+  tabWidth: 2,
+  trailingComma: 'all',
 };
 
 export default config;

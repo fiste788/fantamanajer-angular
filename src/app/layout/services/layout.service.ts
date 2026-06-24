@@ -129,7 +129,7 @@ export class LayoutService {
         map(([pre, post]) => {
           // Logica per rilevare il cambio di contesto (come la tua)
           const isContextChanged =
-            pre.urlAfterRedirects.split('/')[1] !== post.urlAfterRedirects.split('/')[1];
+            pre.urlAfterRedirects.split('/', 2)[1] !== post.urlAfterRedirects.split('/', 2)[1];
 
           // Emette un valore unico (timestamp) SOLO se il contesto è cambiato.
           // Altrimenti, non emette nulla (grazie al 'filter' successivo)

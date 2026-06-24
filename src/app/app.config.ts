@@ -4,7 +4,7 @@ import {
   isPlatformBrowser,
   registerLocaleData,
 } from '@angular/common';
-import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import localeIt from '@angular/common/locales/it';
 import {
   ApplicationConfig,
@@ -84,7 +84,6 @@ export const appConfig: ApplicationConfig = {
       withNoIncrementalHydration(),
     ),
     provideHttpClient(
-      withFetch(),
       withInterceptors([
         apiDataTransformerInterceptor,
         authenticationInterceptor,

@@ -24,6 +24,8 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
     "paths": {
@@ -53,7 +55,6 @@
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
@@ -70,11 +71,7 @@
     "disableTypeScriptVersionCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "extendedDiagnostics": {
-      "checks": {
-        "nullishCoalescingNotNullable": "error",
-        "interpolatedSignalNotInvoked": "error",
-        "invalidBananaInBox": "error"
-      }
+      "defaultCategory": "error"
     }
   },
   "files": [],

@@ -34,12 +34,10 @@ export class ChampionshipDetailPage {
 
   protected readonly championship$ = getRouteData<Championship>('championship').pipe(
     switchMap((c) => this.#championshipService.getChampionship(c.id)),
-    defaultIfEmpty({} as Partial<Championship>),
+    defaultIfEmpty({} as Championship),
   );
 
-  protected readonly league$ = this.championship$.pipe(
-    map((c) => c.league ?? ({} as Partial<League>)),
-  );
+  protected readonly league$ = this.championship$.pipe(map((c) => c.league ?? {}));
 
   protected async save(
     league: Partial<League>,

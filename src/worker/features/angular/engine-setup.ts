@@ -6,8 +6,8 @@ import { AngularAppEngine } from '@angular/ssr';
 const WorkerState = {
   isCold: true,
   consumeStatus() {
-    if (this.isCold) {
-      this.isCold = false;
+    if (WorkerState.isCold) {
+      WorkerState.isCold = false;
 
       return 'COLD';
     }
