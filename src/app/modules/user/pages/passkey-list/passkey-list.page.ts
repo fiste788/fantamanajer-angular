@@ -6,34 +6,26 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+
 import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import type { PublicKeyCredentialSource } from '@data/interfaces';
 import { PublicKeyCredentialSourceService, WebauthnService } from '@data/services';
-import { PublicKeyCredentialSource } from '@data/types';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 
 @Component({
+  imports: [AsyncPipe, DatePipe, MatButtonModule, MatEmptyStateComponent, MatIconModule, MatListModule, MatProgressSpinnerModule, MatSortModule, MatTableModule],
   templateUrl: './passkey-list.page.html',
-  imports: [
-    MatIconModule,
-    MatListModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    MatEmptyStateComponent,
-    MatProgressSpinnerModule,
-    AsyncPipe,
-    DatePipe,
-  ],
 })
 export class PasskeyListPage {
-  readonly #webauthnService = inject(WebauthnService);
-  readonly #pbcsService = inject(PublicKeyCredentialSourceService);
-  readonly #auth = inject(AuthenticationService);
 
-  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.currentUser);
+  readonly #auth = inject(AuthenticationService);
+  readonly #pbcsService = inject(PublicKeyCredentialSourceService);
+  readonly #webauthnService = inject(WebauthnService);
+
   protected readonly isSupported$ = this.#webauthnService.browserSupportsWebAuthn();
+  protected readonly passkeys = this.#pbcsService.indexResource(this.#auth.currentUser);
 
   protected async register(): Promise<void> {
     const passkey = await this.#webauthnService.startRegistration();
@@ -49,4 +41,5 @@ export class PasskeyListPage {
 
     return this.passkeys.reload();
   }
+
 }

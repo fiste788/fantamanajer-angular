@@ -1,23 +1,26 @@
-import { SSRStatus } from '@data/services/ssr';
-import { ExtendedWorkerRequest, WorkerRouteHandler } from '@worker/types';
+import type { AngularAppEngine } from '@angular/ssr';
+
+import type { SSRStatus } from '@data/interfaces';
+import type { ExtendedWorkerRequest, WorkerRouteHandler } from '@worker/interfaces';
 
 import { AngularSSRFailureError } from './angular.errors';
-import { AngularProviderConfig } from './angular.types';
-import { buildNonce } from './angular.utils';
-import { createNonceInjectionStream, setSecurityHeaders } from './html-processor';
-import { AngularAppEngine } from '@angular/ssr';
+import { buildNonce } from './angular.utilities';
 import { getWorkerStatus } from './engine-setup';
+import { createNonceInjectionStream, setSecurityHeaders } from './html-processor';
+
+import type { AngularProviderConfig } from './interfaces';
 
 export class AngularAppHandler {
+
   constructor(
     private readonly config: AngularProviderConfig,
     private readonly sharedAngularEngine: AngularAppEngine,
   ) {}
 
   /**
-   * Metodo principale per la gestione della richiesta.
-   * Lanciamo l'eccezione al livello di bootstrap per la gestione centrale.
-   */
+  Metodo principale per la gestione della richiesta.
+  Lanciamo l'eccezione al livello di bootstrap per la gestione centrale.
+  */
   public handle: WorkerRouteHandler = async (request: ExtendedWorkerRequest): Promise<Response> => {
     const status = getWorkerStatus();
     const startTime = Date.now();
@@ -25,7 +28,7 @@ export class AngularAppHandler {
     // Log elegante nel terminale Cloudflare
     console.log(`[${status}] ${request.method} ${new URL(request.url).pathname}`);
 
-    const isNonceEnabled = this.config.securityPolicy.options?.enableNonce === true;
+    const isNonceEnabled = this.config.securityPolicy?.options?.enableNonce === true;
     const nonce = isNonceEnabled ? buildNonce() : undefined;
     // Oggetto mutabile per tracciare il fallimento SSR all'interno del motore
     // ssrStatus è un oggetto mutabile, ma il riferimento è costante.
@@ -63,8 +66,8 @@ export class AngularAppHandler {
     // Se non abbiamo un corpo o il nonce non è necessario, restituiamo la risposta originale (con header modificati)
     if (!angularEngineResponse.body || !nonce) {
       return new Response(angularEngineResponse.body, {
-        status: angularEngineResponse.status,
         headers: finalHeaders,
+        status: angularEngineResponse.status,
       });
     }
 
@@ -77,19 +80,16 @@ export class AngularAppHandler {
 
     // 7. Costruzione della Risposta Finale con il corpo trasformato
     return new Response(finalBodyStream, {
-      status: angularEngineResponse.status,
       headers: finalHeaders,
+      status: angularEngineResponse.status,
     });
   };
 
   /**
-   * Esegue il rendering Angular e verifica i risultati.
-   * @throws {AngularSSRFailureError} Se il rendering fallisce (catturato dall'ErrorHandler SSR).
-   */
-  private async executeSSRRender(
-    request: ExtendedWorkerRequest,
-    nonce: string | undefined,
-  ): Promise<Response | null> {
+  Esegue il rendering Angular e verifica i risultati.
+  @throws {AngularSSRFailureError} Se il rendering fallisce (catturato dall'ErrorHandler SSR).
+  */
+  private async executeSSRRender(request: ExtendedWorkerRequest, nonce: string | undefined): Promise<Response | null> {
     const ssrStatus: SSRStatus = { error: undefined };
 
     const angularEngineResponse = await this.sharedAngularEngine.handle(request, {
@@ -105,4 +105,5 @@ export class AngularAppHandler {
 
     return angularEngineResponse;
   }
+
 }

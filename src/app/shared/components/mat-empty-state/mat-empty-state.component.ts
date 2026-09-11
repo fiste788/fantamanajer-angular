@@ -1,26 +1,28 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  booleanAttribute,
   input,
   numberAttribute,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
+  selector: 'app-mat-empty-state[label][icon]',
+  imports: [MatIconModule],
+  templateUrl: './mat-empty-state.component.html',
+  styleUrl: './mat-empty-state.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'create-box',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-mat-empty-state[label][icon]',
-  styleUrl: './mat-empty-state.component.scss',
-  templateUrl: './mat-empty-state.component.html',
-  imports: [MatIconModule],
 })
 export class MatEmptyStateComponent {
-  public label = input.required<string>();
-  public icon = input.required<string>();
-  public description = input<string>();
-  public rounded = input(true, { transform: booleanAttribute });
-  public size = input(492, { transform: numberAttribute });
+
+  public readonly description = input<string>();
+  public readonly icon = input.required<string>();
+  public readonly label = input.required<string>();
+  public readonly rounded = input(true, { transform: booleanAttribute });
+  public readonly size = input(492, { transform: numberAttribute });
+
 }

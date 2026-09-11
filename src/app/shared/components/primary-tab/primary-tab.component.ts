@@ -1,47 +1,34 @@
-import { CdkPortal, DomPortalOutlet, PortalOutlet } from '@angular/cdk/portal';
-import {
-  ApplicationRef,
-  Component,
-  Injector,
-  OnDestroy,
-  afterNextRender,
-  input,
-  viewChild,
-  inject,
-  DOCUMENT,
-  ElementRef,
-} from '@angular/core';
+import type { PortalOutlet } from '@angular/cdk/portal';
+import { CdkPortal, DomPortalOutlet } from '@angular/cdk/portal';
+import type { OnDestroy } from '@angular/core';
+import { afterNextRender, ApplicationRef, Component, DOCUMENT, ElementRef, inject, Injector, input, viewChild } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { ScrollService } from '@app/services';
-import { Tab } from '@data/types';
+import type { Tab } from '@data/interfaces';
 import { TabChangedTransitionDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-primary-tab',
+  imports: [CdkPortal, MatTabsModule, RouterLink, RouterLinkActive, RouterOutlet, TabChangedTransitionDirective],
   templateUrl: './primary-tab.component.html',
   styleUrl: './primary-tab.component.scss',
-  imports: [
-    CdkPortal,
-    MatTabsModule,
-    RouterLinkActive,
-    RouterLink,
-    RouterOutlet,
-    TabChangedTransitionDirective,
-  ],
 })
 export class PrimaryTabComponent implements OnDestroy {
+
+  readonly #appRef = inject(ApplicationRef);
   readonly #document = inject(DOCUMENT);
   readonly #injector = inject(Injector);
-  readonly #appRef = inject(ApplicationRef);
   readonly #scrollService = inject(ScrollService);
-  #portalHost?: PortalOutlet;
 
-  public fragment = input<string>();
-  public tabs = input<Array<Tab>>([]);
-  protected portal = viewChild.required(CdkPortal);
-  protected tabBar = viewChild('tabBarRef', { read: ElementRef<HTMLElement> });
+  public readonly fragment = input<string>();
+  public readonly tabs = input<Tab[]>([]);
+
+  protected readonly portal = viewChild.required(CdkPortal);
+  protected readonly tabBar = viewChild('tabBarRef', { read: ElementRef<HTMLElement> });
+
+  #portalHost?: PortalOutlet;
 
   constructor() {
     afterNextRender(() => {
@@ -59,4 +46,5 @@ export class PrimaryTabComponent implements OnDestroy {
     this.#portalHost?.detach();
     this.#scrollService.updateOffset();
   }
+
 }

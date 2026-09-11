@@ -1,9 +1,9 @@
-import { StreamActivity } from './stream-activity.model';
+import type { StreamActivity } from './stream-activity.interface';
 
 export interface Stream {
   duration: string;
   next: string;
+  results: StreamActivity[];
   unread: number;
   unseen: number;
-  results: Array<StreamActivity>;
 }

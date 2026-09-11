@@ -1,19 +1,15 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { inject, PLATFORM_ID, Service } from '@angular/core';
 
-import { CookieStorage } from './cookie-storage.service';
+import { CookieStorageService } from './cookie-storage.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 // Modifica suggerita per la nomenclatura della classe
 export class StorageService implements Storage {
-  // Cambiato nome classe
-  readonly #storage: Storage = isPlatformBrowser(inject(PLATFORM_ID))
-    ? localStorage
-    : inject(CookieStorage);
 
-  [name: string]: unknown;
+  // Cambiato nome classe
+  readonly #storage: Storage = isPlatformBrowser(inject(PLATFORM_ID)) ? localStorage : inject(CookieStorageService);
+
   public length = 0;
 
   public clear(): void {
@@ -35,4 +31,7 @@ export class StorageService implements Storage {
   public setItem(key: string, value: string): void {
     this.#storage.setItem(key, value);
   }
+
+  [name: string]: unknown;
+
 }

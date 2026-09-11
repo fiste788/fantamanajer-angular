@@ -1,9 +1,9 @@
-import { Season } from './season.model';
+import type { Season } from './season.interface';
 
 export interface Matchday {
+  date: Date;
   id: number;
   number: number;
-  date: Date;
-  season_id: number;
   season: Season;
+  season_id: number;
 }

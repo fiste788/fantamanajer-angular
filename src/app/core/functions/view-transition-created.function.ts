@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT, inject, PLATFORM_ID } from '@angular/core';
-import { isActive, IsActiveMatchOptions, Router, ViewTransitionInfo } from '@angular/router';
+import type { IsActiveMatchOptions, ViewTransitionInfo } from '@angular/router';
+import { isActive, Router } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 
@@ -12,9 +13,9 @@ const DETAIL_TO_LIST_CLASS = 'detail-to-list';
 
 // Definizione della configurazione IsActiveMatchOptions come costante (Refactoring suggerito)
 const SKIP_TRANSITION_MATCH_OPTIONS: IsActiveMatchOptions = {
-  paths: 'exact',
-  matrixParams: 'exact',
   fragment: 'ignored',
+  matrixParams: 'exact',
+  paths: 'exact',
   queryParams: 'ignored',
 };
 
@@ -45,9 +46,9 @@ export function onViewTransitionCreated(info: ViewTransitionInfo): void {
   } else {
     // Imposta lo stato della transizione corrente nel servizio
     currentTransitionService.currentTransition.set({
-      transition: info,
-      previousUrl: currentNavigation?.previousNavigation?.finalUrl, // Utilizzo di optional chaining e toString()
       finalUrl: targetUrl,
+      previousUrl: currentNavigation?.previousNavigation?.finalUrl, // Utilizzo di optional chaining e toString()
+      transition: info,
     });
     // Update current transition when animation finishes
 

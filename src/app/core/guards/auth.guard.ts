@@ -1,10 +1,7 @@
 import { inject } from '@angular/core';
+import type { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  Router,
-  RouterStateSnapshot,
-  UrlTree, // Importa UrlTree
+  Router, // Importa UrlTree
 } from '@angular/router';
 
 import { AuthenticationService } from '@app/authentication';
@@ -12,10 +9,7 @@ import { AuthenticationService } from '@app/authentication';
 // Definizione di una costante per la chiave dei dati della route 'authorities' (Refactoring suggerito)
 const AUTHORITIES_ROUTE_DATA_KEY = 'authorities';
 
-export const authenticatedGuard: CanActivateFn = async (
-  next: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-): Promise<boolean | UrlTree> => {
+export const authenticatedGuard: CanActivateFn = async (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> => {
   // Specificato il tipo di ritorno esatto
   const auth = inject(AuthenticationService);
   const router = inject(Router);
@@ -24,13 +18,13 @@ export const authenticatedGuard: CanActivateFn = async (
   if (auth.isLoggedIn()) {
     // Utilizzo del nome del signal modificato
     // Se loggato, verifica le autorizzazioni richieste dalla route
-    const requiredAuthorities = next.data[AUTHORITIES_ROUTE_DATA_KEY] as Array<string> | undefined; // Utilizzo della costante
+    const requiredAuthorities = next.data[AUTHORITIES_ROUTE_DATA_KEY] as string[] | undefined; // Utilizzo della costante
 
     return auth.hasAuthorities(requiredAuthorities);
   }
 
   // Se non loggato, tenta l'autenticazione passkey silenziosa
-  if (!(await attemptSilentPasskeyAuthentication(auth))) {
+  if (!await attemptSilentPasskeyAuthentication(auth)) {
     // Refactoring: estrazione logica passkey
     // Se l'autenticazione passkey fallisce, gestisce il logout UI e reindirizza al login
     auth.logoutUI();
@@ -43,12 +37,10 @@ export const authenticatedGuard: CanActivateFn = async (
 };
 
 // Refactoring: funzione utility per tentare l'autenticazione passkey silenziosa
-async function attemptSilentPasskeyAuthentication(
-  authService: AuthenticationService,
-): Promise<boolean> {
+async function attemptSilentPasskeyAuthentication(authService: AuthenticationService): Promise<boolean> {
   try {
     // Tenta l'autenticazione passkey in modalità 'silent' (conditional mediation)
-    return await authService.authenticatePasskey('conditional');
+    return await authService.authenticatePasskey('conditional', false); // Passa false per evitare il reindirizzamento automatico
   } catch (error) {
     console.error('Silent passkey authentication failed:', error); // Log dell'errore specifico
 

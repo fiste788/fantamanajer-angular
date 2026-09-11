@@ -31,7 +31,7 @@
     <mat-option [value]="undefined">{{ placeholder() }}</mat-option>
     @if (_member) {
       <mat-select-trigger>
-        {{ _member.player.full_name }}
+        {{ _member.player?.full_name }}
       </mat-select-trigger>
     }
     @if (memberList().length) {
@@ -64,14 +64,8 @@
   }
   @if (_member?.stats) {
     <mat-hint>
-      <span>Ø P.ti: {{ _member?.stats.avg_points | number: '1.1-1' }}</span> -
-      <span>Ø Voti: {{ _member?.stats.avg_rating | number: '1.1-1' }}</span> -
-      <span
-        >Σ Gol:
-        {{
-          _member?.role_id !== 1 ? _member?.stats.sum_goals : _member?.stats.sum_goals_against
-        }}</span
-      >
+      <span>Ø P.ti: {{ _member?.stats.avg_points | number: '1.1-1' }}</span> - <span>Ø Voti: {{ _member?.stats.avg_rating | number: '1.1-1' }}</span> -
+      <span>Σ Gol: {{ _member?.role_id !== 1 ? _member?.stats.sum_goals : _member?.stats.sum_goals_against }}</span>
     </mat-hint>
   }
 </mat-form-field>

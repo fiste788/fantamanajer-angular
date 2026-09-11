@@ -1,8 +1,10 @@
-import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { HttpResourceRef } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { inject, Service } from '@angular/core';
 
-import { PublicKeyCredentialSource, User } from '../types';
+import type { Observable } from 'rxjs';
+
+import type { PublicKeyCredentialSource, User } from '../interfaces';
 
 const url = 'passkeys';
 const routes = {
@@ -10,23 +12,23 @@ const routes = {
   index: (id: number) => `/users/${id}/${url}`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class PublicKeyCredentialSourceService {
+
   readonly #http = inject(HttpClient);
-
-  public indexResource(
-    user: () => User | undefined,
-  ): HttpResourceRef<Array<PublicKeyCredentialSource>> {
-    return httpResource(() => (user() ? `/users/${user()!.id}/${url}` : undefined), {
-      defaultValue: [],
-    });
-  }
-
-  public index(userId: number): Observable<Array<PublicKeyCredentialSource>> {
-    return this.#http.get<Array<PublicKeyCredentialSource>>(routes.index(userId));
-  }
 
   public delete(userId: number, id: string): Observable<Record<string, never>> {
     return this.#http.delete<Record<string, never>>(routes.delete(userId, id));
   }
+
+  public index(userId: number): Observable<PublicKeyCredentialSource[]> {
+    return this.#http.get<PublicKeyCredentialSource[]>(routes.index(userId));
+  }
+
+  public indexResource(user: () => User | undefined): HttpResourceRef<PublicKeyCredentialSource[]> {
+    return httpResource(() => user() ? `/users/${user()!.id}/${url}` : undefined, {
+      defaultValue: [],
+    });
+  }
+
 }

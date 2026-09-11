@@ -1,31 +1,28 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ElementRef, Injectable, inject } from '@angular/core';
-import { firstValueFrom, tap } from 'rxjs';
+import type { ElementRef } from '@angular/core';
+import { inject, Service } from '@angular/core';
 
-import { NotificationListModal } from '../modals/notification-list/notification-list.modal';
+import { firstValueFrom } from 'rxjs';
 
-@Injectable({
-  providedIn: 'any',
-})
+import { NotificationListModal } from '../components/modals/notification-list/notification-list.modal';
+
+@Service()
 export class NotificationOverlayService {
+
   readonly #overlay = inject(Overlay);
 
-  public open(origin: ElementRef): void {
-    // Returns an OverlayRef (which is a PortalHost)
+  public async open(origin: ElementRef): Promise<void> {
+    // Reasync open(origin: ElementRef): Promise<void>a PortalHost)
     const overlayConfig = this.#getOverlayConfig(origin);
-    const overlayRef = this.#overlay.create(overlayConfig);
+    const overlayReference = this.#overlay.create(overlayConfig);
     const containerPortal = new ComponentPortal(NotificationListModal);
-    overlayRef.attach(containerPortal);
+    overlayReference.attach(containerPortal);
 
-    void firstValueFrom(
-      overlayRef.backdropClick().pipe(
-        tap(() => {
-          overlayRef.detach();
-        }),
-      ),
-      { defaultValue: undefined },
-    );
+    const close = await firstValueFrom(overlayReference.backdropClick(), { defaultValue: undefined });
+    if (close) {
+      overlayReference.detach();
+    }
   }
 
   #getOverlayConfig(origin: ElementRef): OverlayConfig {
@@ -52,4 +49,5 @@ export class NotificationOverlayService {
       width: '599px',
     });
   }
+
 }

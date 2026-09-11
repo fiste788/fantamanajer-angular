@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import type { Route } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
@@ -9,8 +9,6 @@ import { ScoreEditPage } from './pages/score-edit/score-edit.page';
 
 export default [
   {
-    path: '',
-    component: RouterOutletComponent,
     children: [
       {
         path: '',
@@ -18,33 +16,35 @@ export default [
         redirectTo: 'index',
       },
       {
-        path: 'index',
         component: HomePage,
         data: {
           state: 'admin-team-index',
         },
+        path: 'index',
       },
       {
-        path: 'members',
         component: EditMembersPage,
         data: {
           state: 'admin-team-members',
         },
+        path: 'members',
       },
       {
-        path: 'new_transfert',
         component: NewTransfertPage,
         data: {
           state: 'admin-new-transferts',
         },
+        path: 'new_transfert',
       },
       {
-        path: 'score/edit',
         component: ScoreEditPage,
         data: {
           state: 'admin-score-edit',
         },
+        path: 'score/edit',
       },
     ],
+    component: RouterOutletComponent,
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

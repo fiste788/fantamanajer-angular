@@ -35,7 +35,7 @@
         <mat-card-content>
           <div class="flex flex-col justify-around md:flex-row md:flex-wrap">
             @for (bench of lineupService.benchs; track bench) {
-              <div [ngModelGroup]="bench + ''">
+              <div [ngModelGroup]="`${bench}`">
                 @if (_lineup.dispositions[bench]; as disp) {
                   <app-member-selection
                     class="benchwarmer flex flex-row items-center justify-start"
@@ -43,7 +43,7 @@
                     [disabled]="disabled()"
                     [height]="450"
                     [memberMap]="lineupService.benchOptions"
-                    [placeholder]="'Panchinaro ' + (bench - 10)"
+                    [placeholder]="`Panchinaro ${bench - 10}`"
                     [width]="320"
                     [(member)]="disp.member"
                     (memberChange)="lineupService.benchwarmerSelectionChange($event)"

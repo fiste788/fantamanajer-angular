@@ -1,25 +1,68 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { Injectable, ResourceRef, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { ResourceRef } from '@angular/core';
+import { inject, Service } from '@angular/core';
 
-import { RecursivePartial } from '@app/types/recursive-partial.type';
+import type { Observable } from 'rxjs';
 
-import { RankingPosition, Score } from '../types';
+import type { RecursivePartial } from '@app/interfaces';
 
 import { LineupService } from './lineup.service';
 
-const SCORES_URL_SEGMENT = 'scores'; // Modifica suggerita per la nomenclatura
+import type { RankingPosition, Score } from '../interfaces';
+
+const scoresUrlSegment = 'scores'; // Modifica suggerita per la nomenclatura
 
 const routes = {
   championshipRanking: (id: number) => `/championships/${id}/ranking`, // Modifica suggerita per la nomenclatura
-  scoreById: (id: number) => `/${SCORES_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'update'
-  teamScores: (teamId: number) => `/teams/${teamId}/${SCORES_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
-  lastTeamScore: (teamId: number) => `/teams/${teamId}/${SCORES_URL_SEGMENT}/last`, // Aggiunta rotta specifica per l'ultimo punteggio
+  lastTeamScore: (teamId: number) => `/teams/${teamId}/${scoresUrlSegment}/last`, // Aggiunta rotta specifica per l'ultimo punteggio
+  scoreById: (id: number) => `/${scoresUrlSegment}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'update'
+  teamScores: (teamId: number) => `/teams/${teamId}/${scoresUrlSegment}`, // Modifica suggerita per la nomenclatura
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ScoreService {
+
   readonly #http = inject(HttpClient);
+
+  public getChampionshipRanking(championshipId: number): Observable<RankingPosition[]> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<RankingPosition[]>(routes.championshipRanking(championshipId)); // Utilizzo del nome della rotta modificato
+  }
+
+  public getLastTeamScore(teamId: number): Observable<Score> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Score>(routes.lastTeamScore(teamId)); // Utilizzo della rotta centralizzata
+  }
+
+  public getScoreById(id: number, isIncludeMembers = false): Observable<Score> {
+    // Modifica suggerita per la nomenclatura e nome parametro
+    const parameters = this.#createGetScoreParams(isIncludeMembers); // Utilizzo della funzione refactorizzata
+
+    return this.#http.get<Score>(routes.scoreById(id), { params: parameters }); // Utilizzo del nome della rotta modificato
+  }
+
+  public getScoreResourceById(score: () => Score | undefined, isIncludeMembers = false): ResourceRef<Score | undefined> {
+    // Modifica suggerita per la nomenclatura e nome parametro
+    const parameters = this.#createGetScoreParams(isIncludeMembers); // Utilizzo della funzione refactorizzata
+
+    return httpResource(() => {
+      const scoreValue = score();
+
+      if (scoreValue === undefined) {
+        return scoreValue;
+      }
+
+      // Costruiamo l'oggetto richiesta rispettando rigorosamente il tipo ed evitando params: undefined
+      const request = { params: parameters, url: routes.scoreById(scoreValue.id) };
+
+      return request;
+    }); // Utilizzo del nome della rotta modificato
+  }
+
+  public getScoresByTeam(teamId: number): Observable<Score[]> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Score[]>(routes.teamScores(teamId)); // Utilizzo del nome della rotta modificato
+  }
 
   // Modifica suggerita per la nomenclatura e refactoring interno (rimozione duplicazione delete team)
   public static prepareScoreForApi(score: Score): RecursivePartial<Score> {
@@ -38,42 +81,6 @@ export class ScoreService {
     return cleanedScore;
   }
 
-  public getChampionshipRanking(championshipId: number): Observable<Array<RankingPosition>> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.get<Array<RankingPosition>>(routes.championshipRanking(championshipId)); // Utilizzo del nome della rotta modificato
-  }
-
-  public getScoreById(id: number, includeMembers = false): Observable<Score> {
-    // Modifica suggerita per la nomenclatura e nome parametro
-    const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
-
-    return this.#http.get<Score>(routes.scoreById(id), { params }); // Utilizzo del nome della rotta modificato
-  }
-
-  public getScoreResourceById(
-    score: () => Score | undefined,
-    includeMembers = false,
-  ): ResourceRef<Score | undefined> {
-    // Modifica suggerita per la nomenclatura e nome parametro
-    const params = this.#createGetScoreParams(includeMembers); // Utilizzo della funzione refactorizzata
-
-    return httpResource(() => {
-      const _score = score();
-
-      return _score === undefined ? undefined : { url: routes.scoreById(_score.id), params }; // Utilizzo del nome della rotta modificato
-    }); // Utilizzo del nome della rotta modificato
-  }
-
-  public getLastTeamScore(teamId: number): Observable<Score> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.get<Score>(routes.lastTeamScore(teamId)); // Utilizzo della rotta centralizzata
-  }
-
-  public getScoresByTeam(teamId: number): Observable<Array<Score>> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.get<Array<Score>>(routes.teamScores(teamId)); // Utilizzo del nome della rotta modificato
-  }
-
   public updateScore(score: Score): Observable<Pick<Score, 'id'>> {
     // Modifica suggerita per la nomenclatura
     return this.#http.put<Pick<Score, 'id'>>(
@@ -83,11 +90,13 @@ export class ScoreService {
   }
 
   // Funzione privata per creare HttpParams con members (Refactoring suggerito)
-  #createGetScoreParams(includeMembers = false): HttpParams | undefined {
-    if (includeMembers) {
-      return new HttpParams().set('members', '1');
+  #createGetScoreParams(isIncludeMembers = false): HttpParams {
+    const parameters = new HttpParams();
+    if (isIncludeMembers) {
+      return parameters.set('members', '1');
     }
 
-    return undefined;
+    return parameters;
   }
+
 }

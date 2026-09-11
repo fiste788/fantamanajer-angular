@@ -1,77 +1,69 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, Signal, inject, signal, linkedSignal } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { inject, linkedSignal, Service, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, map, pairwise, switchMap, startWith, first, distinctUntilChanged } from 'rxjs';
+
+import { distinctUntilChanged, filter, first, map, pairwise, startWith, switchMap } from 'rxjs';
 
 import { Direction } from '@app/enums';
 import { ScrollService } from '@app/services';
+import type { NavigationMode } from '@layout/interfaces';
 
-type NavigationMode = 'bar' | 'rail' | 'drawer';
-
-// #navigationModeMap is now a constant outside the class
-const NAVIGATION_MODE_MAP = new Map<string, NavigationMode>([
-  [Breakpoints.XSmall, 'bar'],
-  [Breakpoints.Small, 'rail'],
-  [Breakpoints.Medium, 'rail'],
-  [Breakpoints.Large, 'drawer'],
-  [Breakpoints.XLarge, 'drawer'],
-]);
-
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class LayoutService {
+
   readonly #breakpointObserver = inject(BreakpointObserver);
-  readonly #scrollService = inject(ScrollService);
   readonly #router = inject(Router);
+  readonly #scrollService = inject(ScrollService);
 
+  public stable = this.#isStable();
+
+  public readonly fullscreen = linkedSignal({
+    computation: (current, previous): boolean => {
+      // 1. Dati per il confronto
+      const previousTrigger = previous?.source.contextTrigger();
+      const currentTrigger = current.contextTrigger();
+
+      // 2. Logica di Rilevamento Evento/Reset
+      // L'evento di cambio contesto è rilevato se il trigger attuale è diverso dal precedente
+      // e non è il primo ricalcolo (cioè previous esiste).
+      const isContextChangeTriggered = previous !== undefined && currentTrigger !== previousTrigger;
+
+      // Condizione di Reset (Massima Priorità)
+      // Se l'evento è stato innescato O non siamo in 'bar' mode, resettiamo a FALSE.
+      if (isContextChangeTriggered || current.navigationMode !== 'bar') {
+        return false;
+      }
+
+      // Il resto della tua logica di transizione (che ora può funzionare)
+      const previousDirection = previous?.source.direction;
+      const currentDirection = current.direction;
+
+      if (previousDirection === Direction.Up && currentDirection === Direction.Down) {
+        return true;
+      }
+
+      if (previousDirection === Direction.Down && currentDirection === Direction.Up) {
+        return false;
+      }
+
+      return previous?.value ?? false;
+    },
+    source: () => ({
+      contextTrigger: this.routeContextChanged,
+      direction: this.#scrollService.direction(),
+      navigationMode: this.navigationMode(),
+    }),
+  });
   public readonly navigationMode = this.#getNavigationMode(); // Renamed method for clarity
-
+  public readonly navigationStart = this.#getNavigationStart(); // Renamed method for clarity
   public readonly openDrawer = linkedSignal(() => {
     const navigationMode = this.navigationMode();
     this.navigationStart();
 
     return navigationMode === 'drawer';
   });
-
-  public readonly fullscreen = linkedSignal({
-    source: () => ({
-      contextTrigger: this.routeContextChanged,
-      navigationMode: this.navigationMode(),
-      direction: this.#scrollService.direction(),
-    }),
-    computation: (current, previous): boolean => {
-      // 1. Dati per il confronto
-      const prevTrigger = previous?.source.contextTrigger;
-      const currentTrigger = current.contextTrigger;
-
-      // 2. Logica di Rilevamento Evento/Reset
-      // L'evento di cambio contesto è rilevato se il trigger attuale è diverso dal precedente
-      // e non è il primo ricalcolo (cioè previous esiste).
-      const contextChangeTriggered = previous !== undefined && currentTrigger !== prevTrigger;
-
-      // Condizione di Reset (Massima Priorità)
-      // Se l'evento è stato innescato O non siamo in 'bar' mode, resettiamo a FALSE.
-      if (contextChangeTriggered || current.navigationMode !== 'bar') {
-        return false;
-      }
-
-      // Il resto della tua logica di transizione (che ora può funzionare)
-      const prevDir = previous?.source.direction;
-      const currentDir = current.direction;
-
-      if (prevDir === Direction.Up && currentDir === Direction.Down) {
-        return true;
-      }
-      if (prevDir === Direction.Down && currentDir === Direction.Up) {
-        return false;
-      }
-
-      return previous?.value ?? false;
-    },
-  });
-
   public readonly openFab = linkedSignal(() => {
     const navigationMode = this.navigationMode();
     const direction = this.#scrollService.direction();
@@ -84,12 +76,18 @@ export class LayoutService {
     return false;
   });
   public readonly routeContextChanged = this.#routeContextChangeTrigger();
-  public readonly navigationStart = this.#getNavigationStart(); // Renamed method for clarity
   public readonly skeletonColors = signal({
-    foreground: '#ffd9df',
     background: '#ffb1c1',
+    foreground: '#ffd9df',
   });
-  public stable = this.#isStable();
+
+  readonly #NAVIGATION_MODE_MAP = new Map<string, NavigationMode>([
+    [Breakpoints.Large, 'drawer'],
+    [Breakpoints.Medium, 'rail'],
+    [Breakpoints.Small, 'rail'],
+    [Breakpoints.XLarge, 'drawer'],
+    [Breakpoints.XSmall, 'bar'],
+  ]);
 
   public closeDrawer(): void {
     if (this.navigationMode() !== 'drawer') {
@@ -97,24 +95,45 @@ export class LayoutService {
     }
   }
 
-  public toggleDrawer(value?: boolean): void {
-    this.openDrawer.set(value ?? !this.openDrawer());
+  public toggleDrawer(isForce?: boolean): void {
+    this.openDrawer.set(isForce ?? !this.openDrawer());
   }
 
   // Renamed method for clarity
   #getNavigationMode(initialValue: NavigationMode = 'bar'): Signal<NavigationMode> {
     return toSignal(
-      this.#breakpointObserver.observe([...NAVIGATION_MODE_MAP.keys()]).pipe(
+      this.#breakpointObserver.observe([...this.#NAVIGATION_MODE_MAP.keys()]).pipe(
         map((result) => {
-          for (const query of Object.keys(result.breakpoints)) {
-            if (result.breakpoints[query]) {
-              return NAVIGATION_MODE_MAP.get(query) ?? initialValue;
-            }
-          }
+          const activeBreakpoint = Object.entries(result.breakpoints).find(([_, matches]) => matches);
 
-          return initialValue;
+          return activeBreakpoint ? (this.#NAVIGATION_MODE_MAP.get(activeBreakpoint[0]) ?? initialValue) : initialValue;
         }),
         distinctUntilChanged(),
+      ),
+      { requireSync: true },
+    );
+  }
+
+  // Renamed method for clarity
+  #getNavigationStart(): Signal<NavigationStart | undefined> {
+    return toSignal(this.#router.events.pipe(filter(event => event instanceof NavigationStart)), {
+      initialValue: undefined,
+    });
+  }
+
+  #isStable(): Signal<boolean> {
+    return toSignal(
+      this.#router.events.pipe(
+        filter(event => event instanceof NavigationEnd),
+
+        first(null, undefined),
+        switchMap(
+          async () => new Promise((r) => {
+            setTimeout(r);
+          }),
+        ),
+        map(() => true),
+        startWith(false),
       ),
       { requireSync: true },
     );
@@ -124,12 +143,11 @@ export class LayoutService {
   #routeContextChangeTrigger(): Signal<number | undefined> {
     return toSignal(
       this.#router.events.pipe(
-        filter((evt): evt is NavigationEnd => evt instanceof NavigationEnd),
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
         pairwise(),
         map(([pre, post]) => {
           // Logica per rilevare il cambio di contesto (come la tua)
-          const isContextChanged =
-            pre.urlAfterRedirects.split('/', 2)[1] !== post.urlAfterRedirects.split('/', 2)[1];
+          const isContextChanged = pre.urlAfterRedirects.split('/', 2)[1] !== post.urlAfterRedirects.split('/', 2)[1];
 
           // Emette un valore unico (timestamp) SOLO se il contesto è cambiato.
           // Altrimenti, non emette nulla (grazie al 'filter' successivo)
@@ -144,24 +162,4 @@ export class LayoutService {
     );
   }
 
-  #isStable(): Signal<boolean> {
-    return toSignal(
-      this.#router.events.pipe(
-        filter((e) => e instanceof NavigationEnd),
-        // eslint-disable-next-line unicorn/no-null
-        first(null, undefined),
-        switchMap(async () => new Promise((r) => setTimeout(r))),
-        map(() => true),
-        startWith(false),
-      ),
-      { requireSync: true },
-    );
-  }
-
-  // Renamed method for clarity
-  #getNavigationStart(): Signal<NavigationStart | undefined> {
-    return toSignal(this.#router.events.pipe(filter((evt) => evt instanceof NavigationStart)), {
-      initialValue: undefined,
-    });
-  }
 }

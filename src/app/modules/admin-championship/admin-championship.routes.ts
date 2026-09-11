@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import type { Route } from '@angular/router';
 
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
@@ -8,46 +8,46 @@ import { HomePage } from './pages/home/home.page';
 
 export default [
   {
-    path: '',
-    component: RouterOutletComponent,
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'index',
         data: {
           state: 'admin-championship-outlet',
         },
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'index',
       },
       {
-        path: 'index',
         component: HomePage,
         data: {
           state: 'admin-championship-home',
         },
+        path: 'index',
       },
       {
-        path: 'add-team',
         component: AddTeamPage,
         data: {
           state: 'admin-add-team',
         },
+        path: 'add-team',
       },
       {
-        path: 'edit',
         component: ChampionshipDetailPage,
         data: {
           state: 'admin-edit',
         },
+        path: 'edit',
       },
       {
-        path: 'new',
         component: ChampionshipDetailPage,
         data: {
           breadcrumbs: 'Nuova lega',
           data: { state: 'admin-championship-detail' },
         },
+        path: 'new',
       },
     ],
+    component: RouterOutletComponent,
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

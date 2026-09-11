@@ -1,13 +1,14 @@
-import { Team } from './team.model';
+import type { Team } from './team.interface';
 
 export interface NotificationSubscription {
-  id?: number;
-  type: NotificationSubscriptionsKeys;
-  name: string;
   enabled: boolean;
-  team_id: number;
+  id?: number;
+  name: string;
   team?: Team;
+  team_id: number;
+  type: NotificationSubscriptionsKeys;
 }
-export type NotificationSubscriptionsKeys = (typeof notificationSubscriptionsKeys)[number];
 
-export const notificationSubscriptionsKeys = ['email', 'push'] as const;
+export const NOTIFICATION_SUBSCRIPTIONS_KEYS = ['email', 'push'] as const;
+
+export type NotificationSubscriptionsKeys = (typeof NOTIFICATION_SUBSCRIPTIONS_KEYS)[number];

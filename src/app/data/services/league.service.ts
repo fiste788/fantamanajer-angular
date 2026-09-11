@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { Championship, RollOfHonor } from '../types';
+import type { Observable } from 'rxjs';
+
+import type { Championship, RollOfHonor } from '../interfaces';
 
 const url = 'leagues';
 const routes = {
   rollOfHonor: (id: number) => `/${url}/${id}/roll-of-honor`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LeagueService {
+
   readonly #http = inject(HttpClient);
 
-  public getRollOfHonor(leagueId: number): Observable<Array<Championship & RollOfHonor>> {
-    return this.#http.get<Array<Championship & RollOfHonor>>(routes.rollOfHonor(leagueId));
+  public getRollOfHonor(leagueId: number): Observable<(Championship & RollOfHonor)[]> {
+    return this.#http.get<(Championship & RollOfHonor)[]>(routes.rollOfHonor(leagueId));
   }
+
 }

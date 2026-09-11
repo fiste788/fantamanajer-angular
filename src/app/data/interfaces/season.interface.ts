@@ -1,7 +1,7 @@
 export interface Season {
+  ended: boolean;
   id: number;
   name: string;
-  year: number;
   started: boolean;
-  ended: boolean;
+  year: number;
 }

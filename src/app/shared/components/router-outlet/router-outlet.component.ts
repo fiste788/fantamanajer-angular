@@ -5,7 +5,7 @@ import { MainTransitionDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-router-outlet',
+  imports: [MainTransitionDirective, RouterOutlet],
   templateUrl: './router-outlet.component.html',
-  imports: [RouterOutlet, MainTransitionDirective],
 })
 export class RouterOutletComponent {}

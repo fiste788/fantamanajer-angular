@@ -1,11 +1,11 @@
-import { Member } from './member.model';
+import type { Member } from './member.interface';
 
 export interface Role {
-  id: number;
-  singular: string;
-  plural: string;
   abbreviation: string;
-  determinant?: string;
-  best_players?: Array<Member>;
+  best_players?: Member[];
   count: number;
+  determinant?: string;
+  id: number;
+  plural: string;
+  singular: string;
 }

@@ -1,29 +1,19 @@
-import { inject, Injectable } from '@angular/core';
-import {
-  type MatSnackBarRef,
-  type TextOnlySnackBar,
-  type MatSnackBar,
-  type MatSnackBarConfig,
-} from '@angular/material/snack-bar';
+import { inject, Service } from '@angular/core';
+import type { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 
-import { LazyInject } from './lazy-inject.service';
+import { LazyInjectService } from './lazy-inject.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 // Modifica suggerita per la nomenclatura della classe perMigliore la suaMigliore
 export class SnackbarNotificationService {
+
   // Nome più specifico
   // export class UiNotificationService { // Alternativa
   // export class MaterialSnackbarService { // Alternativa
 
-  private readonly lazyInjector = inject(LazyInject);
+  readonly #lazyInjector = inject(LazyInjectService);
 
-  public async open(
-    message: string,
-    action?: string,
-    config?: MatSnackBarConfig,
-  ): Promise<MatSnackBarRef<TextOnlySnackBar>> {
+  public async open(message: string, action?: string, config?: MatSnackBarConfig): Promise<MatSnackBarRef<TextOnlySnackBar>> {
     // Imposta la durata di default se non specificata
     const finalConfig: MatSnackBarConfig = {
       ...config,
@@ -32,7 +22,7 @@ export class SnackbarNotificationService {
 
     try {
       // Lazy load MatSnackBar
-      const snackBar = await this.lazyInjector.get<MatSnackBar>(async () => {
+      const snackBar = await this.#lazyInjector.get<MatSnackBar>(async () => {
         // Carica dinamicamente il modulo Angular Material Snackbar.
         const module = await import('@angular/material/snack-bar');
 
@@ -52,4 +42,5 @@ export class SnackbarNotificationService {
       throw error; // Rilancia l'errore se l'intercettore degli errori globali lo gestisce
     }
   }
+
 }

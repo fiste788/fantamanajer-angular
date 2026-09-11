@@ -1,35 +1,32 @@
-<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 <h2 mat-dialog-title>Notifiche</h2>
 <mat-dialog-content>
-  @if ((stream$ | async); as stream) { @if (stream.results.length) {
-  <mat-list class="list-item-transition">
-    @for (activity of stream.results; track $index; let i = $index) {
-    <mat-list-item [style]="'--index:' + i">
-      <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
-      <h3 matListItemTitle>{{ activity.title }}</h3>
-      <span
-        matListItemLine
-        [title]="(activity.time | date: 'dd/MM/y HH:mm')"
-      >
-        {{ activity.humanTime }}
-      </span>
-      <span matListItemLine>{{ activity.body }}</span>
-    </mat-list-item>
+  @if (stream$ | async; as stream) {
+    @if (stream.results.length) {
+      <mat-list class="list-item-transition">
+        @for (activity of stream.results; track $index) {
+          <mat-list-item [style]="`--index:${$index}`">
+            <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
+            <h3 matListItemTitle>{{ activity.title }}</h3>
+            <span
+              matListItemLine
+              [title]="activity.time | date: 'dd/MM/y HH:mm'"
+            >
+              {{ activity.humanTime }}
+            </span>
+            <span matListItemLine>{{ activity.body }}</span>
+          </mat-list-item>
+        }
+      </mat-list>
+    } @else {
+      <app-mat-empty-state
+        icon="mood"
+        label="Nessuna notifica presente"
+      />
     }
-  </mat-list>
   } @else {
-
-  <app-mat-empty-state
-    icon="mood"
-    label="Nessuna notifica presente"
-  />
-
-  } } @else {
-
-  <mat-progress-spinner
-    color="accent"
-    mode="indeterminate"
-  />
-
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+    />
   }
 </mat-dialog-content>

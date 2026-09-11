@@ -1,166 +1,163 @@
-<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @if (dataSource$ | async; as dataSource) {
-<mat-card appearance="outlined">
-  <table
-    #table
-    mat-table
-    matSort
-    [dataSource]="dataSource"
-    [trackBy]="trackRollOfHonor"
-  >
-    <ng-container
-      matColumnDef="season"
-      sticky
+  <mat-card appearance="outlined">
+    <table
+      #table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+      [trackBy]="trackRollOfHonor"
     >
-      <th
-        *matHeaderCellDef
-        appSticky
-        mat-header-cell
-        mat-sort-header
+      <ng-container
+        matColumnDef="season"
+        sticky
       >
-        Stagione
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        <a [routerLink]="['/championships', row.id, 'ranking']">{{row.season.name}}</a>
-      </td>
-    </ng-container>
+        <th
+          *matHeaderCellDef
+          appSticky
+          mat-header-cell
+          mat-sort-header
+        >
+          Stagione
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          <a [routerLink]="['/championships', row.id, 'ranking']">{{ row.season.name }}</a>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="first">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        1°
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @let data = row.roll_of_honor[0]; @let team = data.team; {{data.points | number}} -
-        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
-        {{team.user.surname}})
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="first">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          1°
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @let data = row.roll_of_honor[0]; @let team = data.team; {{ data.points | number }} - <a [routerLink]="['/teams', team.id]">{{ team.name }}</a> ({{
+            team.user.name
+          }}
+          {{ team.user.surname }})
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="second">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        2°
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @let data = row.roll_of_honor[1]; @let team = data.team; {{data.points | number}} -
-        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
-        {{team.user.surname}})
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="second">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          2°
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @let data = row.roll_of_honor[1]; @let team = data.team; {{ data.points | number }} - <a [routerLink]="['/teams', team.id]">{{ team.name }}</a> ({{
+            team.user.name
+          }}
+          {{ team.user.surname }})
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="thirth">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        3°
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @let data = row.roll_of_honor[2]; @let team = data.team; {{data.points | number}} -
-        <a [routerLink]="['/teams', team.id]">{{team.name}}</a> ({{team.user.name}}
-        {{team.user.surname}})
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="thirth">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          3°
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @let data = row.roll_of_honor[2]; @let team = data.team; {{ data.points | number }} - <a [routerLink]="['/teams', team.id]">{{ team.name }}</a> ({{
+            team.user.name
+          }}
+          {{ team.user.surname }})
+        </td>
+      </ng-container>
 
-    <tr
-      *matHeaderRowDef="displayedColumns"
-      mat-header-row
-      style="--index: 0"
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: displayedColumns;let i = index"
-      mat-row
-      [style]="'--index: ' + (i + 1)"
-    ></tr>
-  </table>
-</mat-card>
-
+      <tr
+        *matHeaderRowDef="displayedColumns"
+        mat-header-row
+        style="--index: 0"
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns; let i = index"
+        mat-row
+        [style]="`--index: ${i + 1}`"
+      ></tr>
+    </table>
+  </mat-card>
 } @else {
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
+}
+@if (dataSourceByUser$ | async | keyvalue: victoryOrder; as dataSource) {
+  <h2>Albo d'oro per utente</h2>
 
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
-} @if (dataSourceByUser$ | async | keyvalue: victoryOrder; as dataSource) {
-<h2>Albo d'oro per utente</h2>
-
-<mat-card appearance="outlined">
-  <table
-    #table
-    mat-table
-    matSort
-    [dataSource]="dataSource"
-  >
-    <ng-container
-      matColumnDef="user"
-      sticky
+  <mat-card appearance="outlined">
+    <table
+      #table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
     >
-      <th
-        *matHeaderCellDef
-        appSticky
-        mat-header-cell
+      <ng-container
+        matColumnDef="user"
+        sticky
       >
-        Utente
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.key}}
-      </td>
-    </ng-container>
+        <th
+          *matHeaderCellDef
+          appSticky
+          mat-header-cell
+        >
+          Utente
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.key }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="victory">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        Vittorie
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.value.length}} - ({{row.value.join(', ')}})
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="victory">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Vittorie
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.value.length }} - ({{ row.value.join(', ') }})
+        </td>
+      </ng-container>
 
-    <tr
-      *matHeaderRowDef="displayedColumnsByUser"
-      mat-header-row
-      style="--index: 0"
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: displayedColumnsByUser; let i = index"
-      mat-row
-      [style]="'--index: ' + (i + 1)"
-    ></tr>
-  </table>
-</mat-card>
-
+      <tr
+        *matHeaderRowDef="displayedColumnsByUser"
+        mat-header-row
+        style="--index: 0"
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumnsByUser; let i = index"
+        mat-row
+        [style]="`--index: ${i + 1}`"
+      ></tr>
+    </table>
+  </mat-card>
 } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, effect, inject, input } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input } from '@angular/core';
 
 import { CurrentTransitionService } from '@app/services';
 
@@ -7,11 +7,13 @@ import { CurrentTransitionService } from '@app/services';
   standalone: true,
 })
 export class DetailToListTransitionDirective {
-  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   readonly #transitionService = inject(CurrentTransitionService);
 
-  public name = input.required<string>({ alias: 'appDetailToListTransition' });
-  public entity = input<{ id: number }>();
+  public readonly entity = input<{ id: number }>();
+  public readonly name = input.required<string>({ alias: 'appDetailToListTransition' });
+
+  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
     effect(() => {
@@ -20,4 +22,5 @@ export class DetailToListTransitionDirective {
       this.#elementRef.nativeElement.style.viewTransitionName = isTransitioning ? this.name() : '';
     });
   }
+
 }

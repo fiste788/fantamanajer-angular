@@ -1,14 +1,16 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 
 @Pipe({
   name: 'srcset',
   standalone: true,
 })
 export class SrcsetPipe implements PipeTransform {
+
   public transform(
     sizes: Record<string, string> | string | null | undefined,
-    onlyFirst = false,
-    onlyKeys = false,
+    isOnlyFirst = false,
+    isOnlyKeys = false,
   ): string {
     if (sizes === undefined || sizes === null) {
       return '';
@@ -16,7 +18,7 @@ export class SrcsetPipe implements PipeTransform {
 
     if (typeof sizes === 'string') {
       // If input is already a string, return it directly or based on flags
-      if (onlyFirst || onlyKeys) {
+      if (isOnlyFirst || isOnlyKeys) {
         // Handle cases where flags are used with a string input if necessary
         // For now, assuming it returns the string itself
         return sizes;
@@ -30,11 +32,11 @@ export class SrcsetPipe implements PipeTransform {
     const sortedKeys = this.#sortSizes(keys); // Extracted helper function
     const bigger = sortedKeys.at(-1);
 
-    if (onlyKeys) {
+    if (isOnlyKeys) {
       return `${sortedKeys.join('w, ')}w`;
     }
 
-    if (onlyFirst) {
+    if (isOnlyFirst) {
       const first = `${bigger}w`;
 
       return sizes[first]!;
@@ -44,13 +46,8 @@ export class SrcsetPipe implements PipeTransform {
     return this.#generateSrcsetString(sizes); // Extracted helper function
   }
 
-  #extractSizesFromRecord(sizes: Record<string, string>): Array<number> {
-    return Object.keys(sizes).map((size) => +size.slice(0, -1));
-  }
-
-  #sortSizes(keys: Array<number>): Array<number> {
-    // eslint-disable-next-line unicorn/no-array-sort
-    return keys.sort((a, b) => a - b);
+  #extractSizesFromRecord(sizes: Record<string, string>): number[] {
+    return Object.keys(sizes).map(size => +size.slice(0, -1));
   }
 
   #generateSrcsetString(sizes: Record<string, string>): string {
@@ -58,4 +55,10 @@ export class SrcsetPipe implements PipeTransform {
       .map(([k, v]) => `${v} ${k}`)
       .join(',');
   }
+
+  #sortSizes(keys: number[]): number[] {
+    // eslint-disable-next-line unicorn/no-array-sort
+    return keys.sort((a, b) => a - b);
+  }
+
 }

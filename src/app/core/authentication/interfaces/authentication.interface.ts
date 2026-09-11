@@ -1,6 +1,6 @@
-import { User } from '@data/types';
+import type { User } from '@data/interfaces'; // Importa User
 
-export interface AuthenticationDto {
-  user: User;
+export interface Authentication {
   token: string;
+  user: User;
 }

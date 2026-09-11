@@ -1,16 +1,16 @@
-import { Matchday } from './matchday.model';
-import { Member } from './member.model';
-import { Team } from './team.model';
+import type { Matchday } from './matchday.interface';
+import type { Member } from './member.interface';
+import type { Team } from './team.interface';
 
 export interface Selection {
-  id: number;
   active: boolean;
-  team_id: number;
-  matchday_id: number;
-  old_member_id: number;
-  new_member_id: number;
-  team: Team;
+  id: number;
   matchday: Matchday;
-  old_member: Member | null;
+  matchday_id: number;
   new_member: Member | null;
+  new_member_id: number;
+  old_member: Member | null;
+  old_member_id: number;
+  team: Team;
+  team_id: number;
 }

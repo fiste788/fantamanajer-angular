@@ -1,17 +1,17 @@
-import { Lineup } from './lineup.model';
-import { Matchday } from './matchday.model';
-import { Team } from './team.model';
+import type { Lineup } from './lineup.interface';
+import type { Matchday } from './matchday.interface';
+import type { Team } from './team.interface';
 
 export interface Score {
   id: number;
+  lineup?: Lineup;
+  lineup_id: number;
+  matchday: Matchday;
+  matchday_id: number;
+  penality: string | null;
+  penality_points: number;
   points: number;
   real_points: number;
-  penality_points: number;
-  penality: string | null;
-  matchday_id: number;
-  team_id: number;
-  lineup_id: number;
-  lineup?: Lineup;
-  matchday: Matchday;
   team: Team;
+  team_id: number;
 }

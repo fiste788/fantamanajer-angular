@@ -5,7 +5,7 @@
     param="team_id"
     [entity]="_team"
     [routerLink]="['/teams/', _team.id]"
-    [state]="{ img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')' }"
+    [state]="{ img: `url('${imgRef()?.nativeElement?.currentSrc}')` }"
   >
     <figure
       class="aspect-ratio-box placeholder"
@@ -32,7 +32,7 @@
   <mat-card-header>
     <mat-card-title
       param="team_id"
-      [appDetailToListTransition]="'title-' + _team.name | slug"
+      [appDetailToListTransition]="`title-${_team.name}` | slug"
       [entity]="_team"
       >{{ _team.name }}</mat-card-title
     >

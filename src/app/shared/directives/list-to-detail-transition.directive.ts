@@ -1,4 +1,4 @@
-import { Directive, ElementRef, effect, inject, input } from '@angular/core';
+import { Directive, effect, ElementRef, inject, input } from '@angular/core';
 
 import { CurrentTransitionService } from '@app/services';
 
@@ -10,7 +10,7 @@ export class ListToDetailTransitionDirective {
   readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #transitionService = inject(CurrentTransitionService);
 
-  public name = input.required<string>({ alias: 'appListToDetailTransition' });
+  public readonly name = input.required<string>({ alias: 'appListToDetailTransition' });
 
   constructor() {
     effect(() => {

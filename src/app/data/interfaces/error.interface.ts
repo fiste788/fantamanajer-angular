@@ -1,13 +1,13 @@
-import { Exception } from './exception.model';
-import { Trace } from './trace.model';
+import type { Exception } from './exception.interface';
+import type { Trace } from './trace.interface';
 
 // Modifica suggerita per la nomenclatura
 export interface ApiError {
-  message: string;
-  url: string;
   code: number;
+  exception?: Exception;
   file?: string;
   line?: number;
-  exception?: Exception;
-  trace?: Array<Trace>;
+  message: string;
+  trace?: Trace[];
+  url: string;
 }

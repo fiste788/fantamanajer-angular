@@ -1,12 +1,14 @@
 import { Component, input } from '@angular/core';
 
-import { Team } from '@data/types';
+import type { Team } from '@data/interfaces';
 import { TeamCardComponent } from '@modules/team/components/team-card/team-card.component';
 
 @Component({
-  templateUrl: './team-list.page.html',
   imports: [TeamCardComponent],
+  templateUrl: './team-list.page.html',
 })
 export class TeamListPage {
-  protected readonly teams = input.required<Array<Team>>();
+
+  public readonly teams = input.required<Team[]>();
+
 }

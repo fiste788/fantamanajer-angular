@@ -1,11 +1,11 @@
-import { UrlTree } from '@angular/router';
+import type { UrlTree } from '@angular/router';
 
 export interface NavigationItem {
-  title: string;
-  url: string | Array<unknown> | UrlTree;
-  icon: string;
-  exact?: boolean;
-  title_short?: string;
   divider?: boolean;
+  exact?: boolean;
   header?: string;
+  icon: string;
+  title: string;
+  title_short?: string;
+  url: string | unknown[] | UrlTree;
 }

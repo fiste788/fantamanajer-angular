@@ -1,22 +1,22 @@
-import { League } from './league.model';
-import { Season } from './season.model';
-import { Team } from './team.model';
+import type { League } from './league.interface';
+import type { Season } from './season.interface';
+import type { Team } from './team.interface';
 
 export interface Championship {
-  id: number;
-  started: boolean;
   captain: boolean;
   captain_missed_lineup: boolean;
-  points_missed_lineup: number;
+  id: number;
+  jolly: boolean;
+  league: League;
+  league_id: number;
   minute_lineup: number;
-  number_substitutions: number;
   number_benchwarmers: number;
   number_selections: number;
+  number_substitutions: number;
   number_transferts: number;
-  jolly: boolean;
-  season_id: number;
-  league_id: number;
-  teams: Array<Team>;
-  league: League;
+  points_missed_lineup: number;
   season: Season;
+  season_id: number;
+  started: boolean;
+  teams: Team[];
 }

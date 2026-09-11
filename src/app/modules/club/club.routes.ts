@@ -1,6 +1,6 @@
-import { Route } from '@angular/router';
+import type { Route } from '@angular/router';
 
-import { Club } from '@data/types';
+import type { Club } from '@data/interfaces';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { ClubDetailPage } from './pages/club-detail/club-detail.page';
@@ -12,36 +12,16 @@ import { ClubStreamPage } from './pages/club-stream/club-stream.page';
 
 export default [
   {
-    path: '',
-    component: RouterOutletComponent,
-    data: {
-      state: 'club-outlet',
-    },
     children: [
       {
-        path: '',
         component: ClubListPage,
-        data: { state: 'club-list', exit: true, breadcrumbs: 'Club' },
+        data: { breadcrumbs: 'Club', exit: true, state: 'club-list' },
+        path: '',
         resolve: {
           clubs: clubsResolver,
         },
       },
       {
-        path: ':id',
-        component: ClubDetailPage,
-        data: {
-          breadcrumbs: (data: { club: Club }): string => data.club.name,
-          state: 'club-outlet',
-          exit: true,
-          description: 'Club',
-          ogDescription: 'Club',
-          robots: 'nofollow,index',
-          ogImage: (data: { club: Club }): string => `${data.club.photo_url}`,
-          ogTitle: (data: { club: Club }): string => data.club.name,
-        },
-        resolve: {
-          club: clubResolver,
-        },
         children: [
           {
             path: '',
@@ -49,17 +29,37 @@ export default [
             redirectTo: 'players',
           },
           {
-            path: 'players',
             component: ClubMembersPage,
-            data: { state: 'players', parent: true },
+            data: { parent: true, state: 'players' },
+            path: 'players',
           },
           {
-            path: 'stream',
             component: ClubStreamPage,
             data: { state: 'stream' },
+            path: 'stream',
           },
         ],
+        component: ClubDetailPage,
+        data: {
+          breadcrumbs: (data: { club: Club }): string => data.club.name,
+          description: 'Club',
+          exit: true,
+          ogDescription: 'Club',
+          ogImage: (data: { club: Club }): string | undefined => data.club.photo_url ?? undefined,
+          ogTitle: (data: { club: Club }): string => data.club.name,
+          robots: 'nofollow,index',
+          state: 'club-outlet',
+        },
+        path: ':id',
+        resolve: {
+          club: clubResolver,
+        },
       },
     ],
+    component: RouterOutletComponent,
+    data: {
+      state: 'club-outlet',
+    },
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

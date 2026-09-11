@@ -1,5 +1,6 @@
-import { AsyncPipe, KeyValue, KeyValuePipe } from '@angular/common';
-import { Component, viewChild, inject, signal, linkedSignal } from '@angular/core';
+import type { KeyValue } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
+import { Component, inject, linkedSignal, signal, viewChild } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,69 +9,81 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable, map, switchMap } from 'rxjs';
+
+import { forkJoin, map, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import { filterNil, getRouteData } from '@app/functions';
 import { save } from '@app/functions/save.function';
-import { ApplicationService } from '@app/services';
-import { AtLeast } from '@app/types';
+import type { AtLeast } from '@app/interfaces';
+import { AppService } from '@app/services';
+import type { Member, Role, Selection, Team } from '@data/interfaces';
 import { MemberService, RoleService, SelectionService } from '@data/services';
-import { Member, Role, Selection, Team } from '@data/types';
 
 @Component({
   selector: 'app-selection',
-  imports: [
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatButtonModule,
-    AsyncPipe,
-    KeyValuePipe,
-  ],
-  styleUrl: './selection.component.scss',
+  imports: [AsyncPipe, FormsModule, KeyValuePipe, MatButtonModule, MatFormFieldModule, MatProgressSpinnerModule, MatSelectModule],
   templateUrl: './selection.component.html',
+  styleUrl: './selection.component.scss',
 })
 export class SelectionComponent {
-  readonly #selectionService = inject(SelectionService);
-  readonly #app = inject(ApplicationService);
-  readonly #roleService = inject(RoleService);
+
+  readonly #app = inject(AppService);
   readonly #memberService = inject(MemberService);
+  readonly #roleService = inject(RoleService);
   readonly #route = inject(ActivatedRoute);
+  readonly #selectionService = inject(SelectionService);
   readonly #snackbar = inject(MatSnackBar);
 
-  #savedSelection?: Selection;
-  protected readonly data$ = this.loadData();
+  protected readonly sellMember = signal<Member | undefined>(undefined);
+  protected readonly role$ = toObservable(linkedSignal<Role | undefined>(() => this.sellMember()?.role));
+  protected buyMembers$ = this.role$.pipe(
+    filterNil(),
+    switchMap(role => this.#memberService.getFreeMembers(this.#app.currentTeam()!.championship.id, role.id, false)),
+  );
+
   protected readonly selectedMember = toSignal(this.getSelectedMember(), {
     initialValue: undefined,
   });
   protected readonly buyMember = linkedSignal(() => this.selectedMember());
-  protected readonly sellMember = signal<Member | undefined>(undefined);
-  protected readonly role$ = toObservable(
-    linkedSignal<Role | undefined>(() => this.sellMember()?.role),
-  );
+  protected readonly data$ = this.loadData();
+  protected readonly selectionForm = viewChild(NgForm);
 
-  protected selectionForm = viewChild(NgForm);
-  protected buyMembers$ = this.role$.pipe(
-    filterNil(),
-    switchMap((role) =>
-      this.#memberService.getFreeMembers(this.#app.currentTeam()!.championship.id, role.id, false),
-    ),
-  );
+  #savedSelection?: Partial<Selection>;
+
+  protected compareFn(c1: Member | null, c2: Member | null): boolean {
+    return c1?.id === c2?.id;
+  }
+
+  protected descOrder(a: KeyValue<Role, Member[]>, b: KeyValue<Role, Member[]>): number {
+    return Math.max(a.key.id, b.key.id);
+  }
+
+  protected getSelectedMember(): Observable<Member> {
+    return this.#route.queryParamMap.pipe(
+      map(parameters => parameters.get('new_member_id')),
+      filterNil(),
+      switchMap(id => this.#memberService.getMemberById(+id)),
+    );
+  }
+
+  protected getTeamMembers(team: Team): Observable<Map<Role, Member[]>> {
+    return this.#memberService.getMembersByTeamId(team.id).pipe(map(data => this.#roleService.groupMembersByRole(data)));
+  }
 
   protected loadData(): Observable<{
-    selection: Selection;
-    members: Map<Role, Array<Member>>;
+    members: Map<Role, Member[]>;
+    selection: AtLeast<Selection, 'team_id'>;
   }> {
     return getRouteData<Team>('team').pipe(
       filterNil(),
-      switchMap((team) => this.loadTeamData(team)),
+      switchMap(team => this.loadTeamData(team)),
     );
   }
 
   protected loadTeamData(team: Team): Observable<{
-    selection: Selection;
-    members: Map<Role, Array<Member>>;
+    members: Map<Role, Member[]>;
+    selection: AtLeast<Selection, 'team_id'>;
   }> {
     return forkJoin({
       members: this.getTeamMembers(team),
@@ -82,33 +95,14 @@ export class SelectionComponent {
         }
         const selectedMember = this.selectedMember();
         if (selectedMember && selection.old_member?.role_id !== selectedMember.role_id) {
-          // eslint-disable-next-line unicorn/no-null
           selection.old_member = null;
         }
         this.buyMember.set(selection.new_member ?? undefined);
         this.sellMember.set(selection.old_member ?? undefined);
 
-        return { selection, members };
+        return { members, selection };
       }),
     );
-  }
-
-  protected getTeamMembers(team: Team): Observable<Map<Role, Array<Member>>> {
-    return this.#memberService
-      .getMembersByTeamId(team.id)
-      .pipe(map((data) => this.#roleService.groupMembersByRole(data)));
-  }
-
-  protected getSelectedMember(): Observable<Member> {
-    return this.#route.queryParamMap.pipe(
-      map((params) => params.get('new_member_id')),
-      filterNil(),
-      switchMap((id) => this.#memberService.getMemberById(+id)),
-    );
-  }
-
-  protected compareFn(c1: Member | null, c2: Member | null): boolean {
-    return c1?.id === c2?.id;
   }
 
   protected async save(selection: Partial<Selection>): Promise<void> {
@@ -122,25 +116,23 @@ export class SelectionComponent {
       if (this.#savedSelection?.new_member_id !== selection.new_member_id) {
         delete selection.id;
       }
+
       const save$ = selection.id
         ? this.#selectionService.updateSelection(selection as Selection)
         : this.#selectionService.createSelection(selection as AtLeast<Selection, 'team_id'>);
 
       return save(save$, undefined, this.#snackbar, {
-        message: 'Selezione salvata correttamento',
-        callback: (res: Partial<Selection>) => {
-          if (res.id) {
-            selection.id = res.id;
+        callback: (result: Partial<Selection>) => {
+          if (result.id) {
+            selection.id = result.id;
           }
         },
         form: this.selectionForm(),
+        message: 'Selezione salvata correttamento',
       });
     }
 
     return undefined;
   }
 
-  protected descOrder(a: KeyValue<Role, Array<Member>>, b: KeyValue<Role, Array<Member>>): number {
-    return Math.max(a.key.id, b.key.id);
-  }
 }

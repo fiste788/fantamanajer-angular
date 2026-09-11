@@ -1,6 +1,6 @@
-import { Member } from '@data/types';
+import type { Member } from '@data/interfaces';
 
 export interface BestPlayer {
   first: Member;
-  others: Array<Member>;
+  others: Member[];
 }

@@ -1,8 +1,9 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Router } from '@angular/router';
+import type { ResolveFn } from '@angular/router';
+import { Router } from '@angular/router';
 
+import type { Team } from '@data/interfaces';
 import { TeamService } from '@data/services';
-import { Team } from '@data/types';
 
 export const teamResolver: ResolveFn<Team | undefined> = (route) => {
   const teamId = route.paramMap.get('team_id');

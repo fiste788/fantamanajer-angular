@@ -1,22 +1,11 @@
-import { ErrorHandler, inject, Injectable, Provider, REQUEST_CONTEXT } from '@angular/core';
+import type { Provider } from '@angular/core';
+import { ErrorHandler, inject, REQUEST_CONTEXT, Service } from '@angular/core';
 
-/**
- * TIPO ESTERNO PER LO STATO DI FALLIMENTO SSR (Rinominato e semplificato)
- * La presenza di 'error' indica un fallimento.
- */
-export interface SSRStatus {
-  // Contiene l'oggetto errore catturato (sarà undefined se non è ancora fallito)
-  error?: unknown;
-}
+import type { RequestContext } from '@data/interfaces/request-context.interface';
 
-export interface RequestContext {
-  ctx: ExecutionContext;
-  nonce?: string;
-  ssrStatus: SSRStatus;
-}
+@Service()
+export class ServerSideErrorHandlerService extends ErrorHandler {
 
-@Injectable()
-export class ServerSideErrorHandler extends ErrorHandler {
   readonly #requestContext = inject<RequestContext>(REQUEST_CONTEXT, { optional: true });
 
   public override handleError(error: unknown): void {
@@ -27,10 +16,12 @@ export class ServerSideErrorHandler extends ErrorHandler {
     }
     // 3. NON rilanciare l'errore per impedire la cattura silenziosa interna.
   }
+
 }
-export function provideServerErrorHandler(): Array<Provider> {
+
+export function provideServerErrorHandler(): Provider[] {
   return [
     // Forniamo l'oggetto di stato mutabile come dipendenza per l'ErrorHandler
-    { provide: ErrorHandler, useClass: ServerSideErrorHandler },
+    { provide: ErrorHandler, useClass: ServerSideErrorHandlerService },
   ];
 }

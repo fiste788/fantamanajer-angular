@@ -1,17 +1,16 @@
-<!-- eslint-disable @angular-eslint/template/prefer-ngsrc -->
-<h2 mat-dialog-title>{{team.name}}</h2>
+<h2 mat-dialog-title>{{ team.name }}</h2>
 <mat-dialog-content>
   @if (!seasonEnded()) {
-  <mat-form-field>
-    <mat-label>Nome squadra</mat-label>
-    <input
-      matInput
-      name="name"
-      placeholder="Nome"
-      required
-      [(ngModel)]="team.name"
-    />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nome squadra</mat-label>
+      <input
+        matInput
+        name="name"
+        placeholder="Nome"
+        required
+        [(ngModel)]="team.name"
+      />
+    </mat-form-field>
   }
 
   <div
@@ -29,11 +28,10 @@
     />
     <p>Clicca o trascina il file quì per caricare l'immagine</p>
     @if (fileUrl(); as _fileUrl) {
-
-    <img
-      alt="uploadImage"
-      [src]="_fileUrl"
-    />
+      <img
+        alt="uploadImage"
+        [src]="_fileUrl"
+      />
     }
   </div>
   <div>

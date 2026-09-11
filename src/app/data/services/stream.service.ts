@@ -1,21 +1,24 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { Injectable, ResourceRef, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { ResourceRef } from '@angular/core';
+import { inject, Service } from '@angular/core';
 
-import { Stream } from '../types';
+import type { Observable } from 'rxjs';
+
+import type { Stream } from '../interfaces';
 
 const STREAM_URL_SEGMENT = 'stream'; // Modifica suggerita per la nomenclatura
 
 const routes = {
   championshipStream: (id: number) => `/championships/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
   clubStream: (id: number) => `/clubs/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  streamByContextAndId: (context: string, id: number) => `/${context}/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
   teamStream: (id: number) => `/teams/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
   userStream: (id: number) => `/users/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
-  streamByContextAndId: (context: string, id: number) => `/${context}/${id}/${STREAM_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class StreamService {
+
   readonly #http = inject(HttpClient);
 
   // Refactoring: i metodi getBy... utilizzano internamente find
@@ -24,30 +27,16 @@ export class StreamService {
     return this.getStreamByContextAndId('championships', championshipId, page); // Utilizzo del metodo refactorizzato
   }
 
-  public getTeamStream(teamId: number, page = 1): Observable<Stream> {
-    // Modifica suggerita per la nomenclatura
-    return this.getStreamByContextAndId('teams', teamId, page); // Utilizzo del metodo refactorizzato
-  }
-
   public getClubStream(clubId: number, page = 1): Observable<Stream> {
     // Modifica suggerita per la nomenclatura
     return this.getStreamByContextAndId('clubs', clubId, page); // Utilizzo del metodo refactorizzato
   }
 
-  public getUserStream(userId: number, page = 1): Observable<Stream> {
-    // Modifica suggerita per la nomenclatura
-    return this.getStreamByContextAndId('users', userId, page); // Utilizzo del metodo refactorizzato
-  }
-
   // Modifica suggerita per la nomenclatura e utilizzo della funzione refactorizzata
-  public getStreamByContextAndId(
-    context: 'championships' | 'clubs' | 'teams' | 'users',
-    id: number,
-    page = 1,
-  ): Observable<Stream> {
-    const params = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
+  public getStreamByContextAndId(context: 'championships' | 'clubs' | 'teams' | 'users', id: number, page = 1): Observable<Stream> {
+    const parameters = this.#createPaginationParams(page); // Utilizzo della funzione refactorizzata
 
-    return this.#http.get<Stream>(routes.streamByContextAndId(context, id), { params }); // Utilizzo del nome della rotta modificato
+    return this.#http.get<Stream>(routes.streamByContextAndId(context, id), { params: parameters }); // Utilizzo del nome della rotta modificato
   }
 
   public getStreamResourceByContextAndId(
@@ -56,13 +45,26 @@ export class StreamService {
     page: () => number,
   ): ResourceRef<Stream | undefined> {
     return httpResource(() => ({
-      url: routes.streamByContextAndId(context(), id()),
       params: this.#createPaginationParams(page()),
+      url: routes.streamByContextAndId(context(), id()),
     }));
+  }
+
+  public getTeamStream(teamId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
+    return this.getStreamByContextAndId('teams', teamId, page); // Utilizzo del metodo refactorizzato
+  }
+
+  public getUserStream(userId: number, page = 1): Observable<Stream> {
+    // Modifica suggerita per la nomenclatura
+    return this.getStreamByContextAndId('users', userId, page); // Utilizzo del metodo refactorizzato
   }
 
   // Funzione privata per creare HttpParams con paginazione (Refactoring suggerito)
   #createPaginationParams(page: number): HttpParams {
-    return new HttpParams().set('page', `${page}`);
+    const parameters = new HttpParams();
+    parameters.set('page', page);
+    return parameters;
   }
+
 }

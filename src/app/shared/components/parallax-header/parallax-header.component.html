@@ -39,7 +39,7 @@
           disableOptimizedSrcset
           priority
           [alt]="_title"
-          [appListToDetailTransition]="'avatar-' + _title | slug"
+          [appListToDetailTransition]="`avatar-${_title}` | slug"
           [height]="height()"
           [ngSrc]="_image"
           [width]="width()"
@@ -54,7 +54,7 @@
         >
         <h1
           class="title"
-          [appListToDetailTransition]="'title-' + _title | slug"
+          [appListToDetailTransition]="`title-${_title}` | slug"
         >
           {{ _title }}
         </h1>
@@ -73,11 +73,11 @@
       />
     </div>
   </div>
-
-  @if (tabs().length) {
+  @let _tabPanel = tabPanel();
+  @if (tabs().length && _tabPanel) {
     <nav
       mat-tab-nav-bar
-      [tabPanel]="tabPanel()"
+      [tabPanel]="_tabPanel"
     >
       @for (tab of visibleTabs(); track track($index, tab)) {
         <a

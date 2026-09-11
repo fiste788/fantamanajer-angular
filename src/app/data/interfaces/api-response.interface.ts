@@ -1,7 +1,7 @@
-import { Pagination } from './pagination';
+import type { Pagination } from './pagination.interface';
 
 export interface ApiResponse {
   data: Record<string, unknown>;
-  success: boolean;
   pagination?: Pagination;
+  success: boolean;
 }

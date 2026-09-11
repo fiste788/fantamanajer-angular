@@ -1,8 +1,8 @@
 export interface Trace {
-  file: string;
-  line: number;
-  function: string;
-  class: string;
-  type: string;
   args?: Record<string, unknown>;
+  class: string;
+  file: string;
+  function: string;
+  line: number;
+  type: string;
 }

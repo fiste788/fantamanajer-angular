@@ -1,26 +1,26 @@
-import { Matchday } from './matchday.model';
-import { Member } from './member.model';
+import type { Matchday } from './matchday.interface';
+import type { Member } from './member.interface';
 
 export interface Rating {
-  id: number;
-  valued: boolean;
-  points: number;
-  points_no_bonus: number;
-  rating: number;
+  assist: number;
   goals: number;
   goals_against: number;
-  goals_victory: number;
   goals_tie: number;
-  assist: number;
-  yellow_card: boolean;
-  red_card: boolean;
-  penalities_scored: number;
-  penalities_taken: number;
-  present: boolean;
-  regular: boolean;
-  quotation: number;
-  member_id: number;
+  goals_victory: number;
+  id: number;
+  matchday: Matchday;
   matchday_id: number;
   member: Member;
-  matchday: Matchday;
+  member_id: number;
+  penalities_scored: number;
+  penalities_taken: number;
+  points: number;
+  points_no_bonus: number;
+  present: boolean;
+  quotation: number;
+  rating: number;
+  red_card: boolean;
+  regular: boolean;
+  valued: boolean;
+  yellow_card: boolean;
 }

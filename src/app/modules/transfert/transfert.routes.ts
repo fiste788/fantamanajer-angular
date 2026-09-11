@@ -1,30 +1,31 @@
 import { inject } from '@angular/core';
-import { RedirectCommand, Route, Router } from '@angular/router';
+import type { Route } from '@angular/router';
+import { RedirectCommand, Router } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
-import { ApplicationService } from '@app/services';
+import { AppService } from '@app/services';
 
 import { TransfertListPage } from './pages/transfert-list/transfert-list.page';
 
 export default [
   {
-    path: '',
-    component: TransfertListPage,
     canActivate: [authenticatedGuard],
+    component: TransfertListPage,
     data: { state: 'transfert-list' },
+    path: '',
   },
   {
-    path: 'new',
-    children: [],
     canActivate: [
       authenticatedGuard,
       () => {
-        const app = inject(ApplicationService);
+        const app = inject(AppService);
         const router = inject(Router);
         const urlTree = router.createUrlTree(['teams', app.requireCurrentTeam().id, 'transferts']);
 
         return new RedirectCommand(urlTree);
       },
     ],
+    children: [],
+    path: 'new',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

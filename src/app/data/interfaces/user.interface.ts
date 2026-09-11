@@ -1,13 +1,13 @@
-import { Team } from './team.model';
+import type { Team } from './team.interface';
 
 export interface User {
+  active_email: boolean;
+  admin: boolean;
+  email: string;
   id: number;
   name: string;
-  surname: string;
-  email: string;
-  admin: boolean;
-  active_email: boolean;
   password?: string;
-  teams?: Array<Team>;
-  roles: Array<string>;
+  roles: string[];
+  surname: string;
+  teams?: Team[];
 }

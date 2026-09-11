@@ -1,5 +1,5 @@
-import { Score } from './score.model';
-import { Team } from './team.model';
+import type { Score } from './score.interface';
+import type { Team } from './team.interface';
 
 export interface RankingPosition {
   scores?: Record<number, Partial<Score>>;

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { Club } from '../types';
+import type { Observable } from 'rxjs';
+
+import type { Club } from '../interfaces';
 
 const CLUBS_URL_SEGMENT = 'clubs'; // Modifica suggerita per la nomenclatura
 
@@ -11,15 +12,17 @@ const routes = {
   clubs: `/${CLUBS_URL_SEGMENT}`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ClubService {
-  readonly #http = inject(HttpClient);
 
-  public getClubs(): Observable<Array<Club>> {
-    return this.#http.get<Array<Club>>(routes.clubs);
-  }
+  readonly #http = inject(HttpClient);
 
   public getClub(id: number): Observable<Club> {
     return this.#http.get<Club>(routes.club(id));
   }
+
+  public getClubs(): Observable<Club[]> {
+    return this.#http.get<Club[]>(routes.clubs);
+  }
+
 }

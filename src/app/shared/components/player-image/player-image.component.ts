@@ -1,18 +1,20 @@
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { Member } from '@data/types';
+import type { Member } from '@data/interfaces';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-player-image',
-  styleUrl: './player-image.component.scss',
-  templateUrl: './player-image.component.html',
   imports: [MatCardModule, NgOptimizedImage],
+  templateUrl: './player-image.component.html',
+  styleUrl: './player-image.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerImageComponent {
-  public member = input<Member | undefined>();
-  public inCard = input(false, { transform: booleanAttribute });
-  public fetchpriority = input<'auto' | 'high' | 'low'>('auto');
+
+  public readonly fetchpriority = input<'auto' | 'high' | 'low'>('auto');
+  public readonly inCard = input(false, { transform: booleanAttribute });
+  public readonly member = input<Partial<Member> | undefined>();
+
 }

@@ -1,39 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 import { groupBy } from '@app/functions';
 
-import { Member, Role } from '../types';
+import type { Member, Role } from '../interfaces';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class RoleService {
+
   // Modifica suggerita per la nomenclatura delle proprietà nell'array
-  readonly #roles: Array<Role> = [
+  readonly #roles: Role[] = [
     // Tipizzazione esplicita per chiarezza
-    { id: 1, singular: 'Portiere', count: 3, abbreviation: 'P', plural: 'Portieri' },
-    { id: 2, singular: 'Difensore', count: 8, abbreviation: 'D', plural: 'Difensori' },
-    { id: 3, singular: 'Centrocampista', count: 8, abbreviation: 'C', plural: 'Centrocampisti' },
-    { id: 4, singular: 'Attaccante', count: 6, abbreviation: 'A', plural: 'Attaccanti' },
+    { abbreviation: 'P', count: 3, id: 1, plural: 'Portieri', singular: 'Portiere' },
+    { abbreviation: 'D', count: 8, id: 2, plural: 'Difensori', singular: 'Difensore' },
+    { abbreviation: 'C', count: 8, id: 3, plural: 'Centrocampisti', singular: 'Centrocampista' },
+    { abbreviation: 'A', count: 6, id: 4, plural: 'Attaccanti', singular: 'Attaccante' },
   ];
 
-  // Modifica suggerita per la nomenclatura del parametro
-  public groupMembersByRole(members: Array<Member>): Map<Role, Array<Member>> {
-    return groupBy(members, ({ role_id }) => this.getRoleById(role_id)); // Utilizzo del nome del metodo modificato
-  }
-
-  public list(): Array<Role> {
-    return this.#roles;
+  public getModuleKey(): string {
+    return this.#roles.map(r => r.count).join('-');
   }
 
   public getRoleById(roleId: number): Role {
     // Modifica suggerita per la nomenclatura del parametro
-    return this.#roles.find((r) => r.id === roleId)!;
+    return this.#roles.find(r => r.id === roleId)!;
+  }
+
+  // Modifica suggerita per la nomenclatura del parametro
+  public groupMembersByRole(members: Member[]): Map<Role, Member[]> {
+    return groupBy(members, ({ role_id }) => this.getRoleById(role_id)); // Utilizzo del nome del metodo modificato
+  }
+
+  public list(): Role[] {
+    return this.#roles;
   }
 
   public totalMembers(): number {
-    return this.#roles.reduce((acc, c) => acc + c.count, 0);
+    return this.#roles.reduce((accumulator, c) => accumulator + c.count, 0);
   }
 
-  public getModuleKey(): string {
-    return this.#roles.map((r) => r.count).join('-');
-  }
 }

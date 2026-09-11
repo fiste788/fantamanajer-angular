@@ -1,39 +1,36 @@
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, afterNextRender, inject, input } from '@angular/core';
+import { afterNextRender, Component, inject, input } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { EMPTY, firstValueFrom, Observable } from 'rxjs';
 
-import { ApplicationService, PwaService } from '@app/services';
+import { EMPTY, firstValueFrom } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { AppService, PwaService } from '@app/services';
+import type { Stream, Team } from '@data/interfaces';
 import { NotificationService } from '@data/services';
-import { Stream, Team } from '@data/types';
-import { type NotificationListModal as NotificationListModalType } from '@modules/notification/modals/notification-list/notification-list.modal';
+import type { NotificationListModal as NotificationListModalType } from '@modules/notification/components/modals/notification-list/notification-list.modal';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-notification',
+  imports: [AsyncPipe, DecimalPipe, MatBadgeModule, MatButtonModule, MatIconModule, SeasonActiveDirective],
   templateUrl: './notification.component.html',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatBadgeModule,
-    SeasonActiveDirective,
-    AsyncPipe,
-    DecimalPipe,
-  ],
 })
 export class NotificationComponent {
-  readonly #notificationService = inject(NotificationService);
-  readonly #dialog = inject(MatDialog);
-  public readonly team = input<Team>();
 
+  readonly #dialog = inject(MatDialog);
+  readonly #notificationService = inject(NotificationService);
   // Using a signal to manage the deferred prompt state
   protected deferredPrompt = inject(PwaService).beforeInstallSignal;
+  protected readonly isCurrentSeason = inject(AppService).isCurrentSeason;
+
+  public readonly team = input<Team>();
+
   protected stream$: Observable<Stream> = EMPTY;
-  protected readonly isCurrentSeason = inject(ApplicationService).isCurrentSeason;
 
   constructor() {
     afterNextRender(() => {
@@ -63,18 +60,18 @@ export class NotificationComponent {
   }
 
   protected async openDialog(): Promise<boolean | undefined> {
-    const { NotificationListModal } =
-      await import('@modules/notification/modals/notification-list/notification-list.modal');
+    const { NotificationListModal } = await import('@modules/notification/components/modals/notification-list/notification-list.modal');
 
     return firstValueFrom(
       this.#dialog
         .open<NotificationListModalType, unknown, boolean>(NotificationListModal, {
-          scrollStrategy: new NoopScrollStrategy(),
-          minWidth: 600,
           minHeight: 400,
+          minWidth: 600,
+          scrollStrategy: new NoopScrollStrategy(),
         })
         .afterClosed(),
       { defaultValue: undefined },
     );
   }
+
 }

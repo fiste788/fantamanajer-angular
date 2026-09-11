@@ -1,30 +1,18 @@
-import { AdditionalHeaders, SecurityPolicyConfig } from './angular.types';
-import { buildCspHeader } from './angular.utils';
+import { buildCspHeader } from './angular.utilities';
+
+import type { AdditionalHeaders, SecurityPolicyConfig } from './interfaces';
 
 // Regex per trovare il placeholder del nonce nel template HTML di Angular
 const NONCE_PLACEHOLDER = /nonce="randomNonceGoesHere"/g;
 
 /**
- * Inietta il nonce generato nell'HTML del corpo.
- * Sostituisce un placeholder noto con il nonce effettivo.
- * @param html Il corpo HTML restituito dal rendering SSR.
- * @param nonce Il nonce Base64 generato.
- * @returns Il corpo HTML con il nonce iniettato.
- */
-export function injectNonceIntoHtml(html: string, nonce: string): string {
-  const nonceAttr = `nonce="${nonce}"`;
-
-  return html.replaceAll(NONCE_PLACEHOLDER, nonceAttr);
-}
-
-/**
- * Crea un TransformStream per sostituire il placeholder del nonce nel corpo HTML
- * mentre viene trasmesso in streaming.
- * @param nonce Il nonce Base64 da iniettare.
- * @returns Un TransformStream che esegue la sostituzione a livello di chunk.
- */
+Crea un TransformStream per sostituire il placeholder del nonce nel corpo HTML
+mentre viene trasmesso in streaming.
+@param nonce Il nonce Base64 da iniettare.
+@returns Un TransformStream che esegue la sostituzione a livello di chunk.
+*/
 export function createNonceInjectionStream(nonce: string): TransformStream<Uint8Array, Uint8Array> {
-  const nonceAttr = `nonce="${nonce}"`;
+  const nonceAttribute = `nonce="${nonce}"`;
   let isReplaced = false;
 
   return new TransformStream({
@@ -39,7 +27,7 @@ export function createNonceInjectionStream(nonce: string): TransformStream<Uint8
 
         if (text.includes(NONCE_PLACEHOLDER.source)) {
           // Eseguiamo la sostituzione solo sulla prima occorrenza (dovrebbe essere all'inizio del documento)
-          text = text.replaceAll(NONCE_PLACEHOLDER, nonceAttr);
+          text = text.replaceAll(NONCE_PLACEHOLDER, () => nonceAttribute);
           isReplaced = true;
         }
 
@@ -53,22 +41,35 @@ export function createNonceInjectionStream(nonce: string): TransformStream<Uint8
 }
 
 /**
- * Imposta gli header di sicurezza sulla risposta del Worker, inclusi CSP e HPKP.
- * @param headers L'oggetto Headers esistente.
- * @param securityPolicyConfig La configurazione CSP e le sue opzioni.
- * @param additionalHeaders Configurazione per header generici (HSTS, X-Frame-Options, etc.).
- * @param publicKeyPinningConfig Configurazione per l'HPKP (Public Key Pinning).
- * @param nonce Il nonce generato per la CSP (opzionale).
- * @returns L'oggetto Headers aggiornato.
- */
+Inietta il nonce generato nell'HTML del corpo.
+Sostituisce un placeholder noto con il nonce effettivo.
+@param HTML Il corpo HTML restituito dal rendering SSR.
+@param nonce Il nonce Base64 generato.
+@returns Il corpo HTML con il nonce iniettato.
+*/
+export function injectNonceIntoHtml(html: string, nonce: string): string {
+  const nonceAttribute = `nonce="${nonce}"`;
+
+  return html.replaceAll(NONCE_PLACEHOLDER, () => nonceAttribute);
+}
+
+/**
+Imposta gli header di sicurezza sulla risposta del Worker, inclusi CSP e HPKP.
+@param headers L'oggetto Headers esistente.
+@param securityPolicyConfig La configurazione CSP e le sue opzioni.
+@param additionalHeaders Configurazione per header generici (HSTS, X-Frame-Options, etc.).
+@param publicKeyPinningConfig Configurazione per l'HPKP (Public Key Pinning).
+@param nonce Il nonce generato per la CSP (opzionale).
+@returns L'oggetto Headers aggiornato.
+*/
 export function setSecurityHeaders(
   headers: Headers,
-  securityPolicyConfig: SecurityPolicyConfig,
+  securityPolicyConfig: SecurityPolicyConfig | undefined,
   additionalHeaders: AdditionalHeaders | undefined,
   nonce?: string,
 ): Headers {
   // 1. CONFIGURAZIONE CSP (Content Security Policy)
-  if (securityPolicyConfig.cspConfig) {
+  if (securityPolicyConfig?.cspConfig) {
     const cspHeaderValue = buildCspHeader(securityPolicyConfig.cspConfig, nonce);
     headers.set('Content-Security-Policy', cspHeaderValue);
   }

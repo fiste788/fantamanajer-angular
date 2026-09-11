@@ -1,4 +1,5 @@
-import { RenderMode, ServerRoute } from '@angular/ssr';
+import type { ServerRoute } from '@angular/ssr';
+import { RenderMode } from '@angular/ssr';
 
 export default [
   {
@@ -9,4 +10,4 @@ export default [
     path: '**',
     renderMode: RenderMode.Server,
   },
-] satisfies Array<ServerRoute>;
+] satisfies ServerRoute[];

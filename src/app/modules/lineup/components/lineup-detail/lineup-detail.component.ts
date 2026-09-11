@@ -1,20 +1,14 @@
-import { KeyValue } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  booleanAttribute,
-  input,
-  numberAttribute,
-  inject,
-} from '@angular/core';
-import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
+import type { KeyValue } from '@angular/common';
+import { booleanAttribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input, numberAttribute } from '@angular/core';
+import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+
 import { finalize, firstValueFrom, map } from 'rxjs';
 
+import { ENVIRONMENT } from '@env';
+
+import type { EmptyLineup, Role } from '@data/interfaces';
 import { LineupService as LineupHttpService } from '@data/services';
-import { EmptyLineup, Role } from '@data/types';
-import { environment } from '@env';
 import { MemberSelectionComponent } from '@modules/member/components/member-selection/member-selection.component';
 
 import { LineupOptionsComponent } from '../lineup-options/lineup-options.component';
@@ -22,45 +16,32 @@ import { LineupService } from '../lineup.service';
 import { ModuleAreaComponent } from '../module-area/module-area.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-lineup-detail',
+  imports: [FormsModule, LineupOptionsComponent, MatCardModule, MemberSelectionComponent, ModuleAreaComponent],
   templateUrl: './lineup-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  imports: [
-    LineupOptionsComponent,
-    FormsModule,
-    ModuleAreaComponent,
-    MatCardModule,
-    MemberSelectionComponent,
-  ],
 })
 export class LineupDetailComponent {
-  readonly #lineupHttpService = inject(LineupHttpService);
-  readonly #cd = inject(ChangeDetectorRef);
 
-  public lineup = input<EmptyLineup | undefined, EmptyLineup | undefined>(undefined, {
+  readonly #cd = inject(ChangeDetectorRef);
+  readonly #lineupHttpService = inject(LineupHttpService);
+  protected readonly lineupService = inject(LineupService);
+
+  public readonly benchs = input(ENVIRONMENT.benchwarmersCount, { transform: numberAttribute });
+  public readonly captain = input(true, { transform: booleanAttribute });
+  public readonly disabled = input(false, { transform: booleanAttribute });
+  public readonly jolly = input(true, { transform: booleanAttribute });
+  public readonly lineup = input<EmptyLineup | undefined, EmptyLineup | undefined>(undefined, {
     transform: (lineup?: EmptyLineup) => this.loadLineup(lineup),
   });
-  public disabled = input(false, { transform: booleanAttribute });
-  public benchs = input(environment.benchwarmersCount, { transform: numberAttribute });
-  public captain = input(true, { transform: booleanAttribute });
-  public jolly = input(true, { transform: booleanAttribute });
-
-  protected readonly lineupService = inject(LineupService);
 
   public getLineup(): EmptyLineup {
     return this.lineupService.getLineup();
   }
 
-  protected loadLineup(lineup?: EmptyLineup): EmptyLineup | undefined {
-    if (lineup?.team.members?.length) {
-      this.lineupService.loadLineup(lineup, this.benchs());
-      if (!this.disabled()) {
-        void this.loadLikely(lineup);
-      }
-    }
-
-    return lineup;
+  protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
+    return Math.max(a.key, b.key);
   }
 
   protected async loadLikely(lineup: EmptyLineup): Promise<void> {
@@ -80,7 +61,15 @@ export class LineupDetailComponent {
     );
   }
 
-  protected descOrder(a: KeyValue<number, Role>, b: KeyValue<number, Role>): number {
-    return Math.max(a.key, b.key);
+  protected loadLineup(lineup?: EmptyLineup): EmptyLineup | undefined {
+    if (lineup?.team.members?.length) {
+      this.lineupService.loadLineup(lineup, this.benchs());
+      if (!this.disabled()) {
+        void this.loadLikely(lineup);
+      }
+    }
+
+    return lineup;
   }
+
 }

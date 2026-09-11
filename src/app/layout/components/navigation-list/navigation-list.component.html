@@ -8,14 +8,14 @@
     [attr.direction]="_mode === 'lite' ? 'right' : 'down'"
     [disableRipple]="_navigationMode !== 'drawer' && !_openDrawer"
   >
-    @for (item of _items; track item.title_short ?? item.title; let i = $index) {
+    @for (item of _items; track item.title_short ?? item.title) {
       @if (item.divider) {
-        <mat-divider [style.--index]="i" />
+        <mat-divider [style.--index]="$index" />
       }
       @if (item.header) {
         <h3
           mat-subheader
-          [style.--index]="i"
+          [style.--index]="$index"
         >
           {{ item.header }}
         </h3>
@@ -28,7 +28,7 @@
         [activated]="rla.isActive"
         [routerLink]="item.url"
         [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-        [style.--index]="i"
+        [style.--index]="$index"
       >
         <mat-icon
           matListItemIcon

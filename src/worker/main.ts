@@ -1,4 +1,4 @@
-import { bootstrapWorker, workerConfig } from './app';
+import { bootstrapWorker, WORKER_CONFIG } from './app';
 
 // proprio come 'bootstrapApplication' in Angular.
-export default bootstrapWorker(workerConfig);
+export default bootstrapWorker(WORKER_CONFIG);

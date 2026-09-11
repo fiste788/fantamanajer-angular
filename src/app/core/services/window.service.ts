@@ -1,38 +1,35 @@
 import { isPlatformBrowser } from '@angular/common';
-import {
-  ClassProvider,
-  FactoryProvider,
-  Injectable,
-  InjectionToken,
-  PLATFORM_ID,
-} from '@angular/core';
+import type { ClassProvider, FactoryProvider } from '@angular/core';
+import { InjectionToken, PLATFORM_ID, Service } from '@angular/core';
 
-import { WindowRef } from './native-window.service';
+import { WindowReference } from './native-window.service';
 
-@Injectable({ providedIn: 'root' })
-export class BrowserWindowRef extends WindowRef {
-  override get nativeWindow(): Window | object {
+@Service()
+export class BrowserWindowReference extends WindowReference {
+
+  public override get nativeWindow(): object | Window {
     return globalThis;
   }
+
 }
 
 export const WINDOW = new InjectionToken('WindowToken');
 const browserWindowProvider: ClassProvider = {
-  provide: WindowRef,
-  useClass: BrowserWindowRef,
+  provide: WindowReference,
+  useClass: BrowserWindowReference,
 };
 
-const windowFactory = (browserWindowRef: BrowserWindowRef, platformId: object): Window | object => {
+const windowFactory = (browserWindowReference: BrowserWindowReference, platformId: object): object | Window => {
   if (isPlatformBrowser(platformId)) {
-    return browserWindowRef.nativeWindow;
+    return browserWindowReference.nativeWindow;
   }
 
   return {};
 };
 
 const windowProvider: FactoryProvider = {
+  deps: [WindowReference, PLATFORM_ID],
   provide: WINDOW,
-  deps: [WindowRef, PLATFORM_ID],
   useFactory: windowFactory,
 };
 

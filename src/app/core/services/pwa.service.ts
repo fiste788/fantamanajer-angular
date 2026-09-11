@@ -1,45 +1,29 @@
 import { isPlatformBrowser } from '@angular/common';
-import {
-  ApplicationRef,
-  Injectable,
-  PLATFORM_ID,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import type { Signal } from '@angular/core';
+import { ApplicationRef, inject, linkedSignal, PLATFORM_ID, Service, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SwUpdate } from '@angular/service-worker';
-import {
-  Observable,
-  Subscription,
-  timer,
-  fromEvent,
-  filter,
-  switchMap,
-  first,
-  tap,
-  firstValueFrom,
-} from 'rxjs';
 
-import { toWritableSignal } from '@app/functions';
+import { filter, first, firstValueFrom, fromEvent, switchMap, tap, timer } from 'rxjs';
+import type { Observable, Subscription } from 'rxjs';
 
 import { SnackbarNotificationService } from './snackbar-notification.service';
 import { WINDOW } from './window.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class PwaService {
-  readonly #window = inject<Window>(WINDOW);
-  readonly #platformId = inject(PLATFORM_ID);
-  readonly #notificationService = inject(SnackbarNotificationService);
-  readonly #swUpdate = inject(SwUpdate);
-  readonly #appRef = inject(ApplicationRef);
 
-  public readonly beforeInstallSignal = this.#getBeforeInstall();
+  readonly #appRef = inject(ApplicationRef);
+  readonly #notificationService = inject(SnackbarNotificationService);
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #swUpdate = inject(SwUpdate);
+  readonly #window = inject<Window>(WINDOW);
+
+  public readonly beforeInstallSignal = linkedSignal(this.#getBeforeInstall());
 
   public init(): Observable<void> {
     return this.#checkForUpdates().pipe(
-      filter((u) => u),
+      filter(u => u),
       switchMap(async () => this.#promptUpdate()),
     );
   }
@@ -48,23 +32,10 @@ export class PwaService {
     return this.init().subscribe();
   }
 
-  #getBeforeInstall(): WritableSignal<BeforeInstallPromptEvent | undefined> {
-    return isPlatformBrowser(this.#platformId)
-      ? toWritableSignal(
-          fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
-            tap((e) => {
-              e.preventDefault();
-            }),
-          ),
-          { initialValue: undefined },
-        )
-      : signal<BeforeInstallPromptEvent | undefined>(undefined);
-  }
-
   #checkForUpdates(): Observable<boolean> {
     const appIsStable$ = this.#appRef.isStable.pipe(
-      filter((isStable) => isStable),
-      first((isStable) => isStable),
+      filter(isStable => isStable),
+      first(isStable => isStable),
     );
     const everySixHours$ = timer(0, 6 * 60 * 60 * 1000);
 
@@ -75,21 +46,29 @@ export class PwaService {
     );
   }
 
-  async #promptUpdate(): Promise<void> {
-    const notification = await this.#notificationService.open(
-      "Nuova versione dell'app disponibile",
-      'Aggiorna',
-      {
-        duration: 30_000,
-      },
-    );
+  #getBeforeInstall(): Signal<BeforeInstallPromptEvent | undefined> {
+    return isPlatformBrowser(this.#platformId)
+      ? toSignal(
+        fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
+          tap((event) => {
+            event.preventDefault();
+          }),
+        ),
+        { initialValue: undefined },
+      )
+      : signal<BeforeInstallPromptEvent | undefined>(undefined);
+  }
 
-    const activateUpdate = await firstValueFrom(
-      notification.onAction().pipe(switchMap(async () => this.#swUpdate.activateUpdate())),
-      { defaultValue: false },
-    );
-    if (activateUpdate) {
+  async #promptUpdate(): Promise<void> {
+    const notification = await this.#notificationService.open("Nuova versione dell'app disponibile", 'Aggiorna', {
+      duration: 30_000,
+    });
+
+    const isActivateUpdate = await firstValueFrom(notification.onAction().pipe(switchMap(async () => this.#swUpdate.activateUpdate())), { defaultValue: false });
+
+    if (isActivateUpdate) {
       this.#window.location.reload();
     }
   }
+
 }

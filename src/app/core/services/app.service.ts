@@ -1,27 +1,29 @@
-import { Injectable, computed, inject } from '@angular/core'; // Importa Signal
-import { Subscription } from 'rxjs';
+import { computed, inject, Service } from '@angular/core'; // Importa Signal
 
-import { Team } from '@data/types'; // Importa Matchday
+import type { Subscription } from 'rxjs';
+
+import type { Team } from '@data/interfaces'; // Importa Matchday
 
 import { MatchdayStoreService } from './matchday-store.service';
 import { TeamStoreService } from './team-store.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 // Modifica suggerita per la nomenclatura (alternativa)
 // export class CurrentContextService {
 // export class AppStateService {
-export class ApplicationService {
-  // Mantenuto ApplicationService per ora
+export class AppService {
 
-  readonly #teamStore = inject(TeamStoreService);
+  // Mantenuto AppService per ora
+
   readonly #matchdayStore = inject(MatchdayStoreService);
+  readonly #teamStore = inject(TeamStoreService);
 
   // Utilizzo di nomi leggermente più espliciti per i signals esposti (opzionale)
   public readonly currentMatchday = this.#matchdayStore.currentMatchday; // Modifica suggerita per la nomenclatura
   public readonly currentTeam = this.#teamStore.currentTeam; // Modifica suggerita per la nomenclatura
-
+  public readonly isCurrentSeason = computed(
+    () => this.#matchdayStore.isCurrentSeason(this.currentTeam()), // Utilizzo del nome del signal modificato
+  );
   // Modifica suggerita per la nomenclatura e aggiunta commento
   public readonly requireCurrentTeam = computed(() => {
     // Modifica suggerita per la nomenclatura
@@ -36,23 +38,16 @@ export class ApplicationService {
 
     return team!; // Utilizzo dell'operatore di non-null assertion
   });
+  public readonly seasonEnded = computed(() => this.#matchdayStore.isSeasonEnded(this.currentTeam())); // Utilizzo del nome del signal modificato
+  public readonly seasonStarted = computed(() => this.#matchdayStore.isSeasonStarted(this.currentTeam())); // Utilizzo del nome del signal modificato
 
-  public readonly isCurrentSeason = computed(
-    () => this.#matchdayStore.isCurrentSeason(this.currentTeam()), // Utilizzo del nome del signal modificato
-  );
-  public readonly seasonEnded = computed(() =>
-    this.#matchdayStore.isSeasonEnded(this.currentTeam()),
-  ); // Utilizzo del nome del signal modificato
-  public readonly seasonStarted = computed(() =>
-    this.#matchdayStore.isSeasonStarted(this.currentTeam()),
-  ); // Utilizzo del nome del signal modificato
+  public async changeTeam(team: Team): Promise<Team | undefined> {
+    return this.#teamStore.changeTeam(team);
+  }
 
   // Modifica suggerita per la nomenclatura (se appropriato al contesto)
   public connectMatchdayStream(): Subscription {
     return this.#matchdayStore.startPeriodicRefresh();
   }
 
-  public async changeTeam(team: Team): Promise<Team | undefined> {
-    return this.#teamStore.changeTeam(team);
-  }
 }

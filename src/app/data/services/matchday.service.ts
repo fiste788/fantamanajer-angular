@@ -1,17 +1,13 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  httpResource,
-  HttpResourceRef,
-  HttpContext,
-} from '@angular/common/http'; // Importare HttpContext
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { HttpContext, HttpResourceRef } from '@angular/common/http';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http'; // Importare HttpContext
+import { inject, Service } from '@angular/core';
+
+import type { Observable } from 'rxjs';
 
 import { skipErrorHandling } from '@app/errors/http-error.interceptor';
 import { skipAuthInterceptor, skipDefaultHeaders } from '@app/interceptors';
 
-import { Matchday } from '../types';
+import type { Matchday } from '../interfaces';
 
 const MATCHDAYS_URL_SEGMENT = 'matchdays'; // Modifica suggerita per la nomenclatura
 
@@ -21,15 +17,22 @@ const routes = {
 
 // Spostamento della classe HackyHttpHeaders fuori dal metodo (Refactoring suggerito)
 class HackyHttpHeaders extends HttpHeaders {
+
   public override has(name: string): boolean {
     // Pretend the `Accept` header is set, so `HttpClient` will not try to set the default value.
     return name.toLowerCase() === 'accept' ? true : super.has(name);
   }
+
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MatchdayService {
+
   readonly #http = inject(HttpClient);
+
+  public getCurrentMatchday(): Observable<Matchday> {
+    return this.#http.get<Matchday>(routes.current, this.#getRequestOptions()); // Utilizzo della funzione refactorizzata
+  }
 
   public getCurrentMatchdayResource(): HttpResourceRef<Matchday | undefined> {
     return httpResource(
@@ -37,12 +40,8 @@ export class MatchdayService {
         url: routes.current,
         ...this.#getRequestOptions(), // Utilizzo della funzione refactorizzata
       }),
-      { equal: (a, b) => a?.id === b?.id },
+      { equal: (a, b) => a.id === b.id },
     );
-  }
-
-  public getCurrentMatchday(): Observable<Matchday> {
-    return this.#http.get<Matchday>(routes.current, this.#getRequestOptions()); // Utilizzo della funzione refactorizzata
   }
 
   #getHackyHttpHeaders(): HackyHttpHeaders {
@@ -54,14 +53,15 @@ export class MatchdayService {
 
   // Funzione privata perMigliore il contesto e gli headers HTTP comuni (Refactoring suggerito)
   #getRequestOptions(): {
-    headers: HttpHeaders;
     context: HttpContext;
+    headers: HttpHeaders;
     withCredentials: false;
   } {
     return {
-      headers: this.#getHackyHttpHeaders(),
       context: skipErrorHandling(skipAuthInterceptor(skipDefaultHeaders())),
+      headers: this.#getHackyHttpHeaders(),
       withCredentials: false,
     };
   }
+
 }

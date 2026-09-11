@@ -1,31 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { AtLeast } from '@app/types';
+import { map } from 'rxjs';
+import type { Observable } from 'rxjs';
 
-import { Selection } from '../types';
+import type { AtLeast } from '@app/interfaces';
+
+import type { Selection } from '../interfaces';
 
 const SELECTIONS_URL_SEGMENT = 'selections'; // Modifica suggerita per la nomenclatura
 
 const routes = {
-  teamSelections: (teamId: number) => `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
-  teamSelectionById: (teamId: number, selectionId: number) =>
-    `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}/${selectionId}`, // Aggiunta rotta specifica per l'aggiornamento
+  teamSelectionById: (teamId: number, selectionId: number) => `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}/${selectionId}`,
+  teamSelections: (teamId: number) => `/teams/${teamId}/${SELECTIONS_URL_SEGMENT}`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class SelectionService {
+
   readonly #http = inject(HttpClient);
 
-  public getTeamSelections(teamId: number): Observable<Array<Selection>> {
+  public createSelection(selection: AtLeast<Selection, 'team_id'>): Observable<AtLeast<Selection, 'id'>> {
     // Modifica suggerita per la nomenclatura
-    return this.#http.get<Array<Selection>>(routes.teamSelections(teamId)); // Utilizzo del nome della rotta modificato
+    return this.#http.post<Selection>(routes.teamSelections(selection.team_id), selection); // Utilizzo del nome della rotta modificato (con team_id da rinominare)
   }
 
-  public getLastOrNewTeamSelection(teamId: number): Observable<Selection> {
+  public getLastOrNewTeamSelection(teamId: number): Observable<AtLeast<Selection, 'team_id'>> {
     // Modifica suggerita per la nomenclatura
-    return this.getTeamSelections(teamId).pipe(map((a) => a.at(-1) ?? ({} as Selection))); // Utilizzo del nome del metodo modificato
+    return this.getTeamSelections(teamId).pipe(map(a => a.at(-1) ?? createEmptySelection(teamId))); // Utilizzo del nome del metodo modificato
+  }
+
+  public getTeamSelections(teamId: number): Observable<Selection[]> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Selection[]>(routes.teamSelections(teamId)); // Utilizzo del nome della rotta modificato
   }
 
   public updateSelection(selection: Selection): Observable<Pick<Selection, 'id'>> {
@@ -36,10 +43,10 @@ export class SelectionService {
     );
   }
 
-  public createSelection(
-    selection: AtLeast<Selection, 'team_id'>,
-  ): Observable<AtLeast<Selection, 'id'>> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.post<Selection>(routes.teamSelections(selection.team_id), selection); // Utilizzo del nome della rotta modificato (con team_id da rinominare)
-  }
+}
+
+function createEmptySelection(teamId: number): AtLeast<Selection, 'team_id'> {
+  return {
+    team_id: teamId,
+  };
 }

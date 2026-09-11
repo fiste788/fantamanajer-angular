@@ -1,5 +1,5 @@
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { Component, input, inject, linkedSignal } from '@angular/core';
+import { Component, inject, input, linkedSignal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,43 +13,49 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { Observable, switchMap, distinctUntilChanged } from 'rxjs';
+
+import { distinctUntilChanged, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import { filterNil } from '@app/functions';
-import { ApplicationService, ScrollService } from '@app/services';
+import { AppService, ScrollService } from '@app/services';
+import type { Member, Player, Rating } from '@data/interfaces';
 import { RatingService } from '@data/services';
-import { Member, Player, Rating } from '@data/types';
 import { ParallaxHeaderComponent } from '@shared/components/parallax-header';
 
 @Component({
-  styleUrl: './player.page.scss',
-  templateUrl: './player.page.html',
   imports: [
-    ParallaxHeaderComponent,
-    MatButtonModule,
-    RouterLink,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatOptionModule,
-    MatTableModule,
-    MatSortModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
     AsyncPipe,
-    MatCardModule,
     DecimalPipe,
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
+    ParallaxHeaderComponent,
+    RouterLink,
   ],
+  templateUrl: './player.page.html',
+  styleUrl: './player.page.scss',
 })
 export class PlayerPage {
+
   readonly #ratingService = inject(RatingService);
   readonly #scrollService = inject(ScrollService);
+  protected readonly app = inject(AppService);
 
-  protected readonly app = inject(ApplicationService);
-  protected readonly player = input.required<Player>();
-  protected selectedMember = linkedSignal(() => this.player().members[0]!);
+  public readonly player = input.required<Player>();
+
+  protected readonly selectedMember = linkedSignal(() => this.player().members[0]!);
+
   protected ratings$ = this.getRatings(toObservable(this.selectedMember));
+
   protected readonly displayedColumns = [
     'matchday',
     'rating',
@@ -65,12 +71,16 @@ export class PlayerPage {
     'quotation',
   ];
 
-  protected getRatings(selectedMember$: Observable<Member>): Observable<Array<Rating>> {
+  protected getRatings(selectedMember$: Observable<Member>): Observable<Rating[]> {
     return selectedMember$.pipe(
       distinctUntilChanged(),
       filterNil(),
-      switchMap((member) => this.#ratingService.getRatings(member.id)),
+      switchMap(member => this.#ratingService.getRatings(member.id)),
     );
+  }
+
+  protected scrollTo(height: number): void {
+    this.#scrollService.scrollTo(0, height - 300);
   }
 
   protected track(_: number, item: Member): number {
@@ -81,7 +91,4 @@ export class PlayerPage {
     return item.id;
   }
 
-  protected scrollTo(height: number): void {
-    this.#scrollService.scrollTo(0, height - 300);
-  }
 }

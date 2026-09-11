@@ -5,7 +5,7 @@
   <app-content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    [viewBox]="'0 0 288 ' + (offsetProfile1 + itemHeight1 * profileItems)"
+    [viewBox]="`0 0 288 ${offsetProfile1 + itemHeight1 * profileItems}`"
   >
     @if (loggedIn) {
       <svg:rect
@@ -25,24 +25,24 @@
         y="248"
       />
     }
-    @for (it of mainItems | range; track it; let idx = $index) {
+    @for (it of mainItems | range; track it) {
       <svg:rect
         height="52"
         rx="26"
         ry="26"
         width="264"
         x="12"
-        [attr.y]="offset1 + itemHeight1 * idx"
+        [attr.y]="offset1 + itemHeight1 * $index"
       />
     }
-    @for (it of profileItems | range; track it; let idx = $index) {
+    @for (it of profileItems | range; track it) {
       <svg:rect
         height="52"
         rx="26"
         ry="26"
         width="264"
         x="12"
-        [attr.y]="offsetProfile1 + itemHeight1 * idx"
+        [attr.y]="offsetProfile1 + itemHeight1 * $index"
       />
     }
   </app-content-loader>
@@ -54,7 +54,7 @@
   <app-content-loader
     backgroundColor="#e7bdb9"
     foregroundColor="#ffdad7"
-    [viewBox]="'0 0 80 ' + (offsetProfile2 + itemHeight2 * profileItems)"
+    [viewBox]="`0 0 80 ${offsetProfile2 + itemHeight2 * profileItems}`"
   >
     @if (loggedIn) {
       <svg:rect
@@ -66,24 +66,24 @@
         y="54"
       />
     }
-    @for (it of mainItems | range; track it; let idx = $index) {
+    @for (it of mainItems | range; track it) {
       <svg:rect
         height="32"
         rx="16"
         ry="16"
         width="56"
         x="12"
-        [attr.y]="offset2 + itemHeight2 * idx"
+        [attr.y]="offset2 + itemHeight2 * $index"
       />
     }
-    @for (it of profileItems | range; track it; let idx = $index) {
+    @for (it of profileItems | range; track it) {
       <svg:rect
         height="32"
         rx="16"
         ry="16"
         width="56"
         x="12"
-        [attr.y]="offsetProfile2 + itemHeight2 * idx"
+        [attr.y]="offsetProfile2 + itemHeight2 * $index"
       />
     }
   </app-content-loader>

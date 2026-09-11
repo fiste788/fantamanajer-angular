@@ -1,18 +1,15 @@
-import { NotificationSubscriptionsKeys } from '@data/types';
+import type { NotificationSubscriptionsKeys } from '@data/interfaces';
 
-import { Notification } from './notification';
+import type { Notification } from '../interfaces';
 
-export const notificationSubscriptions: Record<
-  NotificationSubscriptionsKeys,
-  Array<Notification>
-> = {
+export const NOTIFICATION_SUBSCRIPTIONS: Record<NotificationSubscriptionsKeys, Notification[]> = {
   email: [
-    { name: 'score', label: 'Punteggio giornata' },
-    { name: 'lost_member', label: 'Giocatore rubato' },
-    { name: 'lineups', label: 'Formazioni' },
+    { label: 'Punteggio giornata', name: 'score' },
+    { label: 'Giocatore rubato', name: 'lost_member' },
+    { label: 'Formazioni', name: 'lineups' },
   ],
   push: [
-    { name: 'score', label: 'Punteggio giornata' },
-    { name: 'lost_member', label: 'Giocatore rubato' },
+    { label: 'Punteggio giornata', name: 'score' },
+    { label: 'Giocatore rubato', name: 'lost_member' },
   ],
 };

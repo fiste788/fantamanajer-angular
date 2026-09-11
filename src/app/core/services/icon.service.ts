@@ -1,14 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { inject, PLATFORM_ID, Service } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class IconService {
-  readonly #platformId = inject(PLATFORM_ID);
+
   readonly #iconRegistry = inject(MatIconRegistry);
+  readonly #platformId = inject(PLATFORM_ID);
   readonly #sanitizer = inject(DomSanitizer);
 
   public init(): void {
@@ -24,4 +23,5 @@ export class IconService {
       );
     }
   }
+
 }

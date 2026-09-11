@@ -1,16 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  viewChild,
-  inject,
-  afterNextRender,
   DOCUMENT,
+  ElementRef,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
+
 import { delay } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
@@ -24,45 +25,45 @@ import { NavigationSkeletonComponent } from '../navigation-skeleton/navigation-s
 import { TopAppBarComponent } from '../top-app-bar/top-app-bar.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-main',
-  styleUrl: './main.component.scss',
-  templateUrl: './main.component.html',
   imports: [
-    MatSidenavModule,
-    TopAppBarComponent,
-    RouterOutlet,
-    NavigationBarComponent,
     AsyncPipe,
-    NavigationSkeletonComponent,
-    NavigationDrawerComponent,
     MainTransitionDirective,
+    MatSidenavModule,
+    NavigationBarComponent,
+    NavigationDrawerComponent,
+    NavigationSkeletonComponent,
+    RouterOutlet,
+    TopAppBarComponent,
   ],
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class]': '"navigation-mode-" + navigationMode()',
+    '[class.fullscreen]': 'fullscreen()',
     '[class.logged-in]': 'isLoggedIn()',
     '[class.stable]': 'isStable()',
-    '[class.fullscreen]': 'fullscreen()',
+    '[class]': '"navigation-mode-" + navigationMode()',
   },
 })
 export class MainComponent {
+
+  readonly #document = inject<Document>(DOCUMENT);
   readonly #layoutService = inject(LayoutService);
   readonly #scrollService = inject(ScrollService);
-  readonly #document = inject<Document>(DOCUMENT);
+  protected readonly isLoggedIn = inject(AuthenticationService).isLoggedIn;
 
-  protected topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
+  protected readonly fullscreen = this.#layoutService.fullscreen;
+  protected readonly isStable = this.#layoutService.stable; // Renamed from stable
+  protected readonly navigationMode = this.#layoutService.navigationMode;
+  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
+  protected readonly openDrawer = this.#layoutService.openDrawer;
+  protected readonly topAppBarRef = viewChild.required<TopAppBarComponent, ElementRef<HTMLElement>>(
     TopAppBarComponent,
     {
       read: ElementRef,
     },
   );
-
-  protected readonly isStable = this.#layoutService.stable; // Renamed from stable
-  protected readonly navigationMode = this.#layoutService.navigationMode;
-  protected readonly oldNavigationMode$ = toObservable(this.navigationMode).pipe(delay(100));
-  protected readonly openDrawer = this.#layoutService.openDrawer;
-  protected readonly fullscreen = this.#layoutService.fullscreen;
-  protected readonly isLoggedIn = inject(AuthenticationService).isLoggedIn;
 
   constructor() {
     afterNextRender(() => {
@@ -77,4 +78,5 @@ export class MainComponent {
     const foreground = style.getPropertyValue('--mat-sys-secondary-fixed');
     this.#layoutService.skeletonColors.set({ background, foreground });
   }
+
 }

@@ -18,7 +18,7 @@
         [class.md:flex-wrap]="wrap()"
       >
         @for (i of area.toIndex | range: area.fromIndex; track i) {
-          <ng-container [ngModelGroup]="i + ''">
+          <ng-container [ngModelGroup]="`${i}`">
             @if (_dispositions[i]; as disp) {
               <app-member-selection
                 class="regular flex-md-column flex flex-row items-center justify-start"

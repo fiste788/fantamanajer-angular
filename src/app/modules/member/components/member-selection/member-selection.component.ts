@@ -1,31 +1,21 @@
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
-import {
-  Component,
-  booleanAttribute,
-  input,
-  numberAttribute,
-  output,
-  viewChild,
-  linkedSignal,
-} from '@angular/core';
-import {
-  ControlContainer,
-  ControlValueAccessor,
-  NgModel,
-  NgModelGroup,
-  NG_VALUE_ACCESSOR,
-  FormsModule,
-} from '@angular/forms';
+import { booleanAttribute, Component, input, linkedSignal, numberAttribute, output, viewChild } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
+import { ControlContainer, FormsModule, NG_VALUE_ACCESSOR, NgModel, NgModelGroup } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
-import { Member, MemberOption, Role } from '@data/types';
+import type { Member, MemberOption, Role } from '@data/interfaces';
 import { PlayerImageComponent } from '@shared/components/player-image';
 
 import { MemberIconsComponent } from '../member-icons/member-icons.component';
 
 @Component({
+  selector: 'app-member-selection[member][name]',
+  imports: [DecimalPipe, FormsModule, KeyValuePipe, MatFormFieldModule, MatOptionModule, MatSelectModule, MemberIconsComponent, PlayerImageComponent],
+  templateUrl: './member-selection.component.html',
+  styleUrl: './member-selection.component.scss',
   providers: [
     {
       multi: true,
@@ -33,71 +23,60 @@ import { MemberIconsComponent } from '../member-icons/member-icons.component';
       useExisting: MemberSelectionComponent,
     },
   ],
-  selector: 'app-member-selection[member][name]',
-  styleUrl: './member-selection.component.scss',
-  templateUrl: './member-selection.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgModelGroup }],
   host: {
     class: 'member-selection',
   },
-  imports: [
-    MatFormFieldModule,
-    PlayerImageComponent,
-    MemberIconsComponent,
-    MatSelectModule,
-    FormsModule,
-    MatOptionModule,
-    DecimalPipe,
-    KeyValuePipe,
-  ],
 })
 export class MemberSelectionComponent implements ControlValueAccessor {
-  public memberInput = input<Member>(undefined, { alias: 'member' });
-  public member = linkedSignal(this.memberInput);
-  public name = input.required<string>();
-  public disabled = input(false, { transform: booleanAttribute });
-  public required = input(false, { transform: booleanAttribute });
-  public placeholder = input('');
-  public memberList = input<Array<MemberOption>>([]);
-  public memberMap = input<Map<Role, Array<MemberOption>>>();
-  public size = input(100, { transform: numberAttribute });
-  public width = input(100, { transform: numberAttribute });
-  public height = input(100, { transform: numberAttribute });
-  public captain = input(false, { transform: booleanAttribute });
-  public readonly memberChange = output<Member | undefined>();
 
-  protected ngModelDirective = viewChild.required(NgModel);
+  public readonly captain = input(false, { transform: booleanAttribute });
+  public readonly disabled = input(false, { transform: booleanAttribute });
+  public readonly height = input(100, { transform: numberAttribute });
+  public readonly memberInput = input<Partial<Member>>(undefined, { alias: 'member' });
+  public readonly member = linkedSignal(this.memberInput);
+  public readonly memberChange = output<Partial<Member> | undefined>();
+  public readonly memberList = input<MemberOption[]>([]);
+  public readonly memberMap = input<Map<Role, MemberOption[]>>();
+  public readonly name = input.required<string>();
+  public readonly placeholder = input('');
+  public readonly required = input(false, { transform: booleanAttribute });
+  public readonly size = input(100, { transform: numberAttribute });
+  public readonly width = input(100, { transform: numberAttribute });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onChange = (_: Member | null): void => undefined;
-  public onTouched = (): void => undefined;
+  protected readonly ngModelDirective = viewChild.required(NgModel);
 
-  get value(): Member | undefined {
-    return (this.ngModelDirective().value ?? undefined) as Member | undefined;
+  public get value(): Partial<Member> | undefined {
+    return (this.ngModelDirective().value ?? undefined) as Partial<Member> | undefined;
   }
 
-  set value(value: Member | undefined) {
+  public set value(value: Partial<Member> | undefined) {
     this.ngModelDirective().valueAccessor?.writeValue(value);
   }
 
-  public registerOnChange(fn: (member?: Member) => undefined): void {
-    this.ngModelDirective().valueAccessor?.registerOnChange(fn);
-  }
-
-  public registerOnTouched(fn: () => undefined): void {
-    this.ngModelDirective().valueAccessor?.registerOnTouched(fn);
-  }
-
-  public change(event?: Member): void {
+  public change(event?: Partial<Member>): void {
     this.writeValue(event);
     this.memberChange.emit(event);
   }
 
-  public writeValue(obj?: Member): void {
-    this.ngModelDirective().valueAccessor?.writeValue(obj);
-  }
-
-  public compareFn(t1?: Member, t2?: Member): boolean {
+  public compareFn(t1?: Partial<Member>, t2?: Partial<Member>): boolean {
     return t1?.id === t2?.id;
   }
+
+  public onChange = (_: Partial<Member> | null): void => undefined;
+
+  public onTouched = (): void => undefined;
+
+  public registerOnChange(function_: (member?: Partial<Member>) => undefined): void {
+    this.ngModelDirective().valueAccessor?.registerOnChange(function_);
+  }
+
+  public registerOnTouched(function_: () => undefined): void {
+    this.ngModelDirective().valueAccessor?.registerOnTouched(function_);
+  }
+
+  public writeValue(object?: Partial<Member>): void {
+    this.ngModelDirective().valueAccessor?.writeValue(object);
+  }
+
 }

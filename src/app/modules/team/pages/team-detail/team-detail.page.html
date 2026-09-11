@@ -7,21 +7,21 @@
     contextParam="team_id"
     [backgroundImage]="_team.photo_url ?? undefined"
     [placeholder]="placeholder"
-    [subtitle]="_team.user.name + ' ' + _team.user.surname"
+    [subtitle]="`${_team.user.name} ${_team.user.surname}`"
     [title]="_team.name"
     (imageLoaded)="scrollTo($event)"
   >
-    @if (_team.user.id === (auth.currentUser())?.id && !app.seasonEnded()) {
-    <div parallax-header-right>
-      <button
-        aria-label="Settings"
-        mat-icon-button
-        type="button"
-        (click)="openDialog(_team)"
-      >
-        <mat-icon>settings</mat-icon>
-      </button>
-    </div>
+    @if (_team.user.id === auth.currentUser()?.id && !app.seasonEnded()) {
+      <div parallax-header-right>
+        <button
+          aria-label="Settings"
+          mat-icon-button
+          type="button"
+          (click)="openDialog(_team)"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
     }
   </app-parallax-header>
 </app-primary-tab>

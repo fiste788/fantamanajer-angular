@@ -5,12 +5,14 @@ import { RouterLink } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-breadcrumb',
-  styleUrl: './breadcrumb.component.scss',
-  templateUrl: './breadcrumb.component.html',
   imports: [MatIconModule, RouterLink],
+  templateUrl: './breadcrumb.component.html',
+  styleUrl: './breadcrumb.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbComponent {
+
   protected breadcrumbs = inject(BreadcrumbService).breadcrumbs;
+
 }

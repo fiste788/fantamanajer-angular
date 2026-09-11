@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 
 @Component({
+  imports: [MatCardModule, RouterLink],
   templateUrl: './home.page.html',
-  imports: [RouterLink, MatCardModule],
 })
 export class HomePage {}

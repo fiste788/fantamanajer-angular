@@ -1,11 +1,14 @@
-import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http'; // Importa HttpContext
-import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import type { HttpResourceRef } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http'; // Importa HttpContext
+import { inject, Service } from '@angular/core';
 
-import { AuthenticationDto } from '@app/authentication';
+import { map } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import type { Authentication } from '@app/authentication/interfaces';
 import { skipErrorHandling } from '@app/errors/http-error.interceptor';
 
-import { User } from '../types';
+import type { User } from '../interfaces';
 
 const USERS_URL_SEGMENT = 'users'; // Modifica suggerita per la nomenclatura
 
@@ -16,8 +19,9 @@ const routes = {
   userById: (id: number) => `/${USERS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura e consolidamento con 'detail'
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class UserService {
+
   readonly #http = inject(HttpClient);
 
   public findUserResource(id: () => number | undefined): HttpResourceRef<User | undefined> {
@@ -29,14 +33,24 @@ export class UserService {
     });
   }
 
-  public login(email: string, password: string, rememberMe = false): Observable<AuthenticationDto> {
+  public getCurrentUser(): Observable<User> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<User>(routes.currentUser); // Utilizzo del nome della rotta modificato
+  }
+
+  public getUserById(id: number): Observable<User> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<User>(routes.userById(id)); // Utilizzo del nome della rotta modificato
+  }
+
+  public login(email: string, password: string, shouldRememberMe = false): Observable<Authentication> {
     const body = {
       email,
       password,
-      rememberMe,
+      rememberMe: shouldRememberMe,
     };
 
-    return this.#http.post<AuthenticationDto>(routes.login, body);
+    return this.#http.post<Authentication>(routes.login, body);
   }
 
   public logout(): Observable<Record<string, never>> {
@@ -55,16 +69,6 @@ export class UserService {
     return this.#http.put<User>(routes.userById(user.id), userForUpdate).pipe(map(() => user)); // Utilizzo del nome della rotta e dei dati preparati
   }
 
-  public getCurrentUser(): Observable<User> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.get<User>(routes.currentUser); // Utilizzo del nome della rotta modificato
-  }
-
-  public getUserById(id: number): Observable<User> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.get<User>(routes.userById(id)); // Utilizzo del nome della rotta modificato
-  }
-
   // Funzione privata per "pulire" l'oggetto utente per l'API (Refactoring suggerito)
   #prepareUserForUpdate(user: User): Partial<User> {
     const userForUpdate: Partial<User> = { ...user };
@@ -74,4 +78,5 @@ export class UserService {
 
     return userForUpdate;
   }
+
 }

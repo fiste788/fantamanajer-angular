@@ -6,28 +6,31 @@ import { MatRipple } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 
-import { Club } from '@data/types';
+import type { Club } from '@data/interfaces';
 import { DetailToListTransitionDirective } from '@shared/directives';
 import { SlugPipe, SrcsetPipe } from '@shared/pipes';
 
 @Component({
-  styleUrl: './club-list.page.scss',
-  templateUrl: './club-list.page.html',
   imports: [
-    MatCardModule,
-    MatButtonModule,
-    RouterLink,
-    MatProgressSpinnerModule,
-    SrcsetPipe,
-    NgOptimizedImage,
-    MatRipple,
-    SlugPipe,
     DetailToListTransitionDirective,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatRipple,
+    NgOptimizedImage,
+    RouterLink,
+    SlugPipe,
+    SrcsetPipe,
   ],
+  templateUrl: './club-list.page.html',
+  styleUrl: './club-list.page.scss',
 })
 export class ClubListPage {
-  protected clubs = input.required<Array<Club>>();
-  protected imgRef = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
+
+  public readonly clubs = input.required<Club[]>();
+
+  protected readonly imgRef = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
     read: ElementRef,
   });
+
 }

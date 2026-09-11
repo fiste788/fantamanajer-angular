@@ -1,6 +1,6 @@
-import { Pagination } from './pagination';
+import type { Pagination } from './pagination.interface';
 
 export interface PagedResponse<T> {
-  pagination: Pagination;
   data: T;
+  pagination: Pagination;
 }

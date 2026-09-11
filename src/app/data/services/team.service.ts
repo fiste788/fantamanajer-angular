@@ -1,26 +1,34 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { AtLeast, RecursivePartial } from '@app/types';
+import { map } from 'rxjs';
+import type { Observable } from 'rxjs';
 
-import { Team } from '../types';
+import type { AtLeast, RecursivePartial } from '@app/interfaces';
+
+import type { Team } from '../interfaces';
 
 const TEAMS_URL_SEGMENT = 'teams'; // Modifica suggerita per la nomenclatura
 
 const routes = {
-  teamsCollection: `/${TEAMS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
-  teamById: (id: number) => `/${TEAMS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura
   championshipTeams: (id: number) => `/championships/${id}/${TEAMS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
+  teamById: (id: number) => `/${TEAMS_URL_SEGMENT}/${id}`, // Modifica suggerita per la nomenclatura
+  teamsCollection: `/${TEAMS_URL_SEGMENT}`, // Modifica suggerita per la nomenclatura
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TeamService {
+
   readonly #http = inject(HttpClient);
 
-  public getChampionshipTeams(championshipId: number): Observable<Array<Team>> {
+  public createTeam(team: RecursivePartial<Team>): Observable<Team> {
     // Modifica suggerita per la nomenclatura
-    return this.#http.get<Array<Team>>(routes.championshipTeams(championshipId)); // Utilizzo del nome della rotta modificato
+    return this.#http.post<Team>(routes.teamsCollection, team); // Utilizzo del nome della rotta modificato
+  }
+
+  public getChampionshipTeams(championshipId: number): Observable<Team[]> {
+    // Modifica suggerita per la nomenclatura
+    return this.#http.get<Team[]>(routes.championshipTeams(championshipId)); // Utilizzo del nome della rotta modificato
   }
 
   public getTeamById(id: number): Observable<Team> {
@@ -32,12 +40,13 @@ export class TeamService {
     // Modifica suggerita per la nomenclatura
     return this.#http.put(routes.teamById(team.id), team).pipe(
       // Utilizzo del nome della rotta modificato
-      map(() => {
-        // Commento per spiegare perché viene riemesso l'oggetto locale (Refactoring suggerito)
-        // L'API restituisce solo l'ID, ma riemettiamo l'oggetto team locale
-        // per permettere al subscriber di lavorare con l'oggetto completo se necessario.
-        return { id: team.id }; // Ritorna un oggetto con solo l'ID come da tipo restituito
-      }),
+      map(
+        () =>
+          // Commento per spiegare perché viene riemesso l'oggetto locale (Refactoring suggerito)
+          // L'API restituisce solo l'ID, ma riemettiamo l'oggetto team locale
+          // per permettere al subscriber di lavorare con l'oggetto completo se necessario.
+          ({ id: team.id }), // Ritorna un oggetto con solo l'ID come da tipo restituito
+      ),
     );
   }
 
@@ -50,15 +59,7 @@ export class TeamService {
 
     // Rimuovere l'header 'Content-Type' manuale se HttpClient lo gestisce automaticamente (Refactoring suggerito)
     // Verificare se l'impostazione manuale è necessaria.
-    return this.#http.post<Pick<Team, 'photo_url'>>(routes.teamById(id), formData, {
-      // headers: {
-      //   'Content-Type': 'multipart/form-data', // Probabilmente non necessario con FormData
-      // },
-    });
+    return this.#http.post<Pick<Team, 'photo_url'>>(routes.teamById(id), formData, {});
   }
 
-  public createTeam(team: RecursivePartial<Team>): Observable<Team> {
-    // Modifica suggerita per la nomenclatura
-    return this.#http.post<Team>(routes.teamsCollection, team); // Utilizzo del nome della rotta modificato
-  }
 }

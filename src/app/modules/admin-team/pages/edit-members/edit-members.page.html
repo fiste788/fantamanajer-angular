@@ -1,29 +1,29 @@
-@if (team$ | async; as team) { @if ((data$ | async); as data) {
-<form
-  #lineupForm="ngForm"
-  (ngSubmit)="save(team, data.dispositions, lineupForm)"
->
-  <div ngModelGroup="members">
-    <app-module-area
-      [dispositions]="data.dispositions"
-      [membersByRole]="data.membersByRole"
-      [module]="module"
-      [wrap]="true"
+@if (team$ | async; as team) {
+  @if (data$ | async; as data) {
+    <form
+      #lineupForm="ngForm"
+      (ngSubmit)="save(team, data.dispositions, lineupForm)"
+    >
+      <div ngModelGroup="members">
+        <app-module-area
+          [dispositions]="data.dispositions"
+          [membersByRole]="data.membersByRole"
+          [module]="module"
+          [wrap]="true"
+        />
+      </div>
+      <button
+        color="accent"
+        matButton="filled"
+        type="submit"
+      >
+        SALVA
+      </button>
+    </form>
+  } @else {
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
     />
-  </div>
-  <button
-    color="accent"
-    matButton="filled"
-    type="submit"
-  >
-    SALVA
-  </button>
-</form>
-} @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
-} }
+  }
+}

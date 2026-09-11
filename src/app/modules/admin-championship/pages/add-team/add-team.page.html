@@ -1,41 +1,41 @@
 @if (team$ | async; as team) {
-<form
-  #teamForm="ngForm"
-  (ngSubmit)="save(team, teamForm)"
->
-  <mat-form-field>
-    <mat-label>Nome squadra</mat-label>
-    <input
-      matInput
-      name="name"
-      placeholder="Nome squadra"
-      required
-      [(ngModel)]="team.name"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input
-      matInput
-      name="email"
-      placeholder="Utente"
-      required
-      type="email"
-      [(ngModel)]="email"
-    />
-  </mat-form-field>
-  <mat-slide-toggle
-    name="admin"
-    [(ngModel)]="team.admin"
-    >Amministratore lega</mat-slide-toggle
+  <form
+    #teamForm="ngForm"
+    (ngSubmit)="save(team, teamForm)"
   >
-  <button
-    color="accent"
-    matButton="filled"
-    type="submit"
-    [disabled]="!teamForm.form.valid"
-  >
-    SALVA
-  </button>
-</form>
+    <mat-form-field>
+      <mat-label>Nome squadra</mat-label>
+      <input
+        matInput
+        name="name"
+        placeholder="Nome squadra"
+        required
+        [(ngModel)]="team.name"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        name="email"
+        placeholder="Utente"
+        required
+        type="email"
+        [(ngModel)]="email"
+      />
+    </mat-form-field>
+    <mat-slide-toggle
+      name="admin"
+      [(ngModel)]="team.admin"
+      >Amministratore lega</mat-slide-toggle
+    >
+    <button
+      color="accent"
+      matButton="filled"
+      type="submit"
+      [disabled]="!teamForm.form.valid"
+    >
+      SALVA
+    </button>
+  </form>
 }

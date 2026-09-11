@@ -6,14 +6,7 @@
   (scrolledIndexChange)="getPage(viewport.getRenderedRange())"
 >
   <mat-list class="list-item-transition">
-    <ng-container
-      *cdkVirtualFor="
-        let activity of dataStream();
-        templateCacheSize: 0;
-        trackBy: trackList;
-        let i = index
-      "
-    >
+    <ng-container *cdkVirtualFor="let activity of dataStream(); templateCacheSize: 0; trackBy: trackList; let i = index">
       @if (activity) {
         <mat-list-item [style.--index]="i">
           <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
@@ -30,7 +23,7 @@
         <app-content-loader
           [backgroundColor]="skeletonColors().background"
           [foregroundColor]="skeletonColors().foreground"
-          [viewBox]="'0 0 ' + width() + ' 88'"
+          [viewBox]="`0 0 ${width()} 88`"
         >
           <svg:rect
             height="15"

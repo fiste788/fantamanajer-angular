@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { AtLeast, RecursivePartial } from '@app/types';
+import type { Observable } from 'rxjs';
 
-import { Championship } from '../types';
+import type { AtLeast, RecursivePartial } from '@app/interfaces';
+
+import type { Championship } from '../interfaces';
 
 const CHAMPIONSHIPS_URL_SEGMENT = 'championships'; // Modifica suggerita per la nomenclatura
 
@@ -13,15 +14,13 @@ const routes = {
   championships: `/${CHAMPIONSHIPS_URL_SEGMENT}`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ChampionshipService {
+
   readonly #http = inject(HttpClient);
 
-  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'>> {
-    return this.#http.put<Pick<Championship, 'id'>>(
-      routes.championship(championship.id),
-      championship,
-    );
+  public create(championship: RecursivePartial<Championship>): Observable<Championship> {
+    return this.#http.post<Championship>(routes.championships, championship);
   }
 
   public getChampionship(championshipId: number): Observable<Championship> {
@@ -29,7 +28,8 @@ export class ChampionshipService {
     return this.#http.get<Championship>(routes.championship(championshipId));
   }
 
-  public create(championship: RecursivePartial<Championship>): Observable<Championship> {
-    return this.#http.post<Championship>(routes.championships, championship);
+  public update(championship: AtLeast<Championship, 'id'>): Observable<Pick<Championship, 'id'>> {
+    return this.#http.put<Pick<Championship, 'id'>>(routes.championship(championship.id), championship);
   }
+
 }

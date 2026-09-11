@@ -17,15 +17,13 @@
     &::view-transition-old(main) {
       animation:
         66ms var(--mat-sys-motion-emphasized-accelerate) both fade-out,
-        var(--mat-sys-motion-emphasized-accelerate-duration)
-          var(--mat-sys-motion-emphasized-accelerate) both slide-out-to-left;
+        var(--mat-sys-motion-emphasized-accelerate-duration) var(--mat-sys-motion-emphasized-accelerate) both slide-out-to-left;
     }
 
     &::view-transition-new(main) {
       animation:
         280ms var(--mat-sys-motion-emphasized-decelerate) 120ms both fade-in,
-        var(--mat-sys-motion-emphasized-decelerate-duration)
-          var(--mat-sys-motion-emphasized-decelerate) both slide-in-from-right;
+        var(--mat-sys-motion-emphasized-decelerate-duration) var(--mat-sys-motion-emphasized-decelerate) both slide-in-from-right;
     }
 
     &::view-transition-old(navigation-drawer),

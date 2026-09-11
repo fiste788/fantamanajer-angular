@@ -1,15 +1,15 @@
-import { Matchday } from './matchday.model';
-import { Team } from './team.model';
+import type { Matchday } from './matchday.interface';
+import type { Team } from './team.interface';
 
 export interface Article {
-  id: number;
-  title: string;
-  subtitle: string;
   body: string;
   created_at: Date;
-  modified_at: Date | null;
-  team_id: number;
-  matchday_id: number;
-  team: Team;
+  id: number;
   matchday: Matchday;
+  matchday_id: number;
+  modified_at: Date | null;
+  subtitle: string;
+  team: Team;
+  team_id: number;
+  title: string;
 }

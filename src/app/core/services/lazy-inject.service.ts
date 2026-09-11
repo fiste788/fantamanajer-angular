@@ -1,10 +1,13 @@
-import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
+import type { ProviderToken } from '@angular/core';
+import { inject, Injector, Service } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
-export class LazyInject {
-  private readonly injector = inject(Injector);
+@Service()
+export class LazyInjectService {
+
+  private readonly _injector = inject(Injector);
 
   public async get<T>(providerLoader: () => Promise<ProviderToken<T>>): Promise<T> {
-    return this.injector.get(await providerLoader());
+    return this._injector.get(await providerLoader());
   }
+
 }

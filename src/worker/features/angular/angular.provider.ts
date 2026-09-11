@@ -1,54 +1,46 @@
-import { AppRouter, WorkerProvider } from '@worker/types';
+import type { AppRouter, WorkerProvider } from '@worker/interfaces';
 
 import { AngularAppHandler } from './angular.handler';
-import {
-  AngularProviderConfig,
-  AngularProviderOption,
-  SecurityPolicyOption,
-  AdditionalHeadersOption,
-  CspConfigOptions,
-  AdditionalHeaders,
-  CspConfig,
-} from './angular.types';
 import { sharedAngularAppEngine } from './engine-setup';
 
-/**
- * Funzione helper per configurare la Policy di Sicurezza (CSP e Nonce).
- * @param cspConfig Le direttive CSP di base.
- * @param options Opzioni per la CSP (es. abilitazione Nonce).
- * @returns Un frammento di configurazione per il provider Angular.
- */
-export const withSecurityPolicy = (
-  cspConfig: CspConfig,
-  options: CspConfigOptions = {},
-): SecurityPolicyOption => {
-  return {
-    securityPolicy: {
-      cspConfig,
-      options,
-    },
-  };
-};
+import type {
+  AdditionalHeaders,
+  AdditionalHeadersOption,
+  AngularProviderConfig,
+  AngularProviderOption,
+  CspConfig,
+  CspConfigOptions,
+  SecurityPolicyOption,
+} from './interfaces';
 
 /**
- * Funzione helper per configurare gli Header di Sicurezza aggiuntivi (es. HSTS, X-Frame-Options).
- * @param headers Un oggetto con gli header chiave-valore.
- * @returns Un frammento di configurazione per il provider Angular.
- */
-export const withAdditionalSecurityHeaders = (
-  headers: AdditionalHeaders,
-): AdditionalHeadersOption => {
-  return {
-    additionalSecurityHeaders: headers,
-  };
-};
+Funzione helper per configurare la Policy di Sicurezza (CSP e Nonce).
+@param cspConfig Le direttive CSP di base.
+@param options Opzioni per la CSP (es. abilitazione Nonce).
+@returns Un frammento di configurazione per il provider Angular.
+*/
+export const withSecurityPolicy = (cspConfig: CspConfig, options: CspConfigOptions = {}): SecurityPolicyOption => ({
+  securityPolicy: {
+    cspConfig,
+    options,
+  },
+});
 
 /**
- * Costruisce l'oggetto di configurazione finale unendo i frammenti forniti.
- * @param options Tutti i frammenti di configurazione passati a provideAngularFallback.
- * @returns La configurazione completa del provider Angular.
- */
-const mergeConfig = (options: Array<AngularProviderOption>): AngularProviderConfig => {
+Funzione helper per configurare gli Header di Sicurezza aggiuntivi (es. HSTS, X-Frame-Options).
+@param headers Un oggetto con gli header chiave-valore.
+@returns Un frammento di configurazione per il provider Angular.
+*/
+export const withAdditionalSecurityHeaders = (headers: AdditionalHeaders): AdditionalHeadersOption => ({
+  additionalSecurityHeaders: headers,
+});
+
+/**
+Costruisce l'oggetto di configurazione finale unendo i frammenti forniti.
+@param options Tutti i frammenti di configurazione passati a provideAngularFallback.
+@returns La configurazione completa del provider Angular.
+*/
+const mergeConfig = (options: AngularProviderOption[]): AngularProviderConfig => {
   // Configurazione base con valori predefiniti
   const defaultConfig: AngularProviderConfig = {
     securityPolicy: {
@@ -59,20 +51,15 @@ const mergeConfig = (options: Array<AngularProviderOption>): AngularProviderConf
 
   // Unisce i frammenti di configurazione
   // eslint-disable-next-line unicorn/no-array-reduce
-  return options.reduce(
-    (acc, current) => ({ ...acc, ...current }),
-    defaultConfig,
-  ) as AngularProviderConfig;
+  return options.reduce((accumulator, current) => ({ ...accumulator, ...current }), defaultConfig);
 };
 
 /**
- * Il Provider finale che registra il Controller Angular come fallback universale.
- * @param options Una lista di frammenti di configurazione ottenuti dagli helper `with...`.
- * @returns {WorkerProvider} Una funzione che registra la rotta nel router.
- */
-export const provideAngularFallback = (
-  ...options: Array<AngularProviderOption>
-): WorkerProvider => {
+Il Provider finale che registra il Controller Angular come fallback universale.
+@param options Una lista di frammenti di configurazione ottenuti dagli helper `with...`.
+@returns {WorkerProvider} Una funzione che registra la rotta nel router.
+*/
+export const provideAngularFallback = (...options: AngularProviderOption[]): WorkerProvider => {
   // Inizializziamo l'engine IMMEDIATAMENTE al caricamento del modulo
   // se non dipende da parametri che arrivano solo a runtime.
   const config = mergeConfig(options);

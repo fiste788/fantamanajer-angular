@@ -11,9 +11,12 @@ import { RangePipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationSkeletonComponent {
+
   protected readonly loggedIn = inject(AuthenticationService).isLoggedIn();
+
+  protected drawerOffset = 44;
   protected mainItems = this.loggedIn ? 4 : 2;
   protected profileItems = this.loggedIn ? 2 : 1;
   protected railOffset = 88;
-  protected drawerOffset = 44;
+
 }

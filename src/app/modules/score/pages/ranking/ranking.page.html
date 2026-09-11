@@ -1,90 +1,85 @@
-<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
-@if ((ranking$ | async); as ranking) {
-<mat-card
-  appearance="outlined"
-  cdkScrollable
->
-  <table
-    #table
-    class="ranking"
-    mat-table
-    [dataSource]="ranking"
-    [trackBy]="trackRanking"
+@if (ranking$ | async; as ranking) {
+  <mat-card
+    appearance="outlined"
+    cdkScrollable
   >
-    <ng-container
-      matColumnDef="team-name"
-      sticky
+    <table
+      #table
+      class="ranking"
+      mat-table
+      [dataSource]="ranking"
+      [trackBy]="trackRanking"
     >
-      <th
-        *matHeaderCellDef
-        mat-header-cell
+      <ng-container
+        matColumnDef="team-name"
+        sticky
       >
-        Squadra
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        <a [routerLink]="['/teams',row.team.id]">{{row.team.name}}</a>
-      </td>
-    </ng-container>
-
-    <ng-container
-      matColumnDef="points"
-      sticky
-    >
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        Punti
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.sum_points | number}}
-      </td>
-    </ng-container>
-
-    @for (matchday of matchdays$ | async; track matchday) {
-    <ng-container [matColumnDef]="matchday + ''">
-      <th
-        *matHeaderCellDef
-        class="matchday"
-        mat-header-cell
-      >
-        {{matchday}}
-      </th>
-      <td
-        *matCellDef="let row;"
-        class="matchday"
-        mat-cell
-      >
-        <a [routerLink]="'/scores/' + row.scores[matchday].id"
-          >{{row.scores[matchday].points | number}}</a
+        <th
+          *matHeaderCellDef
+          mat-header-cell
         >
-      </td>
-    </ng-container>
-    }
+          Squadra
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          <a [routerLink]="['/teams', row.team.id]">{{ row.team.name }}</a>
+        </td>
+      </ng-container>
 
-    <tr
-      *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
-      mat-header-row
-      style="--index: 0"
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: rankingDisplayedColumns$ | async;let i = index"
-      mat-row
-      [style]="'--index: ' + (i + 1)"
-    ></tr>
-  </table>
-</mat-card>
+      <ng-container
+        matColumnDef="points"
+        sticky
+      >
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Punti
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.sum_points | number }}
+        </td>
+      </ng-container>
+
+      @for (matchday of matchdays$ | async; track matchday) {
+        <ng-container [matColumnDef]="`${matchday}`">
+          <th
+            *matHeaderCellDef
+            class="matchday"
+            mat-header-cell
+          >
+            {{ matchday }}
+          </th>
+          <td
+            *matCellDef="let row"
+            class="matchday"
+            mat-cell
+          >
+            <a [routerLink]="`/scores/${row.scores[matchday].id}`">{{ row.scores[matchday].points | number }}</a>
+          </td>
+        </ng-container>
+      }
+
+      <tr
+        *matHeaderRowDef="rankingDisplayedColumns$ | async; sticky: true"
+        mat-header-row
+        style="--index: 0"
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: rankingDisplayedColumns$ | async; let i = index"
+        mat-row
+        [style]="`--index: ${i + 1}`"
+      ></tr>
+    </table>
+  </mat-card>
 } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }

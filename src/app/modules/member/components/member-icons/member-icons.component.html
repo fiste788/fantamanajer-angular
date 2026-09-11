@@ -1,6 +1,6 @@
 @let _member = member();
 @if (!circle()) {
-  {{ _member.player.full_name }}
+  {{ _member.player?.full_name }}
 }
 @if (_member.likely_lineup; as like) {
   <span
@@ -13,7 +13,7 @@
     @if (like.second_ballot) {
       <span
         class="number"
-        [matTooltip]="'Ballottaggio ' + (like.second_ballot / 100 | percent)"
+        [matTooltip]="`Ballottaggio ${(like.second_ballot / 100 | percent)}`"
       >
         {{ like.second_ballot / 100 | percent }}
       </span>
@@ -32,7 +32,7 @@
     }
     <span
       class="number"
-      [matTooltip]="'Avversario ' + (like.versus | titlecase)"
+      [matTooltip]="`Avversario ${(like.versus | titlecase)}`"
     >
       {{ like.versus | uppercase | slice: 0 : 3 }}
     </span>

@@ -7,6 +7,6 @@
   [attr.fetchpriority]="fetchpriority()"
   [class.fade-in]="_member !== null"
   [class.mat-card-image]="inCard()"
-  [ngSrc]="'/svg/clubs.svg' + (_member ? '#club-' + _member?.club_id : '')"
+  [ngSrc]="`/svg/clubs.svg${_member ? `#club-${_member?.club_id}` : ''}`"
   [priority]="fetchpriority() === 'high'"
 />

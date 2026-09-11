@@ -1,9 +1,7 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+import type { ResolveFn } from '@angular/router';
 
+import type { Club } from '@data/interfaces';
 import { ClubService } from '@data/services';
-import { Club } from '@data/types';
 
-export const clubsResolver: ResolveFn<Array<Club>> = () => {
-  return inject(ClubService).getClubs();
-};
+export const clubsResolver: ResolveFn<Club[]> = () => inject(ClubService).getClubs();

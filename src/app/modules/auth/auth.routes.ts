@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
-import { RedirectCommand, Route, Router } from '@angular/router';
+import type { Route } from '@angular/router';
+import { RedirectCommand, Router } from '@angular/router';
 
 import { AuthenticationService } from '@app/authentication';
 import { noAuthGuard } from '@app/guards';
@@ -9,20 +10,16 @@ import { LoginPage } from './pages/login/login.page';
 
 export default [
   {
-    path: '',
-    component: RouterOutletComponent,
     children: [
       {
-        path: 'login',
-        component: LoginPage,
         canActivate: [noAuthGuard],
+        component: LoginPage,
         data: {
           state: 'login',
         },
+        path: 'login',
       },
       {
-        path: 'logout',
-        children: [],
         canActivate: [
           async () => {
             const authService = inject(AuthenticationService);
@@ -33,7 +30,11 @@ export default [
             return new RedirectCommand(router.createUrlTree(['/']), { skipLocationChange: false });
           },
         ],
+        children: [],
+        path: 'logout',
       },
     ],
+    component: RouterOutletComponent,
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

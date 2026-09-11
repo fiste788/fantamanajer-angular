@@ -1,21 +1,23 @@
-import { UpperCasePipe, SlicePipe, PercentPipe, TitleCasePipe } from '@angular/common';
-import { Component, booleanAttribute, input } from '@angular/core';
+import { PercentPipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { booleanAttribute, Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Member } from '@data/types';
+import type { Member } from '@data/interfaces';
 
 @Component({
   selector: 'app-member-icons[member]',
-  styleUrl: './member-icons.component.scss',
+  imports: [MatIconModule, MatTooltipModule, PercentPipe, SlicePipe, TitleCasePipe, UpperCasePipe],
   templateUrl: './member-icons.component.html',
-  imports: [MatIconModule, MatTooltipModule, UpperCasePipe, SlicePipe, PercentPipe, TitleCasePipe],
+  styleUrl: './member-icons.component.scss',
   host: {
     class: 'create-box',
   },
 })
 export class MemberIconsComponent {
-  public member = input.required<Member>();
-  public circle = input(false, { transform: booleanAttribute });
-  public captain = input(false, { transform: booleanAttribute });
+
+  public readonly captain = input(false, { transform: booleanAttribute });
+  public readonly circle = input(false, { transform: booleanAttribute });
+  public readonly member = input.required<Partial<Member>>();
+
 }

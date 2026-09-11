@@ -1,12 +1,12 @@
-import { Lineup } from './lineup.model';
-import { Member } from './member.model';
+import type { Lineup } from './lineup.interface';
+import type { Member } from './member.interface';
 
 export interface Disposition {
-  id: number;
-  position: number;
   consideration: number;
-  lineup_id: number;
-  member_id: number | null;
+  id: number;
   lineup: Lineup;
-  member?: Member;
+  lineup_id: number;
+  member?: Member | undefined;
+  member_id: number | null;
+  position: number;
 }

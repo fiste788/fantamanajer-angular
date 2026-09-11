@@ -1,10 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 
 @Pipe({
   name: 'slug',
   standalone: true,
 })
 export class SlugPipe implements PipeTransform {
+
   // Renamed parameter for clarity
   public transform(value?: string): string {
     return (
@@ -23,4 +25,5 @@ export class SlugPipe implements PipeTransform {
         .replace(/-+$/, '') ?? ''
     );
   }
+
 }

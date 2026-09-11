@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import {
-  create,
-  get,
-  PublicKeyCredentialWithAssertionJSON,
-  PublicKeyCredentialWithAttestationJSON,
+import { inject, Service } from '@angular/core';
+
+import { firstValueFrom } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { create, get, supported } from '@github/webauthn-json';
+
+import type { Authentication } from '@app/authentication/interfaces';
+
+import type { PublicKeyCredentialSource } from '../interfaces';
+import type {
   CredentialCreationOptionsJSON,
   CredentialRequestOptionsJSON,
-  supported,
+  PublicKeyCredentialWithAssertionJSON,
+  PublicKeyCredentialWithAttestationJSON,
 } from '@github/webauthn-json';
-import { firstValueFrom, Observable } from 'rxjs';
-
-import { AuthenticationDto } from '@app/authentication';
-
-import { PublicKeyCredentialSource } from '../types';
 
 const url = 'passkeys';
 const routes = {
@@ -22,36 +22,13 @@ const routes = {
   registration: `/${url}/register`,
 };
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class WebauthnService {
+
   readonly #http = inject(HttpClient);
 
-  #authentication(credential: PublicKeyCredentialWithAssertionJSON): Observable<AuthenticationDto> {
-    return this.#http.post<AuthenticationDto>(routes.authentication, credential);
-  }
-
-  #registration(
-    credential: PublicKeyCredentialWithAttestationJSON,
-  ): Observable<PublicKeyCredentialSource> {
-    return this.#http.post<PublicKeyCredentialSource>(routes.registration, credential);
-  }
-
-  #generateAuthentication(email?: string): Observable<CredentialRequestOptionsJSON> {
-    const params = email ? new HttpParams().set('email', email) : new HttpParams();
-
-    return this.#http.get<CredentialRequestOptionsJSON>(routes.authentication, { params });
-  }
-
-  #generateRegistration(): Observable<CredentialCreationOptionsJSON> {
-    return this.#http.get<CredentialCreationOptionsJSON>(routes.registration);
-  }
-
   public async browserSupportsWebAuthn(): Promise<boolean> {
-    if (
-      supported() &&
-      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
-      PublicKeyCredential.isConditionalMediationAvailable
-    ) {
+    if (supported()) {
       // Check if user verifying platform authenticator is available.
       const results = await Promise.all([
         PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
@@ -64,10 +41,25 @@ export class WebauthnService {
     return false;
   }
 
+  public async startAuthentication(mediation: CredentialMediationRequirement = 'conditional'): Promise<Authentication | undefined> {
+    const request = await firstValueFrom(this.#generateAuthentication(), {
+      defaultValue: undefined,
+    });
+
+    if (request) {
+      request.mediation = mediation;
+      const cred = await get(request);
+
+      return firstValueFrom(this.#authentication(cred), { defaultValue: undefined });
+    }
+
+    return undefined;
+  }
+
   public async startRegistration(): Promise<PublicKeyCredentialSource | undefined> {
-    const req = await firstValueFrom(this.#generateRegistration(), { defaultValue: undefined });
-    if (req) {
-      const cred = await create(req);
+    const request = await firstValueFrom(this.#generateRegistration(), { defaultValue: undefined });
+    if (request) {
+      const cred = await create(request);
 
       return firstValueFrom(this.#registration(cred), { defaultValue: undefined });
     }
@@ -75,19 +67,26 @@ export class WebauthnService {
     return undefined;
   }
 
-  public async startAuthentication(
-    mediation: CredentialMediationRequirement = 'conditional',
-  ): Promise<AuthenticationDto | undefined> {
-    const req = await firstValueFrom(this.#generateAuthentication(), {
-      defaultValue: undefined,
-    });
-    if (req) {
-      req.mediation = mediation;
-      const cred = await get(req);
+  #authentication(credential: PublicKeyCredentialWithAssertionJSON): Observable<Authentication> {
+    return this.#http.post<Authentication>(routes.authentication, credential);
+  }
 
-      return firstValueFrom(this.#authentication(cred), { defaultValue: undefined });
+  #generateAuthentication(email?: string): Observable<CredentialRequestOptionsJSON> {
+    const parameters = new HttpParams();
+
+    if (email) {
+      parameters.set('email', email);
     }
 
-    return undefined;
+    return this.#http.get<CredentialRequestOptionsJSON>(routes.authentication, { params: parameters });
   }
+
+  #generateRegistration(): Observable<CredentialCreationOptionsJSON> {
+    return this.#http.get<CredentialCreationOptionsJSON>(routes.registration);
+  }
+
+  #registration(credential: PublicKeyCredentialWithAttestationJSON): Observable<PublicKeyCredentialSource> {
+    return this.#http.post<PublicKeyCredentialSource>(routes.registration, credential);
+  }
+
 }

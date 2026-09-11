@@ -5,36 +5,32 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { Observable, filter, map, shareReplay } from 'rxjs';
+
+import { filter, map, shareReplay } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import { filterNil, getRouteParam } from '@app/functions';
+import type { RankingPosition } from '@data/interfaces';
 import { ScoreService } from '@data/services';
-import { RankingPosition } from '@data/types';
 
 @Component({
-  styleUrl: './ranking.page.scss',
+  imports: [AsyncPipe, CdkScrollableModule, DecimalPipe, MatCardModule, MatProgressSpinnerModule, MatTableModule, RouterLink],
   templateUrl: './ranking.page.html',
-  imports: [
-    MatTableModule,
-    RouterLink,
-    MatProgressSpinnerModule,
-    CdkScrollableModule,
-    AsyncPipe,
-    MatCardModule,
-    DecimalPipe,
-  ],
+  styleUrl: './ranking.page.scss',
 })
 export class RankingPage {
-  readonly #scoreService = inject(ScoreService);
-  readonly #rankingDisplayedColumns = ['team-name', 'points'];
 
+  readonly #scoreService = inject(ScoreService);
+
+  protected readonly matchdays$: Observable<number[]>;
   protected readonly ranking$ = this.loadRanking();
-  protected readonly rankingDisplayedColumns$: Observable<Array<string>>;
-  protected readonly matchdays$: Observable<Array<number>>;
+  protected readonly rankingDisplayedColumns$: Observable<string[]>;
+
+  readonly #rankingDisplayedColumns = ['team-name', 'points'];
 
   constructor() {
     const matchdays$ = this.loadMatchdays();
-    this.matchdays$ = matchdays$.pipe(map((ms) => ms.map((m) => +m)));
+    this.matchdays$ = matchdays$.pipe(map(ms => ms.map(m => +m)));
     this.rankingDisplayedColumns$ = matchdays$.pipe(
       map((c) => {
         c.unshift(...this.#rankingDisplayedColumns);
@@ -44,27 +40,26 @@ export class RankingPage {
     );
   }
 
-  protected loadRanking(): Observable<Array<RankingPosition>> {
-    return this.getRanking(+getRouteParam<string>('championship_id')!).pipe(
-      shareReplay({ bufferSize: 0, refCount: true }),
-    );
-  }
-
-  protected loadMatchdays(): Observable<Array<string>> {
-    return this.ranking$.pipe(
-      filter((ranking) => ranking.length > 0),
-      map((ranking) => ranking[0]?.scores),
-      filterNil(),
-      // eslint-disable-next-line unicorn/no-array-reverse
-      map((scores) => Object.keys(scores).reverse()),
-    );
-  }
-
-  protected getRanking(championshipId: number): Observable<Array<RankingPosition>> {
+  protected getRanking(championshipId: number): Observable<RankingPosition[]> {
     return this.#scoreService.getChampionshipRanking(championshipId);
   }
 
-  protected trackRanking(idx: number): number {
-    return idx;
+  protected loadMatchdays(): Observable<string[]> {
+    return this.ranking$.pipe(
+      filter(ranking => ranking.length > 0),
+      map(ranking => ranking[0]?.scores),
+      filterNil(),
+      // eslint-disable-next-line unicorn/no-array-reverse
+      map(scores => Object.keys(scores).reverse()),
+    );
   }
+
+  protected loadRanking(): Observable<RankingPosition[]> {
+    return this.getRanking(+getRouteParam<string>('championship_id')!).pipe(shareReplay({ bufferSize: 0, refCount: true }));
+  }
+
+  protected trackRanking(index: number): number {
+    return index;
+  }
+
 }

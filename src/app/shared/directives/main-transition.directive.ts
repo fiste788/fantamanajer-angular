@@ -1,5 +1,5 @@
-import { Directive, ElementRef, effect, inject, input } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Directive, effect, ElementRef, inject, input } from '@angular/core';
+import type { RouterOutlet } from '@angular/router';
 
 import { CurrentTransitionService } from '@app/services';
 
@@ -8,22 +8,23 @@ import { CurrentTransitionService } from '@app/services';
   standalone: true,
 })
 export class MainTransitionDirective {
-  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   readonly #transitionService = inject(CurrentTransitionService);
 
-  public outletType = input.required<'root' | 'last'>({ alias: 'appMainTransition' });
-  public outlet = input<RouterOutlet>();
+  public readonly outlet = input<RouterOutlet>();
+  public readonly outletType = input.required<'last' | 'root'>({ alias: 'appMainTransition' });
+
+  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
     effect(() => {
       const outletType = this.outletType();
-      if (outletType) {
-        const isTransitioning =
-          outletType === 'last'
-            ? this.#transitionService.isLastOutlet(this.outlet()!)
-            : this.#transitionService.isRootOutlet();
-        this.#elementRef.nativeElement.style.viewTransitionName = isTransitioning ? 'main' : '';
-      }
+
+      const isTransitioning = outletType === 'last'
+        ? this.#transitionService.isLastOutlet(this.outlet()!)
+        : this.#transitionService.isRootOutlet();
+      this.#elementRef.nativeElement.style.viewTransitionName = isTransitioning ? 'main' : '';
     });
   }
+
 }

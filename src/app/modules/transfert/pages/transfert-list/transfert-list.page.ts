@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, viewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,50 +7,49 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { combineLatest, Observable, map, switchMap } from 'rxjs';
+
+import { combineLatest, map, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import { getRouteData } from '@app/functions';
-import { ApplicationService } from '@app/services';
+import { AppService } from '@app/services';
+import type { Team, Transfer } from '@data/interfaces';
 import { TransfertService } from '@data/services';
-import { Team, Transfer } from '@data/types';
 import { SelectionComponent } from '@modules/selection/components/selection/selection.component';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { SeasonActiveDirective } from '@shared/directives';
 
 @Component({
-  templateUrl: './transfert-list.page.html',
   imports: [
-    MatTableModule,
-    MatSortModule,
-    RouterLink,
-    MatIconModule,
-    MatEmptyStateComponent,
-    MatProgressSpinnerModule,
-    SeasonActiveDirective,
-    SelectionComponent,
     AsyncPipe,
     MatCardModule,
+    MatEmptyStateComponent,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
+    RouterLink,
+    SeasonActiveDirective,
+    SelectionComponent,
   ],
+  templateUrl: './transfert-list.page.html',
 })
 export class TransfertListPage {
-  readonly #transfertService = inject(TransfertService);
+
   readonly #ref = inject(ChangeDetectorRef);
+  readonly #transfertService = inject(TransfertService);
+  protected readonly app = inject(AppService);
 
-  public sort = viewChild(MatSort);
-  protected readonly app = inject(ApplicationService);
+  public readonly sort = viewChild(MatSort);
 
-  protected readonly team$ = getRouteData<Team>('team');
   protected readonly dataSource$ = this.loadData();
-  protected readonly isMyTeam$ = combineLatest([
-    this.team$,
-    toObservable(this.app.requireCurrentTeam),
-  ]).pipe(map(([cur, my]) => cur.id === my.id));
-
   protected readonly displayedColumns = ['old_member', 'new_member', 'constraint', 'matchday'];
+  protected readonly team$ = getRouteData<Team>('team');
+  protected readonly isMyTeam$ = combineLatest([this.team$, toObservable(this.app.requireCurrentTeam)]).pipe(map(([current, my]) => current.id === my.id));
 
   protected loadData(): Observable<MatTableDataSource<Transfer>> {
     return this.team$.pipe(
-      switchMap((team) => this.#transfertService.getTeamTransferts(team.id)),
+      switchMap(team => this.#transfertService.getTeamTransferts(team.id)),
       map((data) => {
         const ds = new MatTableDataSource<Transfer>(data);
         if (data.length > 0) {
@@ -63,17 +62,22 @@ export class TransfertListPage {
     );
   }
 
+  protected setSort(ds: MatTableDataSource<Transfer>): void {
+    const sort = this.sort();
+    if (sort) {
+      ds.sort = sort;
+    }
+  }
+
   protected sortingDataAccessor(data: Transfer, sortHeaderId: string): string {
     let value;
     switch (sortHeaderId) {
-      case 'old_member': {
-        value = data.old_member.player.full_name;
-        break;
-      }
-      case 'new_member': {
+      case 'new_member':
         value = data.new_member.player.full_name;
         break;
-      }
+      case 'old_member':
+        value = data.old_member.player.full_name;
+        break;
       default:
     }
 
@@ -84,11 +88,4 @@ export class TransfertListPage {
     return item.id;
   }
 
-  protected setSort(ds: MatTableDataSource<Transfer>): void {
-    // eslint-disable-next-line unicorn/no-array-sort
-    const sort = this.sort();
-    if (sort) {
-      ds.sort = sort;
-    }
-  }
 }

@@ -1,28 +1,20 @@
-import { WorkerProvider } from '@worker/types';
+import type { WorkerProvider } from '@worker/interfaces';
 
-import { AuthHandler } from './auth.handler';
+import { AuthHandlerHelpers } from './helpers/auth-handler.helpers';
 
-/**
- * Configurazione specifica per il provider proxy API.
- */
-interface AuthConfig {
-  /** Il prefisso della rotta da intercettare e fare il proxy (es. '/api') */
-  path: string;
-}
+import type { AuthConfig } from './interfaces';
 
 /**
- * Fornisce le rotte di Autenticazione (Login POST e Logout GET).
- * @returns {WorkerProvider} Una funzione che registra le rotte nel router.
- */
-export const provideAuthRoutes = (config: AuthConfig): WorkerProvider => {
-  return (router) => {
-    const handler = new AuthHandler();
+Fornisce le rotte di Autenticazione (Login POST e Logout GET).
+@returns {WorkerProvider} Una funzione che registra le rotte nel router.
+*/
+export const provideAuthRoutes = (config: AuthConfig): WorkerProvider => (router) => {
+  const handler = new AuthHandlerHelpers();
 
-    const LOGIN_URL = `${config.path}/login`;
-    const LOGOUT_URL = `${config.path}/logout`;
+  const loginUrl = `${config.path}/login`;
+  const logoutUrl = `${config.path}/logout`;
 
-    // Assegnamo i metodi specifici del controller a rotte specifiche
-    router.post(LOGIN_URL, handler.handleLogin);
-    router.post(LOGOUT_URL, handler.handleLogout);
-  };
+  // Assegnamo i metodi specifici del controller a rotte specifiche
+  router.post(loginUrl, handler.handleLogin);
+  router.post(logoutUrl, handler.handleLogout);
 };

@@ -1,79 +1,81 @@
 <div class="flex-container">
-  @let _user = user()!;
-  <form ngForm>
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title> Profilo utente </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field>
-          <mat-label>Nome</mat-label>
-          <input
-            autocomplete="name"
-            matInput
-            name="name"
-            placeholder="Nome"
-            required
-            [(ngModel)]="_user.name"
-          />
-        </mat-form-field>
+  @let _user = user();
+  @if (_user) {
+    <form ngForm>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title> Profilo utente </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input
+              autocomplete="name"
+              matInput
+              name="name"
+              placeholder="Nome"
+              required
+              [(ngModel)]="_user.name"
+            />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Cognome</mat-label>
-          <input
-            autocomplete="family-name"
-            matInput
-            name="surname"
-            placeholder="Cognome"
-            required
-            [(ngModel)]="_user.surname"
-          />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Cognome</mat-label>
+            <input
+              autocomplete="family-name"
+              matInput
+              name="surname"
+              placeholder="Cognome"
+              required
+              [(ngModel)]="_user.surname"
+            />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input
-            autocomplete="new-password"
-            matInput
-            name="password"
-            placeholder="Password"
-            type="password"
-            [(ngModel)]="_user.password"
-          />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input
+              autocomplete="new-password"
+              matInput
+              name="password"
+              placeholder="Password"
+              type="password"
+              [(ngModel)]="_user.password"
+            />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Ripeti password</mat-label>
-          <input
-            autocomplete="new-password"
-            matInput
-            name="repeatPassword"
-            placeholder="Ripeti password"
-            type="password"
-            [required]="_user.password !== undefined && _user.password !== ''"
-            [(ngModel)]="repeatPassword"
-          />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Ripeti password</mat-label>
+            <input
+              autocomplete="new-password"
+              matInput
+              name="repeatPassword"
+              placeholder="Ripeti password"
+              type="password"
+              [required]="_user.password !== undefined && _user.password !== ''"
+              [(ngModel)]="repeatPassword"
+            />
+          </mat-form-field>
 
-        <mat-slide-toggle
-          name="active_push"
-          [checked]="(push$ | async)"
-          [disabled]="!enabled"
-          (change)="togglePush(_user, $event.checked)"
-        >
-          Ricevi notifiche push
-        </mat-slide-toggle>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button
-          color="accent"
-          matButton="filled"
-          type="submit"
-          (click)="save(_user)"
-        >
-          Salva
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
+          <mat-slide-toggle
+            name="active_push"
+            [checked]="push$ | async"
+            [disabled]="!enabled"
+            (change)="togglePush(_user, $event.checked)"
+          >
+            Ricevi notifiche push
+          </mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button
+            color="accent"
+            matButton="filled"
+            type="submit"
+            (click)="save(_user)"
+          >
+            Salva
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  }
 </div>

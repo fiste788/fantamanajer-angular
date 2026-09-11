@@ -1,23 +1,19 @@
-import { NgForm, UntypedFormArray } from '@angular/forms';
-import { type MatSnackBarConfig, type MatSnackBar } from '@angular/material/snack-bar';
+import type { NgForm, UntypedFormArray } from '@angular/forms';
+import type { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
 // Rimuovi bindCallback - non è necessario qui
-import { firstValueFrom, mergeMap, Observable, of, tap, from } from 'rxjs'; // Importa from per gestire Promises
+import { firstValueFrom, from, mergeMap, Observable, of, tap } from 'rxjs'; // Importa from per gestire Promises
 
 import { catchUnprocessableEntityErrors } from './catch-unprocessable-entity-errors.functions';
 
 interface SaveOptions<T, R> {
-  message?: string;
-  snackbarConfig?: MatSnackBarConfig;
-  form?: NgForm | UntypedFormArray;
-  callback?: (res: T) => Observable<R> | Promise<R> | R;
+  callback?: (result: T) => Observable<R> | Promise<R> | R | undefined;
+  form?: NgForm | UntypedFormArray | undefined;
+  message?: string | undefined;
+  snackbarConfig?: MatSnackBarConfig | undefined;
 }
 
-export async function save<T, R>(
-  observable$: Observable<T>,
-  defaultValue: R,
-  snackbar?: MatSnackBar,
-  options?: SaveOptions<T, R>,
-): Promise<R> {
+export async function save<T, R>(observable$: Observable<T>, defaultValue: R, snackbar?: MatSnackBar, options?: SaveOptions<T, R>): Promise<R> {
   const saveOperation$ = observable$.pipe(
     tap(() => {
       if (snackbar && options?.message) {
@@ -28,10 +24,9 @@ export async function save<T, R>(
       }
     }),
     // mergeMap ora riceve direttamente l'Observable<R> dalla callback
-    mergeMap((result) => {
+    mergeMap(result =>
       // Chiama la funzione che restituisce un Observable<R>
-      return handleSaveCallbackObservable(result, options?.callback, defaultValue);
-    }),
+      handleSaveCallbackObservable<T, R>(result, options?.callback, defaultValue)),
     catchUnprocessableEntityErrors(options?.form),
   );
 
@@ -41,26 +36,25 @@ export async function save<T, R>(
 
 // Refactoring: funzione privata per gestire la callback di salvataggio e restituire Observable<R>
 
-function handleSaveCallbackObservable<T, R>(
-  result: T,
-  callback?: (res: T) => Observable<R> | Promise<R> | R,
-  defaultValue?: R,
-): Observable<R> {
+function handleSaveCallbackObservable<T, R>(result: T, callback?: (result: T) => Observable<R> | Promise<R> | R | undefined, defaultValue?: R): Observable<R> {
   // Questa funzione ora restituisce Observable<R>
   if (callback) {
     const callbackResult = callback(result);
     // Gestisce Observable, Promise o valore diretto e li trasforma in Observable
     if (callbackResult instanceof Observable) {
       return callbackResult; // Già un Observable
-    } else if (callbackResult instanceof Promise) {
+    }
+
+    if (callbackResult instanceof Promise) {
       return from(callbackResult); // Converte Promise in Observable
-    } else {
+    }
+
+    if (callbackResult !== undefined) {
       return of(callbackResult); // Avvolge valore diretto in Observable
     }
-  } else {
-    // Se non c'è callback,Migliore un observable del defaultValue
-    return of(defaultValue as R); // Asserzione di tipo basata sulla logica
   }
+  // Se non c'è callback, restituisce un observable del defaultValue
+  return of(defaultValue! as R); // Asserzione di tipo basata sulla logica
 }
 
 // Rimuovi la vecchia funzione handleSaveCallback (Promise<Observable<R>>) se ancora presente

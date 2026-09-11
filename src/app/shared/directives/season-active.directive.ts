@@ -1,16 +1,18 @@
-import { Directive, TemplateRef, ViewContainerRef, effect, inject } from '@angular/core';
+import { Directive, effect, inject, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { ApplicationService } from '@app/services';
+import { AppService } from '@app/services';
 
 @Directive({
   selector: '[appSeasonActive]',
   standalone: true,
 })
 export class SeasonActiveDirective {
-  readonly #templateRef = inject<TemplateRef<unknown>>(TemplateRef);
-  readonly #viewContainer = inject(ViewContainerRef);
+
   // Renamed injected service for clarity
-  readonly #applicationService = inject(ApplicationService);
+  readonly #applicationService = inject(AppService);
+  readonly #viewContainer = inject(ViewContainerRef);
+
+  readonly #templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 
   constructor() {
     effect(() => {
@@ -21,4 +23,5 @@ export class SeasonActiveDirective {
       }
     });
   }
+
 }

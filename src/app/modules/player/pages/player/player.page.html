@@ -1,11 +1,10 @@
-<!-- eslint-disable @angular-eslint/template/no-inline-styles -->
 @let _selectedMember = selectedMember(); @let _player = player();
 <app-parallax-header
   contextParam="id"
   [backgroundImage]="_selectedMember.club.background_url ?? undefined"
   [height]="128"
-  [image]="_selectedMember.photo_url || _player.photo_url || '/svg/clubs.svg#club-' + _selectedMember.club_id"
-  [subtitle]="_selectedMember.role.singular + ' - ' + _selectedMember.club.name"
+  [image]="_selectedMember.photo_url || _player.photo_url || `/svg/clubs.svg#club-${_selectedMember.club_id}`"
+  [subtitle]="`${_selectedMember.role.singular} - ${_selectedMember.club.name}`"
   [title]="_player.full_name"
   [width]="90"
   (imageLoaded)="scrollTo($event)"
@@ -15,13 +14,13 @@
     parallax-header-right
   >
     @if (_selectedMember.free) {
-    <a
-      matButton
-      [queryParams]="{new_member_id: _selectedMember.id}"
-      [routerLink]="'/teams/' + app.currentTeam()?.id + '/transferts'"
-    >
-      Acquista
-    </a>
+      <a
+        matButton
+        [queryParams]="{ new_member_id: _selectedMember.id }"
+        [routerLink]="`/teams/${app.currentTeam()?.id}/transferts`"
+      >
+        Acquista
+      </a>
     }
     <mat-form-field>
       <mat-label>Stagione</mat-label>
@@ -30,254 +29,252 @@
         [(ngModel)]="selectedMember"
       >
         @for (member of _player.members; track member.id) {
-        <mat-option [value]="member"> {{ member.season.name }} </mat-option>
+          <mat-option [value]="member"> {{ member.season.name }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
   </div>
 </app-parallax-header>
-@if ((ratings$ | async); as ratings) {
-<mat-card appearance="outlined">
-  <table
-    #table
-    mat-table
-    matSort
-    [dataSource]="ratings"
-    [trackBy]="trackRating"
-  >
-    <ng-container matColumnDef="matchday">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        <span
-          matTooltip="Giornata"
-          matTooltipPosition="above"
-          >#</span
+@if (ratings$ | async; as ratings) {
+  <mat-card appearance="outlined">
+    <table
+      #table
+      mat-table
+      matSort
+      [dataSource]="ratings"
+      [trackBy]="trackRating"
+    >
+      <ng-container matColumnDef="matchday">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
         >
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.matchday.number}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="rating">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Voto
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.rating}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="points">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Punti
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.points | number}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="goals">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Gol
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.goals}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="goals_against">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Gol s
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.goals_against}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="assist">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Assist
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.assist}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="penalities_scored">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Rig
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.penalities_scored}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="penalities_taken">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        Rig s
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.penalities_taken}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="regular">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        <span
-          matTooltip="Titolare"
-          matTooltipPosition="above"
-          >Tit</span
+          <span
+            matTooltip="Giornata"
+            matTooltipPosition="above"
+            >#</span
+          >
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
         >
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.regular) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
+          {{ row.matchday.number }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="yellow_card">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        <span
-          class="yellow-card"
-          matTooltip="Ammonizioni"
-          matTooltipPosition="above"
-        ></span>
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.yellow_card) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="red_card">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        <span
-          class="red-card"
-          matTooltip="Espulsioni"
-          matTooltipPosition="above"
-        ></span>
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.red_card) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="quotation">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        <span
-          matTooltip="Quotazione"
-          matTooltipPosition="above"
-          >Q.</span
+      <ng-container matColumnDef="rating">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
         >
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.quotation}}
-      </td>
-    </ng-container>
+          Voto
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.rating }}
+        </td>
+      </ng-container>
 
-    <tr
-      *matHeaderRowDef="displayedColumns; sticky: true"
-      mat-header-row
-      style="--index: 0"
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: displayedColumns;let i = index"
-      mat-row
-      [style]="'--index: ' + (i + 1)"
-    ></tr>
-  </table>
-</mat-card>
+      <ng-container matColumnDef="points">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Punti
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.points | number }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="goals">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Gol
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.goals }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="goals_against">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Gol s
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.goals_against }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="assist">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Assist
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.assist }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="penalities_scored">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          Rig
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.penalities_scored }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="penalities_taken">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >
+          Rig s
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.penalities_taken }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="regular">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltip="Titolare"
+            matTooltipPosition="above"
+            >Tit</span
+          >
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.regular) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="yellow_card">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            class="yellow-card"
+            matTooltip="Ammonizioni"
+            matTooltipPosition="above"
+          ></span>
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.yellow_card) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="red_card">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            class="red-card"
+            matTooltip="Espulsioni"
+            matTooltipPosition="above"
+          ></span>
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          @if (row.red_card) {
+            <mat-icon>done</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quotation">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header
+        >
+          <span
+            matTooltip="Quotazione"
+            matTooltipPosition="above"
+            >Q.</span
+          >
+        </th>
+        <td
+          *matCellDef="let row"
+          mat-cell
+        >
+          {{ row.quotation }}
+        </td>
+      </ng-container>
+
+      <tr
+        *matHeaderRowDef="displayedColumns; sticky: true"
+        mat-header-row
+        style="--index: 0"
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns; let i = index"
+        mat-row
+        [style]="`--index: ${i + 1}`"
+      ></tr>
+    </table>
+  </mat-card>
 } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }

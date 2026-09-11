@@ -1,38 +1,23 @@
 import { isPlatformServer } from '@angular/common';
-import {
-  HttpContext,
-  HttpContextToken,
-  HttpEvent,
-  HttpRequest,
-  HttpResponse,
-  HttpInterceptorFn,
-} from '@angular/common/http';
-import { PLATFORM_ID, inject } from '@angular/core';
+import type { HttpEvent, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpContext, HttpContextToken, HttpResponse } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+
 import { map } from 'rxjs';
 
-import { ApiResponse } from '@data/types'; // Assicurati che il percorso sia corretto
-import { environment } from '@env';
+import { ENVIRONMENT } from '@env';
+
+import type { ApiResponse } from '@data/interfaces'; // Assicurati che il percorso sia corretto
 
 // Modifica suggerita per la nomenclatura e possibile spostamento in un file dedicato
 export const SKIP_URL_PREFIX_CONTEXT = new HttpContextToken<boolean>(() => false);
 export const SKIP_DEFAULT_HEADERS_CONTEXT = new HttpContextToken<boolean>(() => false);
 
-// Funzione utility per impostare il prefisso URL
-function applyUrlPrefix(req: HttpRequest<unknown>, prefix: string): HttpRequest<unknown> {
-  // Aggiungere un commento per spiegare l'esclusione delle URL /svg (Refactoring suggerito)
-  // Esclude le URL che iniziano con /svg dall'aggiunta del prefisso API.
-  const url = (req.url.startsWith('/svg') ? '' : prefix) + req.url;
-
-  return req.clone({
-    url,
-  });
-}
-
 // Funzione utility per impostare gli header predefiniti
-function applyDefaultHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
+function applyDefaultHeaders(request: HttpRequest<unknown>): HttpRequest<unknown> {
   const contentTypeHeader = 'Content-Type';
-  let { headers } = req; // Utilizzo di destructuring
-  const { method } = req;
+  let { headers } = request; // Utilizzo di destructuring
+  const { method } = request;
 
   // Imposta l'header Accept se non è già presente
   if (!headers.has('Accept')) {
@@ -45,17 +30,24 @@ function applyDefaultHeaders(req: HttpRequest<unknown>): HttpRequest<unknown> {
     headers = headers.delete(contentTypeHeader);
   }
 
-  return req.clone({
+  return request.clone({
     headers,
   });
 }
 
+// Funzione utility per impostare il prefisso URL
+function applyUrlPrefix(request: HttpRequest<unknown>, prefix: string): HttpRequest<unknown> {
+  // Aggiungere un commento per spiegare l'esclusione delle URL /SVG (Refactoring suggerito)
+  // Esclude le URL che iniziano con /SVG dall'aggiunta del prefisso API.
+  const url = (request.url.startsWith('/svg') ? '' : prefix) + request.url;
+
+  return request.clone({
+    url,
+  });
+}
+
 // Funzione utility per loggare il tempo della richiesta (rimossa la condizione isServer interna)
-function logRequestDetails(
-  request: HttpRequest<unknown>,
-  response: HttpResponse<unknown>,
-  startTime: Date,
-): Record<string, Date | number | string> | undefined {
+function logRequestDetails(request: HttpRequest<unknown>, response: HttpResponse<unknown>, startTime: Date): Record<string, Date | number | string> | undefined {
   if (!request.url) {
     return undefined;
   }
@@ -64,48 +56,45 @@ function logRequestDetails(
 
   return {
     duration,
-    startTime,
     endTime,
-    params: request.params.toString(),
     method: request.method,
+    params: request.params.toString(),
     requestUrl: request.url,
     // this is useful in cases of redirects
     responseUrl: response.url ?? '',
+    startTime,
     // Aggiungere status code, status text, ecc. perMigliore il log più utile
     status: response.status,
   };
 }
 
 // Modifica suggerita per la nomenclatura e il refactoring
-export const apiDataTransformerInterceptor: HttpInterceptorFn = (req, next) => {
-  let processedReq = req; // Modifica nomenclatura variabile
+export const apiDataTransformerInterceptor: HttpInterceptorFn = (request, next) => {
+  let processedRequest = request; // Modifica nomenclatura variabile
   const platformId = inject(PLATFORM_ID); // Iniettare PLATFORM_ID una sola volta
   const isServer = isPlatformServer(platformId);
 
   // Applica il prefisso URL se non indicato altrimenti nel contesto
-  if (!req.context.get(SKIP_URL_PREFIX_CONTEXT)) {
+  if (!request.context.get(SKIP_URL_PREFIX_CONTEXT)) {
     // Utilizzo del nome del token modificato
-    processedReq = applyUrlPrefix(
-      processedReq,
-      isServer ? environment.serverApiEndpoint : environment.apiEndpoint,
-    );
+    processedRequest = applyUrlPrefix(processedRequest, isServer ? ENVIRONMENT.serverApiEndpoint : ENVIRONMENT.apiEndpoint);
   }
 
   // Applica gli header predefiniti se non indicato altrimenti nel contesto
-  if (!req.context.get(SKIP_DEFAULT_HEADERS_CONTEXT)) {
+  if (!request.context.get(SKIP_DEFAULT_HEADERS_CONTEXT)) {
     // Utilizzo del nome del token modificato
-    processedReq = applyDefaultHeaders(processedReq);
+    processedRequest = applyDefaultHeaders(processedRequest);
   }
 
   const startTime = new Date();
 
-  return next(processedReq).pipe(
+  return next(processedRequest).pipe(
     // Utilizzo nomenclatura variabile
     map((event: HttpEvent<unknown>) => {
       if (event instanceof HttpResponse) {
         // Logga i dettagli della richiesta solo sul server (la condizione spostata qui)
         if (isServer) {
-          console.log(logRequestDetails(req, event, startTime));
+          console.log(logRequestDetails(request, event, startTime));
         }
 
         const body = event.body as ApiResponse | undefined;
@@ -114,7 +103,7 @@ export const apiDataTransformerInterceptor: HttpInterceptorFn = (req, next) => {
         // Estrae la proprietà 'data' dal corpo della risposta API se la risposta
         // non è paginata o non contiene informazioni di paginazione, e il body non è null.
         // Questo trasforma la risposta da { data: T, pagination: P } a T o { data: T }.
-        if (body && (!req.params.has('page') || body.pagination === undefined)) {
+        if (body && (!request.params.has('page') || body.pagination === undefined)) {
           // Se body.data esiste, restituisce un clone della risposta con body.data come nuovo body.
           // Altrimenti, restituisce un clone con body.data = undefined (se body è solo { data: undefined })
           // o il body originale se body è null o undefined (gestito dalla condizione if(body)).

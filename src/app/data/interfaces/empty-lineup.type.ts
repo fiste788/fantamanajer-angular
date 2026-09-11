@@ -1,5 +1,5 @@
-import { AtLeast } from '@app/types';
+import type { AtLeast } from '@app/interfaces';
 
-import { Lineup } from './lineup.model';
+import type { Lineup } from './lineup.interface';
 
 export type EmptyLineup = AtLeast<Lineup, 'dispositions' | 'modules' | 'team'>;

@@ -4,15 +4,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
 
-import { Member } from '@data/types';
+import type { Member } from '@data/interfaces';
 
 @Component({
   selector: 'app-best-players-list',
-  imports: [MatExpansionModule, MatListModule, RouterLink, DecimalPipe],
-  styleUrl: './best-players-list.component.scss',
+  imports: [DecimalPipe, MatExpansionModule, MatListModule, RouterLink],
   templateUrl: './best-players-list.component.html',
+  styleUrl: './best-players-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BestPlayersListComponent {
-  public best_players = input.required<Array<Member>>();
+
+  public readonly bestPlayers = input.required<Member[]>();
+
 }

@@ -1,9 +1,7 @@
 import { createWorkerAdapter } from './worker-adapter';
 
-export const createExportedHandler = <Env>(
-  fetchHandler: ExportedHandlerFetchHandler<Env>,
-): ExportedHandler<Env> => {
-  return {
-    fetch: createWorkerAdapter<Env>(fetchHandler),
-  } satisfies ExportedHandler<Env>;
-};
+export const createExportedHandler = <Environment>(
+  fetchHandler: ExportedHandlerFetchHandler<Environment>,
+): ExportedHandler<Environment> => ({
+  fetch: createWorkerAdapter<Environment>(fetchHandler),
+} satisfies ExportedHandler<Environment>);

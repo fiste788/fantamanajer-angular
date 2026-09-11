@@ -1,10 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 
 @Pipe({
   name: 'placeholder',
   standalone: true,
 })
 export class PlaceholderPipe implements PipeTransform {
+
   public opts = {
     bgcolor: '#ccc',
     color: '#969696',
@@ -22,4 +24,5 @@ export class PlaceholderPipe implements PipeTransform {
 
     return '';
   }
+
 }

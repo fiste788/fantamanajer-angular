@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import type { Route } from '@angular/router';
 
 import { authenticatedGuard } from '@app/guards';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
@@ -8,28 +8,28 @@ import { ArticleListPage } from './pages/article-list/article-list.page';
 
 export default [
   {
-    path: '',
     canActivate: [authenticatedGuard],
-    component: RouterOutletComponent,
     children: [
       {
-        path: '',
         component: ArticleListPage,
         data: { state: 'article-list' },
+        path: '',
       },
       {
-        path: 'new',
         component: ArticleDetailPage,
         data: {
           breadcrumbs: 'Nuovo articolo',
           state: 'article-new',
         },
+        path: 'new',
       },
       {
-        path: ':id',
         component: ArticleDetailPage,
         data: { state: 'article-detail' },
+        path: ':id',
       },
     ],
+    component: RouterOutletComponent,
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

@@ -9,7 +9,7 @@ import { NavigationListComponent } from '../navigation-list/navigation-list.comp
 
 @Component({
   selector: 'app-navigation-bar',
-  imports: [MatToolbarModule, NavigationListComponent, FabComponent],
+  imports: [FabComponent, MatToolbarModule, NavigationListComponent],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss',
   host: {
@@ -17,8 +17,10 @@ import { NavigationListComponent } from '../navigation-list/navigation-list.comp
   },
 })
 export class NavigationBarComponent {
-  readonly #layoutService = inject(LayoutService);
 
+  readonly #layoutService = inject(LayoutService);
   protected readonly loggedIn = inject(AuthenticationService).isLoggedIn;
+
   protected readonly openFab = this.#layoutService.openFab;
+
 }

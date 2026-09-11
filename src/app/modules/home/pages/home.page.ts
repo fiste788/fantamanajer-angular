@@ -6,7 +6,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
 
 import { groupBy } from '@app/functions';
-import { ApplicationService } from '@app/services';
+import { AppService } from '@app/services';
 import { MemberService, RoleService } from '@data/services';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
 import { PlayerImageComponent } from '@shared/components/player-image';
@@ -16,31 +16,32 @@ import { SlugPipe } from '@shared/pipes';
 import { BestPlayersListComponent } from '../components/best-players-list/best-players-list.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './home.page.scss',
-  templateUrl: './home.page.html',
   imports: [
-    MatCardModule,
-    PlayerImageComponent,
     BestPlayersListComponent,
+    DecimalPipe,
+    DetailToListTransitionDirective,
+    MatCardModule,
     MatEmptyStateComponent,
     MatProgressBarModule,
-    SlicePipe,
-    RouterLink,
     MatRippleModule,
-    DecimalPipe,
+    PlayerImageComponent,
+    RouterLink,
+    SlicePipe,
     SlugPipe,
-    DetailToListTransitionDirective,
   ],
+  templateUrl: './home.page.html',
+  styleUrl: './home.page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-  readonly #memberService = inject(MemberService);
 
-  protected matchday = inject(ApplicationService).currentMatchday;
-  protected readonly getBestResource = this.#memberService.getBestMembersResource(this.matchday);
+  readonly #memberService = inject(MemberService);
+  protected matchday = inject(AppService).currentMatchday;
   protected roleService = inject(RoleService);
+
   protected roles = this.roleService.list();
-  protected bestPlayers = computed(() =>
-    groupBy(this.getBestResource.value(), (member) => this.roleService.getRoleById(member.role_id)),
-  );
+
+  protected readonly bestResource = this.#memberService.getBestMembersResource(this.matchday);
+  protected readonly bestPlayers = computed(() => groupBy(this.bestResource.value(), member => this.roleService.getRoleById(member.role_id)));
+
 }

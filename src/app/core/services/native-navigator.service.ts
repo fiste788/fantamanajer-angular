@@ -4,8 +4,10 @@ declare global {
   }
 }
 
-export abstract class NavigatorRef {
-  get nativeNavigator(): Navigator | object {
+export abstract class NavigatorReference {
+
+  public get nativeNavigator(): Navigator | object {
     throw new Error('Not implemented.');
   }
+
 }

@@ -1,7 +1,7 @@
 export interface StreamActivity {
-  title: string;
-  time: Date;
+  body: string;
   humanTime: string;
   icon: string;
-  body: string;
+  time: Date;
+  title: string;
 }

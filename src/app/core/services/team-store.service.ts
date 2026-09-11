@@ -1,14 +1,15 @@
-import { Injectable, computed, inject, linkedSignal, WritableSignal } from '@angular/core'; // Importa Signal, WritableSignal
+import type { WritableSignal } from '@angular/core';
+import { computed, inject, linkedSignal, Service } from '@angular/core'; // Importa Signal, WritableSignal
+
 import { firstValueFrom } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
+import type { Team } from '@data/interfaces'; // Importa Team
 import { TeamService } from '@data/services'; // Assicurati che il percorso sia corretto
-import { Team } from '@data/types'; // Importa Team
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class TeamStoreService {
+
   readonly #authService = inject(AuthenticationService);
   readonly #teamService = inject(TeamService);
 
@@ -19,10 +20,8 @@ export class TeamStoreService {
       equal: (a, b) => a?.id === b?.id,
     },
   );
-
   // Modifica suggerita per la nomenclatura del signal pubblico
   public readonly currentTeam = this.#currentTeamSignal.asReadonly();
-
   // Modifica suggerita per la nomenclatura e aggiunta commento
   public readonly requireCurrentTeam = computed(() => {
     // Modifica suggerita per la nomenclatura
@@ -41,12 +40,12 @@ export class TeamStoreService {
   public async changeTeam(team: Team): Promise<Team | undefined> {
     try {
       // Utilizzo del nome del metodo modificato in TeamService
-      const res = await firstValueFrom(this.#teamService.getTeamById(team.id), {
+      const selectedTeam = await firstValueFrom(this.#teamService.getTeamById(team.id), {
         defaultValue: undefined,
       });
-      this.#currentTeamSignal.set(res); // Utilizzo del nome del signal modificato
+      this.#currentTeamSignal.set(selectedTeam); // Utilizzo del nome del signal modificato
 
-      return res;
+      return selectedTeam;
     } catch (error) {
       console.error('Error changing team:', error); // Log dell'errore
 
@@ -55,4 +54,5 @@ export class TeamStoreService {
       return undefined; // Restituisce undefined in caso di errore
     }
   }
+
 }

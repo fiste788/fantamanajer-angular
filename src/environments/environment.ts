@@ -3,14 +3,14 @@
 // `ng build --configuration=<foo>` then `environment.<foo>.ts` will be used instead.
 // The list of which configuration maps to which file can be found in `angular.json`.
 
-export const environment = {
+export const ENVIRONMENT = {
   apiEndpoint: '/api',
-  serverApiEndpoint: '/api',
-  serverSSREndpoint: '/ssr',
+  benchwarmersCount: 7,
   gaCode: '',
   matchdaysCount: 38,
-  benchwarmersCount: 7,
   production: false,
+  serverApiEndpoint: '/api',
+  serverSSREndpoint: '/ssr',
   vapidPublicKey:
     'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw',
 };

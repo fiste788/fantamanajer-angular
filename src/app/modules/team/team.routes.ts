@@ -1,7 +1,7 @@
-import { Route } from '@angular/router';
+import type { Route } from '@angular/router';
 
 import { authenticatedGuard, championshipAdminGuard } from '@app/guards';
-import { Team } from '@data/types';
+import type { Team } from '@data/interfaces';
 import { RouterOutletComponent } from '@shared/components/router-outlet';
 
 import { TeamDetailPage } from './pages/team-detail/team-detail.page';
@@ -13,34 +13,17 @@ import { TeamStreamPage } from './pages/team-stream/team-stream.page';
 
 export default [
   {
-    path: '',
-    component: RouterOutletComponent,
     canActivate: [authenticatedGuard],
-    data: {
-      state: 'team-outlet',
-      viewTransitionOutlet: 'championship-outlet',
-      transitionParam: 'team_id',
-    },
     children: [
       {
-        path: '',
         component: TeamListPage,
         data: { state: 'team-list' },
+        path: '',
         resolve: {
           teams: teamsResolver,
         },
       },
       {
-        path: ':team_id',
-        component: TeamDetailPage,
-        data: {
-          breadcrumbs: (data: { team: Team }): string => data.team.name,
-          state: 'team-detail',
-          transitionParam: 'team_id',
-        },
-        resolve: {
-          team: teamResolver,
-        },
         children: [
           {
             path: '',
@@ -48,45 +31,62 @@ export default [
             redirectTo: 'players',
           },
           {
-            path: 'articles',
             data: { state: 'team-articles' },
             loadChildren: async () => import('@modules/article/article.routes'),
+            path: 'articles',
           },
           {
-            path: 'players',
             component: TeamMembersPage,
             data: { state: 'team-players' },
+            path: 'players',
             runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
           },
           {
-            path: 'stream',
             component: TeamStreamPage,
             data: { state: 'team-stream' },
+            path: 'stream',
           },
           {
-            path: 'scores',
             data: { state: 'team-scores' },
             loadChildren: async () => import('@modules/score/score.routes'),
+            path: 'scores',
           },
           {
-            path: 'lineup',
             data: { state: 'team-lineup' },
             loadChildren: async () => import('@modules/lineup/lineup.routes'),
+            path: 'lineup',
           },
           {
-            path: 'transferts',
             data: { state: 'team-transfert' },
             loadChildren: async () => import('@modules/transfert/transfert.routes'),
+            path: 'transferts',
           },
           {
-            path: 'admin',
             canActivate: [championshipAdminGuard],
             data: { state: 'team-admin' },
             loadChildren: async () => import('@modules/admin-team/admin-team.routes'),
+            path: 'admin',
           },
         ],
+        component: TeamDetailPage,
+        data: {
+          breadcrumbs: (data: { team: Team }): string => data.team.name,
+          state: 'team-detail',
+          transitionParam: 'team_id',
+        },
+        path: ':team_id',
+        resolve: {
+          team: teamResolver,
+        },
         runGuardsAndResolvers: 'pathParamsOrQueryParamsChange',
       },
     ],
+    component: RouterOutletComponent,
+    data: {
+      state: 'team-outlet',
+      transitionParam: 'team_id',
+      viewTransitionOutlet: 'championship-outlet',
+    },
+    path: '',
   },
-] satisfies Array<Route>;
+] satisfies Route[];

@@ -11,9 +11,11 @@ import { LayoutService } from '@layout/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationDrawerButtonComponent {
+
   readonly #layoutService = inject(LayoutService);
 
   protected clickNav(): void {
     this.#layoutService.toggleDrawer();
   }
+
 }

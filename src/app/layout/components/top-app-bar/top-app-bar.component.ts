@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Signal, signal, inject } from '@angular/core';
+import type { Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 
 import { AuthenticationService } from '@app/authentication';
-import { ApplicationService, NAVIGATOR, ScrollService } from '@app/services';
+import { AppService, NAVIGATOR, ScrollService } from '@app/services';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb';
 import { TabChangedTransitionDirective } from '@shared/directives';
 
@@ -13,42 +15,33 @@ import { NavigationDrawerButtonComponent } from '../navigation-drawer-button/nav
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-top-app-bar',
-  styleUrl: './top-app-bar.component.scss',
+  imports: [BreadcrumbComponent, MatIconModule, MatToolbarModule, NavigationDrawerButtonComponent, NotificationComponent, TabChangedTransitionDirective],
   templateUrl: './top-app-bar.component.html',
+  styleUrl: './top-app-bar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.window-overlayed]': 'isOverlayed()',
     '[class.is-scrolled]': 'isScrolled()',
+    '[class.window-overlayed]': 'isOverlayed()',
   },
-  imports: [
-    MatToolbarModule,
-    MatIconModule,
-    BreadcrumbComponent,
-    NotificationComponent,
-    NavigationDrawerButtonComponent,
-    TabChangedTransitionDirective,
-  ],
 })
 export class TopAppBarComponent {
-  readonly #navigator = inject<Navigator>(NAVIGATOR);
+
+  readonly #applicationService = inject(AppService); // Renamed injected service
   // Renamed injected services for clarity
   readonly #authenticationService = inject(AuthenticationService);
-  readonly #applicationService = inject(ApplicationService); // Renamed injected service
-
+  readonly #navigator = inject<Navigator>(NAVIGATOR);
   protected readonly isScrolled = inject(ScrollService).isScrolled;
-  protected readonly team = this.#applicationService.currentTeam; // Updated service name
-  protected readonly loggedIn = this.#authenticationService.isLoggedIn; // Updated service name
+
   protected readonly isOverlayed = this.#getOverlayedSignal();
+  protected readonly loggedIn = this.#authenticationService.isLoggedIn; // Updated service name
+  protected readonly team = this.#applicationService.currentTeam; // Updated service name
 
   #getOverlayedSignal(): Signal<boolean> {
     if (this.#navigator.windowControlsOverlay) {
-      const isOverlayed$ = fromEvent<WindowControlsOverlayGeometryChangeEvent>(
-        this.#navigator.windowControlsOverlay,
-        'geometrychange',
-      ).pipe(
+      const isOverlayed$ = fromEvent<WindowControlsOverlayGeometryChangeEvent>(this.#navigator.windowControlsOverlay, 'geometrychange').pipe(
         debounceTime(150),
-        map((e) => e.visible),
+        map(event => event.visible),
         distinctUntilChanged(),
       );
 
@@ -59,4 +52,5 @@ export class TopAppBarComponent {
 
     return signal(false);
   }
+
 }

@@ -1,33 +1,37 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { NgForm, FormsModule } from '@angular/forms';
+import type { NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+
+import { of } from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import { save } from '@app/functions';
-import { ApplicationService } from '@app/services';
-import { AtLeast } from '@app/types';
+import type { AtLeast } from '@app/interfaces';
+import { AppService } from '@app/services';
+import type { Article } from '@data/interfaces';
 import { ArticleService } from '@data/services';
-import { Article } from '@data/types';
 
 @Component({
-  styleUrl: './article-detail.page.scss',
+  imports: [AsyncPipe, FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './article-detail.page.html',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
+  styleUrl: './article-detail.page.scss',
 })
 export class ArticleDetailPage {
-  readonly #snackBar = inject(MatSnackBar);
-  readonly #app = inject(ApplicationService);
-  readonly #router = inject(Router);
+
+  readonly #app = inject(AppService);
   readonly #articleService = inject(ArticleService);
+  readonly #router = inject(Router);
+  readonly #snackBar = inject(MatSnackBar);
 
   protected readonly article$ = this.getArticle();
 
-  protected getArticle(): Observable<Article> {
+  protected getArticle(): Observable<AtLeast<Article, 'team_id'>> {
     const id = inject(ActivatedRoute).snapshot.params['id'] as string | undefined;
 
     return id === undefined ? this.new() : this.load(+id);
@@ -37,26 +41,23 @@ export class ArticleDetailPage {
     return this.#articleService.getArticle(id);
   }
 
-  protected new(): Observable<Article> {
-    return of({ team_id: this.#app.requireCurrentTeam().id } as Article);
+  protected new(): Observable<AtLeast<Article, 'team_id'>> {
+    return of({ team_id: this.#app.requireCurrentTeam().id } satisfies AtLeast<Article, 'team_id'>);
   }
 
-  protected async save(
-    article: AtLeast<Article, 'team_id'>,
-    articleForm: NgForm,
-  ): Promise<boolean> {
+  protected async save(article: AtLeast<Article, 'team_id'>, articleForm: NgForm): Promise<boolean> {
     if (articleForm.valid) {
       const save$: Observable<AtLeast<Article, 'id'>> = article.id
         ? this.#articleService.update(article as AtLeast<Article, 'id'>)
         : this.#articleService.create(article);
 
       return save(save$, false, this.#snackBar, {
+        callback: async result => this.#router.navigateByUrl(`/teams/${article.team_id}/articles#${result.id}`),
         message: 'Articolo salvato correttamente',
-        callback: async (res) =>
-          this.#router.navigateByUrl(`/teams/${article.team_id}/articles#${res.id}`),
       });
     }
 
     return false;
   }
+
 }

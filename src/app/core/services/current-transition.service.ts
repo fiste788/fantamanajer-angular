@@ -1,21 +1,20 @@
 /* eslint-disable unicorn/prefer-spread */
 
 import { DOCUMENT } from '@angular/common';
-import { Injectable, signal, inject, computed } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
+import { computed, inject, Service, signal } from '@angular/core';
+import type { ActivatedRouteSnapshot, RouterOutlet, UrlTree, ViewTransitionInfo } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CurrentTransitionService {
+
   readonly #document = inject<Document>(DOCUMENT);
 
   public readonly currentTransition = signal<
     | {
-        transition: ViewTransitionInfo;
-        previousUrl?: UrlTree;
-        finalUrl?: UrlTree;
-      }
+      finalUrl?: UrlTree | undefined;
+      previousUrl?: UrlTree | undefined;
+      transition: ViewTransitionInfo;
+    }
     | undefined
   >(undefined);
 
@@ -23,13 +22,13 @@ export class CurrentTransitionService {
     const transition = this.currentTransition();
     if (!transition) {
       return {
-        transition: undefined,
         from: undefined,
-        to: undefined,
         outletFrom: undefined,
         outletTo: undefined,
         targetFrom: undefined,
         targetTo: undefined,
+        to: undefined,
+        transition: undefined,
       };
     }
     const { from, to } = transition.transition;
@@ -38,9 +37,16 @@ export class CurrentTransitionService {
     const targetFrom = outletFrom?.firstChild ?? outletFrom;
     const targetTo = outletTo?.firstChild ?? outletTo;
 
-    return { transition, from, to, outletFrom, outletTo, targetFrom, targetTo };
+    return { from, outletFrom, outletTo, targetFrom, targetTo, to, transition };
   });
+  public readonly isRootOutlet = computed(() => {
+    const { outletFrom, outletTo, transition } = this.#transitionInfo();
+    if (!transition?.previousUrl) {
+      return false;
+    }
 
+    return outletFrom === undefined || outletTo === undefined;
+  });
   public readonly isSameContext = computed(() => {
     const { outletFrom, outletTo } = this.#transitionInfo();
     if (!outletFrom || !outletTo) {
@@ -56,56 +62,18 @@ export class CurrentTransitionService {
     return isSameContext;
   });
 
-  public readonly isRootOutlet = computed(() => {
-    const { transition, outletFrom, outletTo } = this.#transitionInfo();
-    if (!transition?.previousUrl) {
-      return false;
-    }
-
-    return outletFrom === undefined || outletTo === undefined;
-  });
-
-  public isListToDetail(): boolean {
-    const { outletFrom, outletTo, targetFrom, targetTo } = this.#transitionInfo();
-    if (!outletFrom || !outletTo || !targetFrom || !targetTo) {
-      return false;
-    }
-
-    const param = this.#getTransitionParam(outletFrom, outletTo);
-    const fromId = targetFrom.params[param] as string | undefined;
-    const toId = targetTo.params[param] as string | undefined;
-
-    if (
-      outletFrom?.data['state'] === outletTo?.data['state'] ||
-      outletFrom?.data['state'] === outletTo?.data['viewTransitionOutlet'] ||
-      outletTo?.data['state'] === outletFrom?.data['viewTransitionOutlet']
-    ) {
-      const isBannerImg = targetTo?.params[param] !== targetFrom?.params[param];
-
-      if (isBannerImg && !fromId && toId) {
-        this.#document.documentElement.classList.remove('detail-to-list');
-        this.#document.documentElement.classList.add('list-to-detail');
-      }
-
-      return isBannerImg;
-    }
-
-    return false;
-  }
-
   public isDetailToList(entity: { id: number }): boolean {
     const { outletFrom, outletTo, targetFrom, targetTo } = this.#transitionInfo();
     let isBannerImg = false;
     if (targetFrom || targetTo) {
-      const param = this.#getTransitionParam(targetFrom, targetTo);
-      isBannerImg =
-        targetTo?.params[param] === `${entity.id}` || targetFrom?.params[param] === `${entity.id}`;
+      const parameter = this.#getTransitionParam(targetFrom, targetTo);
+      isBannerImg = targetTo?.params[parameter] === entity.id.toString() || targetFrom?.params[parameter] === entity.id.toString();
     }
 
     if (isBannerImg && outletFrom && outletTo && targetFrom && targetTo) {
-      const param = this.#getTransitionParam(outletFrom, outletTo);
-      const fromId = targetFrom.params[param] as string | undefined;
-      const toId = targetTo.params[param] as string | undefined;
+      const parameter = this.#getTransitionParam(outletFrom, outletTo);
+      const fromId = targetFrom.params[parameter] as string | undefined;
+      const toId = targetTo.params[parameter] as string | undefined;
       if (fromId && !toId) {
         // It is a D2L transition
         this.#document.documentElement.classList.remove('list-to-detail');
@@ -114,27 +82,6 @@ export class CurrentTransitionService {
     }
 
     return isBannerImg;
-  }
-
-  public isTabChanged(tabBar?: HTMLElement): boolean {
-    const info = this.currentTransition();
-    if (info && tabBar) {
-      const tabs = Array.from(tabBar.querySelectorAll('a'));
-      const from = this.#getUrl(info.transition.from);
-      const to = this.#getUrl(info.transition.to);
-
-      const pre = from ? tabs.findIndex((a) => a.pathname.startsWith(`/${from}`)) : -1;
-      const post = to ? tabs.findIndex((a) => a.pathname.startsWith(`/${to}`)) : -1;
-      if (pre > -1 && post > -1) {
-        if (pre > post) {
-          this.#document.documentElement.classList.add('direction-right');
-        } else {
-          this.#document.documentElement.classList.add('direction-left');
-        }
-      }
-    }
-
-    return this.isSameContext();
   }
 
   public isLastOutlet(o: RouterOutlet): boolean {
@@ -157,6 +104,55 @@ export class CurrentTransitionService {
     return false;
   }
 
+  public isListToDetail(): boolean {
+    const { outletFrom, outletTo, targetFrom, targetTo } = this.#transitionInfo();
+    if (!outletFrom || !outletTo || !targetFrom || !targetTo) {
+      return false;
+    }
+
+    const parameter = this.#getTransitionParam(outletFrom, outletTo);
+    const fromId = targetFrom.params[parameter] as string | undefined;
+    const toId = targetTo.params[parameter] as string | undefined;
+
+    if (
+      outletFrom.data['state'] === outletTo.data['state']
+      || outletFrom.data['state'] === outletTo.data['viewTransitionOutlet']
+      || outletTo.data['state'] === outletFrom.data['viewTransitionOutlet']
+    ) {
+      const isBannerImg = targetTo.params[parameter] !== targetFrom.params[parameter];
+
+      if (isBannerImg && !fromId && toId) {
+        this.#document.documentElement.classList.remove('detail-to-list');
+        this.#document.documentElement.classList.add('list-to-detail');
+      }
+
+      return isBannerImg;
+    }
+
+    return false;
+  }
+
+  public isTabChanged(tabBar?: HTMLElement): boolean {
+    const info = this.currentTransition();
+    if (info && tabBar) {
+      const tabs = Array.from(tabBar.querySelectorAll('a'));
+      const from = this.#getUrl(info.transition.from);
+      const to = this.#getUrl(info.transition.to);
+
+      const pre = from ? tabs.findIndex(a => a.pathname.startsWith(`/${from}`)) : -1;
+      const post = to ? tabs.findIndex(a => a.pathname.startsWith(`/${to}`)) : -1;
+      if (pre > -1 && post > -1) {
+        if (pre > post) {
+          this.#document.documentElement.classList.add('direction-right');
+        } else {
+          this.#document.documentElement.classList.add('direction-left');
+        }
+      }
+    }
+
+    return this.isSameContext();
+  }
+
   #getOutlet(route?: ActivatedRouteSnapshot): ActivatedRouteSnapshot | undefined {
     if (route) {
       const state = route.data['state'] as string | undefined;
@@ -167,24 +163,18 @@ export class CurrentTransitionService {
     return undefined;
   }
 
+  #getTransitionParam(outletFrom?: ActivatedRouteSnapshot, outletTo?: ActivatedRouteSnapshot): string {
+    return (outletFrom?.data['transitionParam'] as string | undefined) ?? (outletTo?.data['transitionParam'] as string | undefined) ?? 'id';
+  }
+
   #getUrl(route?: ActivatedRouteSnapshot): string | undefined {
     const outlet = this.#getOutlet(route);
     const child = outlet?.firstChild?.firstChild ?? outlet?.firstChild;
 
     return child?.pathFromRoot
-      .map((entry) => entry.url[0])
-      .filter((entry) => entry !== undefined)
+      .map(entry => entry.url[0])
+      .filter(entry => entry !== undefined)
       .join('/');
   }
 
-  #getTransitionParam(
-    outletFrom?: ActivatedRouteSnapshot,
-    outletTo?: ActivatedRouteSnapshot,
-  ): string {
-    return (
-      (outletFrom?.data['transitionParam'] as string | undefined) ??
-      (outletTo?.data['transitionParam'] as string | undefined) ??
-      'id'
-    );
-  }
 }
