@@ -48,7 +48,7 @@
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
   "vars": {
-    "NODE_VERSION": "24.11.0",
+    "NODE_VERSION": "24.18.0",
     "BUN_VERSION": "1.2.15",
     "NG_BUILD_OPTIMIZE_CHUNKS": "1",
     "USE_NONCE": "false"
