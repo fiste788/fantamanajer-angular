@@ -5,13 +5,14 @@ import { map, take } from 'rxjs';
 
 import { ApplicationService } from '@app/services';
 import { Championship } from '@data/types';
+import { filterNil } from '@app/functions';
 
 export const championshipResolver: ResolveFn<Championship | undefined> = () => {
   const applicationService = inject(ApplicationService);
   const teamSignal = applicationService.requireCurrentTeam;
 
   return toObservable(teamSignal).pipe(
-    //filterNil(),
+    filterNil(),
     map((team) => team.championship),
     take(1),
   );
