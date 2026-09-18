@@ -3,6 +3,7 @@ import { error, IttyRouter } from 'itty-router';
 
 import { AppRouter, WorkerConfig } from '@worker/types';
 import { createExportedHandler, withWorkerArgs } from '@worker/utils';
+import { AngularSSRFailureError } from '@worker/features/angular/angular.errors';
 
 /**
  * Crea l'handler principale che gestisce la richiesta, esegue il routing e cattura gli errori asincroni.
@@ -12,8 +13,16 @@ import { createExportedHandler, withWorkerArgs } from '@worker/utils';
 const createFetchHandler = <Env>(router: AppRouter): ExportedHandlerFetchHandler<Env> => {
   return async (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> => {
     // Esegue il router con la gestione degli errori asincroni
-    return router.fetch(request, [env, ctx]).catch((error_) => {
-      console.error('Request failed:', error_);
+    return router.fetch(request, [env, ctx]).catch((error_: AngularSSRFailureError) => {
+      console.error('❌ Request failed:', error_?.message || error_);
+
+      // Se l'errore ha una causa annidata (es. AngularSSRFailureError), stampala in dettaglio
+      if (error_?.cause) {
+        console.error('👉 Caused by:', error_.cause);
+      }
+      if (error_?.stack) {
+        console.error(error_.stack);
+      }
 
       return error(500, 'Internal Server Error');
     });
