@@ -1,7 +1,7 @@
 import { AdditionalHeaders, CspConfig } from '@worker/features/angular';
 
 export const BASE_CSP_CONFIG: CspConfig = {
-  'default-src': ["'self'", '*.fantamanajer.it'],
+  'default-src': ["'self'", '*.fantamanajer.it', 'static.cloudflareinsights.com'],
   'script-src': ["'self'", "'unsafe-inline'", 'static.cloudflareinsights.com'],
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': ["'self'", '*.fantamanajer.it', 'data:'],
