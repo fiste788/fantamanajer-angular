@@ -6,9 +6,7 @@
   <mat-card-header>
     <mat-card-title>Giornata {{ _lineup.matchday?.number }}</mat-card-title>
     @if (_lineup.modified_at) {
-      <mat-card-subtitle
-        >Aggiornata il: {{ _lineup.modified_at | date: 'dd/MM HH:mm' }}
-      </mat-card-subtitle>
+      <mat-card-subtitle>Aggiornata il: {{ _lineup.modified_at | date: 'dd/MM HH:mm' }} </mat-card-subtitle>
     }
   </mat-card-header>
   <mat-card-content>

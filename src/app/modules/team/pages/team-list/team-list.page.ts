@@ -8,5 +8,5 @@ import { TeamCardComponent } from '@modules/team/components/team-card/team-card.
   imports: [TeamCardComponent],
 })
 export class TeamListPage {
-  protected readonly teams = input.required<Array<Team>>();
+  public readonly teams = input.required<Array<Team>>();
 }

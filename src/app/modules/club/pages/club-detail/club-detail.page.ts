@@ -12,7 +12,7 @@ import { PrimaryTabComponent } from '@shared/components/primary-tab/primary-tab.
 })
 export class ClubDetailPage {
   readonly #scrollService = inject(ScrollService);
-  protected club = input.required<Club>();
+  public club = input.required<Club>();
   protected placeholder?: string;
 
   protected readonly tabs: Array<Tab> = [

@@ -3,8 +3,7 @@
   text-align: center;
   padding: 1rem;
   position: relative;
-  transition: all var(--mat-sys-motion-emphasized-decelerate-duration)
-    var(--mat-sys-motion-emphasized-decelerate);
+  transition: all var(--mat-sys-motion-emphasized-decelerate-duration) var(--mat-sys-motion-emphasized-decelerate);
   border-radius: var(--mat-sys-corner-small);
 }
 

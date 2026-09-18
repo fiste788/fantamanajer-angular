@@ -1,112 +1,107 @@
 <!-- eslint-disable @angular-eslint/template/no-inline-styles -->
-@if (dataSource$ | async; as dataSource) { @if (dataSource.data.length) {
-<mat-card appearance="outlined">
-  <table
-    #table
-    mat-table
-    matSort
-    [dataSource]="dataSource"
-    [trackBy]="trackTransfert"
-    (matSortChange)="setSort(dataSource)"
-  >
-    <ng-container matColumnDef="old_member">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
+@if (dataSource$ | async; as dataSource) {
+  @if (dataSource.data.length) {
+    <mat-card appearance="outlined">
+      <table
+        #table
+        mat-table
+        matSort
+        [dataSource]="dataSource"
+        [trackBy]="trackTransfert"
+        (matSortChange)="setSort(dataSource)"
       >
-        Vecchio giocatore
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        <a [routerLink]="['/players', row.old_member.player.id]"
-          >{{row.old_member.player.full_name}}</a
-        >
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="old_member">
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+            mat-sort-header
+          >
+            Vecchio giocatore
+          </th>
+          <td
+            *matCellDef="let row"
+            mat-cell
+          >
+            <a [routerLink]="['/players', row.old_member.player.id]">{{ row.old_member.player.full_name }}</a>
+          </td>
+        </ng-container>
 
-    <ng-container matColumnDef="new_member">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header
-      >
-        Nuovo giocatore
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        <a [routerLink]="['/players', row.new_member.player.id]"
-          >{{row.new_member.player.full_name}}</a
-        >
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="new_member">
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+            mat-sort-header
+          >
+            Nuovo giocatore
+          </th>
+          <td
+            *matCellDef="let row"
+            mat-cell
+          >
+            <a [routerLink]="['/players', row.new_member.player.id]">{{ row.new_member.player.full_name }}</a>
+          </td>
+        </ng-container>
 
-    <ng-container matColumnDef="constraint">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        Obbligato
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        @if (row.constrained) {
-        <mat-icon>done</mat-icon>
-        }
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="constraint">
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+          >
+            Obbligato
+          </th>
+          <td
+            *matCellDef="let row"
+            mat-cell
+          >
+            @if (row.constrained) {
+              <mat-icon>done</mat-icon>
+            }
+          </td>
+        </ng-container>
 
-    <ng-container matColumnDef="matchday">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-      >
-        Giornata
-      </th>
-      <td
-        *matCellDef="let row;"
-        mat-cell
-      >
-        {{row.matchday.number}}
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="matchday">
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+          >
+            Giornata
+          </th>
+          <td
+            *matCellDef="let row"
+            mat-cell
+          >
+            {{ row.matchday.number }}
+          </td>
+        </ng-container>
 
-    <tr
-      *matHeaderRowDef="displayedColumns; sticky: true"
-      mat-header-row
-      style="--index: 0"
-    ></tr>
-    <tr
-      *matRowDef="let row; columns: displayedColumns;let i = index"
-      mat-row
-      [style]="'--index: ' + (i + 1)"
-    ></tr>
-  </table>
-</mat-card>
+        <tr
+          *matHeaderRowDef="displayedColumns; sticky: true"
+          mat-header-row
+          style="--index: 0"
+        ></tr>
+        <tr
+          *matRowDef="let row; columns: displayedColumns; let i = index"
+          mat-row
+          [style]="'--index: ' + (i + 1)"
+        ></tr>
+      </table>
+    </mat-card>
+  } @else {
+    <app-mat-empty-state
+      icon="swap_vert"
+      label="Nessun trasferimento presente"
+      rounded
+      [size]="330"
+    />
+  }
 } @else {
-
-<app-mat-empty-state
-  icon="swap_vert"
-  label="Nessun trasferimento presente"
-  rounded
-  [size]="330"
-/>
-
-} } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }
 <ng-container *appSeasonActive="">
   @if (isMyTeam$ | async) {
-  <app-selection />
+    <app-selection />
   }
 </ng-container>

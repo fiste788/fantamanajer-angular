@@ -26,7 +26,7 @@ import { SlugPipe, SrcsetPipe } from '@shared/pipes';
   ],
 })
 export class ClubListPage {
-  protected clubs = input.required<Array<Club>>();
+  public clubs = input.required<Array<Club>>();
   protected imgRef = viewChild<string, ElementRef<HTMLImageElement>>('listImg', {
     read: ElementRef,
   });

@@ -27,12 +27,7 @@
 }
 
 // Mixin per stato visibile
-@mixin visible-state(
-  $opacity: 1,
-  $transform: translate(0, 0),
-  $starting-opacity: null,
-  $starting-transform: null
-) {
+@mixin visible-state($opacity: 1, $transform: translate(0, 0), $starting-opacity: null, $starting-transform: null) {
   opacity: $opacity;
   transform: $transform;
 
@@ -40,12 +35,7 @@
 }
 
 // Mixin per stato nascosto
-@mixin hidden-state(
-  $opacity: 0,
-  $transform: translate(0, 0),
-  $starting-opacity: null,
-  $starting-transform: null
-) {
+@mixin hidden-state($opacity: 0, $transform: translate(0, 0), $starting-opacity: null, $starting-transform: null) {
   opacity: $opacity;
   transform: $transform;
 

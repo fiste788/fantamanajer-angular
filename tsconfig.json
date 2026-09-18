@@ -25,7 +25,7 @@
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "allowUnusedLabels": false,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
     "suppressImplicitAnyIndexErrors": false,
     "target": "ES2022",
     "paths": {

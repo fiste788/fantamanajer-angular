@@ -47,7 +47,7 @@ export class PlayerPage {
   readonly #scrollService = inject(ScrollService);
 
   protected readonly app = inject(ApplicationService);
-  protected readonly player = input.required<Player>();
+  public readonly player = input.required<Player>();
   protected selectedMember = linkedSignal(() => this.player().members[0]!);
   protected ratings$ = this.getRatings(toObservable(this.selectedMember));
   protected readonly displayedColumns = [

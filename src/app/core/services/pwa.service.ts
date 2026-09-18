@@ -1,39 +1,20 @@
 import { isPlatformBrowser } from '@angular/common';
-import {
-  ApplicationRef,
-  Injectable,
-  PLATFORM_ID,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { ApplicationRef, inject, linkedSignal, PLATFORM_ID, Service, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SwUpdate } from '@angular/service-worker';
-import {
-  Observable,
-  Subscription,
-  timer,
-  fromEvent,
-  filter,
-  switchMap,
-  first,
-  tap,
-  firstValueFrom,
-} from 'rxjs';
 
-import { toWritableSignal } from '@app/functions';
+import { filter, first, firstValueFrom, fromEvent, Observable, Subscription, switchMap, tap, timer } from 'rxjs';
 
 import { SnackbarNotificationService } from './snackbar-notification.service';
 import { WINDOW } from './window.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class PwaService {
-  readonly #window = inject<Window>(WINDOW);
-  readonly #platformId = inject(PLATFORM_ID);
-  readonly #notificationService = inject(SnackbarNotificationService);
-  readonly #swUpdate = inject(SwUpdate);
   readonly #appRef = inject(ApplicationRef);
+  readonly #notificationService = inject(SnackbarNotificationService);
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #swUpdate = inject(SwUpdate);
+  readonly #window = inject<Window>(WINDOW);
 
   public readonly beforeInstallSignal = this.#getBeforeInstall();
 
@@ -46,19 +27,6 @@ export class PwaService {
 
   public connect(): Subscription {
     return this.init().subscribe();
-  }
-
-  #getBeforeInstall(): WritableSignal<BeforeInstallPromptEvent | undefined> {
-    return isPlatformBrowser(this.#platformId)
-      ? toWritableSignal(
-          fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(
-            tap((e) => {
-              e.preventDefault();
-            }),
-          ),
-          { initialValue: undefined },
-        )
-      : signal<BeforeInstallPromptEvent | undefined>(undefined);
   }
 
   #checkForUpdates(): Observable<boolean> {
@@ -75,20 +43,28 @@ export class PwaService {
     );
   }
 
-  async #promptUpdate(): Promise<void> {
-    const notification = await this.#notificationService.open(
-      "Nuova versione dell'app disponibile",
-      'Aggiorna',
-      {
-        duration: 30_000,
-      },
-    );
+  #getBeforeInstall(): WritableSignal<BeforeInstallPromptEvent | undefined> {
+    if (!isPlatformBrowser(this.#platformId)) {
+      return signal<BeforeInstallPromptEvent | undefined>(undefined);
+    }
 
-    const activateUpdate = await firstValueFrom(
-      notification.onAction().pipe(switchMap(async () => this.#swUpdate.activateUpdate())),
-      { defaultValue: false },
-    );
-    if (activateUpdate) {
+    // 1. Converti l'Observable in un ReadonlySignal nativo
+    const promptEvent = toSignal(fromEvent<BeforeInstallPromptEvent>(this.#window, 'beforeinstallprompt').pipe(tap((e) => e.preventDefault())), {
+      initialValue: undefined,
+    });
+
+    // 2. Collega un linkedSignal: è scrivibile (.set / .update) e si aggiorna
+    // automaticamente quando promptEvent() emette un nuovo valore
+    return linkedSignal(() => promptEvent());
+  }
+
+  async #promptUpdate(): Promise<void> {
+    const notification = await this.#notificationService.open("Nuova versione dell'app disponibile", 'Aggiorna', {
+      duration: 30_000,
+    });
+
+    const isActivateUpdate = await firstValueFrom(notification.onAction().pipe(switchMap(async () => this.#swUpdate.activateUpdate())), { defaultValue: false });
+    if (isActivateUpdate) {
       this.#window.location.reload();
     }
   }

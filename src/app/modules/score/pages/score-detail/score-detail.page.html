@@ -1,36 +1,33 @@
-@if ((score()); as _score) {
-<div>
-  @if (_score.lineup) {
+@if (score(); as _score) {
   <div>
-    @if (regular(); as _regular) {
-    <app-disposition-list
-      regular
-      [caption]="'Punteggio: ' + (_score.points | number)"
-      [dispositions]="_regular"
-      [lineup]="_score.lineup"
-    />
-    } @if (notRegular(); as _notRegular) {
-    <app-disposition-list
-      caption="Panchinari"
-      [dispositions]="_notRegular"
-    />
+    @if (_score.lineup) {
+      <div>
+        @if (regular(); as _regular) {
+          <app-disposition-list
+            regular
+            [caption]="'Punteggio: ' + (_score.points | number)"
+            [dispositions]="_regular"
+            [lineup]="_score.lineup"
+          />
+        }
+        @if (notRegular(); as _notRegular) {
+          <app-disposition-list
+            caption="Panchinari"
+            [dispositions]="_notRegular"
+          />
+        }
+      </div>
+    } @else {
+      <app-mat-empty-state
+        description="Formazione non presente"
+        icon="mood_bad"
+        [label]="'Punteggio: ' + (_score.points | number)"
+      />
     }
   </div>
-  } @else {
-
-  <app-mat-empty-state
-    description="Formazione non presente"
-    icon="mood_bad"
-    [label]="'Punteggio: ' + (_score.points | number)"
-  />
-
-  }
-</div>
 } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
+  <mat-progress-spinner
+    color="accent"
+    mode="indeterminate"
+  />
 }

@@ -1,49 +1,47 @@
-@let _lineup = lineup.value(); @if (!seasonEnded() ) { @if (_lineup) { @if (_lineup.module ||
-editMode()) {
-<form
-  #lineupForm="ngForm"
-  appMemberAlreadySelected
-  class="flex-container"
-  (ngSubmit)="save(_lineup, lineupForm)"
->
-  <app-lineup-detail
-    #lineupDetail
-    [benchs]="championship().number_benchwarmers"
-    [captain]="championship().captain"
-    [disabled]="!editMode()"
-    [jolly]="championship().jolly"
-    [lineup]="_lineup"
-  >
-    @if (editMode()) {
-    <button
-      buttons
-      color="accent"
-      matButton="filled"
-      type="submit"
-    >
-      Salva
-    </button>
+@let _lineup = lineup.value();
+@if (!seasonEnded()) {
+  @if (_lineup) {
+    @if (_lineup.module || editMode()) {
+      <form
+        #lineupForm="ngForm"
+        appMemberAlreadySelected
+        class="flex-container"
+        (ngSubmit)="save(_lineup, lineupForm)"
+      >
+        <app-lineup-detail
+          #lineupDetail
+          [benchs]="championship().number_benchwarmers"
+          [captain]="championship().captain"
+          [disabled]="!editMode()"
+          [jolly]="championship().jolly"
+          [lineup]="_lineup"
+        >
+          @if (editMode()) {
+            <button
+              buttons
+              color="accent"
+              matButton="filled"
+              type="submit"
+            >
+              Salva
+            </button>
+          }
+        </app-lineup-detail>
+      </form>
+    } @else {
+      <h3 class="subheading-1">Formazione non settata</h3>
     }
-  </app-lineup-detail>
-</form>
+  } @else {
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+    />
+  }
 } @else {
-
-<h3 class="subheading-1">Formazione non settata</h3>
-
-} } @else {
-
-<mat-progress-spinner
-  color="accent"
-  mode="indeterminate"
-/>
-
-} } @else {
-
-<app-mat-empty-state
-  description="Goditi l'estate e tieniti pronto per la prossima stagione"
-  icon="wb_sunny"
-  rounded
-  [label]="matchday()?.season?.name + ' conclusa'"
-/>
-
+  <app-mat-empty-state
+    description="Goditi l'estate e tieniti pronto per la prossima stagione"
+    icon="wb_sunny"
+    rounded
+    [label]="matchday()?.season?.name + ' conclusa'"
+  />
 }

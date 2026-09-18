@@ -1,65 +1,65 @@
 <div class="grid grid-cols-1 grid-rows-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
   @for (club of clubs(); track club.id; let first = $first) {
-  <mat-card appearance="outlined">
-    <a
-      appDetailToListTransition="banner-img"
-      [entity]="club"
-      [routerLink]="['/clubs/',club.id]"
-      [state]="{img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')'}"
-    >
-      <figure
-        class="aspect-ratio-box placeholder"
-        mat-card-image
-        matRipple
+    <mat-card appearance="outlined">
+      <a
+        appDetailToListTransition="banner-img"
+        [entity]="club"
+        [routerLink]="['/clubs/', club.id]"
+        [state]="{ img: 'url(\'' + imgRef()?.nativeElement?.currentSrc + '\')' }"
       >
-        @if (club.background_url) {
+        <figure
+          class="aspect-ratio-box placeholder"
+          mat-card-image
+          matRipple
+        >
+          @if (club.background_url) {
+            <img
+              #listImg
+              height="337"
+              ngSrcset="600w, 1280w"
+              sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
+              width="600"
+              [alt]="club.name"
+              [attr.fetchpriority]="first ? 'high' : 'auto'"
+              [loaderParams]="club.background_url"
+              [ngSrc]="club.background_url | srcset: true"
+              [priority]="first"
+            />
+          }
+          <figcaption>{{ club.name }}</figcaption>
+        </figure>
+      </a>
+      <mat-card-header>
         <img
-          #listImg
-          height="337"
-          ngSrcset="600w, 1280w"
-          sizes="(min-width: 60em) calc(.3 * (100vw - 15em)), (min-width: 37.5em) 45vw, calc(100vw - 1em)"
-          width="600"
+          class="club-header-image"
+          height="40"
+          loading="lazy"
+          mat-card-avatar
+          width="40"
           [alt]="club.name"
-          [attr.fetchpriority]="first ? 'high' : 'auto'"
-          [loaderParams]="club.background_url"
-          [ngSrc]="club.background_url | srcset: true"
-          [priority]="first"
+          [appDetailToListTransition]="'avatar-' + club.name | slug"
+          [entity]="club"
+          [ngSrc]="club.photo_url || ''"
         />
-        }
-        <figcaption>{{club.name}}</figcaption>
-      </figure>
-    </a>
-    <mat-card-header>
-      <img
-        class="club-header-image"
-        height="40"
-        loading="lazy"
-        mat-card-avatar
-        width="40"
-        [alt]="club.name"
-        [appDetailToListTransition]="'avatar-' + club.name | slug"
-        [entity]="club"
-        [ngSrc]="club.photo_url || ''"
-      />
-      <mat-card-title
-        [appDetailToListTransition]="'title-' + club.name | slug"
-        [entity]="club"
-        >{{club.name}}</mat-card-title
-      >
-      <mat-card-subtitle>Club</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions>
-      <a
-        matButton="filled"
-        [routerLink]="[club.id, 'players']"
-        >DETTAGLI</a
-      >
-      <a
-        matButton="tonal"
-        [routerLink]="[club.id, 'stream']"
-        >ATTIVITÀ</a
-      >
-    </mat-card-actions>
-  </mat-card>
+        <mat-card-title
+          [appDetailToListTransition]="'title-' + club.name | slug"
+          [entity]="club"
+          >{{ club.name }}</mat-card-title
+        >
+        <mat-card-subtitle>Club</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <a
+          matButton="filled"
+          [routerLink]="[club.id, 'players']"
+          >DETTAGLI</a
+        >
+        <a
+          matButton="tonal"
+          [routerLink]="[club.id, 'stream']"
+          >ATTIVITÀ</a
+        >
+      </mat-card-actions>
+    </mat-card>
   }
 </div>

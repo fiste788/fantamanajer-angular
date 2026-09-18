@@ -17,14 +17,7 @@
 .list-item-transition content-loader,
 .member-selection .mat-mdc-select,
 .member-selection .mat-mdc-form-field-subscript-wrapper {
-  @include transition-full(
-    $duration-decelerate,
-    $ease-decelerate,
-    $delay-list-item,
-    opacity,
-    transform,
-    box-shadow
-  );
+  @include transition-full($duration-decelerate, $ease-decelerate, $delay-list-item, opacity, transform, box-shadow);
 
   // Transizione da stato nascosto (opacity 0, traslato) a visibile
   @include starting-style-state(0, $transform-y-list-item-initial);
@@ -38,13 +31,7 @@
   .img-container,
   .mat-empty-state,
   .icon-container > span {
-    @include transition-full(
-      $duration-decelerate,
-      $ease-decelerate,
-      $delay-list-item,
-      opacity,
-      transform
-    );
+    @include transition-full($duration-decelerate, $ease-decelerate, $delay-list-item, opacity, transform);
 
     // Stato finale visibile
     @include visible-state; // default opacity 1, transform translateY(0)
@@ -69,12 +56,7 @@
 
 .fab {
   @include transition-full($duration-decelerate, $ease-decelerate, 0ms, transform);
-  @include visible-state(
-    null,
-    $transform-scale-visible,
-    null,
-    $transform-scale-hidden
-  ); // Scala da 0 a 1, Opacità da 0 a 1
+  @include visible-state(null, $transform-scale-visible, null, $transform-scale-hidden); // Scala da 0 a 1, Opacità da 0 a 1
 }
 
 // --- Transizioni di Scorrimento (Header / Toolbar / FAB) ---
@@ -85,12 +67,7 @@
     transition-timing-function: $ease-decelerate, var(--mat-sys-motion-standard);
 
     .mat-toolbar-row {
-      @include transition-full(
-        $duration-toolbar-row-visible,
-        $ease-decelerate,
-        $delay-toolbar-row-visible,
-        opacity
-      );
+      @include transition-full($duration-toolbar-row-visible, $ease-decelerate, $delay-toolbar-row-visible, opacity);
       @include visible-state(1, null, 0); // Opacità finale 1, parte da 0
     }
   }
@@ -104,20 +81,12 @@
       transition-duration: $duration-accelerate;
       transition-timing-function: $ease-accelerate;
 
-      @include starting-style-state(
-        null,
-        translateY(0)
-      ); // Contenitore parte dalla posizione visibile
+      @include starting-style-state(null, translateY(0)); // Contenitore parte dalla posizione visibile
 
       .mat-toolbar-row {
         transition-property: opacity; // Opacità per la toolbar
 
-        @include transition-full(
-          $duration-toolbar-row-hidden,
-          $ease-accelerate,
-          0ms,
-          opacity
-        ); // Nessun delay in uscita
+        @include transition-full($duration-toolbar-row-hidden, $ease-accelerate, 0ms, opacity); // Nessun delay in uscita
 
         @include hidden-state(0, null, 1); // Opacità finale 0, parte da 1
       }
@@ -125,19 +94,9 @@
       .fab {
         transition-property: transform; // Scala e opacità per il FAB
 
-        @include transition-full(
-          $duration-accelerate,
-          $ease-accelerate,
-          0ms,
-          transform
-        ); // Nessun delay in uscita
+        @include transition-full($duration-accelerate, $ease-accelerate, 0ms, transform); // Nessun delay in uscita
 
-        @include hidden-state(
-          null,
-          $transform-scale-hidden,
-          null,
-          $transform-scale-visible
-        ); // Scala da 1 a 0, Opacità da 1 a 0
+        @include hidden-state(null, $transform-scale-hidden, null, $transform-scale-visible); // Scala da 1 a 0, Opacità da 1 a 0
       }
     }
 
@@ -159,13 +118,7 @@ app-profile,
 .mat-drawer .toggle,
 .mat-drawer .fab {
   // Transizioni base per tutti gli elementi della navigazione
-  @include transition-full(
-    $duration-decelerate,
-    $ease-decelerate,
-    $delay-navigation-item,
-    transform,
-    opacity
-  );
+  @include transition-full($duration-decelerate, $ease-decelerate, $delay-navigation-item, transform, opacity);
 
   // Stato finale visibile per default
   @include visible-state;

@@ -15,31 +15,20 @@ import { TeamEditModal } from '../../modals/team-edit/team-edit.modal';
 @Component({
   styleUrl: './team-detail.page.scss',
   templateUrl: './team-detail.page.html',
-  imports: [
-    ParallaxHeaderComponent,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    PrimaryTabComponent,
-  ],
+  imports: [ParallaxHeaderComponent, MatButtonModule, MatIconModule, MatDialogModule, PrimaryTabComponent],
 })
 export class TeamDetailPage implements OnInit {
   readonly #scrollService = inject(ScrollService);
   readonly #dialog = inject(MatDialog);
 
-  protected team = input.required<Team>();
+  public team = input.required<Team>();
   protected placeholder?: string;
 
   protected readonly app = inject(ApplicationService);
   protected readonly auth = inject(AuthenticationService);
 
   protected tabs = computed(() => {
-    return this.loadTabs(
-      this.team(),
-      this.app.seasonEnded(),
-      this.app.currentTeam(),
-      this.auth.currentUser(),
-    );
+    return this.loadTabs(this.team(), this.app.seasonEnded(), this.app.currentTeam(), this.auth.currentUser());
   });
 
   constructor() {
@@ -50,10 +39,7 @@ export class TeamDetailPage implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (
-      this.team().championship.season_id != this.app.currentMatchday()?.season_id &&
-      this.team().user_id === this.auth.currentUser()?.id
-    ) {
+    if (this.team().championship.season_id != this.app.currentMatchday()?.season_id && this.team().user_id === this.auth.currentUser()?.id) {
       void this.app.changeTeam(this.team());
     }
   }

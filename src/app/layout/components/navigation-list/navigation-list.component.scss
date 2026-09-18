@@ -115,8 +115,7 @@
   }
 
   .mdc-list-item--with-leading-icon .mdc-list-item__start {
-    padding-inline: var(--mat-list-list-item-leading-icon-start-space, 16px)
-      var(--mat-list-list-item-leading-icon-end-space, 16px);
+    padding-inline: var(--mat-list-list-item-leading-icon-start-space, 16px) var(--mat-list-list-item-leading-icon-end-space, 16px);
     margin: 0;
   }
 
@@ -152,10 +151,7 @@
         transition-property: transform, opacity;
         transition-timing-function: linear;
         border-radius: 100px;
-        background-color: rgb(
-          from var(--mat-sys-on-surface) r g b /
-            calc(var(--mat-sys-focus-state-layer-opacity) * 100%)
-        );
+        background-color: rgb(from var(--mat-sys-on-surface) r g b / calc(var(--mat-sys-focus-state-layer-opacity) * 100%));
         content: '';
         z-index: -1;
       }
