@@ -20,17 +20,17 @@ export default [
         },
       },
       {
-        path: ':id',
-        component: ScoreDetailPage,
-        data: {
-          state: 'details',
-        },
-      },
-      {
         path: 'last',
         component: ScoreDetailPage,
         data: {
           state: 'last',
+        },
+      },
+      {
+        path: ':id',
+        component: ScoreDetailPage,
+        data: {
+          state: 'details',
         },
       },
     ],

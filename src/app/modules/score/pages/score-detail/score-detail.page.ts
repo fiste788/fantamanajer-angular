@@ -1,15 +1,15 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 
 import { getRouteData } from '@app/functions';
 import { ScoreService } from '@data/services';
-import { Score, Team } from '@data/types';
+import { Team } from '@data/types';
 import { DispositionListComponent } from '@modules/disposition/components/disposition-list/disposition-list.component';
 import { MatEmptyStateComponent } from '@shared/components/mat-empty-state';
-import { Observable, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 
 @Component({
   imports: [DecimalPipe, DispositionListComponent, MatEmptyStateComponent, MatProgressSpinnerModule],
@@ -17,7 +17,6 @@ import { Observable, switchMap } from 'rxjs';
   styleUrl: './score-detail.page.scss',
 })
 export class ScoreDetailPage {
-
   readonly #route = inject(ActivatedRoute);
   readonly #scoreService = inject(ScoreService);
 
@@ -25,14 +24,16 @@ export class ScoreDetailPage {
 
   protected team$ = getRouteData<Team>('team');
 
-  protected readonly score = toSignal(this.getScore());
+  // Converti l'input in Observable per reagire quando il valore viene iniettato
+  protected readonly score = toSignal(
+    toObservable(this.id).pipe(
+      switchMap((id) => {
+        const isLast = this.#route.snapshot.url.at(-1)?.path === 'last';
+        return isLast ? this.team$.pipe(switchMap((team) => this.#scoreService.getLastTeamScore(team.id))) : this.#scoreService.getScoreById(+id);
+      }),
+    ),
+  );
+
   protected readonly notRegular = computed(() => this.score()?.lineup?.dispositions.slice(11));
   protected readonly regular = computed(() => this.score()?.lineup?.dispositions.slice(0, 11));
-
-  protected getScore(): Observable<Score> {
-    return this.#route.snapshot.url.pop()?.path === 'last'
-      ? this.team$.pipe(switchMap(team => this.#scoreService.getLastTeamScore(team.id)))
-      : this.#scoreService.getScoreById(+this.id());
-  }
-
 }
