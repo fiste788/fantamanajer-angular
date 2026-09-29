@@ -10,10 +10,8 @@ html {
       )
     );
 
-    @supports selector(:has) {
-      &:has(> table) {
-        border-radius: var(--mat-sys-corner-extra-small);
-      }
+    &:has(> table) {
+      border-radius: var(--mat-sys-corner-extra-small);
     }
 
     > a {

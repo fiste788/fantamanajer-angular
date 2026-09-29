@@ -26,6 +26,7 @@ import { ModuleAreaComponent } from '../module-area/module-area.component';
   selector: 'app-lineup-detail',
   templateUrl: './lineup-detail.component.html',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+  providers: [LineupService],
   imports: [
     LineupOptionsComponent,
     FormsModule,

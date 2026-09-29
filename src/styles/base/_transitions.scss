@@ -87,7 +87,6 @@
         transition-property: opacity; // Opacità per la toolbar
 
         @include transition-full($duration-toolbar-row-hidden, $ease-accelerate, 0ms, opacity); // Nessun delay in uscita
-
         @include hidden-state(0, null, 1); // Opacità finale 0, parte da 1
       }
 
@@ -95,7 +94,6 @@
         transition-property: transform; // Scala e opacità per il FAB
 
         @include transition-full($duration-accelerate, $ease-accelerate, 0ms, transform); // Nessun delay in uscita
-
         @include hidden-state(null, $transform-scale-hidden, null, $transform-scale-visible); // Scala da 1 a 0, Opacità da 1 a 0
       }
     }

@@ -42,7 +42,6 @@ export default [
       {
         path: 'score/edit',
         component: ScoreEditPage,
-        providers: [LineupService],
         data: {
           state: 'admin-score-edit',
         },
