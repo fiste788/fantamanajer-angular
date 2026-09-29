@@ -6,6 +6,7 @@ import { EditMembersPage } from './pages/edit-members/edit-members.page';
 import { HomePage } from './pages/home/home.page';
 import { NewTransfertPage } from './pages/new-transfert/new-transfert.page';
 import { ScoreEditPage } from './pages/score-edit/score-edit.page';
+import { LineupService } from '@modules/lineup/components/lineup.service';
 
 export default [
   {
@@ -41,6 +42,7 @@ export default [
       {
         path: 'score/edit',
         component: ScoreEditPage,
+        providers: [LineupService],
         data: {
           state: 'admin-score-edit',
         },
